@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "stages": [
+    { "id": "assemble", "label": "Сборка на полу", "short": "1" },
+    { "id": "place", "label": "Установка в нишу", "short": "2" },
+    { "id": "stack", "label": "Антресоль на шкаф", "short": "3" },
+    { "id": "later", "label": "Обклад и наполнение", "short": "4" }
+  ]
+}

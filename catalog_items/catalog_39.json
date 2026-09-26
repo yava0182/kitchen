@@ -1,0 +1,1146 @@
+[
+  {
+    "catalog_type": "catalog_39",
+    "data": {
+      "name": "A_PL",
+      "category": [],
+      "show_in_spec": "1",
+      "include_nested": "1",
+      "show_in_constructor": "1",
+      "order": 0,
+      "icon": "",
+      "module_group": "bottom",
+      "drag_type": "top",
+      "stick_type": "common",
+      "is_fill": "1",
+      "no_intersections": "0",
+      "catalog_type": "",
+      "width": 300,
+      "height": 400,
+      "depth": 200,
+      "placementKind": "floor_in_niche",
+      "roomTags": {
+        "categories": []
+      },
+      "hingeLayoutId": null,
+      "clodisVariables": {
+        "h_bottom": 100,
+        "h_top": 0
+      },
+      "clodisJSON": [
+        {
+          "type": "fill_section",
+          "id": "node_1783614963622_m6yt0xz5t",
+          "name": "Наполняемая секция",
+          "active": 1,
+          "helpers_visible": 1,
+          "size": {
+            "x": "s:x",
+            "y": "s:y",
+            "z": "s:z"
+          },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pivot": {
+            "x": -1,
+            "y": -1,
+            "z": -1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "spec": {
+            "show_sizes": 0,
+            "replace": 0,
+            "step_axes": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "invert": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          "section_key": "fill_mrdq42oqyrlq",
+          "children": [
+            {
+              "type": "module",
+              "id": "node_1783614963622_5bc95x40r",
+              "name": "Полка",
+              "active": 1,
+              "size": {
+                "x": "s:x-32",
+                "y": 16,
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 16,
+                "y": 37,
+                "z": 3
+              },
+              "pivot": {
+                "x": -1,
+                "y": 0,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "6",
+                "element_type": "catalog_29",
+                "key": "Полка"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 0,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": ""
+            }
+          ]
+        }
+      ],
+      "pairedCatalogItemIds": {
+        "single": 0,
+        "double": 0
+      },
+      "interiorLayout": {
+        "zones": [
+          {
+            "name": "Вся высота",
+            "position": "",
+            "heightPercent": 100,
+            "content": "shelves",
+            "rodRules": {
+              "anchor": "top",
+              "offsetMm": 80,
+              "companionMode": "none",
+              "topShelfGapMm": 80,
+              "bottomShelvesCount": 1,
+              "bottomShelvesTopGapMm": 80
+            },
+            "drawerRules": {
+              "anchor": "bottom",
+              "offsetMm": 3,
+              "count": 0,
+              "gapMm": null,
+              "topShelfGapMm": 26,
+              "forceShelfAboveDrawers": true
+            },
+            "id": "zone_mrdqb22z_g26g"
+          }
+        ]
+      },
+      "interiorTemplates": {
+        "shelf": null,
+        "drawer": null,
+        "rod": {
+          "modelId": "22",
+          "label": "Штанга"
+        }
+      },
+      "shelfStack": {
+        "enabled": true,
+        "distribution": "even",
+        "stepMm": 200,
+        "shelfThicknessMm": 16,
+        "bottomOffsetMm": 0,
+        "topOffsetMm": 0,
+        "mode": "max_count",
+        "maxCount": 3,
+        "minGapMm": 50,
+        "fixedPositionsFromBottomMm": []
+      },
+      "constructor_structure": {
+        "type": "module",
+        "name": "A_PL",
+        "children": [
+          {
+            "type": "fill_section",
+            "id": "node_1783614963622_m6yt0xz5t",
+            "name": "Наполняемая секция",
+            "active": 1,
+            "helpers_visible": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "show_sizes": 0,
+              "replace": 0,
+              "step_axes": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "invert": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "section_key": "fill_mrdq42oqyrlq",
+            "children": [
+              {
+                "type": "module",
+                "id": "node_1783614963622_5bc95x40r",
+                "name": "Полка",
+                "active": 1,
+                "size": {
+                  "x": "s:x-32",
+                  "y": 16,
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 16,
+                  "y": 37,
+                  "z": 3
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": 0,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "6",
+                  "element_type": "catalog_29",
+                  "key": "Полка"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": ""
+              }
+            ]
+          }
+        ],
+        "variables": {
+          "main": {
+            "h_bottom": 100,
+            "h_top": 0
+          },
+          "groups": []
+        },
+        "template": {
+          "structure": [
+            {
+              "type": "fill_section",
+              "id": "node_1783614963622_m6yt0xz5t",
+              "name": "Наполняемая секция",
+              "active": 1,
+              "helpers_visible": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "show_sizes": 0,
+                "replace": 0,
+                "step_axes": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "invert": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "section_key": "fill_mrdq42oqyrlq",
+              "children": [
+                {
+                  "type": "module",
+                  "id": "node_1783614963622_5bc95x40r",
+                  "name": "Полка",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x-32",
+                    "y": 16,
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": 16,
+                    "y": 37,
+                    "z": 3
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": 0,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "6",
+                    "element_type": "catalog_29",
+                    "key": "Полка"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 0,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": ""
+                }
+              ]
+            }
+          ]
+        },
+        "materials_overrides": {},
+        "spec": {
+          "template": {
+            "tree": [
+              {
+                "type": "fill_section",
+                "id": "node_1783614963622_m6yt0xz5t",
+                "name": "Наполняемая секция",
+                "active": 1,
+                "helpers_visible": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "show_sizes": 0,
+                  "replace": 0,
+                  "step_axes": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "invert": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                },
+                "section_key": "fill_mrdq42oqyrlq",
+                "children": [
+                  {
+                    "type": "module",
+                    "id": "node_1783614963622_5bc95x40r",
+                    "name": "Полка",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x-32",
+                      "y": 16,
+                      "z": "s:z"
+                    },
+                    "pos": {
+                      "x": 16,
+                      "y": 37,
+                      "z": 3
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": 0,
+                      "z": -1
+                    },
+                    "scale": {
+                      "x": 1,
+                      "y": 1,
+                      "z": 1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "id": "6",
+                      "element_type": "catalog_29",
+                      "key": "Полка"
+                    },
+                    "children": [],
+                    "lib": "",
+                    "tags": "",
+                    "interactive": 0,
+                    "custom": {},
+                    "condition": null,
+                    "visible": 1,
+                    "helpers_visible": 0,
+                    "variables": {
+                      "visible": 1,
+                      "main": {}
+                    },
+                    "interaction": {
+                      "auto_rotation": 1,
+                      "check_intersection": 0,
+                      "raycast": 1,
+                      "rotate_free": 0
+                    },
+                    "resizable": {
+                      "enabled": 0,
+                      "locks": {},
+                      "minmax": {
+                        "min": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "max": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        }
+                      }
+                    },
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "comments": "",
+                    "section_key": "",
+                    "params_key": ""
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    "constructor_structure": {
+      "type": "module",
+      "name": "A_PL",
+      "children": [
+        {
+          "type": "fill_section",
+          "id": "node_1783614963622_m6yt0xz5t",
+          "name": "Наполняемая секция",
+          "active": 1,
+          "helpers_visible": 1,
+          "size": {
+            "x": "s:x",
+            "y": "s:y",
+            "z": "s:z"
+          },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pivot": {
+            "x": -1,
+            "y": -1,
+            "z": -1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "spec": {
+            "show_sizes": 0,
+            "replace": 0,
+            "step_axes": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "invert": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          "section_key": "fill_mrdq42oqyrlq",
+          "children": [
+            {
+              "type": "module",
+              "id": "node_1783614963622_5bc95x40r",
+              "name": "Полка",
+              "active": 1,
+              "size": {
+                "x": "s:x-32",
+                "y": "s:y",
+                "z": "s:z-9"
+              },
+              "pos": {
+                "x": 16,
+                "y": 0,
+                "z": 3
+              },
+              "pivot": {
+                "x": -1,
+                "y": 0,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "h",
+                "direction": "z",
+                "side": "center",
+                "material": {
+                  "group": "g0",
+                  "key": "material_2",
+                  "rotated": false,
+                  "fixed": false
+                },
+                "detailTypeId": "horizontal_middle",
+                "id": "6",
+                "element_type": "catalog_29"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 0,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "edges": {
+                "2": {
+                  "enabled": true,
+                  "thickness": 0.8,
+                  "type": "butts",
+                  "type_name": "Набор по умолчанию",
+                  "color": "#ffffff",
+                  "decor_id": "1",
+                  "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                  "edge_id": "1",
+                  "edge_name": "Кромка ABC Белый премиум 0,8*18"
+                }
+              },
+              "edge_numbering": true,
+              "material_key": "material_2",
+              "material_group": "g0"
+            }
+          ]
+        }
+      ],
+      "variables": {
+        "main": {
+          "h_bottom": 100,
+          "h_top": 0
+        },
+        "groups": []
+      },
+      "template": {
+        "structure": [
+          {
+            "type": "fill_section",
+            "id": "node_1783614963622_m6yt0xz5t",
+            "name": "Наполняемая секция",
+            "active": 1,
+            "helpers_visible": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "show_sizes": 0,
+              "replace": 0,
+              "step_axes": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "invert": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "section_key": "fill_mrdq42oqyrlq",
+            "children": [
+              {
+                "type": "module",
+                "id": "node_1783614963622_5bc95x40r",
+                "name": "Полка",
+                "active": 1,
+                "size": {
+                  "x": "s:x-32",
+                  "y": 16,
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 16,
+                  "y": 37,
+                  "z": 3
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": 0,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "6",
+                  "element_type": "catalog_29",
+                  "key": "Полка"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": ""
+              }
+            ]
+          }
+        ]
+      },
+      "materials_overrides": {},
+      "spec": {
+        "template": {
+          "tree": [
+            {
+              "type": "fill_section",
+              "id": "node_1783614963622_m6yt0xz5t",
+              "name": "Наполняемая секция",
+              "active": 1,
+              "helpers_visible": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "show_sizes": 0,
+                "replace": 0,
+                "step_axes": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "invert": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "section_key": "fill_mrdq42oqyrlq",
+              "children": [
+                {
+                  "type": "module",
+                  "id": "node_1783614963622_5bc95x40r",
+                  "name": "Полка",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x-32",
+                    "y": 16,
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": 16,
+                    "y": 37,
+                    "z": 3
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": 0,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "6",
+                    "element_type": "catalog_29",
+                    "key": "Полка"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 0,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": ""
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "clodisJSON": [
+      {
+        "type": "fill_section",
+        "id": "node_1783614963622_m6yt0xz5t",
+        "name": "Наполняемая секция",
+        "active": 1,
+        "helpers_visible": 1,
+        "size": {
+          "x": "s:x",
+          "y": "s:y",
+          "z": "s:z"
+        },
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "pivot": {
+          "x": -1,
+          "y": -1,
+          "z": -1
+        },
+        "rot": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "spec": {
+          "show_sizes": 0,
+          "replace": 0,
+          "step_axes": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          },
+          "invert": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        "section_key": "fill_mrdq42oqyrlq",
+        "children": [
+          {
+            "type": "module",
+            "id": "node_1783614963622_5bc95x40r",
+            "name": "Полка",
+            "active": 1,
+            "size": {
+              "x": "s:x-32",
+              "y": 16,
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 16,
+              "y": 37,
+              "z": 3
+            },
+            "pivot": {
+              "x": -1,
+              "y": 0,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "6",
+              "element_type": "catalog_29",
+              "key": "Полка"
+            },
+            "children": [],
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "custom": {},
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 0,
+            "variables": {
+              "visible": 1,
+              "main": {}
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": {},
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "comments": "",
+            "section_key": "",
+            "params_key": ""
+          }
+        ]
+      }
+    ],
+    "id": 1,
+    "name": "A_PL"
+  }
+]

@@ -1,0 +1,24 @@
+[
+  {
+    "key": "ldsp",
+    "name": "ЛДСП",
+    "description": "Ламинированная древесно-стружечная плита",
+    "default_thickness": 16,
+    "order": 1
+  },
+  {
+    "key": "hdf",
+    "name": "ХДФ",
+    "description": "Древесноволокнистая плита высокой плотности",
+    "default_thickness": 3,
+    "order": 2
+  },
+  {
+    "key": "glass",
+    "name": "Стекло",
+    "description": "Стеклянные панели",
+    "default_thickness": 4,
+    "order": 3
+  }
+]
+

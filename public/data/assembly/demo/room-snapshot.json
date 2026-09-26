@@ -1,0 +1,31 @@
+{
+  "orderId": "demo-001",
+  "label": "Демо-заказ",
+  "niche": {
+    "widthMm": 2400,
+    "heightMm": 2700,
+    "depthMm": 600
+  },
+  "modules": [
+    {
+      "id": "wardrobe_1",
+      "label": "Шкаф 1",
+      "positionMm": [200, 0, 0],
+      "dimensionsMm": { "w": 800, "h": 2200, "d": 600 },
+      "antresolDimensionsMm": { "w": 800, "h": 360, "d": 300 },
+      "parts": [
+        {
+          "id": "corpus",
+          "label": "Корпус шкафа",
+          "scenarioUrl": "/data/assembly/demo/scenario-corpus-stub.json",
+          "recommendedFirst": true
+        },
+        {
+          "id": "antresol",
+          "label": "Антресоль",
+          "scenarioUrl": "/data/assembly/demo/scenario-antresol.json"
+        }
+      ]
+    }
+  ]
+}

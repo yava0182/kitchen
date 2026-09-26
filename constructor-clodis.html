@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clodis — Конструктор (clean-room)</title>
+
+    <!-- Важно: three/examples/jsm/* импортируют "three" по имени -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "/node_modules/three/build/three.module.js"
+        }
+      }
+    </script>
+
+    <style>
+      * { box-sizing: border-box; }
+      html, body { height: 100%; margin: 0; }
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; overflow: hidden; }
+      .layout { height: 100%; display: grid; grid-template-columns: 1fr 360px; }
+      #app { position: relative; background: #f4f4f4; }
+      #ui {
+        background: #ffffff;
+        border-left: 1px solid #e6e6e6;
+        padding: 16px;
+        overflow: auto;
+      }
+      h1 { font-size: 16px; margin: 0 0 8px 0; }
+      .muted { color: #666; font-size: 12px; line-height: 1.4; }
+      .card { border: 1px solid #eee; border-radius: 10px; padding: 12px; margin-top: 12px; }
+      .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+      label { display: block; font-size: 12px; color: #333; margin-bottom: 6px; }
+      input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 14px;
+      }
+      .actions { display: flex; gap: 10px; margin-top: 12px; }
+      button {
+        flex: 1;
+        padding: 10px 12px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background: #111;
+        color: #fff;
+        cursor: pointer;
+        font-weight: 600;
+      }
+      button.secondary {
+        background: #fff;
+        color: #111;
+      }
+      .checkbox { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 13px; }
+      .kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; background: #f6f6f6; padding: 2px 6px; border-radius: 6px; border: 1px solid #eee; }
+      .note { margin-top: 10px; font-size: 12px; color: #444; line-height: 1.4; }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <div id="app"></div>
+      <aside id="ui">
+        <h1>Clodis — корневая секция + размеры</h1>
+        <div class="muted">
+          Это clean-room превью: своя сцена, свой корпус, свои стрелки. Без legacy vendor core.
+        </div>
+
+        <div class="card">
+          <div class="row">
+            <div>
+              <label for="w">Ширина (мм)</label>
+              <input id="w" type="number" min="50" step="1" value="300" />
+            </div>
+            <div>
+              <label for="h">Высота (мм)</label>
+              <!-- Как в constructor-clodis-preview.html (wantSize) -->
+              <input id="h" type="number" min="50" step="1" value="400" />
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label for="d">Глубина (мм)</label>
+              <input id="d" type="number" min="50" step="1" value="200" />
+            </div>
+            <div>
+              <label>&nbsp;</label>
+              <div class="checkbox">
+                <input id="showDims" type="checkbox" checked />
+                <label for="showDims" style="margin: 0;">Показывать размеры</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button id="apply">Применить</button>
+            <button id="reset" class="secondary">Сброс</button>
+          </div>
+
+          <div class="note">
+            DevTools: <span class="kbd">CLDDBG.status()</span>, <span class="kbd">CLDDBG.setSize(800,2200,600)</span>, <span class="kbd">CLDDBG.toggleDims(false)</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <script src="/js/utils/clodis-drill-registry.js?v=20260727-bm-library"></script>
+    <script src="/js/hinge-layout-generator.js?v=20260923-hinge-prev2"></script>
+    <script src="/js/handle-runtime.js?v=20260621-preview-popline"></script>
+    <script src="/js/clodis-cabinet-model-loader.js?v=20260810-cam-ref-front"></script>
+    <script src="/js/cld-drill-resolve.js?v=20260810-guides-revert"></script>
+    <script src="/js/clodis-rod-companions.js?v=20260622-companion-icon-rot"></script>
+    <script src="/js/handle-drawer-attach.js?v=20260712-drawer-preview-no-handle"></script>
+    <script type="module" src="/js/constructor/constructor-clodis.js?v=20260923-hinge-prev2"></script>
+  </body>
+</html>
+

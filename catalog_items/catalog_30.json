@@ -1,0 +1,2737 @@
+[
+  {
+    "catalog_type": "catalog_30",
+    "id": 1,
+    "data": {
+      "name": "Антресоль ",
+      "category": [],
+      "show_in_spec": "1",
+      "include_nested": "1",
+      "show_in_constructor": "1",
+      "order": 0,
+      "icon": "",
+      "module_group": "bottom",
+      "drag_type": "top",
+      "stick_type": "common",
+      "is_fill": "0",
+      "no_intersections": "0",
+      "catalog_type": "",
+      "width": "600",
+      "height": "700",
+      "depth": "600",
+      "placementKind": "floor_in_niche",
+      "roomTags": {
+        "categories": []
+      },
+      "hingeLayoutId": null,
+      "clodisVariables": {
+        "h_bottom": 100,
+        "h_top": 0
+      },
+      "clodisJSON": [
+        {
+          "type": "section",
+          "id": "node_1783618853029_db28ic2x7",
+          "name": "Антресоль",
+          "active": 1,
+          "helpers_visible": 1,
+          "size": {
+            "x": "s:x",
+            "y": "s:y - v:tech_zone_mm",
+            "z": "s:z"
+          },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pivot": {
+            "x": -1,
+            "y": -1,
+            "z": -1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "spec": {
+            "orientation": "f"
+          },
+          "layout_role": "top",
+          "section_key": "",
+          "children": [
+            {
+              "type": "wall",
+              "id": "node_1783618853034_ntiqvy5yr",
+              "name": "Дно антресоль",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z-3"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 3
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "h",
+                "direction": "z",
+                "side": "bottom",
+                "material": {
+                  "group": "g0",
+                  "key": "material_2",
+                  "rotated": false,
+                  "fixed": false
+                },
+                "detailTypeId": "horizontal_bottom"
+              },
+              "material_key": "material_2",
+              "material_group": "g0",
+              "children": []
+            },
+            {
+              "type": "wall",
+              "id": "node_1783618853035_t9vvllnbi",
+              "name": "Бок левый антресоли",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y-32",
+                "z": "s:z-3"
+              },
+              "pos": {
+                "x": 0,
+                "y": 16,
+                "z": 3
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "v",
+                "direction": "z",
+                "side": "left",
+                "material": {
+                  "group": "g0",
+                  "key": "material_2",
+                  "rotated": false,
+                  "fixed": false
+                },
+                "detailTypeId": "vertical_left"
+              },
+              "material_key": "material_2",
+              "material_group": "g0",
+              "children": []
+            },
+            {
+              "type": "wall",
+              "id": "node_1783618853036_kpgg92pb2",
+              "name": "Бок правый антресоли",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y-32",
+                "z": "s:z-3"
+              },
+              "pos": {
+                "x": "s:x",
+                "y": 16,
+                "z": 3
+              },
+              "pivot": {
+                "x": 1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "v",
+                "direction": "z",
+                "side": "right",
+                "material": {
+                  "group": "g0",
+                  "key": "material_2",
+                  "rotated": false,
+                  "fixed": false
+                },
+                "detailTypeId": "vertical_right"
+              },
+              "material_key": "material_2",
+              "material_group": "g0",
+              "children": []
+            },
+            {
+              "type": "wall",
+              "id": "node_1783618853036_g62do2yxq",
+              "name": "Крыша антресоли",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z-3"
+              },
+              "pos": {
+                "x": 0,
+                "y": "s:y",
+                "z": 3
+              },
+              "pivot": {
+                "x": -1,
+                "y": 1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "h",
+                "direction": "z",
+                "side": "top",
+                "material": {
+                  "group": "g0",
+                  "key": "material_2",
+                  "rotated": false,
+                  "fixed": false
+                },
+                "detailTypeId": "horizontal_top"
+              },
+              "material_key": "material_2",
+              "material_group": "g0",
+              "children": []
+            },
+            {
+              "type": "wall",
+              "id": "node_1783618853037_1bf7546a8",
+              "name": "Задняя стенка",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "f",
+                "direction": "z",
+                "side": "back",
+                "material": {
+                  "group": "g1",
+                  "key": "material_3",
+                  "id": 1,
+                  "rotated": false,
+                  "fixed": false
+                },
+                "detailTypeId": "back_front"
+              },
+              "material_id": "1",
+              "material_name": "ЛХДФ белый",
+              "material_key": "material_3",
+              "material_group": "g1",
+              "material_icon": "/common_assets/images/materials/______________________________________1769513496817.jpg",
+              "children": []
+            },
+            {
+              "type": "module",
+              "id": "node_1783618853038_6tva9ibn3",
+              "name": "Элемент 1",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "1",
+                "element_type": "catalog_39",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "key": "Элемент 1"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 0,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": ""
+            }
+          ]
+        }
+      ],
+      "pairedCatalogItemIds": {
+        "single": 0,
+        "double": 0
+      },
+      "interiorLayout": {
+        "zones": [
+          {
+            "name": "Вся высота",
+            "position": "",
+            "heightPercent": 100,
+            "content": "shelves",
+            "rodRules": {
+              "anchor": "top",
+              "offsetMm": 80,
+              "companionMode": "none",
+              "topShelfGapMm": 80,
+              "bottomShelvesCount": 1,
+              "bottomShelvesTopGapMm": 80
+            },
+            "drawerRules": {
+              "anchor": "bottom",
+              "offsetMm": 3,
+              "count": 0,
+              "gapMm": null,
+              "topShelfGapMm": 26,
+              "forceShelfAboveDrawers": true
+            },
+            "id": "zone_mrdsqq4e_1yzh"
+          }
+        ]
+      },
+      "interiorTemplates": {
+        "shelf": null,
+        "drawer": null,
+        "rod": {
+          "modelId": "22",
+          "label": "Штанга"
+        }
+      },
+      "shelfStack": {
+        "enabled": true,
+        "distribution": "step",
+        "stepMm": 400,
+        "shelfThicknessMm": 16,
+        "bottomOffsetMm": 0,
+        "topOffsetMm": 0,
+        "mode": "max_count",
+        "maxCount": 12,
+        "minGapMm": 50,
+        "fixedPositionsFromBottomMm": []
+      },
+      "constructor_structure": {
+        "type": "module",
+        "name": "Антресоль",
+        "children": [
+          {
+            "type": "section",
+            "id": "node_1783618853029_db28ic2x7",
+            "name": "Антресоль",
+            "active": 1,
+            "helpers_visible": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y - v:tech_zone_mm",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "orientation": "f"
+            },
+            "layout_role": "top",
+            "section_key": "",
+            "children": [
+              {
+                "type": "wall",
+                "id": "node_1783618853034_ntiqvy5yr",
+                "name": "Дно антресоль",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z-3"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 3
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "h",
+                  "direction": "z",
+                  "side": "bottom",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "horizontal_bottom"
+                },
+                "material_key": "material_2",
+                "material_group": "g0",
+                "children": []
+              },
+              {
+                "type": "wall",
+                "id": "node_1783618853035_t9vvllnbi",
+                "name": "Бок левый антресоли",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y-32",
+                  "z": "s:z-3"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 16,
+                  "z": 3
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "v",
+                  "direction": "z",
+                  "side": "left",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "vertical_left"
+                },
+                "material_key": "material_2",
+                "material_group": "g0",
+                "children": []
+              },
+              {
+                "type": "wall",
+                "id": "node_1783618853036_kpgg92pb2",
+                "name": "Бок правый антресоли",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y-32",
+                  "z": "s:z-3"
+                },
+                "pos": {
+                  "x": "s:x",
+                  "y": 16,
+                  "z": 3
+                },
+                "pivot": {
+                  "x": 1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "v",
+                  "direction": "z",
+                  "side": "right",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "vertical_right"
+                },
+                "material_key": "material_2",
+                "material_group": "g0",
+                "children": []
+              },
+              {
+                "type": "wall",
+                "id": "node_1783618853036_g62do2yxq",
+                "name": "Крыша антресоли",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z-3"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": "s:y",
+                  "z": 3
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": 1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "h",
+                  "direction": "z",
+                  "side": "top",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "horizontal_top"
+                },
+                "material_key": "material_2",
+                "material_group": "g0",
+                "children": []
+              },
+              {
+                "type": "wall",
+                "id": "node_1783618853037_1bf7546a8",
+                "name": "Задняя стенка",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "f",
+                  "direction": "z",
+                  "side": "back",
+                  "material": {
+                    "group": "g1",
+                    "key": "material_3",
+                    "id": 1,
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "back_front"
+                },
+                "material_id": "1",
+                "material_name": "ЛХДФ белый",
+                "material_key": "material_3",
+                "material_group": "g1",
+                "material_icon": "/common_assets/images/materials/______________________________________1769513496817.jpg",
+                "children": []
+              },
+              {
+                "type": "module",
+                "id": "node_1783618853038_6tva9ibn3",
+                "name": "Элемент 1",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "1",
+                  "element_type": "catalog_39",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "key": "Элемент 1"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": ""
+              }
+            ]
+          }
+        ],
+        "variables": {
+          "main": {
+            "h_bottom": 100,
+            "h_top": 0
+          },
+          "groups": []
+        },
+        "template": {
+          "structure": [
+            {
+              "type": "section",
+              "id": "node_1783618853029_db28ic2x7",
+              "name": "Антресоль",
+              "active": 1,
+              "helpers_visible": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y - v:tech_zone_mm",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "f"
+              },
+              "layout_role": "top",
+              "section_key": "",
+              "children": [
+                {
+                  "type": "wall",
+                  "id": "node_1783618853034_ntiqvy5yr",
+                  "name": "Дно антресоль",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z-3"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 3
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "orientation": "h",
+                    "direction": "z",
+                    "side": "bottom",
+                    "material": {
+                      "group": "g0",
+                      "key": "material_2",
+                      "rotated": false,
+                      "fixed": false
+                    },
+                    "detailTypeId": "horizontal_bottom"
+                  },
+                  "material_key": "material_2",
+                  "material_group": "g0",
+                  "children": []
+                },
+                {
+                  "type": "wall",
+                  "id": "node_1783618853035_t9vvllnbi",
+                  "name": "Бок левый антресоли",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y-32",
+                    "z": "s:z-3"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 16,
+                    "z": 3
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "orientation": "v",
+                    "direction": "z",
+                    "side": "left",
+                    "material": {
+                      "group": "g0",
+                      "key": "material_2",
+                      "rotated": false,
+                      "fixed": false
+                    },
+                    "detailTypeId": "vertical_left"
+                  },
+                  "material_key": "material_2",
+                  "material_group": "g0",
+                  "children": []
+                },
+                {
+                  "type": "wall",
+                  "id": "node_1783618853036_kpgg92pb2",
+                  "name": "Бок правый антресоли",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y-32",
+                    "z": "s:z-3"
+                  },
+                  "pos": {
+                    "x": "s:x",
+                    "y": 16,
+                    "z": 3
+                  },
+                  "pivot": {
+                    "x": 1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "orientation": "v",
+                    "direction": "z",
+                    "side": "right",
+                    "material": {
+                      "group": "g0",
+                      "key": "material_2",
+                      "rotated": false,
+                      "fixed": false
+                    },
+                    "detailTypeId": "vertical_right"
+                  },
+                  "material_key": "material_2",
+                  "material_group": "g0",
+                  "children": []
+                },
+                {
+                  "type": "wall",
+                  "id": "node_1783618853036_g62do2yxq",
+                  "name": "Крыша антресоли",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z-3"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": "s:y",
+                    "z": 3
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": 1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "orientation": "h",
+                    "direction": "z",
+                    "side": "top",
+                    "material": {
+                      "group": "g0",
+                      "key": "material_2",
+                      "rotated": false,
+                      "fixed": false
+                    },
+                    "detailTypeId": "horizontal_top"
+                  },
+                  "material_key": "material_2",
+                  "material_group": "g0",
+                  "children": []
+                },
+                {
+                  "type": "wall",
+                  "id": "node_1783618853037_1bf7546a8",
+                  "name": "Задняя стенка",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "orientation": "f",
+                    "direction": "z",
+                    "side": "back",
+                    "material": {
+                      "group": "g1",
+                      "key": "material_3",
+                      "id": 1,
+                      "rotated": false,
+                      "fixed": false
+                    },
+                    "detailTypeId": "back_front"
+                  },
+                  "material_id": "1",
+                  "material_name": "ЛХДФ белый",
+                  "material_key": "material_3",
+                  "material_group": "g1",
+                  "material_icon": "/common_assets/images/materials/______________________________________1769513496817.jpg",
+                  "children": []
+                },
+                {
+                  "type": "module",
+                  "id": "node_1783618853038_6tva9ibn3",
+                  "name": "Элемент 1",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "1",
+                    "element_type": "catalog_39",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "key": "Элемент 1"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 0,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": ""
+                }
+              ]
+            }
+          ]
+        },
+        "materials_overrides": {},
+        "spec": {
+          "template": {
+            "tree": [
+              {
+                "type": "section",
+                "id": "node_1783618853029_db28ic2x7",
+                "name": "Антресоль",
+                "active": 1,
+                "helpers_visible": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y - v:tech_zone_mm",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "f"
+                },
+                "layout_role": "top",
+                "section_key": "",
+                "children": [
+                  {
+                    "type": "wall",
+                    "id": "node_1783618853034_ntiqvy5yr",
+                    "name": "Дно антресоль",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x",
+                      "y": "s:y",
+                      "z": "s:z-3"
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 3
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "orientation": "h",
+                      "direction": "z",
+                      "side": "bottom",
+                      "material": {
+                        "group": "g0",
+                        "key": "material_2",
+                        "rotated": false,
+                        "fixed": false
+                      },
+                      "detailTypeId": "horizontal_bottom"
+                    },
+                    "material_key": "material_2",
+                    "material_group": "g0",
+                    "children": []
+                  },
+                  {
+                    "type": "wall",
+                    "id": "node_1783618853035_t9vvllnbi",
+                    "name": "Бок левый антресоли",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x",
+                      "y": "s:y-32",
+                      "z": "s:z-3"
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": 16,
+                      "z": 3
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "orientation": "v",
+                      "direction": "z",
+                      "side": "left",
+                      "material": {
+                        "group": "g0",
+                        "key": "material_2",
+                        "rotated": false,
+                        "fixed": false
+                      },
+                      "detailTypeId": "vertical_left"
+                    },
+                    "material_key": "material_2",
+                    "material_group": "g0",
+                    "children": []
+                  },
+                  {
+                    "type": "wall",
+                    "id": "node_1783618853036_kpgg92pb2",
+                    "name": "Бок правый антресоли",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x",
+                      "y": "s:y-32",
+                      "z": "s:z-3"
+                    },
+                    "pos": {
+                      "x": "s:x",
+                      "y": 16,
+                      "z": 3
+                    },
+                    "pivot": {
+                      "x": 1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "orientation": "v",
+                      "direction": "z",
+                      "side": "right",
+                      "material": {
+                        "group": "g0",
+                        "key": "material_2",
+                        "rotated": false,
+                        "fixed": false
+                      },
+                      "detailTypeId": "vertical_right"
+                    },
+                    "material_key": "material_2",
+                    "material_group": "g0",
+                    "children": []
+                  },
+                  {
+                    "type": "wall",
+                    "id": "node_1783618853036_g62do2yxq",
+                    "name": "Крыша антресоли",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x",
+                      "y": "s:y",
+                      "z": "s:z-3"
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": "s:y",
+                      "z": 3
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": 1,
+                      "z": -1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "orientation": "h",
+                      "direction": "z",
+                      "side": "top",
+                      "material": {
+                        "group": "g0",
+                        "key": "material_2",
+                        "rotated": false,
+                        "fixed": false
+                      },
+                      "detailTypeId": "horizontal_top"
+                    },
+                    "material_key": "material_2",
+                    "material_group": "g0",
+                    "children": []
+                  },
+                  {
+                    "type": "wall",
+                    "id": "node_1783618853037_1bf7546a8",
+                    "name": "Задняя стенка",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x",
+                      "y": "s:y",
+                      "z": "s:z"
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "orientation": "f",
+                      "direction": "z",
+                      "side": "back",
+                      "material": {
+                        "group": "g1",
+                        "key": "material_3",
+                        "id": 1,
+                        "rotated": false,
+                        "fixed": false
+                      },
+                      "detailTypeId": "back_front"
+                    },
+                    "material_id": "1",
+                    "material_name": "ЛХДФ белый",
+                    "material_key": "material_3",
+                    "material_group": "g1",
+                    "material_icon": "/common_assets/images/materials/______________________________________1769513496817.jpg",
+                    "children": []
+                  },
+                  {
+                    "type": "module",
+                    "id": "node_1783618853038_6tva9ibn3",
+                    "name": "Элемент 1",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x",
+                      "y": "s:y",
+                      "z": "s:z"
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "scale": {
+                      "x": 1,
+                      "y": 1,
+                      "z": 1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "id": "1",
+                      "element_type": "catalog_39",
+                      "fill_content": {},
+                      "linked_item_id": 0,
+                      "live_catalog": true,
+                      "key": "Элемент 1"
+                    },
+                    "children": [],
+                    "lib": "",
+                    "tags": "",
+                    "interactive": 0,
+                    "custom": {},
+                    "condition": null,
+                    "visible": 1,
+                    "helpers_visible": 0,
+                    "variables": {
+                      "visible": 1,
+                      "main": {}
+                    },
+                    "interaction": {
+                      "auto_rotation": 1,
+                      "check_intersection": 0,
+                      "raycast": 1,
+                      "rotate_free": 0
+                    },
+                    "resizable": {
+                      "enabled": 0,
+                      "locks": {},
+                      "minmax": {
+                        "min": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "max": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        }
+                      }
+                    },
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "comments": "",
+                    "section_key": "",
+                    "params_key": ""
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    "constructor_structure": {
+      "type": "module",
+      "name": "Антресоль",
+      "children": [
+        {
+          "type": "section",
+          "id": "node_1783618853029_db28ic2x7",
+          "name": "Антресоль",
+          "active": 1,
+          "helpers_visible": 1,
+          "size": {
+            "x": "s:x",
+            "y": "s:y - v:tech_zone_mm",
+            "z": "s:z"
+          },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pivot": {
+            "x": -1,
+            "y": -1,
+            "z": -1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "spec": {
+            "orientation": "f"
+          },
+          "layout_role": "top",
+          "section_key": "",
+          "children": [
+            {
+              "type": "wall",
+              "id": "node_1783618853034_ntiqvy5yr",
+              "name": "Дно антресоль",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z-3"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 3
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "h",
+                "direction": "z",
+                "side": "bottom",
+                "material": {
+                  "group": "g0",
+                  "key": "material_2",
+                  "rotated": false,
+                  "fixed": false
+                },
+                "detailTypeId": "horizontal_bottom"
+              },
+              "material_key": "material_2",
+              "material_group": "g0",
+              "children": []
+            },
+            {
+              "type": "wall",
+              "id": "node_1783618853035_t9vvllnbi",
+              "name": "Бок левый антресоли",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y-32",
+                "z": "s:z-3"
+              },
+              "pos": {
+                "x": 0,
+                "y": 16,
+                "z": 3
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "v",
+                "direction": "z",
+                "side": "left",
+                "material": {
+                  "group": "g0",
+                  "key": "material_2",
+                  "rotated": false,
+                  "fixed": false
+                },
+                "detailTypeId": "vertical_left"
+              },
+              "material_key": "material_2",
+              "material_group": "g0",
+              "children": []
+            },
+            {
+              "type": "wall",
+              "id": "node_1783618853036_kpgg92pb2",
+              "name": "Бок правый антресоли",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y-32",
+                "z": "s:z-3"
+              },
+              "pos": {
+                "x": "s:x",
+                "y": 16,
+                "z": 3
+              },
+              "pivot": {
+                "x": 1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "v",
+                "direction": "z",
+                "side": "right",
+                "material": {
+                  "group": "g0",
+                  "key": "material_2",
+                  "rotated": false,
+                  "fixed": false
+                },
+                "detailTypeId": "vertical_right"
+              },
+              "material_key": "material_2",
+              "material_group": "g0",
+              "children": []
+            },
+            {
+              "type": "wall",
+              "id": "node_1783618853036_g62do2yxq",
+              "name": "Крыша антресоли",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z-3"
+              },
+              "pos": {
+                "x": 0,
+                "y": "s:y",
+                "z": 3
+              },
+              "pivot": {
+                "x": -1,
+                "y": 1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "h",
+                "direction": "z",
+                "side": "top",
+                "material": {
+                  "group": "g0",
+                  "key": "material_2",
+                  "rotated": false,
+                  "fixed": false
+                },
+                "detailTypeId": "horizontal_top"
+              },
+              "material_key": "material_2",
+              "material_group": "g0",
+              "children": []
+            },
+            {
+              "type": "wall",
+              "id": "node_1783618853037_1bf7546a8",
+              "name": "Задняя стенка",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "f",
+                "direction": "z",
+                "side": "back",
+                "material": {
+                  "group": "g1",
+                  "key": "material_3",
+                  "id": 1,
+                  "rotated": false,
+                  "fixed": false
+                },
+                "detailTypeId": "back_front"
+              },
+              "material_id": "1",
+              "material_name": "ЛХДФ белый",
+              "material_key": "material_3",
+              "material_group": "g1",
+              "material_icon": "/common_assets/images/materials/______________________________________1769513496817.jpg",
+              "children": []
+            },
+            {
+              "type": "module",
+              "id": "node_1783618853038_6tva9ibn3",
+              "name": "Элемент 1",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "1",
+                "element_type": "catalog_39",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "key": "Элемент 1"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 0,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": ""
+            }
+          ]
+        }
+      ],
+      "variables": {
+        "main": {
+          "h_bottom": 100,
+          "h_top": 0
+        },
+        "groups": []
+      },
+      "template": {
+        "structure": [
+          {
+            "type": "section",
+            "id": "node_1783618853029_db28ic2x7",
+            "name": "Антресоль",
+            "active": 1,
+            "helpers_visible": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y - v:tech_zone_mm",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "orientation": "f"
+            },
+            "layout_role": "top",
+            "section_key": "",
+            "children": [
+              {
+                "type": "wall",
+                "id": "node_1783618853034_ntiqvy5yr",
+                "name": "Дно антресоль",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z-3"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 3
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "h",
+                  "direction": "z",
+                  "side": "bottom",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "horizontal_bottom"
+                },
+                "material_key": "material_2",
+                "material_group": "g0",
+                "children": []
+              },
+              {
+                "type": "wall",
+                "id": "node_1783618853035_t9vvllnbi",
+                "name": "Бок левый антресоли",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y-32",
+                  "z": "s:z-3"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 16,
+                  "z": 3
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "v",
+                  "direction": "z",
+                  "side": "left",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "vertical_left"
+                },
+                "material_key": "material_2",
+                "material_group": "g0",
+                "children": []
+              },
+              {
+                "type": "wall",
+                "id": "node_1783618853036_kpgg92pb2",
+                "name": "Бок правый антресоли",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y-32",
+                  "z": "s:z-3"
+                },
+                "pos": {
+                  "x": "s:x",
+                  "y": 16,
+                  "z": 3
+                },
+                "pivot": {
+                  "x": 1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "v",
+                  "direction": "z",
+                  "side": "right",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "vertical_right"
+                },
+                "material_key": "material_2",
+                "material_group": "g0",
+                "children": []
+              },
+              {
+                "type": "wall",
+                "id": "node_1783618853036_g62do2yxq",
+                "name": "Крыша антресоли",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z-3"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": "s:y",
+                  "z": 3
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": 1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "h",
+                  "direction": "z",
+                  "side": "top",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "horizontal_top"
+                },
+                "material_key": "material_2",
+                "material_group": "g0",
+                "children": []
+              },
+              {
+                "type": "wall",
+                "id": "node_1783618853037_1bf7546a8",
+                "name": "Задняя стенка",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "f",
+                  "direction": "z",
+                  "side": "back",
+                  "material": {
+                    "group": "g1",
+                    "key": "material_3",
+                    "id": 1,
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "back_front"
+                },
+                "material_id": "1",
+                "material_name": "ЛХДФ белый",
+                "material_key": "material_3",
+                "material_group": "g1",
+                "material_icon": "/common_assets/images/materials/______________________________________1769513496817.jpg",
+                "children": []
+              },
+              {
+                "type": "module",
+                "id": "node_1783618853038_6tva9ibn3",
+                "name": "Элемент 1",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "1",
+                  "element_type": "catalog_39",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "key": "Элемент 1"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": ""
+              }
+            ]
+          }
+        ]
+      },
+      "materials_overrides": {},
+      "spec": {
+        "template": {
+          "tree": [
+            {
+              "type": "section",
+              "id": "node_1783618853029_db28ic2x7",
+              "name": "Антресоль",
+              "active": 1,
+              "helpers_visible": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y - v:tech_zone_mm",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "f"
+              },
+              "layout_role": "top",
+              "section_key": "",
+              "children": [
+                {
+                  "type": "wall",
+                  "id": "node_1783618853034_ntiqvy5yr",
+                  "name": "Дно антресоль",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z-3"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 3
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "orientation": "h",
+                    "direction": "z",
+                    "side": "bottom",
+                    "material": {
+                      "group": "g0",
+                      "key": "material_2",
+                      "rotated": false,
+                      "fixed": false
+                    },
+                    "detailTypeId": "horizontal_bottom"
+                  },
+                  "material_key": "material_2",
+                  "material_group": "g0",
+                  "children": []
+                },
+                {
+                  "type": "wall",
+                  "id": "node_1783618853035_t9vvllnbi",
+                  "name": "Бок левый антресоли",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y-32",
+                    "z": "s:z-3"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 16,
+                    "z": 3
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "orientation": "v",
+                    "direction": "z",
+                    "side": "left",
+                    "material": {
+                      "group": "g0",
+                      "key": "material_2",
+                      "rotated": false,
+                      "fixed": false
+                    },
+                    "detailTypeId": "vertical_left"
+                  },
+                  "material_key": "material_2",
+                  "material_group": "g0",
+                  "children": []
+                },
+                {
+                  "type": "wall",
+                  "id": "node_1783618853036_kpgg92pb2",
+                  "name": "Бок правый антресоли",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y-32",
+                    "z": "s:z-3"
+                  },
+                  "pos": {
+                    "x": "s:x",
+                    "y": 16,
+                    "z": 3
+                  },
+                  "pivot": {
+                    "x": 1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "orientation": "v",
+                    "direction": "z",
+                    "side": "right",
+                    "material": {
+                      "group": "g0",
+                      "key": "material_2",
+                      "rotated": false,
+                      "fixed": false
+                    },
+                    "detailTypeId": "vertical_right"
+                  },
+                  "material_key": "material_2",
+                  "material_group": "g0",
+                  "children": []
+                },
+                {
+                  "type": "wall",
+                  "id": "node_1783618853036_g62do2yxq",
+                  "name": "Крыша антресоли",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z-3"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": "s:y",
+                    "z": 3
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": 1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "orientation": "h",
+                    "direction": "z",
+                    "side": "top",
+                    "material": {
+                      "group": "g0",
+                      "key": "material_2",
+                      "rotated": false,
+                      "fixed": false
+                    },
+                    "detailTypeId": "horizontal_top"
+                  },
+                  "material_key": "material_2",
+                  "material_group": "g0",
+                  "children": []
+                },
+                {
+                  "type": "wall",
+                  "id": "node_1783618853037_1bf7546a8",
+                  "name": "Задняя стенка",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "orientation": "f",
+                    "direction": "z",
+                    "side": "back",
+                    "material": {
+                      "group": "g1",
+                      "key": "material_3",
+                      "id": 1,
+                      "rotated": false,
+                      "fixed": false
+                    },
+                    "detailTypeId": "back_front"
+                  },
+                  "material_id": "1",
+                  "material_name": "ЛХДФ белый",
+                  "material_key": "material_3",
+                  "material_group": "g1",
+                  "material_icon": "/common_assets/images/materials/______________________________________1769513496817.jpg",
+                  "children": []
+                },
+                {
+                  "type": "module",
+                  "id": "node_1783618853038_6tva9ibn3",
+                  "name": "Элемент 1",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "1",
+                    "element_type": "catalog_39",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "key": "Элемент 1"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 0,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": ""
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "clodisJSON": [
+      {
+        "type": "section",
+        "id": "node_1783618853029_db28ic2x7",
+        "name": "Антресоль",
+        "active": 1,
+        "helpers_visible": 1,
+        "size": {
+          "x": "s:x",
+          "y": "s:y - v:tech_zone_mm",
+          "z": "s:z"
+        },
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "pivot": {
+          "x": -1,
+          "y": -1,
+          "z": -1
+        },
+        "rot": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "spec": {
+          "orientation": "f"
+        },
+        "layout_role": "top",
+        "section_key": "",
+        "children": [
+          {
+            "type": "wall",
+            "id": "node_1783618853034_ntiqvy5yr",
+            "name": "Дно антресоль",
+            "active": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z-3"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 3
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "orientation": "h",
+              "direction": "z",
+              "side": "bottom",
+              "material": {
+                "group": "g0",
+                "key": "material_2",
+                "rotated": false,
+                "fixed": false
+              },
+              "detailTypeId": "horizontal_bottom"
+            },
+            "material_key": "material_2",
+            "material_group": "g0",
+            "children": []
+          },
+          {
+            "type": "wall",
+            "id": "node_1783618853035_t9vvllnbi",
+            "name": "Бок левый антресоли",
+            "active": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y-32",
+              "z": "s:z-3"
+            },
+            "pos": {
+              "x": 0,
+              "y": 16,
+              "z": 3
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "orientation": "v",
+              "direction": "z",
+              "side": "left",
+              "material": {
+                "group": "g0",
+                "key": "material_2",
+                "rotated": false,
+                "fixed": false
+              },
+              "detailTypeId": "vertical_left"
+            },
+            "material_key": "material_2",
+            "material_group": "g0",
+            "children": []
+          },
+          {
+            "type": "wall",
+            "id": "node_1783618853036_kpgg92pb2",
+            "name": "Бок правый антресоли",
+            "active": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y-32",
+              "z": "s:z-3"
+            },
+            "pos": {
+              "x": "s:x",
+              "y": 16,
+              "z": 3
+            },
+            "pivot": {
+              "x": 1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "orientation": "v",
+              "direction": "z",
+              "side": "right",
+              "material": {
+                "group": "g0",
+                "key": "material_2",
+                "rotated": false,
+                "fixed": false
+              },
+              "detailTypeId": "vertical_right"
+            },
+            "material_key": "material_2",
+            "material_group": "g0",
+            "children": []
+          },
+          {
+            "type": "wall",
+            "id": "node_1783618853036_g62do2yxq",
+            "name": "Крыша антресоли",
+            "active": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z-3"
+            },
+            "pos": {
+              "x": 0,
+              "y": "s:y",
+              "z": 3
+            },
+            "pivot": {
+              "x": -1,
+              "y": 1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "orientation": "h",
+              "direction": "z",
+              "side": "top",
+              "material": {
+                "group": "g0",
+                "key": "material_2",
+                "rotated": false,
+                "fixed": false
+              },
+              "detailTypeId": "horizontal_top"
+            },
+            "material_key": "material_2",
+            "material_group": "g0",
+            "children": []
+          },
+          {
+            "type": "wall",
+            "id": "node_1783618853037_1bf7546a8",
+            "name": "Задняя стенка",
+            "active": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "orientation": "f",
+              "direction": "z",
+              "side": "back",
+              "material": {
+                "group": "g1",
+                "key": "material_3",
+                "id": 1,
+                "rotated": false,
+                "fixed": false
+              },
+              "detailTypeId": "back_front"
+            },
+            "material_id": "1",
+            "material_name": "ЛХДФ белый",
+            "material_key": "material_3",
+            "material_group": "g1",
+            "material_icon": "/common_assets/images/materials/______________________________________1769513496817.jpg",
+            "children": []
+          },
+          {
+            "type": "module",
+            "id": "node_1783618853038_6tva9ibn3",
+            "name": "Элемент 1",
+            "active": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "1",
+              "element_type": "catalog_39",
+              "fill_content": {},
+              "linked_item_id": 0,
+              "live_catalog": true,
+              "key": "Элемент 1"
+            },
+            "children": [],
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "custom": {},
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 0,
+            "variables": {
+              "visible": 1,
+              "main": {}
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": {},
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "comments": "",
+            "section_key": "",
+            "params_key": ""
+          }
+        ]
+      }
+    ],
+    "name": "Антресоль"
+  }
+]

@@ -1,0 +1,1845 @@
+[
+  {
+    "type": "section",
+    "name": "Секция общая",
+    "id": "",
+    "lib": "",
+    "tags": "",
+    "interactive": 0,
+    "spec": [],
+    "custom": [],
+    "children": [
+      {
+        "type": "section",
+        "name": "Корпус",
+        "id": "",
+        "lib": "",
+        "tags": "",
+        "interactive": 0,
+        "spec": [],
+        "custom": [],
+        "children": [
+          {
+            "type": "wall",
+            "name": "Левая стенка",
+            "id": "",
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "spec": {
+              "name": "",
+              "code": "",
+              "orientation": "v",
+              "group": "wall",
+              "type": "common",
+              "type_params": [],
+              "points": [],
+              "butts": [],
+              "holes": [],
+              "key": "left",
+              "shape": null,
+              "material": {
+                "group": "g0",
+                "key": "ldsp",
+                "key_lock": "",
+                "thickness_lock": 0,
+                "id": 0,
+                "variant_id": 0,
+                "rotated": 0,
+                "av_index": 0,
+                "fixed": 0
+              },
+              "show_index": 1
+            },
+            "custom": [],
+            "children": [
+              {
+                "spec": {
+                  "id": "7"
+                },
+                "type": "furniture",
+                "condition": null,
+                "visible": 1,
+                "active": 1,
+                "pos": {
+                  "x": 0,
+                  "y": "v:vysota_cokolya / 2",
+                  "z": "v:glubina_cokolya - 8"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": "0",
+                  "y": "0",
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "name": "Фурнитура"
+              },
+              {
+                "spec": {
+                  "id": "7"
+                },
+                "type": "furniture",
+                "condition": null,
+                "visible": 1,
+                "active": 1,
+                "pos": {
+                  "x": 0,
+                  "y": "v:vysota_cokolya / 2",
+                  "z": "s:z - v:glubina_cokolya + 8"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": "0",
+                  "y": "0",
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "name": "Фурнитура"
+              },
+              {
+                "spec": {
+                  "id": "7"
+                },
+                "type": "furniture",
+                "condition": null,
+                "visible": 1,
+                "active": 1,
+                "pos": {
+                  "x": 0,
+                  "y": "v:vysota_cokolya + 8",
+                  "z": "s:z - 100"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": "0",
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "name": "Фурнитура"
+              },
+              {
+                "spec": {
+                  "id": "7"
+                },
+                "type": "furniture",
+                "condition": null,
+                "visible": 1,
+                "active": 1,
+                "pos": {
+                  "x": 0,
+                  "y": "v:vysota_cokolya + 8",
+                  "z": "100"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": "0",
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "name": "Фурнитура"
+              },
+              {
+                "spec": {
+                  "id": "7"
+                },
+                "type": "furniture",
+                "condition": null,
+                "visible": 1,
+                "active": 1,
+                "pos": {
+                  "x": 0,
+                  "y": "s:y - 8",
+                  "z": "s:z - 100"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": "0",
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "name": "Фурнитура"
+              },
+              {
+                "spec": {
+                  "id": "7"
+                },
+                "type": "furniture",
+                "condition": null,
+                "visible": 1,
+                "active": 1,
+                "pos": {
+                  "x": 0,
+                  "y": "s:y - 8",
+                  "z": "100"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": "0",
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "name": "Фурнитура"
+              }
+            ],
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 0,
+            "active": 1,
+            "variables": {
+              "visible": 1,
+              "main": []
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": [],
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s.z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "c_rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "accessories": [],
+            "comments": "",
+            "section_key": "",
+            "params_key": ""
+          },
+          {
+            "type": "wall",
+            "name": "Правая стенка",
+            "id": "",
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "spec": {
+              "name": "",
+              "code": "",
+              "orientation": "v",
+              "group": "wall",
+              "type": "common",
+              "type_params": [],
+              "points": [],
+              "butts": [],
+              "holes": [],
+              "key": "left",
+              "shape": null,
+              "material": {
+                "group": "g0",
+                "key": "ldsp",
+                "key_lock": "",
+                "thickness_lock": 0,
+                "id": 0,
+                "variant_id": 0,
+                "rotated": 0
+              },
+              "show_index": 1
+            },
+            "custom": [],
+            "children": [
+              {
+                "spec": {
+                  "id": "7"
+                },
+                "type": "furniture",
+                "condition": null,
+                "visible": 1,
+                "active": 1,
+                "pos": {
+                  "x": "g:g0.thickness",
+                  "y": "v:vysota_cokolya / 2",
+                  "z": "v:glubina_cokolya - 8"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": "0",
+                  "y": "180",
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "name": "Фурнитура"
+              },
+              {
+                "spec": {
+                  "id": "7"
+                },
+                "type": "furniture",
+                "condition": null,
+                "visible": 1,
+                "active": 1,
+                "pos": {
+                  "x": "g:g0.thickness",
+                  "y": "v:vysota_cokolya / 2",
+                  "z": "s:z - v:glubina_cokolya + 8"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": "0",
+                  "y": "180",
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "name": "Фурнитура"
+              },
+              {
+                "spec": {
+                  "id": "7"
+                },
+                "type": "furniture",
+                "condition": null,
+                "visible": 1,
+                "active": 1,
+                "pos": {
+                  "x": "g:g0.thickness",
+                  "y": "v:vysota_cokolya + 8",
+                  "z": "s:z - 100"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": "180",
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "name": "Фурнитура"
+              },
+              {
+                "spec": {
+                  "id": "7"
+                },
+                "type": "furniture",
+                "condition": null,
+                "visible": 1,
+                "active": 1,
+                "pos": {
+                  "x": "g:g0.thickness",
+                  "y": "v:vysota_cokolya + 8",
+                  "z": "100"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": "180",
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "name": "Фурнитура"
+              },
+              {
+                "spec": {
+                  "id": "7"
+                },
+                "type": "furniture",
+                "condition": null,
+                "visible": 1,
+                "active": 1,
+                "pos": {
+                  "x": "g:g0.thickness",
+                  "y": "s:y - 8",
+                  "z": "s:z - 100"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": "180",
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "name": "Фурнитура"
+              },
+              {
+                "spec": {
+                  "id": "7"
+                },
+                "type": "furniture",
+                "condition": null,
+                "visible": 1,
+                "active": 1,
+                "pos": {
+                  "x": "g:g0.thickness",
+                  "y": "s:y - 8",
+                  "z": "100"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": "180",
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "name": "Фурнитура"
+              }
+            ],
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 0,
+            "active": 1,
+            "variables": {
+              "visible": 1,
+              "main": []
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": [],
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s.z"
+            },
+            "pos": {
+              "x": "s:x - g:g0.thickness",
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": "0",
+              "z": 0
+            },
+            "c_rot": {
+              "x": 0,
+              "y": "0",
+              "z": 0
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "accessories": [],
+            "comments": "",
+            "section_key": "",
+            "params_key": ""
+          },
+          {
+            "type": "wall",
+            "name": "Крышка",
+            "id": "",
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "spec": {
+              "name": "",
+              "code": "",
+              "orientation": "h",
+              "group": "wall",
+              "type": "common",
+              "type_params": [],
+              "points": [],
+              "butts": [
+                {
+                  "face_index": 2,
+                  "id": 0,
+                  "key": "butts",
+                  "thickness": 0.4,
+                  "variant_id": 0
+                },
+                {
+                  "face_index": 0,
+                  "id": 0,
+                  "key": "butts",
+                  "thickness": 0.4,
+                  "variant_id": 0
+                }
+              ],
+              "holes": [],
+              "key": "left",
+              "shape": null,
+              "material": {
+                "group": "g0",
+                "key": "ldsp",
+                "key_lock": "",
+                "thickness_lock": 0,
+                "id": 0,
+                "variant_id": 0,
+                "rotated": 1,
+                "av_index": 0
+              },
+              "show_index": 1
+            },
+            "custom": [],
+            "children": [],
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 0,
+            "active": 1,
+            "variables": {
+              "visible": 1,
+              "main": []
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": [],
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "size": {
+              "x": "s:x - g:g0.thickness * 2",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": "g:g0.thickness",
+              "y": "s.y",
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": 1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "c_rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "accessories": [],
+            "comments": "",
+            "section_key": "",
+            "params_key": ""
+          },
+          {
+            "type": "wall",
+            "name": "Дно",
+            "id": "",
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "spec": {
+              "name": "",
+              "code": "",
+              "orientation": "h",
+              "group": "wall",
+              "type": "common",
+              "type_params": [],
+              "points": [],
+              "butts": [
+                {
+                  "face_index": 0,
+                  "id": 0,
+                  "key": "butts",
+                  "thickness": 0.4,
+                  "variant_id": 0
+                },
+                {
+                  "face_index": 2,
+                  "id": 0,
+                  "key": "butts",
+                  "thickness": 0.4,
+                  "variant_id": 0
+                }
+              ],
+              "holes": [],
+              "key": "left",
+              "shape": null,
+              "material": {
+                "group": "g0",
+                "key": "ldsp",
+                "key_lock": "",
+                "thickness_lock": 0,
+                "id": 0,
+                "variant_id": 0,
+                "rotated": 1,
+                "av_index": 0
+              },
+              "show_index": 1
+            },
+            "custom": [],
+            "children": [],
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 0,
+            "active": 1,
+            "variables": {
+              "visible": 1,
+              "main": []
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": [],
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "size": {
+              "x": "s:x - g:g0.thickness * 2",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": "g:g0.thickness",
+              "y": "v:vysota_cokolya-100",
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "c_rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "accessories": [],
+            "comments": "",
+            "section_key": "",
+            "params_key": ""
+          },
+          {
+            "type": "fill_section",
+            "name": "Наполнение",
+            "id": "",
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "spec": {
+              "show_sizes": 1,
+              "step_axes": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "show_sizes_hover": 1
+            },
+            "custom": [],
+            "children": [
+              {
+                "type": "section",
+                "name": "Задняя стенка",
+                "id": "",
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "spec": [],
+                "custom": [],
+                "children": [
+                  {
+                    "type": "wall",
+                    "name": "Деталь",
+                    "id": "",
+                    "lib": "",
+                    "tags": "",
+                    "interactive": 0,
+                    "spec": {
+                      "name": "",
+                      "code": "",
+                      "orientation": "f",
+                      "group": "wall",
+                      "type": "common",
+                      "type_params": [],
+                      "points": [],
+                      "butts": [],
+                      "holes": [],
+                      "key": "left",
+                      "shape": null,
+                      "material": {
+                        "group": "hdf1",
+                        "key": "hdf",
+                        "key_lock": "",
+                        "thickness_lock": 0,
+                        "id": 0,
+                        "variant_id": 0,
+                        "rotated": 0,
+                        "av_index": 0
+                      },
+                      "show_index": 1
+                    },
+                    "custom": [],
+                    "children": [],
+                    "condition": null,
+                    "visible": 1,
+                    "helpers_visible": 0,
+                    "active": 1,
+                    "variables": {
+                      "visible": 1,
+                      "main": []
+                    },
+                    "interaction": {
+                      "auto_rotation": 1,
+                      "check_intersection": 0,
+                      "raycast": 1
+                    },
+                    "resizable": {
+                      "enabled": 0,
+                      "locks": [],
+                      "minmax": {
+                        "min": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "max": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        }
+                      }
+                    },
+                    "size": {
+                      "x": "s:x",
+                      "y": "s:y",
+                      "z": "s.z"
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "c_rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "accessories": [],
+                    "comments": "",
+                    "section_key": "",
+                    "params_key": ""
+                  }
+                ],
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "active": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": []
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": [],
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "size": {
+                  "x": "s:x + 8",
+                  "y": "s:y + 8",
+                  "z": "3"
+                },
+                "pos": {
+                  "x": "s:x / 2",
+                  "y": "s:y / 2",
+                  "z": "0"
+                },
+                "pivot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "accessories": [],
+                "comments": "",
+                "section_key": "",
+                "params_key": ""
+              },
+              {
+                "type": "wall",
+                "name": "Полка антресоли",
+                "id": "",
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "spec": {
+                  "name": "",
+                  "code": "",
+                  "orientation": "h",
+                  "group": "wall",
+                  "type": "common",
+                  "type_params": [],
+                  "points": [],
+                  "butts": [
+                    {
+                      "face_index": 2,
+                      "id": 0,
+                      "key": "butts",
+                      "thickness": 0.4,
+                      "variant_id": 0
+                    }
+                  ],
+                  "holes": [],
+                  "key": "left",
+                  "shape": null,
+                  "material": {
+                    "group": "g0",
+                    "key": "ldsp",
+                    "key_lock": "",
+                    "thickness_lock": 0,
+                    "id": 0,
+                    "variant_id": 0,
+                    "rotated": 0
+                  },
+                  "show_index": 1
+                },
+                "custom": [],
+                "children": [],
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "active": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": []
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": [],
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z-10"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": "1850",
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": 0,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "accessories": [],
+                "comments": "",
+                "section_key": "",
+                "params_key": ""
+              },
+              {
+                "type": "wall",
+                "name": "Полка антресоли 2",
+                "id": "",
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "spec": {
+                  "name": "",
+                  "code": "",
+                  "orientation": "h",
+                  "group": "wall",
+                  "type": "common",
+                  "type_params": [],
+                  "points": [],
+                  "butts": [
+                    {
+                      "face_index": 2,
+                      "id": 0,
+                      "key": "butts",
+                      "thickness": 0.4,
+                      "variant_id": 0
+                    }
+                  ],
+                  "holes": [],
+                  "key": "left",
+                  "shape": null,
+                  "material": {
+                    "group": "g0",
+                    "key": "ldsp",
+                    "key_lock": "",
+                    "thickness_lock": 0,
+                    "id": 0,
+                    "variant_id": 0,
+                    "rotated": 0
+                  },
+                  "show_index": 1
+                },
+                "custom": [],
+                "children": [],
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "active": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": []
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": [],
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z-10"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": "1866",
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": 0,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "accessories": [],
+                "comments": "",
+                "section_key": "",
+                "params_key": ""
+              }
+            ],
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 0,
+            "active": 1,
+            "variables": {
+              "visible": 1,
+              "main": []
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": [],
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "size": {
+              "x": "s:x - g:g0.thickness * 2",
+              "y": "s:y - v:vysota_cokolya - g:g0.thickness * 2",
+              "z": "s:z - v:otstup_paza"
+            },
+            "pos": {
+              "x": "g:g0.thickness",
+              "y": "v:vysota_cokolya + g:g0.thickness",
+              "z": "v:otstup_paza"
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "c_rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "accessories": [],
+            "comments": "",
+            "section_key": "",
+            "params_key": "",
+            "fill": {
+              "is_drag_categories": 1,
+              "drag_categories": [
+                {
+                  "id": "1",
+                  "key": "dveri_shkaf"
+                },
+                {
+                  "id": "3",
+                  "key": "yashik_shkaf"
+                }
+              ]
+            }
+          },
+          {
+            "type": "facade",
+            "name": "цоколь",
+            "id": "",
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "spec": {
+              "id": "189",
+              "materials": {
+                "gen": "4115"
+              },
+              "handle": {
+                "enabled": 0,
+                "id": 0,
+                "active": 0,
+                "fixed": 0,
+                "group": 0,
+                "orient": "a",
+                "a_orient": [
+                  "h",
+                  "v"
+                ],
+                "dir": "l",
+                "a_dir": [
+                  "l",
+                  "r",
+                  "b",
+                  "t"
+                ],
+                "pos": {
+                  "x": "a",
+                  "y": "a"
+                },
+                "c_size": 0,
+                "p_size": 0,
+                "double": 0,
+                "offset_mode": "f",
+                "offset": 25
+              },
+              "f_model": 0,
+              "group": "auto",
+              "open": "all",
+              "type": "full",
+              "radius": 0,
+              "side": 1,
+              "role": [
+                "kitchen"
+              ],
+              "can_change": {
+                "id": 0,
+                "material": 1,
+                "type": 0
+              }
+            },
+            "custom": [],
+            "children": [],
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 0,
+            "active": 1,
+            "variables": {
+              "visible": 1,
+              "main": []
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": [],
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "size": {
+              "x": "s:x",
+              "y": "100",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": "-100",
+              "z": "s:z"
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "c_rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "accessories": [],
+            "comments": "",
+            "section_key": "",
+            "params_key": ""
+          },
+          {
+            "type": "facade",
+            "name": "Фальш планка",
+            "id": "",
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "spec": {
+              "id": "189",
+              "materials": {
+                "gen": "4115"
+              },
+              "handle": {
+                "enabled": 0,
+                "id": 0,
+                "active": 0,
+                "fixed": 0,
+                "group": 0,
+                "orient": "a",
+                "a_orient": [
+                  "h",
+                  "v"
+                ],
+                "dir": "l",
+                "a_dir": [
+                  "l",
+                  "r",
+                  "b",
+                  "t"
+                ],
+                "pos": {
+                  "x": "a",
+                  "y": "a"
+                },
+                "c_size": 0,
+                "p_size": 0,
+                "double": 0,
+                "offset_mode": "f",
+                "offset": 25
+              },
+              "f_model": 0,
+              "group": "auto",
+              "open": "all",
+              "type": "full",
+              "radius": 0,
+              "side": 1,
+              "role": [
+                "kitchen"
+              ],
+              "can_change": {
+                "id": 0,
+                "material": 1,
+                "type": 0
+              }
+            },
+            "custom": [],
+            "children": [],
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 0,
+            "active": 1,
+            "variables": {
+              "visible": 1,
+              "main": []
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": [],
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "size": {
+              "x": "s:x",
+              "y": "50",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "c_rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "accessories": [],
+            "comments": "",
+            "section_key": "",
+            "params_key": ""
+          },
+          {
+            "type": "facade",
+            "name": "Фальш планка дубль",
+            "id": "",
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "spec": {
+              "id": "189",
+              "materials": {
+                "gen": "4115"
+              },
+              "handle": {
+                "enabled": 0,
+                "id": 0,
+                "active": 0,
+                "fixed": 0,
+                "group": 0,
+                "orient": "a",
+                "a_orient": [
+                  "h",
+                  "v"
+                ],
+                "dir": "l",
+                "a_dir": [
+                  "l",
+                  "r",
+                  "b",
+                  "t"
+                ],
+                "pos": {
+                  "x": "a",
+                  "y": "a"
+                },
+                "c_size": 0,
+                "p_size": 0,
+                "double": 0,
+                "offset_mode": "f",
+                "offset": 25
+              },
+              "f_model": 0,
+              "group": "auto",
+              "open": "all",
+              "type": "full",
+              "radius": 0,
+              "side": 1,
+              "role": [
+                "kitchen"
+              ],
+              "can_change": {
+                "id": 0,
+                "material": 0,
+                "type": 0
+              }
+            },
+            "custom": [],
+            "children": [],
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 0,
+            "active": 1,
+            "variables": {
+              "visible": 1,
+              "main": []
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": [],
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "size": {
+              "x": "s:x",
+              "y": "50",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": "s:y",
+              "z": "s:z-16"
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "c_rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "accessories": [],
+            "comments": "",
+            "section_key": "",
+            "params_key": ""
+          }
+        ],
+        "condition": null,
+        "visible": 1,
+        "helpers_visible": 0,
+        "active": 1,
+        "variables": {
+          "visible": 1,
+          "main": []
+        },
+        "interaction": {
+          "auto_rotation": 1,
+          "check_intersection": 0,
+          "raycast": 1
+        },
+        "resizable": {
+          "enabled": 0,
+          "locks": [],
+          "minmax": {
+            "min": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "max": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          }
+        },
+        "size": {
+          "x": "s:x",
+          "y": "s:y-150",
+          "z": "s.z"
+        },
+        "pos": {
+          "x": 0,
+          "y": "100",
+          "z": 0
+        },
+        "pivot": {
+          "x": -1,
+          "y": -1,
+          "z": -1
+        },
+        "rot": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "c_rot": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "events": {
+          "on_before_params": "",
+          "on_before_build": "",
+          "on_after_build": "",
+          "on_drag_end": ""
+        },
+        "accessories": [],
+        "comments": "",
+        "section_key": "",
+        "params_key": ""
+      },
+      {
+        "spec": {
+          "id": "5",
+          "element_type": "dveri_shkaf",
+          "fill_content": {}
+        },
+        "type": "module",
+        "size": {
+          "x": "s:x",
+          "y": "s:y-1947-150",
+          "z": "s:z"
+        },
+        "pos": {
+          "y": "2150"
+        },
+        "name": "Дверь АТ"
+      },
+      {
+        "spec": {
+          "id": "5",
+          "element_type": "dveri_shkaf",
+          "fill_content": {}
+        },
+        "type": "module",
+        "size": {
+          "x": "s:x",
+          "y": "1947",
+          "z": "s:z"
+        },
+        "pos": {
+          "y": "200"
+        },
+        "name": "Дверь"
+      },
+      {
+        "spec": {
+          "id": "6",
+          "element_type": "shablony_korpusov",
+          "fill_content": {}
+        },
+        "type": "module",
+        "size": {
+          "x": "s:x",
+          "y": "100",
+          "z": "s:z"
+        },
+        "name": "опоры"
+      }
+    ],
+    "condition": null,
+    "visible": 1,
+    "helpers_visible": 0,
+    "active": 1,
+    "variables": {
+      "visible": 1,
+      "main": []
+    },
+    "interaction": {
+      "auto_rotation": 1,
+      "check_intersection": 0,
+      "raycast": 1
+    },
+    "resizable": {
+      "enabled": 0,
+      "locks": [],
+      "minmax": {
+        "min": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "max": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
+      }
+    },
+    "size": {
+      "x": "s:x",
+      "y": "s:y",
+      "z": "s.z"
+    },
+    "pos": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "pivot": {
+      "x": -1,
+      "y": -1,
+      "z": -1
+    },
+    "rot": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "c_rot": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "events": {
+      "on_before_params": "",
+      "on_before_build": "",
+      "on_after_build": "",
+      "on_drag_end": ""
+    },
+    "accessories": [],
+    "comments": "",
+    "section_key": "",
+    "params_key": ""
+  }
+]

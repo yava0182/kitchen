@@ -1,0 +1,63 @@
+{
+  "modelParams": {
+    "name": "Fixture confirmat T-joint",
+    "art": "FIX-001"
+  },
+  "model": {
+    "objs": [
+      {
+        "tableIndex": 1,
+        "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+        "objs": [
+          {
+            "tableIndex": 2,
+            "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 100, 200, 0, 1],
+            "objs": []
+          }
+        ]
+      }
+    ]
+  },
+  "table": {
+    "materials": [
+      { "art": "LDSP_DEFAULT", "name": "ЛДСП", "sign": "" },
+      { "art": "JOINT_SCH_1", "name": "Конфирмат 50 мм", "sign": "" }
+    ],
+    "holes": [
+      { "depth": 16, "diameter": 8 },
+      { "depth": 35, "diameter": 5 }
+    ],
+    "triangles": [],
+    "objects": [
+      { "objType": 7, "name": "Общая секция", "isAssemblyUnit": false },
+      {
+        "objType": 2,
+        "name": "Полка",
+        "thickness": 16,
+        "materialIndex": 0,
+        "textureOrientation": 2,
+        "frontFace": 2,
+        "contour": {
+          "elemType": 4,
+          "list": [
+            { "elemType": 1, "pos1": { "x": 0, "y": 0 }, "pos2": { "x": 564, "y": 0 } },
+            { "elemType": 1, "pos1": { "x": 564, "y": 0 }, "pos2": { "x": 564, "y": 400 } },
+            { "elemType": 1, "pos1": { "x": 564, "y": 400 }, "pos2": { "x": 0, "y": 400 } },
+            { "elemType": 1, "pos1": { "x": 0, "y": 400 }, "pos2": { "x": 0, "y": 0 } }
+          ]
+        }
+      },
+      {
+        "objType": 5,
+        "name": "Конфирмат 50 мм",
+        "materialIndex": 1,
+        "holes": [
+          { "pos": { "x": 8, "y": 0, "z": 50 }, "dir": { "x": 0, "y": 0, "z": -1 }, "infoIndex": 0 },
+          { "pos": { "x": 16, "y": 16, "z": 50 }, "dir": { "x": 1, "y": 0, "z": 0 }, "infoIndex": 1 },
+          { "pos": { "x": 8, "y": 0, "z": 82 }, "dir": { "x": 0, "y": 0, "z": -1 }, "infoIndex": 0 },
+          { "pos": { "x": 16, "y": 16, "z": 82 }, "dir": { "x": 1, "y": 0, "z": 0 }, "infoIndex": 1 }
+        ]
+      }
+    ]
+  }
+}

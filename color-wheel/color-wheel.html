@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Конфигуратор цветов шкафа</title>
+    <style>/* 1. САМОЕ ВЕРХНЕЕ место в CSS! */
+        @font-face {
+    font-family: 'Cera Pro';
+    src: url('fonts/CeraPro-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Cera Pro';
+    src: url('fonts/CeraPro-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Cera Pro';
+    src: url('fonts/CeraPro-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+}
+
+/* Применить Cera Pro ко всему сайту */
+body, .default-text, .color-name {
+    font-family: 'Cera Pro', Arial, sans-serif !important;
+}
+.title-container {
+    margin-top: 10px; /* было 30px, стало меньше */
+    /* или, если хочешь поднять ровно на 20px: */
+    margin-top: 60px; /* если было 30px */
+    margin-bottom: 6%;
+    text-align: center;
+}
+        .container {
+    width: 100%;
+    max-width: 1600px; /* или сколько тебе нужно */
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-start;
+    padding-left: 20px;
+    padding-right: 20px;
+    box-sizing: border-box;
+}
+        .wardrobe-container {
+            width: 358px;
+            min-width: 358px;
+            max-width: 358px;
+            margin-left: -90px; 
+        }
+        .wardrobe-container svg {
+            width: 100%;
+            height: 100%;
+        }
+        .color-picker {
+    flex: 1;
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    width: 100%;
+}
+.left-section {
+    flex: 0 0 568px;
+    min-width: 568px;
+    max-width: 568px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.color-wheel {
+    width: 568px;
+    height: 568px;
+    position: relative;
+    margin: 0 auto;
+    top: -40px;      /* поднимает вверх на 20px */
+    left: 60px;      /* сдвигает вправо на 10px */
+}
+        .right-section {
+    flex: 0 0 300px;
+    min-width: 300px;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 80px;
+}
+        .selected-colors {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 40px;
+            margin-top: 0;
+        }
+        .color-slot {
+    width: 100%;
+    min-width: 260px; /* или сколько тебе нужно */
+    max-width: 340px;
+    height: 80px;
+    border: 2px dashed #ccc;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    background: #fff;
+    position: relative;
+    padding-left: 56px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: border 0.2s;
+}
+.color-slot:not(.filled)::before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 50px;
+    background-image: url("data:image/svg+xml,%3Csvg width='194' height='301' viewBox='0 0 194 301' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg clip-path='url(%23clip0_83_19)'%3E%3Cg filter='url(%23filter0_d_83_19)'%3E%3Cpath d='M156.658 164.5C160.995 156.967 164.025 153.305 169.36 151.995C171.453 151.481 173.666 151.696 175.687 152.444C180.26 154.136 182.591 156.679 184.638 161.162C185.628 163.331 186 165.721 186 168.106V253.966C186 256.304 185.609 258.633 184.742 260.804C181.703 268.416 178.7 273.067 172.572 280C164.618 286.897 159.239 289.41 148.701 292.5C142.592 294.42 134.943 294.846 117.369 295C107.03 293.934 101.383 292.393 93.5634 288.731C91.8613 287.933 90.3276 286.876 88.9431 285.605C76.6859 274.35 13.935 216.471 9.4492 207C6.35168 200.46 7.11264 194.502 8.12729 190.938C8.7954 188.592 10.3466 186.601 12.406 185.292C16.3211 182.805 19.8594 182.488 25.3301 183.816C27.0129 184.225 28.5829 184.945 30.0532 185.859C38.1295 190.884 65.6471 208.38 65.6471 213.5C65.6471 218.734 65.6471 105.277 65.6471 76.2054C65.6471 71.8385 66.8652 67.431 69.8581 64.2511C72.5822 61.3566 75.3511 60 81.0642 60C86.0954 60 88.4336 61.4287 90.476 63.7376C93.6082 67.2783 94.9893 72.0937 94.9893 76.821V178.5V141.908C94.9893 138.052 95.9484 134.143 98.5021 131.253C101.632 127.711 104.725 126.215 109.228 125.704C111.317 125.468 113.437 125.77 115.415 126.484C119.08 127.809 121.542 129.286 123.648 131.578C126.062 134.206 126.818 137.882 126.818 141.45V194V156.209C126.818 153.112 127.467 150.013 129.064 147.36C132.435 141.762 135.485 139.736 140.198 139.466C142.204 139.352 144.208 139.83 146.027 140.684C156.018 145.372 157.363 151.762 156.658 164.5ZM156.658 164.5V213.5M0 81H33.3209M24.369 24L46.2513 47M81.0642 0V34.5M138.257 24L114.882 47M160.636 81H126.818' stroke='%23FF9F1C' stroke-width='6' shape-rendering='crispEdges'/%3E%3C/g%3E%3C/g%3E%3Cdefs%3E%3Cfilter id='filter0_d_83_19' x='-4' y='0' width='197' height='306.001' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dy='4'/%3E%3CfeGaussianBlur stdDeviation='2'/%3E%3CfeComposite in2='hardAlpha' operator='out'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0'/%3E%3CfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_83_19'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_83_19' result='shape'/%3E%3C/filter%3E%3CclipPath id='clip0_83_19'%3E%3Crect width='194' height='301' fill='white'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E%0A");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    opacity: 6;
+    pointer-events: none;
+}
+.color-slot:not(.filled) {
+    border: 2px dashed #ccc;
+    transition: border-color 0.2s, border-style 0.2s;
+}
+
+.color-slot:not(.filled):hover:not(.active) {
+    border-color: #FF9F1C !important;
+    border-style: dashed !important;
+}
+
+.color-slot.active {
+    border-color: #FF9F1C !important;
+    border-style: solid !important;
+}
+.default-text {
+    margin-left: 48px;
+    color: #333;
+    font-size: 16px;
+    font-weight: 900;
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1.4;
+}
+
+.default-text strong {
+    font-weight: 900;
+}
+.default-text {
+       margin-left: 48px; /* или больше, если надо */
+   }
+   .color-slot.filled {
+    padding-left: 0 !important;
+    display: flex;
+    align-items: stretch;
+}
+.color-preview {
+    width: 40%;
+    min-width: 80px;
+    height: 100%;
+    border-radius: 12px 0 0 12px;
+    margin-right: 0;
+    background-size: cover;
+    background-position: center;
+    display: block;
+    flex-shrink: 0;
+}
+.color-name {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 0 15px;
+    color: #333;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    text-align: left;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+.delete-icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23ff9f1c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='3 6 5 6 21 6'/%3E%3Cpath d='M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2'/%3E%3Cline x1='10' y1='11' x2='10' y2='17'/%3E%3Cline x1='14' y1='11' x2='14' y2='17'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 0.2s;
+    cursor: pointer;
+    z-index: 2;
+}
+.color-slot.filled:hover .delete-icon {
+    opacity: 1;
+}
+.color-slot.filled .color-name {
+    padding-right: 50px;
+}
+.color-slot .default-text,
+.color-name {
+    color: #333 !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    opacity: 1 !important;
+    filter: none !important;
+}
+.submit-button {
+    background: #eee !important;
+    color: #bbb !important;
+    cursor: not-allowed !important;
+    opacity: 0.6 !important;
+    transition: all 0.2s;
+}
+.submit-button.active {
+    background: #FF9F1C !important;
+    color: white !important;
+    cursor: pointer !important;
+    opacity: 1 !important;
+}
+        .checkbox-container {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .checkbox-container input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+        }
+        .checkbox-container label {
+            color: #666;
+            font-size: 14px;
+        }
+        .apply-all-button {
+            position: absolute;
+            right: 45px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: 2;
+        }
+        .apply-all-button::before {
+            content: '';
+            display: block;
+            width: 20px;
+            height: 20px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill=\"%23666\"><path d=\"M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z\"/><path d=\"M18 9h-4V5h-4v4H6v4h4v4h4v-4h4z\"/></svg>') no-repeat center;
+        }
+        .color-slot.filled:hover .apply-all-button {
+            opacity: 1;
+        }
+        /* ...твои старые стили... */
+
+.wardrobe-container {
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    background: #fff;
+    border-radius: 16px;
+}
+.color-wheel, .color-wheel svg {
+    filter: drop-shadow(0 8px 32px rgba(0,0,0,0.18));
+}
+.color-slot {
+    box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+}
+.submit-button {
+    box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+}
+    </style>
+</head>
+<body>
+    <div class="title-container">
+        <h1>Щелкните по слоту справа для выбора цвета из круга.</h1>
+    </div>
+    <div class="container">
+        <div class="wardrobe-container">
+             <svg width="298" height="408" viewBox="0 0 298 408" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g id="Shkaf 3">
+                <g id="Fasad">
+                <path id="Vector" d="M260.5 4L3.5 0.5V4V7.5L260.5 11V4Z" fill="white"/>
+                <path id="Vector_2" d="M3.5 7.5L260.5 11V4L3.5 0.5V4V7.5ZM3.5 7.5V9" stroke="black"/>
+                </g>
+                <path id="Fasad 5" d="M297 1L263 4V89L297 86V1Z" fill="white" stroke="black"/>
+                <path id="Fasad 3" d="M260.5 4L260 407H263V4H260.5Z" fill="white" stroke="black"/>
+                <path id="Fasad 2" d="M0.5 0.5L1 402.5H3.5V0.5H0.5Z" fill="white" stroke="black"/>
+                <path id="Fasad 1" d="M3.5 398.5V402.5L259.5 407V403L131.5 401V389.5L69 388.5V400L3.5 398.5Z" fill="white" stroke="black"/>
+                <g id="Korpus">
+                <path d="M131.5 389H69L104 383.5V371V358H73.5V332.5L104 327.875H73.5V303L104 298.5H73.5V285.75V273L105 269.5H69V266.5L104 262.5V222H72V219L104 215V174H72V171.5L104 167V129H72V126.5L104 123L132 123.5V126.5V129H104V167H131.5V171V174H104V215H131.5V219V222H104V262.5H131.5V266.5V269.5H105L73.5 273H131.5V298.5H104L73.5 303H131.5V327.875H104L73.5 332.5V358H104V371V383.5H131.5V389Z M131.5 357.5H73.5V333H131.5V357.5Z M104 383L69 389V85.5L104.5 86L104 123L71.5 126.5V129H104V167L71.5 171.5V174H104V215L71.5 219V222H104V262.5L69.2028 266.5L69.1978 269.5H102.5L73.5 273V298L102.5 298.5L73.5 303V328H102.5L73.5 332.5V358L104 357.5V383Z" fill="#D9D9D9" stroke="black"/>
+                </g>
+                <path id="Fasad 8" d="M69 400L4 398.5V84.5L69 85.5V400Z" fill="white" stroke="black"/>
+                <path id="Fasad 9" d="M197 402L131.5 401L132 86.5L197 88V402Z" fill="white" stroke="black"/>
+                <path id="Fasad 10" d="M260 89.5L259.5 403L197 402V88L260 89.5Z" fill="white" stroke="black"/>
+                <path id="Fasad 11" d="M260.5 11L197 10.5V88L260 89.5L260.5 11Z" fill="white" stroke="black"/>
+                <path id="Fasad 12" d="M197 10.5L132 9.5V86.5L197 88V10.5Z" fill="white" stroke="black"/>
+                <path id="Fasad 13" d="M69 85.5V8.5L132 9.5V86.5L69 85.5Z" fill="white" stroke="black"/>
+                <path id="Fasad 14" d="M69 8.5L4 7.5V84.5L69 85.5V8.5Z" fill="white" stroke="black"/>
+                <path id="Fasad 15" d="M263 89V407L297.5 403.5L297 86L263 89Z" fill="white" stroke="black"/>
+                <path id="Ruchka 1" d="M62 392V245" stroke="black" stroke-width="4"/>
+                <path id="Ruchka 2" d="M189.5 393V245" stroke="black" stroke-width="4"/>
+                <path id="Ruchka 3" d="M203.5 394V245.5" stroke="black" stroke-width="4"/>
+                </g>
+            </svg>
+        </div>
+        <div class="color-picker">
+            <div class="left-section">
+                <div class="color-wheel"></div>
+            </div>
+            <div class="right-section">
+                <div class="selected-colors">
+                    <div class="color-slot" data-type="facade"></div>
+                    <div class="color-slot" data-type="body"></div>
+                    <div class="color-slot" data-type="facade"></div>
+                    <div class="color-slot" data-type="body"></div>
+
+                </div>
+                <a href="https://clodis.ru/cart/" 
+   class="submit-button active" 
+   id="submitLink">
+   Отправьте мне образцы цветов
+</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        const colors = [
+            // Внешний круг (16 цветов)
+            { id: 'cold-gray', hex: '#E0E0E0', name: 'Холодный серый', texture: 'https://clodis.ru/wp-content/uploads/2025/04/ldsp_holodnyj_seryj_0191_su.jpg' },
+            { id: 'white-snow', hex: '#FFFFFF', name: 'Белый снег', texture: 'https://clodis.ru/wp-content/uploads/2025/04/belyj-sneg-8685.png' },
+            { id: 'clay-gray', hex: '#B8B5B0', name: 'Глиняный серый', texture: 'https://clodis.ru/wp-content/uploads/2025/04/ldsp_glinyanyj_seryj_su.jpg' },
+            { id: 'oak-hudson', hex: '#8B7355', name: 'Дуб Гудзон', texture: 'https://clodis.ru/wp-content/uploads/2025/04/ldsp_dub_gudzon_biskotto_k527_hu_2800207016_mm_kronospan.jpg' },
+            { id: 'kashmir', hex: '#E8E4D9', name: 'Кашемир', texture: 'https://clodis.ru/wp-content/uploads/2025/04/ldsp_kashemir_bs-5981.jpg' },
+            { id: 'powder', hex: '#E8D7D7', name: 'Пудровый', texture: 'https://clodis.ru/wp-content/uploads/2025/04/ldsp_pudrovyj_k512_su.jpg' },
+            { id: 'silent-desert', hex: '#D6C4B7', name: 'Безмолвная пустыня', texture: 'https://clodis.ru/wp-content/uploads/2025/04/ldsp_bezmolvnaya_pustynya_k514_su.png' },
+            { id: 'graphite', hex: '#474A51', name: 'Серый графит', texture: 'https://clodis.ru/wp-content/uploads/2025/04/seryj_grafit-0162-pe.jpg' },
+            { id: 'mint', hex: '#98FF98', name: 'Мята', texture: 'https://clodis.ru/wp-content/uploads/2025/04/ldsp-myata-7180-bs.jpg' },
+            { id: 'midnight-blue', hex: '#191970', name: 'Полуночно-синий', texture: 'https://clodis.ru/wp-content/uploads/2025/04/ldsp_albi_polunochno-sinij_5994_su_.png' },
+            { id: 'champagne', hex: '#F7E7CE', name: 'Шампань', texture: 'https://clodis.ru/wp-content/uploads/2025/04/7045_ldsp_satin__shampanskoe__7045-su.jpg' },
+            { id: 'light-gray-2', hex: '#D8D8D8', name: 'MDF 2', texture: 'https://clodis.ru/wp-content/uploads/2025/04/ldsp_holodnyj_seryj_0191_su.jpg' },
+            { id: 'beige-2', hex: '#C4B4A7', name: 'Бежевый 2', texture: 'https://clodis.ru/wp-content/uploads/2025/04/ldsp_bezmolvnaya_pustynya_k514_su.png' },
+            { id: 'dark-gray-2', hex: '#3A3A3A', name: 'Тёмно-серый 2', texture: 'https://clodis.ru/wp-content/uploads/2025/04/seryj_grafit-0162-pe.jpg' },
+            { id: 'cream-1', hex: '#FFFDD0', name: 'Кремовый 1', texture: 'https://clodis.ru/wp-content/uploads/2025/04/7045_ldsp_satin__shampanskoe__7045-su.jpg' },
+            { id: 'black-1', hex: '#000000', name: 'Чёрный 1', texture: 'https://clodis.ru/wp-content/uploads/2025/04/seryj_grafit-0162-pe.jpg' },
+            // Внутренний круг (6 цветов)
+            { id: 'walnut', hex: '#6E4C1E', name: 'Орех', texture: 'https://clodis.ru/wp-content/uploads/2025/04/ldsp_dub_gudzon_biskotto_k527_hu_2800207016_mm_kronospan.jpg' },
+            { id: 'mahogany', hex: '#C04000', name: 'Махагон', texture: 'https://clodis.ru/wp-content/uploads/2025/04/ldsp_bezmolvnaya_pustynya_k514_su.png' },
+            { id: 'oak', hex: '#806517', name: 'Дуб', texture: 'https://clodis.ru/wp-content/uploads/2025/04/ldsp_dub_gudzon_biskotto_k527_hu_2800207016_mm_kronospan.jpg' },
+            { id: 'pine', hex: '#DEB887', name: 'Сосна', texture: 'https://clodis.ru/wp-content/uploads/2025/04/ldsp_kashemir_bs-5981.jpg' },
+            { id: 'cherry', hex: '#922724', name: 'Вишня', texture: 'https://clodis.ru/wp-content/uploads/2025/04/ldsp_pudrovyj_k512_su.jpg' },
+            { id: 'wenge', hex: '#4A3004', name: 'Венге', texture: 'https://clodis.ru/wp-content/uploads/2025/04/seryj_grafit-0162-pe.jpg' }
+        ];
+
+        const colorWheel = document.querySelector('.color-wheel');
+        const selectedColorsContainer = document.querySelector('.selected-colors');
+        const submitButton = document.querySelector('.submit-button');
+        // В начало скрипта:
+let activeSlot = null;
+let activeFacadeSlot = null;
+let activeBodySlot = null;
+let selectedColors = [null, null, null, null];
+let fixedPreviewColor = null;
+
+        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+svg.setAttribute('viewBox', '0 0 568 568');
+svg.style.width = '100%';
+svg.style.height = '100%';
+
+const CENTER = 284;
+const R_outer = 270;
+const R_sep = 180;
+const W_sep = 18;
+const R_inner = 90;
+
+// Сначала создаем белый разделитель
+const separatorCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+separatorCircle.setAttribute('cx', CENTER);
+separatorCircle.setAttribute('cy', CENTER);
+separatorCircle.setAttribute('r', R_sep);
+separatorCircle.setAttribute('fill', 'none');
+separatorCircle.setAttribute('stroke', '#f7f6f2');
+separatorCircle.setAttribute('stroke-width', W_sep);
+svg.appendChild(separatorCircle);
+
+const outerColors = colors.slice(0, 16);
+const innerColors = colors.slice(16);
+
+// Внешние сегменты
+outerColors.forEach((color, index) => {
+    const startAngle = (index / outerColors.length) * Math.PI * 2 - Math.PI / 2;
+    const endAngle = ((index + 1) / outerColors.length) * Math.PI * 2 - Math.PI / 2;
+    const path = createSegment(startAngle, endAngle, R_sep + W_sep/2, R_outer, color);
+    svg.appendChild(path);
+});
+
+// Внутренние сегменты
+innerColors.forEach((color, index) => {
+    const startAngle = (index / innerColors.length) * Math.PI * 2 - Math.PI / 2;
+    const endAngle = ((index + 1) / innerColors.length) * Math.PI * 2 - Math.PI / 2;
+    const path = createSegment(startAngle, endAngle, R_inner, R_sep - W_sep/2, color);
+    svg.appendChild(path);
+});
+
+// Внешний контур
+const outerCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+outerCircle.setAttribute('cx', CENTER);
+outerCircle.setAttribute('cy', CENTER);
+outerCircle.setAttribute('r', R_outer);
+outerCircle.setAttribute('fill', 'none');
+outerCircle.setAttribute('stroke', '#f7f6f2');
+outerCircle.setAttribute('stroke-width', '0');
+svg.appendChild(outerCircle);
+
+// Внутренний контур
+const innerCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+innerCircle.setAttribute('cx', CENTER);
+innerCircle.setAttribute('cy', CENTER);
+innerCircle.setAttribute('r', R_inner);
+innerCircle.setAttribute('fill', 'white');
+innerCircle.setAttribute('stroke', '#f7f6f2');
+innerCircle.setAttribute('stroke-width', '0');
+svg.appendChild(innerCircle);
+
+const centerTextLine1 = document.createElementNS("http://www.w3.org/2000/svg", "text");
+centerTextLine1.setAttribute('x', CENTER);
+centerTextLine1.setAttribute('y', CENTER - 10);
+centerTextLine1.setAttribute('font-size', '18');
+centerTextLine1.setAttribute('text-anchor', 'middle');
+centerTextLine1.setAttribute('font-family', 'inherit');
+centerTextLine1.setAttribute('font-weight', 'bold');
+centerTextLine1.setAttribute('fill', '#333');
+centerTextLine1.textContent = '';
+
+const centerTextLine2 = document.createElementNS("http://www.w3.org/2000/svg", "text");
+centerTextLine2.setAttribute('x', CENTER);
+centerTextLine2.setAttribute('y', CENTER + 14);
+centerTextLine2.setAttribute('font-size', '18');
+centerTextLine2.setAttribute('text-anchor', 'middle');
+centerTextLine2.setAttribute('font-family', 'inherit');
+centerTextLine2.setAttribute('font-weight', 'normal');
+centerTextLine2.setAttribute('fill', '#333');
+centerTextLine2.textContent = '';
+
+        svg.appendChild(centerTextLine1);
+        svg.appendChild(centerTextLine2);
+
+        colorWheel.appendChild(svg);
+
+        function createSegment(startAngle, endAngle, innerRadius, outerRadius, color) {
+            const centerX = CENTER;
+const centerY = CENTER;
+
+    const d = getSegmentPath(startAngle, endAngle, innerRadius, outerRadius);
+
+    // Создаем паттерн для текстуры
+    const patternId = `pattern-${color.id}`;
+    const pattern = document.createElementNS("http://www.w3.org/2000/svg", "pattern");
+    pattern.setAttribute('id', patternId);
+    pattern.setAttribute('patternUnits', 'userSpaceOnUse');
+    pattern.setAttribute('width', '40');
+    pattern.setAttribute('height', '40');
+    pattern.setAttribute('patternTransform', 'rotate(45)');
+
+    const image = document.createElementNS("http://www.w3.org/2000/svg", "image");
+    image.setAttribute('href', color.texture);
+    image.setAttribute('width', '40');
+    image.setAttribute('height', '40');
+    image.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+
+    pattern.appendChild(image);
+    svg.appendChild(pattern);
+
+    // Создаем второй паттерн для шкафа (без поворота)
+    const wardrobePatternId = `wardrobe-pattern-${color.id}`;
+    const wardrobePattern = document.createElementNS("http://www.w3.org/2000/svg", "pattern");
+    wardrobePattern.setAttribute('id', wardrobePatternId);
+    wardrobePattern.setAttribute('patternUnits', 'userSpaceOnUse');
+    wardrobePattern.setAttribute('width', '40');
+    wardrobePattern.setAttribute('height', '40');
+
+    const wardrobeImage = document.createElementNS("http://www.w3.org/2000/svg", "image");
+    wardrobeImage.setAttribute('href', color.texture);
+    wardrobeImage.setAttribute('width', '40');
+    wardrobeImage.setAttribute('height', '40');
+    wardrobeImage.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+
+    wardrobePattern.appendChild(wardrobeImage);
+    svg.appendChild(wardrobePattern);
+
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute('d', d);
+    path.setAttribute('fill', `url(#${patternId})`);
+    path.setAttribute('stroke', '#fff');
+    path.setAttribute('stroke-width', '0');
+    path.style.cursor = 'pointer';
+    path.style.transition = 'transform 0.2s';
+    path.setAttribute('data-color-id', color.id);
+
+    path.onmouseenter = () => {
+        path.setAttribute('d', getSegmentPath(startAngle, endAngle, innerRadius, outerRadius + 10));
+        const words = color.name.split(' ');
+        if (words.length > 1) {
+            centerTextLine1.textContent = words[0];
+            centerTextLine2.textContent = words.slice(1).join(' ');
+        } else {
+            centerTextLine1.textContent = color.name;
+            centerTextLine2.textContent = '';
+        }
+        previewWardrobeColor(color);
+    };
+
+    path.onmouseleave = () => {
+        path.setAttribute('d', getSegmentPath(startAngle, endAngle, innerRadius, outerRadius));
+        centerTextLine1.textContent = '';
+        centerTextLine2.textContent = '';
+        updateWardrobeColors();
+    };
+
+    path.onclick = () => selectColor(color);
+
+    return path;
+}
+
+function getSegmentPath(startAngle, endAngle, innerRadius, outerRadius) {
+       const centerX = CENTER;
+       const centerY = CENTER;
+       const innerStartX = centerX + innerRadius * Math.cos(startAngle);
+       const innerStartY = centerY + innerRadius * Math.sin(startAngle);
+       const innerEndX = centerX + innerRadius * Math.cos(endAngle);
+       const innerEndY = centerY + innerRadius * Math.sin(endAngle);
+       const outerStartX = centerX + outerRadius * Math.cos(startAngle);
+       const outerStartY = centerY + outerRadius * Math.sin(startAngle);
+       const outerEndX = centerX + outerRadius * Math.cos(endAngle);
+       const outerEndY = centerY + outerRadius * Math.sin(endAngle);
+       const largeArcFlag = endAngle - startAngle > Math.PI ? 1 : 0;
+       return [
+           `M ${innerStartX} ${innerStartY}`,
+           `L ${outerStartX} ${outerStartY}`,
+           `A ${outerRadius} ${outerRadius} 0 ${largeArcFlag} 1 ${outerEndX} ${outerEndY}`,
+           `L ${innerEndX} ${innerEndY}`,
+           `A ${innerRadius} ${innerRadius} 0 ${largeArcFlag} 0 ${innerStartX} ${innerStartY}`,
+           'Z'
+       ].join(' ');
+   }
+            
+        function getLuminance(hex) {
+            const rgb = hex.match(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i).slice(1).map(x => parseInt(x, 16) / 255);
+            return 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2];
+        }
+
+        function selectColor(color, event) {
+    // Если нет активного слота — подсветить следующий пустой и показать надпись
+    if (!activeSlot) {
+        const slots = Array.from(selectedColorsContainer.children);
+        const nextEmptySlot = slots.find(slot => !slot.classList.contains('filled'));
+        if (nextEmptySlot) {
+            // Снимаем подсветку со всех
+            slots.forEach(slot => slot.classList.remove('active'));
+            // Подсвечиваем и показываем надпись
+            nextEmptySlot.classList.add('active');
+            const oldHtml = nextEmptySlot.innerHTML;
+            nextEmptySlot.innerHTML = '<div style="width:100%;text-align:center;color:#333;font-weight:bold;font-size:15px;">Сначала нажмите сюда!</div>';
+            nextEmptySlot.style.backgroundColor = '#d4f7d4';
+            setTimeout(() => {
+                nextEmptySlot.classList.remove('active');
+                nextEmptySlot.style.backgroundColor = '';
+                nextEmptySlot.innerHTML = oldHtml;
+                updateSelectedColors();
+            }, 2000);
+        }
+        return;
+    }
+
+    const slotIndex = Array.from(selectedColorsContainer.children).indexOf(activeSlot);
+    selectedColors[slotIndex] = color;
+    fixedPreviewColor = null;
+
+    // После выбора делаем этот слот активным для шкафа
+    const slotType = activeSlot.getAttribute('data-type');
+    if (slotType === 'facade') {
+        activeFacadeSlot = slotIndex;
+    } else {
+        activeBodySlot = slotIndex;
+    }
+
+    activeSlot = null;
+    updateSelectedColors();
+    updateWardrobeColors();
+    updateSubmitButtonState();
+}
+
+function updateSelectedColors() {
+    const slots = selectedColorsContainer.children;
+    Array.from(slots).forEach((slot, index) => {
+        const color = selectedColors[index];
+        const slotType = slot.getAttribute('data-type');
+        const defaultText = slotType === 'facade' 
+            ? 'для выбора нажми <strong>здесь</strong><br>выберите цвет из круга для фасада'
+            : 'для выбора нажми <strong>здесь</strong><br>выберите цвет из круга для корпуса';
+
+        slot.classList.remove('filled', 'active');
+        slot.innerHTML = '';
+
+        if (color) {
+            const preview = document.createElement('div');
+            preview.className = 'color-preview';
+            preview.style.background = `url(${color.texture})`;
+
+            const nameDiv = document.createElement('div');
+            nameDiv.className = 'color-name';
+            nameDiv.textContent = `${color.name} (${slotType === 'facade' ? 'фасад' : 'корпус'})`;
+
+            const deleteIcon = document.createElement('div');
+            deleteIcon.className = 'delete-icon';
+            deleteIcon.onclick = (e) => {
+                e.stopPropagation();
+                selectedColors[index] = null;
+                if (slotType === 'facade' && activeFacadeSlot === index) activeFacadeSlot = null;
+                if (slotType === 'body' && activeBodySlot === index) activeBodySlot = null;
+                if (activeSlot === slot) activeSlot = null;
+                updateSelectedColors();
+                updateSubmitButtonState();
+                updateWardrobeColors();
+            };
+
+            slot.appendChild(preview);
+            slot.appendChild(nameDiv);
+            slot.appendChild(deleteIcon);
+
+            slot.classList.add('filled');
+        } else {
+            slot.innerHTML = `
+                <div class="default-text" style="white-space: pre-line">${defaultText}</div>
+            `;
+        }
+
+        // Подсветка для всех слотов (фасад и корпус)
+        // Подсветка для активного слота (пустого или заполненного)
+if (activeSlot === slot) {
+    slot.classList.add('active');
+} else if (
+    (slotType === 'facade' && activeFacadeSlot === index) ||
+    (slotType === 'body' && activeBodySlot === index)
+) {
+    slot.classList.add('active');
+}
+
+        // Клик по слоту
+        slot.onclick = () => {
+    if (color) {
+        // Клик по заполненному — фиксируем предпросмотр
+        fixedPreviewColor = color;
+        // Подсвечиваем только этот слот
+        if (slotType === 'facade') {
+            activeFacadeSlot = index;
+        } else {
+            activeBodySlot = index;
+        }
+        updateWardrobeColors();
+        updateSelectedColors();
+    } else {
+        // Клик по пустому — выбор для круга
+        activeSlot = slot;
+        fixedPreviewColor = null;
+        updateSelectedColors();
+        updateWardrobeColors();
+    }
+};
+    });
+}
+
+function updateSubmitButtonState() {
+    const anyFilled = selectedColors.some(Boolean);
+    submitButton.classList.toggle('active', anyFilled);
+    submitButton.disabled = !anyFilled;
+}
+        function previewSlotColor(color, slotType) {
+            const facadeElements = document.querySelectorAll('[id^="Fasad"]');
+            const korpusElement = document.getElementById('Korpus');
+            
+            if (slotType === 'facade') {
+                facadeElements.forEach(element => {
+                    element.setAttribute('fill', `url(#wardrobe-pattern-${color.id})`);
+                });
+            } else {
+                korpusElement.setAttribute('fill', `url(#wardrobe-pattern-${color.id})`);
+                const paths = korpusElement.getElementsByTagName('path');
+                Array.from(paths).forEach(path => {
+                    path.setAttribute('fill', `url(#wardrobe-pattern-${color.id})`);
+                });
+            }
+        }
+
+        function updateWardrobeColors() {
+    const facadeElements = document.querySelectorAll('[id^="Fasad"]');
+    const korpusElement = document.getElementById('Korpus');
+
+    // Если есть зафиксированный предпросмотр
+    if (fixedPreviewColor) {
+        // Определяем тип слота по активному слоту
+        // Если fixedPreviewColor выбран через клик по слоту, ищем его тип
+        let slotType = null;
+        // Найти индекс fixedPreviewColor в selectedColors
+        const idx = selectedColors.findIndex(c => c && c.id === fixedPreviewColor.id);
+        if (idx !== -1) {
+            slotType = selectedColorsContainer.children[idx].getAttribute('data-type');
+        }
+        if (slotType === 'facade') {
+            facadeElements.forEach(element => {
+                element.setAttribute('fill', `url(#wardrobe-pattern-${fixedPreviewColor.id})`);
+            });
+        } else if (slotType === 'body') {
+            korpusElement.setAttribute('fill', `url(#wardrobe-pattern-${fixedPreviewColor.id})`);
+            const paths = korpusElement.getElementsByTagName('path');
+            Array.from(paths).forEach(path => {
+                path.setAttribute('fill', `url(#wardrobe-pattern-${fixedPreviewColor.id})`);
+            });
+        }
+        return;
+    }
+
+    // --- Вот тут меняем! ---
+    // Используем активный слот, а не первый заполненный
+    let facadeIdx = activeFacadeSlot;
+    let bodyIdx = activeBodySlot;
+
+    // Если нет активного — fallback на первый заполненный
+    if (facadeIdx == null) {
+        facadeIdx = Array.from(selectedColorsContainer.children).findIndex(
+            (slot, idx) => slot.getAttribute('data-type') === 'facade' && selectedColors[idx]
+        );
+    }
+    if (bodyIdx == null) {
+        bodyIdx = Array.from(selectedColorsContainer.children).findIndex(
+            (slot, idx) => slot.getAttribute('data-type') === 'body' && selectedColors[idx]
+        );
+    }
+
+    // Фасады
+    if (facadeIdx != null && selectedColors[facadeIdx]) {
+        facadeElements.forEach(element => {
+            element.setAttribute('fill', `url(#wardrobe-pattern-${selectedColors[facadeIdx].id})`);
+        });
+    } else {
+        facadeElements.forEach(element => {
+            element.setAttribute('fill', 'white');
+        });
+    }
+
+    // Корпус
+    if (bodyIdx != null && selectedColors[bodyIdx]) {
+        korpusElement.setAttribute('fill', `url(#wardrobe-pattern-${selectedColors[bodyIdx].id})`);
+        const paths = korpusElement.getElementsByTagName('path');
+        Array.from(paths).forEach(path => {
+            path.setAttribute('fill', `url(#wardrobe-pattern-${selectedColors[bodyIdx].id})`);
+        });
+    } else {
+        korpusElement.setAttribute('fill', '#D9D9D9');
+        const paths = korpusElement.getElementsByTagName('path');
+        Array.from(paths).forEach(path => {
+            path.setAttribute('fill', '#D9D9D9');
+        });
+    }
+}
+
+        function previewWardrobeColor(color) {
+            const facadeElements = document.querySelectorAll('[id^="Fasad"]');
+            const korpusElement = document.getElementById('Korpus');
+            
+            const emptyFacadeSlot = Array.from(selectedColorsContainer.children)
+                .find(slot => slot.getAttribute('data-type') === 'facade' && !slot.classList.contains('filled'));
+            
+            const emptyBodySlot = Array.from(selectedColorsContainer.children)
+                .find(slot => slot.getAttribute('data-type') === 'body' && !slot.classList.contains('filled'));
+
+            if (emptyFacadeSlot) {
+                facadeElements.forEach(element => {
+                    element.setAttribute('fill', `url(#wardrobe-pattern-${color.id})`);
+                });
+            } else if (emptyBodySlot) {
+                korpusElement.setAttribute('fill', `url(#wardrobe-pattern-${color.id})`);
+                const paths = korpusElement.getElementsByTagName('path');
+                Array.from(paths).forEach(path => {
+                    path.setAttribute('fill', `url(#wardrobe-pattern-${color.id})`);
+                });
+            }
+        }
+
+        function showToast(message, x = null, y = null) {
+    const toast = document.createElement('div');
+    toast.textContent = message;
+    toast.style.position = 'fixed';
+    toast.style.background = '#333';
+    toast.style.color = '#fff';
+    toast.style.padding = '14px 24px';
+    toast.style.borderRadius = '8px';
+    toast.style.zIndex = 9999;
+    toast.style.fontSize = '16px';
+    toast.style.pointerEvents = 'none';
+    toast.style.transition = 'opacity 0.2s';
+    toast.style.opacity = '0.95';
+
+    // Если координаты переданы — показываем у курсора, иначе в углу
+    if (x !== null && y !== null) {
+        toast.style.left = x + 15 + 'px';
+        toast.style.top = y + 15 + 'px';
+    } else {
+        toast.style.top = '30px';
+        toast.style.right = '30px';
+    }
+
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2000);
+    submitButton.addEventListener('click', function() {
+    // Собираем выбранные цвета
+    const selected = selectedColors
+        .map((color, idx) => color ? ({
+            id: color.id,
+            name: color.name,
+            type: selectedColorsContainer.children[idx].getAttribute('data-type')
+        }) : null)
+        .filter(Boolean);
+
+    if (!selected.length) {
+        alert('Выберите хотя бы один образец!');
+        return;
+    }
+
+    fetch('/wp-admin/admin-ajax.php', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: 'action=add_samples_to_cart&samples=' + encodeURIComponent(JSON.stringify(selected))
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            // Редиректим в корзину WooCommerce
+            window.location.href = '/cart/';
+        } else {
+            alert('Ошибка добавления в корзину');
+        }
+    });
+});
+}
+
+        // Инициализация состояния кнопки
+        updateSelectedColors();
+updateSubmitButtonState();
+    </script>
+</body>
+</html>

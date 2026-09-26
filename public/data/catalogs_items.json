@@ -1,0 +1,372 @@
+{
+  "catalog_cabinet": {
+    "items": {
+      "1": {
+        "id": "1",
+        "name": "Корпус шкафа (стандарт)",
+        "code": "CORP-STD",
+        "icon": "",
+        "element_type": "catalog_cabinet",
+        "params": {
+          "type": "module",
+          "name": "Корпус шкафа (стандарт)",
+          "spec": {
+            "element_type": "catalog_cabinet",
+            "cabinet_group": "bottom"
+          },
+          "size": { "x": 400, "y": 2200, "z": 600 },
+          "templates": [{
+            "name": "Авто",
+            "template": {
+              "tree": [
+                {
+                  "type": "section",
+                  "name": "Секция корпуса",
+                  "size": { "x": "s:x", "y": "s:y", "z": "s:z" },
+                  "children": [
+                    {
+                      "type": "wall",
+                      "name": "Левая стенка",
+                      "spec": { "orientation": "v", "type": "common", "key": "left" },
+                      "size": { "x": 16, "y": "s:y", "z": "s:z" },
+                      "pos": { "x": 0, "y": 0, "z": 0 },
+                      "pivot": { "x": -1, "y": -1, "z": -1 }
+                    },
+                    {
+                      "type": "wall",
+                      "name": "Правая стенка",
+                      "spec": { "orientation": "v", "type": "common", "key": "right" },
+                      "size": { "x": 16, "y": "s:y", "z": "s:z" },
+                      "pos": { "x": "s:x - 16", "y": 0, "z": 0 },
+                      "pivot": { "x": -1, "y": -1, "z": -1 }
+                    },
+                    {
+                      "type": "wall",
+                      "name": "Верхняя стенка",
+                      "spec": { "orientation": "h", "type": "common", "key": "top" },
+                      "size": { "x": "s:x - 32", "y": 16, "z": "s:z" },
+                      "pos": { "x": 16, "y": "s:y - 16", "z": 0 },
+                      "pivot": { "x": -1, "y": -1, "z": -1 }
+                    },
+                    {
+                      "type": "wall",
+                      "name": "Нижняя стенка",
+                      "spec": { "orientation": "h", "type": "common", "key": "bottom" },
+                      "size": { "x": "s:x - 32", "y": 16, "z": "s:z" },
+                      "pos": { "x": 16, "y": 0, "z": 0 },
+                      "pivot": { "x": -1, "y": -1, "z": -1 }
+                    },
+                    {
+                      "type": "wall",
+                      "name": "Задняя стенка",
+                      "spec": { "orientation": "f", "type": "common", "key": "back" },
+                      "size": { "x": "s:x - 32", "y": "s:y - 32", "z": 3 },
+                      "pos": { "x": 16, "y": 16, "z": 0 },
+                      "pivot": { "x": -1, "y": -1, "z": -1 }
+                    }
+                  ]
+                }
+              ]
+            }
+          }]
+        }
+      },
+      "2": {
+        "id": "2",
+        "name": "Корпус шкафа с полкой",
+        "code": "CORP-SHELF",
+        "icon": "",
+        "element_type": "catalog_cabinet",
+        "params": {
+          "type": "module",
+          "name": "Корпус шкафа с полкой",
+          "spec": {
+            "element_type": "catalog_cabinet",
+            "cabinet_group": "bottom"
+          },
+          "size": { "x": 400, "y": 2200, "z": 600 },
+          "templates": [{
+            "name": "Авто",
+            "template": {
+              "tree": [
+                {
+                  "type": "section",
+                  "name": "Секция корпуса",
+                  "size": { "x": "s:x", "y": "s:y", "z": "s:z" },
+                  "children": [
+                    {
+                      "type": "wall",
+                      "name": "Левая стенка",
+                      "spec": { "orientation": "v", "type": "common", "key": "left" },
+                      "size": { "x": 16, "y": "s:y", "z": "s:z" },
+                      "pos": { "x": 0, "y": 0, "z": 0 },
+                      "pivot": { "x": -1, "y": -1, "z": -1 }
+                    },
+                    {
+                      "type": "wall",
+                      "name": "Правая стенка",
+                      "spec": { "orientation": "v", "type": "common", "key": "right" },
+                      "size": { "x": 16, "y": "s:y", "z": "s:z" },
+                      "pos": { "x": "s:x - 16", "y": 0, "z": 0 },
+                      "pivot": { "x": -1, "y": -1, "z": -1 }
+                    },
+                    {
+                      "type": "wall",
+                      "name": "Верхняя стенка",
+                      "spec": { "orientation": "h", "type": "common", "key": "top" },
+                      "size": { "x": "s:x - 32", "y": 16, "z": "s:z" },
+                      "pos": { "x": 16, "y": "s:y - 16", "z": 0 },
+                      "pivot": { "x": -1, "y": -1, "z": -1 }
+                    },
+                    {
+                      "type": "wall",
+                      "name": "Нижняя стенка",
+                      "spec": { "orientation": "h", "type": "common", "key": "bottom" },
+                      "size": { "x": "s:x - 32", "y": 16, "z": "s:z" },
+                      "pos": { "x": 16, "y": 0, "z": 0 },
+                      "pivot": { "x": -1, "y": -1, "z": -1 }
+                    },
+                    {
+                      "type": "wall",
+                      "name": "Задняя стенка",
+                      "spec": { "orientation": "f", "type": "common", "key": "back" },
+                      "size": { "x": "s:x - 32", "y": "s:y - 32", "z": 3 },
+                      "pos": { "x": 16, "y": 16, "z": 0 },
+                      "pivot": { "x": -1, "y": -1, "z": -1 }
+                    },
+                    {
+                      "type": "wall",
+                      "name": "Полка",
+                      "spec": { "orientation": "h", "type": "common", "key": "shelf" },
+                      "size": { "x": "s:x - 32", "y": 16, "z": "s:z - 3" },
+                      "pos": { "x": 16, "y": "s:y / 2 - 8", "z": 3 },
+                      "pivot": { "x": -1, "y": -1, "z": -1 }
+                    }
+                  ]
+                }
+              ]
+            }
+          }]
+        }
+      }
+    }
+  },
+  "catalog_shelves": {
+    "items": {
+      "1": {
+        "id": "1",
+        "name": "Полка горизонтальная",
+        "code": "SHELF-H",
+        "icon": "",
+        "element_type": "catalog_shelves",
+        "params": {
+          "type": "module",
+          "name": "Полка горизонтальная",
+          "spec": { "element_type": "catalog_shelves" },
+          "size": { "x": "s:x", "y": 16, "z": "s:z" },
+          "templates": [{
+            "name": "Авто",
+            "template": {
+              "tree": [
+                {
+                  "type": "wall",
+                  "name": "Полка",
+                  "spec": { "orientation": "h", "type": "common", "key": "shelf" },
+                  "size": { "x": "s:x", "y": 16, "z": "s:z" },
+                  "pos": { "x": 0, "y": 0, "z": 0 },
+                  "pivot": { "x": -1, "y": -1, "z": -1 }
+                }
+              ]
+            }
+          }]
+        }
+      },
+      "2": {
+        "id": "2",
+        "name": "Перегородка вертикальная",
+        "code": "SHELF-V",
+        "icon": "",
+        "element_type": "catalog_shelves",
+        "params": {
+          "type": "module",
+          "name": "Перегородка вертикальная",
+          "spec": { "element_type": "catalog_shelves" },
+          "size": { "x": 16, "y": "s:y", "z": "s:z" },
+          "templates": [{
+            "name": "Авто",
+            "template": {
+              "tree": [
+                {
+                  "type": "wall",
+                  "name": "Перегородка",
+                  "spec": { "orientation": "v", "type": "common", "key": "divider" },
+                  "size": { "x": 16, "y": "s:y", "z": "s:z" },
+                  "pos": { "x": 0, "y": 0, "z": 0 },
+                  "pivot": { "x": -1, "y": -1, "z": -1 }
+                }
+              ]
+            }
+          }]
+        }
+      }
+    }
+  },
+  "catalog_door": {
+    "items": {
+      "1": {
+        "id": "1",
+        "name": "Дверь распашная Л/П",
+        "code": "DOOR-LP",
+        "icon": "",
+        "element_type": "catalog_door",
+        "params": {
+          "type": "module",
+          "name": "Дверь распашная Л/П",
+          "spec": { "element_type": "catalog_door" },
+          "size": { "x": "s:x", "y": "s:y", "z": 18 },
+          "templates": [{
+            "name": "Авто",
+            "template": {
+              "tree": [
+                {
+                  "type": "facade",
+                  "name": "Фасад двери",
+                  "spec": { "id": "1" },
+                  "size": { "x": "s:x", "y": "s:y", "z": 18 },
+                  "pos": { "x": 0, "y": 0, "z": "s:z" },
+                  "pivot": { "x": -1, "y": -1, "z": -1 }
+                }
+              ]
+            }
+          }]
+        }
+      },
+      "2": {
+        "id": "2",
+        "name": "Дверь двустворчатая",
+        "code": "DOOR-2",
+        "icon": "",
+        "element_type": "catalog_door",
+        "params": {
+          "type": "module",
+          "name": "Дверь двустворчатая",
+          "spec": { "element_type": "catalog_door" },
+          "size": { "x": "s:x", "y": "s:y", "z": 18 },
+          "templates": [{
+            "name": "Авто",
+            "template": {
+              "tree": [
+                {
+                  "type": "section",
+                  "name": "Секция дверей",
+                  "size": { "x": "s:x", "y": "s:y", "z": 18 },
+                  "children": [
+                    {
+                      "type": "facade",
+                      "name": "Левая створка",
+                      "spec": { "id": "1" },
+                      "size": { "x": "s:x / 2 - 1", "y": "s:y", "z": 18 },
+                      "pos": { "x": 0, "y": 0, "z": "s:z" },
+                      "pivot": { "x": -1, "y": -1, "z": -1 }
+                    },
+                    {
+                      "type": "facade",
+                      "name": "Правая створка",
+                      "spec": { "id": "1" },
+                      "size": { "x": "s:x / 2 - 1", "y": "s:y", "z": 18 },
+                      "pos": { "x": "s:x / 2 + 1", "y": 0, "z": "s:z" },
+                      "pivot": { "x": -1, "y": -1, "z": -1 }
+                    }
+                  ]
+                }
+              ]
+            }
+          }]
+        }
+      }
+    }
+  },
+  "catalog_module": {
+    "items": {
+      "1": {
+        "id": "1",
+        "name": "Шкаф однодверный",
+        "code": "MOD-1D",
+        "icon": "",
+        "element_type": "catalog_module",
+        "params": {
+          "type": "module",
+          "name": "Шкаф однодверный",
+          "spec": {
+            "element_type": "catalog_module",
+            "cabinet_group": "bottom"
+          },
+          "size": { "x": 400, "y": 2200, "z": 600 },
+          "templates": [{
+            "name": "Авто",
+            "template": {
+              "tree": [
+                {
+                  "type": "section",
+                  "name": "Корпус",
+                  "size": { "x": "s:x", "y": "s:y", "z": "s:z" },
+                  "children": [
+                    {
+                      "type": "wall", "name": "Левая стенка",
+                      "spec": { "orientation": "v", "key": "left" },
+                      "size": { "x": 16, "y": "s:y", "z": "s:z" },
+                      "pos": { "x": 0, "y": 0, "z": 0 },
+                      "pivot": { "x": -1, "y": -1, "z": -1 }
+                    },
+                    {
+                      "type": "wall", "name": "Правая стенка",
+                      "spec": { "orientation": "v", "key": "right" },
+                      "size": { "x": 16, "y": "s:y", "z": "s:z" },
+                      "pos": { "x": "s:x - 16", "y": 0, "z": 0 },
+                      "pivot": { "x": -1, "y": -1, "z": -1 }
+                    },
+                    {
+                      "type": "wall", "name": "Верх",
+                      "spec": { "orientation": "h", "key": "top" },
+                      "size": { "x": "s:x - 32", "y": 16, "z": "s:z" },
+                      "pos": { "x": 16, "y": "s:y - 16", "z": 0 },
+                      "pivot": { "x": -1, "y": -1, "z": -1 }
+                    },
+                    {
+                      "type": "wall", "name": "Низ",
+                      "spec": { "orientation": "h", "key": "bottom" },
+                      "size": { "x": "s:x - 32", "y": 16, "z": "s:z" },
+                      "pos": { "x": 16, "y": 0, "z": 0 },
+                      "pivot": { "x": -1, "y": -1, "z": -1 }
+                    },
+                    {
+                      "type": "wall", "name": "Задняя стенка",
+                      "spec": { "orientation": "f", "key": "back" },
+                      "size": { "x": "s:x - 32", "y": "s:y - 32", "z": 3 },
+                      "pos": { "x": 16, "y": 16, "z": 0 },
+                      "pivot": { "x": -1, "y": -1, "z": -1 }
+                    },
+                    {
+                      "type": "wall", "name": "Полка",
+                      "spec": { "orientation": "h", "key": "shelf" },
+                      "size": { "x": "s:x - 32", "y": 16, "z": "s:z - 3" },
+                      "pos": { "x": 16, "y": "s:y / 2 - 8", "z": 3 },
+                      "pivot": { "x": -1, "y": -1, "z": -1 }
+                    },
+                    {
+                      "type": "facade", "name": "Фасад",
+                      "spec": { "id": "1" },
+                      "size": { "x": "s:x", "y": "s:y", "z": 18 },
+                      "pos": { "x": 0, "y": 0, "z": "s:z" },
+                      "pivot": { "x": -1, "y": -1, "z": -1 }
+                    }
+                  ]
+                }
+              ]
+            }
+          }]
+        }
+      }
+    }
+  }
+}

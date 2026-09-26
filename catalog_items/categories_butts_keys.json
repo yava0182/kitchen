@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "name": "нгш",
+    "parent": null,
+    "description": ""
+  },
+  {
+    "id": 2,
+    "name": "Опоры",
+    "parent": null,
+    "description": ""
+  },
+  {
+    "id": 3,
+    "name": "Опора 100",
+    "parent": 2,
+    "description": ""
+  },
+  {
+    "id": 4,
+    "name": "Опора1",
+    "parent": null,
+    "description": ""
+  },
+  {
+    "id": 5,
+    "name": "Опора",
+    "parent": null,
+    "description": ""
+  },
+  {
+    "id": 6,
+    "name": "Ручка",
+    "parent": null,
+    "description": ""
+  },
+  {
+    "id": 7,
+    "name": "CLODIS",
+    "parent": null,
+    "description": ""
+  },
+  {
+    "id": 8,
+    "name": "Клодис",
+    "parent": null,
+    "description": ""
+  },
+  {
+    "id": 9,
+    "name": "клодис2",
+    "parent": null,
+    "description": ""
+  }
+]

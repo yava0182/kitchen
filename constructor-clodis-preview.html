@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clodis - 3D Preview</title>
+  <style>
+    html, body { width: 100%; height: 100%; margin: 0; padding: 0; overflow: visible; background: #f0f0f0; }
+    #viewport { 
+      width: 100vw; 
+      height: 100vh; 
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      z-index: 1;
+      background: #e0e0e0;
+    }
+    #status {
+      position: fixed;
+      top: 8px;
+      left: 8px;
+      right: auto;
+      max-width: 400px;
+      font: 12px/1.3 -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      color: #111;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 6px;
+      padding: 8px 10px;
+      pointer-events: none;
+      z-index: 100;
+      white-space: pre-wrap;
+    }
+  </style>
+
+  <!-- Как в референсе: глобальные переменные и событие -->
+  <script>
+    const event = new Event('Glob_ready');
+    let glob = '';
+    window.PP_EMBEDDED_PREVIEW = true; // ✅ Включено - пропускает антидебаг код в main_core_v2.js
+    window.__PP_DEBUG = true;
+    
+    // 🔧 PATCH: Add timeout to fetch to prevent hanging
+    (function() {
+      const originalFetch = window.fetch;
+      const FETCH_TIMEOUT = 10000; // 10 seconds
+      
+      window.fetch = function(...args) {
+        console.log('[Clodis-preview] fetch with timeout:', args[0]);
+        
+        return Promise.race([
+          originalFetch.apply(this, args).then(response => {
+            console.log('[Clodis-preview] fetch success:', args[0], response.status);
+            return response;
+          }).catch(err => {
+            console.error('[Clodis-preview] fetch error:', args[0], err);
+            throw err;
+          }),
+          new Promise((_, reject) => 
+            setTimeout(() => {
+              console.error('[Clodis-preview] fetch TIMEOUT:', args[0]);
+              reject(new Error('Fetch timeout after ' + FETCH_TIMEOUT + 'ms'));
+            }, FETCH_TIMEOUT)
+          )
+        ]);
+      };
+      
+      console.log('[Clodis-preview] fetch wrapper installed with', FETCH_TIMEOUT, 'ms timeout');
+    })();
+    
+    // 🔧 Глобальная заглушка для controls (OrbitControls создаётся движком позже)
+    window.controls = null;
+
+    window.addEventListener('error', (e) => {
+      try { console.error('❌ [Clodis-preview] window.onerror', e?.message || e); } catch {}
+      const el = document.getElementById('status');
+      if (el) el.textContent = 'ERROR: ' + (e?.message || String(e));
+    });
+    window.addEventListener('unhandledrejection', (e) => {
+      try { console.error('❌ [Clodis-preview] unhandledrejection', e?.reason || e); } catch {}
+      const el = document.getElementById('status');
+      if (el) el.textContent = 'PROMISE ERROR: ' + String(e?.reason || e);
+    });
+  </script>
+
+  <!-- IMPORTANT: classic scripts so main_core_v2.js can hook DOMContentLoaded (as in reference) -->
+  <!-- Локальные vendor-сборки (без CDN) -->
+  <script src="/vendor/three137/three.min.js"></script>
+  <script>
+    // Stub WEBGL для main_core_v2.js (проверяет поддержку WebGL)
+    if (!window.WEBGL) {
+      window.WEBGL = {
+        isWebGLAvailable: function() { return true; },
+        isWebGL2Available: function() { return true; },
+        getWebGLErrorMessage: function() { return document.createElement('div'); },
+        getWebGL2ErrorMessage: function() { return document.createElement('div'); }
+      };
+    }
+  </script>
+  <script src="/vendor/three137/OrbitControls.js"></script>
+  <script src="/vendor/three137/CSS2DRenderer.js"></script>
+  <script src="/vendor/three137/FontLoader.js"></script>
+  <script src="/vendor/three137/TextGeometry.js"></script>
+  <script src="/vendor/three137/tween.min.js"></script>
+  <!-- FBXLoader (версии под three r137) -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.137.5/examples/js/loaders/FBXLoader.js"></script>
+  <script>
+    // 🔧 PATCH: Обработка ошибок FBXLoader, чтобы они не блокировали инициализацию
+    if (typeof THREE !== 'undefined' && THREE.FBXLoader) {
+      const OriginalFBXLoader = THREE.FBXLoader;
+      THREE.FBXLoader = function(manager) {
+        const loader = new OriginalFBXLoader(manager);
+        const originalLoad = loader.load.bind(loader);
+        
+        loader.load = function(url, onLoad, onProgress, onError) {
+          const wrappedOnError = onError || function(error) {
+            console.warn('[Clodis-preview] ⚠️ FBX загрузка не удалась (это нормально для моков):', url, error?.message || error);
+            // Создаем пустую группу с минимальной геометрией вместо ошибки
+            if (onLoad) {
+              try {
+                const emptyGroup = new THREE.Group();
+                emptyGroup.name = 'EmptyFBX_' + url.split('/').pop();
+                // Добавляем пустой mesh, чтобы группа была видима
+                const geometry = new THREE.BoxGeometry(0.001, 0.001, 0.001);
+                const material = new THREE.MeshBasicMaterial({ visible: false });
+                const mesh = new THREE.Mesh(geometry, material);
+                emptyGroup.add(mesh);
+                // Устанавливаем children как массив для совместимости
+                if (!emptyGroup.children) {
+                  emptyGroup.children = [];
+                }
+                onLoad(emptyGroup);
+              } catch (e) {
+                console.error('[Clodis-preview] ❌ Ошибка при создании пустой группы:', e);
+                // Если даже это не работает, просто вызываем onLoad с пустой группой
+                if (onLoad) {
+                  const emptyGroup = new THREE.Group();
+                  emptyGroup.name = 'EmptyFBX_' + url.split('/').pop();
+                  emptyGroup.children = [];
+                  onLoad(emptyGroup);
+                }
+              }
+            }
+          };
+          
+          // Обертываем onLoad, чтобы обработать ошибки парсинга
+          const wrappedOnLoad = onLoad ? function(object) {
+            try {
+              // Проверяем, что объект валиден и имеет children
+              if (object && object.children && Array.isArray(object.children) && object.children.length > 0) {
+                // Проверяем, что первый child имеет geometry
+                if (object.children[0] && object.children[0].geometry) {
+                  onLoad(object);
+                } else {
+                  console.warn('[Clodis-preview] ⚠️ FBX загружен, но children[0].geometry отсутствует, создаем валидную структуру');
+                  // Создаем валидную структуру с geometry
+                  const emptyGeometry = new THREE.BoxGeometry(0.001, 0.001, 0.001);
+                  const emptyMaterial = new THREE.MeshBasicMaterial({ visible: false });
+                  const emptyMesh = new THREE.Mesh(emptyGeometry, emptyMaterial);
+                  object.children = [emptyMesh];
+                  onLoad(object);
+                }
+              } else {
+                console.warn('[Clodis-preview] ⚠️ FBX загружен, но children пуст или невалиден, создаем валидную структуру');
+                // Создаем валидную структуру
+                if (!object.children) {
+                  object.children = [];
+                }
+                const emptyGeometry = new THREE.BoxGeometry(0.001, 0.001, 0.001);
+                const emptyMaterial = new THREE.MeshBasicMaterial({ visible: false });
+                const emptyMesh = new THREE.Mesh(emptyGeometry, emptyMaterial);
+                object.children.push(emptyMesh);
+                onLoad(object);
+              }
+            } catch (e) {
+              console.error('[Clodis-preview] ❌ Ошибка в onLoad:', e);
+              wrappedOnError(e);
+            }
+          } : undefined;
+          
+          return originalLoad(url, wrappedOnLoad, onProgress, wrappedOnError);
+        };
+        
+        return loader;
+      };
+      console.log('[Clodis-preview] ✅ FBXLoader обернут для обработки ошибок');
+    }
+  </script>
+  <!-- GLTFLoader (версии под three r137) -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.137.5/examples/js/loaders/GLTFLoader.js"></script>
+  <!-- OBJLoader (версии под three r137) -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.137.5/examples/js/loaders/OBJLoader.js"></script>
+  <!-- TDSLoader (версии под three r137) -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.137.5/examples/js/loaders/TDSLoader.js"></script>
+  <!-- ColladaLoader (версии под three r137) -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.137.5/examples/js/loaders/ColladaLoader.js"></script>
+  <!-- OBJExporter (версии под three r137) -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.137.5/examples/js/exporters/OBJExporter.js"></script>
+  <script>
+    // Stub BatchedMesh for three-mesh-bvh when using older THREE builds without it
+    if (!window.THREE.BatchedMesh) {
+      function BatchedMesh() {}
+      BatchedMesh.prototype = {};
+      window.THREE.BatchedMesh = BatchedMesh;
+    }
+  </script>
+</head>
+<body>
+  <!-- Как в референсе: common_functions.js читает base_url из инпутов -->
+  <input id="ajax_base_url" type="hidden" value="/" />
+  <input id="acc_base_url" type="hidden" value="/" />
+  <input id="interface_version" type="hidden" value="2" />
+  <!-- Минимальные данные, которые ожидает common_functions.js -->
+  <input id="item_id" type="hidden" value="0" />
+  <input id="footer_controller_name" type="hidden" value="" />
+  <input id="footer_is_common" type="hidden" value="0" />
+  <input id="lang_json" type="hidden" value="{}" />
+  <input id="lang_front_json" type="hidden" value="{}" />
+  <input id="ini_json" type="hidden" value="{}" />
+  <script id="ini_settings" type="application/json">{}</script>
+
+  <!-- ВАЖНО: data-preview="true" включает view_mode внутри main_core_v2.js -->
+  <!-- Референс: main_core_v2.js:72224 - view_mode определяется по data-preview -->
+  <!-- Референс: main_core_v2.js:63535 - если view_mode=true, модуль создается автоматически -->
+  <div id="viewport" data-preview="true"></div>
+  <div id="status">Loading preview…</div>
+
+  <!-- Order matters (like reference): libs -> common_functions -> main_core_v2 -->
+  <script src="/vendor/jquery_3_3_1.min.js"></script>
+  <script src="/vendor/lodash.js"></script>
+  <script src="/vendor/THREE_BufferGeometryUtils_FULL.js"></script>
+  <script src="/vendor/three-mesh-bvh-091.js"></script>
+  <script src="/vendor/three-bvh-csg.js"></script>
+  <script src="/vendor/common_functions.js"></script>
+  <script>
+    console.log('[Clodis-preview] before main_core_v2.js');
+    const statusBeforeCore = document.getElementById('status');
+    if (statusBeforeCore) statusBeforeCore.textContent = 'Before main_core_v2.js…';
+    
+    // ⭐ CRITICAL: Заглушки для предотвращения падений движка на forEach
+    // Движок ожидает эти глобальные данные после загрузки API
+    window.project_settings = window.project_settings || {
+      materials: { 
+        top: { facades: [], corpus: [], back_wall_material: {} }, 
+        bottom: { facades: [], corpus: [], back_wall_material: {} } 
+      },
+      accessories: [],
+      accessory_types: [],
+      global_variables: [],
+      mat_groups: {}
+    };
+    
+    window.available_data = window.available_data || {
+      materials: [],
+      accessories: [],
+      accessory_types: [],
+      global_variables: [],
+      mat_groups: {},
+      settings: {},
+      models: []
+    };
+    
+    // ⭐ CRITICAL: Заглушки для pp — НЕ ПЕРЕЗАПИСЫВАЕМ pp.three!
+    // Создаём только базовую структуру, main_core_v2.js заполнит остальное
+    if (!window.pp) {
+      window.pp = {
+        config: { on_demand_render: false },
+        events: { global: {} },
+        interface: { root: { radial_hide: function() {}, $emit: function() {} } },
+        render: function() { console.warn('[stub] pp.render called'); }
+      };
+    }
+    // НЕ создаём pp.three здесь — пусть main_core_v2.js создаст его сам!
+    
+    // ⚠️ НЕ создаем заглушку для sc - пусть main_core_v2.js создаст его сам (строка 11063: sc = scene_controller)
+    // Референс: main_core_v2.js:11063 - sc = scene_controller (реальный объект с add_object)
+    
+    // 🔧 Защита от ошибки в init(): facades_lib может быть undefined (строка 71725)
+    if (typeof facades_lib === 'undefined') {
+      window.facades_lib = { items: {} };
+    } else if (!facades_lib.items) {
+      facades_lib.items = {};
+    }
+  </script>
+  <script src="/vendor/main_core_v2.js?v=3"></script>
+  <script>
+    console.log('[Clodis-preview] after main_core_v2.js tag executed');
+    console.log('[Clodis-preview] MARKER preview-html v2 (2026-01-21)');
+    const statusAfterCore = document.getElementById('status');
+    if (statusAfterCore) statusAfterCore.textContent = 'After main_core_v2.js tag';
+  </script>
+
+  <script>
+    const status = document.getElementById('status');
+    function setStatus(msg) { if (status) status.textContent = msg; }
+
+    setStatus('Bootstrap JS: scripts loaded, preparing base data…');
+    console.log('[Clodis-preview] bootstrap start');
+    document.addEventListener('DOMContentLoaded', async () => {
+      console.log('[Clodis-preview] DOMContentLoaded fired');
+      setStatus('DOM ready, waiting for pp.libs.materials…');
+      
+      // ⭐ WAIT for pp.libs.materials (как в референсе!)
+      let checkCount = 0;
+      const waitForLibs = setInterval(() => {
+        checkCount++;
+        console.log(`[Clodis-preview] Waiting for pp.libs.materials… (${checkCount})`);
+        
+        if (window.pp && window.pp.libs && window.pp.libs.materials !== undefined) {
+          clearInterval(waitForLibs);
+          console.log('✅ [Clodis-preview] pp.libs.materials is ready!');
+          setStatus('pp.libs ready, calling init() and mount()…');
+          
+          try {
+            console.log('[Clodis-preview] Calling init()...');
+            if (typeof window.init === 'function') {
+              console.log('[Clodis-preview] window.init is a function, calling...');
+              const initResult = window.init();
+              console.log('✅ [Clodis-preview] init() completed, result:', initResult);
+              
+              // Сразу проверяем экспорт
+              console.log('[Clodis-preview] Проверка сразу после init():', {
+                room: !!window.room,
+                scene: !!window.scene,
+                d_objects: Array.isArray(window.d_objects)
+              });
+            } else {
+              console.error('❌ [Clodis-preview] window.init is NOT a function!', typeof window.init);
+            }
+              
+              // Проверяем, экспортировались ли room, scene, d_objects
+              setTimeout(() => {
+                console.log('[Clodis-preview] Проверка экспорта после init():', {
+                  room: !!window.room,
+                  scene: !!window.scene,
+                  d_objects: Array.isArray(window.d_objects),
+                  d_objects_length: Array.isArray(window.d_objects) ? window.d_objects.length : 'N/A'
+                });
+                
+                // Если не экспортировались, пробуем через pp.three
+                if (!window.room && window.pp && window.pp.three && window.pp.three.room) {
+                  console.log('[Clodis-preview] ⚠️ room не в window, но есть в pp.three.room, экспортируем...');
+                  window.room = window.pp.three.room;
+                  if (!window.scene) {
+                    // Пробуем найти scene через renderer или напрямую
+                    window.scene = window.pp.three.scene || 
+                                   (window.renderer && window.renderer.domElement && window.renderer.domElement.__scene) ||
+                                   (window.pp.three.renderer && window.pp.three.renderer.domElement && window.pp.three.renderer.domElement.__scene);
+                  }
+                  console.log('[Clodis-preview] ✅ Экспортировано через pp.three:', {
+                    room: !!window.room,
+                    scene: !!window.scene
+                  });
+                }
+                
+                // Если scene все еще нет, пробуем найти через глобальные переменные
+                if (!window.scene && typeof scene !== 'undefined') {
+                  console.log('[Clodis-preview] ⚠️ scene не в window, но есть глобальная переменная scene, экспортируем...');
+                  window.scene = scene;
+                }
+                
+                // Если d_objects все еще нет, пробуем найти через глобальные переменные
+                if (!window.d_objects && typeof d_objects !== 'undefined') {
+                  console.log('[Clodis-preview] ⚠️ d_objects не в window, но есть глобальная переменная, экспортируем...');
+                  window.d_objects = d_objects;
+                }
+                
+                // ⭐ КРИТИЧНО: Экспортируем sc (scene_controller) в window.sc
+                // В референсе это `let scene_controller = {...}` и `let sc = scene_controller;`
+                // Оба — top-level `let`, поэтому НЕ попадают в window.* автоматически.
+                // Делаем безопасный accessor через eval и сохраняем в window.sc.
+                window.__pp_get_sc = window.__pp_get_sc || function() {
+                  try {
+                    // direct eval в браузере видит global lexical bindings (`let sc`, `let scene_controller`)
+                    return window.sc || eval('(typeof sc !== "undefined" && sc) ? sc : ((typeof scene_controller !== "undefined" && scene_controller) ? scene_controller : null)');
+                  } catch (e) {
+                    return window.sc || null;
+                  }
+                };
+                
+                try {
+                  const scResolved = window.__pp_get_sc();
+                  if (scResolved && typeof scResolved.add_object === 'function') {
+                    window.sc = scResolved;
+                    console.log('[Clodis-preview] ✅ sc экспортирован в window.sc:', {
+                      has_add_object: typeof window.sc.add_object === 'function',
+                      has_generate_obj_id: typeof window.sc.generate_obj_id === 'function'
+                    });
+                  } else {
+                    console.error('❌ [Clodis-preview] sc не доступен (add_object отсутствует)');
+                  }
+                } catch (e) {
+                  console.error('❌ [Clodis-preview] Ошибка при экспорте sc:', e);
+                }
+              }, 100);
+            
+            console.log('[Clodis-preview] Calling mount()...');
+            if (typeof window.mount === 'function') {
+              window.mount();
+              console.log('✅ [Clodis-preview] mount() completed');
+            }
+            
+            // ✅ ШАГ 1: возвращаем стрелки КОМНАТЫ (room/common_sizes), не зависят от cabinet/sc.
+            // Важно: они рисуются только если global_options.common_sizes_visible = true.
+            try {
+              if (window.global_options) {
+                window.global_options.common_sizes_visible = true;
+              }
+              if (window.room && window.room.common_sizes) {
+                window.room.common_sizes.visible = true;
+              }
+              if (typeof window.build_sizes_all === 'function') {
+                console.log('[Clodis-preview] 🧭 build_sizes_all() (стрелки комнаты)');
+                window.build_sizes_all();
+              }
+            } catch (e) {
+              console.error('[Clodis-preview] ❌ Ошибка при включении стрелок комнаты:', e);
+            }
+            
+            // ⭐ КРИТИЧНО: Создаем модуль cabinet вручную, если view_mode=true (как в референсе строка 63545)
+            // Референс: view_mode && 'undefined' != typeof cabinet && !cabinet && ((cabinet = sc.add_object('module', copy_object(this['item']), !0x1))
+            // Референс: main_core_v2.js:11073 - sc = scene_controller (глобальная переменная)
+            // Референс: main_core_v2.js:9339 - let scene_controller = {...}
+            
+            let cabinetCreationAttempts = 0;
+            const tryCreateCabinet = () => {
+              cabinetCreationAttempts++;
+              
+              // В embedded-превью Vue-компонента может не быть, а view_mode может остаться false/undefined.
+              // Нам модуль нужен в любом случае → не выходим, а лишь фиксируем состояние.
+              if (typeof view_mode === 'undefined') {
+                window.view_mode = true;
+                console.warn('[Clodis-preview] view_mode был undefined → выставили window.view_mode=true для превью');
+              } else if (view_mode !== true) {
+                console.warn('[Clodis-preview] view_mode=false → продолжаем, модуль создаем вручную');
+              }
+              
+              // Проверяем, не создан ли уже cabinet
+              let existingCabinet = null;
+              try {
+                existingCabinet = eval('typeof cabinet !== "undefined" ? cabinet : null');
+              } catch (e) {
+                existingCabinet = window.cabinet || null;
+              }
+              
+              if (existingCabinet) {
+                console.log('[Clodis-preview] ✅ Модуль cabinet уже существует');
+                return;
+              }
+              
+              // Получаем sc (референс: строка 11073 - sc = scene_controller)
+              // Используем window.sc (экспортируется после init()) или глобальную переменную
+              let scValue = null;
+              try {
+                scValue = window.sc || eval('typeof sc !== "undefined" ? sc : null') || (typeof scene_controller !== 'undefined' ? scene_controller : null);
+              } catch (e) {
+                scValue = window.sc || (typeof scene_controller !== 'undefined' ? scene_controller : null);
+              }
+              
+              // Если sc не готов, ждем еще
+              if (!scValue || typeof scValue.add_object !== 'function') {
+                if (cabinetCreationAttempts < 20) {
+                  if (cabinetCreationAttempts === 1 || cabinetCreationAttempts % 5 === 0) {
+                    console.log(`[Clodis-preview] ⏳ Ожидание sc.add_object... (попытка ${cabinetCreationAttempts}/20)`, {
+                      has_window_sc: !!window.sc,
+                      has_global_sc: (() => { try { return typeof eval('sc') !== 'undefined'; } catch { return false; } })(),
+                      has_scene_controller: typeof scene_controller !== 'undefined',
+                      sc_type: scValue ? typeof scValue : 'null'
+                    });
+                  }
+                  setTimeout(tryCreateCabinet, 200);
+                  return;
+                } else {
+                  console.error('❌ [Clodis-preview] sc.add_object не стал доступен после 20 попыток!', {
+                    has_window_sc: !!window.sc,
+                    has_global_sc: (() => { try { return typeof eval('sc') !== 'undefined'; } catch { return false; } })(),
+                    has_scene_controller: typeof scene_controller !== 'undefined',
+                    sc_type: scValue ? typeof scValue : 'null'
+                  });
+                  return;
+                }
+              }
+              
+              const sc = scValue; // Используем const для локальной ссылки
+              
+              console.log('[Clodis-preview] 🏗️ создаем модуль cabinet (нужны стрелки секции/модуля)...');
+              
+              // ВАЖНО: sc.add_object(..., h=true) дергает dControls и UI ('.interface').
+              // В embedded-превью UI нет → создаём с h=false (как в референсе: 63545).
+              // Также лучше брать дефолтные параметры модуля из движка: pp.engine.item_def_params.module
+              // (иначе Module может падать на отсутствующих полях и d_objects останется 0).
+              const defaultModuleParams = (() => {
+                const wantSize = { x: 300, y: 400, z: 200 };
+                try {
+                  // copy_object и _ (lodash) уже есть в окружении
+                  const base = window.pp?.engine?.item_def_params?.module
+                    ? copy_object(window.pp.engine.item_def_params.module)
+                    : {
+                        type: 'module',
+                        size: wantSize,
+                        spec: { cabinet_group: 'bottom' },
+                        variables: { visible: 1, main: {} },
+                        children: [],
+                        holes: []
+                      };
+                  
+                  const merged = (window._ && typeof _.merge === 'function')
+                    ? _.merge(base, {
+                        type: 'module',
+                        size: wantSize,
+                        spec: {
+                          cabinet_group: 'bottom',
+                          // эти флаги должны быть 0, иначе Module._build_sizes() не создаст CabinetSize
+                          hide_sizes: 0,
+                          is_fill: 0
+                        }
+                      })
+                    : base;
+                  
+                  merged.type = 'module';
+                  merged.size = merged.size || wantSize;
+                  merged.spec = merged.spec || {};
+                  merged.spec.hide_sizes = 0;
+                  merged.spec.is_fill = 0;
+                  return merged;
+                } catch (e) {
+                  console.error('[Clodis-preview] ❌ Ошибка подготовки defaultModuleParams:', e);
+                  return {
+                    type: 'module',
+                    size: wantSize,
+                    spec: { cabinet_group: 'bottom', hide_sizes: 0, is_fill: 0 },
+                    variables: { visible: 1, main: {} },
+                    children: [],
+                    holes: []
+                  };
+                }
+              })();
+              
+              try {
+                console.log('[Clodis-preview] ✅ sc.add_object доступен, создаем модуль...');
+                
+                // Референс: строка 63545 - sc.add_object('module', params, false)
+                console.log('[Clodis-preview] Вызываем sc.add_object("module", params, false)...');
+                const newCabinet = sc.add_object('module', defaultModuleParams, false);
+                
+                if (newCabinet) {
+                  // Референс: строка 63545 - cabinet.position.set(0x64, 0x0, 0x64)
+                  newCabinet.position.set(100, 0, 100); // 0x64 = 100
+                  
+                  // Референс: строка 63546 - cabinet.box.update()
+                  if (newCabinet.box && typeof newCabinet.box.update === 'function') {
+                    newCabinet.box.update();
+                  }
+                  
+                  // Референс: модуль должен иметь is_root=true для создания стрелок
+                  if (!newCabinet.userData) newCabinet.userData = {};
+                  newCabinet.userData.is_root = true;
+                  
+                  // На всякий случай дублируем флаги, которые проверяет _build_sizes()
+                  if (newCabinet.userData.params?.spec) {
+                    newCabinet.userData.params.spec.hide_sizes = 0;
+                    newCabinet.userData.params.spec.is_fill = 0;
+                  }
+                  
+                  // Сохраняем в window.cabinet (для доступа из кода)
+                  window.cabinet = newCabinet;
+                  
+                  // Референс: строка 63545 - cabinet создается как глобальная переменная
+                  // В строгом режиме создаем через window
+                  try {
+                    // Пробуем создать глобальную переменную (как в референсе)
+                    eval('cabinet = window.cabinet;');
+                  } catch (e) {
+                    // Если не получилось, используем window.cabinet
+                    console.warn('[Clodis-preview] Не удалось создать глобальную cabinet, используем window.cabinet');
+                  }
+                  
+                  console.log('✅ [Clodis-preview] Модуль cabinet создан:', {
+                    name: newCabinet.name,
+                    type: newCabinet.constructor?.name,
+                    is_root: newCabinet.userData?.is_root,
+                    has_own_object: !!newCabinet.userData?.own_object,
+                    own_object_in_module: newCabinet.userData?.own_object?.parent === newCabinet,
+                    size: newCabinet.userData?.params?.size || newCabinet.userData?.computed?.size,
+                    params_structure: {
+                      has_params: !!newCabinet.userData?.params,
+                      has_spec: !!newCabinet.userData?.params?.spec,
+                      hide_sizes: newCabinet.userData?.params?.spec?.hide_sizes,
+                      is_fill: newCabinet.userData?.params?.spec?.is_fill
+                    },
+                    in_d_objects: window.d_objects?.includes(newCabinet),
+                    d_objects_length: window.d_objects?.length || 0,
+                    in_room: window.room?.children?.includes(newCabinet),
+                    room_children_count: window.room?.children?.length || 0
+                  });
+                  
+                  // ⭐ КРИТИЧНО: Проверяем, что own_object создан (референс: строка 14878)
+                  if (!newCabinet.userData?.own_object) {
+                    console.error('❌ [Clodis-preview] КРИТИЧНО: own_object НЕ создан в конструкторе Module!');
+                    console.error('[Clodis-preview] userData:', Object.keys(newCabinet.userData || {}));
+                    // Создаем own_object вручную, если его нет
+                    console.log('[Clodis-preview] 🔧 Создаем own_object вручную...');
+                    if (!newCabinet.userData) newCabinet.userData = {};
+                    newCabinet.userData.own_object = new THREE.Group();
+                    newCabinet.userData.own_object.name = 'own_object';
+                    newCabinet.add(newCabinet.userData.own_object);
+                    console.log('✅ [Clodis-preview] own_object создан и добавлен в модуль');
+                  } else {
+                    console.log('✅ [Clodis-preview] own_object найден:', {
+                      name: newCabinet.userData.own_object.name,
+                      parent: newCabinet.userData.own_object.parent?.constructor?.name || 'null',
+                      children_count: newCabinet.userData.own_object.children.length,
+                      visible: newCabinet.userData.own_object.visible
+                    });
+                    
+                    // Убеждаемся, что own_object добавлен в модуль (референс: строка 14878)
+                    if (!newCabinet.userData.own_object.parent) {
+                      console.warn('⚠️ [Clodis-preview] own_object не добавлен в модуль, добавляем...');
+                      newCabinet.add(newCabinet.userData.own_object);
+                      console.log('✅ [Clodis-preview] own_object добавлен в модуль');
+                    }
+                  }
+                  
+                  // ⭐ КРИТИЧНО: СРАЗУ создаем стрелки размеров МОДУЛЯ (не комнаты!)
+                  // Референс: main_core_v2.js:859 - g instanceof Module && g['_build_sizes']()
+                  // Референс: main_core_v2.js:88793 - проверка: is_root && !is_fill && !hide_sizes
+                  if (typeof newCabinet._build_sizes === 'function') {
+                    console.log('[Clodis-preview] 🎯 Вызываем _build_sizes() для создания стрелок МОДУЛЯ...');
+                    try {
+                      // Референс: строка 88793 - проверка условий для создания стрелок
+                      // if (this['userData']['is_root'] && 0x1 != this['userData']['params']['spec']['is_fill'] && 0x1 != this['userData']['params']['spec']['hide_sizes'])
+                      
+                      // Убеждаемся, что параметры правильные для создания стрелок
+                      if (!newCabinet.userData.params) {
+                        console.warn('⚠️ [Clodis-preview] userData.params отсутствует, создаем...');
+                        newCabinet.userData.params = defaultModuleParams;
+                      }
+                      if (!newCabinet.userData.params.spec) {
+                        console.warn('⚠️ [Clodis-preview] userData.params.spec отсутствует, создаем...');
+                        newCabinet.userData.params.spec = defaultModuleParams.spec;
+                      }
+                      
+                      // Убеждаемся, что hide_sizes = 0 и is_fill = 0 (иначе стрелки не создадутся)
+                      if (newCabinet.userData.params.spec.hide_sizes === 1) {
+                        console.warn('⚠️ [Clodis-preview] hide_sizes = 1, устанавливаем в 0...');
+                        newCabinet.userData.params.spec.hide_sizes = 0;
+                      }
+                      if (newCabinet.userData.params.spec.is_fill === 1) {
+                        console.warn('⚠️ [Clodis-preview] is_fill = 1, устанавливаем в 0...');
+                        newCabinet.userData.params.spec.is_fill = 0;
+                      }
+                      
+                      newCabinet._build_sizes();
+                      console.log('[Clodis-preview] ✅ _build_sizes() вызван');
+                      
+                      // Проверяем результат - стрелки должны быть в own_object
+                      setTimeout(() => {
+                        if (newCabinet.userData?.own_object) {
+                          const cabinetSizes = newCabinet.userData.own_object.children.filter(c => 
+                            c.constructor?.name === 'CabinetSize' || c.userData?.class === 'CabinetSize'
+                          );
+                          
+                          if (cabinetSizes.length > 0) {
+                            console.log(`✅ [Clodis-preview] Стрелки МОДУЛЯ созданы: ${cabinetSizes.length} шт.`);
+                            
+                            // Убеждаемся, что стрелки видимы
+                            cabinetSizes.forEach(cs => { cs.visible = true; });
+                            newCabinet.userData.own_object.visible = true;
+                            
+                            // Убеждаемся, что own_object добавлен в модуль
+                            if (!newCabinet.userData.own_object.parent) {
+                              newCabinet.add(newCabinet.userData.own_object);
+                            }
+                            
+                            console.log('[Clodis-preview] ✅ Стрелки МОДУЛЯ видимы и в сцене');
+                            
+                            // ⭐ КРИТИЧНО: Скрываем комнату и показываем только модуль со стрелками!
+                            // Референс: main_core_v2.js:63585 - single_preview(!0x0, cabinet)
+                            if (typeof single_preview === 'function') {
+                              console.log('[Clodis-preview] 🎯 Вызываем single_preview(true, cabinet) - скрываем комнату, показываем только модуль');
+                              try {
+                                single_preview(true, newCabinet);
+                                console.log('[Clodis-preview] ✅ Режим конструктора включен: комната скрыта, виден только модуль со стрелками');
+                              } catch (e) {
+                                console.error('❌ [Clodis-preview] Ошибка при вызове single_preview:', e);
+                              }
+                            } else {
+                              console.warn('⚠️ [Clodis-preview] single_preview не найден');
+                            }
+                          } else {
+                            console.error('❌ [Clodis-preview] Стрелки МОДУЛЯ НЕ созданы после _build_sizes()!');
+                          }
+                        } else {
+                          console.error('❌ [Clodis-preview] own_object не найден после _build_sizes()!');
+                        }
+                      }, 100);
+                    } catch (e) {
+                      console.error('❌ [Clodis-preview] Ошибка при вызове _build_sizes():', e);
+                    }
+                  } else {
+                    console.error('❌ [Clodis-preview] _build_sizes() недоступен для модуля!');
+                  }
+                } else {
+                  console.error('❌ [Clodis-preview] sc.add_object вернул null/undefined!');
+                }
+              } catch (e) {
+                console.error('❌ [Clodis-preview] Ошибка при создании модуля cabinet:', e);
+                console.error('[Clodis-preview] Stack:', e.stack);
+              }
+            };
+            
+            // Начинаем попытки создания через 1000ms после mount() (даем время sc экспортироваться)
+            setTimeout(tryCreateCabinet, 1000);
+            
+            // ⭐ ЛОГИ ИЗ РЕФЕРЕНСА: Отслеживаем последовательность построения КОНСТРУКТОРА
+            // Референс: main_core_v2.js:72021 - room = new Room(L) - создание комнаты
+            // Референс: main_core_v2.js:72024 - scene.add(room) - добавление комнаты в сцену
+            // Референс: main_core_v2.js:8290 - interface_init() - инициализация интерфейса
+            // Референс: main_core_v2.js:63381 - this['item'] = this['get_default_module_params'](a8) - создание "модуль без названия"
+            // Референс: main_core_v2.js:67526 - get_default_module_params() - параметры начального модуля
+            // Референс: main_core_v2.js:66856 - '(модуль\x20без\x20названия)' - название начального модуля
+            // Референс: main_core_v2.js:68077 - add_module() - функция создания модуля
+            // Референс: main_core_v2.js:68162 - sc.add_object('module', h, true) - создание модуля в сцене
+            // Референс: main_core_v2.js:80592 - sc.add_object('module', O, true) в load_scene_new - загрузка модулей из проекта
+            // Референс: main_core_v2.js:859 - g instanceof Module && g['_build_sizes']() в build_sizes_all
+            // Референс: main_core_v2.js:88816 - A = new CabinetSize(w, {...}) в _build_sizes()
+            // Референс: main_core_v2.js:88822 - this['userData']['own_object']['add'](A)
+            
+            console.log('[REFERENCE LOG] === ПОСЛЕДОВАТЕЛЬНОСТЬ ПОСТРОЕНИЯ КОНСТРУКТОРА ===');
+            console.log('[REFERENCE LOG] 1. init() создает room и scene (строка 72021-72024)');
+            console.log('[REFERENCE LOG] 2. mount() настраивает рендерер (строка 72053-72097)');
+            console.log('[REFERENCE LOG] 3. interface_init() инициализирует интерфейс (строка 8290)');
+            console.log('[REFERENCE LOG] 4. configurator_v2_init() регистрирует компонент конструктора (строка 60803)');
+            console.log('[REFERENCE LOG] 5. Vue компонент created() создает "модуль без названия" через get_default_module_params() (строка 63200, 63381, 67526)');
+            console.log('[REFERENCE LOG] 6. В view_mode: sc.add_object("module") создает модуль в сцене (строка 63535)');
+            console.log('[REFERENCE LOG] 7. После создания модуля вызывается _build_sizes() (строка 88800+)');
+            console.log('[REFERENCE LOG] 8. _build_sizes() создает CabinetSize и добавляет в own_object (строка 88816-88822)');
+            console.log('[REFERENCE LOG] 9. build_sizes_all() вызывается для всех модулей (строка 859)');
+            
+            // Перехватываем создание room (референс: строка 72021)
+            if (window.Room) {
+              const OriginalRoom = window.Room;
+              window.Room = function(...args) {
+                console.log('[REFERENCE LOG] 🏗️ new Room() создан (строка 72021)');
+                const room = new OriginalRoom(...args);
+                console.log('[REFERENCE LOG] ✅ Room создан, children:', room.children?.length || 0);
+                return room;
+              };
+              window.Room.prototype = OriginalRoom.prototype;
+            }
+            
+            // Перехватываем scene.add() (референс: строка 72024)
+            if (window.THREE && window.THREE.Scene) {
+              const originalAdd = window.THREE.Scene.prototype.add;
+              window.THREE.Scene.prototype.add = function(...objects) {
+                objects.forEach(obj => {
+                  if (obj && obj.constructor && obj.constructor.name === 'Room') {
+                    console.log('[REFERENCE LOG] ➕ scene.add(room) вызван (строка 72024)');
+                  }
+                });
+                return originalAdd.apply(this, objects);
+              };
+            }
+            
+            // Перехватываем load_scene_new (референс: строка 80354)
+            if (window.load_scene_new) {
+              const originalLoadScene = window.load_scene_new;
+              window.load_scene_new = async function(...args) {
+                console.log('[REFERENCE LOG] 📦 load_scene_new() вызван (строка 80354)');
+                const result = await originalLoadScene.apply(this, args);
+                console.log('[REFERENCE LOG] ✅ load_scene_new() завершен, модули созданы');
+                return result;
+              };
+            }
+            
+            // Перехватываем вызовы _build_sizes() для модулей
+            if (window.Module) {
+              const originalBuildSizes = window.Module.prototype._build_sizes;
+              if (originalBuildSizes) {
+                window.Module.prototype._build_sizes = function() {
+                  console.log('[REFERENCE LOG] _build_sizes() вызван для модуля:', {
+                    name: this.name,
+                    is_root: this.userData?.is_root,
+                    has_own_object: !!this.userData?.own_object,
+                    has_computed: !!this.userData?.computed,
+                    size: this.userData?.computed?.size,
+                    hide_sizes: this.userData?.params?.spec?.hide_sizes
+                  });
+                  const result = originalBuildSizes.apply(this, arguments);
+                  console.log('[REFERENCE LOG] _build_sizes() завершен, own_object.children:', 
+                    this.userData?.own_object?.children?.length || 0);
+                  return result;
+                };
+              }
+            }
+            
+            // Перехватываем создание CabinetSize (референс: new CabinetSize)
+            if (window.CabinetSize) {
+              const OriginalCabinetSize = window.CabinetSize;
+              window.CabinetSize = function(...args) {
+                console.log('[REFERENCE LOG] new CabinetSize создан:', {
+                  params: args[0],
+                  parent: args[1]?.parent?.name || args[1]?.parent?.userData?.is_root ? 'root' : 'child',
+                  root: args[1]?.root?.name || args[1]?.root?.userData?.is_root ? 'root' : 'child'
+                });
+                return new OriginalCabinetSize(...args);
+              };
+              window.CabinetSize.prototype = OriginalCabinetSize.prototype;
+            }
+            
+            // Перехватываем build_sizes_all() (референс: main_core_v2.js:2025)
+            if (window.build_sizes_all) {
+              const originalBuildSizesAll = window.build_sizes_all;
+              window.build_sizes_all = function(...args) {
+                console.log('[REFERENCE LOG] build_sizes_all() вызван');
+                const result = originalBuildSizesAll.apply(this, args);
+                console.log('[REFERENCE LOG] build_sizes_all() завершен');
+                return result;
+              };
+            }
+            
+            // Перехватываем sc.add_object('module') (референс: main_core_v2.js:9343, 68162, 80592)
+            if (window.sc && window.sc.add_object) {
+              const originalAddObject = window.sc.add_object;
+              window.sc.add_object = function(type, params, ...args) {
+                if (type === 'module') {
+                  console.log('[REFERENCE LOG] 🏗️ sc.add_object("module") вызван (строка 9343/68162/80592):', {
+                    params_type: params?.type,
+                    size: params?.size,
+                    name: params?.name || '(модуль без названия)',
+                    hide_sizes: params?.spec?.hide_sizes,
+                    has_templates: !!params?.spec?.templates,
+                    templates_count: params?.spec?.templates?.length || 0
+                  });
+                  console.trace('[REFERENCE LOG] Stack trace для sc.add_object("module")');
+                }
+                const result = originalAddObject.apply(this, arguments);
+                if (type === 'module' && result) {
+                  console.log('[REFERENCE LOG] ✅ Модуль создан через sc.add_object:', {
+                    name: result.name,
+                    is_root: result.userData?.is_root,
+                    has_own_object: !!result.userData?.own_object,
+                    has_computed: !!result.userData?.computed,
+                    computed_size: result.userData?.computed?.size,
+                    d_objects_length: window.d_objects?.length || 0,
+                    position: result.position ? {x: result.position.x, y: result.position.y, z: result.position.z} : null
+                  });
+                }
+                return result;
+              };
+            }
+            
+            // Перехватываем add_module() (референс: main_core_v2.js:68077)
+            if (window.add_module) {
+              const originalAddModule = window.add_module;
+              window.add_module = function(...args) {
+                console.log('[REFERENCE LOG] 📦 add_module() вызван (строка 68077):', {
+                  args: args,
+                  catalog_id: args[0],
+                  catalog_type: args[1]
+                });
+                console.trace('[REFERENCE LOG] Stack trace для add_module()');
+                const result = originalAddModule.apply(this, args);
+                console.log('[REFERENCE LOG] ✅ add_module() завершен, модуль:', result?.name || result?.userData?.is_root ? 'root' : 'child');
+                return result;
+              };
+            }
+            
+            // Перехватываем get_default_module_params() (референс: main_core_v2.js:67526)
+            // Это Vue компонент, нужно перехватить через прототип
+            setTimeout(() => {
+              // Ищем Vue компонент через глобальные объекты
+              if (window.pp && window.pp.interface && window.pp.interface.root) {
+                const vueRoot = window.pp.interface.root;
+                if (vueRoot.$children && vueRoot.$children.length > 0) {
+                  vueRoot.$children.forEach((child, i) => {
+                    if (child.get_default_module_params && typeof child.get_default_module_params === 'function') {
+                      const originalGetDefault = child.get_default_module_params;
+                      child.get_default_module_params = function(...args) {
+                        console.log('[REFERENCE LOG] 📋 get_default_module_params() вызван (строка 67526) - создание "модуль без названия"');
+                        const result = originalGetDefault.apply(this, args);
+                        console.log('[REFERENCE LOG] ✅ get_default_module_params() возвращает:', {
+                          type: result?.type,
+                          size: result?.size,
+                          name: result?.name || '(модуль без названия)',
+                          has_templates: !!result?.spec?.templates
+                        });
+                        return result;
+                      };
+                    }
+                  });
+                }
+              }
+            }, 2000);
+            
+            // Перехватываем interface_init() (референс: main_core_v2.js:8290)
+            if (window.interface_init) {
+              const originalInterfaceInit = window.interface_init;
+              window.interface_init = async function(...args) {
+                console.log('[REFERENCE LOG] 🎨 interface_init() вызван (строка 8290)');
+                console.trace('[REFERENCE LOG] Stack trace для interface_init()');
+                const result = await originalInterfaceInit.apply(this, args);
+                console.log('[REFERENCE LOG] ✅ interface_init() завершен');
+                return result;
+              };
+            }
+            
+            // Перехватываем configurator_v2_init() (референс: main_core_v2.js:60803)
+            if (window.configurator_v2_init) {
+              const originalConfigInit = window.configurator_v2_init;
+              window.configurator_v2_init = function(...args) {
+                console.log('[REFERENCE LOG] 🔧 configurator_v2_init() вызван (строка 60803) - регистрация компонента конструктора');
+                const result = originalConfigInit.apply(this, args);
+                console.log('[REFERENCE LOG] ✅ configurator_v2_init() завершен');
+                return result;
+              };
+            }
+            
+            // Перехватываем создание Vue компонента конструктора (референс: строка 63200 - created hook)
+            // Это происходит внутри Vue, нужно перехватить через события или через глобальные переменные
+            setTimeout(() => {
+              if (window.pp && window.pp.interface && window.pp.interface.root) {
+                const vueRoot = window.pp.interface.root;
+                // Ищем компонент конструктора в $children
+                if (vueRoot.$children) {
+                  vueRoot.$children.forEach((child, i) => {
+                    // Проверяем, есть ли метод get_default_module_params (это компонент конструктора)
+                    if (child.get_default_module_params && typeof child.get_default_module_params === 'function') {
+                      console.log('[REFERENCE LOG] ✅ Найден Vue компонент конструктора в $children[' + i + ']');
+                      
+                      // Перехватываем get_default_module_params
+                      const originalGetDefault = child.get_default_module_params;
+                      child.get_default_module_params = function(...args) {
+                        console.log('[REFERENCE LOG] 📋 get_default_module_params() вызван (строка 67526) - создание "модуль без названия"');
+                        const result = originalGetDefault.apply(this, args);
+                        console.log('[REFERENCE LOG] ✅ get_default_module_params() возвращает параметры модуля:', {
+                          type: result?.type,
+                          size: result?.size,
+                          name: result?.name || '(модуль без названия)',
+                          has_templates: !!result?.spec?.templates
+                        });
+                        return result;
+                      };
+                      
+                      // Перехватываем created hook (строка 63200)
+                      if (child.$options && child.$options.created) {
+                        const originalCreated = child.$options.created;
+                        child.$options.created = function() {
+                          console.log('[REFERENCE LOG] 🎬 Vue компонент конструктора created() вызван (строка 63200)');
+                          const result = originalCreated.apply(this, arguments);
+                          console.log('[REFERENCE LOG] ✅ created() завершен, item создан:', {
+                            has_item: !!this.item,
+                            item_type: this.item?.type,
+                            item_name: this.item?.name || '(модуль без названия)'
+                          });
+                          return result;
+                        };
+                      }
+                      
+                      // Перехватываем mounted hook (строка 63572)
+                      if (child.$options && child.$options.mounted) {
+                        const originalMounted = child.$options.mounted;
+                        child.$options.mounted = function() {
+                          console.log('[REFERENCE LOG] 🎯 Vue компонент конструктора mounted() вызван (строка 63572)');
+                          const result = originalMounted.apply(this, arguments);
+                          console.log('[REFERENCE LOG] ✅ mounted() завершен');
+                          return result;
+                        };
+                      }
+                    }
+                  });
+                }
+              }
+            }, 3000);
+            
+            // ⭐ ВАЖНО: Вызываем _build_sizes() для корневой секции (как в референсе!)
+            // Ждем, пока room станет доступен (может быть задержка после init())
+            let retryCount = 0;
+            const tryBuildSizes = () => {
+              retryCount++;
+              
+              // Если room еще не доступен, ждем еще (без лишних логов)
+              if (!window.room && retryCount < 20) {
+                if (retryCount === 1 || retryCount % 5 === 0) {
+                  // Логируем только первую попытку и каждую 5-ю
+                  console.log(`[Clodis-preview] ⏳ Ожидание room... (попытка ${retryCount}/20)`);
+                }
+                setTimeout(tryBuildSizes, 200);
+                return;
+              }
+              
+              if (!window.room) {
+                console.error('❌ [Clodis-preview] room не стал доступен после 20 попыток!');
+                return;
+              }
+              
+              // Логируем состояние только когда room готов
+              console.log(`[Clodis-preview] 🔍 Создание стрелок размеров (попытка ${retryCount})...`);
+              console.log(`[Clodis-preview] 📊 Состояние: room=${!!window.room}, d_objects=${window.d_objects?.length || 0}, view_mode=${typeof view_mode !== 'undefined' ? view_mode : 'undefined'}`);
+              
+              try {
+                
+                // Убеждаемся, что sizes_visible включен (без лишних логов)
+                if (window.global_options) {
+                  window.global_options['sizes_visible'] = true;
+                  window.global_options['common_sizes_visible'] = true;
+                }
+                
+                // Убеждаемся, что группы sizes видимы
+                if (window.room) {
+                  if (window.room['sizes']) {
+                    window.room['sizes']['visible'] = true;
+                  } else {
+                    console.warn('⚠️ [Clodis-preview] window.room.sizes не найден!');
+                  }
+                  if (window.room['common_sizes']) {
+                    window.room['common_sizes']['visible'] = true;
+                  }
+                }
+                
+                // Ищем корневой модуль в d_objects
+                let rootModule = null;
+                if (window.d_objects && Array.isArray(window.d_objects)) {
+                  rootModule = window.d_objects.find(obj => 
+                    obj && obj['userData'] && obj['userData']['is_root'] === true
+                  );
+                  if (rootModule) {
+                    console.log('✅ [Clodis-preview] Найден корневой модуль в d_objects:', rootModule);
+                  }
+                }
+                
+                // Если не нашли в d_objects, ищем в room.children
+                if (!rootModule && window.room && window.room.children) {
+                  rootModule = window.room.children.find(child => 
+                    child && child['userData'] && child['userData']['is_root'] === true
+                  );
+                  if (rootModule) {
+                    console.log('✅ [Clodis-preview] Найден корневой модуль в room.children:', rootModule);
+                  }
+                }
+                
+                // Вызываем _build_sizes() для корневой секции
+                if (rootModule && typeof rootModule['_build_sizes'] === 'function') {
+                  console.log('[Clodis-preview] 🎯 Вызываем _build_sizes() для корневой секции...');
+                  
+                  // Проверяем параметры перед вызовом
+                  if (rootModule['userData'] && rootModule['userData']['params']) {
+                    const params = rootModule['userData']['params'];
+                    console.log('[Clodis-preview] Параметры модуля:', {
+                      is_root: rootModule['userData']['is_root'],
+                      is_fill: params['spec']?.['is_fill'],
+                      hide_sizes: params['spec']?.['hide_sizes'],
+                      size: params['size']
+                    });
+                    
+                    // Убеждаемся, что hide_sizes = 0 (иначе стрелки не создадутся)
+                    if (params['spec']) {
+                      if (params['spec']['hide_sizes'] === 1) {
+                        console.warn('⚠️ [Clodis-preview] hide_sizes = 1, устанавливаем в 0...');
+                        params['spec']['hide_sizes'] = 0;
+                      }
+                    }
+                  }
+                  
+                  rootModule['_build_sizes']();
+                  console.log('✅ [Clodis-preview] _build_sizes() вызван для корневой секции');
+                  
+                  // Проверяем результат в own_object (где хранятся стрелки модуля!)
+                if (rootModule['userData'] && rootModule['userData']['own_object']) {
+                  const ownObject = rootModule['userData']['own_object'];
+                  
+                  console.log('[Clodis-preview] 📦 own_object:', {
+                    visible: ownObject.visible,
+                    children_count: ownObject.children.length,
+                    in_scene: ownObject.parent !== null,
+                    parent: ownObject.parent?.constructor?.name || 'null'
+                  });
+                  
+                  // Убеждаемся, что own_object видим и добавлен в сцену
+                  if (!ownObject.visible) {
+                    console.warn('⚠️ [Clodis-preview] own_object не видим, включаем...');
+                    ownObject.visible = true;
+                  }
+                  
+                  // Проверяем, добавлен ли own_object в сцену (должен быть child модуля)
+                  if (!ownObject.parent) {
+                    console.error('❌ [Clodis-preview] КРИТИЧНО: own_object НЕ добавлен в сцену (parent=null)!');
+                    console.error('[Clodis-preview] Пытаемся добавить own_object в модуль...');
+                    try {
+                      rootModule.add(ownObject);
+                      console.log('✅ [Clodis-preview] own_object добавлен в модуль');
+                    } catch (e) {
+                      console.error('❌ [Clodis-preview] Ошибка при добавлении own_object:', e);
+                    }
+                  }
+                  
+                  // Ищем CabinetSize объекты (стрелки размеров модуля)
+                  const cabinetSizes = ownObject.children.filter(c => 
+                    c.constructor?.name === 'CabinetSize' || 
+                    c.userData?.class === 'CabinetSize'
+                  );
+                  
+                  if (cabinetSizes.length === 0) {
+                    console.error('❌ [Clodis-preview] КРИТИЧНО: CabinetSize объекты НЕ созданы!');
+                    console.error('[Clodis-preview] Все children в own_object:', ownObject.children.map((c, i) => ({
+                      index: i,
+                      type: c.constructor?.name || c.type,
+                      name: c.name,
+                      visible: c.visible
+                    })));
+                    
+                    // Проверяем, есть ли стрелки в sizes_items
+                    const sizesItems = rootModule['userData']?.sizes_items || [];
+                    console.log('[Clodis-preview] sizes_items:', {
+                      count: sizesItems.length,
+                      items: sizesItems.map((item, i) => ({
+                        index: i,
+                        type: item.constructor?.name || item.type,
+                        visible: item.visible,
+                        in_scene: item.parent !== null
+                      }))
+                    });
+                  } else {
+                    console.log(`✅ [Clodis-preview] Найдено стрелок размеров: ${cabinetSizes.length}`);
+                    
+                    // Детальная информация о стрелках
+                    cabinetSizes.forEach((cs, i) => {
+                      console.log(`[Clodis-preview] Стрелка[${i}]:`, {
+                        visible: cs.visible,
+                        in_scene: cs.parent !== null,
+                        size: cs.userData?.params?.size?.x || 'unknown',
+                        axis: cs.userData?.params?.spec?.axis || 'unknown',
+                        position: cs.position ? {x: cs.position.x, y: cs.position.y, z: cs.position.z} : 'unknown'
+                      });
+                    });
+                    
+                    // Убеждаемся, что все CabinetSize видимы и в сцене
+                    let fixed = 0;
+                    let added = 0;
+                    cabinetSizes.forEach((cs) => {
+                      if (!cs.visible) {
+                        cs.visible = true;
+                        fixed++;
+                      }
+                      if (!cs.parent) {
+                        try {
+                          ownObject.add(cs);
+                          added++;
+                        } catch (e) {
+                          console.error('❌ [Clodis-preview] Ошибка при добавлении стрелки в own_object:', e);
+                        }
+                      }
+                    });
+                    if (fixed > 0) {
+                      console.log(`[Clodis-preview] ✅ Включена видимость ${fixed} стрелок`);
+                    }
+                    if (added > 0) {
+                      console.log(`[Clodis-preview] ✅ Добавлено ${added} стрелок в own_object`);
+                    }
+                  }
+                } else {
+                  console.error('❌ [Clodis-preview] КРИТИЧНО: rootModule.userData.own_object не найден!');
+                  console.error('[Clodis-preview] rootModule.userData:', Object.keys(rootModule.userData || {}));
+                  console.error('[Clodis-preview] rootModule:', {
+                    name: rootModule.name,
+                    type: rootModule.constructor?.name,
+                    children: rootModule.children?.length || 0
+                  });
+                }
+                  
+                  // Также проверяем sizes_object (на всякий случай)
+                  if (rootModule['userData'] && rootModule['userData']['sizes_object']) {
+                    const sizesCount = rootModule['userData']['sizes_object'].children.length;
+                    console.log(`✅ [Clodis-preview] Стрелки в sizes_object: ${sizesCount} объектов`);
+                  }
+              } else {
+                console.error('❌ [Clodis-preview] Корневой модуль не найден или _build_sizes() недоступен');
+                console.error('[Clodis-preview] Проверка:', {
+                  rootModule_found: !!rootModule,
+                  has_build_sizes: rootModule ? typeof rootModule['_build_sizes'] : 'rootModule is null',
+                  d_objects: window.d_objects ? {
+                    length: window.d_objects.length,
+                    types: window.d_objects.map(d => d.constructor?.name || 'unknown'),
+                    is_root_flags: window.d_objects.map(d => d.userData?.is_root)
+                  } : 'd_objects is undefined',
+                  room_children: window.room?.children ? {
+                    length: window.room.children.length,
+                    types: window.room.children.map(c => c.constructor?.name || 'unknown'),
+                    is_root_flags: window.room.children.map(c => c.userData?.is_root)
+                  } : 'room.children is undefined'
+                });
+              }
+                
+                // Также вызываем build_sizes_all() для общих размеров комнаты
+                if (typeof window.build_sizes_all === 'function') {
+                  console.log('[Clodis-preview] 🎯 Вызываем build_sizes_all() для общих размеров...');
+                  window.build_sizes_all();
+                  console.log('✅ [Clodis-preview] build_sizes_all() вызван');
+                }
+                
+                // ⭐ КРИТИЧНО: Включаем режим конструктора (single_preview = true) ПОСЛЕ создания стрелок
+                // Референс: main_core_v2.js:63575 - single_preview(true, cabinet)
+                // Это скрывает комнату и показывает только модуль с стрелками размеров
+                // НО: вызываем с задержкой, чтобы стрелки успели создаться и добавиться к модулю
+                setTimeout(() => {
+                  if (rootModule && typeof window.single_preview === 'function') {
+                    console.log('[Clodis-preview] 🎯 Включаем режим конструктора: single_preview(true, cabinet)');
+                    try {
+                      // Убеждаемся, что sizes_visible включен (референс: main_core_v2.js:805)
+                      if (window.global_options) {
+                        window.global_options['sizes_visible'] = true;
+                        console.log('[Clodis-preview] ✅ Установлен global_options.sizes_visible = true');
+                      }
+                      
+                      // Убеждаемся, что стрелки все еще видимы перед вызовом single_preview
+                      if (rootModule.userData?.own_object) {
+                        const cabinetSizes = rootModule.userData.own_object.children.filter(c => 
+                          c.constructor?.name === 'CabinetSize' || c.userData?.class === 'CabinetSize'
+                        );
+                        console.log('[Clodis-preview] Перед single_preview: CabinetSize найдено:', cabinetSizes.length);
+                        cabinetSizes.forEach((cs, i) => {
+                          cs.visible = true;
+                          console.log(`[Clodis-preview] CabinetSize[${i}] видим:`, cs.visible, 'size:', cs.userData?.params?.size?.x);
+                        });
+                      }
+                      
+                      window.single_preview(true, rootModule);
+                      console.log('✅ [Clodis-preview] Режим конструктора включен (room скрыта, виден только модуль)');
+                      
+                      // КРИТИЧНО: Проверяем и восстанавливаем видимость стрелок после single_preview
+                      setTimeout(() => {
+                        if (rootModule.userData?.own_object) {
+                          const cabinetSizes = rootModule.userData.own_object.children.filter(c => 
+                            c.constructor?.name === 'CabinetSize' || c.userData?.class === 'CabinetSize'
+                          );
+                          console.log('[Clodis-preview] После single_preview: CabinetSize найдено:', cabinetSizes.length);
+                          let fixed = 0;
+                          cabinetSizes.forEach((cs, i) => {
+                            if (!cs.visible) {
+                              console.log(`[Clodis-preview] ⚠️ CabinetSize[${i}] стал невидимым после single_preview, включаем...`);
+                              cs.visible = true;
+                              fixed++;
+                            }
+                          });
+                          if (fixed > 0) {
+                            console.log(`[Clodis-preview] ✅ Восстановлена видимость ${fixed} стрелок размеров`);
+                          }
+                          // Убеждаемся, что own_object тоже видим
+                          if (!rootModule.userData.own_object.visible) {
+                            rootModule.userData.own_object.visible = true;
+                            console.log('[Clodis-preview] ✅ own_object.visible = true');
+                          }
+                        }
+                      }, 200);
+                    } catch (e) {
+                      console.error('❌ [Clodis-preview] Ошибка при включении режима конструктора:', e);
+                    }
+                  } else {
+                    console.warn('⚠️ [Clodis-preview] single_preview не найден или rootModule не найден');
+                  }
+                }, 500); // Задержка 500ms после создания стрелок
+                
+                setStatus('Engine initialized! Dimension arrows created.');
+              } catch (e) {
+                console.error('❌ [Clodis-preview] Ошибка при создании стрелок размеров:', e);
+              }
+            };
+            
+            // Начинаем попытки через 2000ms после mount() (даем время на инициализацию)
+            setTimeout(tryBuildSizes, 2000);
+            
+            setStatus('Engine initialized!');
+            setTimeout(checkAndForceInit, 3000);
+          } catch (e) {
+            console.error('❌ [Clodis-preview] Error during init/mount:', e);
+            setStatus('Init failed: ' + e.message);
+          }
+        }
+        
+        // Timeout after 30 seconds
+        if (checkCount > 300) {
+          clearInterval(waitForLibs);
+          console.error('❌ [Clodis-preview] Timeout waiting for pp.libs.materials!');
+          setStatus('Timeout: pp.libs.materials not ready');
+        }
+      }, 100);
+    });
+    
+    // Force init check
+    function checkAndForceInit() {
+      console.log('[Clodis-preview] checkAndForceInit', {
+        scene: window.scene,
+        renderer: window.renderer,
+        camera: window.camera,
+        pp: window.pp,
+        sc: window.sc,
+        init: typeof window.init,
+        mount: typeof window.mount
+      });
+      
+      if (!window.renderer || !window.camera || !window.scene) {
+        console.warn('⚠️ [Clodis-preview] main_core_v2 did NOT initialize renderer/camera/scene!');
+        console.warn('⚠️ This usually means load_params() is hanging or failed');
+      } else {
+        console.log('✅ [Clodis-preview] renderer, camera, scene are initialized!');
+      }
+      
+      if (window.pp && typeof window.pp.render === 'function') {
+        console.log('✅ [Clodis-preview] pp.render exists');
+      } else {
+        console.warn('⚠️ [Clodis-preview] pp.render does NOT exist');
+      }
+      
+      if (window.sc && typeof window.sc.add_object === 'function') {
+        console.log('✅ [Clodis-preview] sc.add_object exists');
+      } else {
+        console.warn('⚠️ [Clodis-preview] sc.add_object does NOT exist');
+      }
+    }
+
+    // ------------------------------------------------------------
+    // Helpers: force room arrows first, then module arrows.
+    // These can be called manually from DevTools too.
+    // ------------------------------------------------------------
+    window.__pp_force_room_sizes = function() {
+      try {
+        if (!window.room) {
+          console.warn('[Clodis-preview] __pp_force_room_sizes: room is not ready');
+          return;
+        }
+        // Если до этого включали single_preview и упали с ошибкой — room может остаться скрытой.
+        try {
+          if (typeof window.room.show === 'function') window.room.show();
+          window.room.visible = true;
+        } catch {}
+        if (window.global_options) {
+          window.global_options.common_sizes_visible = true;
+          window.global_options.sizes_visible = true;
+        }
+        if (window.room.common_sizes) window.room.common_sizes.visible = true;
+        if (typeof window.build_sizes_all === 'function') {
+          console.log('[Clodis-preview] 🧭 __pp_force_room_sizes → build_sizes_all()');
+          window.build_sizes_all();
+        } else {
+          console.warn('[Clodis-preview] __pp_force_room_sizes: build_sizes_all not found');
+        }
+        if (window.pp && typeof window.pp.render === 'function') window.pp.render();
+      } catch (e) {
+        console.error('[Clodis-preview] __pp_force_room_sizes failed:', e);
+      }
+    };
+
+    window.__pp_force_module_sizes = function() {
+      try {
+        const scResolved = window.sc || (window.__pp_get_sc ? window.__pp_get_sc() : null);
+        if (!scResolved || typeof scResolved.add_object !== 'function') {
+          console.warn('[Clodis-preview] __pp_force_module_sizes: sc.add_object not ready');
+          return;
+        }
+        if (!window.pp?.engine?.item_def_params?.module) {
+          console.warn('[Clodis-preview] __pp_force_module_sizes: pp.engine.item_def_params.module not ready');
+          return;
+        }
+
+        // already created?
+        const existing = window.cabinet || (function() {
+          try { return eval('typeof cabinet !== "undefined" ? cabinet : null'); } catch { return null; }
+        })();
+        if (existing) {
+          console.log('[Clodis-preview] __pp_force_module_sizes: cabinet already exists');
+          return;
+        }
+
+        const params = copy_object(window.pp.engine.item_def_params.module);
+        params.type = 'module';
+        params.size = { x: 300, y: 400, z: 200 };
+        params.spec = params.spec || {};
+        params.spec.hide_sizes = 0;
+        params.spec.is_fill = 0;
+
+        console.log('[Clodis-preview] 🧩 __pp_force_module_sizes → sc.add_object("module", ..., false)');
+        const cab = scResolved.add_object('module', params, false);
+        if (!cab) {
+          console.error('[Clodis-preview] __pp_force_module_sizes: sc.add_object returned null');
+          return;
+        }
+        cab.position.set(100, 0, 100);
+        cab.userData = cab.userData || {};
+        cab.userData.is_root = true;
+        window.cabinet = cab;
+        try { eval('cabinet = window.cabinet;'); } catch {}
+
+        if (typeof cab._build_sizes === 'function') {
+          cab._build_sizes();
+        } else {
+          console.warn('[Clodis-preview] __pp_force_module_sizes: cab._build_sizes not found');
+        }
+
+        if (typeof window.single_preview === 'function') {
+          window.single_preview(true, cab);
+        } else {
+          console.warn('[Clodis-preview] __pp_force_module_sizes: single_preview not found');
+        }
+
+        if (window.pp && typeof window.pp.render === 'function') window.pp.render();
+      } catch (e) {
+        console.error('[Clodis-preview] __pp_force_module_sizes failed:', e);
+      }
+    };
+
+    // Auto-run: только стрелки КОМНАТЫ.
+    // Авто-создание модуля выключаем: если module/single_preview упадет, room останется скрытой и вы увидите "серую сцену".
+    setTimeout(() => {
+      console.log('[Clodis-preview] AUTO: force room sizes');
+      window.__pp_force_room_sizes();
+    }, 1500);
+    
+    // Force ORIGINAL init() if main_core_v2 is stuck
+    function forceInitIfNeeded() {
+      console.log('[Clodis-preview] forceInitIfNeeded check');
+      
+      if (window.renderer && window.camera && window.scene) {
+        console.log('✅ [Clodis-preview] Already initialized, no need to force');
+        return;
+      }
+      
+      console.warn('🔧 [Clodis-preview] Engine NOT initialized after 15 seconds!');
+      console.warn('🔧 Attempting to force ORIGINAL init()...');
+      
+      try {
+        if (typeof window.init === 'function') {
+          console.log('[Clodis-preview] Calling window.init()...');
+          window.init();
+          console.log('✅ [Clodis-preview] init() completed');
+        } else {
+          console.error('❌ [Clodis-preview] window.init is not a function');
+        }
+        
+        if (typeof window.mount === 'function') {
+          console.log('[Clodis-preview] Calling window.mount()...');
+          window.mount();
+          console.log('✅ [Clodis-preview] mount() completed');
+        } else {
+          console.error('❌ [Clodis-preview] window.mount is not a function');
+        }
+        
+        setStatus('Engine force-initialized');
+      } catch (e) {
+        console.error('❌ [Clodis-preview] Force init failed:', e);
+        setStatus('Force init failed: ' + (e?.message || e));
+      }
+    }
+
+    // Like reference: glob = get_base_data(); dispatch Glob_ready
+    try {
+      if (typeof get_base_data === 'function') {
+        glob = get_base_data();
+        document.dispatchEvent(event);
+        setStatus('Glob_ready dispatched, waiting engine…');
+      } else {
+        setStatus('get_base_data not found');
+        console.warn('[Clodis-preview] get_base_data not found on window');
+      }
+    } catch (e) {
+      console.error('❌ [Clodis-preview] get_base_data failed', e);
+      setStatus('get_base_data failed: ' + (e?.message || e));
+    }
+
+    // Tell parent we are ready
+    try {
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage({ type: 'pp:iframeReady' }, '*');
+      }
+    } catch {}
+
+    // Diagnostics: show readiness of pp/sc a few times
+    let diagCount = 0;
+    const diagTimer = setInterval(() => {
+      diagCount += 1;
+      const scOk = !!((window.__pp_get_sc ? window.__pp_get_sc() : window.sc) && typeof (window.__pp_get_sc ? window.__pp_get_sc() : window.sc).add_object === 'function');
+      const ppOk = !!(window.pp && window.pp.three && typeof window.pp.three.mount === 'function');
+      setStatus(`Waiting engine… sc:${scOk} pp:${ppOk}`);
+      // Убрал лишний лог - засорял консоль
+      // console.log('[Clodis-preview] diag', { scOk, ppOk, diagCount });
+      if (scOk && ppOk) {
+        setStatus('Engine ready. Waiting for module…');
+        clearInterval(diagTimer);
+      }
+      if (diagCount > 40) clearInterval(diagTimer);
+    }, 250);
+
+    // Apply module params when received (non-blocking)
+    window.__pp_lastModuleParams = null;
+    window.addEventListener('message', (ev) => {
+      const data = ev.data;
+      if (!data || typeof data !== 'object') return;
+      if (data.type !== 'pp:setModule') return;
+      window.__pp_lastModuleParams = data.params || null;
+      scheduleApply();
+    });
+
+    let __applyScheduled = false;
+    function scheduleApply() {
+      if (__applyScheduled) return;
+      __applyScheduled = true;
+
+      let frames = 0;
+      const maxFrames = 360;
+      const tick = () => {
+        frames++;
+        const params = window.__pp_lastModuleParams;
+        const scOk = (window.__pp_get_sc ? window.__pp_get_sc() : window.sc) && typeof (window.__pp_get_sc ? window.__pp_get_sc() : window.sc).add_object === 'function';
+        const ppOk = window.pp && window.pp.three && typeof window.pp.three.mount === 'function';
+
+        if (params && scOk && ppOk) {
+          try {
+            if (status) status.textContent = 'Applying module…';
+            if (window.global_options) {
+              if (typeof window.global_options.sizes_visible !== 'undefined') window.global_options.sizes_visible = true;
+              if (typeof window.global_options.common_sizes_visible !== 'undefined') window.global_options.common_sizes_visible = true;
+            }
+
+            window.pp.three.mount();
+            window.__embeddedModule = window.sc.add_object('module', params, false);
+            if (typeof single_preview === 'function' && window.__embeddedModule) single_preview(true, window.__embeddedModule);
+            if (window.pp && typeof window.pp.render === 'function') window.pp.render();
+            if (status) status.textContent = 'OK';
+          } catch (e) {
+            console.error('❌ [Clodis-preview] apply failed', e);
+            if (status) status.textContent = 'Apply failed: ' + (e?.message || String(e));
+          } finally {
+            __applyScheduled = false;
+          }
+          return;
+        }
+
+        if (frames >= maxFrames) {
+          __applyScheduled = false;
+          if (status) status.textContent = 'Waiting for engine… (pp/sc not ready yet)';
+          return;
+        }
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }
+  </script>
+</body>
+</html>

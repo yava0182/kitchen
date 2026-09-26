@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "name": "Белый",
+    "code": "white",
+    "categories": [3],
+    "color": "#F5F5F5",
+    "texture": null,
+    "thickness": 16,
+    "density": 680,
+    "price_per_m2": 1200,
+    "active": true,
+    "order": 1
+  },
+  {
+    "id": 2,
+    "name": "Дуб Сонома",
+    "code": "oak_sonoma",
+    "categories": [3],
+    "color": "#D4A574",
+    "texture": null,
+    "thickness": 16,
+    "density": 680,
+    "price_per_m2": 1350,
+    "active": true,
+    "order": 2
+  },
+  {
+    "id": 3,
+    "name": "Графит",
+    "code": "graphite",
+    "categories": [4],
+    "color": "#4A4A4A",
+    "texture": null,
+    "thickness": 16,
+    "density": 680,
+    "price_per_m2": 1300,
+    "active": true,
+    "order": 3
+  },
+  {
+    "id": 4,
+    "name": "Орех",
+    "code": "walnut",
+    "categories": [4],
+    "color": "#8B5A2B",
+    "texture": null,
+    "thickness": 16,
+    "density": 680,
+    "price_per_m2": 1400,
+    "active": true,
+    "order": 4
+  },
+  {
+    "id": 5,
+    "name": "Бежевый",
+    "code": "beige",
+    "categories": [3],
+    "color": "#E8D9C5",
+    "texture": null,
+    "thickness": 16,
+    "density": 680,
+    "price_per_m2": 1250,
+    "active": true,
+    "order": 5
+  }
+]
+

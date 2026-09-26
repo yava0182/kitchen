@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ТЗ Pilot — DeepSeek (вне конструктора)</title>
+  <style>
+    :root {
+      --bg: #1a1d23;
+      --panel: #242830;
+      --line: #353b46;
+      --text: #e8eaed;
+      --muted: #9aa3b2;
+      --accent: #3d8bfd;
+      --ok: #3ecf8e;
+      --warn: #e6b84d;
+      --bad: #f07178;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: radial-gradient(1200px 600px at 10% -10%, #2a3344 0%, var(--bg) 55%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    header {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+    header h1 { margin: 0; font-size: 1.1rem; font-weight: 600; }
+    header p { margin: 4px 0 0; color: var(--muted); font-size: 0.82rem; }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: #2f3a2f;
+      color: var(--ok);
+      font-size: 0.72rem;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    .status { font-size: 0.8rem; color: var(--muted); }
+    .status.ok { color: var(--ok); }
+    .status.bad { color: var(--bad); }
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 12px 18px 0;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+    .tabs button {
+      font: inherit;
+      cursor: pointer;
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--muted);
+      border-radius: 8px;
+      padding: 7px 12px;
+    }
+    .tabs button.active {
+      color: #fff;
+      background: #2a4060;
+      border-color: #3d5a80;
+    }
+    main {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 14px;
+      padding: 14px 18px 24px;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+    @media (max-width: 960px) { main { grid-template-columns: 1fr; } }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      min-height: 440px;
+    }
+    .card h2 {
+      margin: 0 0 10px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .panel { display: none; flex-direction: column; flex: 1; min-height: 0; }
+    .panel.active { display: flex; }
+    #chat {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 4px 2px 12px;
+      max-height: 48vh;
+    }
+    .msg {
+      max-width: 92%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      line-height: 1.4;
+      font-size: 0.92rem;
+      white-space: pre-wrap;
+    }
+    .msg.user { align-self: flex-end; background: #2a4060; }
+    .msg.bot { align-self: flex-start; background: #2c3038; border: 1px solid var(--line); }
+    .msg.meta { align-self: center; color: var(--muted); font-size: 0.8rem; background: transparent; }
+    .composer { display: flex; gap: 8px; border-top: 1px solid var(--line); padding-top: 12px; }
+    textarea, input[type="text"], input[type="number"], select {
+      background: #1a1d23;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--text);
+      padding: 8px 10px;
+      font: inherit;
+      width: 100%;
+    }
+    textarea { flex: 1; resize: vertical; min-height: 64px; max-height: 160px; }
+    button.primary {
+      background: var(--accent);
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      font-weight: 600;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font: inherit;
+    }
+    button.primary:disabled { opacity: 0.5; cursor: wait; }
+    button.ghost, button.mic {
+      cursor: pointer;
+      background: transparent;
+      border: 1px solid var(--line);
+      color: var(--text);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font: inherit;
+    }
+    button.mic.listening { border-color: var(--bad); color: var(--bad); }
+    .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .examples { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+    .examples button {
+      font-size: 0.78rem;
+      cursor: pointer;
+      background: #1a1d23;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      border-radius: 6px;
+      padding: 5px 8px;
+    }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 600px) { .grid2 { grid-template-columns: 1fr; } }
+    label.field { display: grid; gap: 4px; font-size: 0.8rem; color: var(--muted); }
+    .checks { display: flex; flex-wrap: wrap; gap: 10px 14px; margin: 8px 0; }
+    .checks label { display: flex; gap: 6px; align-items: center; color: var(--text); font-size: 0.88rem; }
+    pre {
+      margin: 0;
+      flex: 1;
+      overflow: auto;
+      background: #15181e;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 0.76rem;
+      line-height: 1.45;
+      max-height: 42vh;
+    }
+    #summaryOut {
+      margin: 0 0 10px;
+      white-space: pre-wrap;
+      background: #15181e;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 0.85rem;
+      line-height: 1.45;
+      max-height: 22vh;
+      overflow: auto;
+      color: var(--text);
+    }
+    .ready-yes { color: var(--ok); }
+    .ready-no { color: var(--warn); }
+    .draft-list, .preset-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow: auto;
+      max-height: 48vh;
+    }
+    .draft-list li, .preset-list li {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
+    }
+    .preset-list li { cursor: pointer; }
+    .preset-list li:hover { border-color: #3d5a80; background: #2a303a; }
+    .hint-box {
+      background: #15181e;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+      max-height: 40vh;
+      overflow: auto;
+    }
+    .hint-box ul { margin: 6px 0 0; padding-left: 18px; color: var(--muted); }
+    .hidden-file { display: none; }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>ТЗ Pilot <span class="badge">DeepSeek · вне конструктора</span></h1>
+      <p>Чат через DeepSeek → JSON. Сборка в комнату отключена. Mock — кнопка «Вернуть mock».</p>
+    </div>
+    <div class="status" id="health">проверка…</div>
+  </header>
+
+  <div class="tabs" id="tabs">
+    <button type="button" data-tab="chat" class="active">Чат</button>
+    <button type="button" data-tab="wizard">Мастер</button>
+    <button type="button" data-tab="presets">Пресеты</button>
+    <button type="button" data-tab="drafts">Черновики</button>
+    <button type="button" data-tab="hints">Каталог</button>
+    <button type="button" data-tab="apply">Контракт apply</button>
+    <button type="button" data-tab="settings">DeepSeek / mock</button>
+  </div>
+
+  <main>
+    <section class="card">
+      <!-- CHAT -->
+      <div class="panel active" id="panel-chat">
+        <h2>Диалог + голос</h2>
+        <div class="examples">
+          <button type="button" data-ex="Нужен шкаф в нишу 2400×600×2700, прямой, две зоны, штанга и полки, без ручек">Пример 1</button>
+          <button type="button" data-ex="Гардеробная угловая 1800 на 1200, высота 2500, ящики и штанга">Пример 2</button>
+          <button type="button" data-ex="Шкаф в спальню">Пример 3</button>
+        </div>
+        <div id="chat"></div>
+        <div class="composer">
+          <textarea id="input" placeholder="Опишите шкаф / гардероб…"></textarea>
+          <button class="mic" id="mic" type="button" title="Диктовка">🎙</button>
+          <button class="primary" id="send" type="button">Отправить</button>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <button class="ghost" id="clear" type="button">Очистить чат</button>
+          <button class="ghost" id="saveFromChat" type="button">Сохранить черновик</button>
+          <span class="status" id="sendStatus"></span>
+        </div>
+      </div>
+
+      <!-- WIZARD -->
+      <div class="panel" id="panel-wizard">
+        <h2>Мастер ТЗ</h2>
+        <div class="grid2">
+          <label class="field">Изделие
+            <select id="wProduct">
+              <option value="wardrobe">Шкаф / гардероб</option>
+              <option value="closet">Гардеробная</option>
+            </select>
+          </label>
+          <label class="field">Компоновка
+            <select id="wLayout">
+              <option value="straight">Прямая</option>
+              <option value="corner">Угловая</option>
+              <option value="u">П-образная</option>
+            </select>
+          </label>
+          <label class="field">Ширина, мм
+            <input type="number" id="wWidth" value="2400" min="200" max="6000" />
+          </label>
+          <label class="field">Глубина, мм
+            <input type="number" id="wDepth" value="600" min="200" max="1200" />
+          </label>
+          <label class="field">Высота, мм
+            <input type="number" id="wHeight" value="2700" min="400" max="4000" />
+          </label>
+          <label class="field">Зоны / секции
+            <input type="number" id="wZones" value="2" min="1" max="8" />
+          </label>
+          <label class="field">Стиль
+            <select id="wStyle">
+              <option value="modern">modern</option>
+              <option value="classic">classic</option>
+              <option value="scandi">scandi</option>
+            </select>
+          </label>
+          <label class="field">Ручки
+            <select id="wHandles">
+              <option value="none">Без ручек</option>
+              <option value="default">С ручками</option>
+              <option value="unknown">Позже</option>
+            </select>
+          </label>
+        </div>
+        <div class="checks" id="wFill"></div>
+        <label class="field">Заметки
+          <input type="text" id="wNotes" placeholder="опционально" />
+        </label>
+        <div class="row" style="margin-top:12px">
+          <button class="primary" id="wBuild" type="button">Собрать JSON</button>
+          <button class="ghost" id="wSave" type="button">Сохранить черновик</button>
+          <button class="ghost" id="wFromJson" type="button">← Из JSON</button>
+          <span class="status" id="wStatus"></span>
+        </div>
+      </div>
+
+      <!-- PRESETS -->
+      <div class="panel" id="panel-presets">
+        <h2>Пресеты</h2>
+        <div class="row" style="margin-bottom:10px">
+          <button class="ghost" id="presetsRefresh" type="button">Обновить</button>
+        </div>
+        <ul class="preset-list" id="presetList"></ul>
+      </div>
+
+      <!-- DRAFTS -->
+      <div class="panel" id="panel-drafts">
+        <h2>Черновики</h2>
+        <div class="row" style="margin-bottom:10px">
+          <button class="ghost" id="draftsRefresh" type="button">Обновить</button>
+        </div>
+        <ul class="draft-list" id="draftList"></ul>
+      </div>
+
+      <!-- HINTS -->
+      <div class="panel" id="panel-hints">
+        <h2>Подсказки каталога (read-only)</h2>
+        <div class="hint-box" id="hintsBox">загрузка…</div>
+        <button class="ghost" id="hintsRefresh" type="button">Обновить</button>
+      </div>
+
+      <!-- APPLY -->
+      <div class="panel" id="panel-apply">
+        <h2>Контракт apply (пока не выполняется)</h2>
+        <p class="status" style="margin:0 0 8px">Это план команд для будущей связки с комнатой. Сейчас ничего не ставится в 3D.</p>
+        <pre id="applyOut">{}</pre>
+      </div>
+
+      <!-- SETTINGS -->
+      <div class="panel" id="panel-settings">
+        <h2>Провайдер</h2>
+        <p class="status" style="margin:0 0 12px">
+          Сейчас: <b>DeepSeek</b> (<code>openai_compatible</code>). Ключ в <code>AI_PILOT.env</code>.
+          Мастер и черновики работают без сети. Кнопка ниже — откат на mock.
+        </p>
+        <div class="grid2">
+          <label class="field">Провайдер
+            <select id="provider">
+              <option value="mock">mock (без ключа)</option>
+              <option value="openai">openai</option>
+              <option value="yandex">yandex</option>
+              <option value="openai_compatible">openai_compatible (DeepSeek)</option>
+            </select>
+          </label>
+          <label class="field">Model
+            <input type="text" id="model" placeholder="deepseek-v4-flash" />
+          </label>
+        </div>
+        <label class="field" style="margin-top:8px">baseUrl
+          <input type="text" id="baseUrl" placeholder="https://api.deepseek.com/v1" />
+        </label>
+        <p class="status">Ключ: <code>AI_PILOT_API_KEY</code> в файле <code>AI_PILOT.env</code>.</p>
+        <div class="row">
+          <button class="ghost" id="saveCfg" type="button">Сохранить конфиг</button>
+          <button class="ghost" id="forceMock" type="button">Вернуть mock</button>
+          <button class="ghost" id="forceDeepseek" type="button">Включить DeepSeek</button>
+          <span class="status" id="cfgStatus"></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Сводка и Intent JSON</h2>
+      <pre id="summaryOut" style="max-height:22vh;margin-bottom:10px;font-family:inherit;font-size:0.85rem">—</pre>
+      <p class="status">ready: <strong id="readyFlag" class="ready-no">false</strong> · applyToConstructor: <strong>false</strong></p>
+      <pre id="intentOut">{}</pre>
+      <div class="row" style="margin-top:10px">
+        <button class="ghost" id="btnCopy" type="button">Копировать JSON</button>
+        <button class="ghost" id="btnDownload" type="button">Скачать .json</button>
+        <button class="ghost" id="btnImport" type="button">Импорт .json</button>
+        <button class="ghost" id="btnToWizard" type="button">В мастер</button>
+        <button class="ghost" id="btnRefreshSummary" type="button">Обновить текст</button>
+        <input class="hidden-file" type="file" id="importFile" accept="application/json,.json" />
+      </div>
+      <span class="status" id="panelStatus" style="margin-top:8px"></span>
+    </section>
+  </main>
+
+  <script>
+    const SESSION_KEY = 'tz_pilot_session_v1';
+    const $ = (id) => document.getElementById(id);
+    const chatEl = $('chat');
+    const intentOut = $('intentOut');
+    const summaryOut = $('summaryOut');
+    const readyFlag = $('readyFlag');
+    const healthEl = $('health');
+    let history = [];
+    let currentIntent = null;
+    let currentSummary = '';
+    let recognition = null;
+    let listening = false;
+    let fillOptionsReady = false;
+
+    function persistSession() {
+      try {
+        localStorage.setItem(
+          SESSION_KEY,
+          JSON.stringify({ intent: currentIntent || {}, history })
+        );
+      } catch (_) { /* ignore quota */ }
+    }
+
+    function restoreSession() {
+      try {
+        const raw = localStorage.getItem(SESSION_KEY);
+        if (!raw) return null;
+        const data = JSON.parse(raw);
+        if (!data || typeof data !== 'object') return null;
+        return data;
+      } catch (_) {
+        return null;
+      }
+    }
+
+    function setSummary(text) {
+      currentSummary = text || '';
+      summaryOut.textContent = currentSummary || '—';
+    }
+
+    function setIntent(intent, opts) {
+      const options = opts || {};
+      currentIntent = intent || null;
+      intentOut.textContent = JSON.stringify(intent || {}, null, 2);
+      const ready = !!intent?.ready;
+      readyFlag.textContent = String(ready);
+      readyFlag.className = ready ? 'ready-yes' : 'ready-no';
+      if (options.summary != null) setSummary(options.summary);
+      if (!options.skipPersist) persistSession();
+    }
+
+    function addMsg(role, text, opts) {
+      const div = document.createElement('div');
+      div.className = 'msg ' + (role === 'user' ? 'user' : role === 'meta' ? 'meta' : 'bot');
+      div.textContent = text;
+      chatEl.appendChild(div);
+      chatEl.scrollTop = chatEl.scrollHeight;
+      if (!(opts && opts.skipPersist) && (role === 'user' || role === 'bot')) {
+        /* history managed by callers */
+      }
+    }
+
+    function renderHistory() {
+      chatEl.innerHTML = '';
+      if (!history.length) {
+        addMsg('meta', 'Режим без AI: мастер + mock-чат. Голос — 🎙 (Chrome).', { skipPersist: true });
+        return;
+      }
+      history.forEach((m) => {
+        if (!m || !m.content) return;
+        addMsg(m.role === 'user' ? 'user' : 'bot', m.content, { skipPersist: true });
+      });
+    }
+
+    function markHealthOk(extra) {
+      healthEl.className = 'status ok';
+      healthEl.textContent = extra || 'API ok';
+    }
+    function markHealthBad(msg) {
+      healthEl.className = 'status bad';
+      healthEl.textContent = msg || 'API недоступен';
+    }
+
+    async function loadHealth() {
+      try {
+        const r = await fetch('/api/ai-pilot/health', { cache: 'no-store' });
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        const j = await r.json();
+        if (!j.ok) throw new Error('not ok');
+        markHealthOk(
+          `ok · ${j.provider}` + (j.hasApiKey ? ' · key' : ' · mock') + (j.enabled === false ? ' · ВЫКЛ' : '')
+        );
+        return true;
+      } catch (e) {
+        markHealthBad('сервер AI Pilot недоступен — перезапустите server.js (PORT=8030)');
+        return false;
+      }
+    }
+
+    function setSelectValue(el, value, fallback) {
+      if (!el) return;
+      const v = value != null && value !== '' ? String(value) : fallback;
+      if (v == null) return;
+      const has = [...el.options].some((o) => o.value === v);
+      if (has) el.value = v;
+      else if (fallback != null) el.value = fallback;
+    }
+
+    function fillWizardFromIntent(intent) {
+      if (!intent || typeof intent !== 'object') return;
+      const mm = intent.room_mm || {};
+      setSelectValue($('wProduct'), intent.product, 'wardrobe');
+      setSelectValue($('wLayout'), intent.layout, 'straight');
+      if (mm.width != null) $('wWidth').value = mm.width;
+      if (mm.depth != null) $('wDepth').value = mm.depth;
+      if (mm.height != null) $('wHeight').value = mm.height;
+      if (intent.zones != null) $('wZones').value = intent.zones;
+      setSelectValue($('wStyle'), intent.style, 'modern');
+      setSelectValue($('wHandles'), intent.handles, 'none');
+      $('wNotes').value = intent.notes != null ? String(intent.notes) : '';
+      const fill = Array.isArray(intent.fill) ? intent.fill.map(String) : [];
+      $('wFill').querySelectorAll('input[type="checkbox"]').forEach((cb) => {
+        cb.checked = fill.includes(cb.value);
+      });
+    }
+
+    function buildFillCheckboxes(options) {
+      const box = $('wFill');
+      const prev = [...box.querySelectorAll('input:checked')].map((c) => c.value);
+      box.innerHTML = '';
+      (options || [
+        { id: 'rail', label: 'Штанга' },
+        { id: 'shelves', label: 'Полки' },
+        { id: 'drawers', label: 'Ящики' },
+        { id: 'antresol', label: 'Антресоль' },
+      ]).forEach((o) => {
+        const lab = document.createElement('label');
+        const checked =
+          prev.length
+            ? prev.includes(o.id)
+            : o.id === 'rail' || o.id === 'shelves';
+        lab.innerHTML =
+          `<input type="checkbox" value="${o.id}" ${checked ? 'checked' : ''}/> ${o.label}`;
+        box.appendChild(lab);
+      });
+      fillOptionsReady = true;
+    }
+
+    async function loadConfig() {
+      const r = await fetch('/api/ai-pilot/config', { cache: 'no-store' });
+      const j = await r.json();
+      $('provider').value = j.provider || 'mock';
+      $('model').value = j.model || '';
+      $('baseUrl').value = j.baseUrl || '';
+      buildFillCheckboxes(j.fillOptions);
+      if (j.intentExample && !currentIntent) {
+        setIntent(j.intentExample, { skipPersist: true });
+      }
+    }
+
+    async function refreshSummary(fromApi) {
+      if (!currentIntent || !Object.keys(currentIntent).length) {
+        setSummary('—');
+        return;
+      }
+      if (!fromApi && currentSummary) return;
+      try {
+        const r = await fetch('/api/ai-pilot/summarize', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ intent: currentIntent }),
+        });
+        const j = await r.json();
+        if (!r.ok) throw new Error(j.error || r.status);
+        setSummary(j.summary || '—');
+        if (j.intent) setIntent(j.intent, { summary: j.summary });
+      } catch (e) {
+        setSummary('(не удалось обновить текст: ' + (e.message || e) + ')');
+      }
+    }
+
+    // tabs
+    document.querySelectorAll('#tabs button').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#tabs button').forEach((b) => b.classList.remove('active'));
+        document.querySelectorAll('.panel').forEach((p) => p.classList.remove('active'));
+        btn.classList.add('active');
+        $('panel-' + btn.dataset.tab).classList.add('active');
+        if (btn.dataset.tab === 'drafts') loadDrafts();
+        if (btn.dataset.tab === 'presets') loadPresets();
+        if (btn.dataset.tab === 'hints') loadHints();
+        if (btn.dataset.tab === 'apply') loadApply();
+      });
+    });
+
+    function switchTab(name) {
+      const btn = document.querySelector(`#tabs button[data-tab="${name}"]`);
+      if (btn) btn.click();
+    }
+
+    // chat
+    async function send() {
+      const message = $('input').value.trim();
+      if (!message) return;
+      $('send').disabled = true;
+      $('sendStatus').textContent = '…';
+      addMsg('user', message);
+      $('input').value = '';
+      history.push({ role: 'user', content: message });
+      persistSession();
+      try {
+        const r = await fetch('/api/ai-pilot/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message,
+            history: history.slice(0, -1),
+            previousIntent: currentIntent || undefined,
+          }),
+        });
+        const j = await r.json();
+        if (!r.ok) {
+          addMsg('bot', 'Ошибка: ' + (j.message || j.error || r.status));
+          return;
+        }
+        markHealthOk('ok · chat ' + (j.provider || ''));
+        const reply = j.reply || j.intent?.assistant_message || '(пусто)';
+        addMsg('bot', reply);
+        history.push({ role: 'assistant', content: reply });
+        setIntent(j.intent, { summary: j.summary });
+        if (!j.summary) refreshSummary(true);
+        $('sendStatus').textContent = 'via ' + j.provider + (j.model ? ' / ' + j.model : '');
+      } catch (e) {
+        markHealthBad('сеть / сервер');
+        addMsg('bot', 'Сеть: ' + (e.message || e));
+      } finally {
+        $('send').disabled = false;
+        persistSession();
+      }
+    }
+
+    $('send').onclick = send;
+    $('input').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+    });
+    $('clear').onclick = () => {
+      history = [];
+      chatEl.innerHTML = '';
+      addMsg('meta', 'Чат очищен.');
+      setIntent({});
+      setSummary('—');
+      persistSession();
+    };
+    document.querySelectorAll('[data-ex]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        $('input').value = btn.getAttribute('data-ex') || '';
+        $('input').focus();
+      });
+    });
+
+    // voice
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) {
+      $('mic').disabled = true;
+      $('mic').title = 'Голос не поддерживается в этом браузере';
+    } else {
+      recognition = new SR();
+      recognition.lang = 'ru-RU';
+      recognition.interimResults = false;
+      recognition.onresult = (ev) => {
+        const t = ev.results[0][0].transcript;
+        $('input').value = (($('input').value || '') + ' ' + t).trim();
+      };
+      recognition.onerror = () => { listening = false; $('mic').classList.remove('listening'); };
+      recognition.onend = () => { listening = false; $('mic').classList.remove('listening'); };
+      $('mic').onclick = () => {
+        if (listening) { recognition.stop(); return; }
+        listening = true;
+        $('mic').classList.add('listening');
+        recognition.start();
+      };
+    }
+
+    // wizard
+    async function buildWizard() {
+      const fill = [...$('wFill').querySelectorAll('input:checked')].map((c) => c.value);
+      const body = {
+        product: $('wProduct').value,
+        layout: $('wLayout').value,
+        width: Number($('wWidth').value),
+        depth: Number($('wDepth').value),
+        height: Number($('wHeight').value),
+        zones: Number($('wZones').value),
+        style: $('wStyle').value,
+        handles: $('wHandles').value,
+        fill,
+        notes: $('wNotes').value,
+      };
+      $('wStatus').textContent = '…';
+      const r = await fetch('/api/ai-pilot/wizard', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      const j = await r.json();
+      if (!r.ok) { $('wStatus').textContent = j.error || 'ошибка'; return null; }
+      setIntent(j.intent, { summary: j.summary });
+      markHealthOk('ok · wizard');
+      $('wStatus').textContent = j.intent?.ready ? 'ready' : 'не ready';
+      return j.intent;
+    }
+    $('wBuild').onclick = () => buildWizard();
+    $('wSave').onclick = async () => {
+      const intent = (await buildWizard()) || currentIntent;
+      if (!intent) return;
+      await saveDraft(intent, 'wizard');
+    };
+    $('wFromJson').onclick = () => {
+      if (!currentIntent || !Object.keys(currentIntent).length) {
+        $('wStatus').textContent = 'нет JSON';
+        return;
+      }
+      fillWizardFromIntent(currentIntent);
+      $('wStatus').textContent = 'форма из JSON';
+    };
+
+    async function saveDraft(intent, source) {
+      const title = prompt(
+        'Название черновика',
+        `ТЗ ${intent?.room_mm?.width || ''}×${intent?.room_mm?.height || ''}`
+      );
+      if (title == null) return;
+      const r = await fetch('/api/ai-pilot/drafts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, intent, source }),
+      });
+      const j = await r.json();
+      if (!r.ok) { alert(j.error || 'save failed'); return; }
+      $('sendStatus').textContent = 'черновик ' + j.draft.id;
+      $('wStatus').textContent = 'сохранён ' + j.draft.id;
+    }
+    $('saveFromChat').onclick = () => {
+      if (!currentIntent || !Object.keys(currentIntent).length) {
+        alert('Сначала получите intent из чата');
+        return;
+      }
+      saveDraft(currentIntent, 'chat');
+    };
+
+    async function loadPresets() {
+      const r = await fetch('/api/ai-pilot/presets', { cache: 'no-store' });
+      const j = await r.json();
+      const ul = $('presetList');
+      ul.innerHTML = '';
+      (j.presets || []).forEach((p) => {
+        const li = document.createElement('li');
+        const mm = p.intent?.room_mm;
+        const size = mm
+          ? `${mm.width || '?'}×${mm.depth || '?'}×${mm.height || '?'}`
+          : '—';
+        li.innerHTML =
+          `<div><strong>${p.title}</strong><div class="status">${size} · ${p.id}</div></div>`;
+        const apply = document.createElement('button');
+        apply.className = 'ghost';
+        apply.textContent = 'Применить';
+        apply.onclick = (e) => {
+          e.stopPropagation();
+          applyPreset(p);
+        };
+        li.appendChild(apply);
+        li.onclick = () => applyPreset(p);
+        ul.appendChild(li);
+      });
+      if (!(j.presets || []).length) ul.innerHTML = '<li class="status">Пресеты не найдены</li>';
+    }
+    function applyPreset(p) {
+      if (!p?.intent) return;
+      setIntent(p.intent);
+      fillWizardFromIntent(p.intent);
+      refreshSummary(true);
+      $('panelStatus').textContent = 'пресет: ' + (p.title || p.id);
+      switchTab('wizard');
+    }
+    $('presetsRefresh').onclick = loadPresets;
+
+    async function loadDrafts() {
+      const r = await fetch('/api/ai-pilot/drafts', { cache: 'no-store' });
+      const j = await r.json();
+      const ul = $('draftList');
+      ul.innerHTML = '';
+      (j.drafts || []).forEach((d) => {
+        const li = document.createElement('li');
+        const mm = d.room_mm
+          ? `${d.room_mm.width || '?'}×${d.room_mm.depth || '?'}×${d.room_mm.height || '?'}`
+          : '—';
+        li.innerHTML =
+          `<div><strong>${d.title}</strong><div class="status">${mm} · ${d.source} · ready=${d.ready}</div></div>`;
+        const actions = document.createElement('div');
+        actions.className = 'row';
+        const open = document.createElement('button');
+        open.className = 'ghost';
+        open.textContent = 'Открыть';
+        open.onclick = async () => {
+          const rr = await fetch('/api/ai-pilot/drafts/' + d.id);
+          const jj = await rr.json();
+          const intent = jj.intent || jj;
+          setIntent(intent);
+          fillWizardFromIntent(intent);
+          refreshSummary(true);
+          switchTab('wizard');
+        };
+        const del = document.createElement('button');
+        del.className = 'ghost';
+        del.textContent = 'Удалить';
+        del.onclick = async () => {
+          if (!confirm('Удалить ' + d.id + '?')) return;
+          await fetch('/api/ai-pilot/drafts/' + d.id, { method: 'DELETE' });
+          loadDrafts();
+        };
+        actions.append(open, del);
+        li.appendChild(actions);
+        ul.appendChild(li);
+      });
+      if (!(j.drafts || []).length) ul.innerHTML = '<li class="status">Пока пусто</li>';
+    }
+    $('draftsRefresh').onclick = loadDrafts;
+
+    async function loadHints() {
+      const r = await fetch('/api/ai-pilot/catalog-hints', { cache: 'no-store' });
+      const j = await r.json();
+      const handles =
+        (j.handleCollections || []).map((h) => `${h.name} (${h.modelsCount})`).join(', ') || '—';
+      const groups = (j.moduleGroups || []).map((g) => g.name).join(', ') || '—';
+      $('hintsBox').innerHTML =
+        `<div><b>Коллекции ручек:</b> ${handles}</div>` +
+        `<div style="margin-top:8px"><b>Группы модулей:</b> ${groups}</div>` +
+        `<div style="margin-top:8px"><b>Фасадов (счётчик):</b> ${j.facadesCount ?? '—'}</div>` +
+        `<ul>${(j.tips || []).map((t) => `<li>${t}</li>`).join('')}</ul>`;
+    }
+    $('hintsRefresh').onclick = loadHints;
+
+    async function loadApply() {
+      const r = await fetch('/api/ai-pilot/apply-contract', { cache: 'no-store' });
+      $('applyOut').textContent = JSON.stringify(await r.json(), null, 2);
+    }
+
+    function exportFilename(intent) {
+      const mm = intent?.room_mm || {};
+      const w = mm.width ?? 'x';
+      const d = mm.depth ?? 'x';
+      const h = mm.height ?? 'x';
+      return `tz-${w}x${d}x${h}.json`;
+    }
+
+    function unwrapImportedIntent(data) {
+      if (!data || typeof data !== 'object') return null;
+      if (data.intent && typeof data.intent === 'object') return data.intent;
+      return data;
+    }
+
+    $('btnCopy').onclick = async () => {
+      try {
+        await navigator.clipboard.writeText(intentOut.textContent || '{}');
+        $('panelStatus').textContent = 'скопировано';
+      } catch (e) {
+        $('panelStatus').textContent = 'clipboard: ' + (e.message || e);
+      }
+    };
+
+    $('btnDownload').onclick = () => {
+      const blob = new Blob([intentOut.textContent || '{}'], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = exportFilename(currentIntent);
+      a.click();
+      URL.revokeObjectURL(a.href);
+      $('panelStatus').textContent = 'скачано ' + a.download;
+    };
+
+    $('btnImport').onclick = () => $('importFile').click();
+    $('importFile').onchange = async (ev) => {
+      const file = ev.target.files && ev.target.files[0];
+      ev.target.value = '';
+      if (!file) return;
+      try {
+        const text = await file.text();
+        const data = JSON.parse(text);
+        const intent = unwrapImportedIntent(data);
+        if (!intent || typeof intent !== 'object') throw new Error('нет intent');
+        setIntent(intent);
+        fillWizardFromIntent(intent);
+        await refreshSummary(true);
+        $('panelStatus').textContent = 'импорт: ' + file.name;
+      } catch (e) {
+        alert('Импорт не удался: ' + (e.message || e));
+      }
+    };
+
+    $('btnToWizard').onclick = () => {
+      if (!currentIntent || !Object.keys(currentIntent).length) {
+        $('panelStatus').textContent = 'нет JSON';
+        return;
+      }
+      fillWizardFromIntent(currentIntent);
+      switchTab('wizard');
+      $('panelStatus').textContent = 'в мастер';
+    };
+
+    $('btnRefreshSummary').onclick = () => refreshSummary(true);
+
+    async function saveProviderCfg(body) {
+      $('cfgStatus').textContent = '…';
+      const r = await fetch('/api/ai-pilot/config', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      const j = await r.json();
+      $('cfgStatus').textContent = r.ok ? 'сохранено' : (j.message || j.error);
+      loadHealth();
+      return r.ok;
+    }
+
+    $('saveCfg').onclick = () =>
+      saveProviderCfg({
+        enabled: true,
+        provider: $('provider').value,
+        model: $('model').value.trim(),
+        baseUrl: $('baseUrl').value.trim(),
+      });
+
+    $('forceMock').onclick = async () => {
+      $('provider').value = 'mock';
+      await saveProviderCfg({ enabled: true, provider: 'mock', model: '', baseUrl: '' });
+    };
+
+    $('forceDeepseek').onclick = async () => {
+      $('provider').value = 'openai_compatible';
+      $('model').value = 'deepseek-v4-flash';
+      $('baseUrl').value = 'https://api.deepseek.com/v1';
+      await saveProviderCfg({
+        enabled: true,
+        provider: 'openai_compatible',
+        model: 'deepseek-v4-flash',
+        baseUrl: 'https://api.deepseek.com/v1',
+      });
+    };
+
+    // boot
+    const saved = restoreSession();
+    if (saved) {
+      if (Array.isArray(saved.history)) history = saved.history;
+      if (saved.intent && typeof saved.intent === 'object') {
+        setIntent(saved.intent, { skipPersist: true });
+      }
+    }
+    renderHistory();
+
+    loadHealth();
+    setInterval(loadHealth, 15000);
+    loadConfig()
+      .then(() => {
+        if (currentIntent && Object.keys(currentIntent).length) {
+          fillWizardFromIntent(currentIntent);
+          return refreshSummary(true);
+        }
+      })
+      .catch(() => {});
+  </script>
+</body>
+</html>

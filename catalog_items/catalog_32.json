@@ -1,0 +1,1521 @@
+[
+  {
+    "id": 1,
+    "catalog_type": "catalog_32",
+    "data": {
+      "name": "Цоколь 100 мм",
+      "category": [],
+      "show_in_spec": "1",
+      "include_nested": "1",
+      "show_in_constructor": "1",
+      "order": 0,
+      "icon": "",
+      "module_group": "bottom",
+      "drag_type": "top",
+      "stick_type": "common",
+      "is_fill": "0",
+      "no_intersections": "0",
+      "catalog_type": "",
+      "width": "600",
+      "height": "100",
+      "depth": "600",
+      "placementKind": "floor_in_niche",
+      "clodisVariables": {
+        "h_bottom": 100,
+        "h_top": 0
+      },
+      "clodisJSON": [
+        {
+          "type": "section",
+          "id": "node_1778831468413_53fadoqtr",
+          "name": "Цоколь 100",
+          "active": 1,
+          "size": {
+            "x": "s:x",
+            "y": "v:h_bottom",
+            "z": "s:z"
+          },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pivot": {
+            "x": -1,
+            "y": -1,
+            "z": -1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "spec": {
+            "orientation": "f"
+          },
+          "layout_role": "plinth",
+          "children": [
+            {
+              "type": "model",
+              "helpers_visible": 1,
+              "id": "node_1778831468416_1h5u5mr0f",
+              "name": "Опора кухонная 100",
+              "active": 1,
+              "size": {
+                "x": 70,
+                "y": 100,
+                "z": 70
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": 1,
+                "y": -1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 180,
+                "z": 0
+              },
+              "c_rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "2",
+                "key": "Опора кухонная 100"
+              },
+              "children": []
+            },
+            {
+              "type": "model",
+              "helpers_visible": 1,
+              "id": "node_1778831468417_uzi46h3tz",
+              "name": "Опора кухонная 100",
+              "active": 1,
+              "size": {
+                "x": 70,
+                "y": 100,
+                "z": 70
+              },
+              "pos": {
+                "x": "0 + s:x-20",
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 180,
+                "z": 0
+              },
+              "c_rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "2",
+                "key": "Опора кухонная 100"
+              },
+              "children": []
+            },
+            {
+              "type": "model",
+              "helpers_visible": 1,
+              "id": "node_1778831468417_btex4zqil",
+              "name": "Опора кухонная 100",
+              "active": 1,
+              "size": {
+                "x": 70,
+                "y": 100,
+                "z": 70
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": "0 + s:z-20"
+              },
+              "pivot": {
+                "x": 1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 180,
+                "z": 0
+              },
+              "c_rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "2",
+                "key": "Опора кухонная 100"
+              },
+              "children": []
+            },
+            {
+              "type": "model",
+              "helpers_visible": 1,
+              "id": "node_1778831468417_x38vrpaqa",
+              "name": "Опора кухонная 100",
+              "active": 1,
+              "size": {
+                "x": 70,
+                "y": 100,
+                "z": 70
+              },
+              "pos": {
+                "x": "0 + s:x-20",
+                "y": 0,
+                "z": "0 + s:z-20"
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 180,
+                "z": 0
+              },
+              "c_rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "2",
+                "key": "Опора кухонная 100"
+              },
+              "children": []
+            }
+          ]
+        }
+      ],
+      "constructor_structure": {
+        "type": "module",
+        "name": "Цоколь 100 мм",
+        "children": [
+          {
+            "type": "section",
+            "id": "node_1778831468413_53fadoqtr",
+            "name": "Цоколь 100",
+            "active": 1,
+            "size": {
+              "x": "s:x",
+              "y": "v:h_bottom",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "orientation": "f"
+            },
+            "layout_role": "plinth",
+            "children": [
+              {
+                "type": "model",
+                "helpers_visible": 1,
+                "id": "node_1778831468416_1h5u5mr0f",
+                "name": "Опора кухонная 100",
+                "active": 1,
+                "size": {
+                  "x": 70,
+                  "y": 100,
+                  "z": 70
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": 1,
+                  "y": -1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 180,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "2",
+                  "key": "Опора кухонная 100"
+                },
+                "children": []
+              },
+              {
+                "type": "model",
+                "helpers_visible": 1,
+                "id": "node_1778831468417_uzi46h3tz",
+                "name": "Опора кухонная 100",
+                "active": 1,
+                "size": {
+                  "x": 70,
+                  "y": 100,
+                  "z": 70
+                },
+                "pos": {
+                  "x": "0 + s:x-20",
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 180,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "2",
+                  "key": "Опора кухонная 100"
+                },
+                "children": []
+              },
+              {
+                "type": "model",
+                "helpers_visible": 1,
+                "id": "node_1778831468417_btex4zqil",
+                "name": "Опора кухонная 100",
+                "active": 1,
+                "size": {
+                  "x": 70,
+                  "y": 100,
+                  "z": 70
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": "0 + s:z-20"
+                },
+                "pivot": {
+                  "x": 1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 180,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "2",
+                  "key": "Опора кухонная 100"
+                },
+                "children": []
+              },
+              {
+                "type": "model",
+                "helpers_visible": 1,
+                "id": "node_1778831468417_x38vrpaqa",
+                "name": "Опора кухонная 100",
+                "active": 1,
+                "size": {
+                  "x": 70,
+                  "y": 100,
+                  "z": 70
+                },
+                "pos": {
+                  "x": "0 + s:x-20",
+                  "y": 0,
+                  "z": "0 + s:z-20"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 180,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "2",
+                  "key": "Опора кухонная 100"
+                },
+                "children": []
+              }
+            ]
+          }
+        ],
+        "variables": {
+          "main": {
+            "h_bottom": 100,
+            "h_top": 0
+          },
+          "groups": []
+        },
+        "template": {
+          "structure": [
+            {
+              "type": "section",
+              "id": "node_1778831468413_53fadoqtr",
+              "name": "Цоколь 100",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "v:h_bottom",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "f"
+              },
+              "layout_role": "plinth",
+              "children": [
+                {
+                  "type": "model",
+                  "helpers_visible": 1,
+                  "id": "node_1778831468416_1h5u5mr0f",
+                  "name": "Опора кухонная 100",
+                  "active": 1,
+                  "size": {
+                    "x": 70,
+                    "y": 100,
+                    "z": 70
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": 1,
+                    "y": -1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 180,
+                    "z": 0
+                  },
+                  "c_rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "2",
+                    "key": "Опора кухонная 100"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "model",
+                  "helpers_visible": 1,
+                  "id": "node_1778831468417_uzi46h3tz",
+                  "name": "Опора кухонная 100",
+                  "active": 1,
+                  "size": {
+                    "x": 70,
+                    "y": 100,
+                    "z": 70
+                  },
+                  "pos": {
+                    "x": "0 + s:x-20",
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 180,
+                    "z": 0
+                  },
+                  "c_rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "2",
+                    "key": "Опора кухонная 100"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "model",
+                  "helpers_visible": 1,
+                  "id": "node_1778831468417_btex4zqil",
+                  "name": "Опора кухонная 100",
+                  "active": 1,
+                  "size": {
+                    "x": 70,
+                    "y": 100,
+                    "z": 70
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 0,
+                    "z": "0 + s:z-20"
+                  },
+                  "pivot": {
+                    "x": 1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 180,
+                    "z": 0
+                  },
+                  "c_rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "2",
+                    "key": "Опора кухонная 100"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "model",
+                  "helpers_visible": 1,
+                  "id": "node_1778831468417_x38vrpaqa",
+                  "name": "Опора кухонная 100",
+                  "active": 1,
+                  "size": {
+                    "x": 70,
+                    "y": 100,
+                    "z": 70
+                  },
+                  "pos": {
+                    "x": "0 + s:x-20",
+                    "y": 0,
+                    "z": "0 + s:z-20"
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 180,
+                    "z": 0
+                  },
+                  "c_rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "2",
+                    "key": "Опора кухонная 100"
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        "materials_overrides": {},
+        "spec": {
+          "template": {
+            "tree": [
+              {
+                "type": "section",
+                "id": "node_1778831468413_53fadoqtr",
+                "name": "Цоколь 100",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "v:h_bottom",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "f"
+                },
+                "layout_role": "plinth",
+                "children": [
+                  {
+                    "type": "model",
+                    "helpers_visible": 1,
+                    "id": "node_1778831468416_1h5u5mr0f",
+                    "name": "Опора кухонная 100",
+                    "active": 1,
+                    "size": {
+                      "x": 70,
+                      "y": 100,
+                      "z": 70
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "pivot": {
+                      "x": 1,
+                      "y": -1,
+                      "z": 1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 180,
+                      "z": 0
+                    },
+                    "c_rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "id": "2",
+                      "key": "Опора кухонная 100"
+                    },
+                    "children": []
+                  },
+                  {
+                    "type": "model",
+                    "helpers_visible": 1,
+                    "id": "node_1778831468417_uzi46h3tz",
+                    "name": "Опора кухонная 100",
+                    "active": 1,
+                    "size": {
+                      "x": 70,
+                      "y": 100,
+                      "z": 70
+                    },
+                    "pos": {
+                      "x": "0 + s:x-20",
+                      "y": 0,
+                      "z": 0
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": 1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 180,
+                      "z": 0
+                    },
+                    "c_rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "id": "2",
+                      "key": "Опора кухонная 100"
+                    },
+                    "children": []
+                  },
+                  {
+                    "type": "model",
+                    "helpers_visible": 1,
+                    "id": "node_1778831468417_btex4zqil",
+                    "name": "Опора кухонная 100",
+                    "active": 1,
+                    "size": {
+                      "x": 70,
+                      "y": 100,
+                      "z": 70
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": 0,
+                      "z": "0 + s:z-20"
+                    },
+                    "pivot": {
+                      "x": 1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 180,
+                      "z": 0
+                    },
+                    "c_rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "id": "2",
+                      "key": "Опора кухонная 100"
+                    },
+                    "children": []
+                  },
+                  {
+                    "type": "model",
+                    "helpers_visible": 1,
+                    "id": "node_1778831468417_x38vrpaqa",
+                    "name": "Опора кухонная 100",
+                    "active": 1,
+                    "size": {
+                      "x": 70,
+                      "y": 100,
+                      "z": 70
+                    },
+                    "pos": {
+                      "x": "0 + s:x-20",
+                      "y": 0,
+                      "z": "0 + s:z-20"
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 180,
+                      "z": 0
+                    },
+                    "c_rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "id": "2",
+                      "key": "Опора кухонная 100"
+                    },
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    "constructor_structure": {
+      "type": "module",
+      "name": "Цоколь 100 мм",
+      "children": [
+        {
+          "type": "section",
+          "id": "node_1778831468413_53fadoqtr",
+          "name": "Цоколь 100",
+          "active": 1,
+          "size": {
+            "x": "s:x",
+            "y": "v:h_bottom",
+            "z": "s:z"
+          },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pivot": {
+            "x": -1,
+            "y": -1,
+            "z": -1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "spec": {
+            "orientation": "f"
+          },
+          "layout_role": "plinth",
+          "children": [
+            {
+              "type": "model",
+              "helpers_visible": 1,
+              "id": "node_1778831468416_1h5u5mr0f",
+              "name": "Опора кухонная 100",
+              "active": 1,
+              "size": {
+                "x": 70,
+                "y": 100,
+                "z": 70
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": 1,
+                "y": -1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 180,
+                "z": 0
+              },
+              "c_rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "2",
+                "key": "Опора кухонная 100"
+              },
+              "children": []
+            },
+            {
+              "type": "model",
+              "helpers_visible": 1,
+              "id": "node_1778831468417_uzi46h3tz",
+              "name": "Опора кухонная 100",
+              "active": 1,
+              "size": {
+                "x": 70,
+                "y": 100,
+                "z": 70
+              },
+              "pos": {
+                "x": "0 + s:x-20",
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 180,
+                "z": 0
+              },
+              "c_rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "2",
+                "key": "Опора кухонная 100"
+              },
+              "children": []
+            },
+            {
+              "type": "model",
+              "helpers_visible": 1,
+              "id": "node_1778831468417_btex4zqil",
+              "name": "Опора кухонная 100",
+              "active": 1,
+              "size": {
+                "x": 70,
+                "y": 100,
+                "z": 70
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": "0 + s:z-20"
+              },
+              "pivot": {
+                "x": 1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 180,
+                "z": 0
+              },
+              "c_rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "2",
+                "key": "Опора кухонная 100"
+              },
+              "children": []
+            },
+            {
+              "type": "model",
+              "helpers_visible": 1,
+              "id": "node_1778831468417_x38vrpaqa",
+              "name": "Опора кухонная 100",
+              "active": 1,
+              "size": {
+                "x": 70,
+                "y": 100,
+                "z": 70
+              },
+              "pos": {
+                "x": "0 + s:x-20",
+                "y": 0,
+                "z": "0 + s:z-20"
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 180,
+                "z": 0
+              },
+              "c_rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "2",
+                "key": "Опора кухонная 100"
+              },
+              "children": []
+            }
+          ]
+        }
+      ],
+      "variables": {
+        "main": {
+          "h_bottom": 100,
+          "h_top": 0
+        },
+        "groups": []
+      },
+      "template": {
+        "structure": [
+          {
+            "type": "section",
+            "id": "node_1778831468413_53fadoqtr",
+            "name": "Цоколь 100",
+            "active": 1,
+            "size": {
+              "x": "s:x",
+              "y": "v:h_bottom",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "orientation": "f"
+            },
+            "layout_role": "plinth",
+            "children": [
+              {
+                "type": "model",
+                "helpers_visible": 1,
+                "id": "node_1778831468416_1h5u5mr0f",
+                "name": "Опора кухонная 100",
+                "active": 1,
+                "size": {
+                  "x": 70,
+                  "y": 100,
+                  "z": 70
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": 1,
+                  "y": -1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 180,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "2",
+                  "key": "Опора кухонная 100"
+                },
+                "children": []
+              },
+              {
+                "type": "model",
+                "helpers_visible": 1,
+                "id": "node_1778831468417_uzi46h3tz",
+                "name": "Опора кухонная 100",
+                "active": 1,
+                "size": {
+                  "x": 70,
+                  "y": 100,
+                  "z": 70
+                },
+                "pos": {
+                  "x": "0 + s:x-20",
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 180,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "2",
+                  "key": "Опора кухонная 100"
+                },
+                "children": []
+              },
+              {
+                "type": "model",
+                "helpers_visible": 1,
+                "id": "node_1778831468417_btex4zqil",
+                "name": "Опора кухонная 100",
+                "active": 1,
+                "size": {
+                  "x": 70,
+                  "y": 100,
+                  "z": 70
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": "0 + s:z-20"
+                },
+                "pivot": {
+                  "x": 1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 180,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "2",
+                  "key": "Опора кухонная 100"
+                },
+                "children": []
+              },
+              {
+                "type": "model",
+                "helpers_visible": 1,
+                "id": "node_1778831468417_x38vrpaqa",
+                "name": "Опора кухонная 100",
+                "active": 1,
+                "size": {
+                  "x": 70,
+                  "y": 100,
+                  "z": 70
+                },
+                "pos": {
+                  "x": "0 + s:x-20",
+                  "y": 0,
+                  "z": "0 + s:z-20"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 180,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "2",
+                  "key": "Опора кухонная 100"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      "materials_overrides": {},
+      "spec": {
+        "template": {
+          "tree": [
+            {
+              "type": "section",
+              "id": "node_1778831468413_53fadoqtr",
+              "name": "Цоколь 100",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "v:h_bottom",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "f"
+              },
+              "layout_role": "plinth",
+              "children": [
+                {
+                  "type": "model",
+                  "helpers_visible": 1,
+                  "id": "node_1778831468416_1h5u5mr0f",
+                  "name": "Опора кухонная 100",
+                  "active": 1,
+                  "size": {
+                    "x": 70,
+                    "y": 100,
+                    "z": 70
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": 1,
+                    "y": -1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 180,
+                    "z": 0
+                  },
+                  "c_rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "2",
+                    "key": "Опора кухонная 100"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "model",
+                  "helpers_visible": 1,
+                  "id": "node_1778831468417_uzi46h3tz",
+                  "name": "Опора кухонная 100",
+                  "active": 1,
+                  "size": {
+                    "x": 70,
+                    "y": 100,
+                    "z": 70
+                  },
+                  "pos": {
+                    "x": "0 + s:x-20",
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 180,
+                    "z": 0
+                  },
+                  "c_rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "2",
+                    "key": "Опора кухонная 100"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "model",
+                  "helpers_visible": 1,
+                  "id": "node_1778831468417_btex4zqil",
+                  "name": "Опора кухонная 100",
+                  "active": 1,
+                  "size": {
+                    "x": 70,
+                    "y": 100,
+                    "z": 70
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 0,
+                    "z": "0 + s:z-20"
+                  },
+                  "pivot": {
+                    "x": 1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 180,
+                    "z": 0
+                  },
+                  "c_rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "2",
+                    "key": "Опора кухонная 100"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "model",
+                  "helpers_visible": 1,
+                  "id": "node_1778831468417_x38vrpaqa",
+                  "name": "Опора кухонная 100",
+                  "active": 1,
+                  "size": {
+                    "x": 70,
+                    "y": 100,
+                    "z": 70
+                  },
+                  "pos": {
+                    "x": "0 + s:x-20",
+                    "y": 0,
+                    "z": "0 + s:z-20"
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 180,
+                    "z": 0
+                  },
+                  "c_rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "2",
+                    "key": "Опора кухонная 100"
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "clodisJSON": [
+      {
+        "type": "section",
+        "id": "node_1778831468413_53fadoqtr",
+        "name": "Цоколь 100",
+        "active": 1,
+        "size": {
+          "x": "s:x",
+          "y": "v:h_bottom",
+          "z": "s:z"
+        },
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "pivot": {
+          "x": -1,
+          "y": -1,
+          "z": -1
+        },
+        "rot": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "spec": {
+          "orientation": "f"
+        },
+        "layout_role": "plinth",
+        "children": [
+          {
+            "type": "model",
+            "helpers_visible": 1,
+            "id": "node_1778831468416_1h5u5mr0f",
+            "name": "Опора кухонная 100",
+            "active": 1,
+            "size": {
+              "x": 70,
+              "y": 100,
+              "z": 70
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": 1,
+              "y": -1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 180,
+              "z": 0
+            },
+            "c_rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "2",
+              "key": "Опора кухонная 100"
+            },
+            "children": []
+          },
+          {
+            "type": "model",
+            "helpers_visible": 1,
+            "id": "node_1778831468417_uzi46h3tz",
+            "name": "Опора кухонная 100",
+            "active": 1,
+            "size": {
+              "x": 70,
+              "y": 100,
+              "z": 70
+            },
+            "pos": {
+              "x": "0 + s:x-20",
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 180,
+              "z": 0
+            },
+            "c_rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "2",
+              "key": "Опора кухонная 100"
+            },
+            "children": []
+          },
+          {
+            "type": "model",
+            "helpers_visible": 1,
+            "id": "node_1778831468417_btex4zqil",
+            "name": "Опора кухонная 100",
+            "active": 1,
+            "size": {
+              "x": 70,
+              "y": 100,
+              "z": 70
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": "0 + s:z-20"
+            },
+            "pivot": {
+              "x": 1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 180,
+              "z": 0
+            },
+            "c_rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "2",
+              "key": "Опора кухонная 100"
+            },
+            "children": []
+          },
+          {
+            "type": "model",
+            "helpers_visible": 1,
+            "id": "node_1778831468417_x38vrpaqa",
+            "name": "Опора кухонная 100",
+            "active": 1,
+            "size": {
+              "x": 70,
+              "y": 100,
+              "z": 70
+            },
+            "pos": {
+              "x": "0 + s:x-20",
+              "y": 0,
+              "z": "0 + s:z-20"
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 180,
+              "z": 0
+            },
+            "c_rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "2",
+              "key": "Опора кухонная 100"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+]

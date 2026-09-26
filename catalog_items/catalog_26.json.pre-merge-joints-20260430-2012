@@ -1,0 +1,5274 @@
+[
+  {
+    "id": 1,
+    "catalog_type": "catalog_26",
+    "data": {
+      "name": "Шкаф 80.6 ",
+      "category": [
+        5,
+        6,
+        7,
+        10,
+        8
+      ],
+      "show_in_spec": "1",
+      "include_nested": "1",
+      "show_in_constructor": "1",
+      "order": 0,
+      "icon": "/files/catalog_icons/catalog_icon_1_1774866816991_1774866817027.png",
+      "module_group": "bottom",
+      "drag_type": "top",
+      "stick_type": "common",
+      "is_fill": "0",
+      "no_intersections": "0",
+      "catalog_type": "",
+      "width": "800",
+      "height": "2200",
+      "depth": "600",
+      "placementKind": "floor_in_niche",
+      "planPlaceVariables": {
+        "h_bottom": 100,
+        "h_top": 0
+      },
+      "constructor_structure": {
+        "type": "module",
+        "name": "Шкаф 80.6",
+        "children": [
+          {
+            "type": "section",
+            "id": "node_1774866683059_z618xmm1r",
+            "name": "Шкаф 80.6",
+            "originalType": "section",
+            "hide_when_filled": false,
+            "active": true,
+            "article": "",
+            "children": [
+              {
+                "type": "section",
+                "id": "node_1774866683060_bvmh5smzm",
+                "name": "Цоколь",
+                "originalType": "section",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [
+                  {
+                    "type": "wall",
+                    "id": "node_1774866683060_n2yxdrt8v",
+                    "name": "Деталь",
+                    "originalType": "detail",
+                    "hide_when_filled": false,
+                    "active": true,
+                    "article": "",
+                    "children": [],
+                    "accessories": [],
+                    "size": {
+                      "x": "s:x",
+                      "y": "s:y",
+                      "z": "s:z"
+                    },
+                    "position": {
+                      "x": 0,
+                      "y": 0,
+                      "z": "s:z / 2"
+                    },
+                    "anchor": {
+                      "x": -1,
+                      "y": -1,
+                      "z": 0
+                    },
+                    "rotation": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "comments": "",
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "fill_key": "center",
+                    "consider_size": false,
+                    "consider_cuts": false,
+                    "consider_intersections": false,
+                    "spec": {
+                      "orientation": "f",
+                      "direction": "z",
+                      "side": "center",
+                      "material": {
+                        "group": "g0",
+                        "key": "material_2",
+                        "id": 10,
+                        "rotated": false,
+                        "fixed": false
+                      },
+                      "detailTypeId": "front_middle"
+                    }
+                  }
+                ],
+                "accessories": [],
+                "size": {
+                  "x": "s:x",
+                  "y": "v:h_bottom",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0"
+                },
+                "layout_role": "plinth"
+              },
+              {
+                "type": "wall",
+                "id": "node_1774866683060_n2yxdrt8v",
+                "name": "Деталь",
+                "originalType": "detail",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [],
+                "accessories": [],
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "position": {
+                  "x": 0,
+                  "y": 0,
+                  "z": "s:z / 2"
+                },
+                "anchor": {
+                  "x": -1,
+                  "y": -1,
+                  "z": 0
+                },
+                "rotation": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "fill_key": "center",
+                "consider_size": false,
+                "consider_cuts": false,
+                "consider_intersections": false,
+                "spec": {
+                  "orientation": "f",
+                  "direction": "z",
+                  "side": "center",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "id": 10,
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "front_middle"
+                }
+              },
+              {
+                "type": "section",
+                "id": "node_1774866683060_6sjxna23y",
+                "name": "Корпус",
+                "originalType": "section",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [
+                  {
+                    "type": "wall",
+                    "id": "node_1774866683061_bhunpirjh",
+                    "name": "Деталь",
+                    "originalType": "detail",
+                    "hide_when_filled": false,
+                    "active": true,
+                    "article": "",
+                    "children": [],
+                    "accessories": [],
+                    "size": {
+                      "x": "s:x",
+                      "y": "s:y",
+                      "z": "s:z"
+                    },
+                    "position": {
+                      "x": "0",
+                      "y": "0",
+                      "z": "0"
+                    },
+                    "anchor": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "rotation": {
+                      "x": "0",
+                      "y": "0",
+                      "z": "0"
+                    },
+                    "comments": "",
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "fill_key": "bottom",
+                    "consider_size": false,
+                    "consider_cuts": false,
+                    "consider_intersections": false,
+                    "spec": {
+                      "orientation": "h",
+                      "direction": "z",
+                      "side": "bottom",
+                      "material": {
+                        "group": "g0",
+                        "key": "material_2",
+                        "rotated": false,
+                        "fixed": false
+                      },
+                      "detailTypeId": "horizontal_bottom"
+                    }
+                  },
+                  {
+                    "type": "wall",
+                    "id": "node_1774866683061_ou1hyekic",
+                    "name": "Деталь",
+                    "originalType": "detail",
+                    "hide_when_filled": false,
+                    "active": true,
+                    "article": "",
+                    "children": [],
+                    "accessories": [],
+                    "size": {
+                      "x": "s:x",
+                      "y": "s:y - 16",
+                      "z": "s:z"
+                    },
+                    "position": {
+                      "x": "0",
+                      "y": "16",
+                      "z": "0"
+                    },
+                    "anchor": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "rotation": {
+                      "x": "0",
+                      "y": "0",
+                      "z": "0"
+                    },
+                    "comments": "",
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "fill_key": "left",
+                    "consider_size": false,
+                    "consider_cuts": false,
+                    "consider_intersections": false,
+                    "spec": {
+                      "orientation": "v",
+                      "direction": "z",
+                      "side": "left",
+                      "material": {
+                        "group": "g0",
+                        "key": "material_2",
+                        "rotated": false,
+                        "fixed": false
+                      },
+                      "detailTypeId": "vertical_left"
+                    }
+                  },
+                  {
+                    "type": "wall",
+                    "id": "node_1774866683061_ijuk4sjvg",
+                    "name": "Деталь",
+                    "originalType": "detail",
+                    "hide_when_filled": false,
+                    "active": true,
+                    "article": "",
+                    "children": [],
+                    "accessories": [],
+                    "size": {
+                      "x": "s:x",
+                      "y": "s:y",
+                      "z": "s:z"
+                    },
+                    "position": {
+                      "x": "s:x",
+                      "y": "0",
+                      "z": "0"
+                    },
+                    "anchor": {
+                      "x": 1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "rotation": {
+                      "x": "0",
+                      "y": "0",
+                      "z": "0"
+                    },
+                    "comments": "",
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "fill_key": "right",
+                    "consider_size": false,
+                    "consider_cuts": false,
+                    "consider_intersections": false,
+                    "spec": {
+                      "orientation": "v",
+                      "direction": "z",
+                      "side": "right",
+                      "material": {
+                        "group": "g0",
+                        "key": "material_2",
+                        "rotated": false,
+                        "fixed": false
+                      },
+                      "detailTypeId": "vertical_right"
+                    }
+                  },
+                  {
+                    "type": "wall",
+                    "id": "node_1774866683061_e4swf9s9r",
+                    "name": "Деталь",
+                    "originalType": "detail",
+                    "hide_when_filled": false,
+                    "active": true,
+                    "article": "",
+                    "children": [],
+                    "accessories": [],
+                    "size": {
+                      "x": "s:x",
+                      "y": "s:y",
+                      "z": "s:z"
+                    },
+                    "position": {
+                      "x": "0",
+                      "y": "s:y",
+                      "z": "0"
+                    },
+                    "anchor": {
+                      "x": -1,
+                      "y": 1,
+                      "z": -1
+                    },
+                    "rotation": {
+                      "x": "0",
+                      "y": "0",
+                      "z": "0"
+                    },
+                    "comments": "",
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "fill_key": "top",
+                    "consider_size": false,
+                    "consider_cuts": false,
+                    "consider_intersections": false,
+                    "spec": {
+                      "orientation": "h",
+                      "direction": "z",
+                      "side": "top",
+                      "material": {
+                        "group": "g0",
+                        "key": "material_2",
+                        "rotated": false,
+                        "fixed": false
+                      },
+                      "detailTypeId": "horizontal_top"
+                    }
+                  },
+                  {
+                    "type": "wall",
+                    "id": "node_1774866683061_0c6amfgts",
+                    "name": "Деталь",
+                    "originalType": "detail",
+                    "hide_when_filled": false,
+                    "active": true,
+                    "article": "",
+                    "children": [],
+                    "accessories": [],
+                    "size": {
+                      "x": "s:x",
+                      "y": "s:y",
+                      "z": "s:z"
+                    },
+                    "position": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "anchor": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "rotation": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "comments": "",
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "fill_key": "back",
+                    "consider_size": false,
+                    "consider_cuts": false,
+                    "consider_intersections": false,
+                    "spec": {
+                      "orientation": "f",
+                      "direction": "z",
+                      "side": "back",
+                      "material": {
+                        "group": "g1",
+                        "key": "material_3",
+                        "id": 1,
+                        "rotated": false,
+                        "fixed": false
+                      },
+                      "detailTypeId": "back_front"
+                    }
+                  },
+                  {
+                    "type": "wall",
+                    "id": "node_1774866683062_aoctos7ej",
+                    "name": "Деталь",
+                    "originalType": "detail",
+                    "hide_when_filled": false,
+                    "active": true,
+                    "article": "",
+                    "children": [],
+                    "accessories": [],
+                    "size": {
+                      "x": "s:x-32",
+                      "y": "s:y",
+                      "z": "s:z"
+                    },
+                    "position": {
+                      "x": 16,
+                      "y": "s:y / 2",
+                      "z": 0
+                    },
+                    "anchor": {
+                      "x": -1,
+                      "y": 0,
+                      "z": -1
+                    },
+                    "rotation": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "comments": "",
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "fill_key": "center",
+                    "consider_size": false,
+                    "consider_cuts": false,
+                    "consider_intersections": false,
+                    "spec": {
+                      "orientation": "h",
+                      "direction": "z",
+                      "side": "center",
+                      "material": {
+                        "group": "g0",
+                        "key": "material_2",
+                        "rotated": false,
+                        "fixed": false
+                      },
+                      "detailTypeId": "horizontal_middle",
+                      "show_index": false
+                    }
+                  }
+                ],
+                "accessories": [],
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y - v:h_bottom - v:h_top-100",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 100,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "layout_role": "corpus"
+              },
+              {
+                "type": "wall",
+                "id": "node_1774866683061_bhunpirjh",
+                "name": "Деталь",
+                "originalType": "detail",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [],
+                "accessories": [],
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "position": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0"
+                },
+                "anchor": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rotation": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0"
+                },
+                "comments": "",
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "fill_key": "bottom",
+                "consider_size": false,
+                "consider_cuts": false,
+                "consider_intersections": false,
+                "spec": {
+                  "orientation": "h",
+                  "direction": "z",
+                  "side": "bottom",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "horizontal_bottom"
+                }
+              },
+              {
+                "type": "wall",
+                "id": "node_1774866683061_ou1hyekic",
+                "name": "Деталь",
+                "originalType": "detail",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [],
+                "accessories": [],
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y - 16",
+                  "z": "s:z"
+                },
+                "position": {
+                  "x": "0",
+                  "y": "16",
+                  "z": "0"
+                },
+                "anchor": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rotation": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0"
+                },
+                "comments": "",
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "fill_key": "left",
+                "consider_size": false,
+                "consider_cuts": false,
+                "consider_intersections": false,
+                "spec": {
+                  "orientation": "v",
+                  "direction": "z",
+                  "side": "left",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "vertical_left"
+                }
+              },
+              {
+                "type": "wall",
+                "id": "node_1774866683061_ijuk4sjvg",
+                "name": "Деталь",
+                "originalType": "detail",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [],
+                "accessories": [],
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "position": {
+                  "x": "s:x",
+                  "y": "0",
+                  "z": "0"
+                },
+                "anchor": {
+                  "x": 1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rotation": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0"
+                },
+                "comments": "",
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "fill_key": "right",
+                "consider_size": false,
+                "consider_cuts": false,
+                "consider_intersections": false,
+                "spec": {
+                  "orientation": "v",
+                  "direction": "z",
+                  "side": "right",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "vertical_right"
+                }
+              },
+              {
+                "type": "wall",
+                "id": "node_1774866683061_e4swf9s9r",
+                "name": "Деталь",
+                "originalType": "detail",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [],
+                "accessories": [],
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "position": {
+                  "x": "0",
+                  "y": "s:y",
+                  "z": "0"
+                },
+                "anchor": {
+                  "x": -1,
+                  "y": 1,
+                  "z": -1
+                },
+                "rotation": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0"
+                },
+                "comments": "",
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "fill_key": "top",
+                "consider_size": false,
+                "consider_cuts": false,
+                "consider_intersections": false,
+                "spec": {
+                  "orientation": "h",
+                  "direction": "z",
+                  "side": "top",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "horizontal_top"
+                }
+              },
+              {
+                "type": "wall",
+                "id": "node_1774866683061_0c6amfgts",
+                "name": "Деталь",
+                "originalType": "detail",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [],
+                "accessories": [],
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "position": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "anchor": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rotation": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "fill_key": "back",
+                "consider_size": false,
+                "consider_cuts": false,
+                "consider_intersections": false,
+                "spec": {
+                  "orientation": "f",
+                  "direction": "z",
+                  "side": "back",
+                  "material": {
+                    "group": "g1",
+                    "key": "material_3",
+                    "id": 1,
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "back_front"
+                }
+              },
+              {
+                "type": "wall",
+                "id": "node_1774866683062_aoctos7ej",
+                "name": "Деталь",
+                "originalType": "detail",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [],
+                "accessories": [],
+                "size": {
+                  "x": "s:x-32",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "position": {
+                  "x": 16,
+                  "y": "s:y / 2",
+                  "z": 0
+                },
+                "anchor": {
+                  "x": -1,
+                  "y": 0,
+                  "z": -1
+                },
+                "rotation": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "fill_key": "center",
+                "consider_size": false,
+                "consider_cuts": false,
+                "consider_intersections": false,
+                "spec": {
+                  "orientation": "h",
+                  "direction": "z",
+                  "side": "center",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "horizontal_middle",
+                  "show_index": false
+                }
+              }
+            ],
+            "accessories": [],
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "layout_role": "cabinet_root"
+          },
+          {
+            "type": "section",
+            "id": "node_1774866683060_bvmh5smzm",
+            "name": "Цоколь",
+            "originalType": "section",
+            "hide_when_filled": false,
+            "active": true,
+            "article": "",
+            "children": [
+              {
+                "type": "wall",
+                "id": "node_1774866683060_n2yxdrt8v",
+                "name": "Деталь",
+                "originalType": "detail",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [],
+                "accessories": [],
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "position": {
+                  "x": 0,
+                  "y": 0,
+                  "z": "s:z / 2"
+                },
+                "anchor": {
+                  "x": -1,
+                  "y": -1,
+                  "z": 0
+                },
+                "rotation": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "fill_key": "center",
+                "consider_size": false,
+                "consider_cuts": false,
+                "consider_intersections": false,
+                "spec": {
+                  "orientation": "f",
+                  "direction": "z",
+                  "side": "center",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "id": 10,
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "front_middle"
+                }
+              }
+            ],
+            "accessories": [],
+            "size": {
+              "x": "s:x",
+              "y": "v:h_bottom",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": "0",
+              "y": "0",
+              "z": "0"
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": "0",
+              "y": "0",
+              "z": "0"
+            },
+            "layout_role": "plinth"
+          },
+          {
+            "type": "wall",
+            "id": "node_1774866683060_n2yxdrt8v",
+            "name": "Деталь",
+            "originalType": "detail",
+            "hide_when_filled": false,
+            "active": true,
+            "article": "",
+            "children": [],
+            "accessories": [],
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": "s:z / 2"
+            },
+            "anchor": {
+              "x": -1,
+              "y": -1,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "comments": "",
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "fill_key": "center",
+            "consider_size": false,
+            "consider_cuts": false,
+            "consider_intersections": false,
+            "spec": {
+              "orientation": "f",
+              "direction": "z",
+              "side": "center",
+              "material": {
+                "group": "g0",
+                "key": "material_2",
+                "id": 10,
+                "rotated": false,
+                "fixed": false
+              },
+              "detailTypeId": "front_middle"
+            }
+          },
+          {
+            "type": "section",
+            "id": "node_1774866683060_6sjxna23y",
+            "name": "Корпус",
+            "originalType": "section",
+            "hide_when_filled": false,
+            "active": true,
+            "article": "",
+            "children": [
+              {
+                "type": "wall",
+                "id": "node_1774866683061_bhunpirjh",
+                "name": "Деталь",
+                "originalType": "detail",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [],
+                "accessories": [],
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "position": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0"
+                },
+                "anchor": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rotation": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0"
+                },
+                "comments": "",
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "fill_key": "bottom",
+                "consider_size": false,
+                "consider_cuts": false,
+                "consider_intersections": false,
+                "spec": {
+                  "orientation": "h",
+                  "direction": "z",
+                  "side": "bottom",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "horizontal_bottom"
+                }
+              },
+              {
+                "type": "wall",
+                "id": "node_1774866683061_ou1hyekic",
+                "name": "Деталь",
+                "originalType": "detail",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [],
+                "accessories": [],
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y - 16",
+                  "z": "s:z"
+                },
+                "position": {
+                  "x": "0",
+                  "y": "16",
+                  "z": "0"
+                },
+                "anchor": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rotation": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0"
+                },
+                "comments": "",
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "fill_key": "left",
+                "consider_size": false,
+                "consider_cuts": false,
+                "consider_intersections": false,
+                "spec": {
+                  "orientation": "v",
+                  "direction": "z",
+                  "side": "left",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "vertical_left"
+                }
+              },
+              {
+                "type": "wall",
+                "id": "node_1774866683061_ijuk4sjvg",
+                "name": "Деталь",
+                "originalType": "detail",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [],
+                "accessories": [],
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "position": {
+                  "x": "s:x",
+                  "y": "0",
+                  "z": "0"
+                },
+                "anchor": {
+                  "x": 1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rotation": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0"
+                },
+                "comments": "",
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "fill_key": "right",
+                "consider_size": false,
+                "consider_cuts": false,
+                "consider_intersections": false,
+                "spec": {
+                  "orientation": "v",
+                  "direction": "z",
+                  "side": "right",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "vertical_right"
+                }
+              },
+              {
+                "type": "wall",
+                "id": "node_1774866683061_e4swf9s9r",
+                "name": "Деталь",
+                "originalType": "detail",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [],
+                "accessories": [],
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "position": {
+                  "x": "0",
+                  "y": "s:y",
+                  "z": "0"
+                },
+                "anchor": {
+                  "x": -1,
+                  "y": 1,
+                  "z": -1
+                },
+                "rotation": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0"
+                },
+                "comments": "",
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "fill_key": "top",
+                "consider_size": false,
+                "consider_cuts": false,
+                "consider_intersections": false,
+                "spec": {
+                  "orientation": "h",
+                  "direction": "z",
+                  "side": "top",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "horizontal_top"
+                }
+              },
+              {
+                "type": "wall",
+                "id": "node_1774866683061_0c6amfgts",
+                "name": "Деталь",
+                "originalType": "detail",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [],
+                "accessories": [],
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "position": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "anchor": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rotation": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "fill_key": "back",
+                "consider_size": false,
+                "consider_cuts": false,
+                "consider_intersections": false,
+                "spec": {
+                  "orientation": "f",
+                  "direction": "z",
+                  "side": "back",
+                  "material": {
+                    "group": "g1",
+                    "key": "material_3",
+                    "id": 1,
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "back_front"
+                }
+              },
+              {
+                "type": "wall",
+                "id": "node_1774866683062_aoctos7ej",
+                "name": "Деталь",
+                "originalType": "detail",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [],
+                "accessories": [],
+                "size": {
+                  "x": "s:x-32",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "position": {
+                  "x": 16,
+                  "y": "s:y / 2",
+                  "z": 0
+                },
+                "anchor": {
+                  "x": -1,
+                  "y": 0,
+                  "z": -1
+                },
+                "rotation": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "fill_key": "center",
+                "consider_size": false,
+                "consider_cuts": false,
+                "consider_intersections": false,
+                "spec": {
+                  "orientation": "h",
+                  "direction": "z",
+                  "side": "center",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "horizontal_middle",
+                  "show_index": false
+                }
+              }
+            ],
+            "accessories": [],
+            "size": {
+              "x": "s:x",
+              "y": "s:y - v:h_bottom - v:h_top-100",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 100,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "layout_role": "corpus"
+          },
+          {
+            "type": "wall",
+            "id": "node_1774866683061_bhunpirjh",
+            "name": "Деталь",
+            "originalType": "detail",
+            "hide_when_filled": false,
+            "active": true,
+            "article": "",
+            "children": [],
+            "accessories": [],
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "position": {
+              "x": "0",
+              "y": "0",
+              "z": "0"
+            },
+            "anchor": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rotation": {
+              "x": "0",
+              "y": "0",
+              "z": "0"
+            },
+            "comments": "",
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "fill_key": "bottom",
+            "consider_size": false,
+            "consider_cuts": false,
+            "consider_intersections": false,
+            "spec": {
+              "orientation": "h",
+              "direction": "z",
+              "side": "bottom",
+              "material": {
+                "group": "g0",
+                "key": "material_2",
+                "rotated": false,
+                "fixed": false
+              },
+              "detailTypeId": "horizontal_bottom"
+            }
+          },
+          {
+            "type": "wall",
+            "id": "node_1774866683061_ou1hyekic",
+            "name": "Деталь",
+            "originalType": "detail",
+            "hide_when_filled": false,
+            "active": true,
+            "article": "",
+            "children": [],
+            "accessories": [],
+            "size": {
+              "x": "s:x",
+              "y": "s:y - 16",
+              "z": "s:z"
+            },
+            "position": {
+              "x": "0",
+              "y": "16",
+              "z": "0"
+            },
+            "anchor": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rotation": {
+              "x": "0",
+              "y": "0",
+              "z": "0"
+            },
+            "comments": "",
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "fill_key": "left",
+            "consider_size": false,
+            "consider_cuts": false,
+            "consider_intersections": false,
+            "spec": {
+              "orientation": "v",
+              "direction": "z",
+              "side": "left",
+              "material": {
+                "group": "g0",
+                "key": "material_2",
+                "rotated": false,
+                "fixed": false
+              },
+              "detailTypeId": "vertical_left"
+            }
+          },
+          {
+            "type": "wall",
+            "id": "node_1774866683061_ijuk4sjvg",
+            "name": "Деталь",
+            "originalType": "detail",
+            "hide_when_filled": false,
+            "active": true,
+            "article": "",
+            "children": [],
+            "accessories": [],
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "position": {
+              "x": "s:x",
+              "y": "0",
+              "z": "0"
+            },
+            "anchor": {
+              "x": 1,
+              "y": -1,
+              "z": -1
+            },
+            "rotation": {
+              "x": "0",
+              "y": "0",
+              "z": "0"
+            },
+            "comments": "",
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "fill_key": "right",
+            "consider_size": false,
+            "consider_cuts": false,
+            "consider_intersections": false,
+            "spec": {
+              "orientation": "v",
+              "direction": "z",
+              "side": "right",
+              "material": {
+                "group": "g0",
+                "key": "material_2",
+                "rotated": false,
+                "fixed": false
+              },
+              "detailTypeId": "vertical_right"
+            }
+          },
+          {
+            "type": "wall",
+            "id": "node_1774866683061_e4swf9s9r",
+            "name": "Деталь",
+            "originalType": "detail",
+            "hide_when_filled": false,
+            "active": true,
+            "article": "",
+            "children": [],
+            "accessories": [],
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "position": {
+              "x": "0",
+              "y": "s:y",
+              "z": "0"
+            },
+            "anchor": {
+              "x": -1,
+              "y": 1,
+              "z": -1
+            },
+            "rotation": {
+              "x": "0",
+              "y": "0",
+              "z": "0"
+            },
+            "comments": "",
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "fill_key": "top",
+            "consider_size": false,
+            "consider_cuts": false,
+            "consider_intersections": false,
+            "spec": {
+              "orientation": "h",
+              "direction": "z",
+              "side": "top",
+              "material": {
+                "group": "g0",
+                "key": "material_2",
+                "rotated": false,
+                "fixed": false
+              },
+              "detailTypeId": "horizontal_top"
+            }
+          },
+          {
+            "type": "wall",
+            "id": "node_1774866683061_0c6amfgts",
+            "name": "Деталь",
+            "originalType": "detail",
+            "hide_when_filled": false,
+            "active": true,
+            "article": "",
+            "children": [],
+            "accessories": [],
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "anchor": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "comments": "",
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "fill_key": "back",
+            "consider_size": false,
+            "consider_cuts": false,
+            "consider_intersections": false,
+            "spec": {
+              "orientation": "f",
+              "direction": "z",
+              "side": "back",
+              "material": {
+                "group": "g1",
+                "key": "material_3",
+                "id": 1,
+                "rotated": false,
+                "fixed": false
+              },
+              "detailTypeId": "back_front"
+            }
+          },
+          {
+            "type": "wall",
+            "id": "node_1774866683062_aoctos7ej",
+            "name": "Деталь",
+            "originalType": "detail",
+            "hide_when_filled": false,
+            "active": true,
+            "article": "",
+            "children": [],
+            "accessories": [],
+            "size": {
+              "x": "s:x-32",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "position": {
+              "x": 16,
+              "y": "s:y / 2",
+              "z": 0
+            },
+            "anchor": {
+              "x": -1,
+              "y": 0,
+              "z": -1
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "comments": "",
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "fill_key": "center",
+            "consider_size": false,
+            "consider_cuts": false,
+            "consider_intersections": false,
+            "spec": {
+              "orientation": "h",
+              "direction": "z",
+              "side": "center",
+              "material": {
+                "group": "g0",
+                "key": "material_2",
+                "rotated": false,
+                "fixed": false
+              },
+              "detailTypeId": "horizontal_middle",
+              "show_index": false
+            }
+          }
+        ],
+        "variables": {
+          "main": {
+            "h_bottom": 100,
+            "h_top": 0
+          },
+          "groups": []
+        },
+        "template": {
+          "structure": [
+            {
+              "type": "section",
+              "name": "Шкаф 80.6",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "f"
+              },
+              "layout_role": "cabinet_root",
+              "children": [
+                {
+                  "type": "section",
+                  "name": "Цоколь",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "v:h_bottom",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "orientation": "f"
+                  },
+                  "layout_role": "plinth",
+                  "children": [
+                    {
+                      "type": "wall",
+                      "name": "Деталь",
+                      "active": 1,
+                      "size": {
+                        "x": "s:x",
+                        "y": "s:y",
+                        "z": "s:z"
+                      },
+                      "pos": {
+                        "x": 0,
+                        "y": 0,
+                        "z": "s:z / 2"
+                      },
+                      "pivot": {
+                        "x": -1,
+                        "y": -1,
+                        "z": 0
+                      },
+                      "rot": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "spec": {
+                        "orientation": "f",
+                        "direction": "z",
+                        "side": "center",
+                        "material": {
+                          "group": "g0",
+                          "key": "material_2",
+                          "id": 10,
+                          "rotated": false,
+                          "fixed": false
+                        },
+                        "detailTypeId": "front_middle"
+                      },
+                      "material_id": "10",
+                      "material_name": "Белый",
+                      "material_key": "material_2",
+                      "material_group": "g0",
+                      "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "name": "Корпус",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y - v:h_bottom - v:h_top-100",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 100,
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "orientation": "f"
+                  },
+                  "layout_role": "corpus",
+                  "children": [
+                    {
+                      "type": "wall",
+                      "name": "Деталь",
+                      "active": 1,
+                      "size": {
+                        "x": "s:x",
+                        "y": "s:y",
+                        "z": "s:z"
+                      },
+                      "pos": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "pivot": {
+                        "x": -1,
+                        "y": -1,
+                        "z": -1
+                      },
+                      "rot": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "spec": {
+                        "orientation": "h",
+                        "direction": "z",
+                        "side": "bottom",
+                        "material": {
+                          "group": "g0",
+                          "key": "material_2",
+                          "rotated": false,
+                          "fixed": false
+                        },
+                        "detailTypeId": "horizontal_bottom",
+                        "show_index": true
+                      },
+                      "material_key": "material_2",
+                      "material_group": "g0",
+                      "edges": {
+                        "2": {
+                          "enabled": true,
+                          "thickness": 0.8,
+                          "type": "butts",
+                          "color": "#ffffff",
+                          "decor_id": "1",
+                          "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                          "edge_id": "1",
+                          "edge_name": "Кромка ABC Белый премиум 0,8*18"
+                        }
+                      },
+                      "edge_numbering": true
+                    },
+                    {
+                      "type": "wall",
+                      "name": "Деталь",
+                      "active": 1,
+                      "size": {
+                        "x": "s:x",
+                        "y": "s:y - 16",
+                        "z": "s:z"
+                      },
+                      "pos": {
+                        "x": 0,
+                        "y": 16,
+                        "z": 0
+                      },
+                      "pivot": {
+                        "x": -1,
+                        "y": -1,
+                        "z": -1
+                      },
+                      "rot": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "spec": {
+                        "orientation": "v",
+                        "direction": "z",
+                        "side": "left",
+                        "material": {
+                          "group": "g0",
+                          "key": "material_2",
+                          "rotated": false,
+                          "fixed": false
+                        },
+                        "detailTypeId": "vertical_left",
+                        "show_index": true
+                      },
+                      "material_key": "material_2",
+                      "material_group": "g0",
+                      "edges": {
+                        "4": {
+                          "enabled": true,
+                          "thickness": 0.8,
+                          "type": "butts",
+                          "color": "#ffffff",
+                          "decor_id": "1",
+                          "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                          "edge_id": "1",
+                          "edge_name": "Кромка ABC Белый премиум 0,8*18"
+                        }
+                      },
+                      "edge_numbering": true
+                    },
+                    {
+                      "type": "wall",
+                      "name": "Деталь",
+                      "active": 1,
+                      "size": {
+                        "x": "s:x",
+                        "y": "s:y",
+                        "z": "s:z"
+                      },
+                      "pos": {
+                        "x": "s:x",
+                        "y": 0,
+                        "z": 0
+                      },
+                      "pivot": {
+                        "x": 1,
+                        "y": -1,
+                        "z": -1
+                      },
+                      "rot": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "spec": {
+                        "orientation": "v",
+                        "direction": "z",
+                        "side": "right",
+                        "material": {
+                          "group": "g0",
+                          "key": "material_2",
+                          "rotated": false,
+                          "fixed": false
+                        },
+                        "detailTypeId": "vertical_right",
+                        "show_index": true
+                      },
+                      "material_key": "material_2",
+                      "material_group": "g0",
+                      "edges": {
+                        "4": {
+                          "enabled": true,
+                          "thickness": 0.8,
+                          "type": "butts",
+                          "color": "#ffffff",
+                          "decor_id": "1",
+                          "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                          "edge_id": "1",
+                          "edge_name": "Кромка ABC Белый премиум 0,8*18"
+                        }
+                      },
+                      "edge_numbering": true
+                    },
+                    {
+                      "type": "wall",
+                      "name": "Деталь",
+                      "active": 1,
+                      "size": {
+                        "x": "s:x",
+                        "y": "s:y",
+                        "z": "s:z"
+                      },
+                      "pos": {
+                        "x": 0,
+                        "y": "s:y",
+                        "z": 0
+                      },
+                      "pivot": {
+                        "x": -1,
+                        "y": 1,
+                        "z": -1
+                      },
+                      "rot": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "spec": {
+                        "orientation": "h",
+                        "direction": "z",
+                        "side": "top",
+                        "material": {
+                          "group": "g0",
+                          "key": "material_2",
+                          "rotated": false,
+                          "fixed": false
+                        },
+                        "detailTypeId": "horizontal_top",
+                        "show_index": true
+                      },
+                      "material_key": "material_2",
+                      "material_group": "g0",
+                      "edges": {
+                        "2": {
+                          "enabled": true,
+                          "thickness": 0.8,
+                          "type": "butts",
+                          "color": "#ffffff",
+                          "decor_id": "1",
+                          "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                          "edge_id": "1",
+                          "edge_name": "Кромка ABC Белый премиум 0,8*18"
+                        }
+                      },
+                      "edge_numbering": true
+                    },
+                    {
+                      "type": "wall",
+                      "name": "Деталь",
+                      "active": 1,
+                      "size": {
+                        "x": "s:x",
+                        "y": "s:y",
+                        "z": "s:z"
+                      },
+                      "pos": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "pivot": {
+                        "x": -1,
+                        "y": -1,
+                        "z": -1
+                      },
+                      "rot": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "spec": {
+                        "orientation": "f",
+                        "direction": "z",
+                        "side": "back",
+                        "material": {
+                          "group": "g1",
+                          "key": "material_3",
+                          "id": 1,
+                          "rotated": false,
+                          "fixed": false
+                        },
+                        "detailTypeId": "back_front"
+                      },
+                      "material_id": "1",
+                      "material_name": "ЛХДФ белый",
+                      "material_key": "material_3",
+                      "material_group": "g1",
+                      "material_icon": "/common_assets/images/materials/______________________________________1769513496817.jpg"
+                    },
+                    {
+                      "type": "wall",
+                      "name": "Деталь",
+                      "active": 1,
+                      "size": {
+                        "x": "s:x-32",
+                        "y": "s:y",
+                        "z": "s:z"
+                      },
+                      "pos": {
+                        "x": 16,
+                        "y": "s:y / 2",
+                        "z": 0
+                      },
+                      "pivot": {
+                        "x": -1,
+                        "y": 0,
+                        "z": -1
+                      },
+                      "rot": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "spec": {
+                        "orientation": "h",
+                        "direction": "z",
+                        "side": "center",
+                        "material": {
+                          "group": "g0",
+                          "key": "material_2",
+                          "rotated": false,
+                          "fixed": false
+                        },
+                        "detailTypeId": "horizontal_middle"
+                      },
+                      "material_key": "material_2",
+                      "material_group": "g0"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "name": "Фасад",
+                  "active": 1,
+                  "size": { "x": "s:x", "y": "s:y", "z": "s:z" },
+                  "pos": { "x": 0, "y": 0, "z": 0 },
+                  "pivot": { "x": -1, "y": -1, "z": -1 },
+                  "rot": { "x": 0, "y": 0, "z": 0 },
+                  "spec": { "orientation": "f" },
+                  "layout_role": "facades",
+                  "children": [
+                    {
+                      "type": "facade",
+                      "name": "Фасад",
+                      "active": 1,
+                      "size": { "x": "s:x", "y": "s:y - 25", "z": 18 },
+                      "pos": { "x": 0, "y": 25, "z": "s:z" },
+                      "pivot": { "x": -1, "y": -1, "z": -1 },
+                      "rot": { "x": 0, "y": 0, "z": 0 },
+                      "spec": {
+                        "orientation": "f",
+                        "direction": "-z",
+                        "side": "back",
+                        "material": { "group": "g2", "key": "material_2", "id": 10, "rotated": false, "fixed": false },
+                        "show_index": false
+                      },
+                      "material_id": "10",
+                      "material_name": "Белый",
+                      "material_key": "material_2",
+                      "material_group": "g2",
+                      "edges": {},
+                      "edge_numbering": false
+                    }
+                  ]
+                }
+              ],
+              "__cldAuthorSizeMm": {
+                "x": 800,
+                "y": 2200,
+                "z": 600
+              }
+            }
+          ]
+        },
+        "materials_overrides": {
+          "g0": {
+            "material_key": "material_2",
+            "material_id": 8,
+            "material_icon": "/common_assets/images/materials/____________________________________________7045_su_1769503027703.jpg",
+            "thickness": 16
+          }
+        },
+        "spec": {
+          "template": {
+            "tree": [
+              {
+                "type": "section",
+                "name": "Шкаф 80.6",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "f"
+                },
+                "layout_role": "cabinet_root",
+                "children": [
+                  {
+                    "type": "section",
+                    "name": "Цоколь",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x",
+                      "y": "v:h_bottom",
+                      "z": "s:z"
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "orientation": "f"
+                    },
+                    "layout_role": "plinth",
+                    "children": [
+                      {
+                        "type": "wall",
+                        "name": "Деталь",
+                        "active": 1,
+                        "size": {
+                          "x": "s:x",
+                          "y": "s:y",
+                          "z": "s:z"
+                        },
+                        "pos": {
+                          "x": 0,
+                          "y": 0,
+                          "z": "s:z / 2"
+                        },
+                        "pivot": {
+                          "x": -1,
+                          "y": -1,
+                          "z": 0
+                        },
+                        "rot": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "spec": {
+                          "orientation": "f",
+                          "direction": "z",
+                          "side": "center",
+                          "material": {
+                            "group": "g0",
+                            "key": "material_2",
+                            "id": 10,
+                            "rotated": false,
+                            "fixed": false
+                          },
+                          "detailTypeId": "front_middle"
+                        },
+                        "material_id": "10",
+                        "material_name": "Белый",
+                        "material_key": "material_2",
+                        "material_group": "g0",
+                        "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "section",
+                    "name": "Корпус",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x",
+                      "y": "s:y - v:h_bottom - v:h_top-100",
+                      "z": "s:z"
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": 100,
+                      "z": 0
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "orientation": "f"
+                    },
+                    "layout_role": "corpus",
+                    "children": [
+                      {
+                        "type": "wall",
+                        "name": "Деталь",
+                        "active": 1,
+                        "size": {
+                          "x": "s:x",
+                          "y": "s:y",
+                          "z": "s:z"
+                        },
+                        "pos": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "pivot": {
+                          "x": -1,
+                          "y": -1,
+                          "z": -1
+                        },
+                        "rot": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "spec": {
+                          "orientation": "h",
+                          "direction": "z",
+                          "side": "bottom",
+                          "material": {
+                            "group": "g0",
+                            "key": "material_2",
+                            "rotated": false,
+                            "fixed": false
+                          },
+                          "detailTypeId": "horizontal_bottom",
+                          "show_index": true
+                        },
+                        "material_key": "material_2",
+                        "material_group": "g0",
+                        "edges": {
+                          "2": {
+                            "enabled": true,
+                            "thickness": 0.8,
+                            "type": "butts",
+                            "color": "#ffffff",
+                            "decor_id": "1",
+                            "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                            "edge_id": "1",
+                            "edge_name": "Кромка ABC Белый премиум 0,8*18"
+                          }
+                        },
+                        "edge_numbering": true
+                      },
+                      {
+                        "type": "wall",
+                        "name": "Деталь",
+                        "active": 1,
+                        "size": {
+                          "x": "s:x",
+                          "y": "s:y - 16",
+                          "z": "s:z"
+                        },
+                        "pos": {
+                          "x": 0,
+                          "y": 16,
+                          "z": 0
+                        },
+                        "pivot": {
+                          "x": -1,
+                          "y": -1,
+                          "z": -1
+                        },
+                        "rot": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "spec": {
+                          "orientation": "v",
+                          "direction": "z",
+                          "side": "left",
+                          "material": {
+                            "group": "g0",
+                            "key": "material_2",
+                            "rotated": false,
+                            "fixed": false
+                          },
+                          "detailTypeId": "vertical_left",
+                          "show_index": true
+                        },
+                        "material_key": "material_2",
+                        "material_group": "g0",
+                        "edges": {
+                          "4": {
+                            "enabled": true,
+                            "thickness": 0.8,
+                            "type": "butts",
+                            "color": "#ffffff",
+                            "decor_id": "1",
+                            "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                            "edge_id": "1",
+                            "edge_name": "Кромка ABC Белый премиум 0,8*18"
+                          }
+                        },
+                        "edge_numbering": true
+                      },
+                      {
+                        "type": "wall",
+                        "name": "Деталь",
+                        "active": 1,
+                        "size": {
+                          "x": "s:x",
+                          "y": "s:y",
+                          "z": "s:z"
+                        },
+                        "pos": {
+                          "x": "s:x",
+                          "y": 0,
+                          "z": 0
+                        },
+                        "pivot": {
+                          "x": 1,
+                          "y": -1,
+                          "z": -1
+                        },
+                        "rot": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "spec": {
+                          "orientation": "v",
+                          "direction": "z",
+                          "side": "right",
+                          "material": {
+                            "group": "g0",
+                            "key": "material_2",
+                            "rotated": false,
+                            "fixed": false
+                          },
+                          "detailTypeId": "vertical_right",
+                          "show_index": true
+                        },
+                        "material_key": "material_2",
+                        "material_group": "g0",
+                        "edges": {
+                          "4": {
+                            "enabled": true,
+                            "thickness": 0.8,
+                            "type": "butts",
+                            "color": "#ffffff",
+                            "decor_id": "1",
+                            "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                            "edge_id": "1",
+                            "edge_name": "Кромка ABC Белый премиум 0,8*18"
+                          }
+                        },
+                        "edge_numbering": true
+                      },
+                      {
+                        "type": "wall",
+                        "name": "Деталь",
+                        "active": 1,
+                        "size": {
+                          "x": "s:x",
+                          "y": "s:y",
+                          "z": "s:z"
+                        },
+                        "pos": {
+                          "x": 0,
+                          "y": "s:y",
+                          "z": 0
+                        },
+                        "pivot": {
+                          "x": -1,
+                          "y": 1,
+                          "z": -1
+                        },
+                        "rot": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "spec": {
+                          "orientation": "h",
+                          "direction": "z",
+                          "side": "top",
+                          "material": {
+                            "group": "g0",
+                            "key": "material_2",
+                            "rotated": false,
+                            "fixed": false
+                          },
+                          "detailTypeId": "horizontal_top",
+                          "show_index": true
+                        },
+                        "material_key": "material_2",
+                        "material_group": "g0",
+                        "edges": {
+                          "2": {
+                            "enabled": true,
+                            "thickness": 0.8,
+                            "type": "butts",
+                            "color": "#ffffff",
+                            "decor_id": "1",
+                            "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                            "edge_id": "1",
+                            "edge_name": "Кромка ABC Белый премиум 0,8*18"
+                          }
+                        },
+                        "edge_numbering": true
+                      },
+                      {
+                        "type": "wall",
+                        "name": "Деталь",
+                        "active": 1,
+                        "size": {
+                          "x": "s:x",
+                          "y": "s:y",
+                          "z": "s:z"
+                        },
+                        "pos": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "pivot": {
+                          "x": -1,
+                          "y": -1,
+                          "z": -1
+                        },
+                        "rot": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "spec": {
+                          "orientation": "f",
+                          "direction": "z",
+                          "side": "back",
+                          "material": {
+                            "group": "g1",
+                            "key": "material_3",
+                            "id": 1,
+                            "rotated": false,
+                            "fixed": false
+                          },
+                          "detailTypeId": "back_front"
+                        },
+                        "material_id": "1",
+                        "material_name": "ЛХДФ белый",
+                        "material_key": "material_3",
+                        "material_group": "g1",
+                        "material_icon": "/common_assets/images/materials/______________________________________1769513496817.jpg"
+                      },
+                      {
+                        "type": "wall",
+                        "name": "Деталь",
+                        "active": 1,
+                        "size": {
+                          "x": "s:x-32",
+                          "y": "s:y",
+                          "z": "s:z"
+                        },
+                        "pos": {
+                          "x": 16,
+                          "y": "s:y / 2",
+                          "z": 0
+                        },
+                        "pivot": {
+                          "x": -1,
+                          "y": 0,
+                          "z": -1
+                        },
+                        "rot": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "spec": {
+                          "orientation": "h",
+                          "direction": "z",
+                          "side": "center",
+                          "material": {
+                            "group": "g0",
+                            "key": "material_2",
+                            "rotated": false,
+                            "fixed": false
+                          },
+                          "detailTypeId": "horizontal_middle"
+                        },
+                        "material_key": "material_2",
+                        "material_group": "g0"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "section",
+                    "name": "Фасад",
+                    "active": 1,
+                    "size": { "x": "s:x", "y": "s:y", "z": "s:z" },
+                    "pos": { "x": 0, "y": 0, "z": 0 },
+                    "pivot": { "x": -1, "y": -1, "z": -1 },
+                    "rot": { "x": 0, "y": 0, "z": 0 },
+                    "spec": { "orientation": "f" },
+                    "layout_role": "facades",
+                    "children": [
+                      {
+                        "type": "facade",
+                        "name": "Фасад",
+                        "active": 1,
+                        "size": { "x": "s:x", "y": "s:y - 25", "z": 18 },
+                        "pos": { "x": 0, "y": 25, "z": "s:z" },
+                        "pivot": { "x": -1, "y": -1, "z": -1 },
+                        "rot": { "x": 0, "y": 0, "z": 0 },
+                        "spec": {
+                          "orientation": "f",
+                          "direction": "-z",
+                          "side": "back",
+                          "material": { "group": "g2", "key": "material_2", "id": 10, "rotated": false, "fixed": false },
+                          "show_index": false
+                        },
+                        "material_id": "10",
+                        "material_name": "Белый",
+                        "material_key": "material_2",
+                        "material_group": "g2",
+                        "edges": {},
+                        "edge_numbering": false
+                      }
+                    ]
+                  }
+                ],
+                "__cldAuthorSizeMm": {
+                  "x": 800,
+                  "y": 2200,
+                  "z": 600
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "icon": "/files/catalog_icons/catalog_icon_1_1774866816991_1774866817027.png"
+  },
+  {
+    "id": 2,
+    "catalog_type": "catalog_26",
+    "data": {
+      "name": "Шкаф однодверный",
+      "category": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "show_in_spec": "1",
+      "include_nested": "1",
+      "show_in_constructor": "1",
+      "order": 0,
+      "icon": "/files/catalog_icons/catalog_icon_2_1774722371865_1774722372216.png",
+      "module_group": "bottom",
+      "drag_type": "top",
+      "stick_type": "common",
+      "is_fill": "0",
+      "no_intersections": "0",
+      "catalog_type": "",
+      "width": "400",
+      "height": "2200",
+      "depth": "600",
+      "placementKind": "floor_in_niche",
+      "planPlaceVariables": {
+        "h_bottom": 100,
+        "h_top": 0
+      },
+      "constructor_structure": {
+        "type": "module",
+        "name": "Шкаф однодверный",
+        "children": [
+          {
+            "type": "section",
+            "id": "node_1774912333006_wjfatcr4y",
+            "name": "Шкаф однодверный",
+            "originalType": "section",
+            "hide_when_filled": false,
+            "active": true,
+            "article": "",
+            "children": [
+              {
+                "type": "section",
+                "id": "node_1774912333007_c56d8z8zv",
+                "name": "Цоколь",
+                "originalType": "section",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [
+                  {
+                    "type": "wall",
+                    "id": "node_1774912333007_587g1savv",
+                    "name": "Деталь",
+                    "originalType": "detail",
+                    "hide_when_filled": false,
+                    "active": true,
+                    "article": "",
+                    "children": [],
+                    "accessories": [],
+                    "size": {
+                      "x": "s:x",
+                      "y": "s:y",
+                      "z": "s:z"
+                    },
+                    "position": {
+                      "x": 0,
+                      "y": 0,
+                      "z": "s:z / 2"
+                    },
+                    "anchor": {
+                      "x": -1,
+                      "y": -1,
+                      "z": 0
+                    },
+                    "rotation": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "comments": "",
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "fill_key": "center",
+                    "consider_size": false,
+                    "consider_cuts": false,
+                    "consider_intersections": false,
+                    "spec": {
+                      "orientation": "f",
+                      "direction": "z",
+                      "side": "center",
+                      "material": {
+                        "group": "g0",
+                        "key": "material_2",
+                        "id": 10,
+                        "rotated": false,
+                        "fixed": false
+                      },
+                      "detailTypeId": "front_middle"
+                    }
+                  }
+                ],
+                "accessories": [],
+                "size": {
+                  "x": "s:x",
+                  "y": "v:h_bottom",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0"
+                },
+                "layout_role": "plinth"
+              },
+              {
+                "type": "wall",
+                "id": "node_1774912333007_587g1savv",
+                "name": "Деталь",
+                "originalType": "detail",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [],
+                "accessories": [],
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "position": {
+                  "x": 0,
+                  "y": 0,
+                  "z": "s:z / 2"
+                },
+                "anchor": {
+                  "x": -1,
+                  "y": -1,
+                  "z": 0
+                },
+                "rotation": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "fill_key": "center",
+                "consider_size": false,
+                "consider_cuts": false,
+                "consider_intersections": false,
+                "spec": {
+                  "orientation": "f",
+                  "direction": "z",
+                  "side": "center",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "id": 10,
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "front_middle"
+                }
+              },
+              {
+                "type": "section",
+                "id": "node_1774912333008_4awnrpg0w",
+                "name": "Корпус",
+                "originalType": "section",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [
+                  {
+                    "type": "wall",
+                    "id": "node_1774912333008_s8dhasara",
+                    "name": "Деталь",
+                    "originalType": "detail",
+                    "hide_when_filled": false,
+                    "active": true,
+                    "article": "",
+                    "children": [],
+                    "accessories": [],
+                    "size": {
+                      "x": "s:x",
+                      "y": "s:y",
+                      "z": "s:z"
+                    },
+                    "position": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "anchor": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "rotation": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "comments": "",
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "fill_key": "bottom",
+                    "consider_size": false,
+                    "consider_cuts": false,
+                    "consider_intersections": false,
+                    "spec": {
+                      "orientation": "h",
+                      "direction": "z",
+                      "side": "bottom",
+                      "material": {
+                        "group": "g0",
+                        "key": "material_2",
+                        "rotated": false,
+                        "fixed": false
+                      },
+                      "detailTypeId": "horizontal_bottom"
+                    }
+                  },
+                  {
+                    "type": "wall",
+                    "id": "node_1774912333008_eij0cr5co",
+                    "name": "Деталь",
+                    "originalType": "detail",
+                    "hide_when_filled": false,
+                    "active": true,
+                    "article": "",
+                    "children": [],
+                    "accessories": [],
+                    "size": {
+                      "x": "s:x",
+                      "y": "s:y - 16",
+                      "z": "s:z"
+                    },
+                    "position": {
+                      "x": 0,
+                      "y": 16,
+                      "z": 0
+                    },
+                    "anchor": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "rotation": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "comments": "",
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "fill_key": "left",
+                    "consider_size": false,
+                    "consider_cuts": false,
+                    "consider_intersections": false,
+                    "spec": {
+                      "orientation": "v",
+                      "direction": "z",
+                      "side": "left",
+                      "material": {
+                        "group": "g0",
+                        "key": "material_2",
+                        "rotated": false,
+                        "fixed": false
+                      },
+                      "detailTypeId": "vertical_left"
+                    }
+                  },
+                  {
+                    "type": "wall",
+                    "id": "node_1774912333008_xdjwazr61",
+                    "name": "Деталь",
+                    "originalType": "detail",
+                    "hide_when_filled": false,
+                    "active": true,
+                    "article": "",
+                    "children": [],
+                    "accessories": [],
+                    "size": {
+                      "x": "s:x",
+                      "y": "s:y",
+                      "z": "s:z"
+                    },
+                    "position": {
+                      "x": "s:x",
+                      "y": 0,
+                      "z": 0
+                    },
+                    "anchor": {
+                      "x": 1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "rotation": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "comments": "",
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "fill_key": "right",
+                    "consider_size": false,
+                    "consider_cuts": false,
+                    "consider_intersections": false,
+                    "spec": {
+                      "orientation": "v",
+                      "direction": "z",
+                      "side": "right",
+                      "material": {
+                        "group": "g0",
+                        "key": "material_2",
+                        "rotated": false,
+                        "fixed": false
+                      },
+                      "detailTypeId": "vertical_right"
+                    }
+                  },
+                  {
+                    "type": "wall",
+                    "id": "node_1774912333009_j52qfyqi9",
+                    "name": "Деталь",
+                    "originalType": "detail",
+                    "hide_when_filled": false,
+                    "active": true,
+                    "article": "",
+                    "children": [],
+                    "accessories": [],
+                    "size": {
+                      "x": "s:x",
+                      "y": "s:y",
+                      "z": "s:z"
+                    },
+                    "position": {
+                      "x": 0,
+                      "y": "s:y",
+                      "z": 0
+                    },
+                    "anchor": {
+                      "x": -1,
+                      "y": 1,
+                      "z": -1
+                    },
+                    "rotation": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "comments": "",
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "fill_key": "top",
+                    "consider_size": false,
+                    "consider_cuts": false,
+                    "consider_intersections": false,
+                    "spec": {
+                      "orientation": "h",
+                      "direction": "z",
+                      "side": "top",
+                      "material": {
+                        "group": "g0",
+                        "key": "material_2",
+                        "rotated": false,
+                        "fixed": false
+                      },
+                      "detailTypeId": "horizontal_top"
+                    }
+                  },
+                  {
+                    "type": "wall",
+                    "id": "node_1774912333009_b2lnqd3b3",
+                    "name": "Деталь",
+                    "originalType": "detail",
+                    "hide_when_filled": false,
+                    "active": true,
+                    "article": "",
+                    "children": [],
+                    "accessories": [],
+                    "size": {
+                      "x": "s:x",
+                      "y": "s:y",
+                      "z": "s:z"
+                    },
+                    "position": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "anchor": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "rotation": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "comments": "",
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "fill_key": "back",
+                    "consider_size": false,
+                    "consider_cuts": false,
+                    "consider_intersections": false,
+                    "spec": {
+                      "orientation": "f",
+                      "direction": "z",
+                      "side": "back",
+                      "material": {
+                        "group": "g1",
+                        "key": "material_3",
+                        "id": 1,
+                        "rotated": false,
+                        "fixed": false
+                      },
+                      "detailTypeId": "back_front"
+                    }
+                  },
+                  {
+                    "type": "wall",
+                    "id": "node_1774912333009_36t5a6oi3",
+                    "name": "Деталь",
+                    "originalType": "detail",
+                    "hide_when_filled": false,
+                    "active": true,
+                    "article": "",
+                    "children": [],
+                    "accessories": [],
+                    "size": {
+                      "x": "s:x-32",
+                      "y": "s:y",
+                      "z": "s:z"
+                    },
+                    "position": {
+                      "x": 16,
+                      "y": "s:y / 2",
+                      "z": 0
+                    },
+                    "anchor": {
+                      "x": -1,
+                      "y": 0,
+                      "z": -1
+                    },
+                    "rotation": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "comments": "",
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "fill_key": "center",
+                    "consider_size": false,
+                    "consider_cuts": false,
+                    "consider_intersections": false,
+                    "spec": {
+                      "orientation": "h",
+                      "direction": "z",
+                      "side": "center",
+                      "material": {
+                        "group": "g0",
+                        "key": "material_2",
+                        "rotated": false,
+                        "fixed": false
+                      },
+                      "detailTypeId": "horizontal_middle"
+                    }
+                  }
+                ],
+                "accessories": [],
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y - v:h_bottom - v:h_top-100",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 100,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "layout_role": "corpus"
+              },
+              {
+                "type": "wall",
+                "id": "node_1774912333008_s8dhasara",
+                "name": "Деталь",
+                "originalType": "detail",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [],
+                "accessories": [],
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "position": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "anchor": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rotation": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "fill_key": "bottom",
+                "consider_size": false,
+                "consider_cuts": false,
+                "consider_intersections": false,
+                "spec": {
+                  "orientation": "h",
+                  "direction": "z",
+                  "side": "bottom",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "horizontal_bottom"
+                }
+              },
+              {
+                "type": "wall",
+                "id": "node_1774912333008_eij0cr5co",
+                "name": "Деталь",
+                "originalType": "detail",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [],
+                "accessories": [],
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y - 16",
+                  "z": "s:z"
+                },
+                "position": {
+                  "x": 0,
+                  "y": 16,
+                  "z": 0
+                },
+                "anchor": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rotation": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "fill_key": "left",
+                "consider_size": false,
+                "consider_cuts": false,
+                "consider_intersections": false,
+                "spec": {
+                  "orientation": "v",
+                  "direction": "z",
+                  "side": "left",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "vertical_left"
+                }
+              },
+              {
+                "type": "wall",
+                "id": "node_1774912333008_xdjwazr61",
+                "name": "Деталь",
+                "originalType": "detail",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [],
+                "accessories": [],
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "position": {
+                  "x": "s:x",
+                  "y": 0,
+                  "z": 0
+                },
+                "anchor": {
+                  "x": 1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rotation": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "fill_key": "right",
+                "consider_size": false,
+                "consider_cuts": false,
+                "consider_intersections": false,
+                "spec": {
+                  "orientation": "v",
+                  "direction": "z",
+                  "side": "right",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "vertical_right"
+                }
+              },
+              {
+                "type": "wall",
+                "id": "node_1774912333009_j52qfyqi9",
+                "name": "Деталь",
+                "originalType": "detail",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [],
+                "accessories": [],
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "position": {
+                  "x": 0,
+                  "y": "s:y",
+                  "z": 0
+                },
+                "anchor": {
+                  "x": -1,
+                  "y": 1,
+                  "z": -1
+                },
+                "rotation": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "fill_key": "top",
+                "consider_size": false,
+                "consider_cuts": false,
+                "consider_intersections": false,
+                "spec": {
+                  "orientation": "h",
+                  "direction": "z",
+                  "side": "top",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "horizontal_top"
+                }
+              },
+              {
+                "type": "wall",
+                "id": "node_1774912333009_b2lnqd3b3",
+                "name": "Деталь",
+                "originalType": "detail",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [],
+                "accessories": [],
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "position": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "anchor": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rotation": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "fill_key": "back",
+                "consider_size": false,
+                "consider_cuts": false,
+                "consider_intersections": false,
+                "spec": {
+                  "orientation": "f",
+                  "direction": "z",
+                  "side": "back",
+                  "material": {
+                    "group": "g1",
+                    "key": "material_3",
+                    "id": 1,
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "back_front"
+                }
+              },
+              {
+                "type": "wall",
+                "id": "node_1774912333009_36t5a6oi3",
+                "name": "Деталь",
+                "originalType": "detail",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [],
+                "accessories": [],
+                "size": {
+                  "x": "s:x-32",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "position": {
+                  "x": 16,
+                  "y": "s:y / 2",
+                  "z": 0
+                },
+                "anchor": {
+                  "x": -1,
+                  "y": 0,
+                  "z": -1
+                },
+                "rotation": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "fill_key": "center",
+                "consider_size": false,
+                "consider_cuts": false,
+                "consider_intersections": false,
+                "spec": {
+                  "orientation": "h",
+                  "direction": "z",
+                  "side": "center",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "horizontal_middle"
+                }
+              }
+            ],
+            "accessories": [],
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "layout_role": "cabinet_root"
+          },
+          {
+            "type": "section",
+            "id": "node_1774912333007_c56d8z8zv",
+            "name": "Цоколь",
+            "originalType": "section",
+            "hide_when_filled": false,
+            "active": true,
+            "article": "",
+            "children": [
+              {
+                "type": "wall",
+                "id": "node_1774912333007_587g1savv",
+                "name": "Деталь",
+                "originalType": "detail",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [],
+                "accessories": [],
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "position": {
+                  "x": 0,
+                  "y": 0,
+                  "z": "s:z / 2"
+                },
+                "anchor": {
+                  "x": -1,
+                  "y": -1,
+                  "z": 0
+                },
+                "rotation": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "fill_key": "center",
+                "consider_size": false,
+                "consider_cuts": false,
+                "consider_intersections": false,
+                "spec": {
+                  "orientation": "f",
+                  "direction": "z",
+                  "side": "center",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "id": 10,
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "front_middle"
+                }
+              }
+            ],
+            "accessories": [],
+            "size": {
+              "x": "s:x",
+              "y": "v:h_bottom",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": "0",
+              "y": "0",
+              "z": "0"
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": "0",
+              "y": "0",
+              "z": "0"
+            },
+            "layout_role": "plinth"
+          },
+          {
+            "type": "wall",
+            "id": "node_1774912333007_587g1savv",
+            "name": "Деталь",
+            "originalType": "detail",
+            "hide_when_filled": false,
+            "active": true,
+            "article": "",
+            "children": [],
+            "accessories": [],
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": "s:z / 2"
+            },
+            "anchor": {
+              "x": -1,
+              "y": -1,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "comments": "",
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "fill_key": "center",
+            "consider_size": false,
+            "consider_cuts": false,
+            "consider_intersections": false,
+            "spec": {
+              "orientation": "f",
+              "direction": "z",
+              "side": "center",
+              "material": {
+                "group": "g0",
+                "key": "material_2",
+                "id": 10,
+                "rotated": false,
+                "fixed": false
+              },
+              "detailTypeId": "front_middle"
+            }
+          },
+          {
+            "type": "section",
+            "id": "node_1774912333008_4awnrpg0w",
+            "name": "Корпус",
+            "originalType": "section",
+            "hide_when_filled": false,
+            "active": true,
+            "article": "",
+            "children": [
+              {
+                "type": "wall",
+                "id": "node_1774912333008_s8dhasara",
+                "name": "Деталь",
+                "originalType": "detail",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [],
+                "accessories": [],
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "position": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "anchor": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rotation": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "fill_key": "bottom",
+                "consider_size": false,
+                "consider_cuts": false,
+                "consider_intersections": false,
+                "spec": {
+                  "orientation": "h",
+                  "direction": "z",
+                  "side": "bottom",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "horizontal_bottom"
+                }
+              },
+              {
+                "type": "wall",
+                "id": "node_1774912333008_eij0cr5co",
+                "name": "Деталь",
+                "originalType": "detail",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [],
+                "accessories": [],
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y - 16",
+                  "z": "s:z"
+                },
+                "position": {
+                  "x": 0,
+                  "y": 16,
+                  "z": 0
+                },
+                "anchor": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rotation": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "fill_key": "left",
+                "consider_size": false,
+                "consider_cuts": false,
+                "consider_intersections": false,
+                "spec": {
+                  "orientation": "v",
+                  "direction": "z",
+                  "side": "left",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "vertical_left"
+                }
+              },
+              {
+                "type": "wall",
+                "id": "node_1774912333008_xdjwazr61",
+                "name": "Деталь",
+                "originalType": "detail",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [],
+                "accessories": [],
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "position": {
+                  "x": "s:x",
+                  "y": 0,
+                  "z": 0
+                },
+                "anchor": {
+                  "x": 1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rotation": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "fill_key": "right",
+                "consider_size": false,
+                "consider_cuts": false,
+                "consider_intersections": false,
+                "spec": {
+                  "orientation": "v",
+                  "direction": "z",
+                  "side": "right",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "vertical_right"
+                }
+              },
+              {
+                "type": "wall",
+                "id": "node_1774912333009_j52qfyqi9",
+                "name": "Деталь",
+                "originalType": "detail",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [],
+                "accessories": [],
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "position": {
+                  "x": 0,
+                  "y": "s:y",
+                  "z": 0
+                },
+                "anchor": {
+                  "x": -1,
+                  "y": 1,
+                  "z": -1
+                },
+                "rotation": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "fill_key": "top",
+                "consider_size": false,
+                "consider_cuts": false,
+                "consider_intersections": false,
+                "spec": {
+                  "orientation": "h",
+                  "direction": "z",
+                  "side": "top",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "horizontal_top"
+                }
+              },
+              {
+                "type": "wall",
+                "id": "node_1774912333009_b2lnqd3b3",
+                "name": "Деталь",
+                "originalType": "detail",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [],
+                "accessories": [],
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "position": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "anchor": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rotation": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "fill_key": "back",
+                "consider_size": false,
+                "consider_cuts": false,
+                "consider_intersections": false,
+                "spec": {
+                  "orientation": "f",
+                  "direction": "z",
+                  "side": "back",
+                  "material": {
+                    "group": "g1",
+                    "key": "material_3",
+                    "id": 1,
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "back_front"
+                }
+              },
+              {
+                "type": "wall",
+                "id": "node_1774912333009_36t5a6oi3",
+                "name": "Деталь",
+                "originalType": "detail",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [],
+                "accessories": [],
+                "size": {
+                  "x": "s:x-32",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "position": {
+                  "x": 16,
+                  "y": "s:y / 2",
+                  "z": 0
+                },
+                "anchor": {
+                  "x": -1,
+                  "y": 0,
+                  "z": -1
+                },
+                "rotation": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "fill_key": "center",
+                "consider_size": false,
+                "consider_cuts": false,
+                "consider_intersections": false,
+                "spec": {
+                  "orientation": "h",
+                  "direction": "z",
+                  "side": "center",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "horizontal_middle"
+                }
+              }
+            ],
+            "accessories": [],
+            "size": {
+              "x": "s:x",
+              "y": "s:y - v:h_bottom - v:h_top-100",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 100,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "layout_role": "corpus"
+          },
+          {
+            "type": "wall",
+            "id": "node_1774912333008_s8dhasara",
+            "name": "Деталь",
+            "originalType": "detail",
+            "hide_when_filled": false,
+            "active": true,
+            "article": "",
+            "children": [],
+            "accessories": [],
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "anchor": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "comments": "",
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "fill_key": "bottom",
+            "consider_size": false,
+            "consider_cuts": false,
+            "consider_intersections": false,
+            "spec": {
+              "orientation": "h",
+              "direction": "z",
+              "side": "bottom",
+              "material": {
+                "group": "g0",
+                "key": "material_2",
+                "rotated": false,
+                "fixed": false
+              },
+              "detailTypeId": "horizontal_bottom"
+            }
+          },
+          {
+            "type": "wall",
+            "id": "node_1774912333008_eij0cr5co",
+            "name": "Деталь",
+            "originalType": "detail",
+            "hide_when_filled": false,
+            "active": true,
+            "article": "",
+            "children": [],
+            "accessories": [],
+            "size": {
+              "x": "s:x",
+              "y": "s:y - 16",
+              "z": "s:z"
+            },
+            "position": {
+              "x": 0,
+              "y": 16,
+              "z": 0
+            },
+            "anchor": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "comments": "",
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "fill_key": "left",
+            "consider_size": false,
+            "consider_cuts": false,
+            "consider_intersections": false,
+            "spec": {
+              "orientation": "v",
+              "direction": "z",
+              "side": "left",
+              "material": {
+                "group": "g0",
+                "key": "material_2",
+                "rotated": false,
+                "fixed": false
+              },
+              "detailTypeId": "vertical_left"
+            }
+          },
+          {
+            "type": "wall",
+            "id": "node_1774912333008_xdjwazr61",
+            "name": "Деталь",
+            "originalType": "detail",
+            "hide_when_filled": false,
+            "active": true,
+            "article": "",
+            "children": [],
+            "accessories": [],
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "position": {
+              "x": "s:x",
+              "y": 0,
+              "z": 0
+            },
+            "anchor": {
+              "x": 1,
+              "y": -1,
+              "z": -1
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "comments": "",
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "fill_key": "right",
+            "consider_size": false,
+            "consider_cuts": false,
+            "consider_intersections": false,
+            "spec": {
+              "orientation": "v",
+              "direction": "z",
+              "side": "right",
+              "material": {
+                "group": "g0",
+                "key": "material_2",
+                "rotated": false,
+                "fixed": false
+              },
+              "detailTypeId": "vertical_right"
+            }
+          },
+          {
+            "type": "wall",
+            "id": "node_1774912333009_j52qfyqi9",
+            "name": "Деталь",
+            "originalType": "detail",
+            "hide_when_filled": false,
+            "active": true,
+            "article": "",
+            "children": [],
+            "accessories": [],
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "position": {
+              "x": 0,
+              "y": "s:y",
+              "z": 0
+            },
+            "anchor": {
+              "x": -1,
+              "y": 1,
+              "z": -1
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "comments": "",
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "fill_key": "top",
+            "consider_size": false,
+            "consider_cuts": false,
+            "consider_intersections": false,
+            "spec": {
+              "orientation": "h",
+              "direction": "z",
+              "side": "top",
+              "material": {
+                "group": "g0",
+                "key": "material_2",
+                "rotated": false,
+                "fixed": false
+              },
+              "detailTypeId": "horizontal_top"
+            }
+          },
+          {
+            "type": "wall",
+            "id": "node_1774912333009_b2lnqd3b3",
+            "name": "Деталь",
+            "originalType": "detail",
+            "hide_when_filled": false,
+            "active": true,
+            "article": "",
+            "children": [],
+            "accessories": [],
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "anchor": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "comments": "",
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "fill_key": "back",
+            "consider_size": false,
+            "consider_cuts": false,
+            "consider_intersections": false,
+            "spec": {
+              "orientation": "f",
+              "direction": "z",
+              "side": "back",
+              "material": {
+                "group": "g1",
+                "key": "material_3",
+                "id": 1,
+                "rotated": false,
+                "fixed": false
+              },
+              "detailTypeId": "back_front"
+            }
+          },
+          {
+            "type": "wall",
+            "id": "node_1774912333009_36t5a6oi3",
+            "name": "Деталь",
+            "originalType": "detail",
+            "hide_when_filled": false,
+            "active": true,
+            "article": "",
+            "children": [],
+            "accessories": [],
+            "size": {
+              "x": "s:x-32",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "position": {
+              "x": 16,
+              "y": "s:y / 2",
+              "z": 0
+            },
+            "anchor": {
+              "x": -1,
+              "y": 0,
+              "z": -1
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "comments": "",
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "fill_key": "center",
+            "consider_size": false,
+            "consider_cuts": false,
+            "consider_intersections": false,
+            "spec": {
+              "orientation": "h",
+              "direction": "z",
+              "side": "center",
+              "material": {
+                "group": "g0",
+                "key": "material_2",
+                "rotated": false,
+                "fixed": false
+              },
+              "detailTypeId": "horizontal_middle"
+            }
+          }
+        ],
+        "variables": {
+          "main": {
+            "h_bottom": 100,
+            "h_top": 0
+          },
+          "groups": []
+        },
+        "template": {
+          "structure": [
+            {
+              "type": "section",
+              "name": "Шкаф однодверный",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "f"
+              },
+              "layout_role": "cabinet_root",
+              "children": [
+                {
+                  "type": "section",
+                  "name": "Цоколь",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "v:h_bottom",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "orientation": "f"
+                  },
+                  "layout_role": "plinth",
+                  "children": [
+                    {
+                      "type": "wall",
+                      "name": "Деталь",
+                      "active": 1,
+                      "size": {
+                        "x": "s:x",
+                        "y": "s:y",
+                        "z": "s:z"
+                      },
+                      "pos": {
+                        "x": 0,
+                        "y": 0,
+                        "z": "s:z / 2"
+                      },
+                      "pivot": {
+                        "x": -1,
+                        "y": -1,
+                        "z": 0
+                      },
+                      "rot": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "spec": {
+                        "orientation": "f",
+                        "direction": "z",
+                        "side": "center",
+                        "material": {
+                          "group": "g0",
+                          "key": "material_2",
+                          "id": 10,
+                          "rotated": false,
+                          "fixed": false
+                        },
+                        "detailTypeId": "front_middle"
+                      },
+                      "material_id": "10",
+                      "material_name": "Белый",
+                      "material_key": "material_2",
+                      "material_group": "g0",
+                      "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "name": "Корпус",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y - v:h_bottom - v:h_top-100",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 100,
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "orientation": "f"
+                  },
+                  "layout_role": "corpus",
+                  "children": [
+                    {
+                      "type": "wall",
+                      "name": "Деталь",
+                      "active": 1,
+                      "size": {
+                        "x": "s:x",
+                        "y": "s:y",
+                        "z": "s:z"
+                      },
+                      "pos": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "pivot": {
+                        "x": -1,
+                        "y": -1,
+                        "z": -1
+                      },
+                      "rot": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "spec": {
+                        "orientation": "h",
+                        "direction": "z",
+                        "side": "bottom",
+                        "material": {
+                          "group": "g0",
+                          "key": "material_2",
+                          "rotated": false,
+                          "fixed": false
+                        },
+                        "detailTypeId": "horizontal_bottom"
+                      },
+                      "material_key": "material_2",
+                      "material_group": "g0"
+                    },
+                    {
+                      "type": "wall",
+                      "name": "Деталь",
+                      "active": 1,
+                      "size": {
+                        "x": "s:x",
+                        "y": "s:y - 16",
+                        "z": "s:z"
+                      },
+                      "pos": {
+                        "x": 0,
+                        "y": 16,
+                        "z": 0
+                      },
+                      "pivot": {
+                        "x": -1,
+                        "y": -1,
+                        "z": -1
+                      },
+                      "rot": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "spec": {
+                        "orientation": "v",
+                        "direction": "z",
+                        "side": "left",
+                        "material": {
+                          "group": "g0",
+                          "key": "material_2",
+                          "rotated": false,
+                          "fixed": false
+                        },
+                        "detailTypeId": "vertical_left"
+                      },
+                      "material_key": "material_2",
+                      "material_group": "g0"
+                    },
+                    {
+                      "type": "wall",
+                      "name": "Деталь",
+                      "active": 1,
+                      "size": {
+                        "x": "s:x",
+                        "y": "s:y",
+                        "z": "s:z"
+                      },
+                      "pos": {
+                        "x": "s:x",
+                        "y": 0,
+                        "z": 0
+                      },
+                      "pivot": {
+                        "x": 1,
+                        "y": -1,
+                        "z": -1
+                      },
+                      "rot": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "spec": {
+                        "orientation": "v",
+                        "direction": "z",
+                        "side": "right",
+                        "material": {
+                          "group": "g0",
+                          "key": "material_2",
+                          "rotated": false,
+                          "fixed": false
+                        },
+                        "detailTypeId": "vertical_right"
+                      },
+                      "material_key": "material_2",
+                      "material_group": "g0"
+                    },
+                    {
+                      "type": "wall",
+                      "name": "Деталь",
+                      "active": 1,
+                      "size": {
+                        "x": "s:x",
+                        "y": "s:y",
+                        "z": "s:z"
+                      },
+                      "pos": {
+                        "x": 0,
+                        "y": "s:y",
+                        "z": 0
+                      },
+                      "pivot": {
+                        "x": -1,
+                        "y": 1,
+                        "z": -1
+                      },
+                      "rot": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "spec": {
+                        "orientation": "h",
+                        "direction": "z",
+                        "side": "top",
+                        "material": {
+                          "group": "g0",
+                          "key": "material_2",
+                          "rotated": false,
+                          "fixed": false
+                        },
+                        "detailTypeId": "horizontal_top"
+                      },
+                      "material_key": "material_2",
+                      "material_group": "g0"
+                    },
+                    {
+                      "type": "wall",
+                      "name": "Деталь",
+                      "active": 1,
+                      "size": {
+                        "x": "s:x",
+                        "y": "s:y",
+                        "z": "s:z"
+                      },
+                      "pos": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "pivot": {
+                        "x": -1,
+                        "y": -1,
+                        "z": -1
+                      },
+                      "rot": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "spec": {
+                        "orientation": "f",
+                        "direction": "z",
+                        "side": "back",
+                        "material": {
+                          "group": "g1",
+                          "key": "material_3",
+                          "id": 1,
+                          "rotated": false,
+                          "fixed": false
+                        },
+                        "detailTypeId": "back_front"
+                      },
+                      "material_id": "1",
+                      "material_name": "ЛХДФ белый",
+                      "material_key": "material_3",
+                      "material_group": "g1",
+                      "material_icon": "/common_assets/images/materials/______________________________________1769513496817.jpg"
+                    },
+                    {
+                      "type": "wall",
+                      "name": "Деталь",
+                      "active": 1,
+                      "size": {
+                        "x": "s:x-32",
+                        "y": "s:y",
+                        "z": "s:z"
+                      },
+                      "pos": {
+                        "x": 16,
+                        "y": "s:y / 2",
+                        "z": 0
+                      },
+                      "pivot": {
+                        "x": -1,
+                        "y": 0,
+                        "z": -1
+                      },
+                      "rot": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "spec": {
+                        "orientation": "h",
+                        "direction": "z",
+                        "side": "center",
+                        "material": {
+                          "group": "g0",
+                          "key": "material_2",
+                          "rotated": false,
+                          "fixed": false
+                        },
+                        "detailTypeId": "horizontal_middle"
+                      },
+                      "material_key": "material_2",
+                      "material_group": "g0"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "name": "Фасад",
+                  "active": 1,
+                  "size": { "x": "s:x", "y": "s:y", "z": "s:z" },
+                  "pos": { "x": 0, "y": 0, "z": 0 },
+                  "pivot": { "x": -1, "y": -1, "z": -1 },
+                  "rot": { "x": 0, "y": 0, "z": 0 },
+                  "spec": { "orientation": "f" },
+                  "layout_role": "facades",
+                  "children": [
+                    {
+                      "type": "facade",
+                      "name": "Фасад",
+                      "active": 1,
+                      "size": { "x": "s:x", "y": "s:y - 25", "z": 18 },
+                      "pos": { "x": 0, "y": 25, "z": "s:z" },
+                      "pivot": { "x": -1, "y": -1, "z": -1 },
+                      "rot": { "x": 0, "y": 0, "z": 0 },
+                      "spec": {
+                        "orientation": "f",
+                        "direction": "-z",
+                        "side": "back",
+                        "material": { "group": "g2", "key": "material_2", "id": 10, "rotated": false, "fixed": false },
+                        "show_index": false
+                      },
+                      "material_id": "10",
+                      "material_name": "Белый",
+                      "material_key": "material_2",
+                      "material_group": "g2",
+                      "edges": {},
+                      "edge_numbering": false
+                    }
+                  ]
+                }
+              ],
+              "__cldAuthorSizeMm": {
+                "x": 400,
+                "y": 2200,
+                "z": 600
+              }
+            }
+          ]
+        },
+        "materials_overrides": {
+          "g2": {
+            "material_key": "material_2",
+            "material_id": 10,
+            "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+            "thickness": 16
+          }
+        },
+        "spec": {
+          "template": {
+            "tree": [
+              {
+                "type": "section",
+                "name": "Шкаф однодверный",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "f"
+                },
+                "layout_role": "cabinet_root",
+                "children": [
+                  {
+                    "type": "section",
+                    "name": "Цоколь",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x",
+                      "y": "v:h_bottom",
+                      "z": "s:z"
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "orientation": "f"
+                    },
+                    "layout_role": "plinth",
+                    "children": [
+                      {
+                        "type": "wall",
+                        "name": "Деталь",
+                        "active": 1,
+                        "size": {
+                          "x": "s:x",
+                          "y": "s:y",
+                          "z": "s:z"
+                        },
+                        "pos": {
+                          "x": 0,
+                          "y": 0,
+                          "z": "s:z / 2"
+                        },
+                        "pivot": {
+                          "x": -1,
+                          "y": -1,
+                          "z": 0
+                        },
+                        "rot": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "spec": {
+                          "orientation": "f",
+                          "direction": "z",
+                          "side": "center",
+                          "material": {
+                            "group": "g0",
+                            "key": "material_2",
+                            "id": 10,
+                            "rotated": false,
+                            "fixed": false
+                          },
+                          "detailTypeId": "front_middle"
+                        },
+                        "material_id": "10",
+                        "material_name": "Белый",
+                        "material_key": "material_2",
+                        "material_group": "g0",
+                        "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "section",
+                    "name": "Корпус",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x",
+                      "y": "s:y - v:h_bottom - v:h_top-100",
+                      "z": "s:z"
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": 100,
+                      "z": 0
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "orientation": "f"
+                    },
+                    "layout_role": "corpus",
+                    "children": [
+                      {
+                        "type": "wall",
+                        "name": "Деталь",
+                        "active": 1,
+                        "size": {
+                          "x": "s:x",
+                          "y": "s:y",
+                          "z": "s:z"
+                        },
+                        "pos": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "pivot": {
+                          "x": -1,
+                          "y": -1,
+                          "z": -1
+                        },
+                        "rot": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "spec": {
+                          "orientation": "h",
+                          "direction": "z",
+                          "side": "bottom",
+                          "material": {
+                            "group": "g0",
+                            "key": "material_2",
+                            "rotated": false,
+                            "fixed": false
+                          },
+                          "detailTypeId": "horizontal_bottom"
+                        },
+                        "material_key": "material_2",
+                        "material_group": "g0"
+                      },
+                      {
+                        "type": "wall",
+                        "name": "Деталь",
+                        "active": 1,
+                        "size": {
+                          "x": "s:x",
+                          "y": "s:y - 16",
+                          "z": "s:z"
+                        },
+                        "pos": {
+                          "x": 0,
+                          "y": 16,
+                          "z": 0
+                        },
+                        "pivot": {
+                          "x": -1,
+                          "y": -1,
+                          "z": -1
+                        },
+                        "rot": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "spec": {
+                          "orientation": "v",
+                          "direction": "z",
+                          "side": "left",
+                          "material": {
+                            "group": "g0",
+                            "key": "material_2",
+                            "rotated": false,
+                            "fixed": false
+                          },
+                          "detailTypeId": "vertical_left"
+                        },
+                        "material_key": "material_2",
+                        "material_group": "g0"
+                      },
+                      {
+                        "type": "wall",
+                        "name": "Деталь",
+                        "active": 1,
+                        "size": {
+                          "x": "s:x",
+                          "y": "s:y",
+                          "z": "s:z"
+                        },
+                        "pos": {
+                          "x": "s:x",
+                          "y": 0,
+                          "z": 0
+                        },
+                        "pivot": {
+                          "x": 1,
+                          "y": -1,
+                          "z": -1
+                        },
+                        "rot": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "spec": {
+                          "orientation": "v",
+                          "direction": "z",
+                          "side": "right",
+                          "material": {
+                            "group": "g0",
+                            "key": "material_2",
+                            "rotated": false,
+                            "fixed": false
+                          },
+                          "detailTypeId": "vertical_right"
+                        },
+                        "material_key": "material_2",
+                        "material_group": "g0"
+                      },
+                      {
+                        "type": "wall",
+                        "name": "Деталь",
+                        "active": 1,
+                        "size": {
+                          "x": "s:x",
+                          "y": "s:y",
+                          "z": "s:z"
+                        },
+                        "pos": {
+                          "x": 0,
+                          "y": "s:y",
+                          "z": 0
+                        },
+                        "pivot": {
+                          "x": -1,
+                          "y": 1,
+                          "z": -1
+                        },
+                        "rot": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "spec": {
+                          "orientation": "h",
+                          "direction": "z",
+                          "side": "top",
+                          "material": {
+                            "group": "g0",
+                            "key": "material_2",
+                            "rotated": false,
+                            "fixed": false
+                          },
+                          "detailTypeId": "horizontal_top"
+                        },
+                        "material_key": "material_2",
+                        "material_group": "g0"
+                      },
+                      {
+                        "type": "wall",
+                        "name": "Деталь",
+                        "active": 1,
+                        "size": {
+                          "x": "s:x",
+                          "y": "s:y",
+                          "z": "s:z"
+                        },
+                        "pos": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "pivot": {
+                          "x": -1,
+                          "y": -1,
+                          "z": -1
+                        },
+                        "rot": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "spec": {
+                          "orientation": "f",
+                          "direction": "z",
+                          "side": "back",
+                          "material": {
+                            "group": "g1",
+                            "key": "material_3",
+                            "id": 1,
+                            "rotated": false,
+                            "fixed": false
+                          },
+                          "detailTypeId": "back_front"
+                        },
+                        "material_id": "1",
+                        "material_name": "ЛХДФ белый",
+                        "material_key": "material_3",
+                        "material_group": "g1",
+                        "material_icon": "/common_assets/images/materials/______________________________________1769513496817.jpg"
+                      },
+                      {
+                        "type": "wall",
+                        "name": "Деталь",
+                        "active": 1,
+                        "size": {
+                          "x": "s:x-32",
+                          "y": "s:y",
+                          "z": "s:z"
+                        },
+                        "pos": {
+                          "x": 16,
+                          "y": "s:y / 2",
+                          "z": 0
+                        },
+                        "pivot": {
+                          "x": -1,
+                          "y": 0,
+                          "z": -1
+                        },
+                        "rot": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "spec": {
+                          "orientation": "h",
+                          "direction": "z",
+                          "side": "center",
+                          "material": {
+                            "group": "g0",
+                            "key": "material_2",
+                            "rotated": false,
+                            "fixed": false
+                          },
+                          "detailTypeId": "horizontal_middle"
+                        },
+                        "material_key": "material_2",
+                        "material_group": "g0"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "section",
+                    "name": "Фасад",
+                    "active": 1,
+                    "size": { "x": "s:x", "y": "s:y", "z": "s:z" },
+                    "pos": { "x": 0, "y": 0, "z": 0 },
+                    "pivot": { "x": -1, "y": -1, "z": -1 },
+                    "rot": { "x": 0, "y": 0, "z": 0 },
+                    "spec": { "orientation": "f" },
+                    "layout_role": "facades",
+                    "children": [
+                      {
+                        "type": "facade",
+                        "name": "Фасад",
+                        "active": 1,
+                        "size": { "x": "s:x", "y": "s:y - 25", "z": 18 },
+                        "pos": { "x": 0, "y": 25, "z": "s:z" },
+                        "pivot": { "x": -1, "y": -1, "z": -1 },
+                        "rot": { "x": 0, "y": 0, "z": 0 },
+                        "spec": {
+                          "orientation": "f",
+                          "direction": "-z",
+                          "side": "back",
+                          "material": { "group": "g2", "key": "material_2", "id": 10, "rotated": false, "fixed": false },
+                          "show_index": false
+                        },
+                        "material_id": "10",
+                        "material_name": "Белый",
+                        "material_key": "material_2",
+                        "material_group": "g2",
+                        "edges": {},
+                        "edge_numbering": false
+                      }
+                    ]
+                  }
+                ],
+                "__cldAuthorSizeMm": {
+                  "x": 400,
+                  "y": 2200,
+                  "z": 600
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "icon": "/files/catalog_icons/catalog_icon_2_1774722371865_1774722372216.png"
+  }
+]

@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "constructId": "corpus_floor_stub",
+  "moduleLabel": "Корпус шкафа",
+  "dimensionsMm": { "w": 800, "h": 2200, "d": 600 },
+  "parts": [],
+  "steps": [
+    {
+      "id": "c01",
+      "index": 1,
+      "title": "Дно шкафа",
+      "hint": "Полная пошаговка корпуса — в следующей итерации",
+      "pickPart": { "no": 1, "partKey": "bottom", "label": "Дно" },
+      "mateWith": null,
+      "stub": true
+    },
+    {
+      "id": "c02",
+      "index": 2,
+      "title": "Боковины",
+      "hint": "Скоро: анимация стыковки с конфирматом",
+      "pickPart": { "no": 2, "partKey": "side", "label": "Боковина" },
+      "mateWith": { "no": 1, "partKey": "bottom", "label": "Дно" },
+      "stub": true
+    }
+  ]
+}

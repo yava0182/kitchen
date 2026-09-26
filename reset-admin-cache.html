@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Сброс кэша — 1.345 / 8050</title>
+</head>
+<body style="font-family:system-ui;padding:24px;max-width:720px;line-height:1.45">
+  <h1>Сброс localStorage для этого порта</h1>
+  <p>Удаляет <code>catalog_*</code> и drill-шаблоны в LS. Не трогает <code>room_*</code>.</p>
+  <p><b>Порт сейчас:</b> <span id="port"></span></p>
+  <button id="go" style="font-size:18px;padding:12px 20px;cursor:pointer">Очистить и открыть админку</button>
+  <pre id="log" style="background:#f3f4f6;padding:12px;margin-top:16px"></pre>
+  <script>
+    document.getElementById('port').textContent = location.host;
+    document.getElementById('go').onclick = function () {
+      var removed = [];
+      function keep(k) {
+        return !k || k.indexOf('room_') === 0 || k.indexOf('cld_room') === 0 || k === 'room_steps_config';
+      }
+      for (var i = localStorage.length - 1; i >= 0; i--) {
+        var k = localStorage.key(i);
+        if (keep(k)) continue;
+        if (/^catalog_/i.test(k) || k.indexOf('clodis_drilling') === 0 || k.indexOf('__CLD') === 0) {
+          localStorage.removeItem(k);
+          removed.push(k);
+        }
+      }
+      document.getElementById('log').textContent = 'Удалено ключей: ' + removed.length + '\n' + removed.slice(0, 50).join('\n');
+      setTimeout(function () { location.href = '/admin-new.html'; }, 500);
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,1382 @@
+{
+  "source": "Фурнитура.config",
+  "sourcePath": "D:\\Configurator-Clodis-ThreeJS-21\\Configurator-Clodis-ThreeJS-7\\Фурнитура.config",
+  "sourceSize": 96039,
+  "parsedAt": "2026-07-13",
+  "parser": "tools/parse-furnitura-config.py",
+  "fieldMap": {
+    "D1": "f64 @ nameOffset - 72 (Ø отверстия в пласть, мм)",
+    "D2": "f64 @ nameOffset + 296 (Ø отверстия в торец, мм)",
+    "H1_mm": "i32 @ nameOffset - 140 (гипотеза: глубина торца)",
+    "H2_mm": "i32 @ nameOffset - 136 (часто = Ø винта из названия)",
+    "PrimStep_mm": "i32 @ nameOffset + 56 (гипотеза: шаг, мм)",
+    "StartIndent_mm": "i32 @ nameOffset + 364 (гипотеза: отступ от края)"
+  },
+  "notes": [
+    "Каталог БАЗИС — не координаты конкретного шкафа, а шаблоны крепежа.",
+    "Запись с запятой в конце — основной вариант; с $ — альтернатива (толщина/пласть).",
+    "Для точных x/y отверстий на детали нужен CFRN или .bprj, не .config."
+  ],
+  "clodisTemplate1": {
+    "templateName": "Конфирмат T-стык (бок + полка)",
+    "face": {
+      "diameter": 8,
+      "depth": 16,
+      "x": 8
+    },
+    "edge": {
+      "diameter": 5,
+      "depth": 35,
+      "x": 16,
+      "y": 16
+    },
+    "scheme": {
+      "offsetFromBase": 50,
+      "step": 32,
+      "minOffsetOpposite": 50
+    }
+  },
+  "clodisComparison": {
+    "bazisEntry": "Конфирмат 7*50 мм",
+    "bazisNameOffset": 2371,
+    "matchNotes": [
+      "D1=8 / D2=5 — совпадает с шаблоном Clodis №1 (пласть/торец)",
+      "H1_mm=35 — совпадает с глубиной торца в Clodis (35 мм)",
+      "Глубина пласти (16) и x/y (8/16/16) в .config явно не найдены — только в Clodis",
+      "PrimStep_mm=30 в БАЗИС vs step=32 в Clodis — близко, но не 1:1",
+      "StartIndent_mm=20 в БАЗИС vs offset=50 в Clodis — поля расстановки, нужна сверка в UI БАЗИС"
+    ],
+    "fields": {
+      "D1_face": {
+        "bazis": 8.0,
+        "clodis": 8
+      },
+      "D2_edge": {
+        "bazis": 5.0,
+        "clodis": 5
+      },
+      "face_depth": {
+        "bazis": null,
+        "clodis": 16,
+        "note": "в config не найдено явно; в Clodis = 16"
+      },
+      "edge_depth_H1": {
+        "bazis": 35,
+        "clodis": 35
+      },
+      "x_face": {
+        "bazis": null,
+        "clodis": 8,
+        "note": "в config не найдено явно; в Clodis = 8"
+      },
+      "x_edge_y_edge": {
+        "bazis": {
+          "x": null,
+          "y": null
+        },
+        "clodis": {
+          "x": 16,
+          "y": 16
+        },
+        "note": "в config не найдено явно; в Clodis x=16 y=16"
+      },
+      "bolt": {
+        "bazis": {
+          "D": 7.0,
+          "L": 50.0
+        },
+        "clodis_scheme_name": "Конфирмат 50 мм"
+      },
+      "PrimStep_mm": {
+        "bazis": 30,
+        "clodis": 32
+      },
+      "StartIndent_mm": {
+        "bazis": 20,
+        "clodis": 50
+      }
+    }
+  },
+  "eurovintyTable": [
+    {
+      "name": "Конфирмат 7*50 мм",
+      "category": "Евровинты-",
+      "D1": 8.0,
+      "D2": 5.0,
+      "H1_mm": 35,
+      "H2_mm": 7,
+      "PrimStep_mm": 30,
+      "StartIndent_mm": 20,
+      "bolt": "7.0×50.0"
+    },
+    {
+      "name": "Конфирмат 5*50",
+      "category": "Евровинты",
+      "D1": 5.0,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": "5.0×50.0"
+    },
+    {
+      "name": "отверстие под стяжку",
+      "category": "Евровинты",
+      "D1": 5.0,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "Отверстие в торец под конфирмат",
+      "category": "Евровинты",
+      "D1": 7.0,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "конфирмат",
+      "category": "Евровинты",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "Отверстие в торец под конфирмат 5*50",
+      "category": "Евровинты",
+      "D1": 5.0,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": 9,
+      "bolt": "5.0×50.0"
+    },
+    {
+      "name": "Евровинт 6.3х11",
+      "category": "",
+      "D1": 1.0,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": "6.3×11.0"
+    },
+    {
+      "name": "Шкант 5х25",
+      "category": "",
+      "D1": 1.0,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": 8,
+      "bolt": "5.0×25.0"
+    },
+    {
+      "name": "Шкант 8х30",
+      "category": "",
+      "D1": 30.0,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": "8.0×30.0"
+    },
+    {
+      "name": "Эксц. стяжка Hefele MINIFIX 15",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "стяжка Hefele MINIFIX 15",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": 5,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "MINIFIX 15",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "MINIFIX 15 7/2Х34 + 2 Эксцентрик мебельный MINIFIX 15 без покрытия",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": 8,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": "2.0×34.0"
+    },
+    {
+      "name": "MINIFIX 15 7/2Х34 + 2 Эксцентрик мебельный MINIFIX 15 без покрытия + шкант",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": 8,
+      "PrimStep_mm": null,
+      "StartIndent_mm": 5,
+      "bolt": "2.0×34.0"
+    },
+    {
+      "name": "Конфирмат + шкант",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": 30,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "Конфирмат + шкант планки",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "шкант планки",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": 31,
+      "H2_mm": 3,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "Конфирмат + шкант ящики",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "шкант ящики",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": 31,
+      "H2_mm": 3,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "Шкант 8*30 мм",
+      "category": "",
+      "D1": 30.0,
+      "D2": 16.0,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": 27,
+      "bolt": "8.0×30.0"
+    },
+    {
+      "name": "Конфирмат 7*50",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": "7.0×50.0"
+    },
+    {
+      "name": "Конфирмат 7*50 32 мм",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": 256,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": "7.0×50.0"
+    },
+    {
+      "name": "Конфирмат 7*50 инт.р",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": 256,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": "7.0×50.0"
+    },
+    {
+      "name": "Конфирмат на планки 7*50",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": 256,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": "7.0×50.0"
+    },
+    {
+      "name": "Конфирмат пенал ЕМ",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": 256,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "Отверстие  5 мм ",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": 39,
+      "bolt": null
+    },
+    {
+      "name": "Отверстие под стяжку 5 мм 2 дв",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "стяжку 5 мм 2 дв",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": 3,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "Отверстие под стяжку 5 мм для кух. модулей",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "стяжку 5 мм для кух. модулей",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": 3,
+      "H2_mm": null,
+      "PrimStep_mm": 44,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "Отверстие под стяжку 5 мм сим",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "стяжку 5 мм сим",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": 8,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "Стяжка B-fix ST01/50/6/Zn/01",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": 44,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "Стяжка B-fix ST01/50/6/Zn/01 + шкант",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "Шкант сим 30",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "Шкант сим 40",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "Эксцентр 15 мм",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": 256,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "Эксцентр 15 мм + шкант",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "Эксцентр 15 мм + шкант низкие",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "шкант низкие",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "Эксцентр 15 мм + шкант симметр",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "шкант симметр",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "Эксцентр 15 мм + шкант узкие",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": 44,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "шкант узкие",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "Эксцентр 15 мм + шкант+шкант",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": 44,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "шкант+шкант",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "Эксцентр 15 мм симметричный",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": 5,
+      "bolt": null
+    },
+    {
+      "name": "Эксцентр 15 мм узкие",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "Эксцентр 20 мм Hefele",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "2S Конфирмат7х50",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": "7.0×50.0"
+    },
+    {
+      "name": "Конфирмат7х50",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": "7.0×50.0"
+    },
+    {
+      "name": "2S стяжка",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": 256,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": null
+    },
+    {
+      "name": "Шкант 8х30 для планок",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": "8.0×30.0"
+    },
+    {
+      "name": "Шкант 8х30 для планок + отверстия 5мм",
+      "category": "",
+      "D1": null,
+      "D2": null,
+      "H1_mm": null,
+      "H2_mm": null,
+      "PrimStep_mm": null,
+      "StartIndent_mm": null,
+      "bolt": "8.0×30.0"
+    }
+  ],
+  "entryCountAll": 59,
+  "entryCountEuro": 59,
+  "entries": [
+    {
+      "nameOffset": 2263,
+      "name": "Евровинты-",
+      "nameRaw": "Евровинты-",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "faceOffset_mm": 9
+    },
+    {
+      "nameOffset": 2371,
+      "name": "Конфирмат 7*50 мм",
+      "nameRaw": "Конфирмат 7*50 мм,",
+      "category": "Евровинты-",
+      "boltD_fromName": 7.0,
+      "boltL_fromName": 50.0,
+      "D1": 8.0,
+      "D2": 5.0,
+      "H1_mm": 35,
+      "H2_mm": 7,
+      "H3_mm": 30,
+      "PrimStep_mm": 30,
+      "StartIndent_mm": 20,
+      "faceOffset_mm": 17
+    },
+    {
+      "nameOffset": 2558,
+      "name": "Конфирмат 5*50",
+      "nameRaw": "Конфирмат 5*50,",
+      "category": "Евровинты",
+      "boltD_fromName": 5.0,
+      "boltL_fromName": 50.0,
+      "D1": 5.0,
+      "D2": null,
+      "faceOffset_mm": 14
+    },
+    {
+      "nameOffset": 2739,
+      "name": "отверстие под стяжку",
+      "nameRaw": "отверстие под стяжку,",
+      "category": "Евровинты",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": 5.0,
+      "D2": null,
+      "faceOffset_mm": 20
+    },
+    {
+      "nameOffset": 2767,
+      "name": "стяжку",
+      "nameRaw": "стяжку,",
+      "category": "Евровинты",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null
+    },
+    {
+      "nameOffset": 2932,
+      "name": "Отверстие в торец под конфирмат",
+      "nameRaw": "Отверстие в торец под конфирмат,",
+      "category": "Евровинты",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": 7.0,
+      "D2": null,
+      "faceOffset_mm": 31
+    },
+    {
+      "nameOffset": 2976,
+      "name": "конфирмат",
+      "nameRaw": "конфирмат,",
+      "category": "Евровинты",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null
+    },
+    {
+      "nameOffset": 3147,
+      "name": "Отверстие в торец под конфирмат 5*50",
+      "nameRaw": "Отверстие в торец под конфирмат 5*50,",
+      "category": "Евровинты",
+      "boltD_fromName": 5.0,
+      "boltL_fromName": 50.0,
+      "D1": 5.0,
+      "D2": null,
+      "StartIndent_mm": 9,
+      "faceOffset_mm": 36,
+      "x_face_f64": 2.5244
+    },
+    {
+      "nameOffset": 4321,
+      "name": "Евровинт 6.3х11",
+      "nameRaw": "Евровинт 6.3х11,",
+      "category": "",
+      "boltD_fromName": 6.3,
+      "boltL_fromName": 11.0,
+      "D1": 1.0,
+      "D2": null,
+      "faceOffset_mm": 15
+    },
+    {
+      "nameOffset": 4498,
+      "name": "Шкант 5х25",
+      "nameRaw": "Шкант 5х25,",
+      "category": "",
+      "boltD_fromName": 5.0,
+      "boltL_fromName": 25.0,
+      "D1": 1.0,
+      "D2": null,
+      "StartIndent_mm": 8,
+      "faceOffset_mm": 10
+    },
+    {
+      "nameOffset": 5183,
+      "name": "Шкант 8х30",
+      "nameRaw": "Шкант 8х30,",
+      "category": "",
+      "boltD_fromName": 8.0,
+      "boltL_fromName": 30.0,
+      "D1": 30.0,
+      "D2": null,
+      "faceOffset_mm": 10,
+      "y_edge_f64": 25.0
+    },
+    {
+      "nameOffset": 5663,
+      "name": "Эксц. стяжка Hefele MINIFIX 15",
+      "nameRaw": "Эксц. стяжка Hefele MINIFIX 15,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "faceOffset_mm": 30
+    },
+    {
+      "nameOffset": 5675,
+      "name": "стяжка Hefele MINIFIX 15",
+      "nameRaw": "стяжка Hefele MINIFIX 15,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "H2_mm": 5
+    },
+    {
+      "nameOffset": 5703,
+      "name": "MINIFIX 15",
+      "nameRaw": "MINIFIX 15,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null
+    },
+    {
+      "nameOffset": 6009,
+      "name": "стяжки",
+      "nameRaw": "стяжки,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "x_face_f64": 9.0
+    },
+    {
+      "nameOffset": 17662,
+      "name": "MINIFIX 15 7/2Х34 + 2 Эксцентрик мебельный MINIFIX 15 без покрытия",
+      "nameRaw": "MINIFIX 15 7/2Х34 + 2 Эксцентрик мебельный MINIFIX 15 без покрытия,",
+      "category": "",
+      "boltD_fromName": 2.0,
+      "boltL_fromName": 34.0,
+      "D1": null,
+      "D2": null,
+      "H2_mm": 8
+    },
+    {
+      "nameOffset": 18605,
+      "name": "MINIFIX 15 7/2Х34 + 2 Эксцентрик мебельный MINIFIX 15 без покрытия + шкант",
+      "nameRaw": "MINIFIX 15 7/2Х34 + 2 Эксцентрик мебельный MINIFIX 15 без покрытия + шкант,",
+      "category": "",
+      "boltD_fromName": 2.0,
+      "boltL_fromName": 34.0,
+      "D1": null,
+      "D2": null,
+      "H2_mm": 8,
+      "StartIndent_mm": 5
+    },
+    {
+      "nameOffset": 19616,
+      "name": "Конфирмат + шкант",
+      "nameRaw": "Конфирмат + шкант,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "H3_mm": 30,
+      "PrimStep_mm": 30,
+      "faceOffset_mm": 17
+    },
+    {
+      "nameOffset": 19640,
+      "name": "шкант",
+      "nameRaw": "шкант,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "H1_mm": 31,
+      "H2_mm": 3
+    },
+    {
+      "nameOffset": 20771,
+      "name": "Конфирмат + шкант планки",
+      "nameRaw": "Конфирмат + шкант планки,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "faceOffset_mm": 24
+    },
+    {
+      "nameOffset": 20795,
+      "name": "шкант планки",
+      "nameRaw": "шкант планки,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "H1_mm": 31,
+      "H2_mm": 3
+    },
+    {
+      "nameOffset": 21881,
+      "name": "Конфирмат + шкант ящики",
+      "nameRaw": "Конфирмат + шкант ящики,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "faceOffset_mm": 23
+    },
+    {
+      "nameOffset": 21905,
+      "name": "шкант ящики",
+      "nameRaw": "шкант ящики,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "H1_mm": 31,
+      "H2_mm": 3
+    },
+    {
+      "nameOffset": 22810,
+      "name": "Шкант 8*30 мм",
+      "nameRaw": "Шкант 8*30 мм,",
+      "category": "",
+      "boltD_fromName": 8.0,
+      "boltL_fromName": 30.0,
+      "D1": 30.0,
+      "D2": 16.0,
+      "StartIndent_mm": 27,
+      "faceOffset_mm": 13
+    },
+    {
+      "nameOffset": 23906,
+      "name": "Конфирмат 7*50",
+      "nameRaw": "Конфирмат 7*50,",
+      "category": "",
+      "boltD_fromName": 7.0,
+      "boltL_fromName": 50.0,
+      "D1": null,
+      "D2": null,
+      "faceOffset_mm": 14,
+      "edgeDepth_f64": 16.0
+    },
+    {
+      "nameOffset": 24825,
+      "name": "Конфирмат 7*50 32 мм",
+      "nameRaw": "Конфирмат 7*50 32 мм,",
+      "category": "",
+      "boltD_fromName": 7.0,
+      "boltL_fromName": 50.0,
+      "D1": null,
+      "D2": null,
+      "H1_mm": 256,
+      "faceOffset_mm": 20
+    },
+    {
+      "nameOffset": 25745,
+      "name": "Конфирмат 7*50 инт.р",
+      "nameRaw": "Конфирмат 7*50 инт.р,",
+      "category": "",
+      "boltD_fromName": 7.0,
+      "boltL_fromName": 50.0,
+      "D1": null,
+      "D2": null,
+      "H1_mm": 256,
+      "faceOffset_mm": 20
+    },
+    {
+      "nameOffset": 26656,
+      "name": "Конфирмат на планки 7*50",
+      "nameRaw": "Конфирмат на планки 7*50,",
+      "category": "",
+      "boltD_fromName": 7.0,
+      "boltL_fromName": 50.0,
+      "D1": null,
+      "D2": null,
+      "H1_mm": 256,
+      "faceOffset_mm": 24
+    },
+    {
+      "nameOffset": 27565,
+      "name": "Конфирмат пенал ЕМ",
+      "nameRaw": "Конфирмат пенал ЕМ,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "H1_mm": 256,
+      "faceOffset_mm": 18,
+      "x_edge_f64": 16.0
+    },
+    {
+      "nameOffset": 29602,
+      "name": "Отверстие  5 мм ",
+      "nameRaw": "Отверстие  5 мм ,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "StartIndent_mm": 39,
+      "faceOffset_mm": 16
+    },
+    {
+      "nameOffset": 31775,
+      "name": "Отверстие под стяжку 5 мм 2 дв",
+      "nameRaw": "Отверстие под стяжку 5 мм 2 дв,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "faceOffset_mm": 30,
+      "x_edge_f64": 16.0
+    },
+    {
+      "nameOffset": 31803,
+      "name": "стяжку 5 мм 2 дв",
+      "nameRaw": "стяжку 5 мм 2 дв,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "H1_mm": 3
+    },
+    {
+      "nameOffset": 32699,
+      "name": "Отверстие под стяжку 5 мм для кух. модулей",
+      "nameRaw": "Отверстие под стяжку 5 мм для кух. модулей,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "faceOffset_mm": 42
+    },
+    {
+      "nameOffset": 32727,
+      "name": "стяжку 5 мм для кух. модулей",
+      "nameRaw": "стяжку 5 мм для кух. модулей,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "H1_mm": 3,
+      "H3_mm": 44,
+      "PrimStep_mm": 44
+    },
+    {
+      "nameOffset": 33923,
+      "name": "Отверстие под стяжку 5 мм сим",
+      "nameRaw": "Отверстие под стяжку 5 мм сим,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "faceOffset_mm": 29
+    },
+    {
+      "nameOffset": 33951,
+      "name": "стяжку 5 мм сим",
+      "nameRaw": "стяжку 5 мм сим,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "H2_mm": 8
+    },
+    {
+      "nameOffset": 40960,
+      "name": "Стяжка B-fix ST01/50/6/Zn/01",
+      "nameRaw": "Стяжка B-fix ST01/50/6/Zn/01,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "H3_mm": 44,
+      "PrimStep_mm": 44,
+      "faceOffset_mm": 28
+    },
+    {
+      "nameOffset": 41769,
+      "name": "Стяжка B-fix ST01/50/6/Zn/01 + шкант",
+      "nameRaw": "Стяжка B-fix ST01/50/6/Zn/01 + шкант,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "faceOffset_mm": 36
+    },
+    {
+      "nameOffset": 45429,
+      "name": "Шкант сим 30",
+      "nameRaw": "Шкант сим 30,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "faceOffset_mm": 12
+    },
+    {
+      "nameOffset": 46300,
+      "name": "Шкант сим 40",
+      "nameRaw": "Шкант сим 40,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "faceOffset_mm": 12
+    },
+    {
+      "nameOffset": 47180,
+      "name": "Эксцентр 15 мм",
+      "nameRaw": "Эксцентр 15 мм,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "H1_mm": 256,
+      "edgeDepth_f64": 16.0
+    },
+    {
+      "nameOffset": 49441,
+      "name": "Эксцентр 15 мм + шкант",
+      "nameRaw": "Эксцентр 15 мм + шкант,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "faceOffset_mm": 22,
+      "x_face_f64": 16.0
+    },
+    {
+      "nameOffset": 50726,
+      "name": "Эксцентр 15 мм + шкант низкие",
+      "nameRaw": "Эксцентр 15 мм + шкант низкие,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "faceOffset_mm": 29
+    },
+    {
+      "nameOffset": 50760,
+      "name": "шкант низкие",
+      "nameRaw": "шкант низкие,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null
+    },
+    {
+      "nameOffset": 52025,
+      "name": "Эксцентр 15 мм + шкант симметр",
+      "nameRaw": "Эксцентр 15 мм + шкант симметр,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "faceOffset_mm": 30,
+      "x_edge_f64": 16.0
+    },
+    {
+      "nameOffset": 52059,
+      "name": "шкант симметр",
+      "nameRaw": "шкант симметр,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null
+    },
+    {
+      "nameOffset": 53308,
+      "name": "Эксцентр 15 мм + шкант узкие",
+      "nameRaw": "Эксцентр 15 мм + шкант узкие,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "H3_mm": 44,
+      "PrimStep_mm": 44,
+      "faceOffset_mm": 28
+    },
+    {
+      "nameOffset": 53342,
+      "name": "шкант узкие",
+      "nameRaw": "шкант узкие,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null
+    },
+    {
+      "nameOffset": 54583,
+      "name": "Эксцентр 15 мм + шкант+шкант",
+      "nameRaw": "Эксцентр 15 мм + шкант+шкант,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "H3_mm": 44,
+      "PrimStep_mm": 44,
+      "faceOffset_mm": 28
+    },
+    {
+      "nameOffset": 54617,
+      "name": "шкант+шкант",
+      "nameRaw": "шкант+шкант,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null
+    },
+    {
+      "nameOffset": 55871,
+      "name": "Эксцентр 15 мм симметричный",
+      "nameRaw": "Эксцентр 15 мм симметричный,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "StartIndent_mm": 5,
+      "faceOffset_mm": 27,
+      "x_face_f64": 16.0
+    },
+    {
+      "nameOffset": 56889,
+      "name": "Эксцентр 15 мм узкие",
+      "nameRaw": "Эксцентр 15 мм узкие,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "faceOffset_mm": 20
+    },
+    {
+      "nameOffset": 57923,
+      "name": "Эксцентр 20 мм Hefele",
+      "nameRaw": "Эксцентр 20 мм Hefele,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "faceOffset_mm": 21
+    },
+    {
+      "nameOffset": 88010,
+      "name": "2S Конфирмат7х50",
+      "nameRaw": "2S Конфирмат7х50,",
+      "category": "",
+      "boltD_fromName": 7.0,
+      "boltL_fromName": 50.0,
+      "D1": null,
+      "D2": null,
+      "faceOffset_mm": 16
+    },
+    {
+      "nameOffset": 88016,
+      "name": "Конфирмат7х50",
+      "nameRaw": "Конфирмат7х50,",
+      "category": "",
+      "boltD_fromName": 7.0,
+      "boltL_fromName": 50.0,
+      "D1": null,
+      "D2": null,
+      "x_edge_f64": 16.0
+    },
+    {
+      "nameOffset": 88922,
+      "name": "2S стяжка",
+      "nameRaw": "2S стяжка,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "H1_mm": 256,
+      "faceOffset_mm": 9
+    },
+    {
+      "nameOffset": 88928,
+      "name": "стяжка",
+      "nameRaw": "стяжка,",
+      "category": "",
+      "boltD_fromName": null,
+      "boltL_fromName": null,
+      "D1": null,
+      "D2": null,
+      "H1_mm": 31,
+      "H2_mm": 3
+    },
+    {
+      "nameOffset": 92673,
+      "name": "Шкант 8х30 для планок",
+      "nameRaw": "Шкант 8х30 для планок,",
+      "category": "",
+      "boltD_fromName": 8.0,
+      "boltL_fromName": 30.0,
+      "D1": null,
+      "D2": null,
+      "faceOffset_mm": 21
+    },
+    {
+      "nameOffset": 93553,
+      "name": "Шкант 8х30 для планок + отверстия 5мм",
+      "nameRaw": "Шкант 8х30 для планок + отверстия 5мм,",
+      "category": "",
+      "boltD_fromName": 8.0,
+      "boltL_fromName": 30.0,
+      "D1": null,
+      "D2": null,
+      "faceOffset_mm": 37
+    }
+  ],
+  "entriesOther": []
+}

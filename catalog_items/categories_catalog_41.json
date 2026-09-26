@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "name": "Модули с дверями",
+    "parent": null,
+    "description": "",
+    "active": 1,
+    "iconAspect": "tall"
+  },
+  {
+    "id": 2,
+    "name": "Модули без дверей",
+    "parent": null,
+    "description": "",
+    "active": 1,
+    "iconAspect": "tall"
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "id": "1",
+    "name": "Разное",
+    "parent": "0",
+    "active": "1",
+    "order": "1",
+    "description": "",
+    "image": "",
+    "params": ""
+  },
+  {
+    "id": "2",
+    "name": "Цвет профилей Gola",
+    "parent": "0",
+    "active": "1",
+    "order": "3",
+    "description": "",
+    "image": "",
+    "params": ""
+  }
+]

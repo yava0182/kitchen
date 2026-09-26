@@ -1,0 +1,30 @@
+// Файл account_settings.js
+// Вставьте полный код из браузера сюда
+
+// Пока видно начало:
+/*
+document.addEventListener('Glob_ready', function () {
+    let clipboard = new Clipboard('.copy');
+    
+    app = new Vue({
+        el: '#sub_form',
+        data: {
+            settings: {
+                order_mail: '',
+                site_url: '',
+                address_line: '',
+                logo: '',
+                logo_top: '',
+                vk_appid: '',
+                interface: ''
+            },
+            options_ready: false
+        },
+        beforeMount: async function () {
+            // Загрузка данных с сервера
+            let data = await promise_request(glob.base_url + '/settings/get_settings');
+            // ...
+        }
+    });
+});
+*/

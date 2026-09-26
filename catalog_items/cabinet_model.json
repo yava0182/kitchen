@@ -1,0 +1,6480 @@
+[
+  {
+    "id": 2,
+    "catalog_type": "cabinet_model",
+    "name": "Опора кухонная 100",
+    "category": "опора 100",
+    "order": 10000,
+    "active": 1,
+    "spec": 1,
+    "icon": "",
+    "width": 60,
+    "height": 100,
+    "depth": 79,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "",
+            "code": "",
+            "model": "/models/opora101m_1770230643059.fbx",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 180,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 1000,
+                "y": 1000,
+                "z": 1000
+              },
+              "set_uv": 1,
+              "process": 1,
+              "meshes": {}
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 1
+      }
+    }
+  },
+  {
+    "id": 3,
+    "catalog_type": "cabinet_model",
+    "name": "Ручка Волна",
+    "category": "Ручка волна",
+    "order": 10000,
+    "active": 1,
+    "spec": 1,
+    "icon": "",
+    "width": 14,
+    "height": 960,
+    "depth": 22,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "",
+            "code": "",
+            "model": "/models/volna_1770230423546.fbx",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 90,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 1000,
+                "y": 1000,
+                "z": 1000
+              },
+              "set_uv": 1,
+              "process": 1,
+              "meshes": {
+                "Mesh1": {
+                  "v": 1,
+                  "material_id": "",
+                  "m": "",
+                  "material_key": "",
+                  "material": "",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": ""
+                },
+                "Mesh2": {
+                  "v": 1,
+                  "material_id": "",
+                  "m": "",
+                  "material_key": "",
+                  "material": "",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": ""
+                }
+              }
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 1
+      }
+    }
+  },
+  {
+    "catalog_type": "cabinet_model",
+    "id": 5,
+    "name": "Петля накладная фасад",
+    "category": "",
+    "order": 10000,
+    "active": 1,
+    "spec": 1,
+    "icon": "",
+    "width": 600,
+    "height": 720,
+    "depth": 600,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Петля накладная фасад",
+            "code": "",
+            "model": "/files/Krepeg/petlya_clodis_fasad_1779309089920.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": -90,
+                "y": -90,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {
+                "Петля_Clodis_фасад_1": {
+                  "v": 1,
+                  "material_id": "7",
+                  "m": "Хром для петель",
+                  "material_key": "Хром для петель",
+                  "material": "Хром для петель",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "7"
+                },
+                "Петля_Clodis_фасад_2": {
+                  "v": 1,
+                  "material_id": "7",
+                  "m": "Хром для петель",
+                  "material_key": "Хром для петель",
+                  "material": "Хром для петель",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "7"
+                }
+              }
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 1
+      }
+    }
+  },
+  {
+    "catalog_type": "cabinet_model",
+    "id": 6,
+    "name": "Петля накладная корпус",
+    "category": "",
+    "order": 10000,
+    "active": 1,
+    "spec": 1,
+    "icon": "",
+    "width": 600,
+    "height": 720,
+    "depth": 600,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Петля накладная корпус",
+            "code": "",
+            "model": "/files/Krepeg/petlya_clodis_korpus_1779308011571.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 0,
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {
+                "Петля_Clodis_корпус": {
+                  "v": 1,
+                  "material_id": "7",
+                  "m": "Хром для петель",
+                  "material_key": "Хром для петель",
+                  "material": "Хром для петель",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "7"
+                }
+              }
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 1
+      }
+    }
+  },
+  {
+    "id": 7,
+    "catalog_type": "cabinet_model",
+    "name": "Направляющие корпус левая",
+    "category": "",
+    "order": 10000,
+    "active": 1,
+    "spec": 1,
+    "icon": "",
+    "width": 800,
+    "height": 720,
+    "depth": 600,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "",
+            "code": "",
+            "model": "/files/Krepeg/napravlyayuschaya_korpus_levaya_1778568989901.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "meshes": {
+                "Geom3D": {
+                  "v": 1,
+                  "material_id": "6",
+                  "m": "Metall",
+                  "material_key": "Metall",
+                  "material": "Metall",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "6"
+                },
+                "Geom3D_1": {
+                  "v": 1,
+                  "material_id": "6",
+                  "m": "Metall",
+                  "material_key": "Metall",
+                  "material": "Metall",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "6"
+                }
+              }
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 1
+      }
+    }
+  },
+  {
+    "id": 8,
+    "catalog_type": "cabinet_model",
+    "name": "Направляющая корпус правая",
+    "category": "",
+    "order": 10000,
+    "active": 1,
+    "spec": 1,
+    "icon": "",
+    "width": 600,
+    "height": 720,
+    "depth": 600,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "",
+            "code": "",
+            "model": "/files/Krepeg/napravlyayuschaya_koprus_pravaya_1778569254882.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "meshes": {
+                "Geom3D": {
+                  "v": 1,
+                  "material_id": "6",
+                  "m": "Metall",
+                  "material_key": "Metall",
+                  "material": "Metall",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "6"
+                }
+              }
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 1
+      }
+    }
+  },
+  {
+    "id": 9,
+    "catalog_type": "cabinet_model",
+    "name": "Направляющая подвижная левая",
+    "category": "",
+    "order": 10000,
+    "active": 1,
+    "spec": 1,
+    "icon": "",
+    "width": 600,
+    "height": 720,
+    "depth": 600,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "",
+            "code": "",
+            "model": "/files/Krepeg/napravlyayuschaya_podvizhnaya_levaya_1778570123161.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "meshes": {
+                "Geom3D": {
+                  "v": 1,
+                  "material_id": "2",
+                  "m": "Opora",
+                  "material_key": "Opora",
+                  "material": "Opora",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "2"
+                },
+                "Geom3D_1": {
+                  "v": 1,
+                  "material_id": "6",
+                  "m": "Metall",
+                  "material_key": "Metall",
+                  "material": "Metall",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "6"
+                }
+              }
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 1
+      }
+    }
+  },
+  {
+    "id": 10,
+    "catalog_type": "cabinet_model",
+    "name": "Направляющая подвижная правая",
+    "category": "",
+    "order": 10000,
+    "active": 1,
+    "spec": 1,
+    "icon": "",
+    "width": 600,
+    "height": 720,
+    "depth": 600,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "",
+            "code": "",
+            "model": "/files/Krepeg/napravlyayuschaya_podvizhnaya_pravaya_1778570215971.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "meshes": {
+                "Geom3D": {
+                  "v": 1,
+                  "material_id": "2",
+                  "m": "Opora",
+                  "material_key": "Opora",
+                  "material": "Opora",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "2"
+                },
+                "Geom3D_1": {
+                  "v": 1,
+                  "material_id": "6",
+                  "m": "Metall",
+                  "material_key": "Metall",
+                  "material": "Metall",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "6"
+                }
+              }
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 1
+      }
+    }
+  },
+  {
+    "id": 12,
+    "catalog_type": "cabinet_model",
+    "name": "Петля топ 2",
+    "category": "",
+    "order": 10000,
+    "active": 1,
+    "spec": 1,
+    "icon": "",
+    "width": 600,
+    "height": 720,
+    "depth": 600,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "",
+            "code": "",
+            "model": "/files/Krepeg/petlya_top_2_1778619652489.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "meshes": {
+                "Geom3D_2": {
+                  "v": 1,
+                  "material_id": "",
+                  "m": "",
+                  "material_key": "",
+                  "material": "",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": ""
+                },
+                "Geom3D_5": {
+                  "v": 1,
+                  "material_id": "",
+                  "m": "",
+                  "material_key": "",
+                  "material": "",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": ""
+                }
+              }
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 1
+      }
+    }
+  },
+  {
+    "id": 13,
+    "catalog_type": "cabinet_model",
+    "name": "Ручка Волна 192 мм",
+    "category": "",
+    "order": 10000,
+    "active": 1,
+    "spec": 1,
+    "icon": "",
+    "width": 11,
+    "height": 211,
+    "depth": 17,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "",
+            "code": "",
+            "model": "/models/ruchka_volna_320_1781431258263.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "meshes": {
+                "Geom3D": {
+                  "v": 1,
+                  "material_id": "2",
+                  "m": "Opora",
+                  "material_key": "Opora",
+                  "material": "Opora",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "2"
+                }
+              }
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 1
+      }
+    }
+  },
+  {
+    "id": 17,
+    "catalog_type": "cabinet_model",
+    "name": "Ручка Поп Лайн",
+    "category": "",
+    "order": 10000,
+    "active": 1,
+    "spec": 1,
+    "icon": "",
+    "width": 20,
+    "height": 20,
+    "depth": 34,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "",
+            "code": "",
+            "model": "/models/ruchka_pop_layn_1781455420751.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "meshes": {}
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 1
+      }
+    }
+  },
+  {
+    "id": 18,
+    "catalog_type": "cabinet_model",
+    "name": "Направляющая корпус левая 450",
+    "category": "",
+    "order": 10000,
+    "active": 1,
+    "spec": 1,
+    "icon": "",
+    "width": 600,
+    "height": 720,
+    "depth": 600,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Направляющая корпус левая 450",
+            "code": "",
+            "model": "/files/Krepeg/napravlyayuschaya_korpus_levaya_450_1781543812669.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "meshes": {
+                "Geom3D": {
+                  "v": 1,
+                  "material_id": "4",
+                  "m": "Chrom",
+                  "material_key": "Chrom",
+                  "material": "Chrom",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "4"
+                }
+              }
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 1
+      }
+    }
+  },
+  {
+    "id": 19,
+    "catalog_type": "cabinet_model",
+    "name": "Направляющая корпус правая 450",
+    "category": "",
+    "order": 10000,
+    "active": 1,
+    "spec": 1,
+    "icon": "",
+    "width": 600,
+    "height": 720,
+    "depth": 600,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Направляющая корпус правая 450",
+            "code": "",
+            "model": "/models/napravlyayuschaya_korpus_450_1781549195243.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "meshes": {
+                "Geom3D": {
+                  "v": 1,
+                  "material_id": "4",
+                  "m": "Chrom",
+                  "material_key": "Chrom",
+                  "material": "Chrom",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "4"
+                }
+              }
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 1
+      }
+    }
+  },
+  {
+    "id": 20,
+    "catalog_type": "cabinet_model",
+    "name": "Направляющая подвижная левая 450",
+    "category": "",
+    "order": 10000,
+    "active": 1,
+    "spec": 1,
+    "icon": "",
+    "width": 600,
+    "height": 720,
+    "depth": 600,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Направляющая подвижная левая 450",
+            "code": "",
+            "model": "/models/napravlyayuschaya_podvizhnaya_levaya_450_1781549876725.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "meshes": {
+                "Geom3D": {
+                  "v": 1,
+                  "material_id": "4",
+                  "m": "Chrom",
+                  "material_key": "Chrom",
+                  "material": "Chrom",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "4"
+                },
+                "Geom3D_1": {
+                  "v": 1,
+                  "material_id": "4",
+                  "m": "Chrom",
+                  "material_key": "Chrom",
+                  "material": "Chrom",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "4"
+                }
+              }
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 1
+      }
+    }
+  },
+  {
+    "id": 21,
+    "catalog_type": "cabinet_model",
+    "name": "Направляющая подвижная правая 450",
+    "category": "",
+    "order": 10000,
+    "active": 1,
+    "spec": 1,
+    "icon": "",
+    "width": 600,
+    "height": 720,
+    "depth": 600,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Направляющая подвижная правая 450",
+            "code": "",
+            "model": "/models/napravlyayuschaya_podvizhnaya_pravaya_450_1781552197897.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "meshes": {
+                "Geom3D": {
+                  "v": 1,
+                  "material_id": "4",
+                  "m": "Chrom",
+                  "material_key": "Chrom",
+                  "material": "Chrom",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "4"
+                },
+                "Geom3D_1": {
+                  "v": 1,
+                  "material_id": "4",
+                  "m": "Chrom",
+                  "material_key": "Chrom",
+                  "material": "Chrom",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "4"
+                }
+              }
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 1
+      }
+    }
+  },
+  {
+    "catalog_type": "cabinet_model",
+    "name": "Штанга",
+    "category": "",
+    "order": 10000,
+    "active": 1,
+    "spec": 1,
+    "icon": "",
+    "width": 368,
+    "height": 52,
+    "depth": 52,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Штанга",
+            "code": "",
+            "model": "/models/shtanga_1782068387738.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "slot_fit": {
+                "enabled": 1,
+                "s": {
+                  "x": 1,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "companions": {
+                "enabled": 1,
+                "model_id": "45",
+                "step_mm": 140,
+                "margin_mm": 120,
+                "preview_only": 0,
+                "offset": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 3
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 70,
+                  "z": 0
+                },
+                "size": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "model_ids": [
+                  "45",
+                  "46",
+                  "47",
+                  "48",
+                  "49",
+                  "50",
+                  "51",
+                  "52",
+                  "53",
+                  "54",
+                  "55",
+                  "56",
+                  "57",
+                  "58",
+                  "59",
+                  "60",
+                  "61",
+                  "62",
+                  "63",
+                  "64",
+                  "65",
+                  "66",
+                  "67",
+                  "68",
+                  "69",
+                  "70",
+                  "71",
+                  "72",
+                  "73",
+                  "74",
+                  "75"
+                ]
+              },
+              "meshes": {
+                "Geom3D": {
+                  "v": 1,
+                  "material_id": "7",
+                  "m": "Хром для петель",
+                  "material_key": "Хром для петель",
+                  "material": "Хром для петель",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "7"
+                }
+              }
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 1
+      }
+    },
+    "id": 22
+  },
+  {
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка",
+    "category": "",
+    "order": 10000,
+    "active": 1,
+    "spec": 1,
+    "icon": "",
+    "width": 430,
+    "height": 200,
+    "depth": 30,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка",
+            "code": "",
+            "model": "/models/veshalka_1782113720297.FBX",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 45,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {
+                "Veshalka": {
+                  "v": 1,
+                  "material_id": "5",
+                  "m": "Derevo",
+                  "material_key": "Derevo",
+                  "material": "Derevo",
+                  "t": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "5"
+                }
+              }
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 1
+      }
+    },
+    "id": 23
+  },
+  {
+    "catalog_type": "cabinet_model",
+    "name": "Ручка Волна 960 мм",
+    "category": "",
+    "order": 10000,
+    "active": 1,
+    "spec": 1,
+    "icon": "",
+    "width": 11,
+    "height": 999,
+    "depth": 17,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Ручка Волна 960 мм",
+            "code": "",
+            "model": "/models/ruchka_volna_960_mm_1782203924938.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {
+                "Geom3D": {
+                  "v": 1,
+                  "material_id": "2",
+                  "m": "Opora",
+                  "material_key": "Opora",
+                  "material": "Opora",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "2"
+                }
+              }
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 1
+      }
+    },
+    "id": 24
+  },
+  {
+    "catalog_type": "cabinet_model",
+    "name": "Конфирмат 7х50",
+    "category": "",
+    "order": 10000,
+    "active": 1,
+    "spec": 1,
+    "icon": "",
+    "width": 600,
+    "height": 720,
+    "depth": 600,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Конфирмат 7х50",
+            "code": "",
+            "model": "/models/konfirmat_7h50_1784118306853.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {
+                "Geom3D": {
+                  "v": 1,
+                  "material_id": "6",
+                  "m": "Metall",
+                  "material_key": "Metall",
+                  "material": "Metall",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "6"
+                }
+              }
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 1
+      }
+    },
+    "id": 25
+  },
+  {
+    "catalog_type": "cabinet_model",
+    "name": "Эксцентрик",
+    "category": "",
+    "order": 10000,
+    "active": 1,
+    "spec": 1,
+    "icon": "",
+    "width": 600,
+    "height": 720,
+    "depth": 600,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Эксцентрик",
+            "code": "",
+            "model": "/models/ekstsentr_2_1784556008569.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 180,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {
+                "v(3)_m(al)001": {
+                  "v": 1,
+                  "material_id": "6",
+                  "m": "Metall",
+                  "material_key": "Metall",
+                  "material": "Metall",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "6"
+                },
+                "v(3)_m(gen)001": {
+                  "v": 1,
+                  "material_id": "6",
+                  "m": "Metall",
+                  "material_key": "Metall",
+                  "material": "Metall",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "6"
+                },
+                "Geom3D_v(3)_m(al)001_Defintion_v(3)_m(al)001": {
+                  "v": 1,
+                  "material_id": "6",
+                  "m": "Metall",
+                  "material_key": "Metall",
+                  "material": "Metall",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "6"
+                },
+                "Geom3D_v(3)_m(gen)001_Defintion_v(3)_m(gen)001": {
+                  "v": 1,
+                  "material_id": "6",
+                  "m": "Metall",
+                  "material_key": "Metall",
+                  "material": "Metall",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "6"
+                }
+              }
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 1
+      }
+    },
+    "id": 26
+  },
+  {
+    "catalog_type": "cabinet_model",
+    "name": "Петля корпус с саморезами",
+    "category": "",
+    "order": 10000,
+    "active": 1,
+    "spec": 1,
+    "icon": "",
+    "width": 600,
+    "height": 720,
+    "depth": 600,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Петля корпус с саморезами",
+            "code": "",
+            "model": "/models/pelya_korpus_samorez_1784573408885.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": -90,
+                "y": -90,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {
+                "Geom3D": {
+                  "v": 1,
+                  "material_id": "7",
+                  "m": "Хром для петель",
+                  "material_key": "Хром для петель",
+                  "material": "Хром для петель",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "7"
+                },
+                "Geom3D_1": {
+                  "v": 1,
+                  "material_id": "6",
+                  "m": "Metall",
+                  "material_key": "Metall",
+                  "material": "Metall",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "6"
+                }
+              }
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 1
+      }
+    },
+    "id": 27
+  },
+  {
+    "catalog_type": "cabinet_model",
+    "name": "Напр.корп.500_L",
+    "category": "",
+    "order": 10000,
+    "active": 1,
+    "spec": 1,
+    "icon": "",
+    "width": 600,
+    "height": 720,
+    "depth": 600,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Напр.корп.500_L",
+            "code": "",
+            "model": "/files/Направляющие/napr.korp.500_l_1784899961037.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": -90,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {
+                "Geom3D": {
+                  "v": 1,
+                  "material_id": "6",
+                  "m": "Metall",
+                  "material_key": "Metall",
+                  "material": "Metall",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "6"
+                },
+                "Geom3D_1": {
+                  "v": 1,
+                  "material_id": "6",
+                  "m": "Metall",
+                  "material_key": "Metall",
+                  "material": "Metall",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "6"
+                },
+                "Geom3D_2": {
+                  "v": 1,
+                  "material_id": "4",
+                  "m": "Chrom",
+                  "material_key": "Chrom",
+                  "material": "Chrom",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "4"
+                }
+              }
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 1
+      }
+    },
+    "id": 28
+  },
+  {
+    "id": 29,
+    "catalog_type": "cabinet_model",
+    "name": "Стопка на полке",
+    "category": "полка",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 280,
+    "height": 120,
+    "depth": 380,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Стопка на полке",
+            "code": "",
+            "model": "/models/shelf-props/folded_clothes.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 180,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 280,
+                "y": 120,
+                "z": 380
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "stack"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 30,
+    "catalog_type": "cabinet_model",
+    "name": "Сумка на полке",
+    "category": "полка",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 240,
+    "height": 270,
+    "depth": 180,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Сумка на полке",
+            "code": "",
+            "model": "/models/shelf-props/lime_tote_texture1024.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 270,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 240,
+                "y": 270,
+                "z": 180
+              },
+              "fabric_tint": "#D2C2A8",
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "bag"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 31,
+    "catalog_type": "cabinet_model",
+    "name": "Короб на полке",
+    "category": "полка",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 300,
+    "height": 280,
+    "depth": 320,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Короб на полке",
+            "code": "",
+            "model": "/models/shelf-props/storage_box_lid_closed.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 180,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 300,
+                "y": 280,
+                "z": 320
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "box"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 32,
+    "catalog_type": "cabinet_model",
+    "name": "Картонный короб на полке",
+    "category": "полка",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 280,
+    "height": 250,
+    "depth": 300,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Картонный короб на полке",
+            "code": "",
+            "model": "/models/shelf-props/cardboard_storage_box.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 280,
+                "y": 250,
+                "z": 300
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "box"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 33,
+    "catalog_type": "cabinet_model",
+    "name": "Стопка джинсов на полке",
+    "category": "полка",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 300,
+    "height": 100,
+    "depth": 380,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Стопка джинсов на полке",
+            "code": "",
+            "model": "/models/shelf-props/denim-folded.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 300,
+                "y": 100,
+                "z": 380
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "stack"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 34,
+    "catalog_type": "cabinet_model",
+    "name": "Стопка рубашек на полке",
+    "category": "полка",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 280,
+    "height": 75,
+    "depth": 380,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Стопка рубашек на полке",
+            "code": "",
+            "model": "/models/shelf-props/folded-shirt-men-decim20.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 280,
+                "y": 75,
+                "z": 380
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "stack"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 35,
+    "catalog_type": "cabinet_model",
+    "name": "Стопка вязка тёплая",
+    "category": "полка",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 280,
+    "height": 200,
+    "depth": 350,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Стопка вязка тёплая",
+            "code": "",
+            "model": "/models/shelf-props/addition-split/addition-stack-left.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 280,
+                "y": 200,
+                "z": 350
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "stack"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 36,
+    "catalog_type": "cabinet_model",
+    "name": "Стопка серая с пуговицами",
+    "category": "полка",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 280,
+    "height": 180,
+    "depth": 350,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Стопка серая с пуговицами",
+            "code": "",
+            "model": "/models/shelf-props/addition-split/addition-stack-mid.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 280,
+                "y": 180,
+                "z": 350
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "stack"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 37,
+    "catalog_type": "cabinet_model",
+    "name": "Стопка кремовая вязка",
+    "category": "полка",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 280,
+    "height": 200,
+    "depth": 350,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Стопка кремовая вязка",
+            "code": "",
+            "model": "/models/shelf-props/addition-split/addition-stack-right.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 280,
+                "y": 200,
+                "z": 350
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "stack"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 38,
+    "catalog_type": "cabinet_model",
+    "name": "Футболка BURN",
+    "category": "полка",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 260,
+    "height": 50,
+    "depth": 360,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Футболка BURN",
+            "code": "",
+            "model": "/models/shelf-props/addition-split/addition-tee-burn.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 260,
+                "y": 50,
+                "z": 360
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "stack"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 39,
+    "catalog_type": "cabinet_model",
+    "name": "Футболка Oregon",
+    "category": "полка",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 220,
+    "height": 50,
+    "depth": 360,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Футболка Oregon",
+            "code": "",
+            "model": "/models/shelf-props/addition-split/addition-tee-oregon.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 220,
+                "y": 50,
+                "z": 360
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "stack"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 40,
+    "catalog_type": "cabinet_model",
+    "name": "Футболка коричневая",
+    "category": "полка",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 260,
+    "height": 45,
+    "depth": 370,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Футболка коричневая",
+            "code": "",
+            "model": "/models/shelf-props/addition-split/addition-tee-brown.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 260,
+                "y": 45,
+                "z": 370
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "stack"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 41,
+    "catalog_type": "cabinet_model",
+    "name": "Футболка LIFE",
+    "category": "полка",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 250,
+    "height": 45,
+    "depth": 350,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Футболка LIFE",
+            "code": "",
+            "model": "/models/shelf-props/addition-split/addition-tee-life.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 250,
+                "y": 45,
+                "z": 350
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "stack"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 42,
+    "catalog_type": "cabinet_model",
+    "name": "Сумка Zara leather",
+    "category": "полка",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 340,
+    "height": 200,
+    "depth": 180,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Сумка Zara leather",
+            "code": "",
+            "model": "/models/shelf-props/zara-leather-bag.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 340,
+                "y": 200,
+                "z": 180
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "bag"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 43,
+    "catalog_type": "cabinet_model",
+    "name": "Кроссовки Lakai",
+    "category": "полка",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 280,
+    "height": 120,
+    "depth": 200,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Кроссовки Lakai",
+            "code": "",
+            "model": "/models/shelf-props/sneakers-lakai.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 280,
+                "y": 120,
+                "z": 200
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "shoes"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 44,
+    "catalog_type": "cabinet_model",
+    "name": "Туфли Jimmy Choo",
+    "category": "полка",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 220,
+    "height": 190,
+    "depth": 260,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Туфли Jimmy Choo",
+            "code": "",
+            "model": "/models/shelf-props/jimmy-choo.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 220,
+                "y": 190,
+                "z": 260
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "shoes"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 45,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: blouse03",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 400,
+    "height": 900,
+    "depth": 280,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: blouse03",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-blouse03.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 400,
+                "y": 900,
+                "z": 280
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 46,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: blouse04",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 400,
+    "height": 900,
+    "depth": 280,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: blouse04",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-blouse04.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 400,
+                "y": 900,
+                "z": 280
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 47,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: blouse05",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 400,
+    "height": 900,
+    "depth": 280,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: blouse05",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-blouse05.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 400,
+                "y": 900,
+                "z": 280
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 48,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: blouse22",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 400,
+    "height": 900,
+    "depth": 280,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: blouse22",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-blouse22.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 400,
+                "y": 900,
+                "z": 280
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 49,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: blouse black002",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 400,
+    "height": 900,
+    "depth": 280,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: blouse black002",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-blouse_black002.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 400,
+                "y": 900,
+                "z": 280
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 50,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: blouse knitted3",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 400,
+    "height": 900,
+    "depth": 280,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: blouse knitted3",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-blouse_knitted3.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 400,
+                "y": 900,
+                "z": 280
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 51,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: cloth030",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 450,
+    "height": 550,
+    "depth": 280,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: cloth030",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-cloth030.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 450,
+                "y": 550,
+                "z": 280
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 52,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: cloth031",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 450,
+    "height": 550,
+    "depth": 280,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: cloth031",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-cloth031.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 450,
+                "y": 550,
+                "z": 280
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 53,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: cloth032",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 450,
+    "height": 550,
+    "depth": 280,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: cloth032",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-cloth032.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 450,
+                "y": 550,
+                "z": 280
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 54,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: cloth033",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 450,
+    "height": 550,
+    "depth": 280,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: cloth033",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-cloth033.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 450,
+                "y": 550,
+                "z": 280
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 55,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: cloth4446",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 450,
+    "height": 550,
+    "depth": 280,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: cloth4446",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-cloth4446.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 450,
+                "y": 550,
+                "z": 280
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 56,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: cloth4447",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 450,
+    "height": 550,
+    "depth": 280,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: cloth4447",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-cloth4447.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 450,
+                "y": 550,
+                "z": 280
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 57,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: cloth4448",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 450,
+    "height": 550,
+    "depth": 280,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: cloth4448",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-cloth4448.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 450,
+                "y": 550,
+                "z": 280
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 58,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: cloth4449",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 450,
+    "height": 550,
+    "depth": 280,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: cloth4449",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-cloth4449.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 450,
+                "y": 550,
+                "z": 280
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 59,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: cloth4453",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 450,
+    "height": 550,
+    "depth": 280,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: cloth4453",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-cloth4453.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 450,
+                "y": 550,
+                "z": 280
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 60,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: cloth4454",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 450,
+    "height": 550,
+    "depth": 280,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: cloth4454",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-cloth4454.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 450,
+                "y": 550,
+                "z": 280
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 61,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: cloth4455",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 450,
+    "height": 550,
+    "depth": 280,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: cloth4455",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-cloth4455.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 450,
+                "y": 550,
+                "z": 280
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 62,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: cloth dress2",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 400,
+    "height": 900,
+    "depth": 280,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: cloth dress2",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-cloth_dress2.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 400,
+                "y": 900,
+                "z": 280
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 63,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: dress004",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 400,
+    "height": 900,
+    "depth": 280,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: dress004",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-dress004.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 400,
+                "y": 900,
+                "z": 280
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 64,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: dress white",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 400,
+    "height": 900,
+    "depth": 280,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: dress white",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-dress_white.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 400,
+                "y": 900,
+                "z": 280
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 65,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: jean jacket",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 400,
+    "height": 900,
+    "depth": 280,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: jean jacket",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-jean_jacket.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 400,
+                "y": 900,
+                "z": 280
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 66,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: shirt01",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 400,
+    "height": 900,
+    "depth": 280,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: shirt01",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-shirt01.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 400,
+                "y": 900,
+                "z": 280
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 67,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: shirt02",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 400,
+    "height": 900,
+    "depth": 280,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: shirt02",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-shirt02.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 400,
+                "y": 900,
+                "z": 280
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 68,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: shirt03",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 400,
+    "height": 900,
+    "depth": 280,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: shirt03",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-shirt03.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 400,
+                "y": 900,
+                "z": 280
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 69,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: shirt044",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 400,
+    "height": 900,
+    "depth": 280,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: shirt044",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-shirt044.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 400,
+                "y": 900,
+                "z": 280
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 70,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: shirt05",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 400,
+    "height": 900,
+    "depth": 280,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: shirt05",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-shirt05.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 400,
+                "y": 900,
+                "z": 280
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 71,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: shirt06",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 400,
+    "height": 900,
+    "depth": 280,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: shirt06",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-shirt06.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 400,
+                "y": 900,
+                "z": 280
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 72,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: sweater05",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 400,
+    "height": 900,
+    "depth": 280,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: sweater05",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-sweater05.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 400,
+                "y": 900,
+                "z": 280
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 73,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: sweater06",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 400,
+    "height": 900,
+    "depth": 280,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: sweater06",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-sweater06.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 400,
+                "y": 900,
+                "z": 280
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 74,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: vest01",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 400,
+    "height": 900,
+    "depth": 280,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: vest01",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-vest01.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 400,
+                "y": 900,
+                "z": 280
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 75,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: vest02",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 400,
+    "height": 900,
+    "depth": 280,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: vest02",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-vest02.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 400,
+                "y": 900,
+                "z": 280
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 76,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка пустая (collection)",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 400,
+    "height": 260,
+    "depth": 30,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка пустая (collection)",
+            "code": "",
+            "model": "/models/lifestyle-props/collection-clothing/rod/rod-hanger-empty.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 400,
+                "y": 260,
+                "z": 30
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 77,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: hang-short (wardrobe-5)",
+    "category": "штанга",
+    "order": 10000,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 1000,
+    "height": 1050,
+    "depth": 380,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: hang-short (wardrobe-5)",
+            "code": "",
+            "model": "/models/lifestyle-props/wardrobe-5/rod/rod-hang-short.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 1000,
+                "y": 1050,
+                "z": 380
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  },
+  {
+    "id": 78,
+    "catalog_type": "cabinet_model",
+    "name": "Вешалка: hang-long (wardrobe-5)",
+    "category": "штанга",
+    "order": 10001,
+    "active": 1,
+    "spec": 0,
+    "icon": "",
+    "width": 1000,
+    "height": 1400,
+    "depth": 380,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Вешалка: hang-long (wardrobe-5)",
+            "code": "",
+            "model": "/models/lifestyle-props/wardrobe-5/rod/rod-hang-long.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "preview_only": 0,
+              "preview_ref_mm": {
+                "x": 1000,
+                "y": 1400,
+                "z": 380
+              },
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {},
+              "kind": "hang",
+              "rodHangStripKind": "long"
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 0
+      }
+    }
+  }
+]

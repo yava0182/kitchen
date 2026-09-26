@@ -1,0 +1,33 @@
+{
+  "name": "TEST ITEM",
+  "width": 300,
+  "height": 400,
+  "depth": 200,
+  "constructor_structure": {
+    "type": "module",
+    "name": "root",
+    "children": [],
+    "template": {
+      "structure": [
+        {
+          "type": "section",
+          "name": ":corpus",
+          "active": 1,
+          "size": { "x": "@section.width", "y": "@section.height", "z": "@section.depth" },
+          "pos": { "x": 0, "y": 0, "z": 0 },
+          "children": [
+            {
+              "type": "wall",
+              "name": "left",
+              "active": 1,
+              "size": { "x": "$wall.thickness", "y": "@section.height", "z": "@section.depth" },
+              "pos": { "x": 0, "y": 0, "z": 0 },
+              "pivot": { "x": -1, "y": -1, "z": -1 },
+              "spec": { "orientation": "v", "side": "left" }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

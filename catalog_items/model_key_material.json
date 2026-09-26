@@ -1,0 +1,204 @@
+[
+  {
+    "id": 2,
+    "catalog_type": "model_key_material",
+    "name": "Опора",
+    "active": 1,
+    "order": 10000,
+    "category": [],
+    "data": {
+      "key": "Opora",
+      "mode": 0,
+      "categories": [],
+      "params": {
+        "type": "Standard",
+        "params": {
+          "color": "#ffffff",
+          "roughness": "0.5",
+          "metalness": "0.1",
+          "transparent": 0,
+          "opacity": 1,
+          "map": "/files/decor/ldsp_albi_polunochno-siniy_5994_su_1774849808484.png",
+          "normalMap": null,
+          "roughnessMap": null
+        },
+        "add_params": {
+          "stretch_width": 0,
+          "stretch_height": 0,
+          "real_width": 256,
+          "real_height": 256,
+          "one_side": 0
+        }
+      }
+    }
+  },
+  {
+    "id": 3,
+    "catalog_type": "model_key_material",
+    "name": "Ручка",
+    "active": 1,
+    "order": 10000,
+    "category": [],
+    "data": {
+      "key": "Ruchka",
+      "mode": 0,
+      "categories": [],
+      "params": {
+        "type": "Standard",
+        "params": {
+          "color": "#f00f0f",
+          "roughness": "0.5",
+          "metalness": "0.1",
+          "transparent": 0,
+          "opacity": 1,
+          "map": null,
+          "normalMap": null,
+          "roughnessMap": null
+        },
+        "add_params": {
+          "stretch_width": 0,
+          "stretch_height": 0,
+          "real_width": 256,
+          "real_height": 256,
+          "one_side": 0
+        }
+      }
+    }
+  },
+  {
+    "id": 4,
+    "catalog_type": "model_key_material",
+    "name": "Хром",
+    "active": 1,
+    "order": 10000,
+    "category": [
+      "1"
+    ],
+    "data": {
+      "key": "Chrom",
+      "mode": 0,
+      "categories": [
+        "1"
+      ],
+      "params": {
+        "type": "Standard",
+        "params": {
+          "color": "#ffffff",
+          "roughness": "10",
+          "metalness": "0.1",
+          "transparent": 1,
+          "opacity": 10,
+          "map": "/files/Material/2813111_1776151283772.jpg",
+          "normalMap": "/files/Material/2813111_1776151283772.jpg",
+          "roughnessMap": "/files/Material/2813111_1776151283772.jpg"
+        },
+        "add_params": {
+          "stretch_width": 0,
+          "stretch_height": 0,
+          "real_width": 1028,
+          "real_height": 1028,
+          "one_side": 0
+        }
+      }
+    }
+  },
+  {
+    "catalog_type": "model_key_material",
+    "id": 5,
+    "name": "Дерево",
+    "active": 1,
+    "order": 10000,
+    "category": [],
+    "data": {
+      "key": "Derevo",
+      "mode": 1,
+      "categories": [],
+      "params": {
+        "type": "Standard",
+        "params": {
+          "color": "#cc2828",
+          "roughness": "0.8",
+          "metalness": "0",
+          "transparent": 1,
+          "opacity": 1,
+          "map": "/files/Material/427-1920x1200-weboboi-ru_1788797554675.jpg",
+          "normalMap": "/files/Material/427-1920x1200-weboboi-ru_1788797554675.jpg",
+          "roughnessMap": "/files/Material/427-1920x1200-weboboi-ru_1788797554675.jpg"
+        },
+        "add_params": {
+          "stretch_width": 0,
+          "stretch_height": 0,
+          "real_width": 256,
+          "real_height": 256,
+          "one_side": 0
+        }
+      }
+    }
+  },
+  {
+    "id": 6,
+    "catalog_type": "model_key_material",
+    "name": "Металл",
+    "active": 1,
+    "order": 10000,
+    "category": [],
+    "data": {
+      "key": "Metall",
+      "mode": 0,
+      "categories": [],
+      "params": {
+        "type": "Standard",
+        "params": {
+          "color": "#ffffff",
+          "roughness": "0.001",
+          "metalness": "0.1",
+          "transparent": 1,
+          "opacity": 1,
+          "map": "/files/Material/blesk-metalla-12_1776235885299.jpg",
+          "normalMap": "/files/Material/blesk-metalla-12_1776235885299.jpg",
+          "roughnessMap": "/files/Material/blesk-metalla-12_1776235885299.jpg"
+        },
+        "add_params": {
+          "stretch_width": 0,
+          "stretch_height": 1,
+          "real_width": 256,
+          "real_height": 256,
+          "one_side": 0
+        }
+      }
+    }
+  },
+  {
+    "catalog_type": "model_key_material",
+    "id": 7,
+    "name": "Хром для петель",
+    "active": 1,
+    "order": 10000,
+    "category": [],
+    "data": {
+      "key": "",
+      "mode": 0,
+      "categories": [],
+      "params": {
+        "type": "Standard",
+        "params": {
+          "color": "#D4D4D4",
+          "roughness": "0.12",
+          "metalness": "1",
+          "transparent": 0,
+          "opacity": 1,
+          "map": null,
+          "normalMap": null,
+          "roughnessMap": null
+        },
+        "add_params": {
+          "stretch_width": 0,
+          "stretch_height": 0,
+          "real_width": 256,
+          "real_height": 256,
+          "one_side": 0
+        }
+      }
+    }
+  }
+]

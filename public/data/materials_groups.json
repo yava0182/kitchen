@@ -1,0 +1,27 @@
+[
+  {
+    "key": "g0",
+    "name": "Основной материал (корпус)",
+    "material": "ldsp",
+    "thickness": 16,
+    "allowed_keys": ["material_2"],
+    "default": true
+  },
+  {
+    "key": "g1",
+    "name": "Задняя стенка",
+    "material": "hdf",
+    "thickness": 3,
+    "allowed_keys": ["material_3"],
+    "default": false
+  },
+  {
+    "key": "g2",
+    "name": "Фасады",
+    "material": "ldsp",
+    "thickness": 18,
+    "allowed_keys": ["material_2"],
+    "default": false
+  }
+]
+

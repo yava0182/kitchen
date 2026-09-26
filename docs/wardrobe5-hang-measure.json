@@ -1,0 +1,328 @@
+{
+  "source": "wardrobe-5 / set_14__vray.obj",
+  "hangers": 19,
+  "garment_candidates": 16,
+  "paired_total": 16,
+  "by_class_paired": {
+    "short": 8,
+    "mid": 5,
+    "long": 3
+  },
+  "long_paired": [
+    "set_14_007",
+    "set_14_005",
+    "set_14_010"
+  ],
+  "mid_paired": [
+    "set_14_001",
+    "set_14_002",
+    "set_14_006",
+    "set_14_004",
+    "set_14_003"
+  ],
+  "short_paired": [
+    "set_14_008",
+    "set_14_017",
+    "set_14_009",
+    "set_14_015",
+    "set_14_013",
+    "set_14_014",
+    "set_14_016",
+    "set_14_094"
+  ],
+  "items": [
+    {
+      "name": "set_14_001",
+      "height_mm": 956.3,
+      "size_mm": [
+        83.3,
+        533.1,
+        956.3
+      ],
+      "verts": 19983,
+      "class": "mid",
+      "paired": true,
+      "pair_dist_mm": 11.0,
+      "hanger": "set_14_105",
+      "mats": [
+        "wire_087224198"
+      ]
+    },
+    {
+      "name": "set_14_002",
+      "height_mm": 978.4,
+      "size_mm": [
+        103.5,
+        507.1,
+        978.4
+      ],
+      "verts": 31706,
+      "class": "mid",
+      "paired": true,
+      "pair_dist_mm": 16.1,
+      "hanger": "set_14_104",
+      "mats": [
+        "wire_134006006"
+      ]
+    },
+    {
+      "name": "set_14_006",
+      "height_mm": 875.6,
+      "size_mm": [
+        115.4,
+        527.8,
+        875.6
+      ],
+      "verts": 31706,
+      "class": "mid",
+      "paired": true,
+      "pair_dist_mm": 14.6,
+      "hanger": "set_14_022",
+      "mats": [
+        "wire_134006006"
+      ]
+    },
+    {
+      "name": "set_14_008",
+      "height_mm": 713.5,
+      "size_mm": [
+        140.3,
+        543.3,
+        713.5
+      ],
+      "verts": 19741,
+      "class": "short",
+      "paired": true,
+      "pair_dist_mm": 12.7,
+      "hanger": "set_14_103",
+      "mats": [
+        "wire_177028149"
+      ]
+    },
+    {
+      "name": "set_14_017",
+      "height_mm": 704.3,
+      "size_mm": [
+        88.0,
+        485.0,
+        704.3
+      ],
+      "verts": 12019,
+      "class": "short",
+      "paired": true,
+      "pair_dist_mm": 13.1,
+      "hanger": "set_14_029",
+      "mats": [
+        "wire_224198087"
+      ]
+    },
+    {
+      "name": "set_14_009",
+      "height_mm": 611.4,
+      "size_mm": [
+        60.4,
+        478.1,
+        611.4
+      ],
+      "verts": 13550,
+      "class": "short",
+      "paired": true,
+      "pair_dist_mm": 11.3,
+      "hanger": "set_14_028",
+      "mats": [
+        "wire_028089177"
+      ]
+    },
+    {
+      "name": "set_14_015",
+      "height_mm": 728.4,
+      "size_mm": [
+        123.7,
+        566.1,
+        728.4
+      ],
+      "verts": 22058,
+      "class": "short",
+      "paired": true,
+      "pair_dist_mm": 22.6,
+      "hanger": "set_14_027",
+      "mats": [
+        "wire_177028149"
+      ]
+    },
+    {
+      "name": "set_14_013",
+      "height_mm": 703.8,
+      "size_mm": [
+        106.9,
+        408.1,
+        703.8
+      ],
+      "verts": 12334,
+      "class": "short",
+      "paired": true,
+      "pair_dist_mm": 27.0,
+      "hanger": "set_14_095",
+      "mats": [
+        "wire_134110008"
+      ]
+    },
+    {
+      "name": "set_14_014",
+      "height_mm": 685.7,
+      "size_mm": [
+        140.3,
+        566.1,
+        685.7
+      ],
+      "verts": 22059,
+      "class": "short",
+      "paired": true,
+      "pair_dist_mm": 19.9,
+      "hanger": "set_14_096",
+      "mats": [
+        "wire_177028149"
+      ]
+    },
+    {
+      "name": "set_14_016",
+      "height_mm": 611.4,
+      "size_mm": [
+        60.4,
+        478.1,
+        611.4
+      ],
+      "verts": 13550,
+      "class": "short",
+      "paired": true,
+      "pair_dist_mm": 11.3,
+      "hanger": "set_14_051",
+      "mats": [
+        "wire_028089177"
+      ]
+    },
+    {
+      "name": "set_14_094",
+      "height_mm": 566.1,
+      "size_mm": [
+        90.9,
+        341.6,
+        566.1
+      ],
+      "verts": 8162,
+      "class": "short",
+      "paired": true,
+      "pair_dist_mm": 16.6,
+      "hanger": "set_14_088",
+      "mats": [
+        "wire_087224198"
+      ]
+    },
+    {
+      "name": "set_14_007",
+      "height_mm": 1347.9,
+      "size_mm": [
+        121.2,
+        507.1,
+        1347.9
+      ],
+      "verts": 31706,
+      "class": "long",
+      "paired": true,
+      "pair_dist_mm": 20.2,
+      "hanger": "set_14_107",
+      "mats": [
+        "wire_134006006"
+      ]
+    },
+    {
+      "name": "set_14_005",
+      "height_mm": 1265.2,
+      "size_mm": [
+        115.3,
+        507.1,
+        1265.2
+      ],
+      "verts": 31706,
+      "class": "long",
+      "paired": true,
+      "pair_dist_mm": 18.4,
+      "hanger": "set_14_048",
+      "mats": [
+        "wire_134006006"
+      ]
+    },
+    {
+      "name": "set_14_004",
+      "height_mm": 990.3,
+      "size_mm": [
+        85.0,
+        404.3,
+        990.3
+      ],
+      "verts": 17614,
+      "class": "mid",
+      "paired": true,
+      "pair_dist_mm": 16.7,
+      "hanger": "set_14_024",
+      "mats": [
+        "wire_143224087"
+      ]
+    },
+    {
+      "name": "set_14_010",
+      "height_mm": 1128.7,
+      "size_mm": [
+        106.5,
+        403.1,
+        1128.7
+      ],
+      "verts": 23920,
+      "class": "long",
+      "paired": true,
+      "pair_dist_mm": 5.1,
+      "hanger": "set_14_023",
+      "mats": [
+        "wire_143224087"
+      ]
+    },
+    {
+      "name": "set_14_003",
+      "height_mm": 998.5,
+      "size_mm": [
+        134.4,
+        405.3,
+        998.5
+      ],
+      "verts": 31320,
+      "class": "mid",
+      "paired": true,
+      "pair_dist_mm": 24.6,
+      "hanger": "set_14_067",
+      "mats": [
+        "wire_177028149"
+      ]
+    }
+  ],
+  "hanger_names": [
+    "set_14_022",
+    "set_14_023",
+    "set_14_024",
+    "set_14_027",
+    "set_14_028",
+    "set_14_029",
+    "set_14_047",
+    "set_14_048",
+    "set_14_049",
+    "set_14_051",
+    "set_14_067",
+    "set_14_088",
+    "set_14_091",
+    "set_14_095",
+    "set_14_096",
+    "set_14_103",
+    "set_14_104",
+    "set_14_105",
+    "set_14_107"
+  ]
+}

@@ -1,0 +1,157 @@
+﻿{
+    "count":  7,
+    "items":  [
+                  {
+                      "id":  "w5-stack-set_14_025",
+                      "kind":  "stack",
+                      "model":  "/models/lifestyle-props/wardrobe-5/shelf/w5-shelf-stack-set_14_025.glb",
+                      "file":  "w5-shelf-stack-set_14_025.glb",
+                      "layers":  [
+                                     "set_14_025",
+                                     "set_14_081",
+                                     "set_14_080",
+                                     "set_14_079"
+                                 ],
+                      "layer_count":  4,
+                      "preview_ref_mm":  {
+                                             "x":  344.0,
+                                             "y":  214.5,
+                                             "z":  335.9
+                                         },
+                      "rgb":  [
+                                  0.561,
+                                  0.412,
+                                  0.447
+                              ]
+                  },
+                  {
+                      "id":  "w5-stack-set_14_026",
+                      "kind":  "stack",
+                      "model":  "/models/lifestyle-props/wardrobe-5/shelf/w5-shelf-stack-set_14_026.glb",
+                      "file":  "w5-shelf-stack-set_14_026.glb",
+                      "layers":  [
+                                     "set_14_026",
+                                     "set_14_012#0",
+                                     "set_14_037",
+                                     "set_14_012#1"
+                                 ],
+                      "layer_count":  4,
+                      "preview_ref_mm":  {
+                                             "x":  314.4,
+                                             "y":  203.0,
+                                             "z":  303.1
+                                         },
+                      "rgb":  [
+                                  0.795,
+                                  0.611,
+                                  0.634
+                              ]
+                  },
+                  {
+                      "id":  "w5-stack-set_14_011",
+                      "kind":  "stack",
+                      "model":  "/models/lifestyle-props/wardrobe-5/shelf/w5-shelf-stack-set_14_011.glb",
+                      "file":  "w5-shelf-stack-set_14_011.glb",
+                      "layers":  [
+                                     "set_14_011#0",
+                                     "set_14_011#1",
+                                     "set_14_106",
+                                     "set_14_011#2"
+                                 ],
+                      "layer_count":  4,
+                      "preview_ref_mm":  {
+                                             "x":  324.5,
+                                             "y":  240.1,
+                                             "z":  301.2
+                                         },
+                      "rgb":  [
+                                  0.932,
+                                  0.921,
+                                  0.898
+                              ]
+                  },
+                  {
+                      "id":  "w5-stack-set_14_042",
+                      "kind":  "stack",
+                      "model":  "/models/lifestyle-props/wardrobe-5/shelf/w5-shelf-stack-set_14_042.glb",
+                      "file":  "w5-shelf-stack-set_14_042.glb",
+                      "layers":  [
+                                     "set_14_042",
+                                     "set_14_043"
+                                 ],
+                      "layer_count":  2,
+                      "preview_ref_mm":  {
+                                             "x":  375.5,
+                                             "y":  135.2,
+                                             "z":  377.3
+                                         },
+                      "rgb":  [
+                                  0.864,
+                                  0.841,
+                                  0.795
+                              ]
+                  },
+                  {
+                      "id":  "w5-stack-set_14_038",
+                      "kind":  "stack",
+                      "model":  "/models/lifestyle-props/wardrobe-5/shelf/w5-shelf-stack-set_14_038.glb",
+                      "file":  "w5-shelf-stack-set_14_038.glb",
+                      "layers":  [
+                                     "set_14_038",
+                                     "set_14_039",
+                                     "set_14_062"
+                                 ],
+                      "layer_count":  3,
+                      "preview_ref_mm":  {
+                                             "x":  268.6,
+                                             "y":  118.9,
+                                             "z":  289.8
+                                         },
+                      "rgb":  [
+                                  0.807,
+                                  0.761,
+                                  0.692
+                              ]
+                  },
+                  {
+                      "id":  "w5-hat-set_14_040",
+                      "kind":  "hat",
+                      "model":  "/models/lifestyle-props/wardrobe-5/shelf/w5-shelf-hat-set_14_040.glb",
+                      "file":  "w5-shelf-hat-set_14_040.glb",
+                      "layers":  [
+                                     "set_14_040"
+                                 ],
+                      "layer_count":  1,
+                      "preview_ref_mm":  {
+                                             "x":  241.4,
+                                             "y":  106.8,
+                                             "z":  243.5
+                                         },
+                      "rgb":  [
+                                  0.8,
+                                  0.685,
+                                  0.455
+                              ]
+                  },
+                  {
+                      "id":  "w5-bag-set_14_044",
+                      "kind":  "bag",
+                      "model":  "/models/lifestyle-props/wardrobe-5/shelf/w5-shelf-bag-set_14_044.glb",
+                      "file":  "w5-shelf-bag-set_14_044.glb",
+                      "layers":  [
+                                     "set_14_044"
+                                 ],
+                      "layer_count":  1,
+                      "preview_ref_mm":  {
+                                             "x":  152.0,
+                                             "y":  494.5,
+                                             "z":  413.0
+                                         },
+                      "rgb":  [
+                                  0.493,
+                                  0.355,
+                                  0.332
+                              ]
+                  }
+              ]
+}

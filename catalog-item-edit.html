@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Редактирование элемента каталога - Clodis</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    html, body {
+      width: 100%;
+      height: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #f5f7fa;
+      color: #333;
+    }
+    
+    #app {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* Стили для page-heading (по референсу) */
+    .page-heading {
+      background: #fff;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 20px 30px;
+      margin-bottom: 0;
+    }
+    
+    .page-heading h2 {
+      font-size: 24px;
+      font-weight: 600;
+      margin: 0;
+      color: #333;
+    }
+    
+    .page_actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    
+    /* Стили для wrapper-wrapper-content */
+    .wrapper-wrapper-content {
+      flex: 1;
+      padding: 20px;
+      background: #f5f7fa;
+    }
+    
+    /* Стили для горизонтальных вкладок (по референсу) */
+    .tab_menu_h.object_menu_params_menu {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 20px 0;
+      display: flex;
+      gap: 0;
+      border-bottom: 2px solid #e0e0e0;
+      background: #fff;
+    }
+    
+    .tab_menu_h.object_menu_params_menu li {
+      padding: 12px 20px;
+      cursor: pointer;
+      font-size: 14px;
+      color: #666;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: all 0.2s;
+    }
+    
+    .tab_menu_h.object_menu_params_menu li:hover {
+      color: #1890ff;
+      background: #f5f7fa;
+    }
+    
+    .tab_menu_h.object_menu_params_menu li.active {
+      color: #1890ff;
+      border-bottom-color: #1890ff;
+      font-weight: 500;
+    }
+    
+    /* Стили для форм (по референсу) */
+    .form-group.row {
+      margin-bottom: 15px;
+    }
+    
+    .col-form-label {
+      font-size: 13px;
+      color: #333;
+      font-weight: 500;
+    }
+    
+    .form-control {
+      padding: 8px 12px;
+      border: 1px solid #d0d7e2;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+    
+    /* Стили для switch (переключатели) */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+    }
+    
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 24px;
+    }
+    
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    
+    input:checked + .slider {
+      background-color: #1890ff;
+    }
+    
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+    
+    .slider.round {
+      border-radius: 24px;
+    }
+    
+    .slider.round:before {
+      border-radius: 50%;
+    }
+    
+    /* Стили для preview_block */
+    #preview_block {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      padding: 15px;
+      height: 600px;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* Кнопки */
+    .btn {
+      padding: 8px 16px;
+      border: 1px solid #d0d7e2;
+      border-radius: 4px;
+      background: #fff;
+      color: #333;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .btn:hover {
+      background: #f5f7fa;
+      border-color: #1890ff;
+    }
+    
+    .btn-primary {
+      background: #1890ff;
+      color: #fff;
+      border-color: #1890ff;
+    }
+    
+    .btn-primary:hover {
+      background: #40a9ff;
+      border-color: #40a9ff;
+    }
+    
+    .btn-white {
+      background: #fff;
+      color: #333;
+    }
+    
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+    
+    .ml-2 {
+      margin-left: 8px;
+    }
+    
+    /* Скрытие контента вкладок по умолчанию */
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <!-- ⭐ СТРУКТУРА ПО РЕФЕРЕНСУ: Отдельная страница, не модалка -->
+  <div id="app">
+    <div id="sub_form">
+      <!-- Hidden inputs для формы (по референсу) -->
+      <input id="form_submit_url" type="hidden" value="">
+      <input id="form_success_url" type="hidden" value="">
+      <input id="controller_name" type="hidden" value="catalog_module">
+      <input id="item_id" type="hidden" value="0">
+      
+      <!-- Page heading (по референсу) -->
+      <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+          <h2 id="catalog-item-edit-title">Добавить Кухни <span></span></h2>
+        </div>
+        <div class="col-lg-2">
+          <div class="page_actions">
+            <a href="#" id="btn-catalog-item-edit-cancel" class="btn btn-white btn-sm">Отмена</a>
+            <button type="button" id="btn-catalog-item-edit-save" class="btn btn-primary btn-sm ml-2">Сохранить</button>
+            <button type="button" id="btn-catalog-item-edit-save-exit" class="btn btn-primary btn-sm ml-2">Сохранить и выйти</button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Wrapper content (по референсу) -->
+      <div class="wrapper wrapper-content no-transition">
+        <div class="menu configurator row">
+          <!-- Левая панель (col-sm-6) - Формы с вкладками -->
+          <div class="col-sm-6">
+            <div class="ibox">
+              <div class="ibox-content">
+                <!-- Горизонтальные вкладки (по референсу) -->
+                <ul class="tab_menu_h object_menu_params_menu mb-2 col-sm-12">
+                  <li class="active" data-tab="main">Основные</li>
+                  <li data-tab="dimensions">Размеры</li>
+                  <li data-tab="constructor">Конструктор</li>
+                  <li data-tab="variables">Переменные</li>
+                  <li data-tab="templates">Шаблоны</li>
+                  <li data-tab="materials">Материалы</li>
+                  <li data-tab="components">Комплектующие</li>
+                  <li data-tab="json">JSON</li>
+                  <li data-tab="events">События</li>
+                  <li data-tab="params">Параметры</li>
+                </ul>
+                
+                <!-- Контент вкладок -->
+                <div id="catalog-tabs-content">
+                  <!-- ⭐ ВКЛАДКА "ОСНОВНЫЕ" -->
+                  <div id="catalog-tab-main" class="tab-content active">
+                    <!-- Название -->
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Название</label>
+                      <div class="col-sm-9">
+                        <input
+                          id="catalog-item-edit-name"
+                          type="text"
+                          class="form-control"
+                          placeholder="Например: Пенал 2 дверцы"
+                        />
+                      </div>
+                    </div>
+
+                    <!-- Категория (чипы в строку, как в референсе) -->
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Категория</label>
+                      <div class="col-sm-9">
+                        <div style="display:flex; gap:8px; align-items:flex-start;">
+                          <div
+                            id="catalog-item-edit-category"
+                            class="catalog-item-edit-categories-chips"
+                            style="flex:1; min-height:40px; padding:8px 10px; border:1px solid #d0d7e2; border-radius:4px; background:#fff; display:flex; flex-wrap:wrap; align-items:center; gap:6px;"
+                          >
+                            <div class="catalog-category-chips-placeholder" style="color:#999; font-size:13px;">Загрузка категорий…</div>
+                          </div>
+                          <button
+                            id="btn-catalog-item-edit-categories"
+                            class="btn"
+                            style="padding:8px 16px; font-size:13px; white-space:nowrap; flex-shrink:0;"
+                            title="Выбор категорий"
+                          >
+                            Выбор категорий
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Отображать в спецификации -->
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Отображать в спецификации</label>
+                      <div class="col-sm-9">
+                        <label class="switch">
+                          <input type="checkbox" id="catalog-item-edit-show-spec" true-value="1" false-value="0" checked />
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <!-- Включать вложенные элементы в спецификации -->
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Включать вложенные элементы в спецификации</label>
+                      <div class="col-sm-9">
+                        <label class="switch">
+                          <input type="checkbox" id="catalog-item-edit-include-nested" true-value="1" false-value="0" checked />
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <!-- Отображать в конструкторе? -->
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Отображать в конструкторе?</label>
+                      <div class="col-sm-9">
+                        <label class="switch">
+                          <input type="checkbox" id="catalog-item-edit-show-constructor" true-value="1" false-value="0" checked />
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <!-- Порядок -->
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Порядок</label>
+                      <div class="col-sm-9">
+                        <input type="number" id="catalog-item-edit-order" class="form-control" value="0" />
+                      </div>
+                    </div>
+
+                    <!-- Иконка -->
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Иконка</label>
+                      <div class="col-sm-5">
+                        <div class="pp_image_icon_block" id="catalog-item-edit-icon">
+                          <div height="78" class="pp_img_placeholder" style="width: 78px; height: 78px; border:2px dashed #d0d7e2; border-radius:6px; background:#f9fafb; display:flex; align-items:center; justify-content:center; position:relative; cursor:pointer;">
+                            <div style="text-align:center; color:#9ca3af; font-size:12px;">
+                              <div style="font-size:24px; margin-bottom:4px;">📁</div>
+                              <div style="font-size:10px;">256×256px</div>
+                            </div>
+                            <i aria-hidden="true" class="fa fa-folder-open open_file" style="position:absolute; top:4px; right:4px; color:#999; font-size:14px;"></i>
+                          </div>
+                          <div style="display: none;">
+                            <img src="" alt="" style="max-width: 78px; max-height:78px; border-radius:4px;" />
+                            <i aria-hidden="true" class="fa fa-folder-open open_file"></i>
+                          </div>
+                          <input type="file" id="catalog-item-edit-icon-input" accept="image/*" style="position:absolute; inset:0; opacity:0; cursor:pointer;" />
+                        </div>
+                      </div>
+                      <div class="col-sm-2"></div>
+                    </div>
+
+                    <!-- Группа модуля -->
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Группа модуля</label>
+                      <div class="col-sm-9">
+                        <select id="catalog-item-edit-cabinet-tag" class="form-control">
+                          <option value="bottom">Нижние модули</option>
+                          <option value="top">Верхние модули</option>
+                          <option value="antresol">Антресоли</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <!-- Тип перетаскивания -->
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Тип перетаскивания</label>
+                      <div class="col-sm-9">
+                        <select id="catalog-item-edit-drag-type" class="form-control">
+                          <option value="top">Как верхние модули</option>
+                          <option value="bottom">Как нижние модули</option>
+                          <option value="at_wall">Только у стены</option>
+                          <option value="at_wall_bottom">Только у стены на полу</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <!-- Тип прилипания -->
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Тип прилипания</label>
+                      <div class="col-sm-9">
+                        <select id="catalog-item-edit-adhesion-type" class="form-control">
+                          <option value="common" selected>По стенам / полу</option>
+                          <option value="surface">По всем поверхностям</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <!-- Элемент наполнения -->
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Элемент наполнения</label>
+                      <div class="col-sm-9">
+                        <label class="switch">
+                          <input type="checkbox" id="catalog-item-edit-filling-element" true-value="1" false-value="0" />
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <!-- Не учитывать в пересечениях -->
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Не учитывать в пересечениях</label>
+                      <div class="col-sm-9">
+                        <label class="switch">
+                          <input type="checkbox" id="catalog-item-edit-no-intersections" true-value="1" false-value="0" />
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <!-- Тип каталога -->
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Тип каталога</label>
+                      <div class="col-sm-9">
+                        <select id="catalog-item-edit-element-type" class="form-control">
+                          <option value="">Нет</option>
+                          <option value="kitchen">Кухни</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Остальные вкладки будут добавлены постепенно -->
+                  <div id="catalog-tab-dimensions" class="tab-content">
+                    <p>Контент вкладки "Размеры" будет добавлен...</p>
+                  </div>
+                  
+                  <div id="catalog-tab-constructor" class="tab-content">
+                    <p>Контент вкладки "Конструктор" будет добавлен...</p>
+                  </div>
+                  
+                  <div id="catalog-tab-variables" class="tab-content">
+                    <p>Контент вкладки "Переменные" будет добавлен...</p>
+                  </div>
+                  
+                  <div id="catalog-tab-templates" class="tab-content">
+                    <p>Контент вкладки "Шаблоны" будет добавлен...</p>
+                  </div>
+                  
+                  <div id="catalog-tab-materials" class="tab-content">
+                    <p>Контент вкладки "Материалы" будет добавлен...</p>
+                  </div>
+                  
+                  <div id="catalog-tab-components" class="tab-content">
+                    <p>Контент вкладки "Комплектующие" будет добавлен...</p>
+                  </div>
+                  
+                  <div id="catalog-tab-json" class="tab-content">
+                    <p>Контент вкладки "JSON" будет добавлен...</p>
+                  </div>
+                  
+                  <div id="catalog-tab-events" class="tab-content">
+                    <p>Контент вкладки "События" будет добавлен...</p>
+                  </div>
+                  
+                  <div id="catalog-tab-params" class="tab-content">
+                    <p>Контент вкладки "Параметры" будет добавлен...</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Правая панель (col-sm-6) - Превью 3D с размерами (по референсу) -->
+          <div class="col-sm-6">
+            <div class="row">
+              <!-- Поля размеров (по референсу) -->
+              <div class="col-sm-4 text-center">
+                <label class="col-form-label mr-2">Ширина</label>
+                <input type="number" min="1" id="catalog-item-edit-width" class="form-control form-control-sm inline w50" value="400">
+              </div>
+              <div class="col-sm-4 text-center">
+                <label class="col-form-label mr-2">Высота</label>
+                <input type="number" min="1" id="catalog-item-edit-height" class="form-control form-control-sm inline w50" value="400">
+              </div>
+              <div class="col-sm-4 text-center">
+                <label class="col-form-label mr-2">Глубина</label>
+                <input type="number" min="1" id="catalog-item-edit-depth" class="form-control form-control-sm inline w50" value="200">
+              </div>
+            </div>
+            
+            <!-- Preview block (по референсу) -->
+            <div id="preview_block">
+              <div id="main_app" style="height: 100%;">
+                <div id="viewport" data-preview="true" style="height: 538px; cursor: auto;">
+                  <canvas data-engine="three.js" style="display: block; width: 100%; height: 100%; touch-action: none;"></canvas>
+                </div>
+              </div>
+              <!-- Preview buttons будут добавлены позже -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- JavaScript для переключения вкладок -->
+  <script>
+    // Переключение горизонтальных вкладок (по референсу)
+    document.addEventListener('DOMContentLoaded', function() {
+      const tabButtons = document.querySelectorAll('.tab_menu_h.object_menu_params_menu li');
+      const tabContents = document.querySelectorAll('.tab-content');
+      
+      tabButtons.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          const tabName = this.getAttribute('data-tab');
+          
+          // Убираем активность со всех вкладок
+          tabButtons.forEach(function(b) {
+            b.classList.remove('active');
+          });
+          tabContents.forEach(function(c) {
+            c.classList.remove('active');
+          });
+          
+          // Добавляем активность текущей вкладке
+          this.classList.add('active');
+          const activeContent = document.getElementById('catalog-tab-' + tabName);
+          if (activeContent) {
+            activeContent.classList.add('active');
+          }
+        });
+      });
+      
+      // Кнопка "Отмена" - переход назад
+      const cancelBtn = document.getElementById('btn-catalog-item-edit-cancel');
+      if (cancelBtn) {
+        cancelBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          window.history.back();
+        });
+      }
+      
+      // Иконка: только через файловый менеджер, без системного диалога
+      const iconBlock = document.getElementById('catalog-item-edit-icon');
+      const iconInput = document.getElementById('catalog-item-edit-icon-input');
+      try { console.log('[FM catalog] init icon block', { iconBlock: !!iconBlock, iconInput: !!iconInput }); } catch (_) {}
+      if (iconBlock && iconInput) {
+        iconInput.style.pointerEvents = 'none';
+        iconInput.style.position = 'absolute';
+        iconInput.style.left = '-9999px';
+        iconInput.setAttribute('tabindex', '-1');
+        iconBlock.addEventListener('click', function(e) {
+          if (e.target === iconInput) return;
+          e.preventDefault();
+          e.stopPropagation();
+          try { console.log('[FM catalog] click iconBlock'); } catch (_) {}
+          const openFM = (window.openFileManager || (window.parent && window.parent.openFileManager));
+          if (openFM && typeof openFM === 'function') {
+            openFM({
+              allowedExt: ['.png','.jpg','.jpeg','.gif','.webp','.svg'],
+              initialPath: 'common_assets/images/materials',
+              onSelect: function(r) {
+                var url = (r && r.url) ? r.url : (r && r.path) ? r.path : '';
+                if (!url) return;
+                var img = iconBlock.querySelector('img');
+                if (img) {
+                  img.src = url;
+                  img.style.display = '';
+                } else {
+                  img = document.createElement('img');
+                  img.src = url;
+                  img.style.cssText = 'max-width:78px;max-height:78px;border-radius:4px;';
+                  iconBlock.insertBefore(img, iconBlock.firstChild);
+                }
+                var ph = iconBlock.querySelector('.pp_img_placeholder');
+                if (ph) ph.style.display = 'none';
+              }
+            });
+          } else {
+            console.warn('[FM catalog] openFileManager не найден. win=', !!window.openFileManager, 'parent=', !!(window.parent && window.parent.openFileManager));
+          }
+        }, true);
+      }
+    });
+  </script>
+</body>
+</html>

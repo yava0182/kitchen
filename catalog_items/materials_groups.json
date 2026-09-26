@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "name": "Группа по умолчанию",
+    "key": "g0",
+    "order": 0,
+    "active": 1,
+    "show_in_menu": 1,
+    "available": [],
+    "default": "",
+    "module_groups": [],
+    "catalog_type": "materials_groups"
+  }
+]

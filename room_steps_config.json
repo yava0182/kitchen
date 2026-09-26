@@ -1,0 +1,1608 @@
+{
+  "steps": [
+    {
+      "stepId": 1,
+      "title": "Тип комнаты",
+      "items": [
+        {
+          "id": "1",
+          "name": "Гостиная",
+          "icon": "fa-couch",
+          "image": "",
+          "key": "living-room",
+          "categoryId": null,
+          "order": 0
+        },
+        {
+          "id": "2",
+          "name": "Спальня",
+          "icon": "fa-bed",
+          "image": "",
+          "key": "bedroom",
+          "categoryId": null,
+          "order": 1
+        },
+        {
+          "id": "3",
+          "name": "Детская",
+          "icon": "fa-child",
+          "image": "",
+          "key": "nursery",
+          "categoryId": null,
+          "order": 2
+        },
+        {
+          "id": "4",
+          "name": "Прихожая",
+          "icon": "fa-door-open",
+          "image": "",
+          "key": "hallway",
+          "categoryId": null,
+          "order": 3
+        },
+        {
+          "id": "5",
+          "name": "Постирочная",
+          "icon": "fa-tshirt",
+          "image": "",
+          "key": "laundry",
+          "categoryId": null,
+          "order": 4
+        },
+        {
+          "id": "6",
+          "name": "Балкон",
+          "icon": "fa-home",
+          "image": "",
+          "key": "balcony",
+          "categoryId": null,
+          "order": 5
+        }
+      ],
+      "columnsPerRow": 2,
+      "price_subline": {
+        "show_price_subline": false,
+        "price_subline_text": "",
+        "show_price_subline_help_icon": false,
+        "price_subline_help_text": ""
+      }
+    },
+    {
+      "stepId": 2,
+      "title": "Конфигурация мебели",
+      "items": [
+        {
+          "id": "layout-1",
+          "name": "Верхняя стена",
+          "icon": "/files/Управление комнатой/pryamoy_3.png",
+          "key": "top-wall",
+          "categoryId": null,
+          "order": 0
+        },
+        {
+          "id": "layout-2",
+          "name": "Угловой шкаф (задняя+правая)",
+          "icon": "/files/Управление комнатой/uglovaya_pravaya2.png",
+          "key": "corner-wardrobe",
+          "categoryId": null,
+          "order": 1
+        },
+        {
+          "id": "layout-2b",
+          "name": "Угловой шкаф (задняя+левая)",
+          "icon": "/files/Управление комнатой/uglovaya_levaya2.png",
+          "key": "corner-wardrobe-left",
+          "categoryId": null,
+          "order": 2
+        },
+        {
+          "id": "layout-6",
+          "name": "П-образная",
+          "icon": "/files/Управление комнатой/shkaf_p-_obr2.png",
+          "key": "top-right-bottom-partition",
+          "categoryId": null,
+          "order": 3
+        }
+      ],
+      "columnsPerRow": 2,
+      "price_subline": {
+        "show_price_subline": false,
+        "price_subline_text": "",
+        "show_price_subline_help_icon": false,
+        "price_subline_help_text": ""
+      }
+    },
+    {
+      "stepId": 3,
+      "title": "С чего начнём?",
+      "items": [
+        {
+          "id": "i1781372609176",
+          "name": "Шкафы",
+          "icon": "fa-circle",
+          "image": "/images/catalog/category-wardrobe.svg",
+          "key": "26",
+          "categoryId": 26,
+          "order": 0
+        },
+        {
+          "id": "i1781372633509",
+          "name": "Тумбы",
+          "icon": "fa-circle",
+          "image": "/images/catalog/category-cabinet.svg",
+          "key": "25",
+          "categoryId": 25,
+          "order": 0
+        },
+        {
+          "id": "i1781372638256",
+          "name": "Комоды",
+          "icon": "fa-circle",
+          "image": "/images/catalog/category-dresser.svg",
+          "key": "37",
+          "categoryId": 37,
+          "order": 0
+        },
+        {
+          "id": "i1786726173517",
+          "name": "Торцевые шкафы",
+          "icon": "fa-circle",
+          "image": "/images/catalog/category-end-cabinet.svg",
+          "key": "41",
+          "categoryId": 41,
+          "order": 0
+        },
+        {
+          "id": "i1789836724238",
+          "name": "Навесные модули нижние",
+          "icon": "fa-circle",
+          "image": "/images/catalog/category-wall-hung.svg",
+          "key": "42",
+          "categoryId": 42,
+          "order": 0
+        },
+        {
+          "id": "i1790150400001",
+          "name": "Навесные модули верхние",
+          "icon": "fa-circle",
+          "image": "/images/catalog/category-wall-hung.svg",
+          "key": "43",
+          "categoryId": 43,
+          "order": 1
+        },
+        {
+          "id": "i1790311000044",
+          "name": "Угловые модули",
+          "icon": "fa-circle",
+          "image": "/images/catalog/category-wardrobe.svg",
+          "key": "44",
+          "categoryId": 44,
+          "order": 2
+        }
+      ],
+      "columnsPerRow": 2,
+      "price_subline": {
+        "show_price_subline": false,
+        "price_subline_text": "",
+        "show_price_subline_help_icon": false,
+        "price_subline_help_text": ""
+      }
+    },
+    {
+      "stepId": 4,
+      "title": "Модули",
+      "items": [],
+      "columnsPerRow": 2,
+      "price_subline": {
+        "show_price_subline": false,
+        "price_subline_text": "",
+        "show_price_subline_help_icon": false,
+        "price_subline_help_text": ""
+      },
+      "moduleItems": [],
+      "pillSets": {
+        "25": [
+          {
+            "id": "p25-doors",
+            "name": "С дверями",
+            "categoryId": 7,
+            "orCategoryId": null,
+            "cabinetDoorFilter": null,
+            "pillGroup": 0,
+            "order": 0
+          },
+          {
+            "id": "p25-no-doors",
+            "name": "Без дверей",
+            "categoryId": 4,
+            "orCategoryId": null,
+            "cabinetDoorFilter": null,
+            "pillGroup": 0,
+            "order": 1
+          },
+          {
+            "id": "p25-single",
+            "name": "Однодверные",
+            "categoryId": 5,
+            "orCategoryId": null,
+            "cabinetDoorFilter": "single",
+            "pillGroup": 1,
+            "order": 2
+          },
+          {
+            "id": "p25-double",
+            "name": "Двустворчатые",
+            "categoryId": 6,
+            "orCategoryId": null,
+            "cabinetDoorFilter": "double",
+            "pillGroup": 1,
+            "order": 3
+          }
+        ],
+        "26": [
+          {
+            "id": "p1781372710310",
+            "name": "Модули с дверями",
+            "categoryId": null,
+            "orCategoryId": null,
+            "cabinetDoorFilter": null,
+            "pillGroup": 0,
+            "order": 0
+          },
+          {
+            "id": "p1781372747948",
+            "name": "Модули без дверей",
+            "categoryId": null,
+            "orCategoryId": null,
+            "cabinetDoorFilter": null,
+            "pillGroup": 0,
+            "order": 0
+          },
+          {
+            "id": "p1781372758228",
+            "name": "Однодверные",
+            "categoryId": null,
+            "orCategoryId": null,
+            "cabinetDoorFilter": "single",
+            "pillGroup": 1,
+            "order": 0
+          },
+          {
+            "id": "p1781372759908",
+            "name": "Двухдверные",
+            "categoryId": null,
+            "orCategoryId": null,
+            "cabinetDoorFilter": "double",
+            "pillGroup": 1,
+            "order": 0
+          }
+        ],
+        "37": [
+          {
+            "id": "p1781372710310",
+            "name": "Модули с дверями",
+            "categoryId": null,
+            "orCategoryId": null,
+            "cabinetDoorFilter": null,
+            "pillGroup": 0,
+            "order": 0
+          },
+          {
+            "id": "p1781372747948",
+            "name": "Модули без дверей",
+            "categoryId": null,
+            "orCategoryId": null,
+            "cabinetDoorFilter": null,
+            "pillGroup": 0,
+            "order": 0
+          },
+          {
+            "id": "p1781372758228",
+            "name": "Однодверные",
+            "categoryId": null,
+            "orCategoryId": null,
+            "cabinetDoorFilter": "single",
+            "pillGroup": 1,
+            "order": 0
+          },
+          {
+            "id": "p1781372759908",
+            "name": "Двухдверные",
+            "categoryId": null,
+            "orCategoryId": null,
+            "cabinetDoorFilter": "double",
+            "pillGroup": 1,
+            "order": 0
+          }
+        ],
+        "41": [
+          {
+            "id": "p1786726715897",
+            "name": "Модули с дверями",
+            "categoryId": null,
+            "orCategoryId": null,
+            "cabinetDoorFilter": null,
+            "pillGroup": 0,
+            "order": 0
+          },
+          {
+            "id": "p1786726820153",
+            "name": "Модули без дверей",
+            "categoryId": null,
+            "orCategoryId": null,
+            "cabinetDoorFilter": null,
+            "pillGroup": 0,
+            "order": 0
+          }
+        ],
+        "42": []
+      },
+      "zoneEditTitle": "",
+      "zoneEditText": "",
+      "zoneEditDepthMinCm": null,
+      "zoneEditDepthMaxCm": null,
+      "zoneEditDepthLimitText": "",
+      "zoneEditDepthOverSectionText": "",
+      "zoneEditHeightMinCm": null,
+      "zoneEditHeightMaxCm": null,
+      "zoneEditHeightLimitText": "",
+      "zoneEditWidthLimitText": ""
+    },
+    {
+      "stepId": 5,
+      "title": "Цвет и отделка",
+      "price_subline": {
+        "show_price_subline": false,
+        "price_subline_text": "",
+        "show_price_subline_help_icon": false,
+        "price_subline_help_text": ""
+      },
+      "step5Tabs": {
+        "outside": {
+          "label": "Снаружи",
+          "desc": ""
+        },
+        "inside": {
+          "label": "Внутри",
+          "desc": ""
+        },
+        "params": {
+          "label": "Параметры",
+          "desc": ""
+        }
+      },
+      "step5Defaults": {
+        "outsideId": "m-8",
+        "insideId": "m-8",
+        "defaultId": "m-8"
+      },
+      "step5WheelOuter": [
+        {
+          "id": "m-7",
+          "name": "Безмолвная пустыня",
+          "texture": "/files/decor/bezmolvnaya_pustynya_art.k514_1783848391746.jpg",
+          "material_type": "material_2",
+          "material_id": 7
+        },
+        {
+          "id": "m-8",
+          "name": "Белый воздушный",
+          "texture": "/files/decor/belyy_vozdushnyy_so_1_1783859989593.jpg",
+          "material_type": "material_2",
+          "material_id": 8
+        },
+        {
+          "id": "outer-3",
+          "name": "outer-3",
+          "texture": "",
+          "material_type": null,
+          "material_id": null,
+          "hex": "#cccccc"
+        },
+        {
+          "id": "outer-4",
+          "name": "outer-4",
+          "texture": "",
+          "material_type": null,
+          "material_id": null,
+          "hex": "#cccccc"
+        },
+        {
+          "id": "outer-5",
+          "name": "outer-5",
+          "texture": "",
+          "material_type": null,
+          "material_id": null,
+          "hex": "#cccccc"
+        },
+        {
+          "id": "outer-6",
+          "name": "outer-6",
+          "texture": "",
+          "material_type": null,
+          "material_id": null,
+          "hex": "#cccccc"
+        },
+        {
+          "id": "outer-7",
+          "name": "outer-7",
+          "texture": "",
+          "material_type": null,
+          "material_id": null,
+          "hex": "#cccccc"
+        },
+        {
+          "id": "outer-8",
+          "name": "outer-8",
+          "texture": "",
+          "material_type": null,
+          "material_id": null,
+          "hex": "#cccccc"
+        },
+        {
+          "id": "outer-9",
+          "name": "outer-9",
+          "texture": "",
+          "material_type": null,
+          "material_id": null,
+          "hex": "#cccccc"
+        },
+        {
+          "id": "outer-10",
+          "name": "outer-10",
+          "texture": "",
+          "material_type": null,
+          "material_id": null,
+          "hex": "#cccccc"
+        },
+        {
+          "id": "outer-11",
+          "name": "outer-11",
+          "texture": "",
+          "material_type": null,
+          "material_id": null,
+          "hex": "#cccccc"
+        },
+        {
+          "id": "outer-12",
+          "name": "outer-12",
+          "texture": "",
+          "material_type": null,
+          "material_id": null,
+          "hex": "#cccccc"
+        },
+        {
+          "id": "outer-13",
+          "name": "outer-13",
+          "texture": "",
+          "material_type": null,
+          "material_id": null,
+          "hex": "#cccccc"
+        },
+        {
+          "id": "outer-14",
+          "name": "outer-14",
+          "texture": "",
+          "material_type": null,
+          "material_id": null,
+          "hex": "#cccccc"
+        },
+        {
+          "id": "outer-15",
+          "name": "outer-15",
+          "texture": "",
+          "material_type": null,
+          "material_id": null,
+          "hex": "#cccccc"
+        },
+        {
+          "id": "outer-16",
+          "name": "outer-16",
+          "texture": "",
+          "material_type": null,
+          "material_id": null,
+          "hex": "#cccccc"
+        }
+      ],
+      "step5WheelInner": [
+        {
+          "id": "inner-1",
+          "name": "inner-1",
+          "texture": "",
+          "material_type": null,
+          "material_id": null,
+          "hex": "#cccccc"
+        },
+        {
+          "id": "inner-2",
+          "name": "inner-2",
+          "texture": "",
+          "material_type": null,
+          "material_id": null,
+          "hex": "#cccccc"
+        },
+        {
+          "id": "inner-3",
+          "name": "inner-3",
+          "texture": "",
+          "material_type": null,
+          "material_id": null,
+          "hex": "#cccccc"
+        },
+        {
+          "id": "inner-4",
+          "name": "inner-4",
+          "texture": "",
+          "material_type": null,
+          "material_id": null,
+          "hex": "#cccccc"
+        },
+        {
+          "id": "inner-5",
+          "name": "inner-5",
+          "texture": "",
+          "material_type": null,
+          "material_id": null,
+          "hex": "#cccccc"
+        },
+        {
+          "id": "inner-6",
+          "name": "inner-6",
+          "texture": "",
+          "material_type": null,
+          "material_id": null,
+          "hex": "#cccccc"
+        }
+      ],
+      "step5ParamsItems": []
+    },
+    {
+      "stepId": 6,
+      "title": "Ручки",
+      "items": [
+        {
+          "id": "h2",
+          "catalogCollectionId": 2,
+          "name": "Волна",
+          "icon": "",
+          "key": "handle-volna",
+          "seriesId": "handle-volna",
+          "kind": "bar",
+          "cabinetModelId": 13,
+          "modelPath": "/models/volna_1770230423546.fbx",
+          "order": 100
+        },
+        {
+          "id": "h6",
+          "catalogCollectionId": 6,
+          "name": "Поп Лайн",
+          "icon": "",
+          "key": "collection-1781455544459",
+          "seriesId": "collection-1781455544459",
+          "kind": "bar",
+          "cabinetModelId": 17,
+          "modelPath": "/models/ruchka_pop_layn_1781455420751.glb",
+          "order": 100
+        }
+      ],
+      "columnsPerRow": 2,
+      "price_subline": {
+        "show_price_subline": false,
+        "price_subline_text": "",
+        "show_price_subline_help_icon": false,
+        "price_subline_help_text": ""
+      },
+      "hintText": "",
+      "handleDefaults": {
+        "seriesId": "collection-1781455544459",
+        "finishId": null
+      },
+      "defaultHandleSeriesId": "collection-1781455544459"
+    },
+    {
+      "stepId": 7,
+      "title": "Наполнение",
+      "items": [],
+      "columnsPerRow": 2,
+      "price_subline": {
+        "show_price_subline": false,
+        "price_subline_text": "",
+        "show_price_subline_help_icon": false,
+        "price_subline_help_text": ""
+      },
+      "hintText": ""
+    }
+  ],
+  "roomFurnitureByRoom": {
+    "living-room": {
+      "layoutKeys": [],
+      "catalogFolderKeys": [
+        "26",
+        "25",
+        "37",
+        "41",
+        "42",
+        "43",
+        "44"
+      ]
+    },
+    "bedroom": {
+      "layoutKeys": [],
+      "catalogFolderKeys": [
+        "26",
+        "41"
+      ]
+    },
+    "nursery": {
+      "layoutKeys": [],
+      "catalogFolderKeys": [
+        "41"
+      ]
+    },
+    "hallway": {
+      "layoutKeys": [],
+      "catalogFolderKeys": [
+        "41"
+      ]
+    },
+    "laundry": {
+      "layoutKeys": [],
+      "catalogFolderKeys": [
+        "41"
+      ]
+    }
+  },
+  "drawerDepthRulesGlobal": [
+    {
+      "minDepthMm": 455,
+      "maxDepthMm": 504,
+      "drawerCatalogId": "3",
+      "guideCatalogId": "2",
+      "name": "Ящик выдвижной 450",
+      "order": 1
+    },
+    {
+      "minDepthMm": 505,
+      "maxDepthMm": 554,
+      "drawerCatalogId": "2",
+      "guideCatalogId": "1",
+      "name": "Ящик выдвижной 500",
+      "order": 2
+    }
+  ],
+  "endCabinet": {
+    "enabled": true,
+    "minGapMm": 100,
+    "maxGapMm": 1500,
+    "catalogType": "",
+    "catalogCategoryId": "",
+    "catalogFilterTag": "",
+    "label": "Торцевой шкаф"
+  },
+  "sectionTrimParts": {
+    "top_plank_facade": {
+      "label": "Верхняя планка (фасадная секция)",
+      "edgeNumbering": true,
+      "preview": {
+        "section": {
+          "width": 1000,
+          "height": 2200,
+          "depth": 600
+        },
+        "wallGapMm": 50,
+        "width": 1000,
+        "height": 2200,
+        "depth": 600,
+        "renderPartKey": "top_plank_facade",
+        "partWidth": 1000,
+        "partHeight": 50,
+        "partDepth": 16
+      },
+      "edges": {
+        "1": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "2": {
+          "enabled": false,
+          "thickness": 0.8
+        },
+        "3": {
+          "enabled": false,
+          "thickness": 0.8
+        },
+        "4": {
+          "enabled": false,
+          "thickness": 0.8
+        }
+      },
+      "fasteners": null
+    },
+    "top_plank_side": {
+      "label": "Верхняя планка (приставная секция углового)",
+      "edgeNumbering": true,
+      "preview": {
+        "section": {
+          "width": 1000,
+          "height": 2200,
+          "depth": 1000
+        },
+        "wallGapMm": 50,
+        "width": 1000,
+        "height": 2200,
+        "depth": 1000,
+        "renderPartKey": "top_plank_side",
+        "partWidth": 16,
+        "partHeight": 50,
+        "partDepth": 1000
+      },
+      "edges": {
+        "1": {
+          "enabled": false,
+          "thickness": 0.8
+        },
+        "2": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "3": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "4": {
+          "enabled": true,
+          "thickness": 0.8
+        }
+      },
+      "fasteners": null
+    },
+    "bottom_plank_facade": {
+      "label": "Цоколь (основная прямая секция)",
+      "edgeNumbering": true,
+      "preview": {
+        "section": {
+          "width": 1000,
+          "height": 2200,
+          "depth": 600
+        },
+        "wallGapMm": 50,
+        "width": 1000,
+        "height": 2200,
+        "depth": 600,
+        "renderPartKey": "bottom_plank_facade",
+        "partWidth": 1000,
+        "partHeight": 100,
+        "partDepth": 16
+      },
+      "edges": {
+        "1": {
+          "enabled": false,
+          "thickness": 0.8
+        },
+        "2": {
+          "enabled": false,
+          "thickness": 0.8
+        },
+        "3": {
+          "enabled": false,
+          "thickness": 0.8
+        },
+        "4": {
+          "enabled": false,
+          "thickness": 0.8
+        }
+      },
+      "fasteners": null
+    },
+    "bottom_plank_side": {
+      "label": "Цоколь (приставная угловой)",
+      "edgeNumbering": true,
+      "preview": {
+        "section": {
+          "width": 1000,
+          "height": 2200,
+          "depth": 1000
+        },
+        "wallGapMm": 0,
+        "width": 1000,
+        "height": 2200,
+        "depth": 1000,
+        "renderPartKey": "bottom_plank_side",
+        "partWidth": 16,
+        "partHeight": 100,
+        "partDepth": 1000
+      },
+      "edges": {
+        "1": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "2": {
+          "enabled": false,
+          "thickness": 0.8
+        },
+        "3": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "4": {
+          "enabled": true,
+          "thickness": 0.8
+        }
+      },
+      "fasteners": null
+    },
+    "side_plank_left": {
+      "label": "Боковая планка (левая, прямой-угловой)",
+      "edgeNumbering": true,
+      "preview": {
+        "section": {
+          "width": 1000,
+          "height": 2200,
+          "depth": 600
+        },
+        "wallGapMm": 0,
+        "width": 1000,
+        "height": 2200,
+        "depth": 600,
+        "renderPartKey": "side_plank_left",
+        "partWidth": 50,
+        "partHeight": 2200,
+        "partDepth": 16
+      },
+      "edges": {
+        "1": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "2": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "3": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "4": {
+          "enabled": true,
+          "thickness": 0.8
+        }
+      },
+      "fasteners": null
+    },
+    "side_plank_right": {
+      "label": "Боковая планка правая (угловой приставной)",
+      "edgeNumbering": true,
+      "preview": {
+        "section": {
+          "width": 1000,
+          "height": 2200,
+          "depth": 600
+        },
+        "wallGapMm": 0,
+        "width": 1000,
+        "height": 2200,
+        "depth": 600,
+        "renderPartKey": "side_plank_right",
+        "partWidth": 50,
+        "partHeight": 2200,
+        "partDepth": 16
+      },
+      "edges": {
+        "1": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "2": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "3": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "4": {
+          "enabled": true,
+          "thickness": 0.8
+        }
+      },
+      "fasteners": null
+    },
+    "side_plank_front": {
+      "label": "Боковая планка (передняя)",
+      "edgeNumbering": true,
+      "preview": {
+        "section": {
+          "width": 1000,
+          "height": 2200,
+          "depth": 600
+        },
+        "wallGapMm": 0,
+        "width": 1000,
+        "height": 2200,
+        "depth": 600,
+        "renderPartKey": "side_plank_front",
+        "partWidth": 16,
+        "partHeight": 2200,
+        "partDepth": 50
+      },
+      "edges": {
+        "1": {
+          "enabled": false,
+          "thickness": 0.8
+        },
+        "2": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "3": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "4": {
+          "enabled": true,
+          "thickness": 0.8
+        }
+      },
+      "fasteners": null
+    },
+    "side_plank_back": {
+      "label": "Боковая планка (задняя)",
+      "edgeNumbering": true,
+      "preview": {
+        "section": {
+          "width": 1000,
+          "height": 2200,
+          "depth": 600
+        },
+        "wallGapMm": 0,
+        "width": 1000,
+        "height": 2200,
+        "depth": 600,
+        "renderPartKey": "side_plank_back",
+        "partWidth": 16,
+        "partHeight": 2200,
+        "partDepth": 50
+      },
+      "edges": {
+        "1": {
+          "enabled": false,
+          "thickness": 0.8
+        },
+        "2": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "3": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "4": {
+          "enabled": true,
+          "thickness": 0.8
+        }
+      },
+      "fasteners": null
+    },
+    "side_overlay_left": {
+      "label": "Накладка (левая)",
+      "edgeNumbering": true,
+      "preview": {
+        "section": {
+          "width": 1000,
+          "height": 2200,
+          "depth": 600
+        },
+        "wallGapMm": 50,
+        "width": 1000,
+        "height": 2200,
+        "depth": 600,
+        "renderPartKey": "side_overlay_left",
+        "partWidth": 16,
+        "partHeight": 2200,
+        "partDepth": 600
+      },
+      "edges": {
+        "1": {
+          "enabled": false,
+          "thickness": 0.8
+        },
+        "2": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "3": {
+          "enabled": false,
+          "thickness": 0.8
+        },
+        "4": {
+          "enabled": true,
+          "thickness": 0.8
+        }
+      },
+      "fasteners": null
+    },
+    "side_overlay_right": {
+      "label": "Накладка (правая)",
+      "edgeNumbering": true,
+      "preview": {
+        "section": {
+          "width": 1000,
+          "height": 2200,
+          "depth": 600
+        },
+        "wallGapMm": 50,
+        "width": 1000,
+        "height": 2200,
+        "depth": 600,
+        "renderPartKey": "side_overlay_right",
+        "partWidth": 16,
+        "partHeight": 2200,
+        "partDepth": 600
+      },
+      "edges": {
+        "1": {
+          "enabled": false,
+          "thickness": 0.8
+        },
+        "2": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "3": {
+          "enabled": false,
+          "thickness": 0.8
+        },
+        "4": {
+          "enabled": true,
+          "thickness": 0.8
+        }
+      },
+      "fasteners": null
+    },
+    "side_overlay_front": {
+      "label": "Накладка (передняя)",
+      "edgeNumbering": true,
+      "preview": {
+        "section": {
+          "width": 1000,
+          "height": 2200,
+          "depth": 600
+        },
+        "wallGapMm": 50,
+        "width": 1000,
+        "height": 2200,
+        "depth": 600,
+        "renderPartKey": "side_overlay_front",
+        "partWidth": 1000,
+        "partHeight": 2200,
+        "partDepth": 16
+      },
+      "edges": {
+        "1": {
+          "enabled": false,
+          "thickness": 0.8
+        },
+        "2": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "3": {
+          "enabled": false,
+          "thickness": 0.8
+        },
+        "4": {
+          "enabled": true,
+          "thickness": 0.8
+        }
+      },
+      "fasteners": null
+    },
+    "side_overlay_back": {
+      "label": "Накладка (задняя)",
+      "edgeNumbering": true,
+      "preview": {
+        "section": {
+          "width": 1000,
+          "height": 2200,
+          "depth": 600
+        },
+        "wallGapMm": 50,
+        "width": 1000,
+        "height": 2200,
+        "depth": 600,
+        "renderPartKey": "side_overlay_back",
+        "partWidth": 1000,
+        "partHeight": 2200,
+        "partDepth": 16
+      },
+      "edges": {
+        "1": {
+          "enabled": false,
+          "thickness": 0.8
+        },
+        "2": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "3": {
+          "enabled": false,
+          "thickness": 0.8
+        },
+        "4": {
+          "enabled": true,
+          "thickness": 0.8
+        }
+      },
+      "fasteners": null
+    },
+    "top_plank_segment": {
+      "label": "Сегмент верхней планки (переход)",
+      "edgeNumbering": true,
+      "preview": {
+        "section": {
+          "width": 600,
+          "height": 2200,
+          "depth": 600
+        },
+        "wallGapMm": 0,
+        "width": 600,
+        "height": 2200,
+        "depth": 600,
+        "renderPartKey": "top_plank_segment",
+        "partWidth": 600,
+        "partHeight": 50,
+        "partDepth": 16
+      },
+      "edges": {
+        "1": {
+          "enabled": false,
+          "thickness": 0.8
+        },
+        "2": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "3": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "4": {
+          "enabled": true,
+          "thickness": 0.8
+        }
+      },
+      "fasteners": null
+    },
+    "transition_side_cap": {
+      "label": "Накладка стык шкаф↔тумба (16 мм)",
+      "edgeNumbering": true,
+      "preview": {
+        "section": {
+          "width": 1000,
+          "height": 2200,
+          "depth": 600
+        },
+        "wallGapMm": 0,
+        "width": 1000,
+        "height": 2200,
+        "depth": 600,
+        "renderPartKey": "transition_side_cap",
+        "partWidth": 1000,
+        "partHeight": 2200,
+        "partDepth": 16
+      },
+      "edges": {
+        "1": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "2": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "3": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "4": {
+          "enabled": true,
+          "thickness": 0.8
+        }
+      },
+      "fasteners": null
+    },
+    "transition_top_cap": {
+      "label": "Крышка тумбы (переход шкаф↔тумба)",
+      "edgeNumbering": true,
+      "preview": {
+        "section": {
+          "width": 600,
+          "height": 2200,
+          "depth": 600
+        },
+        "wallGapMm": 50,
+        "width": 600,
+        "height": 2200,
+        "depth": 600,
+        "renderPartKey": "transition_top_cap",
+        "partWidth": 600,
+        "partHeight": 16,
+        "partDepth": 600
+      },
+      "edges": {
+        "1": {
+          "enabled": false,
+          "thickness": 0.8
+        },
+        "2": {
+          "enabled": false,
+          "thickness": 0.8
+        },
+        "3": {
+          "enabled": false,
+          "thickness": 0.8
+        },
+        "4": {
+          "enabled": false,
+          "thickness": 0.8
+        }
+      },
+      "fasteners": null
+    },
+    "end_cabinet_facade_overlay_whole": {
+      "label": "Торцевой шкаф — фасадная накладка (цельная)",
+      "edgeNumbering": true,
+      "preview": {
+        "section": {
+          "width": 1000,
+          "height": 2200,
+          "depth": 600
+        },
+        "wallGapMm": 50,
+        "width": 1000,
+        "height": 2200,
+        "depth": 600,
+        "renderPartKey": "end_cabinet_facade_overlay_whole",
+        "partWidth": 16,
+        "partHeight": 2200,
+        "partDepth": 600
+      },
+      "edges": {
+        "1": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "2": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "3": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "4": {
+          "enabled": true,
+          "thickness": 0.8
+        }
+      },
+      "fasteners": null
+    },
+    "end_cabinet_facade_overlay_main": {
+      "label": "Торцевой шкаф — фасадная накладка (основная)",
+      "edgeNumbering": true,
+      "preview": {
+        "section": {
+          "width": 1000,
+          "height": 2200,
+          "depth": 600
+        },
+        "wallGapMm": 50,
+        "width": 1000,
+        "height": 2200,
+        "depth": 600,
+        "renderPartKey": "end_cabinet_facade_overlay_main",
+        "partWidth": 16,
+        "partHeight": 1840,
+        "partDepth": 600
+      },
+      "edges": {
+        "1": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "2": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "3": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "4": {
+          "enabled": true,
+          "thickness": 0.8
+        }
+      },
+      "fasteners": null
+    },
+    "end_cabinet_facade_overlay_top": {
+      "label": "Торцевой шкаф — фасадная накладка (антресоль)",
+      "edgeNumbering": true,
+      "preview": {
+        "section": {
+          "width": 1000,
+          "height": 2200,
+          "depth": 600
+        },
+        "wallGapMm": 50,
+        "width": 1000,
+        "height": 2200,
+        "depth": 600,
+        "renderPartKey": "end_cabinet_facade_overlay_top",
+        "partWidth": 16,
+        "partHeight": 360,
+        "partDepth": 600
+      },
+      "edges": {
+        "1": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "2": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "3": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "4": {
+          "enabled": true,
+          "thickness": 0.8
+        }
+      },
+      "fasteners": null
+    },
+    "end_cabinet_top_plank": {
+      "label": "Торцевой шкаф — верхняя планка",
+      "edgeNumbering": true,
+      "preview": {
+        "section": {
+          "width": 1000,
+          "height": 2200,
+          "depth": 1000
+        },
+        "wallGapMm": 50,
+        "width": 1000,
+        "height": 2200,
+        "depth": 1000,
+        "renderPartKey": "end_cabinet_top_plank",
+        "partWidth": 16,
+        "partHeight": 50,
+        "partDepth": 984
+      },
+      "edges": {
+        "1": {
+          "enabled": false,
+          "thickness": 0.8
+        },
+        "2": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "3": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "4": {
+          "enabled": true,
+          "thickness": 0.8
+        }
+      },
+      "fasteners": null
+    },
+    "end_cabinet_plinth": {
+      "label": "Торцевой шкаф — цоколь",
+      "edgeNumbering": true,
+      "preview": {
+        "section": {
+          "width": 1000,
+          "height": 2200,
+          "depth": 1000
+        },
+        "wallGapMm": 50,
+        "width": 1000,
+        "height": 2200,
+        "depth": 1000,
+        "renderPartKey": "end_cabinet_plinth",
+        "partWidth": 16,
+        "partHeight": 100,
+        "partDepth": 934
+      },
+      "edges": {
+        "1": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "2": {
+          "enabled": false,
+          "thickness": 0.8
+        },
+        "3": {
+          "enabled": true,
+          "thickness": 0.8
+        },
+        "4": {
+          "enabled": true,
+          "thickness": 0.8
+        }
+      },
+      "fasteners": null
+    }
+  },
+  "roomEdit": {
+    "doors": [
+      {
+        "id": "re-doors-1",
+        "name": "Дверь фрезерованная",
+        "group": "Межкомнатные двери",
+        "thumb": "/files/Door/Icons/chatgpt_image_9_sent._2026_g._21_23_11_1788978229294.png",
+        "defaultWidthCm": 95,
+        "defaultHeightCm": 207,
+        "kind": "interior",
+        "modelUrl": "/files/Door/Models/clodis_door_fluted_1788976598558.glb"
+      },
+      {
+        "id": "re-doors-2",
+        "name": "Дверь белая",
+        "group": "Межкомнатные двери",
+        "thumb": "/files/Door/Icons/chatgpt_image_9_sent._2026_g._21_42_43_1788979385141.png",
+        "defaultWidthCm": 90,
+        "defaultHeightCm": 210,
+        "kind": "interior",
+        "modelUrl": "/files/Door/Models/clodis_door_glass_1788976945862.glb"
+      },
+      {
+        "id": "re-doors-3",
+        "name": "Дверь прямая",
+        "group": "Межкомнатные двери",
+        "thumb": "/files/Door/Icons/chatgpt_image_9_sent._2026_g._21_12_13_1788977562149.png",
+        "kind": "interior",
+        "modelUrl": "/files/Door/Models/clodis_door_plain_taupe_1788975041849.glb"
+      }
+    ],
+    "windows": [
+      {
+        "id": "re-windows-1",
+        "name": "Окно тройное",
+        "group": "Пластиковые",
+        "thumb": "/files/Window/Iconc/chatgpt_image_9_sent._2026_g._19_51_21_1788972724006.png",
+        "defaultWidthCm": 264,
+        "defaultHeightCm": 153,
+        "defaultSillCm": 90,
+        "modelUrl": "/models/windows/set-of-plastic-windows-01-01-triple.glb"
+      },
+      {
+        "id": "re-windows-2",
+        "name": "Окно двухстворчатое",
+        "group": "Пластиковые",
+        "thumb": "/files/Window/Iconc/chatgpt_image_9_sent._2026_g._19_58_29_1788973140333.png",
+        "defaultWidthCm": 214,
+        "defaultHeightCm": 153,
+        "defaultSillCm": 90,
+        "modelUrl": "/models/windows/set-of-plastic-windows-01-02-double.glb"
+      },
+      {
+        "id": "re-windows-3",
+        "name": "Окно маленькое",
+        "group": "Пластиковые",
+        "thumb": "/files/Window/Iconc/chatgpt_image_9_sent._2026_g._20_02_28_1788973403666.png",
+        "defaultWidthCm": 66,
+        "defaultHeightCm": 51,
+        "defaultSillCm": 120,
+        "modelUrl": "/models/windows/set-of-plastic-windows-01-03-single-small.glb"
+      },
+      {
+        "id": "re-windows-4",
+        "name": "Окно высокое",
+        "group": "Пластиковые",
+        "thumb": "/files/Window/Iconc/chatgpt_image_9_sent._2026_g._20_04_03_1788973533991.png",
+        "defaultWidthCm": 132,
+        "defaultHeightCm": 153,
+        "defaultSillCm": 90,
+        "modelUrl": "/models/windows/set-of-plastic-windows-01-04-tall.glb"
+      },
+      {
+        "id": "re-windows-5",
+        "name": "Окно горизонтальное",
+        "group": "Пластиковые",
+        "thumb": "/files/Window/Iconc/chatgpt_image_9_sent._2026_g._20_06_40_1788973618736.png",
+        "defaultWidthCm": 143,
+        "defaultHeightCm": 44,
+        "defaultSillCm": 120,
+        "modelUrl": "/models/windows/set-of-plastic-windows-01-05-horizontal-double.glb"
+      },
+      {
+        "id": "re-windows-6",
+        "name": "Окно широкое низкое",
+        "group": "Пластиковые",
+        "thumb": "/files/Window/Iconc/chatgpt_image_9_sent._2026_g._20_08_22_1788973723075.png",
+        "defaultWidthCm": 214,
+        "defaultHeightCm": 44,
+        "defaultSillCm": 120,
+        "modelUrl": "/models/windows/set-of-plastic-windows-01-07-horizontal-wide.glb"
+      }
+    ],
+    "materials": {
+      "walls": [
+        {
+          "id": "re-walls-default",
+          "name": "Белая краска",
+          "group": "Краска",
+          "hex": "#F0F0E3"
+        },
+        {
+          "id": "re-walls-grey",
+          "name": "Светло-серая",
+          "group": "Краска",
+          "hex": "#E8E8E0"
+        }
+      ],
+      "floors": [
+        {
+          "id": "re-floors-herringbone",
+          "name": "Паркет ёлочка",
+          "group": "Дерево",
+          "thumb": "/images/textures/ikea/floor/ee604ccf7d4ed0ec53b5d8cf0032e707.jpg"
+        }
+      ],
+      "ceilings": [
+        {
+          "id": "re-ceilings-white",
+          "name": "Белый потолок",
+          "group": "",
+          "hex": "#FEFEFE"
+        }
+      ]
+    }
+  },
+  "placementKindProfiles": [
+    {
+      "id": "floor_in_niche",
+      "label": "Шкаф в нише",
+      "baseKind": "floor_in_niche",
+      "settings": {}
+    },
+    {
+      "id": "standalone_floor",
+      "label": "Тумба напольная",
+      "baseKind": "standalone_floor",
+      "settings": {}
+    },
+    {
+      "id": "wall_hung_low",
+      "label": "Навесной нижний (к полу)",
+      "baseKind": "wall_hung_low",
+      "settings": {}
+    },
+    {
+      "id": "wall_hung_high",
+      "label": "Навесной верхний (к потолку)",
+      "baseKind": "wall_hung_high",
+      "settings": {}
+    },
+    {
+      "id": "wall_hung",
+      "label": "Навесной верхний (legacy)",
+      "baseKind": "wall_hung",
+      "settings": {}
+    },
+    {
+      "id": "corpus_only",
+      "label": "Только корпус",
+      "baseKind": "corpus_only",
+      "settings": {}
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "ok": true,
+  "purpose": "shadow-caster-data-deep",
+  "source": "CDP Runtime.evaluate on live IKEA PAX planner (us/en, cabinet scene)",
+  "ts": "2026-08-29T08:39:00Z",
+  "spot": {
+    "name": "Betrakta Spot Light",
+    "intensity": 115,
+    "pos": [0, 5, 2],
+    "enableShadows": true,
+    "shadowNear": 0.5,
+    "shadowFar": 6
+  },
+  "shadowCasterManager": {
+    "castersLen": 12,
+    "dataType": "Map",
+    "dataSize": 12,
+    "scmKeys": [
+      "_shadow_caster_data",
+      "shadow_casters",
+      "_dirty_shadow_casters",
+      "_shadow_casters_to_delete"
+    ],
+    "note": "Casters are SceneAssetInstance objects, NOT individual meshes with castShadows=true. All renderLayerMask.bitmap=3 (layers 0+1)."
+  },
+  "casters": [
+    {
+      "i": 0,
+      "root": "f4iflduiu5e9_opt_webp.glb (id: 18)",
+      "meshCount": 10,
+      "renderLayerMask": 3,
+      "meshes": [
+        { "name": "90458221_0367", "mat": "002_Holes_Pax" },
+        { "name": "90458221_02_primitive068", "mat": "010_White" },
+        { "name": "90458221_02_primitive169", "mat": "003_Backside_Furniture" },
+        { "name": "90458221_0970", "mat": "004_Galvanized_Metal" },
+        { "name": "90458221_0871", "mat": "006_Black_Rubber" },
+        { "name": "90458221_0772", "mat": "011_White_Plastic" },
+        { "name": "90458221_0673", "mat": "011_White_Plastic" },
+        { "name": "90458221_0574", "mat": "003_Backside_Furniture" },
+        { "name": "90458221_0475", "mat": "011_White_Plastic" },
+        { "name": "90458221_0176", "mat": "010_White" }
+      ],
+      "role": "PAX frame (90458221)"
+    },
+    {
+      "i": 1,
+      "root": "nhnv001bvvh8_opt_webp.glb (id: 19)",
+      "meshCount": 1,
+      "meshes": [{ "name": "model77", "mat": "30277959" }],
+      "role": "accessory"
+    },
+    {
+      "i": 2,
+      "root": "4kn4l3khr0z4_opt_webp.glb (id: 20)",
+      "meshCount": 1,
+      "meshes": [{ "name": "model79", "mat": "20503910.001" }],
+      "role": "accessory"
+    },
+    {
+      "i": 3,
+      "root": "lzoqgrrul2k4_opt_webp.glb (id: 21)",
+      "meshCount": 1,
+      "meshes": [{ "name": "model80", "mat": "90256893" }],
+      "role": "accessory"
+    },
+    {
+      "i": 4,
+      "root": "nhnv001bvvh8_opt_webp.glb (id: 22)",
+      "meshCount": 1,
+      "meshes": [{ "name": "model78", "mat": "30277959" }],
+      "role": "accessory"
+    },
+    {
+      "i": 5,
+      "root": "tnparnmc6q57_opt_webp.glb (id: 23)",
+      "meshCount": 1,
+      "meshes": [{ "name": "model81", "mat": "10246308" }],
+      "role": "shelf"
+    },
+    {
+      "i": 6,
+      "root": "tnparnmc6q57_opt_webp.glb (id: 24)",
+      "meshCount": 1,
+      "meshes": [{ "name": "model82", "mat": "10246308" }],
+      "role": "shelf"
+    },
+    {
+      "i": 7,
+      "root": "tnparnmc6q57_opt_webp.glb (id: 25)",
+      "meshCount": 1,
+      "meshes": [{ "name": "model83", "mat": "10246308" }],
+      "role": "shelf"
+    },
+    {
+      "i": 8,
+      "root": "tnparnmc6q57_opt_webp.glb (id: 26)",
+      "meshCount": 1,
+      "meshes": [{ "name": "model84", "mat": "10246308" }],
+      "role": "shelf"
+    },
+    {
+      "i": 9,
+      "root": "PROPS_HANG_SHIRT_8_NCS-7005-Y50R_v4.optimized.glb (id: 27)",
+      "meshCount": 4,
+      "role": "prop (clothes)"
+    },
+    {
+      "i": 10,
+      "root": "PROPS_HANG_PANTS_1_NCS-2005-Y30R_v3.optimized.glb (id: 28)",
+      "meshCount": 3,
+      "role": "prop (clothes)"
+    },
+    {
+      "i": 11,
+      "root": "PROPS_FOLDED_TSHIRTS_NCS-5005-Y50R_v2.optimized.glb (id: 29)",
+      "meshCount": 4,
+      "role": "prop (clothes)"
+    }
+  ],
+  "cabinetOnlySummary": {
+    "casterInstances": 9,
+    "excludeProps": 3,
+    "materials": {
+      "010_White": 2,
+      "003_Backside_Furniture": 2,
+      "002_Holes_Pax": 1,
+      "004_Galvanized_Metal": 1,
+      "006_Black_Rubber": 1,
+      "011_White_Plastic": 3,
+      "10246308": 4,
+      "30277959": 2,
+      "20503910.001": 1,
+      "90256893": 1
+    },
+    "shelfInstances": 4,
+    "shelfGlb": "tnparnmc6q57_opt_webp.glb",
+    "frameGlb": "f4iflduiu5e9_opt_webp.glb (90458221)"
+  },
+  "implicationsForClodis": {
+    "spotShadow": "IKEA uses ShadowCasterManager.set_cast_shadow at SceneAssetInstance level — 12 instances, NOT mesh.castShadows on all 120 meshes",
+    "layerMask": "All casters renderLayerMask=3 (bit0+bit1), NOT layer 2 exclusively",
+    "phase7e": "Do NOT enable Spot SM on all 128 layer-2 cabinet meshes; need selective caster list like IKEA (frame + shelves + inserts, ~9 instances)",
+    "wallCornerAO": "Separate mechanism: soft heightmap (renderMask=2, blockMask=32) — not in this dump; see IKEA-dump-empty-vs-cabinet-lights-20260826.json"
+  }
+}

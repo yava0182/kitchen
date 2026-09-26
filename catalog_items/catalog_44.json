@@ -1,0 +1,5460 @@
+[
+  {
+    "catalog_type": "catalog_44",
+    "constructor_structure": {
+      "type": "module",
+      "name": "Угловой шкаф правый",
+      "children": [
+        {
+          "type": "section",
+          "id": "node_1790310137947_y49pu6sga",
+          "name": "Секция",
+          "active": 1,
+          "helpers_visible": 1,
+          "size": {
+            "x": "s:x",
+            "y": "s:y",
+            "z": "s:z"
+          },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pivot": {
+            "x": -1,
+            "y": -1,
+            "z": -1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "spec": {
+            "orientation": "f"
+          },
+          "layout_role": "cabinet_root",
+          "section_key": "",
+          "children": [
+            {
+              "type": "module",
+              "id": "node_1790310137947_8ib191k94",
+              "name": "Цоколь 100 мм",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "v:h_bottom",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "1",
+                "element_type": "catalog_32",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "key": "Цоколь 100 мм",
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "orientation": "h"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "plinth"
+            },
+            {
+              "type": "module",
+              "id": "node_1790310137948_jsfld6dpe",
+              "name": "Корпус шкафа",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": 1950,
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": "(v:h_bottom)",
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "1",
+                "element_type": "catalog_27",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "key": "Корпус шкафа",
+                "orientation": "h"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "corpus_antresol"
+            },
+            {
+              "type": "module",
+              "id": "node_1790310137948_maa7l5op9",
+              "name": "Антресоль",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y - (v:h_bottom) - (1950)",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": "(v:h_bottom) + (1950)",
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "1",
+                "element_type": "catalog_30",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "key": "Антресоль"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "top"
+            },
+            {
+              "type": "module",
+              "id": "node_1790310137948_xdfyapbge",
+              "name": "Фасад шкаф правый",
+              "active": 1,
+              "size": {
+                "x": "s:x/2",
+                "y": "v:corpus_antresol_mm",
+                "z": "v:facade_thickness_mm"
+              },
+              "pos": {
+                "x": 0,
+                "y": "v:h_bottom",
+                "z": "s:z - v:facade_thickness_mm"
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "c_rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "11",
+                "element_type": "catalog_28",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "key": "Фасад шкаф правый"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "facades_main"
+            },
+            {
+              "type": "module",
+              "id": "node_1790310137948_4l5xnguqg",
+              "name": "Фасад антресоль правый",
+              "active": 1,
+              "size": {
+                "x": "s:x/2",
+                "y": "s:y - v:h_bottom - v:corpus_antresol_mm - v:tech_zone_mm",
+                "z": "v:facade_thickness_mm"
+              },
+              "pos": {
+                "x": 0,
+                "y": "v:h_bottom + v:corpus_antresol_mm",
+                "z": "s:z - v:facade_thickness_mm"
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "c_rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "12",
+                "element_type": "catalog_28",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "key": "Фасад антресоль правый"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "facades_top"
+            },
+            {
+              "type": "module",
+              "id": "node_1790310137949_mwsey9l41",
+              "name": "Заглушка фронтальная углового",
+              "active": 1,
+              "size": {
+                "x": "s:x/2",
+                "y": "v:corpus_antresol_mm",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": "s:x/2",
+                "y": "v:h_bottom",
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "9",
+                "element_type": "catalog_29",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "key": "Заглушка фронтальная углового"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": ""
+            },
+            {
+              "type": "module",
+              "id": "node_1790310137949_n8h0a93f8",
+              "name": "Заглушка фронтальная углового",
+              "active": 1,
+              "size": {
+                "x": "s:x/2",
+                "y": "s:y - v:h_bottom - v:corpus_antresol_mm - v:tech_zone_mm",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": "s:x/2",
+                "y": "v:h_bottom + v:corpus_antresol_mm",
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "9",
+                "element_type": "catalog_29",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "key": "Заглушка фронтальная углового"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": ""
+            }
+          ]
+        }
+      ],
+      "variables": {
+        "main": {
+          "h_bottom": 100,
+          "h_top": 0,
+          "tech_zone_mm": 0,
+          "corpus_antresol_mm": 1950,
+          "facade_thickness_mm": 16
+        },
+        "groups": []
+      },
+      "template": {
+        "structure": [
+          {
+            "type": "section",
+            "id": "node_1790310137947_y49pu6sga",
+            "name": "Секция",
+            "active": 1,
+            "helpers_visible": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "orientation": "f"
+            },
+            "layout_role": "cabinet_root",
+            "section_key": "",
+            "children": [
+              {
+                "type": "module",
+                "id": "node_1790310137947_8ib191k94",
+                "name": "Цоколь 100 мм",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "v:h_bottom",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "1",
+                  "element_type": "catalog_32",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "key": "Цоколь 100 мм",
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "orientation": "h"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "plinth"
+              },
+              {
+                "type": "module",
+                "id": "node_1790310137948_jsfld6dpe",
+                "name": "Корпус шкафа",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": 1950,
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": "(v:h_bottom)",
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "1",
+                  "element_type": "catalog_27",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "key": "Корпус шкафа",
+                  "orientation": "h"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "corpus_antresol"
+              },
+              {
+                "type": "module",
+                "id": "node_1790310137948_maa7l5op9",
+                "name": "Антресоль",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y - (v:h_bottom) - (1950)",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": "(v:h_bottom) + (1950)",
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "1",
+                  "element_type": "catalog_30",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "key": "Антресоль"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "top"
+              },
+              {
+                "type": "module",
+                "id": "node_1790310137948_xdfyapbge",
+                "name": "Фасад шкаф правый",
+                "active": 1,
+                "size": {
+                  "x": "s:x/2",
+                  "y": "v:corpus_antresol_mm",
+                  "z": "v:facade_thickness_mm"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": "v:h_bottom",
+                  "z": "s:z - v:facade_thickness_mm"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "11",
+                  "element_type": "catalog_28",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "key": "Фасад шкаф правый"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "facades_main"
+              },
+              {
+                "type": "module",
+                "id": "node_1790310137948_4l5xnguqg",
+                "name": "Фасад антресоль правый",
+                "active": 1,
+                "size": {
+                  "x": "s:x/2",
+                  "y": "s:y - v:h_bottom - v:corpus_antresol_mm - v:tech_zone_mm",
+                  "z": "v:facade_thickness_mm"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": "v:h_bottom + v:corpus_antresol_mm",
+                  "z": "s:z - v:facade_thickness_mm"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "12",
+                  "element_type": "catalog_28",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "key": "Фасад антресоль правый"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "facades_top"
+              },
+              {
+                "type": "module",
+                "id": "node_1790310137949_mwsey9l41",
+                "name": "Заглушка фронтальная углового",
+                "active": 1,
+                "size": {
+                  "x": "s:x/2",
+                  "y": "v:corpus_antresol_mm",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": "s:x/2",
+                  "y": "v:h_bottom",
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "9",
+                  "element_type": "catalog_29",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "key": "Заглушка фронтальная углового"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": ""
+              },
+              {
+                "type": "module",
+                "id": "node_1790310137949_n8h0a93f8",
+                "name": "Заглушка фронтальная углового",
+                "active": 1,
+                "size": {
+                  "x": "s:x/2",
+                  "y": "s:y - v:h_bottom - v:corpus_antresol_mm - v:tech_zone_mm",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": "s:x/2",
+                  "y": "v:h_bottom + v:corpus_antresol_mm",
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "9",
+                  "element_type": "catalog_29",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "key": "Заглушка фронтальная углового"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": ""
+              }
+            ]
+          }
+        ]
+      },
+      "materials_overrides": {},
+      "spec": {
+        "template": {
+          "tree": [
+            {
+              "type": "section",
+              "id": "node_1790310137947_y49pu6sga",
+              "name": "Секция",
+              "active": 1,
+              "helpers_visible": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "f"
+              },
+              "layout_role": "cabinet_root",
+              "section_key": "",
+              "children": [
+                {
+                  "type": "module",
+                  "id": "node_1790310137947_8ib191k94",
+                  "name": "Цоколь 100 мм",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "v:h_bottom",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "1",
+                    "element_type": "catalog_32",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "key": "Цоколь 100 мм",
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "orientation": "h"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "plinth"
+                },
+                {
+                  "type": "module",
+                  "id": "node_1790310137948_jsfld6dpe",
+                  "name": "Корпус шкафа",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": 1950,
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": "(v:h_bottom)",
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "1",
+                    "element_type": "catalog_27",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "key": "Корпус шкафа",
+                    "orientation": "h"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "corpus_antresol"
+                },
+                {
+                  "type": "module",
+                  "id": "node_1790310137948_maa7l5op9",
+                  "name": "Антресоль",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y - (v:h_bottom) - (1950)",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": "(v:h_bottom) + (1950)",
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "1",
+                    "element_type": "catalog_30",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "key": "Антресоль"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "top"
+                },
+                {
+                  "type": "module",
+                  "id": "node_1790310137948_xdfyapbge",
+                  "name": "Фасад шкаф правый",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x/2",
+                    "y": "v:corpus_antresol_mm",
+                    "z": "v:facade_thickness_mm"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": "v:h_bottom",
+                    "z": "s:z - v:facade_thickness_mm"
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "c_rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "11",
+                    "element_type": "catalog_28",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "key": "Фасад шкаф правый"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "facades_main"
+                },
+                {
+                  "type": "module",
+                  "id": "node_1790310137948_4l5xnguqg",
+                  "name": "Фасад антресоль правый",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x/2",
+                    "y": "s:y - v:h_bottom - v:corpus_antresol_mm - v:tech_zone_mm",
+                    "z": "v:facade_thickness_mm"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": "v:h_bottom + v:corpus_antresol_mm",
+                    "z": "s:z - v:facade_thickness_mm"
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "c_rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "12",
+                    "element_type": "catalog_28",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "key": "Фасад антресоль правый"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "facades_top"
+                },
+                {
+                  "type": "module",
+                  "id": "node_1790310137949_mwsey9l41",
+                  "name": "Заглушка фронтальная углового",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x/2",
+                    "y": "v:corpus_antresol_mm",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": "s:x/2",
+                    "y": "v:h_bottom",
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "9",
+                    "element_type": "catalog_29",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "key": "Заглушка фронтальная углового"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": ""
+                },
+                {
+                  "type": "module",
+                  "id": "node_1790310137949_n8h0a93f8",
+                  "name": "Заглушка фронтальная углового",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x/2",
+                    "y": "s:y - v:h_bottom - v:corpus_antresol_mm - v:tech_zone_mm",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": "s:x/2",
+                    "y": "v:h_bottom + v:corpus_antresol_mm",
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "9",
+                    "element_type": "catalog_29",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "key": "Заглушка фронтальная углового"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": ""
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "clodisJSON": [
+      {
+        "type": "section",
+        "id": "node_1790310137947_y49pu6sga",
+        "name": "Секция",
+        "active": 1,
+        "helpers_visible": 1,
+        "size": {
+          "x": "s:x",
+          "y": "s:y",
+          "z": "s:z"
+        },
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "pivot": {
+          "x": -1,
+          "y": -1,
+          "z": -1
+        },
+        "rot": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "spec": {
+          "orientation": "f"
+        },
+        "layout_role": "cabinet_root",
+        "section_key": "",
+        "children": [
+          {
+            "type": "module",
+            "id": "node_1790310137947_8ib191k94",
+            "name": "Цоколь 100 мм",
+            "active": 1,
+            "size": {
+              "x": "s:x",
+              "y": "v:h_bottom",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "1",
+              "element_type": "catalog_32",
+              "fill_content": {},
+              "linked_item_id": 0,
+              "live_catalog": true,
+              "key": "Цоколь 100 мм",
+              "can_change": {
+                "id": 0
+              },
+              "not_load_default": 0,
+              "orientation": "h"
+            },
+            "children": [],
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "custom": {},
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 1,
+            "variables": {
+              "visible": 1,
+              "main": {}
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": {},
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "comments": "",
+            "section_key": "",
+            "params_key": "",
+            "layout_role": "plinth"
+          },
+          {
+            "type": "module",
+            "id": "node_1790310137948_jsfld6dpe",
+            "name": "Корпус шкафа",
+            "active": 1,
+            "size": {
+              "x": "s:x",
+              "y": 1950,
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": "(v:h_bottom)",
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "1",
+              "element_type": "catalog_27",
+              "fill_content": {},
+              "linked_item_id": 0,
+              "live_catalog": true,
+              "can_change": {
+                "id": 0
+              },
+              "not_load_default": 0,
+              "key": "Корпус шкафа",
+              "orientation": "h"
+            },
+            "children": [],
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "custom": {},
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 1,
+            "variables": {
+              "visible": 1,
+              "main": {}
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": {},
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "comments": "",
+            "section_key": "",
+            "params_key": "",
+            "layout_role": "corpus_antresol"
+          },
+          {
+            "type": "module",
+            "id": "node_1790310137948_maa7l5op9",
+            "name": "Антресоль",
+            "active": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y - (v:h_bottom) - (1950)",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": "(v:h_bottom) + (1950)",
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "1",
+              "element_type": "catalog_30",
+              "fill_content": {},
+              "linked_item_id": 0,
+              "live_catalog": true,
+              "can_change": {
+                "id": 0
+              },
+              "not_load_default": 0,
+              "key": "Антресоль"
+            },
+            "children": [],
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "custom": {},
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 1,
+            "variables": {
+              "visible": 1,
+              "main": {}
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": {},
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "comments": "",
+            "section_key": "",
+            "params_key": "",
+            "layout_role": "top"
+          },
+          {
+            "type": "module",
+            "id": "node_1790310137948_xdfyapbge",
+            "name": "Фасад шкаф правый",
+            "active": 1,
+            "size": {
+              "x": "s:x/2",
+              "y": "v:corpus_antresol_mm",
+              "z": "v:facade_thickness_mm"
+            },
+            "pos": {
+              "x": 0,
+              "y": "v:h_bottom",
+              "z": "s:z - v:facade_thickness_mm"
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "c_rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "11",
+              "element_type": "catalog_28",
+              "fill_content": {},
+              "linked_item_id": 0,
+              "live_catalog": true,
+              "can_change": {
+                "id": 0
+              },
+              "not_load_default": 0,
+              "key": "Фасад шкаф правый"
+            },
+            "children": [],
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "custom": {},
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 1,
+            "variables": {
+              "visible": 1,
+              "main": {}
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": {},
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "comments": "",
+            "section_key": "",
+            "params_key": "",
+            "layout_role": "facades_main"
+          },
+          {
+            "type": "module",
+            "id": "node_1790310137948_4l5xnguqg",
+            "name": "Фасад антресоль правый",
+            "active": 1,
+            "size": {
+              "x": "s:x/2",
+              "y": "s:y - v:h_bottom - v:corpus_antresol_mm - v:tech_zone_mm",
+              "z": "v:facade_thickness_mm"
+            },
+            "pos": {
+              "x": 0,
+              "y": "v:h_bottom + v:corpus_antresol_mm",
+              "z": "s:z - v:facade_thickness_mm"
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "c_rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "12",
+              "element_type": "catalog_28",
+              "fill_content": {},
+              "linked_item_id": 0,
+              "live_catalog": true,
+              "can_change": {
+                "id": 0
+              },
+              "not_load_default": 0,
+              "key": "Фасад антресоль правый"
+            },
+            "children": [],
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "custom": {},
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 1,
+            "variables": {
+              "visible": 1,
+              "main": {}
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": {},
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "comments": "",
+            "section_key": "",
+            "params_key": "",
+            "layout_role": "facades_top"
+          },
+          {
+            "type": "module",
+            "id": "node_1790310137949_mwsey9l41",
+            "name": "Заглушка фронтальная углового",
+            "active": 1,
+            "size": {
+              "x": "s:x/2",
+              "y": "v:corpus_antresol_mm",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": "s:x/2",
+              "y": "v:h_bottom",
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "9",
+              "element_type": "catalog_29",
+              "fill_content": {},
+              "linked_item_id": 0,
+              "live_catalog": true,
+              "can_change": {
+                "id": 0
+              },
+              "not_load_default": 0,
+              "key": "Заглушка фронтальная углового"
+            },
+            "children": [],
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "custom": {},
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 1,
+            "variables": {
+              "visible": 1,
+              "main": {}
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": {},
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "comments": "",
+            "section_key": "",
+            "params_key": ""
+          },
+          {
+            "type": "module",
+            "id": "node_1790310137949_n8h0a93f8",
+            "name": "Заглушка фронтальная углового",
+            "active": 1,
+            "size": {
+              "x": "s:x/2",
+              "y": "s:y - v:h_bottom - v:corpus_antresol_mm - v:tech_zone_mm",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": "s:x/2",
+              "y": "v:h_bottom + v:corpus_antresol_mm",
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "9",
+              "element_type": "catalog_29",
+              "fill_content": {},
+              "linked_item_id": 0,
+              "live_catalog": true,
+              "can_change": {
+                "id": 0
+              },
+              "not_load_default": 0,
+              "key": "Заглушка фронтальная углового"
+            },
+            "children": [],
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "custom": {},
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 1,
+            "variables": {
+              "visible": 1,
+              "main": {}
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": {},
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "comments": "",
+            "section_key": "",
+            "params_key": ""
+          }
+        ]
+      }
+    ],
+    "name": "Угловой шкаф правый",
+    "icon": "/files/catalog_icons/catalog_icon_5_1782150963536_1782150963571.png",
+    "iconAspect": "tall",
+    "data": {
+      "name": "Угловой шкаф правый",
+      "category": [
+        5,
+        6,
+        7,
+        11,
+        9
+      ],
+      "show_in_spec": "1",
+      "include_nested": "1",
+      "show_in_constructor": "1",
+      "order": 0,
+      "icon": "/files/catalog_icons/catalog_icon_5_1782150963536_1782150963571.png",
+      "iconAspect": "tall",
+      "module_group": "bottom",
+      "drag_type": "top",
+      "stick_type": "common",
+      "is_fill": "0",
+      "no_intersections": "0",
+      "catalog_type": "catalog_44",
+      "width": "1100",
+      "height": "2700",
+      "depth": "600",
+      "placementKind": "floor_in_niche",
+      "roomTags": {
+        "categories": [
+          "living-room-44",
+          "bedroom-44"
+        ]
+      },
+      "hingeLayoutId": null,
+      "clodisVariables": {
+        "h_bottom": 100,
+        "h_top": 0,
+        "tech_zone_mm": 0,
+        "corpus_antresol_mm": 1950,
+        "facade_thickness_mm": 16
+      },
+      "clodisJSON": [
+        {
+          "type": "section",
+          "id": "node_1790310137947_y49pu6sga",
+          "name": "Секция",
+          "active": 1,
+          "helpers_visible": 1,
+          "size": {
+            "x": "s:x",
+            "y": "s:y",
+            "z": "s:z"
+          },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pivot": {
+            "x": -1,
+            "y": -1,
+            "z": -1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "spec": {
+            "orientation": "f"
+          },
+          "layout_role": "cabinet_root",
+          "section_key": "",
+          "children": [
+            {
+              "type": "module",
+              "id": "node_1790310137947_8ib191k94",
+              "name": "Цоколь 100 мм",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "v:h_bottom",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "1",
+                "element_type": "catalog_32",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "key": "Цоколь 100 мм",
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "orientation": "h"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "plinth"
+            },
+            {
+              "type": "module",
+              "id": "node_1790310137948_jsfld6dpe",
+              "name": "Корпус шкафа",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": 1950,
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": "(v:h_bottom)",
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "1",
+                "element_type": "catalog_27",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "key": "Корпус шкафа",
+                "orientation": "h"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "corpus_antresol"
+            },
+            {
+              "type": "module",
+              "id": "node_1790310137948_maa7l5op9",
+              "name": "Антресоль",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y - (v:h_bottom) - (1950)",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": "(v:h_bottom) + (1950)",
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "1",
+                "element_type": "catalog_30",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "key": "Антресоль"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "top"
+            },
+            {
+              "type": "module",
+              "id": "node_1790310137948_xdfyapbge",
+              "name": "Фасад шкаф правый",
+              "active": 1,
+              "size": {
+                "x": "s:x/2",
+                "y": "v:corpus_antresol_mm",
+                "z": "v:facade_thickness_mm"
+              },
+              "pos": {
+                "x": 0,
+                "y": "v:h_bottom",
+                "z": "s:z - v:facade_thickness_mm"
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "c_rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "11",
+                "element_type": "catalog_28",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "key": "Фасад шкаф правый"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "facades_main"
+            },
+            {
+              "type": "module",
+              "id": "node_1790310137948_4l5xnguqg",
+              "name": "Фасад антресоль правый",
+              "active": 1,
+              "size": {
+                "x": "s:x/2",
+                "y": "s:y - v:h_bottom - v:corpus_antresol_mm - v:tech_zone_mm",
+                "z": "v:facade_thickness_mm"
+              },
+              "pos": {
+                "x": 0,
+                "y": "v:h_bottom + v:corpus_antresol_mm",
+                "z": "s:z - v:facade_thickness_mm"
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "c_rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "12",
+                "element_type": "catalog_28",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "key": "Фасад антресоль правый"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "facades_top"
+            },
+            {
+              "type": "module",
+              "id": "node_1790310137949_mwsey9l41",
+              "name": "Заглушка фронтальная углового",
+              "active": 1,
+              "size": {
+                "x": "s:x/2",
+                "y": "v:corpus_antresol_mm",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": "s:x/2",
+                "y": "v:h_bottom",
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "9",
+                "element_type": "catalog_29",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "key": "Заглушка фронтальная углового"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": ""
+            },
+            {
+              "type": "module",
+              "id": "node_1790310137949_n8h0a93f8",
+              "name": "Заглушка фронтальная углового",
+              "active": 1,
+              "size": {
+                "x": "s:x/2",
+                "y": "s:y - v:h_bottom - v:corpus_antresol_mm - v:tech_zone_mm",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": "s:x/2",
+                "y": "v:h_bottom + v:corpus_antresol_mm",
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "9",
+                "element_type": "catalog_29",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "key": "Заглушка фронтальная углового"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": ""
+            }
+          ]
+        }
+      ],
+      "pairedCatalogItemIds": {
+        "single": 1,
+        "double": 1
+      },
+      "doorVariantGroup": "",
+      "doorKind": null,
+      "interiorLayout": {
+        "zones": [
+          {
+            "name": "Вся высота",
+            "position": "",
+            "heightPercent": 100,
+            "content": "shelves",
+            "rodRules": {
+              "anchor": "top",
+              "offsetMm": 80,
+              "companionMode": "none",
+              "topShelfGapMm": 80,
+              "bottomShelvesCount": 1,
+              "bottomShelvesTopGapMm": 80,
+              "gridShiftDownSteps": 0
+            },
+            "drawerRules": {
+              "anchor": "bottom",
+              "offsetMm": 19,
+              "count": 0,
+              "gapMm": 3,
+              "topShelfGapMm": 26,
+              "forceShelfAboveDrawers": true
+            },
+            "id": "zone_mugh61j3_6dy0"
+          }
+        ]
+      },
+      "interiorTemplates": {
+        "shelf": null,
+        "drawer": null,
+        "rod": {
+          "modelId": "22",
+          "label": "Штанга"
+        },
+        "shelfProps": {
+          "enabled": 0,
+          "slots": [
+            {
+              "model_id": "",
+              "label": "",
+              "x_mm": -20,
+              "y_mm": 0,
+              "z_mm": 0,
+              "rot_y": 0
+            },
+            {
+              "model_id": "",
+              "label": "",
+              "x_mm": 90,
+              "y_mm": 0,
+              "z_mm": 0,
+              "rot_y": 0
+            }
+          ]
+        }
+      },
+      "shelfStack": {
+        "enabled": true,
+        "distribution": "step",
+        "stepMm": 400,
+        "shelfThicknessMm": 16,
+        "bottomOffsetMm": 0,
+        "topOffsetMm": 0,
+        "mode": "max_count",
+        "maxCount": 12,
+        "minGapMm": 50,
+        "fixedPositionsFromBottomMm": []
+      },
+      "constructor_structure": {
+        "type": "module",
+        "name": "Угловой шкаф правый",
+        "children": [
+          {
+            "type": "section",
+            "id": "node_1790310137947_y49pu6sga",
+            "name": "Секция",
+            "active": 1,
+            "helpers_visible": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "orientation": "f"
+            },
+            "layout_role": "cabinet_root",
+            "section_key": "",
+            "children": [
+              {
+                "type": "module",
+                "id": "node_1790310137947_8ib191k94",
+                "name": "Цоколь 100 мм",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "v:h_bottom",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "1",
+                  "element_type": "catalog_32",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "key": "Цоколь 100 мм",
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "orientation": "h"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "plinth"
+              },
+              {
+                "type": "module",
+                "id": "node_1790310137948_jsfld6dpe",
+                "name": "Корпус шкафа",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": 1950,
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": "(v:h_bottom)",
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "1",
+                  "element_type": "catalog_27",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "key": "Корпус шкафа",
+                  "orientation": "h"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "corpus_antresol"
+              },
+              {
+                "type": "module",
+                "id": "node_1790310137948_maa7l5op9",
+                "name": "Антресоль",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y - (v:h_bottom) - (1950)",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": "(v:h_bottom) + (1950)",
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "1",
+                  "element_type": "catalog_30",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "key": "Антресоль"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "top"
+              },
+              {
+                "type": "module",
+                "id": "node_1790310137948_xdfyapbge",
+                "name": "Фасад шкаф правый",
+                "active": 1,
+                "size": {
+                  "x": "s:x/2",
+                  "y": "v:corpus_antresol_mm",
+                  "z": "v:facade_thickness_mm"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": "v:h_bottom",
+                  "z": "s:z - v:facade_thickness_mm"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "11",
+                  "element_type": "catalog_28",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "key": "Фасад шкаф правый"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "facades_main"
+              },
+              {
+                "type": "module",
+                "id": "node_1790310137948_4l5xnguqg",
+                "name": "Фасад антресоль правый",
+                "active": 1,
+                "size": {
+                  "x": "s:x/2",
+                  "y": "s:y - v:h_bottom - v:corpus_antresol_mm - v:tech_zone_mm",
+                  "z": "v:facade_thickness_mm"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": "v:h_bottom + v:corpus_antresol_mm",
+                  "z": "s:z - v:facade_thickness_mm"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "12",
+                  "element_type": "catalog_28",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "key": "Фасад антресоль правый"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "facades_top"
+              },
+              {
+                "type": "module",
+                "id": "node_1790310137949_mwsey9l41",
+                "name": "Заглушка фронтальная углового",
+                "active": 1,
+                "size": {
+                  "x": "s:x/2",
+                  "y": "v:corpus_antresol_mm",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": "s:x/2",
+                  "y": "v:h_bottom",
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "9",
+                  "element_type": "catalog_29",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "key": "Заглушка фронтальная углового"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": ""
+              },
+              {
+                "type": "module",
+                "id": "node_1790310137949_n8h0a93f8",
+                "name": "Заглушка фронтальная углового",
+                "active": 1,
+                "size": {
+                  "x": "s:x/2",
+                  "y": "s:y - v:h_bottom - v:corpus_antresol_mm - v:tech_zone_mm",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": "s:x/2",
+                  "y": "v:h_bottom + v:corpus_antresol_mm",
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "9",
+                  "element_type": "catalog_29",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "key": "Заглушка фронтальная углового"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": ""
+              }
+            ]
+          }
+        ],
+        "variables": {
+          "main": {
+            "h_bottom": 100,
+            "h_top": 0,
+            "tech_zone_mm": 0,
+            "corpus_antresol_mm": 1950,
+            "facade_thickness_mm": 16
+          },
+          "groups": []
+        },
+        "template": {
+          "structure": [
+            {
+              "type": "section",
+              "id": "node_1790310137947_y49pu6sga",
+              "name": "Секция",
+              "active": 1,
+              "helpers_visible": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "f"
+              },
+              "layout_role": "cabinet_root",
+              "section_key": "",
+              "children": [
+                {
+                  "type": "module",
+                  "id": "node_1790310137947_8ib191k94",
+                  "name": "Цоколь 100 мм",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "v:h_bottom",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "1",
+                    "element_type": "catalog_32",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "key": "Цоколь 100 мм",
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "orientation": "h"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "plinth"
+                },
+                {
+                  "type": "module",
+                  "id": "node_1790310137948_jsfld6dpe",
+                  "name": "Корпус шкафа",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": 1950,
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": "(v:h_bottom)",
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "1",
+                    "element_type": "catalog_27",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "key": "Корпус шкафа",
+                    "orientation": "h"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "corpus_antresol"
+                },
+                {
+                  "type": "module",
+                  "id": "node_1790310137948_maa7l5op9",
+                  "name": "Антресоль",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y - (v:h_bottom) - (1950)",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": "(v:h_bottom) + (1950)",
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "1",
+                    "element_type": "catalog_30",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "key": "Антресоль"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "top"
+                },
+                {
+                  "type": "module",
+                  "id": "node_1790310137948_xdfyapbge",
+                  "name": "Фасад шкаф правый",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x/2",
+                    "y": "v:corpus_antresol_mm",
+                    "z": "v:facade_thickness_mm"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": "v:h_bottom",
+                    "z": "s:z - v:facade_thickness_mm"
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "c_rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "11",
+                    "element_type": "catalog_28",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "key": "Фасад шкаф правый"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "facades_main"
+                },
+                {
+                  "type": "module",
+                  "id": "node_1790310137948_4l5xnguqg",
+                  "name": "Фасад антресоль правый",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x/2",
+                    "y": "s:y - v:h_bottom - v:corpus_antresol_mm - v:tech_zone_mm",
+                    "z": "v:facade_thickness_mm"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": "v:h_bottom + v:corpus_antresol_mm",
+                    "z": "s:z - v:facade_thickness_mm"
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "c_rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "12",
+                    "element_type": "catalog_28",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "key": "Фасад антресоль правый"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "facades_top"
+                },
+                {
+                  "type": "module",
+                  "id": "node_1790310137949_mwsey9l41",
+                  "name": "Заглушка фронтальная углового",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x/2",
+                    "y": "v:corpus_antresol_mm",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": "s:x/2",
+                    "y": "v:h_bottom",
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "9",
+                    "element_type": "catalog_29",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "key": "Заглушка фронтальная углового"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": ""
+                },
+                {
+                  "type": "module",
+                  "id": "node_1790310137949_n8h0a93f8",
+                  "name": "Заглушка фронтальная углового",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x/2",
+                    "y": "s:y - v:h_bottom - v:corpus_antresol_mm - v:tech_zone_mm",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": "s:x/2",
+                    "y": "v:h_bottom + v:corpus_antresol_mm",
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "9",
+                    "element_type": "catalog_29",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "key": "Заглушка фронтальная углового"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": ""
+                }
+              ]
+            }
+          ]
+        },
+        "materials_overrides": {},
+        "spec": {
+          "template": {
+            "tree": [
+              {
+                "type": "section",
+                "id": "node_1790310137947_y49pu6sga",
+                "name": "Секция",
+                "active": 1,
+                "helpers_visible": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "f"
+                },
+                "layout_role": "cabinet_root",
+                "section_key": "",
+                "children": [
+                  {
+                    "type": "module",
+                    "id": "node_1790310137947_8ib191k94",
+                    "name": "Цоколь 100 мм",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x",
+                      "y": "v:h_bottom",
+                      "z": "s:z"
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "scale": {
+                      "x": 1,
+                      "y": 1,
+                      "z": 1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "id": "1",
+                      "element_type": "catalog_32",
+                      "fill_content": {},
+                      "linked_item_id": 0,
+                      "live_catalog": true,
+                      "key": "Цоколь 100 мм",
+                      "can_change": {
+                        "id": 0
+                      },
+                      "not_load_default": 0,
+                      "orientation": "h"
+                    },
+                    "children": [],
+                    "lib": "",
+                    "tags": "",
+                    "interactive": 0,
+                    "custom": {},
+                    "condition": null,
+                    "visible": 1,
+                    "helpers_visible": 1,
+                    "variables": {
+                      "visible": 1,
+                      "main": {}
+                    },
+                    "interaction": {
+                      "auto_rotation": 1,
+                      "check_intersection": 0,
+                      "raycast": 1,
+                      "rotate_free": 0
+                    },
+                    "resizable": {
+                      "enabled": 0,
+                      "locks": {},
+                      "minmax": {
+                        "min": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "max": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        }
+                      }
+                    },
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "comments": "",
+                    "section_key": "",
+                    "params_key": "",
+                    "layout_role": "plinth"
+                  },
+                  {
+                    "type": "module",
+                    "id": "node_1790310137948_jsfld6dpe",
+                    "name": "Корпус шкафа",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x",
+                      "y": 1950,
+                      "z": "s:z"
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": "(v:h_bottom)",
+                      "z": 0
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "scale": {
+                      "x": 1,
+                      "y": 1,
+                      "z": 1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "id": "1",
+                      "element_type": "catalog_27",
+                      "fill_content": {},
+                      "linked_item_id": 0,
+                      "live_catalog": true,
+                      "can_change": {
+                        "id": 0
+                      },
+                      "not_load_default": 0,
+                      "key": "Корпус шкафа",
+                      "orientation": "h"
+                    },
+                    "children": [],
+                    "lib": "",
+                    "tags": "",
+                    "interactive": 0,
+                    "custom": {},
+                    "condition": null,
+                    "visible": 1,
+                    "helpers_visible": 1,
+                    "variables": {
+                      "visible": 1,
+                      "main": {}
+                    },
+                    "interaction": {
+                      "auto_rotation": 1,
+                      "check_intersection": 0,
+                      "raycast": 1,
+                      "rotate_free": 0
+                    },
+                    "resizable": {
+                      "enabled": 0,
+                      "locks": {},
+                      "minmax": {
+                        "min": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "max": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        }
+                      }
+                    },
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "comments": "",
+                    "section_key": "",
+                    "params_key": "",
+                    "layout_role": "corpus_antresol"
+                  },
+                  {
+                    "type": "module",
+                    "id": "node_1790310137948_maa7l5op9",
+                    "name": "Антресоль",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x",
+                      "y": "s:y - (v:h_bottom) - (1950)",
+                      "z": "s:z"
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": "(v:h_bottom) + (1950)",
+                      "z": 0
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "scale": {
+                      "x": 1,
+                      "y": 1,
+                      "z": 1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "id": "1",
+                      "element_type": "catalog_30",
+                      "fill_content": {},
+                      "linked_item_id": 0,
+                      "live_catalog": true,
+                      "can_change": {
+                        "id": 0
+                      },
+                      "not_load_default": 0,
+                      "key": "Антресоль"
+                    },
+                    "children": [],
+                    "lib": "",
+                    "tags": "",
+                    "interactive": 0,
+                    "custom": {},
+                    "condition": null,
+                    "visible": 1,
+                    "helpers_visible": 1,
+                    "variables": {
+                      "visible": 1,
+                      "main": {}
+                    },
+                    "interaction": {
+                      "auto_rotation": 1,
+                      "check_intersection": 0,
+                      "raycast": 1,
+                      "rotate_free": 0
+                    },
+                    "resizable": {
+                      "enabled": 0,
+                      "locks": {},
+                      "minmax": {
+                        "min": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "max": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        }
+                      }
+                    },
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "comments": "",
+                    "section_key": "",
+                    "params_key": "",
+                    "layout_role": "top"
+                  },
+                  {
+                    "type": "module",
+                    "id": "node_1790310137948_xdfyapbge",
+                    "name": "Фасад шкаф правый",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x/2",
+                      "y": "v:corpus_antresol_mm",
+                      "z": "v:facade_thickness_mm"
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": "v:h_bottom",
+                      "z": "s:z - v:facade_thickness_mm"
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "scale": {
+                      "x": 1,
+                      "y": 1,
+                      "z": 1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "c_rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "id": "11",
+                      "element_type": "catalog_28",
+                      "fill_content": {},
+                      "linked_item_id": 0,
+                      "live_catalog": true,
+                      "can_change": {
+                        "id": 0
+                      },
+                      "not_load_default": 0,
+                      "key": "Фасад шкаф правый"
+                    },
+                    "children": [],
+                    "lib": "",
+                    "tags": "",
+                    "interactive": 0,
+                    "custom": {},
+                    "condition": null,
+                    "visible": 1,
+                    "helpers_visible": 1,
+                    "variables": {
+                      "visible": 1,
+                      "main": {}
+                    },
+                    "interaction": {
+                      "auto_rotation": 1,
+                      "check_intersection": 0,
+                      "raycast": 1,
+                      "rotate_free": 0
+                    },
+                    "resizable": {
+                      "enabled": 0,
+                      "locks": {},
+                      "minmax": {
+                        "min": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "max": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        }
+                      }
+                    },
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "comments": "",
+                    "section_key": "",
+                    "params_key": "",
+                    "layout_role": "facades_main"
+                  },
+                  {
+                    "type": "module",
+                    "id": "node_1790310137948_4l5xnguqg",
+                    "name": "Фасад антресоль правый",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x/2",
+                      "y": "s:y - v:h_bottom - v:corpus_antresol_mm - v:tech_zone_mm",
+                      "z": "v:facade_thickness_mm"
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": "v:h_bottom + v:corpus_antresol_mm",
+                      "z": "s:z - v:facade_thickness_mm"
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "scale": {
+                      "x": 1,
+                      "y": 1,
+                      "z": 1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "c_rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "id": "12",
+                      "element_type": "catalog_28",
+                      "fill_content": {},
+                      "linked_item_id": 0,
+                      "live_catalog": true,
+                      "can_change": {
+                        "id": 0
+                      },
+                      "not_load_default": 0,
+                      "key": "Фасад антресоль правый"
+                    },
+                    "children": [],
+                    "lib": "",
+                    "tags": "",
+                    "interactive": 0,
+                    "custom": {},
+                    "condition": null,
+                    "visible": 1,
+                    "helpers_visible": 1,
+                    "variables": {
+                      "visible": 1,
+                      "main": {}
+                    },
+                    "interaction": {
+                      "auto_rotation": 1,
+                      "check_intersection": 0,
+                      "raycast": 1,
+                      "rotate_free": 0
+                    },
+                    "resizable": {
+                      "enabled": 0,
+                      "locks": {},
+                      "minmax": {
+                        "min": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "max": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        }
+                      }
+                    },
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "comments": "",
+                    "section_key": "",
+                    "params_key": "",
+                    "layout_role": "facades_top"
+                  },
+                  {
+                    "type": "module",
+                    "id": "node_1790310137949_mwsey9l41",
+                    "name": "Заглушка фронтальная углового",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x/2",
+                      "y": "v:corpus_antresol_mm",
+                      "z": "s:z"
+                    },
+                    "pos": {
+                      "x": "s:x/2",
+                      "y": "v:h_bottom",
+                      "z": 0
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "scale": {
+                      "x": 1,
+                      "y": 1,
+                      "z": 1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "id": "9",
+                      "element_type": "catalog_29",
+                      "fill_content": {},
+                      "linked_item_id": 0,
+                      "live_catalog": true,
+                      "can_change": {
+                        "id": 0
+                      },
+                      "not_load_default": 0,
+                      "key": "Заглушка фронтальная углового"
+                    },
+                    "children": [],
+                    "lib": "",
+                    "tags": "",
+                    "interactive": 0,
+                    "custom": {},
+                    "condition": null,
+                    "visible": 1,
+                    "helpers_visible": 1,
+                    "variables": {
+                      "visible": 1,
+                      "main": {}
+                    },
+                    "interaction": {
+                      "auto_rotation": 1,
+                      "check_intersection": 0,
+                      "raycast": 1,
+                      "rotate_free": 0
+                    },
+                    "resizable": {
+                      "enabled": 0,
+                      "locks": {},
+                      "minmax": {
+                        "min": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "max": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        }
+                      }
+                    },
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "comments": "",
+                    "section_key": "",
+                    "params_key": ""
+                  },
+                  {
+                    "type": "module",
+                    "id": "node_1790310137949_n8h0a93f8",
+                    "name": "Заглушка фронтальная углового",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x/2",
+                      "y": "s:y - v:h_bottom - v:corpus_antresol_mm - v:tech_zone_mm",
+                      "z": "s:z"
+                    },
+                    "pos": {
+                      "x": "s:x/2",
+                      "y": "v:h_bottom + v:corpus_antresol_mm",
+                      "z": 0
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "scale": {
+                      "x": 1,
+                      "y": 1,
+                      "z": 1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "id": "9",
+                      "element_type": "catalog_29",
+                      "fill_content": {},
+                      "linked_item_id": 0,
+                      "live_catalog": true,
+                      "can_change": {
+                        "id": 0
+                      },
+                      "not_load_default": 0,
+                      "key": "Заглушка фронтальная углового"
+                    },
+                    "children": [],
+                    "lib": "",
+                    "tags": "",
+                    "interactive": 0,
+                    "custom": {},
+                    "condition": null,
+                    "visible": 1,
+                    "helpers_visible": 1,
+                    "variables": {
+                      "visible": 1,
+                      "main": {}
+                    },
+                    "interaction": {
+                      "auto_rotation": 1,
+                      "check_intersection": 0,
+                      "raycast": 1,
+                      "rotate_free": 0
+                    },
+                    "resizable": {
+                      "enabled": 0,
+                      "locks": {},
+                      "minmax": {
+                        "min": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "max": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        }
+                      }
+                    },
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "comments": "",
+                    "section_key": "",
+                    "params_key": ""
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    "id": 1
+  },
+  {
+    "catalog_type": "catalog_44",
+    "name": "Элемент catalog_44 #5",
+    "data": {
+      "id": 5,
+      "name": "Элемент catalog_44 #5",
+      "catalog_type": "catalog_44",
+      "order": 0,
+      "active": 1,
+      "show_in_spec": 1,
+      "include_nested": 1,
+      "show_in_constructor": 1,
+      "category": [],
+      "icon": "",
+      "module_group": "bottom",
+      "drag_type": "top",
+      "stick_type": "common",
+      "is_fill": 0,
+      "no_intersections": 0,
+      "pairedCatalogItemIds": {
+        "single": 5,
+        "double": 8
+      },
+      "doorVariantGroup": "pair-8"
+    },
+    "id": 5
+  },
+  {
+    "catalog_type": "catalog_44",
+    "name": "Элемент catalog_44 #8",
+    "data": {
+      "id": 8,
+      "name": "Элемент catalog_44 #8",
+      "catalog_type": "catalog_44",
+      "order": 0,
+      "active": 1,
+      "show_in_spec": 1,
+      "include_nested": 1,
+      "show_in_constructor": 1,
+      "category": [],
+      "icon": "",
+      "module_group": "bottom",
+      "drag_type": "top",
+      "stick_type": "common",
+      "is_fill": 0,
+      "no_intersections": 0,
+      "pairedCatalogItemIds": {
+        "single": 1,
+        "double": 8
+      },
+      "doorVariantGroup": "pair-8"
+    },
+    "id": 8
+  }
+]

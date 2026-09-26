@@ -1,0 +1,5692 @@
+[
+  {
+    "catalog_type": "catalog_42",
+    "name": "Комод двойной навесной",
+    "constructor_structure": {
+      "type": "module",
+      "name": "Комод двойной навесной",
+      "children": [
+        {
+          "type": "section",
+          "id": "node_1789838480570_x5r7nibyf",
+          "name": "Секция",
+          "active": 1,
+          "helpers_visible": 1,
+          "size": {
+            "x": "s:x",
+            "y": "s:y",
+            "z": "s:z"
+          },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pivot": {
+            "x": -1,
+            "y": -1,
+            "z": -1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "spec": {
+            "orientation": "f"
+          },
+          "layout_role": "corpus",
+          "section_key": "",
+          "children": [
+            {
+              "type": "module",
+              "id": "node_1789838480571_n6mh664su",
+              "name": "Комод навесной",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "1",
+                "element_type": "catalog_36",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "key": "Комод напольный"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "wall_hung_body"
+            },
+            {
+              "type": "module",
+              "id": "node_1789838480572_97ak1ted0",
+              "name": "Ящик выдвижной",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": 135,
+                "z": "s:z -34"
+              },
+              "pos": {
+                "x": 0,
+                "y": 16,
+                "z": 50
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "2",
+                "element_type": "catalog_33",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "key": "Ящик выдвижной",
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "ref_size_mm": {
+                  "x": 568,
+                  "y": 162,
+                  "z": 550
+                },
+                "drawer_pos_z_manual": true
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "drawer"
+            },
+            {
+              "type": "module",
+              "id": "node_1789838480572_89d50gvun",
+              "name": "Ящик выдвижной",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": 135,
+                "z": "s:z -34"
+              },
+              "pos": {
+                "x": 0,
+                "y": 183,
+                "z": 50
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "2",
+                "element_type": "catalog_33",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "key": "Ящик выдвижной",
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "ref_size_mm": {
+                  "x": 568,
+                  "y": 162,
+                  "z": 550
+                },
+                "drawer_pos_z_manual": true
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "drawer"
+            },
+            {
+              "type": "module",
+              "id": "node_1789838480572_n714ge256",
+              "name": "Ящик выдвижной",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": 135,
+                "z": "s:z -34"
+              },
+              "pos": {
+                "x": 0,
+                "y": 350,
+                "z": 50
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "2",
+                "element_type": "catalog_33",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "key": "Ящик выдвижной",
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "ref_size_mm": {
+                  "x": 568,
+                  "y": 162,
+                  "z": 550
+                },
+                "drawer_pos_z_manual": true
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "drawer"
+            }
+          ]
+        }
+      ],
+      "variables": {
+        "main": {
+          "h_bottom": 0,
+          "h_top": 0,
+          "tech_zone_mm": 0,
+          "facade_thickness_mm": 16
+        },
+        "groups": []
+      },
+      "template": {
+        "structure": [
+          {
+            "type": "section",
+            "id": "node_1789838480570_x5r7nibyf",
+            "name": "Секция",
+            "active": 1,
+            "helpers_visible": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "orientation": "f"
+            },
+            "layout_role": "corpus",
+            "section_key": "",
+            "children": [
+              {
+                "type": "module",
+                "id": "node_1789838480571_n6mh664su",
+                "name": "Комод навесной",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "1",
+                  "element_type": "catalog_36",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "key": "Комод напольный"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "wall_hung_body"
+              },
+              {
+                "type": "module",
+                "id": "node_1789838480572_97ak1ted0",
+                "name": "Ящик выдвижной",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": 135,
+                  "z": "s:z -34"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 16,
+                  "z": 50
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "2",
+                  "element_type": "catalog_33",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "key": "Ящик выдвижной",
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "ref_size_mm": {
+                    "x": 568,
+                    "y": 162,
+                    "z": 550
+                  },
+                  "drawer_pos_z_manual": true
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "drawer"
+              },
+              {
+                "type": "module",
+                "id": "node_1789838480572_89d50gvun",
+                "name": "Ящик выдвижной",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": 135,
+                  "z": "s:z -34"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 183,
+                  "z": 50
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "2",
+                  "element_type": "catalog_33",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "key": "Ящик выдвижной",
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "ref_size_mm": {
+                    "x": 568,
+                    "y": 162,
+                    "z": 550
+                  },
+                  "drawer_pos_z_manual": true
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "drawer"
+              },
+              {
+                "type": "module",
+                "id": "node_1789838480572_n714ge256",
+                "name": "Ящик выдвижной",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": 135,
+                  "z": "s:z -34"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 350,
+                  "z": 50
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "2",
+                  "element_type": "catalog_33",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "key": "Ящик выдвижной",
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "ref_size_mm": {
+                    "x": 568,
+                    "y": 162,
+                    "z": 550
+                  },
+                  "drawer_pos_z_manual": true
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "drawer"
+              }
+            ]
+          }
+        ]
+      },
+      "materials_overrides": {},
+      "material_groups": [
+        {
+          "name": "Корпус",
+          "key": "g0",
+          "local": 0,
+          "locked": 0,
+          "is_default": 1,
+          "allowed_keys": [
+            "material_2"
+          ]
+        }
+      ],
+      "spec": {
+        "template": {
+          "tree": [
+            {
+              "type": "section",
+              "id": "node_1789838480570_x5r7nibyf",
+              "name": "Секция",
+              "active": 1,
+              "helpers_visible": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "f"
+              },
+              "layout_role": "corpus",
+              "section_key": "",
+              "children": [
+                {
+                  "type": "module",
+                  "id": "node_1789838480571_n6mh664su",
+                  "name": "Комод навесной",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "1",
+                    "element_type": "catalog_36",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "key": "Комод напольный"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "wall_hung_body"
+                },
+                {
+                  "type": "module",
+                  "id": "node_1789838480572_97ak1ted0",
+                  "name": "Ящик выдвижной",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": 135,
+                    "z": "s:z -34"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 16,
+                    "z": 50
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "2",
+                    "element_type": "catalog_33",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "key": "Ящик выдвижной",
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "ref_size_mm": {
+                      "x": 568,
+                      "y": 162,
+                      "z": 550
+                    },
+                    "drawer_pos_z_manual": true
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "drawer"
+                },
+                {
+                  "type": "module",
+                  "id": "node_1789838480572_89d50gvun",
+                  "name": "Ящик выдвижной",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": 135,
+                    "z": "s:z -34"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 183,
+                    "z": 50
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "2",
+                    "element_type": "catalog_33",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "key": "Ящик выдвижной",
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "ref_size_mm": {
+                      "x": 568,
+                      "y": 162,
+                      "z": 550
+                    },
+                    "drawer_pos_z_manual": true
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "drawer"
+                },
+                {
+                  "type": "module",
+                  "id": "node_1789838480572_n714ge256",
+                  "name": "Ящик выдвижной",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": 135,
+                    "z": "s:z -34"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 350,
+                    "z": 50
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "2",
+                    "element_type": "catalog_33",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "key": "Ящик выдвижной",
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "ref_size_mm": {
+                      "x": 568,
+                      "y": 162,
+                      "z": 550
+                    },
+                    "drawer_pos_z_manual": true
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "drawer"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "clodisJSON": [
+      {
+        "type": "section",
+        "id": "node_1789838480570_x5r7nibyf",
+        "name": "Секция",
+        "active": 1,
+        "helpers_visible": 1,
+        "size": {
+          "x": "s:x",
+          "y": "s:y",
+          "z": "s:z"
+        },
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "pivot": {
+          "x": -1,
+          "y": -1,
+          "z": -1
+        },
+        "rot": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "spec": {
+          "orientation": "f"
+        },
+        "layout_role": "corpus",
+        "section_key": "",
+        "children": [
+          {
+            "type": "module",
+            "id": "node_1789838480571_n6mh664su",
+            "name": "Комод навесной",
+            "active": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "1",
+              "element_type": "catalog_36",
+              "fill_content": {},
+              "linked_item_id": 0,
+              "live_catalog": true,
+              "can_change": {
+                "id": 0
+              },
+              "not_load_default": 0,
+              "key": "Комод напольный"
+            },
+            "children": [],
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "custom": {},
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 1,
+            "variables": {
+              "visible": 1,
+              "main": {}
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": {},
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "comments": "",
+            "section_key": "",
+            "params_key": "",
+            "layout_role": "wall_hung_body"
+          },
+          {
+            "type": "module",
+            "id": "node_1789838480572_97ak1ted0",
+            "name": "Ящик выдвижной",
+            "active": 1,
+            "size": {
+              "x": "s:x",
+              "y": 135,
+              "z": "s:z -34"
+            },
+            "pos": {
+              "x": 0,
+              "y": 16,
+              "z": 50
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "2",
+              "element_type": "catalog_33",
+              "fill_content": {},
+              "linked_item_id": 0,
+              "live_catalog": true,
+              "key": "Ящик выдвижной",
+              "can_change": {
+                "id": 0
+              },
+              "not_load_default": 0,
+              "ref_size_mm": {
+                "x": 568,
+                "y": 162,
+                "z": 550
+              },
+              "drawer_pos_z_manual": true
+            },
+            "children": [],
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "custom": {},
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 1,
+            "variables": {
+              "visible": 1,
+              "main": {}
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": {},
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "comments": "",
+            "section_key": "",
+            "params_key": "",
+            "layout_role": "drawer"
+          },
+          {
+            "type": "module",
+            "id": "node_1789838480572_89d50gvun",
+            "name": "Ящик выдвижной",
+            "active": 1,
+            "size": {
+              "x": "s:x",
+              "y": 135,
+              "z": "s:z -34"
+            },
+            "pos": {
+              "x": 0,
+              "y": 183,
+              "z": 50
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "2",
+              "element_type": "catalog_33",
+              "fill_content": {},
+              "linked_item_id": 0,
+              "live_catalog": true,
+              "key": "Ящик выдвижной",
+              "can_change": {
+                "id": 0
+              },
+              "not_load_default": 0,
+              "ref_size_mm": {
+                "x": 568,
+                "y": 162,
+                "z": 550
+              },
+              "drawer_pos_z_manual": true
+            },
+            "children": [],
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "custom": {},
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 1,
+            "variables": {
+              "visible": 1,
+              "main": {}
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": {},
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "comments": "",
+            "section_key": "",
+            "params_key": "",
+            "layout_role": "drawer"
+          },
+          {
+            "type": "module",
+            "id": "node_1789838480572_n714ge256",
+            "name": "Ящик выдвижной",
+            "active": 1,
+            "size": {
+              "x": "s:x",
+              "y": 135,
+              "z": "s:z -34"
+            },
+            "pos": {
+              "x": 0,
+              "y": 350,
+              "z": 50
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "2",
+              "element_type": "catalog_33",
+              "fill_content": {},
+              "linked_item_id": 0,
+              "live_catalog": true,
+              "key": "Ящик выдвижной",
+              "can_change": {
+                "id": 0
+              },
+              "not_load_default": 0,
+              "ref_size_mm": {
+                "x": 568,
+                "y": 162,
+                "z": 550
+              },
+              "drawer_pos_z_manual": true
+            },
+            "children": [],
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "custom": {},
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 1,
+            "variables": {
+              "visible": 1,
+              "main": {}
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": {},
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "comments": "",
+            "section_key": "",
+            "params_key": "",
+            "layout_role": "drawer"
+          }
+        ]
+      }
+    ],
+    "icon": "/files/catalog_icons/catalog_icon_2_1782067885888_1782067885905.png",
+    "planPlaceJSON": [
+      {
+        "type": "section",
+        "id": "node_1781527254345_votemdbuu",
+        "name": "Секция",
+        "active": 1,
+        "helpers_visible": 1,
+        "size": {
+          "x": "s:x",
+          "y": "s:y",
+          "z": "s:z"
+        },
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "pivot": {
+          "x": -1,
+          "y": -1,
+          "z": -1
+        },
+        "rot": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "spec": {
+          "orientation": "f"
+        },
+        "layout_role": "cabinet_root",
+        "children": [
+          {
+            "type": "module",
+            "id": "node_1781527254346_4jakj3q49",
+            "name": "Комод навесной",
+            "active": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "1",
+              "element_type": "catalog_36",
+              "fill_content": {},
+              "linked_item_id": 0,
+              "live_catalog": true,
+              "can_change": {
+                "id": 0
+              },
+              "not_load_default": 0,
+              "key": "Комод напольный"
+            },
+            "children": [],
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "custom": {},
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 0,
+            "variables": {
+              "visible": 1,
+              "main": {}
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": {},
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "comments": "",
+            "section_key": "",
+            "params_key": "",
+            "layout_role": "wall_hung_body"
+          },
+          {
+            "type": "module",
+            "id": "node_1781527254346_xdob0axyh",
+            "name": "Ящик выдвижной",
+            "active": 1,
+            "size": {
+              "x": "s:x",
+              "y": 135,
+              "z": "s:z -34"
+            },
+            "pos": {
+              "x": 0,
+              "y": 16,
+              "z": 50
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "2",
+              "element_type": "catalog_33",
+              "fill_content": {},
+              "linked_item_id": 0,
+              "live_catalog": true,
+              "key": "Ящик выдвижной",
+              "can_change": {
+                "id": 0
+              },
+              "not_load_default": 0,
+              "ref_size_mm": {
+                "x": 568,
+                "y": 162,
+                "z": 550
+              }
+            },
+            "children": [],
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "custom": {},
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 0,
+            "variables": {
+              "visible": 1,
+              "main": {}
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": {},
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "comments": "",
+            "section_key": "",
+            "params_key": "",
+            "layout_role": "drawer"
+          },
+          {
+            "type": "module",
+            "id": "node_1781527254347_qxp4e8w4r",
+            "name": "Ящик выдвижной",
+            "active": 1,
+            "size": {
+              "x": "s:x",
+              "y": 135,
+              "z": "s:z -34"
+            },
+            "pos": {
+              "x": 0,
+              "y": 183,
+              "z": 50
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "2",
+              "element_type": "catalog_33",
+              "fill_content": {},
+              "linked_item_id": 0,
+              "live_catalog": true,
+              "key": "Ящик выдвижной",
+              "can_change": {
+                "id": 0
+              },
+              "not_load_default": 0,
+              "ref_size_mm": {
+                "x": 568,
+                "y": 162,
+                "z": 550
+              }
+            },
+            "children": [],
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "custom": {},
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 0,
+            "variables": {
+              "visible": 1,
+              "main": {}
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": {},
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "comments": "",
+            "section_key": "",
+            "params_key": "",
+            "layout_role": "drawer"
+          },
+          {
+            "type": "module",
+            "id": "node_1781527254347_1n4rhmn37",
+            "name": "Ящик выдвижной",
+            "active": 1,
+            "size": {
+              "x": "s:x",
+              "y": 135,
+              "z": "s:z -34"
+            },
+            "pos": {
+              "x": 0,
+              "y": 350,
+              "z": 50
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "2",
+              "element_type": "catalog_33",
+              "fill_content": {},
+              "linked_item_id": 0,
+              "live_catalog": true,
+              "key": "Ящик выдвижной",
+              "can_change": {
+                "id": 0
+              },
+              "not_load_default": 0,
+              "ref_size_mm": {
+                "x": 568,
+                "y": 162,
+                "z": 550
+              }
+            },
+            "children": [],
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "custom": {},
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 0,
+            "variables": {
+              "visible": 1,
+              "main": {}
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": {},
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "comments": "",
+            "section_key": "",
+            "params_key": "",
+            "layout_role": "drawer"
+          }
+        ]
+      }
+    ],
+    "iconAspect": "low",
+    "data": {
+      "name": "Комод двойной навесной",
+      "category": [
+        1,
+        4,
+        5,
+        6,
+        3
+      ],
+      "show_in_spec": "1",
+      "include_nested": "1",
+      "show_in_constructor": "1",
+      "order": 0,
+      "icon": "/files/catalog_icons/catalog_icon_2_1782067885888_1782067885905.png",
+      "iconAspect": "low",
+      "module_group": "bottom",
+      "drag_type": "top",
+      "stick_type": "common",
+      "is_fill": "0",
+      "no_intersections": "0",
+      "catalog_type": "catalog_42",
+      "width": "600",
+      "height": "600",
+      "depth": "600",
+      "placementKind": "wall_hung_low",
+      "roomTags": {
+        "categories": [
+          "living-room-42",
+          "bedroom-42"
+        ]
+      },
+      "hingeLayoutId": null,
+      "clodisVariables": {
+        "h_bottom": 0,
+        "h_top": 0,
+        "tech_zone_mm": 0,
+        "facade_thickness_mm": 16
+      },
+      "clodisJSON": [
+        {
+          "type": "section",
+          "id": "node_1789838480570_x5r7nibyf",
+          "name": "Секция",
+          "active": 1,
+          "helpers_visible": 1,
+          "size": {
+            "x": "s:x",
+            "y": "s:y",
+            "z": "s:z"
+          },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pivot": {
+            "x": -1,
+            "y": -1,
+            "z": -1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "spec": {
+            "orientation": "f"
+          },
+          "layout_role": "corpus",
+          "section_key": "",
+          "children": [
+            {
+              "type": "module",
+              "id": "node_1789838480571_n6mh664su",
+              "name": "Комод навесной",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "1",
+                "element_type": "catalog_36",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "key": "Комод напольный"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "wall_hung_body"
+            },
+            {
+              "type": "module",
+              "id": "node_1789838480572_97ak1ted0",
+              "name": "Ящик выдвижной",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": 135,
+                "z": "s:z -34"
+              },
+              "pos": {
+                "x": 0,
+                "y": 16,
+                "z": 50
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "2",
+                "element_type": "catalog_33",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "key": "Ящик выдвижной",
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "ref_size_mm": {
+                  "x": 568,
+                  "y": 162,
+                  "z": 550
+                },
+                "drawer_pos_z_manual": true
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "drawer"
+            },
+            {
+              "type": "module",
+              "id": "node_1789838480572_89d50gvun",
+              "name": "Ящик выдвижной",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": 135,
+                "z": "s:z -34"
+              },
+              "pos": {
+                "x": 0,
+                "y": 183,
+                "z": 50
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "2",
+                "element_type": "catalog_33",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "key": "Ящик выдвижной",
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "ref_size_mm": {
+                  "x": 568,
+                  "y": 162,
+                  "z": 550
+                },
+                "drawer_pos_z_manual": true
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "drawer"
+            },
+            {
+              "type": "module",
+              "id": "node_1789838480572_n714ge256",
+              "name": "Ящик выдвижной",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": 135,
+                "z": "s:z -34"
+              },
+              "pos": {
+                "x": 0,
+                "y": 350,
+                "z": 50
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "2",
+                "element_type": "catalog_33",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "key": "Ящик выдвижной",
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "ref_size_mm": {
+                  "x": 568,
+                  "y": 162,
+                  "z": 550
+                },
+                "drawer_pos_z_manual": true
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "drawer"
+            }
+          ]
+        }
+      ],
+      "pairedCatalogItemIds": {
+        "single": 0,
+        "double": 1
+      },
+      "doorVariantGroup": "pair-2",
+      "doorKind": "double",
+      "interiorLayout": {
+        "zones": [
+          {
+            "name": "Вся высота",
+            "position": "",
+            "heightPercent": 100,
+            "content": "shelves",
+            "rodRules": {
+              "anchor": "top",
+              "offsetMm": 80,
+              "companionMode": "none",
+              "topShelfGapMm": 80,
+              "bottomShelvesCount": 1,
+              "bottomShelvesTopGapMm": 80,
+              "gridShiftDownSteps": 0
+            },
+            "drawerRules": {
+              "anchor": "bottom",
+              "offsetMm": 19,
+              "count": 0,
+              "gapMm": 3,
+              "topShelfGapMm": 26,
+              "forceShelfAboveDrawers": true
+            },
+            "id": "zone_mu8npmgs_19xz"
+          }
+        ]
+      },
+      "interiorTemplates": {
+        "shelf": null,
+        "drawer": null,
+        "rod": {
+          "modelId": "22",
+          "label": "Штанга"
+        },
+        "shelfProps": {
+          "enabled": 0,
+          "slots": [
+            {
+              "model_id": "",
+              "label": "",
+              "x_mm": -20,
+              "y_mm": 0,
+              "z_mm": 0,
+              "rot_y": 0
+            },
+            {
+              "model_id": "",
+              "label": "",
+              "x_mm": 90,
+              "y_mm": 0,
+              "z_mm": 0,
+              "rot_y": 0
+            }
+          ]
+        }
+      },
+      "drawerStack": {
+        "enabled": true,
+        "minHeightMm": 120,
+        "maxHeightMm": 200,
+        "gapMm": 3,
+        "facadeOverhangMm": 14.5,
+        "bottomOffsetMm": 0,
+        "topOffsetMm": 0,
+        "mode": "max_count",
+        "maxCount": 8,
+        "depthModelRules": []
+      },
+      "shelfStack": {
+        "enabled": true,
+        "distribution": "step",
+        "stepMm": 400,
+        "shelfThicknessMm": 16,
+        "bottomOffsetMm": 0,
+        "topOffsetMm": 0,
+        "mode": "max_count",
+        "maxCount": 12,
+        "minGapMm": 50,
+        "fixedPositionsFromBottomMm": []
+      },
+      "constructor_structure": {
+        "type": "module",
+        "name": "Комод двойной навесной",
+        "children": [
+          {
+            "type": "section",
+            "id": "node_1789838480570_x5r7nibyf",
+            "name": "Секция",
+            "active": 1,
+            "helpers_visible": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "orientation": "f"
+            },
+            "layout_role": "corpus",
+            "section_key": "",
+            "children": [
+              {
+                "type": "module",
+                "id": "node_1789838480571_n6mh664su",
+                "name": "Комод навесной",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "1",
+                  "element_type": "catalog_36",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "key": "Комод напольный"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "wall_hung_body"
+              },
+              {
+                "type": "module",
+                "id": "node_1789838480572_97ak1ted0",
+                "name": "Ящик выдвижной",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": 135,
+                  "z": "s:z -34"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 16,
+                  "z": 50
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "2",
+                  "element_type": "catalog_33",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "key": "Ящик выдвижной",
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "ref_size_mm": {
+                    "x": 568,
+                    "y": 162,
+                    "z": 550
+                  },
+                  "drawer_pos_z_manual": true
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "drawer"
+              },
+              {
+                "type": "module",
+                "id": "node_1789838480572_89d50gvun",
+                "name": "Ящик выдвижной",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": 135,
+                  "z": "s:z -34"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 183,
+                  "z": 50
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "2",
+                  "element_type": "catalog_33",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "key": "Ящик выдвижной",
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "ref_size_mm": {
+                    "x": 568,
+                    "y": 162,
+                    "z": 550
+                  },
+                  "drawer_pos_z_manual": true
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "drawer"
+              },
+              {
+                "type": "module",
+                "id": "node_1789838480572_n714ge256",
+                "name": "Ящик выдвижной",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": 135,
+                  "z": "s:z -34"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 350,
+                  "z": 50
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "2",
+                  "element_type": "catalog_33",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "key": "Ящик выдвижной",
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "ref_size_mm": {
+                    "x": 568,
+                    "y": 162,
+                    "z": 550
+                  },
+                  "drawer_pos_z_manual": true
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "drawer"
+              }
+            ]
+          }
+        ],
+        "variables": {
+          "main": {
+            "h_bottom": 0,
+            "h_top": 0,
+            "tech_zone_mm": 0,
+            "facade_thickness_mm": 16
+          },
+          "groups": []
+        },
+        "template": {
+          "structure": [
+            {
+              "type": "section",
+              "id": "node_1789838480570_x5r7nibyf",
+              "name": "Секция",
+              "active": 1,
+              "helpers_visible": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "f"
+              },
+              "layout_role": "corpus",
+              "section_key": "",
+              "children": [
+                {
+                  "type": "module",
+                  "id": "node_1789838480571_n6mh664su",
+                  "name": "Комод навесной",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "1",
+                    "element_type": "catalog_36",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "key": "Комод напольный"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "wall_hung_body"
+                },
+                {
+                  "type": "module",
+                  "id": "node_1789838480572_97ak1ted0",
+                  "name": "Ящик выдвижной",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": 135,
+                    "z": "s:z -34"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 16,
+                    "z": 50
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "2",
+                    "element_type": "catalog_33",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "key": "Ящик выдвижной",
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "ref_size_mm": {
+                      "x": 568,
+                      "y": 162,
+                      "z": 550
+                    },
+                    "drawer_pos_z_manual": true
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "drawer"
+                },
+                {
+                  "type": "module",
+                  "id": "node_1789838480572_89d50gvun",
+                  "name": "Ящик выдвижной",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": 135,
+                    "z": "s:z -34"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 183,
+                    "z": 50
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "2",
+                    "element_type": "catalog_33",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "key": "Ящик выдвижной",
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "ref_size_mm": {
+                      "x": 568,
+                      "y": 162,
+                      "z": 550
+                    },
+                    "drawer_pos_z_manual": true
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "drawer"
+                },
+                {
+                  "type": "module",
+                  "id": "node_1789838480572_n714ge256",
+                  "name": "Ящик выдвижной",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": 135,
+                    "z": "s:z -34"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 350,
+                    "z": 50
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "2",
+                    "element_type": "catalog_33",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "key": "Ящик выдвижной",
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "ref_size_mm": {
+                      "x": 568,
+                      "y": 162,
+                      "z": 550
+                    },
+                    "drawer_pos_z_manual": true
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "drawer"
+                }
+              ]
+            }
+          ]
+        },
+        "materials_overrides": {},
+        "material_groups": [
+          {
+            "name": "Корпус",
+            "key": "g0",
+            "local": 0,
+            "locked": 0,
+            "is_default": 1,
+            "allowed_keys": [
+              "material_2"
+            ]
+          }
+        ],
+        "spec": {
+          "template": {
+            "tree": [
+              {
+                "type": "section",
+                "id": "node_1789838480570_x5r7nibyf",
+                "name": "Секция",
+                "active": 1,
+                "helpers_visible": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "f"
+                },
+                "layout_role": "corpus",
+                "section_key": "",
+                "children": [
+                  {
+                    "type": "module",
+                    "id": "node_1789838480571_n6mh664su",
+                    "name": "Комод навесной",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x",
+                      "y": "s:y",
+                      "z": "s:z"
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "scale": {
+                      "x": 1,
+                      "y": 1,
+                      "z": 1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "id": "1",
+                      "element_type": "catalog_36",
+                      "fill_content": {},
+                      "linked_item_id": 0,
+                      "live_catalog": true,
+                      "can_change": {
+                        "id": 0
+                      },
+                      "not_load_default": 0,
+                      "key": "Комод напольный"
+                    },
+                    "children": [],
+                    "lib": "",
+                    "tags": "",
+                    "interactive": 0,
+                    "custom": {},
+                    "condition": null,
+                    "visible": 1,
+                    "helpers_visible": 1,
+                    "variables": {
+                      "visible": 1,
+                      "main": {}
+                    },
+                    "interaction": {
+                      "auto_rotation": 1,
+                      "check_intersection": 0,
+                      "raycast": 1,
+                      "rotate_free": 0
+                    },
+                    "resizable": {
+                      "enabled": 0,
+                      "locks": {},
+                      "minmax": {
+                        "min": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "max": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        }
+                      }
+                    },
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "comments": "",
+                    "section_key": "",
+                    "params_key": "",
+                    "layout_role": "wall_hung_body"
+                  },
+                  {
+                    "type": "module",
+                    "id": "node_1789838480572_97ak1ted0",
+                    "name": "Ящик выдвижной",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x",
+                      "y": 135,
+                      "z": "s:z -34"
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": 16,
+                      "z": 50
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "scale": {
+                      "x": 1,
+                      "y": 1,
+                      "z": 1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "id": "2",
+                      "element_type": "catalog_33",
+                      "fill_content": {},
+                      "linked_item_id": 0,
+                      "live_catalog": true,
+                      "key": "Ящик выдвижной",
+                      "can_change": {
+                        "id": 0
+                      },
+                      "not_load_default": 0,
+                      "ref_size_mm": {
+                        "x": 568,
+                        "y": 162,
+                        "z": 550
+                      },
+                      "drawer_pos_z_manual": true
+                    },
+                    "children": [],
+                    "lib": "",
+                    "tags": "",
+                    "interactive": 0,
+                    "custom": {},
+                    "condition": null,
+                    "visible": 1,
+                    "helpers_visible": 1,
+                    "variables": {
+                      "visible": 1,
+                      "main": {}
+                    },
+                    "interaction": {
+                      "auto_rotation": 1,
+                      "check_intersection": 0,
+                      "raycast": 1,
+                      "rotate_free": 0
+                    },
+                    "resizable": {
+                      "enabled": 0,
+                      "locks": {},
+                      "minmax": {
+                        "min": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "max": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        }
+                      }
+                    },
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "comments": "",
+                    "section_key": "",
+                    "params_key": "",
+                    "layout_role": "drawer"
+                  },
+                  {
+                    "type": "module",
+                    "id": "node_1789838480572_89d50gvun",
+                    "name": "Ящик выдвижной",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x",
+                      "y": 135,
+                      "z": "s:z -34"
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": 183,
+                      "z": 50
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "scale": {
+                      "x": 1,
+                      "y": 1,
+                      "z": 1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "id": "2",
+                      "element_type": "catalog_33",
+                      "fill_content": {},
+                      "linked_item_id": 0,
+                      "live_catalog": true,
+                      "key": "Ящик выдвижной",
+                      "can_change": {
+                        "id": 0
+                      },
+                      "not_load_default": 0,
+                      "ref_size_mm": {
+                        "x": 568,
+                        "y": 162,
+                        "z": 550
+                      },
+                      "drawer_pos_z_manual": true
+                    },
+                    "children": [],
+                    "lib": "",
+                    "tags": "",
+                    "interactive": 0,
+                    "custom": {},
+                    "condition": null,
+                    "visible": 1,
+                    "helpers_visible": 1,
+                    "variables": {
+                      "visible": 1,
+                      "main": {}
+                    },
+                    "interaction": {
+                      "auto_rotation": 1,
+                      "check_intersection": 0,
+                      "raycast": 1,
+                      "rotate_free": 0
+                    },
+                    "resizable": {
+                      "enabled": 0,
+                      "locks": {},
+                      "minmax": {
+                        "min": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "max": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        }
+                      }
+                    },
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "comments": "",
+                    "section_key": "",
+                    "params_key": "",
+                    "layout_role": "drawer"
+                  },
+                  {
+                    "type": "module",
+                    "id": "node_1789838480572_n714ge256",
+                    "name": "Ящик выдвижной",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x",
+                      "y": 135,
+                      "z": "s:z -34"
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": 350,
+                      "z": 50
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "scale": {
+                      "x": 1,
+                      "y": 1,
+                      "z": 1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "id": "2",
+                      "element_type": "catalog_33",
+                      "fill_content": {},
+                      "linked_item_id": 0,
+                      "live_catalog": true,
+                      "key": "Ящик выдвижной",
+                      "can_change": {
+                        "id": 0
+                      },
+                      "not_load_default": 0,
+                      "ref_size_mm": {
+                        "x": 568,
+                        "y": 162,
+                        "z": 550
+                      },
+                      "drawer_pos_z_manual": true
+                    },
+                    "children": [],
+                    "lib": "",
+                    "tags": "",
+                    "interactive": 0,
+                    "custom": {},
+                    "condition": null,
+                    "visible": 1,
+                    "helpers_visible": 1,
+                    "variables": {
+                      "visible": 1,
+                      "main": {}
+                    },
+                    "interaction": {
+                      "auto_rotation": 1,
+                      "check_intersection": 0,
+                      "raycast": 1,
+                      "rotate_free": 0
+                    },
+                    "resizable": {
+                      "enabled": 0,
+                      "locks": {},
+                      "minmax": {
+                        "min": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "max": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        }
+                      }
+                    },
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "comments": "",
+                    "section_key": "",
+                    "params_key": "",
+                    "layout_role": "drawer"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    "id": 1
+  },
+  {
+    "catalog_type": "catalog_42",
+    "name": "Комод навесной",
+    "data": {
+      "name": "Комод навесной",
+      "category": [
+        10
+      ],
+      "show_in_spec": "1",
+      "include_nested": "1",
+      "show_in_constructor": "1",
+      "order": 0,
+      "icon": "/files/catalog_icons/catalog_icon_2_1789985729093_1789985729105.png",
+      "iconAspect": "low",
+      "module_group": "bottom",
+      "drag_type": "top",
+      "stick_type": "common",
+      "is_fill": "0",
+      "no_intersections": "0",
+      "catalog_type": "",
+      "width": "800",
+      "height": 400,
+      "depth": "600",
+      "placementKind": "wall_hung_low",
+      "roomTags": {
+        "categories": [
+          "living-room-42"
+        ]
+      },
+      "hingeLayoutId": null,
+      "clodisVariables": {
+        "h_bottom": 0,
+        "h_top": 0,
+        "tech_zone_mm": 0,
+        "facade_thickness_mm": 16
+      },
+      "clodisJSON": [
+        {
+          "type": "section",
+          "id": "node_1789985719676_oo3uset79",
+          "name": "Комод навесной",
+          "active": 1,
+          "helpers_visible": 1,
+          "size": {
+            "x": "s:x",
+            "y": "s:y",
+            "z": "s:z"
+          },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pivot": {
+            "x": -1,
+            "y": -1,
+            "z": -1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "spec": {
+            "orientation": "f"
+          },
+          "layout_role": "cabinet_root",
+          "section_key": "",
+          "children": [
+            {
+              "type": "module",
+              "id": "node_1789985719677_gwefpivwg",
+              "name": "Комод напольный",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "1",
+                "element_type": "catalog_36",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "key": "Комод напольный",
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "drawer_pos_z_manual": true
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "wall_hung_body"
+            },
+            {
+              "type": "module",
+              "id": "node_1789985719677_mqq4apfec",
+              "name": "Ящик выдвижной 500",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": 135,
+                "z": "s:z - 34"
+              },
+              "pos": {
+                "x": 0,
+                "y": 16,
+                "z": 50
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "2",
+                "element_type": "catalog_33",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "key": "Ящик выдвижной 500",
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "ref_size_mm": {
+                  "x": 568,
+                  "y": 162,
+                  "z": 550
+                }
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "drawer"
+            }
+          ]
+        }
+      ],
+      "pairedCatalogItemIds": {
+        "single": 0,
+        "double": 2
+      },
+      "doorKind": "double",
+      "interiorLayout": {
+        "zones": [
+          {
+            "name": "Вся высота",
+            "position": "",
+            "heightPercent": 100,
+            "content": "shelves",
+            "rodRules": {
+              "anchor": "top",
+              "offsetMm": 80,
+              "companionMode": "none",
+              "topShelfGapMm": 80,
+              "bottomShelvesCount": 1,
+              "bottomShelvesTopGapMm": 80,
+              "gridShiftDownSteps": 0
+            },
+            "drawerRules": {
+              "anchor": "bottom",
+              "offsetMm": 19,
+              "count": 0,
+              "gapMm": 3,
+              "topShelfGapMm": 26,
+              "forceShelfAboveDrawers": true
+            },
+            "id": "zone_mub3agjr_6njg"
+          }
+        ]
+      },
+      "interiorTemplates": {
+        "shelf": null,
+        "drawer": null,
+        "rod": {
+          "modelId": "22",
+          "label": "Штанга"
+        },
+        "shelfProps": {
+          "enabled": 0,
+          "slots": [
+            {
+              "model_id": "",
+              "label": "",
+              "x_mm": -20,
+              "y_mm": 0,
+              "z_mm": 0,
+              "rot_y": 0
+            },
+            {
+              "model_id": "",
+              "label": "",
+              "x_mm": 90,
+              "y_mm": 0,
+              "z_mm": 0,
+              "rot_y": 0
+            }
+          ]
+        }
+      },
+      "drawerStack": {
+        "enabled": true,
+        "minHeightMm": 120,
+        "maxHeightMm": 200,
+        "gapMm": 5,
+        "facadeOverhangMm": 14.5,
+        "bottomOffsetMm": 0,
+        "topOffsetMm": 0,
+        "mode": "max_count",
+        "maxCount": 8,
+        "depthModelRules": []
+      },
+      "shelfStack": {
+        "enabled": false,
+        "distribution": "step",
+        "stepMm": 400,
+        "shelfThicknessMm": 16,
+        "bottomOffsetMm": 0,
+        "topOffsetMm": 0,
+        "mode": "max_count",
+        "maxCount": 12,
+        "minGapMm": 50,
+        "fixedPositionsFromBottomMm": []
+      },
+      "constructor_structure": {
+        "type": "module",
+        "name": "Комод навесной",
+        "children": [
+          {
+            "type": "section",
+            "id": "node_1789985719676_oo3uset79",
+            "name": "Комод навесной",
+            "active": 1,
+            "helpers_visible": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "orientation": "f"
+            },
+            "layout_role": "cabinet_root",
+            "section_key": "",
+            "children": [
+              {
+                "type": "module",
+                "id": "node_1789985719677_gwefpivwg",
+                "name": "Комод напольный",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "1",
+                  "element_type": "catalog_36",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "key": "Комод напольный",
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "drawer_pos_z_manual": true
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "wall_hung_body"
+              },
+              {
+                "type": "module",
+                "id": "node_1789985719677_mqq4apfec",
+                "name": "Ящик выдвижной 500",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": 135,
+                  "z": "v:drawer_locked_depth_mm"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": "(v:h_bottom) + 18",
+                  "z": "s:z - v:drawer_locked_depth_mm + 16"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "2",
+                  "element_type": "catalog_33",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "key": "Ящик выдвижной 500",
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "drawer_pos_z_manual": true
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "drawer"
+              }
+            ]
+          }
+        ],
+        "variables": {
+          "main": {
+            "h_bottom": 0,
+            "h_top": 0,
+            "tech_zone_mm": 0,
+            "facade_thickness_mm": 16
+          },
+          "groups": []
+        },
+        "template": {
+          "structure": [
+            {
+              "type": "section",
+              "id": "node_1789985719676_oo3uset79",
+              "name": "Комод навесной",
+              "active": 1,
+              "helpers_visible": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "f"
+              },
+              "layout_role": "cabinet_root",
+              "section_key": "",
+              "children": [
+                {
+                  "type": "module",
+                  "id": "node_1789985719677_gwefpivwg",
+                  "name": "Комод напольный",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "1",
+                    "element_type": "catalog_36",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "key": "Комод напольный",
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "drawer_pos_z_manual": true
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "wall_hung_body"
+                },
+                {
+                  "type": "module",
+                  "id": "node_1789985719677_mqq4apfec",
+                  "name": "Ящик выдвижной 500",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": 135,
+                    "z": "v:drawer_locked_depth_mm"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": "(v:h_bottom) + 18",
+                    "z": "s:z - v:drawer_locked_depth_mm + 16"
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "2",
+                    "element_type": "catalog_33",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "key": "Ящик выдвижной 500",
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "drawer_pos_z_manual": true
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "drawer"
+                }
+              ]
+            }
+          ]
+        },
+        "materials_overrides": {
+          "g1": {
+            "material_key": "material_3"
+          }
+        },
+        "spec": {
+          "template": {
+            "tree": [
+              {
+                "type": "section",
+                "id": "node_1789985719676_oo3uset79",
+                "name": "Комод навесной",
+                "active": 1,
+                "helpers_visible": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "f"
+                },
+                "layout_role": "cabinet_root",
+                "section_key": "",
+                "children": [
+                  {
+                    "type": "module",
+                    "id": "node_1789985719677_gwefpivwg",
+                    "name": "Комод напольный",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x",
+                      "y": "s:y",
+                      "z": "s:z"
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "scale": {
+                      "x": 1,
+                      "y": 1,
+                      "z": 1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "id": "1",
+                      "element_type": "catalog_36",
+                      "fill_content": {},
+                      "linked_item_id": 0,
+                      "live_catalog": true,
+                      "key": "Комод напольный",
+                      "can_change": {
+                        "id": 0
+                      },
+                      "not_load_default": 0,
+                      "drawer_pos_z_manual": true
+                    },
+                    "children": [],
+                    "lib": "",
+                    "tags": "",
+                    "interactive": 0,
+                    "custom": {},
+                    "condition": null,
+                    "visible": 1,
+                    "helpers_visible": 1,
+                    "variables": {
+                      "visible": 1,
+                      "main": {}
+                    },
+                    "interaction": {
+                      "auto_rotation": 1,
+                      "check_intersection": 0,
+                      "raycast": 1,
+                      "rotate_free": 0
+                    },
+                    "resizable": {
+                      "enabled": 0,
+                      "locks": {},
+                      "minmax": {
+                        "min": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "max": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        }
+                      }
+                    },
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "comments": "",
+                    "section_key": "",
+                    "params_key": "",
+                    "layout_role": "wall_hung_body"
+                  },
+                  {
+                    "type": "module",
+                    "id": "node_1789985719677_mqq4apfec",
+                    "name": "Ящик выдвижной 500",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x",
+                      "y": 135,
+                      "z": "v:drawer_locked_depth_mm"
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": "(v:h_bottom) + 18",
+                      "z": "s:z - v:drawer_locked_depth_mm + 16"
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "scale": {
+                      "x": 1,
+                      "y": 1,
+                      "z": 1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "id": "2",
+                      "element_type": "catalog_33",
+                      "fill_content": {},
+                      "linked_item_id": 0,
+                      "live_catalog": true,
+                      "key": "Ящик выдвижной 500",
+                      "can_change": {
+                        "id": 0
+                      },
+                      "not_load_default": 0,
+                      "drawer_pos_z_manual": true
+                    },
+                    "children": [],
+                    "lib": "",
+                    "tags": "",
+                    "interactive": 0,
+                    "custom": {},
+                    "condition": null,
+                    "visible": 1,
+                    "helpers_visible": 1,
+                    "variables": {
+                      "visible": 1,
+                      "main": {}
+                    },
+                    "interaction": {
+                      "auto_rotation": 1,
+                      "check_intersection": 0,
+                      "raycast": 1,
+                      "rotate_free": 0
+                    },
+                    "resizable": {
+                      "enabled": 0,
+                      "locks": {},
+                      "minmax": {
+                        "min": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "max": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        }
+                      }
+                    },
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "comments": "",
+                    "section_key": "",
+                    "params_key": "",
+                    "layout_role": "drawer"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    "constructor_structure": {
+      "type": "module",
+      "name": "Комод навесной",
+      "children": [
+        {
+          "type": "section",
+          "id": "node_1789985719676_oo3uset79",
+          "name": "Комод навесной",
+          "active": 1,
+          "helpers_visible": 1,
+          "size": {
+            "x": "s:x",
+            "y": "s:y",
+            "z": "s:z"
+          },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pivot": {
+            "x": -1,
+            "y": -1,
+            "z": -1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "spec": {
+            "orientation": "f"
+          },
+          "layout_role": "cabinet_root",
+          "section_key": "",
+          "children": [
+            {
+              "type": "module",
+              "id": "node_1789985719677_gwefpivwg",
+              "name": "Комод напольный",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "1",
+                "element_type": "catalog_36",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "key": "Комод напольный",
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "drawer_pos_z_manual": true
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "wall_hung_body"
+            },
+            {
+              "type": "module",
+              "id": "node_1789985719677_mqq4apfec",
+              "name": "Ящик выдвижной 500",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": 135,
+                "z": "v:drawer_locked_depth_mm"
+              },
+              "pos": {
+                "x": 0,
+                "y": "(v:h_bottom) + 18",
+                "z": "s:z - v:drawer_locked_depth_mm + 16"
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "2",
+                "element_type": "catalog_33",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "key": "Ящик выдвижной 500",
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "drawer_pos_z_manual": true
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "drawer"
+            }
+          ]
+        }
+      ],
+      "variables": {
+        "main": {
+          "h_bottom": 0,
+          "h_top": 0,
+          "tech_zone_mm": 0,
+          "facade_thickness_mm": 16
+        },
+        "groups": []
+      },
+      "template": {
+        "structure": [
+          {
+            "type": "section",
+            "id": "node_1789985719676_oo3uset79",
+            "name": "Комод навесной",
+            "active": 1,
+            "helpers_visible": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "orientation": "f"
+            },
+            "layout_role": "cabinet_root",
+            "section_key": "",
+            "children": [
+              {
+                "type": "module",
+                "id": "node_1789985719677_gwefpivwg",
+                "name": "Комод напольный",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "1",
+                  "element_type": "catalog_36",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "key": "Комод напольный",
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "drawer_pos_z_manual": true
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "wall_hung_body"
+              },
+              {
+                "type": "module",
+                "id": "node_1789985719677_mqq4apfec",
+                "name": "Ящик выдвижной 500",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": 135,
+                  "z": "v:drawer_locked_depth_mm"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": "(v:h_bottom) + 18",
+                  "z": "s:z - v:drawer_locked_depth_mm + 16"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "2",
+                  "element_type": "catalog_33",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "key": "Ящик выдвижной 500",
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "drawer_pos_z_manual": true
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "drawer"
+              }
+            ]
+          }
+        ]
+      },
+      "materials_overrides": {
+        "g1": {
+          "material_key": "material_3"
+        }
+      },
+      "spec": {
+        "template": {
+          "tree": [
+            {
+              "type": "section",
+              "id": "node_1789985719676_oo3uset79",
+              "name": "Комод навесной",
+              "active": 1,
+              "helpers_visible": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "f"
+              },
+              "layout_role": "cabinet_root",
+              "section_key": "",
+              "children": [
+                {
+                  "type": "module",
+                  "id": "node_1789985719677_gwefpivwg",
+                  "name": "Комод напольный",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "1",
+                    "element_type": "catalog_36",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "key": "Комод напольный",
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "drawer_pos_z_manual": true
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "wall_hung_body"
+                },
+                {
+                  "type": "module",
+                  "id": "node_1789985719677_mqq4apfec",
+                  "name": "Ящик выдвижной 500",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": 135,
+                    "z": "v:drawer_locked_depth_mm"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": "(v:h_bottom) + 18",
+                    "z": "s:z - v:drawer_locked_depth_mm + 16"
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "2",
+                    "element_type": "catalog_33",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "key": "Ящик выдвижной 500",
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "drawer_pos_z_manual": true
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "drawer"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "clodisJSON": [
+      {
+        "type": "section",
+        "id": "node_1789985719676_oo3uset79",
+        "name": "Комод навесной",
+        "active": 1,
+        "helpers_visible": 1,
+        "size": {
+          "x": "s:x",
+          "y": "s:y",
+          "z": "s:z"
+        },
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "pivot": {
+          "x": -1,
+          "y": -1,
+          "z": -1
+        },
+        "rot": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "spec": {
+          "orientation": "f"
+        },
+        "layout_role": "cabinet_root",
+        "section_key": "",
+        "children": [
+          {
+            "type": "module",
+            "id": "node_1789985719677_gwefpivwg",
+            "name": "Комод напольный",
+            "active": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "1",
+              "element_type": "catalog_36",
+              "fill_content": {},
+              "linked_item_id": 0,
+              "live_catalog": true,
+              "key": "Комод напольный",
+              "can_change": {
+                "id": 0
+              },
+              "not_load_default": 0,
+              "drawer_pos_z_manual": true
+            },
+            "children": [],
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "custom": {},
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 1,
+            "variables": {
+              "visible": 1,
+              "main": {}
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": {},
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "comments": "",
+            "section_key": "",
+            "params_key": "",
+            "layout_role": "wall_hung_body"
+          },
+          {
+            "type": "module",
+            "id": "node_1789985719677_mqq4apfec",
+            "name": "Ящик выдвижной 500",
+            "active": 1,
+            "size": {
+              "x": "s:x",
+              "y": 135,
+              "z": "s:z - 34"
+            },
+            "pos": {
+              "x": 0,
+              "y": 16,
+              "z": 50
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "2",
+              "element_type": "catalog_33",
+              "fill_content": {},
+              "linked_item_id": 0,
+              "live_catalog": true,
+              "key": "Ящик выдвижной 500",
+              "can_change": {
+                "id": 0
+              },
+              "not_load_default": 0,
+              "ref_size_mm": {
+                "x": 568,
+                "y": 162,
+                "z": 550
+              }
+            },
+            "children": [],
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "custom": {},
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 1,
+            "variables": {
+              "visible": 1,
+              "main": {}
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": {},
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "comments": "",
+            "section_key": "",
+            "params_key": "",
+            "layout_role": "drawer"
+          }
+        ]
+      }
+    ],
+    "id": 2,
+    "icon": "/files/catalog_icons/catalog_icon_2_1789985729093_1789985729105.png",
+    "iconAspect": "low"
+  }
+]

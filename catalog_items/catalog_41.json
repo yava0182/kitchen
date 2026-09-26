@@ -1,0 +1,4011 @@
+[
+  {
+    "catalog_type": "catalog_41",
+    "constructor_structure": {
+      "type": "module",
+      "name": "TSA_6PL",
+      "children": [
+        {
+          "type": "section",
+          "id": "node_1786728982141_eo5m8ic6s",
+          "name": "SA_6PL",
+          "active": 1,
+          "helpers_visible": 1,
+          "size": {
+            "x": "s:x",
+            "y": "s:y",
+            "z": "s:z"
+          },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pivot": {
+            "x": -1,
+            "y": -1,
+            "z": -1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "spec": {
+            "orientation": "f"
+          },
+          "layout_role": "cabinet_root",
+          "section_key": "",
+          "children": [
+            {
+              "type": "module",
+              "id": "node_1786728982141_6bqfpn82g",
+              "name": "Цоколь 100 мм",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "v:h_bottom",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "1",
+                "element_type": "catalog_32",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "key": "Цоколь 100 мм",
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "orientation": "h"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "plinth"
+            },
+            {
+              "type": "module",
+              "id": "node_1786728982141_3gasjpdbi",
+              "name": "Антресоль",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y - (v:h_bottom) - (v:corpus_antresol_mm)",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": "(v:h_bottom) + (v:corpus_antresol_mm)",
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "1",
+                "element_type": "catalog_30",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "key": "Антресоль"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "top"
+            },
+            {
+              "type": "module",
+              "id": "node_1786728982141_jgi1s51d4",
+              "name": "Фасад антресоль",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y - v:h_bottom - v:corpus_antresol_mm - v:tech_zone_mm",
+                "z": "v:facade_thickness_mm"
+              },
+              "pos": {
+                "x": 0,
+                "y": "v:h_bottom + v:corpus_antresol_mm",
+                "z": "s:z - v:facade_thickness_mm"
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "7",
+                "element_type": "catalog_28",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "key": "Фасад антресоль"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "facades_top"
+            },
+            {
+              "type": "module",
+              "id": "node_1786728982142_7q0lohwge",
+              "name": "Фасад шкаф",
+              "active": 1,
+              "size": {
+                "x": "s:x-3",
+                "y": "s:y-3",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 1.5,
+                "y": 1.5,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "f",
+                "direction": "-z",
+                "side": 0,
+                "material": {
+                  "group": "g2",
+                  "key": "material_2",
+                  "id": 8,
+                  "rotated": false,
+                  "fixed": false
+                },
+                "id": "8",
+                "type": "full",
+                "materials": {
+                  "gen": 0,
+                  "glass": 0
+                },
+                "can_change": {
+                  "id": 1,
+                  "material": 1,
+                  "type": 1
+                },
+                "handle": {
+                  "enabled": 0,
+                  "id": 0,
+                  "active": 0,
+                  "fixed": 0,
+                  "group": 0,
+                  "orient": "a",
+                  "a_orient": [
+                    "h",
+                    "v"
+                  ],
+                  "dir": "l",
+                  "a_dir": [
+                    "l",
+                    "r",
+                    "b",
+                    "t"
+                  ],
+                  "pos": {
+                    "x": "a",
+                    "y": "a"
+                  },
+                  "c_size": 0,
+                  "p_size": 0,
+                  "double": 0,
+                  "offset_mode": "f",
+                  "offset": 25
+                },
+                "f_model": 0,
+                "group": "auto",
+                "open": "all",
+                "radius": 0,
+                "role": [
+                  "kitchen"
+                ],
+                "show_index": true,
+                "element_type": "catalog_28",
+                "live_catalog": true
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "facades_main",
+              "edges": {
+                "1": {
+                  "enabled": true,
+                  "thickness": 1,
+                  "type": "butts",
+                  "type_name": "Набор по умолчанию",
+                  "color": "#ffffff",
+                  "icon": "/files/decor/ldsp_satin_shampanskoe_7045_su_1774849808479.jpg",
+                  "decor_id": "6",
+                  "decor_name": "Сатин Шампанское 1 мм",
+                  "edge_id": "6",
+                  "edge_name": "Сатин Шампанское 1 мм"
+                },
+                "2": {
+                  "enabled": true,
+                  "thickness": 1,
+                  "type": "butts",
+                  "type_name": "Набор по умолчанию",
+                  "color": "#ffffff",
+                  "icon": "/files/decor/ldsp_satin_shampanskoe_7045_su_1774849808479.jpg",
+                  "decor_id": "6",
+                  "decor_name": "Сатин Шампанское 1 мм",
+                  "edge_id": "6",
+                  "edge_name": "Сатин Шампанское 1 мм"
+                },
+                "3": {
+                  "enabled": true,
+                  "thickness": 1,
+                  "type": "butts",
+                  "type_name": "Набор по умолчанию",
+                  "color": "#ffffff",
+                  "icon": "/files/decor/ldsp_satin_shampanskoe_7045_su_1774849808479.jpg",
+                  "decor_id": "6",
+                  "decor_name": "Сатин Шампанское 1 мм",
+                  "edge_id": "6",
+                  "edge_name": "Сатин Шампанское 1 мм"
+                },
+                "4": {
+                  "enabled": true,
+                  "thickness": 1,
+                  "type": "butts",
+                  "type_name": "Набор по умолчанию",
+                  "color": "#ffffff",
+                  "icon": "/files/decor/ldsp_satin_shampanskoe_7045_su_1774849808479.jpg",
+                  "decor_id": "6",
+                  "decor_name": "Сатин Шампанское 1 мм",
+                  "edge_id": "6",
+                  "edge_name": "Сатин Шампанское 1 мм"
+                }
+              },
+              "edge_numbering": true,
+              "material_id": "8",
+              "material_key": "material_2",
+              "material_group": "g2",
+              "material_name": "Сатин Шампанское",
+              "material_icon": "/files/decor/belyy_vozdushnyy_so_1_1783859989593.jpg"
+            },
+            {
+              "type": "module",
+              "id": "node_1786728982142_urz271afk",
+              "name": "S_6PL",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "v:corpus_antresol_mm",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": "(v:h_bottom)",
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "6",
+                "element_type": "catalog_27",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "key": "S_6PL",
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "corpus_antresol"
+            }
+          ]
+        }
+      ],
+      "variables": {
+        "main": {
+          "h_bottom": 100,
+          "h_top": 0
+        },
+        "groups": []
+      },
+      "template": {
+        "structure": [
+          {
+            "type": "section",
+            "id": "node_1786728982141_eo5m8ic6s",
+            "name": "SA_6PL",
+            "active": 1,
+            "helpers_visible": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "orientation": "f"
+            },
+            "layout_role": "cabinet_root",
+            "section_key": "",
+            "children": [
+              {
+                "type": "module",
+                "id": "node_1786728982141_6bqfpn82g",
+                "name": "Цоколь 100 мм",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "v:h_bottom",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "1",
+                  "element_type": "catalog_32",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "key": "Цоколь 100 мм",
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "orientation": "h"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "plinth"
+              },
+              {
+                "type": "module",
+                "id": "node_1786728982141_3gasjpdbi",
+                "name": "Антресоль",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y - (v:h_bottom) - (v:corpus_antresol_mm)",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": "(v:h_bottom) + (v:corpus_antresol_mm)",
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "1",
+                  "element_type": "catalog_30",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "key": "Антресоль"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "top"
+              },
+              {
+                "type": "module",
+                "id": "node_1786728982141_jgi1s51d4",
+                "name": "Фасад антресоль",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y - v:h_bottom - v:corpus_antresol_mm - v:tech_zone_mm",
+                  "z": "v:facade_thickness_mm"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": "v:h_bottom + v:corpus_antresol_mm",
+                  "z": "s:z - v:facade_thickness_mm"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "7",
+                  "element_type": "catalog_28",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "key": "Фасад антресоль"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "facades_top"
+              },
+              {
+                "type": "module",
+                "id": "node_1786728982142_7q0lohwge",
+                "name": "Фасад шкаф",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "v:corpus_antresol_mm",
+                  "z": "v:facade_thickness_mm"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": "v:h_bottom",
+                  "z": "s:z - v:facade_thickness_mm"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "8",
+                  "element_type": "catalog_28",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "key": "Фасад шкаф"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "facades_main"
+              },
+              {
+                "type": "module",
+                "id": "node_1786728982142_urz271afk",
+                "name": "S_6PL",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "v:corpus_antresol_mm",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": "(v:h_bottom)",
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "6",
+                  "element_type": "catalog_27",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "key": "S_6PL",
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "corpus_antresol"
+              }
+            ]
+          }
+        ]
+      },
+      "materials_overrides": {},
+      "spec": {
+        "template": {
+          "tree": [
+            {
+              "type": "section",
+              "id": "node_1786728982141_eo5m8ic6s",
+              "name": "SA_6PL",
+              "active": 1,
+              "helpers_visible": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "f"
+              },
+              "layout_role": "cabinet_root",
+              "section_key": "",
+              "children": [
+                {
+                  "type": "module",
+                  "id": "node_1786728982141_6bqfpn82g",
+                  "name": "Цоколь 100 мм",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "v:h_bottom",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "1",
+                    "element_type": "catalog_32",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "key": "Цоколь 100 мм",
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "orientation": "h"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "plinth"
+                },
+                {
+                  "type": "module",
+                  "id": "node_1786728982141_3gasjpdbi",
+                  "name": "Антресоль",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y - (v:h_bottom) - (v:corpus_antresol_mm)",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": "(v:h_bottom) + (v:corpus_antresol_mm)",
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "1",
+                    "element_type": "catalog_30",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "key": "Антресоль"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "top"
+                },
+                {
+                  "type": "module",
+                  "id": "node_1786728982141_jgi1s51d4",
+                  "name": "Фасад антресоль",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y - v:h_bottom - v:corpus_antresol_mm - v:tech_zone_mm",
+                    "z": "v:facade_thickness_mm"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": "v:h_bottom + v:corpus_antresol_mm",
+                    "z": "s:z - v:facade_thickness_mm"
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "7",
+                    "element_type": "catalog_28",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "key": "Фасад антресоль"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "facades_top"
+                },
+                {
+                  "type": "module",
+                  "id": "node_1786728982142_7q0lohwge",
+                  "name": "Фасад шкаф",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "v:corpus_antresol_mm",
+                    "z": "v:facade_thickness_mm"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": "v:h_bottom",
+                    "z": "s:z - v:facade_thickness_mm"
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "8",
+                    "element_type": "catalog_28",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "key": "Фасад шкаф"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "facades_main"
+                },
+                {
+                  "type": "module",
+                  "id": "node_1786728982142_urz271afk",
+                  "name": "S_6PL",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "v:corpus_antresol_mm",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": "(v:h_bottom)",
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "6",
+                    "element_type": "catalog_27",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "key": "S_6PL",
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "corpus_antresol"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "clodisJSON": [
+      {
+        "type": "section",
+        "id": "node_1786728982141_eo5m8ic6s",
+        "name": "SA_6PL",
+        "active": 1,
+        "helpers_visible": 1,
+        "size": {
+          "x": "s:x",
+          "y": "s:y",
+          "z": "s:z"
+        },
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "pivot": {
+          "x": -1,
+          "y": -1,
+          "z": -1
+        },
+        "rot": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "spec": {
+          "orientation": "f"
+        },
+        "layout_role": "cabinet_root",
+        "section_key": "",
+        "children": [
+          {
+            "type": "module",
+            "id": "node_1786728982141_6bqfpn82g",
+            "name": "Цоколь 100 мм",
+            "active": 1,
+            "size": {
+              "x": "s:x",
+              "y": "v:h_bottom",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "1",
+              "element_type": "catalog_32",
+              "fill_content": {},
+              "linked_item_id": 0,
+              "live_catalog": true,
+              "key": "Цоколь 100 мм",
+              "can_change": {
+                "id": 0
+              },
+              "not_load_default": 0,
+              "orientation": "h"
+            },
+            "children": [],
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "custom": {},
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 1,
+            "variables": {
+              "visible": 1,
+              "main": {}
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": {},
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "comments": "",
+            "section_key": "",
+            "params_key": "",
+            "layout_role": "plinth"
+          },
+          {
+            "type": "module",
+            "id": "node_1786728982141_3gasjpdbi",
+            "name": "Антресоль",
+            "active": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y - (v:h_bottom) - (v:corpus_antresol_mm)",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": "(v:h_bottom) + (v:corpus_antresol_mm)",
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "1",
+              "element_type": "catalog_30",
+              "fill_content": {},
+              "linked_item_id": 0,
+              "live_catalog": true,
+              "can_change": {
+                "id": 0
+              },
+              "not_load_default": 0,
+              "key": "Антресоль"
+            },
+            "children": [],
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "custom": {},
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 1,
+            "variables": {
+              "visible": 1,
+              "main": {}
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": {},
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "comments": "",
+            "section_key": "",
+            "params_key": "",
+            "layout_role": "top"
+          },
+          {
+            "type": "module",
+            "id": "node_1786728982141_jgi1s51d4",
+            "name": "Фасад антресоль",
+            "active": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y - v:h_bottom - v:corpus_antresol_mm - v:tech_zone_mm",
+              "z": "v:facade_thickness_mm"
+            },
+            "pos": {
+              "x": 0,
+              "y": "v:h_bottom + v:corpus_antresol_mm",
+              "z": "s:z - v:facade_thickness_mm"
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "7",
+              "element_type": "catalog_28",
+              "fill_content": {},
+              "linked_item_id": 0,
+              "live_catalog": true,
+              "can_change": {
+                "id": 0
+              },
+              "not_load_default": 0,
+              "key": "Фасад антресоль"
+            },
+            "children": [],
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "custom": {},
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 1,
+            "variables": {
+              "visible": 1,
+              "main": {}
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": {},
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "comments": "",
+            "section_key": "",
+            "params_key": "",
+            "layout_role": "facades_top"
+          },
+          {
+            "type": "module",
+            "id": "node_1786728982142_7q0lohwge",
+            "name": "Фасад шкаф",
+            "active": 1,
+            "size": {
+              "x": "s:x",
+              "y": "v:corpus_antresol_mm",
+              "z": "v:facade_thickness_mm"
+            },
+            "pos": {
+              "x": 0,
+              "y": "v:h_bottom",
+              "z": "s:z - v:facade_thickness_mm"
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "8",
+              "element_type": "catalog_28",
+              "fill_content": {},
+              "linked_item_id": 0,
+              "live_catalog": true,
+              "can_change": {
+                "id": 0
+              },
+              "not_load_default": 0,
+              "key": "Фасад шкаф"
+            },
+            "children": [],
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "custom": {},
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 1,
+            "variables": {
+              "visible": 1,
+              "main": {}
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": {},
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "comments": "",
+            "section_key": "",
+            "params_key": "",
+            "layout_role": "facades_main"
+          },
+          {
+            "type": "module",
+            "id": "node_1786728982142_urz271afk",
+            "name": "S_6PL",
+            "active": 1,
+            "size": {
+              "x": "s:x",
+              "y": "v:corpus_antresol_mm",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": "(v:h_bottom)",
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "6",
+              "element_type": "catalog_27",
+              "fill_content": {},
+              "linked_item_id": 0,
+              "live_catalog": true,
+              "key": "S_6PL",
+              "can_change": {
+                "id": 0
+              },
+              "not_load_default": 0
+            },
+            "children": [],
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "custom": {},
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 1,
+            "variables": {
+              "visible": 1,
+              "main": {}
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": {},
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "comments": "",
+            "section_key": "",
+            "params_key": "",
+            "layout_role": "corpus_antresol"
+          }
+        ]
+      }
+    ],
+    "name": "TSA_6PL",
+    "icon": "/files/catalog_icons/catalog_icon_16_1783624779207_1783624779240.png",
+    "iconAspect": "tall",
+    "data": {
+      "name": "TSA_6PL",
+      "category": [
+        1
+      ],
+      "show_in_spec": "1",
+      "include_nested": "1",
+      "show_in_constructor": "1",
+      "order": 0,
+      "icon": "/files/catalog_icons/catalog_icon_16_1783624779207_1783624779240.png",
+      "iconAspect": "tall",
+      "module_group": "bottom",
+      "drag_type": "top",
+      "stick_type": "common",
+      "is_fill": "0",
+      "no_intersections": "0",
+      "catalog_type": "catalog_41",
+      "width": "400",
+      "height": "2700",
+      "depth": "600",
+      "placementKind": "floor_in_niche",
+      "roomTags": {
+        "categories": []
+      },
+      "hingeLayoutId": null,
+      "clodisVariables": {
+        "h_bottom": 100,
+        "h_top": 0,
+        "corpus_antresol_mm": 1950,
+        "facade_thickness_mm": 16
+      },
+      "clodisJSON": [
+        {
+          "type": "section",
+          "id": "node_1786728982141_eo5m8ic6s",
+          "name": "SA_6PL",
+          "active": 1,
+          "helpers_visible": 1,
+          "size": {
+            "x": "s:x",
+            "y": "s:y",
+            "z": "s:z"
+          },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pivot": {
+            "x": -1,
+            "y": -1,
+            "z": -1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "spec": {
+            "orientation": "f"
+          },
+          "layout_role": "cabinet_root",
+          "section_key": "",
+          "children": [
+            {
+              "type": "module",
+              "id": "node_1786728982141_6bqfpn82g",
+              "name": "Цоколь 100 мм",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "v:h_bottom",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "1",
+                "element_type": "catalog_32",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "key": "Цоколь 100 мм",
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "orientation": "h"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "plinth"
+            },
+            {
+              "type": "module",
+              "id": "node_1786728982141_3gasjpdbi",
+              "name": "Антресоль",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y - (v:h_bottom) - (v:corpus_antresol_mm)",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": "(v:h_bottom) + (v:corpus_antresol_mm)",
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "1",
+                "element_type": "catalog_30",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "key": "Антресоль"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "top"
+            },
+            {
+              "type": "module",
+              "id": "node_1786728982141_jgi1s51d4",
+              "name": "Фасад антресоль",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y - v:h_bottom - v:corpus_antresol_mm - v:tech_zone_mm",
+                "z": "v:facade_thickness_mm"
+              },
+              "pos": {
+                "x": 0,
+                "y": "v:h_bottom + v:corpus_antresol_mm",
+                "z": "s:z - v:facade_thickness_mm"
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "7",
+                "element_type": "catalog_28",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "key": "Фасад антресоль"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "facades_top"
+            },
+            {
+              "type": "module",
+              "id": "node_1786728982142_7q0lohwge",
+              "name": "Фасад шкаф",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "v:corpus_antresol_mm",
+                "z": "v:facade_thickness_mm"
+              },
+              "pos": {
+                "x": 0,
+                "y": "v:h_bottom",
+                "z": "s:z - v:facade_thickness_mm"
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "8",
+                "element_type": "catalog_28",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "key": "Фасад шкаф"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "facades_main"
+            },
+            {
+              "type": "module",
+              "id": "node_1786728982142_urz271afk",
+              "name": "S_6PL",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "v:corpus_antresol_mm",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": "(v:h_bottom)",
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "6",
+                "element_type": "catalog_27",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "key": "S_6PL",
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "corpus_antresol"
+            }
+          ]
+        }
+      ],
+      "pairedCatalogItemIds": {
+        "single": 2,
+        "double": 0
+      },
+      "doorKind": "single",
+      "interiorLayout": {
+        "zones": [
+          {
+            "name": "Вся высота",
+            "position": "",
+            "heightPercent": 100,
+            "content": "shelves",
+            "rodRules": {
+              "anchor": "top",
+              "offsetMm": 80,
+              "companionMode": "none",
+              "topShelfGapMm": 80,
+              "bottomShelvesCount": 1,
+              "bottomShelvesTopGapMm": 80,
+              "gridShiftDownSteps": 0
+            },
+            "drawerRules": {
+              "anchor": "bottom",
+              "offsetMm": 0,
+              "count": 0,
+              "gapMm": 3,
+              "topShelfGapMm": 26,
+              "forceShelfAboveDrawers": true
+            },
+            "id": "zone_mst8bg3h_dokp"
+          }
+        ]
+      },
+      "interiorTemplates": {
+        "shelf": null,
+        "drawer": null,
+        "rod": {
+          "modelId": "22",
+          "label": "Штанга"
+        }
+      },
+      "shelfStack": {
+        "enabled": true,
+        "distribution": "step",
+        "stepMm": 400,
+        "shelfThicknessMm": 16,
+        "bottomOffsetMm": 18,
+        "topOffsetMm": 18,
+        "mode": "max_count",
+        "maxCount": 12,
+        "minGapMm": 50,
+        "fixedPositionsFromBottomMm": []
+      },
+      "constructor_structure": {
+        "type": "module",
+        "name": "TSA_6PL",
+        "children": [
+          {
+            "type": "section",
+            "id": "node_1786728982141_eo5m8ic6s",
+            "name": "SA_6PL",
+            "active": 1,
+            "helpers_visible": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "orientation": "f"
+            },
+            "layout_role": "cabinet_root",
+            "section_key": "",
+            "children": [
+              {
+                "type": "module",
+                "id": "node_1786728982141_6bqfpn82g",
+                "name": "Цоколь 100 мм",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "v:h_bottom",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "1",
+                  "element_type": "catalog_32",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "key": "Цоколь 100 мм",
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "orientation": "h"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "plinth"
+              },
+              {
+                "type": "module",
+                "id": "node_1786728982141_3gasjpdbi",
+                "name": "Антресоль",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y - (v:h_bottom) - (v:corpus_antresol_mm)",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": "(v:h_bottom) + (v:corpus_antresol_mm)",
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "1",
+                  "element_type": "catalog_30",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "key": "Антресоль"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "top"
+              },
+              {
+                "type": "module",
+                "id": "node_1786728982141_jgi1s51d4",
+                "name": "Фасад антресоль",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y - v:h_bottom - v:corpus_antresol_mm - v:tech_zone_mm",
+                  "z": "v:facade_thickness_mm"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": "v:h_bottom + v:corpus_antresol_mm",
+                  "z": "s:z - v:facade_thickness_mm"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "7",
+                  "element_type": "catalog_28",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "key": "Фасад антресоль"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "facades_top"
+              },
+              {
+                "type": "module",
+                "id": "node_1786728982142_7q0lohwge",
+                "name": "Фасад шкаф",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "v:corpus_antresol_mm",
+                  "z": "v:facade_thickness_mm"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": "v:h_bottom",
+                  "z": "s:z - v:facade_thickness_mm"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "8",
+                  "element_type": "catalog_28",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "key": "Фасад шкаф"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "facades_main"
+              },
+              {
+                "type": "module",
+                "id": "node_1786728982142_urz271afk",
+                "name": "S_6PL",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "v:corpus_antresol_mm",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": "(v:h_bottom)",
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "6",
+                  "element_type": "catalog_27",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "key": "S_6PL",
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "corpus_antresol"
+              }
+            ]
+          }
+        ],
+        "variables": {
+          "main": {
+            "h_bottom": 100,
+            "h_top": 0
+          },
+          "groups": []
+        },
+        "template": {
+          "structure": [
+            {
+              "type": "section",
+              "id": "node_1786728982141_eo5m8ic6s",
+              "name": "SA_6PL",
+              "active": 1,
+              "helpers_visible": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "f"
+              },
+              "layout_role": "cabinet_root",
+              "section_key": "",
+              "children": [
+                {
+                  "type": "module",
+                  "id": "node_1786728982141_6bqfpn82g",
+                  "name": "Цоколь 100 мм",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "v:h_bottom",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "1",
+                    "element_type": "catalog_32",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "key": "Цоколь 100 мм",
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "orientation": "h"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "plinth"
+                },
+                {
+                  "type": "module",
+                  "id": "node_1786728982141_3gasjpdbi",
+                  "name": "Антресоль",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y - (v:h_bottom) - (v:corpus_antresol_mm)",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": "(v:h_bottom) + (v:corpus_antresol_mm)",
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "1",
+                    "element_type": "catalog_30",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "key": "Антресоль"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "top"
+                },
+                {
+                  "type": "module",
+                  "id": "node_1786728982141_jgi1s51d4",
+                  "name": "Фасад антресоль",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y - v:h_bottom - v:corpus_antresol_mm - v:tech_zone_mm",
+                    "z": "v:facade_thickness_mm"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": "v:h_bottom + v:corpus_antresol_mm",
+                    "z": "s:z - v:facade_thickness_mm"
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "7",
+                    "element_type": "catalog_28",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "key": "Фасад антресоль"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "facades_top"
+                },
+                {
+                  "type": "module",
+                  "id": "node_1786728982142_7q0lohwge",
+                  "name": "Фасад шкаф",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "v:corpus_antresol_mm",
+                    "z": "v:facade_thickness_mm"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": "v:h_bottom",
+                    "z": "s:z - v:facade_thickness_mm"
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "8",
+                    "element_type": "catalog_28",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "key": "Фасад шкаф"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "facades_main"
+                },
+                {
+                  "type": "module",
+                  "id": "node_1786728982142_urz271afk",
+                  "name": "S_6PL",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "v:corpus_antresol_mm",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": "(v:h_bottom)",
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "6",
+                    "element_type": "catalog_27",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "key": "S_6PL",
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "corpus_antresol"
+                }
+              ]
+            }
+          ]
+        },
+        "materials_overrides": {},
+        "spec": {
+          "template": {
+            "tree": [
+              {
+                "type": "section",
+                "id": "node_1786728982141_eo5m8ic6s",
+                "name": "SA_6PL",
+                "active": 1,
+                "helpers_visible": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "f"
+                },
+                "layout_role": "cabinet_root",
+                "section_key": "",
+                "children": [
+                  {
+                    "type": "module",
+                    "id": "node_1786728982141_6bqfpn82g",
+                    "name": "Цоколь 100 мм",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x",
+                      "y": "v:h_bottom",
+                      "z": "s:z"
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "scale": {
+                      "x": 1,
+                      "y": 1,
+                      "z": 1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "id": "1",
+                      "element_type": "catalog_32",
+                      "fill_content": {},
+                      "linked_item_id": 0,
+                      "live_catalog": true,
+                      "key": "Цоколь 100 мм",
+                      "can_change": {
+                        "id": 0
+                      },
+                      "not_load_default": 0,
+                      "orientation": "h"
+                    },
+                    "children": [],
+                    "lib": "",
+                    "tags": "",
+                    "interactive": 0,
+                    "custom": {},
+                    "condition": null,
+                    "visible": 1,
+                    "helpers_visible": 1,
+                    "variables": {
+                      "visible": 1,
+                      "main": {}
+                    },
+                    "interaction": {
+                      "auto_rotation": 1,
+                      "check_intersection": 0,
+                      "raycast": 1,
+                      "rotate_free": 0
+                    },
+                    "resizable": {
+                      "enabled": 0,
+                      "locks": {},
+                      "minmax": {
+                        "min": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "max": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        }
+                      }
+                    },
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "comments": "",
+                    "section_key": "",
+                    "params_key": "",
+                    "layout_role": "plinth"
+                  },
+                  {
+                    "type": "module",
+                    "id": "node_1786728982141_3gasjpdbi",
+                    "name": "Антресоль",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x",
+                      "y": "s:y - (v:h_bottom) - (v:corpus_antresol_mm)",
+                      "z": "s:z"
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": "(v:h_bottom) + (v:corpus_antresol_mm)",
+                      "z": 0
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "scale": {
+                      "x": 1,
+                      "y": 1,
+                      "z": 1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "id": "1",
+                      "element_type": "catalog_30",
+                      "fill_content": {},
+                      "linked_item_id": 0,
+                      "live_catalog": true,
+                      "can_change": {
+                        "id": 0
+                      },
+                      "not_load_default": 0,
+                      "key": "Антресоль"
+                    },
+                    "children": [],
+                    "lib": "",
+                    "tags": "",
+                    "interactive": 0,
+                    "custom": {},
+                    "condition": null,
+                    "visible": 1,
+                    "helpers_visible": 1,
+                    "variables": {
+                      "visible": 1,
+                      "main": {}
+                    },
+                    "interaction": {
+                      "auto_rotation": 1,
+                      "check_intersection": 0,
+                      "raycast": 1,
+                      "rotate_free": 0
+                    },
+                    "resizable": {
+                      "enabled": 0,
+                      "locks": {},
+                      "minmax": {
+                        "min": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "max": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        }
+                      }
+                    },
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "comments": "",
+                    "section_key": "",
+                    "params_key": "",
+                    "layout_role": "top"
+                  },
+                  {
+                    "type": "module",
+                    "id": "node_1786728982141_jgi1s51d4",
+                    "name": "Фасад антресоль",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x",
+                      "y": "s:y - v:h_bottom - v:corpus_antresol_mm - v:tech_zone_mm",
+                      "z": "v:facade_thickness_mm"
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": "v:h_bottom + v:corpus_antresol_mm",
+                      "z": "s:z - v:facade_thickness_mm"
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "scale": {
+                      "x": 1,
+                      "y": 1,
+                      "z": 1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "id": "7",
+                      "element_type": "catalog_28",
+                      "fill_content": {},
+                      "linked_item_id": 0,
+                      "live_catalog": true,
+                      "can_change": {
+                        "id": 0
+                      },
+                      "not_load_default": 0,
+                      "key": "Фасад антресоль"
+                    },
+                    "children": [],
+                    "lib": "",
+                    "tags": "",
+                    "interactive": 0,
+                    "custom": {},
+                    "condition": null,
+                    "visible": 1,
+                    "helpers_visible": 1,
+                    "variables": {
+                      "visible": 1,
+                      "main": {}
+                    },
+                    "interaction": {
+                      "auto_rotation": 1,
+                      "check_intersection": 0,
+                      "raycast": 1,
+                      "rotate_free": 0
+                    },
+                    "resizable": {
+                      "enabled": 0,
+                      "locks": {},
+                      "minmax": {
+                        "min": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "max": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        }
+                      }
+                    },
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "comments": "",
+                    "section_key": "",
+                    "params_key": "",
+                    "layout_role": "facades_top"
+                  },
+                  {
+                    "type": "module",
+                    "id": "node_1786728982142_7q0lohwge",
+                    "name": "Фасад шкаф",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x",
+                      "y": "v:corpus_antresol_mm",
+                      "z": "v:facade_thickness_mm"
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": "v:h_bottom",
+                      "z": "s:z - v:facade_thickness_mm"
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "scale": {
+                      "x": 1,
+                      "y": 1,
+                      "z": 1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "id": "8",
+                      "element_type": "catalog_28",
+                      "fill_content": {},
+                      "linked_item_id": 0,
+                      "live_catalog": true,
+                      "can_change": {
+                        "id": 0
+                      },
+                      "not_load_default": 0,
+                      "key": "Фасад шкаф"
+                    },
+                    "children": [],
+                    "lib": "",
+                    "tags": "",
+                    "interactive": 0,
+                    "custom": {},
+                    "condition": null,
+                    "visible": 1,
+                    "helpers_visible": 1,
+                    "variables": {
+                      "visible": 1,
+                      "main": {}
+                    },
+                    "interaction": {
+                      "auto_rotation": 1,
+                      "check_intersection": 0,
+                      "raycast": 1,
+                      "rotate_free": 0
+                    },
+                    "resizable": {
+                      "enabled": 0,
+                      "locks": {},
+                      "minmax": {
+                        "min": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "max": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        }
+                      }
+                    },
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "comments": "",
+                    "section_key": "",
+                    "params_key": "",
+                    "layout_role": "facades_main"
+                  },
+                  {
+                    "type": "module",
+                    "id": "node_1786728982142_urz271afk",
+                    "name": "S_6PL",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x",
+                      "y": "v:corpus_antresol_mm",
+                      "z": "s:z"
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": "(v:h_bottom)",
+                      "z": 0
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "scale": {
+                      "x": 1,
+                      "y": 1,
+                      "z": 1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "id": "6",
+                      "element_type": "catalog_27",
+                      "fill_content": {},
+                      "linked_item_id": 0,
+                      "live_catalog": true,
+                      "key": "S_6PL",
+                      "can_change": {
+                        "id": 0
+                      },
+                      "not_load_default": 0
+                    },
+                    "children": [],
+                    "lib": "",
+                    "tags": "",
+                    "interactive": 0,
+                    "custom": {},
+                    "condition": null,
+                    "visible": 1,
+                    "helpers_visible": 1,
+                    "variables": {
+                      "visible": 1,
+                      "main": {}
+                    },
+                    "interaction": {
+                      "auto_rotation": 1,
+                      "check_intersection": 0,
+                      "raycast": 1,
+                      "rotate_free": 0
+                    },
+                    "resizable": {
+                      "enabled": 0,
+                      "locks": {},
+                      "minmax": {
+                        "min": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "max": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        }
+                      }
+                    },
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "comments": "",
+                    "section_key": "",
+                    "params_key": "",
+                    "layout_role": "corpus_antresol"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    "id": 2
+  }
+]

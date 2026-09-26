@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Clodis — Сборка</title>
+  <link rel="icon" href="data:," />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      background: #0f172a;
+      color: #f9fafb;
+    }
+    #asm-status-bar {
+      background: #22c55e;
+      color: #052e16;
+      text-align: center;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      flex: 0 0 auto;
+    }
+    #asm-root {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      height: 100vh;
+      width: 100%;
+      background: #0f172a;
+    }
+    .asm-header {
+      flex: 0 0 auto;
+      padding: 12px 14px 8px;
+      background: #1e293b;
+      border-bottom: 1px solid #334155;
+      position: relative;
+      z-index: 5;
+    }
+    .asm-header h1 { font-size: 18px; font-weight: 700; }
+    .asm-header p { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+    #asm-stages {
+      display: flex;
+      gap: 6px;
+      padding: 10px 0 0;
+      overflow-x: auto;
+    }
+    .asm-stage {
+      flex: 1 0 72px;
+      min-width: 72px;
+      border: 1px solid #475569;
+      background: #0f172a;
+      color: #e2e8f0;
+      border-radius: 10px;
+      padding: 8px 6px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .asm-stage:disabled { opacity: 0.4; cursor: not-allowed; }
+    .asm-stage.done { border-color: #22c55e; }
+    .asm-stage-num { display: block; font-size: 15px; font-weight: 700; }
+    .asm-stage-label { display: block; font-size: 9px; margin-top: 3px; color: #94a3b8; }
+    .asm-viewport {
+      flex: 1 1 auto;
+      position: relative;
+      min-height: 45vh;
+      background: #cbd5e1;
+      z-index: 1;
+    }
+    #asm-canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-height: 45vh;
+      touch-action: none;
+      background: #e5e7eb;
+    }
+    #asm-room-hint {
+      position: absolute;
+      left: 50%;
+      bottom: 12px;
+      transform: translateX(-50%);
+      background: rgba(15, 23, 42, 0.9);
+      color: #fff;
+      font-size: 12px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      pointer-events: none;
+      z-index: 3;
+    }
+    #asm-panel-ui {
+      flex: 0 0 auto;
+      padding: 12px 14px 16px;
+      background: #1e293b;
+      border-top: 1px solid #334155;
+      position: relative;
+      z-index: 5;
+    }
+    .asm-room-panel { font-size: 14px; line-height: 1.45; color: #cbd5e1; }
+    .asm-room-panel strong { color: #93c5fd; }
+    #asm-parts-list { display: flex; flex-direction: column; gap: 10px; }
+    .asm-part-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid #475569;
+      background: #0f172a;
+      color: #f1f5f9;
+      cursor: pointer;
+      font-size: 15px;
+      text-align: left;
+    }
+    .asm-part-card.is-recommended { border-color: #3b82f6; }
+    .asm-part-card.is-locked { opacity: 0.45; cursor: not-allowed; }
+    .asm-part-status { font-size: 12px; color: #94a3b8; }
+    #asm-step-card .asm-step-index {
+      font-size: 12px;
+      color: #60a5fa;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    #asm-step-title { font-size: 20px; font-weight: 700; margin: 6px 0 10px; }
+    .asm-step-line { font-size: 15px; margin-bottom: 4px; }
+    #asm-step-hint { font-size: 13px; color: #94a3b8; margin-top: 8px; }
+    .asm-actions { display: flex; gap: 10px; margin-top: 14px; }
+    .asm-btn {
+      min-height: 48px;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0 16px;
+    }
+    .asm-btn-primary { background: #2563eb; color: #fff; flex: 1; }
+    .asm-btn-secondary { background: #334155; color: #e2e8f0; }
+    .asm-btn-ghost { background: transparent; border: 1px solid #475569; color: #cbd5e1; }
+    #asm-boot-fail {
+      background: #7f1d1d;
+      color: #fecaca;
+      padding: 12px 14px;
+      font-size: 14px;
+      line-height: 1.45;
+      display: none;
+    }
+    #asm-boot-fail.is-visible { display: block; }
+    #asm-panel-ui[data-screen="room"] #asm-parts-list,
+    #asm-panel-ui[data-screen="room"] #asm-step-card { display: none !important; }
+    #asm-panel-ui[data-screen="parts"] #asm-step-card,
+    #asm-panel-ui[data-screen="parts"] #asm-room-panel { display: none !important; }
+    #asm-panel-ui[data-screen="assembly"] #asm-parts-list,
+    #asm-panel-ui[data-screen="assembly"] #asm-room-panel,
+    #asm-panel-ui[data-screen="install"] #asm-parts-list,
+    #asm-panel-ui[data-screen="install"] #asm-room-panel { display: none !important; }
+  </style>
+</head>
+<body>
+  <script>
+    console.log('[assembly] HTML загружен, v20260624-asm-mvp4');
+  </script>
+
+  <div id="asm-root">
+    <div id="asm-status-bar">Clodis — инструкция по сборке (демо)</div>
+    <div id="asm-boot-fail"></div>
+
+    <header class="asm-header">
+      <h1 id="asm-screen-title">Сборка</h1>
+      <p id="asm-screen-sub">Загрузка демо-заказа…</p>
+      <nav id="asm-stages" aria-label="Этапы сборки"></nav>
+    </header>
+
+    <div class="asm-viewport">
+      <canvas id="asm-canvas"></canvas>
+      <div id="asm-room-hint">Нажмите на шкаф в нише, чтобы начать сборку</div>
+    </div>
+
+    <footer id="asm-panel-ui" data-screen="room">
+      <div id="asm-room-panel" class="asm-room-panel">
+        <p id="asm-room-panel-text">Загрузка…</p>
+      </div>
+      <div id="asm-parts-list" hidden></div>
+      <div id="asm-step-card" hidden>
+        <div class="asm-step-index" id="asm-step-index">Шаг 1</div>
+        <h2 id="asm-step-title">Деталь</h2>
+        <p class="asm-step-line" id="asm-step-pick"></p>
+        <p class="asm-step-line" id="asm-step-mate"></p>
+        <p id="asm-step-hint"></p>
+        <div class="asm-actions">
+          <button type="button" class="asm-btn asm-btn-secondary" id="asm-btn-back" hidden>Назад</button>
+          <button type="button" class="asm-btn asm-btn-ghost" id="asm-btn-repeat" hidden>Ещё раз</button>
+          <button type="button" class="asm-btn asm-btn-primary" id="asm-btn-done" hidden>Готово</button>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./node_modules/three/build/three.module.js",
+        "three/examples/jsm/": "./node_modules/three/examples/jsm/"
+      }
+    }
+  </script>
+  <script type="module">
+    const statusBar = document.getElementById('asm-status-bar');
+    const bootFail = document.getElementById('asm-boot-fail');
+
+    function showFail(msg) {
+      console.error('[assembly]', msg);
+      if (bootFail) {
+        bootFail.classList.add('is-visible');
+        bootFail.textContent = String(msg);
+      }
+      if (statusBar) statusBar.style.background = '#ef4444';
+    }
+
+    window.addEventListener('error', (e) => showFail(e.message || 'Ошибка скрипта'));
+    window.addEventListener('unhandledrejection', (e) => {
+      showFail(e.reason?.message || e.reason || 'Ошибка модулей');
+    });
+
+    try {
+      const { AssemblyApp } = await import('./js/assembly/assembly-app.js?v=20260624-asm-cam5');
+      const app = new AssemblyApp();
+      await app.init();
+      if (statusBar) statusBar.style.background = '#16a34a';
+      console.log('[assembly] готово');
+    } catch (e) {
+      showFail(e?.message || e);
+    }
+  </script>
+</body>
+</html>

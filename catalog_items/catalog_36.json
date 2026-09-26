@@ -1,0 +1,2935 @@
+[
+  {
+    "id": 1,
+    "catalog_type": "catalog_36",
+    "name": "Комод напольный",
+    "data": {
+      "name": "Комод напольный",
+      "category": [],
+      "show_in_spec": "1",
+      "include_nested": "1",
+      "show_in_constructor": "1",
+      "order": 0,
+      "icon": "",
+      "module_group": "bottom",
+      "drag_type": "top",
+      "stick_type": "common",
+      "is_fill": "0",
+      "no_intersections": "0",
+      "catalog_type": "",
+      "width": 300,
+      "height": 400,
+      "depth": 200,
+      "placementKind": "floor_in_niche",
+      "hingeLayoutId": null,
+      "clodisVariables": {
+        "h_bottom": 100,
+        "h_top": 0
+      },
+      "clodisJSON": [
+        {
+          "type": "section",
+          "id": "node_1780653208795_qyq6f3kn0",
+          "name": "Секция",
+          "active": 1,
+          "helpers_visible": 1,
+          "size": {
+            "x": "s:x",
+            "y": "s:y",
+            "z": "s:z"
+          },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pivot": {
+            "x": -1,
+            "y": -1,
+            "z": -1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "spec": {
+            "orientation": "f"
+          },
+          "children": [
+            {
+              "type": "wall",
+              "id": "node_1780653227457_gke6qlews",
+              "name": "Бок комода левый",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y-32",
+                "z": "s:z-3"
+              },
+              "pos": {
+                "x": 0,
+                "y": 16,
+                "z": 3
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "v",
+                "direction": "z",
+                "side": "left",
+                "material": {
+                  "group": "g0",
+                  "key": "material_2",
+                  "id": 10,
+                  "rotated": false,
+                  "fixed": false
+                },
+                "detailTypeId": "vertical_left",
+                "show_index": true
+              },
+              "material_id": 10,
+              "material_name": "Белый",
+              "material_key": "material_2",
+              "material_group": "g0",
+              "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+              "edges": {
+                "4": {
+                  "enabled": true,
+                  "thickness": 0.2,
+                  "type": "butts",
+                  "type_name": "Набор по умолчанию"
+                }
+              },
+              "edge_numbering": true,
+              "children": []
+            },
+            {
+              "type": "wall",
+              "id": "node_1780653305261_vdb0wnfwi",
+              "name": "Бок комода правый",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y-32",
+                "z": "s:z-3"
+              },
+              "pos": {
+                "x": "s:x",
+                "y": 16,
+                "z": 3
+              },
+              "pivot": {
+                "x": 1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "v",
+                "direction": "z",
+                "side": "right",
+                "material": {
+                  "group": "g0",
+                  "key": "material_2",
+                  "id": 10,
+                  "rotated": false,
+                  "fixed": false
+                },
+                "detailTypeId": "vertical_right",
+                "show_index": true
+              },
+              "material_id": 10,
+              "material_name": "Белый",
+              "material_key": "material_2",
+              "material_group": "g0",
+              "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+              "edges": {
+                "4": {
+                  "enabled": true,
+                  "thickness": 0.8,
+                  "type": "butts",
+                  "type_name": "Набор по умолчанию",
+                  "color": "#ffffff",
+                  "decor_id": "1",
+                  "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                  "edge_id": "1",
+                  "edge_name": "Кромка ABC Белый премиум 0,8*18"
+                }
+              },
+              "edge_numbering": true,
+              "children": []
+            },
+            {
+              "type": "wall",
+              "id": "node_1780653365295_t2svpxyo8",
+              "name": "Дно комода",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z-3"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 3
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "h",
+                "direction": "z",
+                "side": "bottom",
+                "material": {
+                  "group": "g0",
+                  "key": "material_2",
+                  "id": 10,
+                  "rotated": false,
+                  "fixed": false
+                },
+                "detailTypeId": "horizontal_bottom",
+                "show_index": true
+              },
+              "material_id": 10,
+              "material_name": "Белый",
+              "material_key": "material_2",
+              "material_group": "g0",
+              "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+              "edges": {
+                "1": {
+                  "enabled": true,
+                  "thickness": 1,
+                  "type": "butts",
+                  "type_name": "Набор по умолчанию",
+                  "color": "#c8a882",
+                  "decor_id": "4",
+                  "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                  "edge_id": "4",
+                  "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+                },
+                "2": {
+                  "enabled": true,
+                  "thickness": 0.8,
+                  "type": "butts",
+                  "type_name": "Набор по умолчанию",
+                  "color": "#ffffff",
+                  "decor_id": "1",
+                  "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                  "edge_id": "1",
+                  "edge_name": "Кромка ABC Белый премиум 0,8*18"
+                },
+                "3": {
+                  "enabled": true,
+                  "thickness": 1,
+                  "type": "butts",
+                  "type_name": "Набор по умолчанию",
+                  "color": "#c8a882",
+                  "decor_id": "4",
+                  "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                  "edge_id": "4",
+                  "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+                }
+              },
+              "edge_numbering": true,
+              "children": []
+            },
+            {
+              "type": "wall",
+              "id": "node_1780653416253_owd8lia87",
+              "name": "Крыша комода",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z-3"
+              },
+              "pos": {
+                "x": 0,
+                "y": "s:y",
+                "z": 3
+              },
+              "pivot": {
+                "x": -1,
+                "y": 1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "h",
+                "direction": "z",
+                "side": "top",
+                "material": {
+                  "group": "g0",
+                  "key": "material_2",
+                  "id": 10,
+                  "rotated": false,
+                  "fixed": false
+                },
+                "detailTypeId": "horizontal_top",
+                "show_index": true
+              },
+              "material_id": 10,
+              "material_name": "Белый",
+              "material_key": "material_2",
+              "material_group": "g0",
+              "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+              "edges": {
+                "2": {
+                  "enabled": true,
+                  "thickness": 0.8,
+                  "type": "butts",
+                  "type_name": "Набор по умолчанию",
+                  "color": "#ffffff",
+                  "decor_id": "1",
+                  "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                  "edge_id": "1",
+                  "edge_name": "Кромка ABC Белый премиум 0,8*18"
+                },
+                "3": {
+                  "enabled": true,
+                  "thickness": 1,
+                  "type": "butts",
+                  "type_name": "Набор по умолчанию",
+                  "color": "#c8a882",
+                  "decor_id": "4",
+                  "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                  "edge_id": "4",
+                  "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+                },
+                "4": {
+                  "enabled": true,
+                  "thickness": 1,
+                  "type": "butts",
+                  "type_name": "Набор по умолчанию",
+                  "color": "#c8a882",
+                  "decor_id": "4",
+                  "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                  "edge_id": "4",
+                  "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+                }
+              },
+              "edge_numbering": true,
+              "children": []
+            },
+            {
+              "type": "wall",
+              "id": "node_1780653540677_cgj3wwulx",
+              "name": "Задняя стенка",
+              "active": 1,
+              "size": {
+                "x": "s:x-4",
+                "y": "s:y-4",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 2,
+                "y": 2,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "f",
+                "direction": "z",
+                "side": "back",
+                "material": {
+                  "group": "g1",
+                  "key": "material_3",
+                  "rotated": false,
+                  "fixed": false
+                },
+                "detailTypeId": "back_front",
+                "show_index": false
+              },
+              "material_key": "material_3",
+              "material_group": "g1",
+              "edges": {},
+              "edge_numbering": false,
+              "children": []
+            }
+          ]
+        }
+      ],
+      "pairedCatalogItemIds": {
+        "single": 0,
+        "double": 0
+      },
+      "constructor_structure": {
+        "type": "module",
+        "name": "Комод напольный",
+        "children": [
+          {
+            "type": "section",
+            "id": "node_1780653208795_qyq6f3kn0",
+            "name": "Секция",
+            "active": 1,
+            "helpers_visible": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "orientation": "f"
+            },
+            "children": [
+              {
+                "type": "wall",
+                "id": "node_1780653227457_gke6qlews",
+                "name": "Бок комода левый",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y-32",
+                  "z": "s:z-3"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 16,
+                  "z": 3
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "v",
+                  "direction": "z",
+                  "side": "left",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "id": 10,
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "vertical_left",
+                  "show_index": true
+                },
+                "material_id": 10,
+                "material_name": "Белый",
+                "material_key": "material_2",
+                "material_group": "g0",
+                "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+                "edges": {
+                  "4": {
+                    "enabled": true,
+                    "thickness": 0.2,
+                    "type": "butts",
+                    "type_name": "Набор по умолчанию"
+                  }
+                },
+                "edge_numbering": true,
+                "children": []
+              },
+              {
+                "type": "wall",
+                "id": "node_1780653305261_vdb0wnfwi",
+                "name": "Бок комода правый",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y-32",
+                  "z": "s:z-3"
+                },
+                "pos": {
+                  "x": "s:x",
+                  "y": 16,
+                  "z": 3
+                },
+                "pivot": {
+                  "x": 1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "v",
+                  "direction": "z",
+                  "side": "right",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "id": 10,
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "vertical_right",
+                  "show_index": true
+                },
+                "material_id": 10,
+                "material_name": "Белый",
+                "material_key": "material_2",
+                "material_group": "g0",
+                "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+                "edges": {
+                  "4": {
+                    "enabled": true,
+                    "thickness": 0.8,
+                    "type": "butts",
+                    "type_name": "Набор по умолчанию",
+                    "color": "#ffffff",
+                    "decor_id": "1",
+                    "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                    "edge_id": "1",
+                    "edge_name": "Кромка ABC Белый премиум 0,8*18"
+                  }
+                },
+                "edge_numbering": true,
+                "children": []
+              },
+              {
+                "type": "wall",
+                "id": "node_1780653365295_t2svpxyo8",
+                "name": "Дно комода",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z-3"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 3
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "h",
+                  "direction": "z",
+                  "side": "bottom",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "id": 10,
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "horizontal_bottom",
+                  "show_index": true
+                },
+                "material_id": 10,
+                "material_name": "Белый",
+                "material_key": "material_2",
+                "material_group": "g0",
+                "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+                "edges": {
+                  "1": {
+                    "enabled": true,
+                    "thickness": 1,
+                    "type": "butts",
+                    "type_name": "Набор по умолчанию",
+                    "color": "#c8a882",
+                    "decor_id": "4",
+                    "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                    "edge_id": "4",
+                    "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+                  },
+                  "2": {
+                    "enabled": true,
+                    "thickness": 0.8,
+                    "type": "butts",
+                    "type_name": "Набор по умолчанию",
+                    "color": "#ffffff",
+                    "decor_id": "1",
+                    "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                    "edge_id": "1",
+                    "edge_name": "Кромка ABC Белый премиум 0,8*18"
+                  },
+                  "3": {
+                    "enabled": true,
+                    "thickness": 1,
+                    "type": "butts",
+                    "type_name": "Набор по умолчанию",
+                    "color": "#c8a882",
+                    "decor_id": "4",
+                    "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                    "edge_id": "4",
+                    "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+                  }
+                },
+                "edge_numbering": true,
+                "children": []
+              },
+              {
+                "type": "wall",
+                "id": "node_1780653416253_owd8lia87",
+                "name": "Крыша комода",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z-3"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": "s:y",
+                  "z": 3
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": 1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "h",
+                  "direction": "z",
+                  "side": "top",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "id": 10,
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "horizontal_top",
+                  "show_index": true
+                },
+                "material_id": 10,
+                "material_name": "Белый",
+                "material_key": "material_2",
+                "material_group": "g0",
+                "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+                "edges": {
+                  "2": {
+                    "enabled": true,
+                    "thickness": 0.8,
+                    "type": "butts",
+                    "type_name": "Набор по умолчанию",
+                    "color": "#ffffff",
+                    "decor_id": "1",
+                    "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                    "edge_id": "1",
+                    "edge_name": "Кромка ABC Белый премиум 0,8*18"
+                  },
+                  "3": {
+                    "enabled": true,
+                    "thickness": 1,
+                    "type": "butts",
+                    "type_name": "Набор по умолчанию",
+                    "color": "#c8a882",
+                    "decor_id": "4",
+                    "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                    "edge_id": "4",
+                    "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+                  },
+                  "4": {
+                    "enabled": true,
+                    "thickness": 1,
+                    "type": "butts",
+                    "type_name": "Набор по умолчанию",
+                    "color": "#c8a882",
+                    "decor_id": "4",
+                    "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                    "edge_id": "4",
+                    "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+                  }
+                },
+                "edge_numbering": true,
+                "children": []
+              },
+              {
+                "type": "wall",
+                "id": "node_1780653540677_cgj3wwulx",
+                "name": "Задняя стенка",
+                "active": 1,
+                "size": {
+                  "x": "s:x-4",
+                  "y": "s:y-4",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 2,
+                  "y": 2,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "f",
+                  "direction": "z",
+                  "side": "back",
+                  "material": {
+                    "group": "g1",
+                    "key": "material_3",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "back_front",
+                  "show_index": false
+                },
+                "material_key": "material_3",
+                "material_group": "g1",
+                "edges": {},
+                "edge_numbering": false,
+                "children": []
+              }
+            ]
+          }
+        ],
+        "variables": {
+          "main": {
+            "h_bottom": 100,
+            "h_top": 0
+          },
+          "groups": []
+        },
+        "template": {
+          "structure": [
+            {
+              "type": "section",
+              "id": "node_1780653208795_qyq6f3kn0",
+              "name": "Секция",
+              "active": 1,
+              "helpers_visible": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "f"
+              },
+              "children": [
+                {
+                  "type": "wall",
+                  "id": "node_1780653227457_gke6qlews",
+                  "name": "Бок комода левый",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y-32",
+                    "z": "s:z-3"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 16,
+                    "z": 3
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "orientation": "v",
+                    "direction": "z",
+                    "side": "left",
+                    "material": {
+                      "group": "g0",
+                      "key": "material_2",
+                      "id": 10,
+                      "rotated": false,
+                      "fixed": false
+                    },
+                    "detailTypeId": "vertical_left",
+                    "show_index": true
+                  },
+                  "material_id": 10,
+                  "material_name": "Белый",
+                  "material_key": "material_2",
+                  "material_group": "g0",
+                  "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+                  "edges": {
+                    "4": {
+                      "enabled": true,
+                      "thickness": 0.2,
+                      "type": "butts",
+                      "type_name": "Набор по умолчанию"
+                    }
+                  },
+                  "edge_numbering": true,
+                  "children": []
+                },
+                {
+                  "type": "wall",
+                  "id": "node_1780653305261_vdb0wnfwi",
+                  "name": "Бок комода правый",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y-32",
+                    "z": "s:z-3"
+                  },
+                  "pos": {
+                    "x": "s:x",
+                    "y": 16,
+                    "z": 3
+                  },
+                  "pivot": {
+                    "x": 1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "orientation": "v",
+                    "direction": "z",
+                    "side": "right",
+                    "material": {
+                      "group": "g0",
+                      "key": "material_2",
+                      "id": 10,
+                      "rotated": false,
+                      "fixed": false
+                    },
+                    "detailTypeId": "vertical_right",
+                    "show_index": true
+                  },
+                  "material_id": 10,
+                  "material_name": "Белый",
+                  "material_key": "material_2",
+                  "material_group": "g0",
+                  "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+                  "edges": {
+                    "4": {
+                      "enabled": true,
+                      "thickness": 0.8,
+                      "type": "butts",
+                      "type_name": "Набор по умолчанию",
+                      "color": "#ffffff",
+                      "decor_id": "1",
+                      "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                      "edge_id": "1",
+                      "edge_name": "Кромка ABC Белый премиум 0,8*18"
+                    }
+                  },
+                  "edge_numbering": true,
+                  "children": []
+                },
+                {
+                  "type": "wall",
+                  "id": "node_1780653365295_t2svpxyo8",
+                  "name": "Дно комода",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z-3"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 3
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "orientation": "h",
+                    "direction": "z",
+                    "side": "bottom",
+                    "material": {
+                      "group": "g0",
+                      "key": "material_2",
+                      "id": 10,
+                      "rotated": false,
+                      "fixed": false
+                    },
+                    "detailTypeId": "horizontal_bottom",
+                    "show_index": true
+                  },
+                  "material_id": 10,
+                  "material_name": "Белый",
+                  "material_key": "material_2",
+                  "material_group": "g0",
+                  "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+                  "edges": {
+                    "1": {
+                      "enabled": true,
+                      "thickness": 1,
+                      "type": "butts",
+                      "type_name": "Набор по умолчанию",
+                      "color": "#c8a882",
+                      "decor_id": "4",
+                      "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                      "edge_id": "4",
+                      "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+                    },
+                    "2": {
+                      "enabled": true,
+                      "thickness": 0.8,
+                      "type": "butts",
+                      "type_name": "Набор по умолчанию",
+                      "color": "#ffffff",
+                      "decor_id": "1",
+                      "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                      "edge_id": "1",
+                      "edge_name": "Кромка ABC Белый премиум 0,8*18"
+                    },
+                    "3": {
+                      "enabled": true,
+                      "thickness": 1,
+                      "type": "butts",
+                      "type_name": "Набор по умолчанию",
+                      "color": "#c8a882",
+                      "decor_id": "4",
+                      "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                      "edge_id": "4",
+                      "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+                    }
+                  },
+                  "edge_numbering": true,
+                  "children": []
+                },
+                {
+                  "type": "wall",
+                  "id": "node_1780653416253_owd8lia87",
+                  "name": "Крыша комода",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z-3"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": "s:y",
+                    "z": 3
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": 1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "orientation": "h",
+                    "direction": "z",
+                    "side": "top",
+                    "material": {
+                      "group": "g0",
+                      "key": "material_2",
+                      "id": 10,
+                      "rotated": false,
+                      "fixed": false
+                    },
+                    "detailTypeId": "horizontal_top",
+                    "show_index": true
+                  },
+                  "material_id": 10,
+                  "material_name": "Белый",
+                  "material_key": "material_2",
+                  "material_group": "g0",
+                  "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+                  "edges": {
+                    "2": {
+                      "enabled": true,
+                      "thickness": 0.8,
+                      "type": "butts",
+                      "type_name": "Набор по умолчанию",
+                      "color": "#ffffff",
+                      "decor_id": "1",
+                      "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                      "edge_id": "1",
+                      "edge_name": "Кромка ABC Белый премиум 0,8*18"
+                    },
+                    "3": {
+                      "enabled": true,
+                      "thickness": 1,
+                      "type": "butts",
+                      "type_name": "Набор по умолчанию",
+                      "color": "#c8a882",
+                      "decor_id": "4",
+                      "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                      "edge_id": "4",
+                      "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+                    },
+                    "4": {
+                      "enabled": true,
+                      "thickness": 1,
+                      "type": "butts",
+                      "type_name": "Набор по умолчанию",
+                      "color": "#c8a882",
+                      "decor_id": "4",
+                      "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                      "edge_id": "4",
+                      "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+                    }
+                  },
+                  "edge_numbering": true,
+                  "children": []
+                },
+                {
+                  "type": "wall",
+                  "id": "node_1780653540677_cgj3wwulx",
+                  "name": "Задняя стенка",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x-4",
+                    "y": "s:y-4",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": 2,
+                    "y": 2,
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "orientation": "f",
+                    "direction": "z",
+                    "side": "back",
+                    "material": {
+                      "group": "g1",
+                      "key": "material_3",
+                      "rotated": false,
+                      "fixed": false
+                    },
+                    "detailTypeId": "back_front",
+                    "show_index": false
+                  },
+                  "material_key": "material_3",
+                  "material_group": "g1",
+                  "edges": {},
+                  "edge_numbering": false,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        "materials_overrides": {
+          "g1": {
+            "material_key": "material_3"
+          }
+        },
+        "spec": {
+          "template": {
+            "tree": [
+              {
+                "type": "section",
+                "id": "node_1780653208795_qyq6f3kn0",
+                "name": "Секция",
+                "active": 1,
+                "helpers_visible": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "f"
+                },
+                "children": [
+                  {
+                    "type": "wall",
+                    "id": "node_1780653227457_gke6qlews",
+                    "name": "Бок комода левый",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x",
+                      "y": "s:y-32",
+                      "z": "s:z-3"
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": 16,
+                      "z": 3
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "orientation": "v",
+                      "direction": "z",
+                      "side": "left",
+                      "material": {
+                        "group": "g0",
+                        "key": "material_2",
+                        "id": 10,
+                        "rotated": false,
+                        "fixed": false
+                      },
+                      "detailTypeId": "vertical_left",
+                      "show_index": true
+                    },
+                    "material_id": 10,
+                    "material_name": "Белый",
+                    "material_key": "material_2",
+                    "material_group": "g0",
+                    "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+                    "edges": {
+                      "4": {
+                        "enabled": true,
+                        "thickness": 0.2,
+                        "type": "butts",
+                        "type_name": "Набор по умолчанию"
+                      }
+                    },
+                    "edge_numbering": true,
+                    "children": []
+                  },
+                  {
+                    "type": "wall",
+                    "id": "node_1780653305261_vdb0wnfwi",
+                    "name": "Бок комода правый",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x",
+                      "y": "s:y-32",
+                      "z": "s:z-3"
+                    },
+                    "pos": {
+                      "x": "s:x",
+                      "y": 16,
+                      "z": 3
+                    },
+                    "pivot": {
+                      "x": 1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "orientation": "v",
+                      "direction": "z",
+                      "side": "right",
+                      "material": {
+                        "group": "g0",
+                        "key": "material_2",
+                        "id": 10,
+                        "rotated": false,
+                        "fixed": false
+                      },
+                      "detailTypeId": "vertical_right",
+                      "show_index": true
+                    },
+                    "material_id": 10,
+                    "material_name": "Белый",
+                    "material_key": "material_2",
+                    "material_group": "g0",
+                    "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+                    "edges": {
+                      "4": {
+                        "enabled": true,
+                        "thickness": 0.8,
+                        "type": "butts",
+                        "type_name": "Набор по умолчанию",
+                        "color": "#ffffff",
+                        "decor_id": "1",
+                        "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                        "edge_id": "1",
+                        "edge_name": "Кромка ABC Белый премиум 0,8*18"
+                      }
+                    },
+                    "edge_numbering": true,
+                    "children": []
+                  },
+                  {
+                    "type": "wall",
+                    "id": "node_1780653365295_t2svpxyo8",
+                    "name": "Дно комода",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x",
+                      "y": "s:y",
+                      "z": "s:z-3"
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 3
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "orientation": "h",
+                      "direction": "z",
+                      "side": "bottom",
+                      "material": {
+                        "group": "g0",
+                        "key": "material_2",
+                        "id": 10,
+                        "rotated": false,
+                        "fixed": false
+                      },
+                      "detailTypeId": "horizontal_bottom",
+                      "show_index": true
+                    },
+                    "material_id": 10,
+                    "material_name": "Белый",
+                    "material_key": "material_2",
+                    "material_group": "g0",
+                    "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+                    "edges": {
+                      "1": {
+                        "enabled": true,
+                        "thickness": 1,
+                        "type": "butts",
+                        "type_name": "Набор по умолчанию",
+                        "color": "#c8a882",
+                        "decor_id": "4",
+                        "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                        "edge_id": "4",
+                        "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+                      },
+                      "2": {
+                        "enabled": true,
+                        "thickness": 0.8,
+                        "type": "butts",
+                        "type_name": "Набор по умолчанию",
+                        "color": "#ffffff",
+                        "decor_id": "1",
+                        "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                        "edge_id": "1",
+                        "edge_name": "Кромка ABC Белый премиум 0,8*18"
+                      },
+                      "3": {
+                        "enabled": true,
+                        "thickness": 1,
+                        "type": "butts",
+                        "type_name": "Набор по умолчанию",
+                        "color": "#c8a882",
+                        "decor_id": "4",
+                        "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                        "edge_id": "4",
+                        "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+                      }
+                    },
+                    "edge_numbering": true,
+                    "children": []
+                  },
+                  {
+                    "type": "wall",
+                    "id": "node_1780653416253_owd8lia87",
+                    "name": "Крыша комода",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x",
+                      "y": "s:y",
+                      "z": "s:z-3"
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": "s:y",
+                      "z": 3
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": 1,
+                      "z": -1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "orientation": "h",
+                      "direction": "z",
+                      "side": "top",
+                      "material": {
+                        "group": "g0",
+                        "key": "material_2",
+                        "id": 10,
+                        "rotated": false,
+                        "fixed": false
+                      },
+                      "detailTypeId": "horizontal_top",
+                      "show_index": true
+                    },
+                    "material_id": 10,
+                    "material_name": "Белый",
+                    "material_key": "material_2",
+                    "material_group": "g0",
+                    "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+                    "edges": {
+                      "2": {
+                        "enabled": true,
+                        "thickness": 0.8,
+                        "type": "butts",
+                        "type_name": "Набор по умолчанию",
+                        "color": "#ffffff",
+                        "decor_id": "1",
+                        "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                        "edge_id": "1",
+                        "edge_name": "Кромка ABC Белый премиум 0,8*18"
+                      },
+                      "3": {
+                        "enabled": true,
+                        "thickness": 1,
+                        "type": "butts",
+                        "type_name": "Набор по умолчанию",
+                        "color": "#c8a882",
+                        "decor_id": "4",
+                        "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                        "edge_id": "4",
+                        "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+                      },
+                      "4": {
+                        "enabled": true,
+                        "thickness": 1,
+                        "type": "butts",
+                        "type_name": "Набор по умолчанию",
+                        "color": "#c8a882",
+                        "decor_id": "4",
+                        "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                        "edge_id": "4",
+                        "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+                      }
+                    },
+                    "edge_numbering": true,
+                    "children": []
+                  },
+                  {
+                    "type": "wall",
+                    "id": "node_1780653540677_cgj3wwulx",
+                    "name": "Задняя стенка",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x-4",
+                      "y": "s:y-4",
+                      "z": "s:z"
+                    },
+                    "pos": {
+                      "x": 2,
+                      "y": 2,
+                      "z": 0
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "orientation": "f",
+                      "direction": "z",
+                      "side": "back",
+                      "material": {
+                        "group": "g1",
+                        "key": "material_3",
+                        "rotated": false,
+                        "fixed": false
+                      },
+                      "detailTypeId": "back_front",
+                      "show_index": false
+                    },
+                    "material_key": "material_3",
+                    "material_group": "g1",
+                    "edges": {},
+                    "edge_numbering": false,
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    "constructor_structure": {
+      "type": "module",
+      "name": "Комод напольный",
+      "children": [
+        {
+          "type": "section",
+          "id": "node_1780653208795_qyq6f3kn0",
+          "name": "Секция",
+          "active": 1,
+          "helpers_visible": 1,
+          "size": {
+            "x": "s:x",
+            "y": "s:y",
+            "z": "s:z"
+          },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pivot": {
+            "x": -1,
+            "y": -1,
+            "z": -1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "spec": {
+            "orientation": "f"
+          },
+          "children": [
+            {
+              "type": "wall",
+              "id": "node_1780653227457_gke6qlews",
+              "name": "Бок комода левый",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y-32",
+                "z": "s:z-3"
+              },
+              "pos": {
+                "x": 0,
+                "y": 16,
+                "z": 3
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "v",
+                "direction": "z",
+                "side": "left",
+                "material": {
+                  "group": "g0",
+                  "key": "material_2",
+                  "id": 10,
+                  "rotated": false,
+                  "fixed": false
+                },
+                "detailTypeId": "vertical_left",
+                "show_index": true
+              },
+              "material_id": 10,
+              "material_name": "Белый",
+              "material_key": "material_2",
+              "material_group": "g0",
+              "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+              "edges": {
+                "4": {
+                  "enabled": true,
+                  "thickness": 0.2,
+                  "type": "butts",
+                  "type_name": "Набор по умолчанию"
+                }
+              },
+              "edge_numbering": true,
+              "children": []
+            },
+            {
+              "type": "wall",
+              "id": "node_1780653305261_vdb0wnfwi",
+              "name": "Бок комода правый",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y-32",
+                "z": "s:z-3"
+              },
+              "pos": {
+                "x": "s:x",
+                "y": 16,
+                "z": 3
+              },
+              "pivot": {
+                "x": 1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "v",
+                "direction": "z",
+                "side": "right",
+                "material": {
+                  "group": "g0",
+                  "key": "material_2",
+                  "id": 10,
+                  "rotated": false,
+                  "fixed": false
+                },
+                "detailTypeId": "vertical_right",
+                "show_index": true
+              },
+              "material_id": 10,
+              "material_name": "Белый",
+              "material_key": "material_2",
+              "material_group": "g0",
+              "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+              "edges": {
+                "4": {
+                  "enabled": true,
+                  "thickness": 0.8,
+                  "type": "butts",
+                  "type_name": "Набор по умолчанию",
+                  "color": "#ffffff",
+                  "decor_id": "1",
+                  "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                  "edge_id": "1",
+                  "edge_name": "Кромка ABC Белый премиум 0,8*18"
+                }
+              },
+              "edge_numbering": true,
+              "children": []
+            },
+            {
+              "type": "wall",
+              "id": "node_1780653365295_t2svpxyo8",
+              "name": "Дно комода",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z-3"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 3
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "h",
+                "direction": "z",
+                "side": "bottom",
+                "material": {
+                  "group": "g0",
+                  "key": "material_2",
+                  "id": 10,
+                  "rotated": false,
+                  "fixed": false
+                },
+                "detailTypeId": "horizontal_bottom",
+                "show_index": true
+              },
+              "material_id": 10,
+              "material_name": "Белый",
+              "material_key": "material_2",
+              "material_group": "g0",
+              "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+              "edges": {
+                "1": {
+                  "enabled": true,
+                  "thickness": 1,
+                  "type": "butts",
+                  "type_name": "Набор по умолчанию",
+                  "color": "#c8a882",
+                  "decor_id": "4",
+                  "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                  "edge_id": "4",
+                  "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+                },
+                "2": {
+                  "enabled": true,
+                  "thickness": 0.8,
+                  "type": "butts",
+                  "type_name": "Набор по умолчанию",
+                  "color": "#ffffff",
+                  "decor_id": "1",
+                  "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                  "edge_id": "1",
+                  "edge_name": "Кромка ABC Белый премиум 0,8*18"
+                },
+                "3": {
+                  "enabled": true,
+                  "thickness": 1,
+                  "type": "butts",
+                  "type_name": "Набор по умолчанию",
+                  "color": "#c8a882",
+                  "decor_id": "4",
+                  "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                  "edge_id": "4",
+                  "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+                }
+              },
+              "edge_numbering": true,
+              "children": []
+            },
+            {
+              "type": "wall",
+              "id": "node_1780653416253_owd8lia87",
+              "name": "Крыша комода",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z-3"
+              },
+              "pos": {
+                "x": 0,
+                "y": "s:y",
+                "z": 3
+              },
+              "pivot": {
+                "x": -1,
+                "y": 1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "h",
+                "direction": "z",
+                "side": "top",
+                "material": {
+                  "group": "g0",
+                  "key": "material_2",
+                  "id": 10,
+                  "rotated": false,
+                  "fixed": false
+                },
+                "detailTypeId": "horizontal_top",
+                "show_index": true
+              },
+              "material_id": 10,
+              "material_name": "Белый",
+              "material_key": "material_2",
+              "material_group": "g0",
+              "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+              "edges": {
+                "2": {
+                  "enabled": true,
+                  "thickness": 0.8,
+                  "type": "butts",
+                  "type_name": "Набор по умолчанию",
+                  "color": "#ffffff",
+                  "decor_id": "1",
+                  "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                  "edge_id": "1",
+                  "edge_name": "Кромка ABC Белый премиум 0,8*18"
+                },
+                "3": {
+                  "enabled": true,
+                  "thickness": 1,
+                  "type": "butts",
+                  "type_name": "Набор по умолчанию",
+                  "color": "#c8a882",
+                  "decor_id": "4",
+                  "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                  "edge_id": "4",
+                  "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+                },
+                "4": {
+                  "enabled": true,
+                  "thickness": 1,
+                  "type": "butts",
+                  "type_name": "Набор по умолчанию",
+                  "color": "#c8a882",
+                  "decor_id": "4",
+                  "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                  "edge_id": "4",
+                  "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+                }
+              },
+              "edge_numbering": true,
+              "children": []
+            },
+            {
+              "type": "wall",
+              "id": "node_1780653540677_cgj3wwulx",
+              "name": "Задняя стенка",
+              "active": 1,
+              "size": {
+                "x": "s:x-4",
+                "y": "s:y-4",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 2,
+                "y": 2,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "f",
+                "direction": "z",
+                "side": "back",
+                "material": {
+                  "group": "g1",
+                  "key": "material_3",
+                  "rotated": false,
+                  "fixed": false
+                },
+                "detailTypeId": "back_front",
+                "show_index": false
+              },
+              "material_key": "material_3",
+              "material_group": "g1",
+              "edges": {},
+              "edge_numbering": false,
+              "children": []
+            }
+          ]
+        }
+      ],
+      "variables": {
+        "main": {
+          "h_bottom": 100,
+          "h_top": 0
+        },
+        "groups": []
+      },
+      "template": {
+        "structure": [
+          {
+            "type": "section",
+            "id": "node_1780653208795_qyq6f3kn0",
+            "name": "Секция",
+            "active": 1,
+            "helpers_visible": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "orientation": "f"
+            },
+            "children": [
+              {
+                "type": "wall",
+                "id": "node_1780653227457_gke6qlews",
+                "name": "Бок комода левый",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y-32",
+                  "z": "s:z-3"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 16,
+                  "z": 3
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "v",
+                  "direction": "z",
+                  "side": "left",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "id": 10,
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "vertical_left",
+                  "show_index": true
+                },
+                "material_id": 10,
+                "material_name": "Белый",
+                "material_key": "material_2",
+                "material_group": "g0",
+                "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+                "edges": {
+                  "4": {
+                    "enabled": true,
+                    "thickness": 0.2,
+                    "type": "butts",
+                    "type_name": "Набор по умолчанию"
+                  }
+                },
+                "edge_numbering": true,
+                "children": []
+              },
+              {
+                "type": "wall",
+                "id": "node_1780653305261_vdb0wnfwi",
+                "name": "Бок комода правый",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y-32",
+                  "z": "s:z-3"
+                },
+                "pos": {
+                  "x": "s:x",
+                  "y": 16,
+                  "z": 3
+                },
+                "pivot": {
+                  "x": 1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "v",
+                  "direction": "z",
+                  "side": "right",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "id": 10,
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "vertical_right",
+                  "show_index": true
+                },
+                "material_id": 10,
+                "material_name": "Белый",
+                "material_key": "material_2",
+                "material_group": "g0",
+                "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+                "edges": {
+                  "4": {
+                    "enabled": true,
+                    "thickness": 0.8,
+                    "type": "butts",
+                    "type_name": "Набор по умолчанию",
+                    "color": "#ffffff",
+                    "decor_id": "1",
+                    "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                    "edge_id": "1",
+                    "edge_name": "Кромка ABC Белый премиум 0,8*18"
+                  }
+                },
+                "edge_numbering": true,
+                "children": []
+              },
+              {
+                "type": "wall",
+                "id": "node_1780653365295_t2svpxyo8",
+                "name": "Дно комода",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z-3"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 3
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "h",
+                  "direction": "z",
+                  "side": "bottom",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "id": 10,
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "horizontal_bottom",
+                  "show_index": true
+                },
+                "material_id": 10,
+                "material_name": "Белый",
+                "material_key": "material_2",
+                "material_group": "g0",
+                "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+                "edges": {
+                  "1": {
+                    "enabled": true,
+                    "thickness": 1,
+                    "type": "butts",
+                    "type_name": "Набор по умолчанию",
+                    "color": "#c8a882",
+                    "decor_id": "4",
+                    "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                    "edge_id": "4",
+                    "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+                  },
+                  "2": {
+                    "enabled": true,
+                    "thickness": 0.8,
+                    "type": "butts",
+                    "type_name": "Набор по умолчанию",
+                    "color": "#ffffff",
+                    "decor_id": "1",
+                    "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                    "edge_id": "1",
+                    "edge_name": "Кромка ABC Белый премиум 0,8*18"
+                  },
+                  "3": {
+                    "enabled": true,
+                    "thickness": 1,
+                    "type": "butts",
+                    "type_name": "Набор по умолчанию",
+                    "color": "#c8a882",
+                    "decor_id": "4",
+                    "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                    "edge_id": "4",
+                    "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+                  }
+                },
+                "edge_numbering": true,
+                "children": []
+              },
+              {
+                "type": "wall",
+                "id": "node_1780653416253_owd8lia87",
+                "name": "Крыша комода",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z-3"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": "s:y",
+                  "z": 3
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": 1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "h",
+                  "direction": "z",
+                  "side": "top",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "id": 10,
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "horizontal_top",
+                  "show_index": true
+                },
+                "material_id": 10,
+                "material_name": "Белый",
+                "material_key": "material_2",
+                "material_group": "g0",
+                "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+                "edges": {
+                  "2": {
+                    "enabled": true,
+                    "thickness": 0.8,
+                    "type": "butts",
+                    "type_name": "Набор по умолчанию",
+                    "color": "#ffffff",
+                    "decor_id": "1",
+                    "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                    "edge_id": "1",
+                    "edge_name": "Кромка ABC Белый премиум 0,8*18"
+                  },
+                  "3": {
+                    "enabled": true,
+                    "thickness": 1,
+                    "type": "butts",
+                    "type_name": "Набор по умолчанию",
+                    "color": "#c8a882",
+                    "decor_id": "4",
+                    "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                    "edge_id": "4",
+                    "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+                  },
+                  "4": {
+                    "enabled": true,
+                    "thickness": 1,
+                    "type": "butts",
+                    "type_name": "Набор по умолчанию",
+                    "color": "#c8a882",
+                    "decor_id": "4",
+                    "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                    "edge_id": "4",
+                    "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+                  }
+                },
+                "edge_numbering": true,
+                "children": []
+              },
+              {
+                "type": "wall",
+                "id": "node_1780653540677_cgj3wwulx",
+                "name": "Задняя стенка",
+                "active": 1,
+                "size": {
+                  "x": "s:x-4",
+                  "y": "s:y-4",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 2,
+                  "y": 2,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "f",
+                  "direction": "z",
+                  "side": "back",
+                  "material": {
+                    "group": "g1",
+                    "key": "material_3",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "back_front",
+                  "show_index": false
+                },
+                "material_key": "material_3",
+                "material_group": "g1",
+                "edges": {},
+                "edge_numbering": false,
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      "materials_overrides": {
+        "g1": {
+          "material_key": "material_3"
+        }
+      },
+      "spec": {
+        "template": {
+          "tree": [
+            {
+              "type": "section",
+              "id": "node_1780653208795_qyq6f3kn0",
+              "name": "Секция",
+              "active": 1,
+              "helpers_visible": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "f"
+              },
+              "children": [
+                {
+                  "type": "wall",
+                  "id": "node_1780653227457_gke6qlews",
+                  "name": "Бок комода левый",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y-32",
+                    "z": "s:z-3"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 16,
+                    "z": 3
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "orientation": "v",
+                    "direction": "z",
+                    "side": "left",
+                    "material": {
+                      "group": "g0",
+                      "key": "material_2",
+                      "id": 10,
+                      "rotated": false,
+                      "fixed": false
+                    },
+                    "detailTypeId": "vertical_left",
+                    "show_index": true
+                  },
+                  "material_id": 10,
+                  "material_name": "Белый",
+                  "material_key": "material_2",
+                  "material_group": "g0",
+                  "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+                  "edges": {
+                    "4": {
+                      "enabled": true,
+                      "thickness": 0.2,
+                      "type": "butts",
+                      "type_name": "Набор по умолчанию"
+                    }
+                  },
+                  "edge_numbering": true,
+                  "children": []
+                },
+                {
+                  "type": "wall",
+                  "id": "node_1780653305261_vdb0wnfwi",
+                  "name": "Бок комода правый",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y-32",
+                    "z": "s:z-3"
+                  },
+                  "pos": {
+                    "x": "s:x",
+                    "y": 16,
+                    "z": 3
+                  },
+                  "pivot": {
+                    "x": 1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "orientation": "v",
+                    "direction": "z",
+                    "side": "right",
+                    "material": {
+                      "group": "g0",
+                      "key": "material_2",
+                      "id": 10,
+                      "rotated": false,
+                      "fixed": false
+                    },
+                    "detailTypeId": "vertical_right",
+                    "show_index": true
+                  },
+                  "material_id": 10,
+                  "material_name": "Белый",
+                  "material_key": "material_2",
+                  "material_group": "g0",
+                  "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+                  "edges": {
+                    "4": {
+                      "enabled": true,
+                      "thickness": 0.8,
+                      "type": "butts",
+                      "type_name": "Набор по умолчанию",
+                      "color": "#ffffff",
+                      "decor_id": "1",
+                      "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                      "edge_id": "1",
+                      "edge_name": "Кромка ABC Белый премиум 0,8*18"
+                    }
+                  },
+                  "edge_numbering": true,
+                  "children": []
+                },
+                {
+                  "type": "wall",
+                  "id": "node_1780653365295_t2svpxyo8",
+                  "name": "Дно комода",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z-3"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 3
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "orientation": "h",
+                    "direction": "z",
+                    "side": "bottom",
+                    "material": {
+                      "group": "g0",
+                      "key": "material_2",
+                      "id": 10,
+                      "rotated": false,
+                      "fixed": false
+                    },
+                    "detailTypeId": "horizontal_bottom",
+                    "show_index": true
+                  },
+                  "material_id": 10,
+                  "material_name": "Белый",
+                  "material_key": "material_2",
+                  "material_group": "g0",
+                  "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+                  "edges": {
+                    "1": {
+                      "enabled": true,
+                      "thickness": 1,
+                      "type": "butts",
+                      "type_name": "Набор по умолчанию",
+                      "color": "#c8a882",
+                      "decor_id": "4",
+                      "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                      "edge_id": "4",
+                      "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+                    },
+                    "2": {
+                      "enabled": true,
+                      "thickness": 0.8,
+                      "type": "butts",
+                      "type_name": "Набор по умолчанию",
+                      "color": "#ffffff",
+                      "decor_id": "1",
+                      "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                      "edge_id": "1",
+                      "edge_name": "Кромка ABC Белый премиум 0,8*18"
+                    },
+                    "3": {
+                      "enabled": true,
+                      "thickness": 1,
+                      "type": "butts",
+                      "type_name": "Набор по умолчанию",
+                      "color": "#c8a882",
+                      "decor_id": "4",
+                      "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                      "edge_id": "4",
+                      "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+                    }
+                  },
+                  "edge_numbering": true,
+                  "children": []
+                },
+                {
+                  "type": "wall",
+                  "id": "node_1780653416253_owd8lia87",
+                  "name": "Крыша комода",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z-3"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": "s:y",
+                    "z": 3
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": 1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "orientation": "h",
+                    "direction": "z",
+                    "side": "top",
+                    "material": {
+                      "group": "g0",
+                      "key": "material_2",
+                      "id": 10,
+                      "rotated": false,
+                      "fixed": false
+                    },
+                    "detailTypeId": "horizontal_top",
+                    "show_index": true
+                  },
+                  "material_id": 10,
+                  "material_name": "Белый",
+                  "material_key": "material_2",
+                  "material_group": "g0",
+                  "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+                  "edges": {
+                    "2": {
+                      "enabled": true,
+                      "thickness": 0.8,
+                      "type": "butts",
+                      "type_name": "Набор по умолчанию",
+                      "color": "#ffffff",
+                      "decor_id": "1",
+                      "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                      "edge_id": "1",
+                      "edge_name": "Кромка ABC Белый премиум 0,8*18"
+                    },
+                    "3": {
+                      "enabled": true,
+                      "thickness": 1,
+                      "type": "butts",
+                      "type_name": "Набор по умолчанию",
+                      "color": "#c8a882",
+                      "decor_id": "4",
+                      "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                      "edge_id": "4",
+                      "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+                    },
+                    "4": {
+                      "enabled": true,
+                      "thickness": 1,
+                      "type": "butts",
+                      "type_name": "Набор по умолчанию",
+                      "color": "#c8a882",
+                      "decor_id": "4",
+                      "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                      "edge_id": "4",
+                      "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+                    }
+                  },
+                  "edge_numbering": true,
+                  "children": []
+                },
+                {
+                  "type": "wall",
+                  "id": "node_1780653540677_cgj3wwulx",
+                  "name": "Задняя стенка",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x-4",
+                    "y": "s:y-4",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": 2,
+                    "y": 2,
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "orientation": "f",
+                    "direction": "z",
+                    "side": "back",
+                    "material": {
+                      "group": "g1",
+                      "key": "material_3",
+                      "rotated": false,
+                      "fixed": false
+                    },
+                    "detailTypeId": "back_front",
+                    "show_index": false
+                  },
+                  "material_key": "material_3",
+                  "material_group": "g1",
+                  "edges": {},
+                  "edge_numbering": false,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "clodisJSON": [
+      {
+        "type": "section",
+        "id": "node_1780653208795_qyq6f3kn0",
+        "name": "Секция",
+        "active": 1,
+        "helpers_visible": 1,
+        "size": {
+          "x": "s:x",
+          "y": "s:y",
+          "z": "s:z"
+        },
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "pivot": {
+          "x": -1,
+          "y": -1,
+          "z": -1
+        },
+        "rot": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "spec": {
+          "orientation": "f"
+        },
+        "children": [
+          {
+            "type": "wall",
+            "id": "node_1780653227457_gke6qlews",
+            "name": "Бок комода левый",
+            "active": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y-32",
+              "z": "s:z-3"
+            },
+            "pos": {
+              "x": 0,
+              "y": 16,
+              "z": 3
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "orientation": "v",
+              "direction": "z",
+              "side": "left",
+              "material": {
+                "group": "g0",
+                "key": "material_2",
+                "id": 10,
+                "rotated": false,
+                "fixed": false
+              },
+              "detailTypeId": "vertical_left",
+              "show_index": true
+            },
+            "material_id": 10,
+            "material_name": "Белый",
+            "material_key": "material_2",
+            "material_group": "g0",
+            "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+            "edges": {
+              "4": {
+                "enabled": true,
+                "thickness": 0.2,
+                "type": "butts",
+                "type_name": "Набор по умолчанию"
+              }
+            },
+            "edge_numbering": true,
+            "children": []
+          },
+          {
+            "type": "wall",
+            "id": "node_1780653305261_vdb0wnfwi",
+            "name": "Бок комода правый",
+            "active": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y-32",
+              "z": "s:z-3"
+            },
+            "pos": {
+              "x": "s:x",
+              "y": 16,
+              "z": 3
+            },
+            "pivot": {
+              "x": 1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "orientation": "v",
+              "direction": "z",
+              "side": "right",
+              "material": {
+                "group": "g0",
+                "key": "material_2",
+                "id": 10,
+                "rotated": false,
+                "fixed": false
+              },
+              "detailTypeId": "vertical_right",
+              "show_index": true
+            },
+            "material_id": 10,
+            "material_name": "Белый",
+            "material_key": "material_2",
+            "material_group": "g0",
+            "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+            "edges": {
+              "4": {
+                "enabled": true,
+                "thickness": 0.8,
+                "type": "butts",
+                "type_name": "Набор по умолчанию",
+                "color": "#ffffff",
+                "decor_id": "1",
+                "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                "edge_id": "1",
+                "edge_name": "Кромка ABC Белый премиум 0,8*18"
+              }
+            },
+            "edge_numbering": true,
+            "children": []
+          },
+          {
+            "type": "wall",
+            "id": "node_1780653365295_t2svpxyo8",
+            "name": "Дно комода",
+            "active": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z-3"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 3
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "orientation": "h",
+              "direction": "z",
+              "side": "bottom",
+              "material": {
+                "group": "g0",
+                "key": "material_2",
+                "id": 10,
+                "rotated": false,
+                "fixed": false
+              },
+              "detailTypeId": "horizontal_bottom",
+              "show_index": true
+            },
+            "material_id": 10,
+            "material_name": "Белый",
+            "material_key": "material_2",
+            "material_group": "g0",
+            "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+            "edges": {
+              "1": {
+                "enabled": true,
+                "thickness": 1,
+                "type": "butts",
+                "type_name": "Набор по умолчанию",
+                "color": "#c8a882",
+                "decor_id": "4",
+                "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                "edge_id": "4",
+                "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+              },
+              "2": {
+                "enabled": true,
+                "thickness": 0.8,
+                "type": "butts",
+                "type_name": "Набор по умолчанию",
+                "color": "#ffffff",
+                "decor_id": "1",
+                "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                "edge_id": "1",
+                "edge_name": "Кромка ABC Белый премиум 0,8*18"
+              },
+              "3": {
+                "enabled": true,
+                "thickness": 1,
+                "type": "butts",
+                "type_name": "Набор по умолчанию",
+                "color": "#c8a882",
+                "decor_id": "4",
+                "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                "edge_id": "4",
+                "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+              }
+            },
+            "edge_numbering": true,
+            "children": []
+          },
+          {
+            "type": "wall",
+            "id": "node_1780653416253_owd8lia87",
+            "name": "Крыша комода",
+            "active": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z-3"
+            },
+            "pos": {
+              "x": 0,
+              "y": "s:y",
+              "z": 3
+            },
+            "pivot": {
+              "x": -1,
+              "y": 1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "orientation": "h",
+              "direction": "z",
+              "side": "top",
+              "material": {
+                "group": "g0",
+                "key": "material_2",
+                "id": 10,
+                "rotated": false,
+                "fixed": false
+              },
+              "detailTypeId": "horizontal_top",
+              "show_index": true
+            },
+            "material_id": 10,
+            "material_name": "Белый",
+            "material_key": "material_2",
+            "material_group": "g0",
+            "material_icon": "/common_assets/images/materials/______________________________________1770790612537.jpg",
+            "edges": {
+              "2": {
+                "enabled": true,
+                "thickness": 0.8,
+                "type": "butts",
+                "type_name": "Набор по умолчанию",
+                "color": "#ffffff",
+                "decor_id": "1",
+                "decor_name": "Кромка ABC Белый премиум 0,8*18",
+                "edge_id": "1",
+                "edge_name": "Кромка ABC Белый премиум 0,8*18"
+              },
+              "3": {
+                "enabled": true,
+                "thickness": 1,
+                "type": "butts",
+                "type_name": "Набор по умолчанию",
+                "color": "#c8a882",
+                "decor_id": "4",
+                "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                "edge_id": "4",
+                "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+              },
+              "4": {
+                "enabled": true,
+                "thickness": 1,
+                "type": "butts",
+                "type_name": "Набор по умолчанию",
+                "color": "#c8a882",
+                "decor_id": "4",
+                "decor_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19",
+                "edge_id": "4",
+                "edge_name": "Кромка ПВХ GP-PLAST Безмолвная пустыня 0,4*19"
+              }
+            },
+            "edge_numbering": true,
+            "children": []
+          },
+          {
+            "type": "wall",
+            "id": "node_1780653540677_cgj3wwulx",
+            "name": "Задняя стенка",
+            "active": 1,
+            "size": {
+              "x": "s:x-4",
+              "y": "s:y-4",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 2,
+              "y": 2,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "orientation": "f",
+              "direction": "z",
+              "side": "back",
+              "material": {
+                "group": "g1",
+                "key": "material_3",
+                "rotated": false,
+                "fixed": false
+              },
+              "detailTypeId": "back_front",
+              "show_index": false
+            },
+            "material_key": "material_3",
+            "material_group": "g1",
+            "edges": {},
+            "edge_numbering": false,
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+]

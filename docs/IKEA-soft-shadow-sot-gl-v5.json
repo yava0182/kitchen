@@ -1,0 +1,36 @@
+/**
+ * IKEA Soft SoftShadow — SoT из dump gl-v5 (2026-08-26)
+ * Не выдумывать blur scale — фиксированные OFFSETS/WEIGHTS.
+ */
+{
+  "when": "2026-08-26T12:02:22.813Z",
+  "source": "gl-v5 softPP + lm uniforms",
+  "pipeline": [
+    "soft_shadow_transfer_depth",
+    "soft_shadow_blur (H then V via direction uniform)",
+    "soft_shadow_generate_texture → plane RGBA alpha"
+  ],
+  "uniformsLive": {
+    "referenceHeight": 0,
+    "intensity": 1
+  },
+  "transferDepth": {
+    "glsl": "vec3 P = vec3(vUV, depth)*2-1; reprojected = invVP * P; y=max(y,0); out = vec4(y,0,0,1)"
+  },
+  "blur": {
+    "SAMPLE_COUNT": 16,
+    "note": "direction = vec2 pixel step; scale is NOT a separate uniform (dump blurScale null)",
+    "OFFSETS": [-14.359376738854206, -12.377929569488517, -10.396849318746895, -8.41608382089975, -6.435576703455285, -4.455269417428358, -2.4751038298192056, -0.4950160492928827, 1.485055021558738, 3.465172537482815, 5.445401742210555, 7.425801606895373, 9.406430666971303, 11.38734672691729, 13.368604221609049, 15.0],
+    "WEIGHTS": [0.0025041984018900386, 0.00727113041385933, 0.01802730143570455, 0.03816459863275913, 0.06899239816054603, 0.10650359902176183, 0.14039677865797573, 0.15804511975825483, 0.15192860221604398, 0.12471881477578442, 0.0874287482869619, 0.05233640796478044, 0.02675285116432407, 0.011677277520458898, 0.004352222933779603, 0.0008999506551151568]
+  },
+  "generatePlane": {
+    "uvFlipX": true,
+    "formula": "alpha = 1.0 - exp(-max(0.0, h - referenceHeight) * intensity)",
+    "out": "vec4(0,0,0,alpha)"
+  },
+  "pbrVariantsEmptyRoom": {
+    "unlitOrDeferredish": { "ACTIVE_LIGHTS": 0, "ENABLE_SOFT_SHADOWS": 1, "ENABLE_ENVIRONMENT_MAP": 0 },
+    "litWallFloor": { "ACTIVE_LIGHTS": 1, "ACTIVE_SHADOW_LIGHTS": 1, "ENABLE_SOFT_SHADOWS": 1, "ENABLE_ENVIRONMENT_MAP": 1 }
+  },
+  "gap": "betrakta_material_renderer still include-only — need WEBGL_debug_shaders translated source for Spot cone/atten/soft factor in PBR"
+}

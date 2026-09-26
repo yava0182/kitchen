@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Восстановление библиотеки присадки</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 16px; }
+    button { font-size: 16px; padding: 10px 16px; cursor: pointer; }
+    pre { background: #f4f4f4; padding: 12px; overflow: auto; }
+    .ok { color: #0a7; }
+    .err { color: #c00; }
+  </style>
+</head>
+<body>
+  <h1>Восстановление присадки из файла на диске</h1>
+  <p>
+    Берёт <code>/data/clodis_drilling_registry.json</code> с <strong>этого</strong> сервера
+    и записывает в localStorage (шаблоны + схемы). Не чистит остальные ключи.
+  </p>
+  <p>
+    Запускайте сервер из папки <strong>1.345</strong> (куда уже скопирован registry из 1.346),
+    лучше на порту <strong>8040</strong>.
+  </p>
+  <button id="go" type="button">Восстановить присадку в этот браузер</button>
+  <pre id="out">Готово к запуску…</pre>
+  <script>
+    (async function () {
+      const out = document.getElementById('out');
+      const log = (s, cls) => {
+        out.textContent = s;
+        out.className = cls || '';
+      };
+      document.getElementById('go').onclick = async () => {
+        try {
+          log('Загрузка /data/clodis_drilling_registry.json …');
+          const r = await fetch('/data/clodis_drilling_registry.json?t=' + Date.now(), { cache: 'no-store' });
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          const data = await r.json();
+          const templates = Array.isArray(data.templates) ? data.templates : [];
+          const schemes = Array.isArray(data.schemes) ? data.schemes : [];
+          if (!templates.length) throw new Error('В файле нет templates');
+          localStorage.setItem('clodis_drilling_templates_v2', JSON.stringify(templates));
+          localStorage.setItem('clodis_drill_schemes_v1', JSON.stringify(schemes));
+          localStorage.setItem(
+            'clodis_drill_registry_meta_v1',
+            JSON.stringify({
+              appliedBundleVersion: Number(data.version) || 0,
+              lastAppliedAt: new Date().toISOString(),
+              mergeMode: 'manual-restore-html',
+            })
+          );
+          log(
+            'OK\\n\\nШаблоны (' +
+              templates.length +
+              '):\\n' +
+              templates.map((t) => '  ' + t.id + ' — ' + (t.name || '')).join('\\n') +
+              '\\n\\nСхемы (' +
+              schemes.length +
+              '):\\n' +
+              schemes.map((s) => '  ' + s.id + ' — ' + (s.name || '')).join('\\n') +
+              '\\n\\nОткройте admin-new.html и проверьте «Шаблоны присадки» / схемы.',
+            'ok'
+          );
+        } catch (e) {
+          log('Ошибка: ' + (e && e.message ? e.message : e), 'err');
+        }
+      };
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+﻿node : node:fs:562
+C:\Users\Admin\AppData\Local\Temp\ps-script-5fbbcac7-967c-4a50-9793-9f2903913478.ps1:113 знак:1
++ node "D:\Configurator-Clodis-ThreeJS-21\Configurator-Clodis-ThreeJS-7 ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (node:fs:562:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  return binding.open(
+                 ^
+
+Error: ENOENT: no such file or directory, open 'D:\BazisMebelshik\AutoSave_BM\AutoSave133_╨Ъ╨╛╨╜╤Д╨╕╤А╨╝╨░╤В 7 ╤Е50.f3d
+'
+    at Object.openSync (node:fs:562:18)
+    at Object.readFileSync (node:fs:446:35)
+    at file:///D:/Configurator-Clodis-ThreeJS-21/Configurator-Clodis-ThreeJS-7/tools/inspect-fr3d.mjs:14:17
+    at ModuleJob.run (node:internal/modules/esm/module_job:271:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:578:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5) {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\BazisMebelshik\\AutoSave_BM\\AutoSave133_╨Ъ╨╛╨╜╤Д╨╕╤А╨╝╨░╤В 7 ╤Е50.f3d'
+}
+
+Node.js v22.14.0

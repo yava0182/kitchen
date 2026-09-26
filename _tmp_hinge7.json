@@ -1,0 +1,129 @@
+﻿{
+    "catalog_type":  "catalog_31",
+    "id":  7,
+    "data":  {
+                 "name":  "Петля тест 2",
+                 "category":  [
+
+                              ],
+                 "show_in_spec":  "1",
+                 "include_nested":  "1",
+                 "show_in_constructor":  "1",
+                 "order":  0,
+                 "icon":  "",
+                 "module_group":  "bottom",
+                 "drag_type":  "top",
+                 "stick_type":  "common",
+                 "is_fill":  "0",
+                 "no_intersections":  "0",
+                 "catalog_type":  "catalog_31",
+                 "width":  "50",
+                 "height":  "067",
+                 "depth":  "150",
+                 "placementKind":  "floor_in_niche",
+                 "roomTags":  {
+                                  "categories":  [
+
+                                                 ]
+                              },
+                 "hingeLayoutId":  null,
+                 "clodisVariables":  {
+                                         "h_bottom":  100,
+                                         "h_top":  0
+                                     },
+                 "clodisJSON":  [
+                                    {
+                                        "type":  "section",
+                                        "id":  "",
+                                        "name":  "Секция",
+                                        "active":  1,
+                                        "helpers_visible":  1,
+                                        "size":  {
+                                                     "x":  "s:x",
+                                                     "y":  "s:y",
+                                                     "z":  "s:z"
+                                                 },
+                                        "pos":  {
+                                                    "x":  0,
+                                                    "y":  0,
+                                                    "z":  0
+                                                },
+                                        "pivot":  {
+                                                      "x":  0,
+                                                      "y":  0,
+                                                      "z":  0
+                                                  },
+                                        "rot":  {
+                                                    "x":  0,
+                                                    "y":  0,
+                                                    "z":  0
+                                                },
+                                        "spec":  {
+
+                                                 },
+                                        "section_key":  "",
+                                        "children":  [
+                                                         {
+                                                             "type":  "animator",
+                                                             "helpers_visible":  0,
+                                                             "visible":  1,
+                                                             "id":  "hinge_animator",
+                                                             "name":  "Аниматор",
+                                                             "active":  1,
+                                                             "size":  {
+                                                                          "x":  0,
+                                                                          "y":  0,
+                                                                          "z":  0
+                                                                      },
+                                                             "pos":  {
+                                                                         "x":  0,
+                                                                         "y":  0,
+                                                                         "z":  0
+                                                                     },
+                                                             "pivot":  {
+                                                                           "x":  0,
+                                                                           "y":  0,
+                                                                           "z":  0
+                                                                       },
+                                                             "rot":  {
+                                                                         "x":  0,
+                                                                         "y":  0,
+                                                                         "z":  0
+                                                                     },
+                                                             "c_rot":  {
+                                                                           "x":  0,
+                                                                           "y":  0,
+                                                                           "z":  0
+                                                                       },
+                                                             "spec":  {
+                                                                          "is_open":  0,
+                                                                          "props":  {
+                                                                                        "deg":  90,
+                                                                                        "direction":  "ly"
+                                                                                    },
+                                                                          "source":  {
+                                                                                         "id":  ""
+                                                                                     },
+                                                                          "fn":  "rotate"
+                                                                      },
+                                                             "children":  [
+
+                                                                          ],
+                                                             "lib":  "",
+                                                             "tags":  "",
+                                                             "interactive":  0,
+                                                             "custom":  [
+
+                                                                        ],
+                                                             "condition":  null,
+                                                             "variables":  {
+                                                                               "visible":  1,
+                                                                               "main":  {
+
+                                                                                        }
+                                                                           },
+                                                             "interaction":  {
+                                                                                 "auto_rotation":  1,
+                                                                                 "check_intersection":  0,
+                                                                                 "raycast":  1,
+                                                          

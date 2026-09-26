@@ -1,0 +1,248 @@
+[
+  {
+    "id": 1,
+    "name": "Шкаф 1-ый с антресолью дверь в пол",
+    "width": "400",
+    "height": "2600",
+    "depth": "400",
+    "placementKind": "floor_in_niche",
+    "params": {
+      "sectionSize": {
+        "x": 400,
+        "y": 2600,
+        "z": 400
+      },
+      "clodisVariables": {
+        "vysota_dobora": 50,
+        "h_bottom": 0,
+        "h_top": 0,
+        "tech_zone_mm": 0,
+        "corpus_antresol_mm": 500
+      }
+    },
+    "clodisJSON": [
+      {
+        "type": "section",
+        "name": "Секция",
+        "id": "",
+        "lib": "",
+        "tags": "",
+        "interactive": 0,
+        "spec": [],
+        "custom": [],
+        "children": [
+          {
+            "spec": {
+              "id": "18",
+              "element_type": "dveri_shkaf",
+              "fill_content": {},
+              "linked_item_id": 0
+            },
+            "type": "module",
+            "size": {
+              "x": "s:x",
+              "y": "s:y-2100",
+              "z": "16"
+            },
+            "pos": {
+              "y": "2050",
+              "z": "s:z-16"
+            },
+            "name": "Дверь АТ"
+          },
+          {
+            "spec": {
+              "id": "16",
+              "element_type": "dveri_shkaf",
+              "fill_content": {},
+              "linked_item_id": 0
+            },
+            "type": "module",
+            "size": {
+              "x": "s:x",
+              "y": "2025",
+              "z": "16"
+            },
+            "pos": {
+              "y": "25",
+              "z": "s:z-16"
+            },
+            "name": "Дверь основная"
+          },
+          {
+            "spec": {
+              "id": "89",
+              "element_type": "shablony_korpusov",
+              "fill_content": {},
+              "linked_item_id": 0
+            },
+            "type": "module",
+            "size": {
+              "x": "s:x",
+              "y": "2050",
+              "z": "s:z"
+            },
+            "name": "основание 2050"
+          },
+          {
+            "spec": {
+              "id": "88",
+              "element_type": "shablony_korpusov",
+              "fill_content": {},
+              "linked_item_id": 0
+            },
+            "type": "module",
+            "size": {
+              "x": "s:x",
+              "y": "s:y-2100",
+              "z": "s:z"
+            },
+            "pos": {
+              "y": "2050"
+            },
+            "name": "Антресоль"
+          },
+          {
+            "spec": {
+              "id": "90",
+              "element_type": "shablony_korpusov",
+              "fill_content": {},
+              "linked_item_id": 0
+            },
+            "type": "module",
+            "size": {
+              "x": "s:x",
+              "y": "v:vysota_dobora",
+              "z": "32"
+            },
+            "pos": {
+              "y": "s:y-50",
+              "z": "s:z-16"
+            },
+            "name": "Добор"
+          }
+        ],
+        "condition": null,
+        "visible": 1,
+        "helpers_visible": 0,
+        "active": 1,
+        "variables": {
+          "visible": 1,
+          "main": []
+        },
+        "interaction": {
+          "auto_rotation": 1,
+          "check_intersection": 0,
+          "raycast": 1,
+          "rotate_free": 0
+        },
+        "resizable": {
+          "enabled": 0,
+          "locks": [],
+          "minmax": {
+            "min": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "max": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          }
+        },
+        "auto_generate": {
+          "enabled": 0,
+          "element_id": null,
+          "element_type": "",
+          "auto_by": 0,
+          "select_variant": 0,
+          "enabled_variants": 1,
+          "step": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "count": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "size": {
+            "x": "s:x",
+            "y": "s:y",
+            "z": "s:z"
+          },
+          "start_offset": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "end_offset": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pivot_section": {
+            "x": -1,
+            "y": -1,
+            "z": -1
+          },
+          "pivot": {
+            "x": -1,
+            "y": -1,
+            "z": -1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "auto_by_step": 0,
+          "auto_by_count": 0
+        },
+        "size": {
+          "x": "s:x",
+          "y": "s:y",
+          "z": "s:z"
+        },
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "pivot": {
+          "x": -1,
+          "y": -1,
+          "z": -1
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        },
+        "rot": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "c_rot": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "events": {
+          "on_before_params": "",
+          "on_before_build": "",
+          "on_after_build": "",
+          "on_drag_end": ""
+        },
+        "accessories": [],
+        "comments": "",
+        "section_key": "",
+        "params_key": ""
+      }
+    ]
+  }
+]

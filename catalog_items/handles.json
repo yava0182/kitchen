@@ -1,0 +1,407 @@
+{
+  "categories": [],
+  "series": [
+    {
+      "id": 2,
+      "entityType": "collection",
+      "catalog_type": "handles",
+      "name": "Волна",
+      "key": "handle-volna",
+      "order": 100,
+      "active": 1,
+      "kind": "knob",
+      "categoryId": null,
+      "cabinetModelId": 24,
+      "icon": "",
+      "sizeType": "normal",
+      "modelParams": {
+        "modelType": "normal",
+        "modelPath": "/models/ruchka_volna_320_1781431258263.glb",
+        "color": "#000000",
+        "roughness": 0.8,
+        "metalness": 0,
+        "texture": "",
+        "normalMap": "",
+        "holesDiameter": 0,
+        "holesCount": 1
+      },
+      "models": [
+        {
+          "id": "192",
+          "label": "Ручка Волна 192 мм",
+          "cabinetModelId": 13
+        },
+        {
+          "id": "1782204083199",
+          "label": "Ручка Волна 960 мм",
+          "cabinetModelId": 24
+        }
+      ],
+      "placementRules": [
+        {
+          "match": {
+            "layoutRole": [
+              "facades_top"
+            ],
+            "productKind": [
+              "wardrobe"
+            ]
+          },
+          "noHandle": true
+        },
+        {
+          "match": {
+            "layoutRole": [
+              "facades_main"
+            ],
+            "productKind": [
+              "wardrobe"
+            ],
+            "doorKind": [
+              "rotate"
+            ]
+          },
+          "modelId": "1782204083199",
+          "orientation": "vertical",
+          "position": {
+            "anchor": "bottom_free_edge",
+            "offsetMm": 730,
+            "edgeOffsetMm": 30
+          }
+        },
+        {
+          "match": {
+            "layoutRole": [
+              "facades"
+            ],
+            "productKind": [
+              "pedestal"
+            ]
+          },
+          "modelId": "192",
+          "sizePick": "fit_height",
+          "modelIds": [
+            "192"
+          ],
+          "orientation": "horizontal",
+          "position": {
+            "anchor": "top_center",
+            "offsetMm": 30
+          }
+        },
+        {
+          "match": {
+            "layoutRole": [
+              "drawer"
+            ],
+            "productKind": [
+              "pedestal"
+            ],
+            "doorKind": [
+              "slide"
+            ]
+          },
+          "modelId": "192",
+          "sizePick": "fit_height",
+          "modelIds": [
+            "192"
+          ],
+          "orientation": "horizontal",
+          "position": {
+            "anchor": "top_center",
+            "offsetMm": 30
+          }
+        }
+      ],
+      "hideSizesInCatalog": true,
+      "variants": [
+        {
+          "cabinetModelId": 24,
+          "barLengthMm": 128,
+          "maxFacadeW": 450,
+          "roles": [
+            "kitchen",
+            "locker",
+            "wardrobe"
+          ]
+        }
+      ],
+      "defaults": null
+    },
+    {
+      "id": 4,
+      "key": "handle-192",
+      "name": "Ручка Волна 192 мм",
+      "order": 100,
+      "active": 1,
+      "kind": "bar",
+      "categoryId": null,
+      "icon": "",
+      "entityType": "size",
+      "parentCollectionId": 2,
+      "cabinetModelId": 13,
+      "sizeType": "normal",
+      "modelParams": {
+        "modelType": "normal",
+        "modelPath": "/models/ruchka_volna_320_1781431258263.glb",
+        "color": "#000000",
+        "roughness": 0.8,
+        "metalness": 0,
+        "texture": "",
+        "normalMap": "",
+        "holesDiameter": 0,
+        "holesCount": 1
+      },
+      "hideSizesInCatalog": true,
+      "variants": [
+        {
+          "cabinetModelId": 13,
+          "barLengthMm": 128,
+          "maxFacadeW": 450,
+          "roles": [
+            "kitchen",
+            "locker",
+            "wardrobe"
+          ]
+        }
+      ],
+      "sizes": [
+        {
+          "name": "",
+          "article": "",
+          "code": "",
+          "centerDistance": 0,
+          "width": 0,
+          "height": 0,
+          "depth": 0,
+          "priceMode": "manual",
+          "price_mode": "m",
+          "price": 0
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "key": "collection-1781455544459",
+      "name": "Поп Лайн",
+      "order": 100,
+      "active": 1,
+      "kind": "knob",
+      "categoryId": null,
+      "icon": "",
+      "entityType": "collection",
+      "models": [
+        {
+          "id": "1781455577754",
+          "label": "Ручка Поп Лайн",
+          "cabinetModelId": 17
+        }
+      ],
+      "sizes": [
+        {
+          "width": 20,
+          "height": 20,
+          "depth": 34
+        }
+      ],
+      "defaults": null,
+      "placementRules": [
+        {
+          "match": {
+            "layoutRole": [
+              "facades_main"
+            ],
+            "productKind": [
+              "wardrobe"
+            ],
+            "doorKind": [
+              "rotate"
+            ]
+          },
+          "modelId": "1781455577754",
+          "orientation": "vertical",
+          "position": {
+            "anchor": "free_edge_height_center",
+            "offsetMm": 30,
+            "edgeOffsetMm": 30
+          }
+        },
+        {
+          "match": {
+            "layoutRole": [
+              "facades_main"
+            ],
+            "productKind": [
+              "pedestal"
+            ],
+            "doorKind": [
+              "rotate"
+            ]
+          },
+          "modelId": "1781455577754",
+          "orientation": "vertical",
+          "position": {
+            "anchor": "top_free_edge",
+            "offsetMm": 30,
+            "edgeOffsetMm": 30
+          }
+        },
+        {
+          "match": {
+            "layoutRole": [
+              "drawer"
+            ],
+            "productKind": [
+              "pedestal"
+            ],
+            "doorKind": [
+              "slide"
+            ]
+          },
+          "modelId": "1781455577754",
+          "orientation": "horizontal",
+          "position": {
+            "anchor": "top_center",
+            "offsetMm": 30
+          }
+        },
+        {
+          "match": {
+            "layoutRole": [
+              "facades_top"
+            ]
+          },
+          "noHandle": true
+        }
+      ],
+      "hideSizesInCatalog": true,
+      "variants": [
+        {
+          "cabinetModelId": 17,
+          "maxFacadeW": 450,
+          "roles": [
+            "kitchen",
+            "locker",
+            "wardrobe"
+          ]
+        }
+      ],
+      "cabinetModelId": 17,
+      "sizeType": "normal",
+      "modelParams": {
+        "modelType": "normal",
+        "modelPath": "/models/ruchka_pop_layn_1781455420751.glb",
+        "color": "#000000",
+        "roughness": 0.8,
+        "metalness": 0,
+        "texture": "",
+        "normalMap": "",
+        "holesDiameter": 0,
+        "holesCount": 1
+      }
+    },
+    {
+      "id": 7,
+      "key": "handle-1781455577754",
+      "name": "Ручка Поп Лайн",
+      "order": 100,
+      "active": 1,
+      "kind": "knob",
+      "categoryId": null,
+      "icon": "",
+      "entityType": "size",
+      "parentCollectionId": 6,
+      "cabinetModelId": 17,
+      "sizeType": "normal",
+      "modelParams": {
+        "modelType": "normal",
+        "modelPath": "/models/ruchka_pop_layn_1781455420751.glb",
+        "color": "#000000",
+        "roughness": 0.8,
+        "metalness": 0,
+        "texture": "",
+        "normalMap": "",
+        "holesDiameter": 0,
+        "holesCount": 1
+      },
+      "sizes": [
+        {
+          "name": "",
+          "article": "",
+          "code": "",
+          "centerDistance": 0,
+          "width": 20,
+          "height": 20,
+          "depth": 34,
+          "priceMode": "manual",
+          "price_mode": "m",
+          "price": 0
+        }
+      ],
+      "hideSizesInCatalog": false,
+      "variants": [
+        {
+          "cabinetModelId": 17,
+          "maxFacadeW": 450,
+          "roles": [
+            "kitchen",
+            "locker",
+            "wardrobe"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "key": "handle-1782204083199",
+      "name": "Ручка Волна 960 мм",
+      "order": 100,
+      "active": 1,
+      "kind": "bar",
+      "categoryId": null,
+      "icon": "",
+      "entityType": "size",
+      "parentCollectionId": 2,
+      "cabinetModelId": 24,
+      "sizeType": "normal",
+      "modelParams": {
+        "modelType": "normal",
+        "modelPath": "/models/ruchka_volna_960_mm_1782203924938.glb",
+        "color": "#000000",
+        "roughness": 0.8,
+        "metalness": 0,
+        "texture": "",
+        "normalMap": "",
+        "holesDiameter": 0,
+        "holesCount": 1
+      },
+      "sizes": [
+        {
+          "name": "",
+          "article": "",
+          "code": "",
+          "centerDistance": 0,
+          "width": 0,
+          "height": 0,
+          "depth": 0,
+          "priceMode": "manual",
+          "price_mode": "m",
+          "price": 0
+        }
+      ],
+      "hideSizesInCatalog": false,
+      "variants": [
+        {
+          "cabinetModelId": 24,
+          "barLengthMm": 128,
+          "maxFacadeW": 450,
+          "roles": [
+            "kitchen",
+            "locker",
+            "wardrobe"
+          ]
+        }
+      ]
+    }
+  ]
+}

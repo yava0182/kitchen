@@ -1,0 +1,249 @@
+// Пример TypeScript версии Furniture.js
+// Переименуйте Furniture.js в Furniture.ts и используйте этот код как основу
+
+import * as THREE from 'three';
+import type { PlanPlaceData, FurnitureParams } from './types';
+import { PlanPlaceBuilder } from './PlanPlaceBuilder';
+
+/**
+ * Furniture class - represents furniture with pivot at back-left-bottom (CAD axiom)
+ * After loading/creating mesh: compute Box3, shift children by -bbox.min
+ * Pivot group = back-left-bottom, y rests on floor: pos.y = -bbox.min.y
+ */
+export class Furniture {
+  public group: THREE.Group;
+  public bbox: THREE.Box3;
+  public meshes: THREE.Mesh[];
+
+  constructor(planPlaceData: PlanPlaceData | null = null, params: FurnitureParams = {}) {
+    this.group = new THREE.Group();
+    this.bbox = new THREE.Box3();
+    this.meshes = [];
+
+    if (planPlaceData) {
+      // Build from PlanPlace JSON structure
+      this.buildFromPlanPlace(planPlaceData, params);
+    } else {
+      // Create placeholder box (simple geometry for testing)
+      this.createPlaceholder();
+    }
+
+    // Setup pivot to back-left-bottom
+    this.setupPivot();
+
+    // Position on floor
+    this.group.position.y = 0;
+
+    // Add debug helper
+    this.addDebugHelper();
+  }
+
+  /**
+   * Build furniture from PlanPlace JSON structure
+   */
+  buildFromPlanPlace(jsonData: PlanPlaceData, params: FurnitureParams = {}): void {
+    // Use PlanPlaceBuilder to construct geometry
+    if (typeof PlanPlaceBuilder === 'undefined') {
+      console.error('PlanPlaceBuilder is not loaded');
+      this.createPlaceholder();
+      return;
+    }
+
+    const builder = new PlanPlaceBuilder();
+    const builtGroup = builder.buildFromJSON(jsonData, params);
+
+    // Add all meshes from built group
+    builtGroup.traverse((child) => {
+      if (child instanceof THREE.Mesh) {
+        this.meshes.push(child);
+      }
+    });
+
+    // Add built group to furniture group
+    this.group.add(builtGroup);
+
+    // Log for debugging
+    console.log('PlanPlace furniture built, meshes count:', this.meshes.length);
+    if (this.meshes.length === 0) {
+      console.warn('No meshes found in PlanPlace furniture!');
+    }
+  }
+
+  /**
+   * Create a simple box as placeholder
+   */
+  createPlaceholder(): void {
+    // Create a simple box as placeholder
+    // Dimensions: 0.5m x 0.8m x 0.4m (width x height x depth)
+    const geometry = new THREE.BoxGeometry(0.5, 0.8, 0.4);
+    const material = new THREE.MeshStandardMaterial({
+      color: 0x8b4513, // Brown color
+      metalness: 0.1,
+      roughness: 0.8,
+    });
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+
+    this.meshes.push(mesh);
+    this.group.add(mesh);
+  }
+
+  /**
+   * Setup pivot to back-left-bottom corner
+   */
+  setupPivot(): void {
+    // Collect all meshes from the group hierarchy
+    const allMeshes: THREE.Mesh[] = [];
+    this.group.traverse((child) => {
+      if (child instanceof THREE.Mesh && !(child as any).isBoxHelper && !child.name.includes('PivotMarker') && !child.name.includes('BBox')) {
+        allMeshes.push(child);
+      }
+    });
+
+    if (allMeshes.length === 0) {
+      console.warn('No meshes found for pivot setup');
+      return;
+    }
+
+    // Save current group transform
+    const savedPosition = this.group.position.clone();
+    const savedRotation = this.group.rotation.clone();
+    const savedScale = this.group.scale.clone();
+
+    // Temporarily reset group transform to compute local bbox
+    this.group.position.set(0, 0, 0);
+    this.group.rotation.set(0, 0, 0);
+    this.group.scale.set(1, 1, 1);
+    this.group.updateMatrixWorld(true);
+
+    // Simple approach: use setFromObject to get bbox in local space
+    // This works because group is at (0,0,0) with no rotation
+    this.bbox.setFromObject(this.group);
+
+    console.log('Initial bbox (before shift):', {
+      min: this.bbox.min.clone(),
+      max: this.bbox.max.clone(),
+      size: this.bbox.max.clone().sub(this.bbox.min),
+    });
+
+    // Shift all meshes so that pivot = back-left-bottom
+    // back-left-bottom = (min.x, min.y, min.z)
+    // We want pivot at (0, 0, 0) relative to group
+    const offset = this.bbox.min.clone().negate();
+
+    console.log('Offset to apply:', offset);
+
+    // Apply offset to all meshes and their children
+    this.group.traverse((child) => {
+      if (child instanceof THREE.Mesh && !(child as any).isBoxHelper && !child.name.includes('PivotMarker') && !child.name.includes('BBox')) {
+        child.position.add(offset);
+      }
+    });
+
+    // Recompute bbox after shift (should now have min at origin)
+    this.bbox.setFromObject(this.group);
+
+    // Restore group transform
+    this.group.position.copy(savedPosition);
+    this.group.rotation.copy(savedRotation);
+    this.group.scale.copy(savedScale);
+    this.group.updateMatrixWorld(true);
+
+    // Now bbox.min should be at (0, 0, 0) relative to group
+    // bbox.max contains the size (width, height, depth)
+    // Convention: width = x, height = y, depth = z
+
+    console.log('Furniture pivot set to back-left-bottom');
+    console.log('BBox min:', this.bbox.min);
+    console.log('BBox max:', this.bbox.max);
+    console.log('Size (w x h x d):', this.bbox.max.clone().sub(this.bbox.min));
+
+    // Verify that bbox.min is approximately (0, 0, 0)
+    if (Math.abs(this.bbox.min.x) > 0.001 || Math.abs(this.bbox.min.y) > 0.001 || Math.abs(this.bbox.min.z) > 0.001) {
+      console.warn('⚠️ BBox min is not at origin!', this.bbox.min);
+      console.warn('Expected (0, 0, 0), got:', this.bbox.min);
+      console.warn('This means pivot is NOT at back-left-bottom corner!');
+    } else {
+      console.log('✅ BBox min is at origin (0, 0, 0) - pivot is correct');
+    }
+  }
+
+  /**
+   * Get furniture dimensions (width, height, depth)
+   */
+  getSize(): THREE.Vector3 {
+    return this.bbox.max.clone().sub(this.bbox.min);
+  }
+
+  /**
+   * Add debug helpers (box helper, pivot marker, etc.)
+   */
+  addDebugHelper(): void {
+    // Add BoxHelper for furniture
+    const helper = new THREE.BoxHelper(this.group, 0xff0000);
+    (helper.material as THREE.LineBasicMaterial).linewidth = 2;
+    this.group.add(helper);
+
+    // Add red sphere at pivot point (origin of furniture group)
+    // Pivot is at (0, 0, 0) in local coordinates after setupPivot
+    const pivotGeometry = new THREE.SphereGeometry(0.05, 16, 16);
+    const pivotMaterial = new THREE.MeshBasicMaterial({
+      color: 0xff0000, // Red color
+      transparent: true,
+      opacity: 0.9,
+    });
+    const pivotMarker = new THREE.Mesh(pivotGeometry, pivotMaterial);
+    pivotMarker.position.set(0, 0, 0); // Pivot is at origin
+    pivotMarker.name = 'PivotMarker';
+    this.group.add(pivotMarker);
+
+    // Add green sphere at bbox.min to see where it actually is
+    const bboxMinGeometry = new THREE.SphereGeometry(0.05, 16, 16);
+    const bboxMinMaterial = new THREE.MeshBasicMaterial({
+      color: 0x00ff00, // Green color
+      transparent: true,
+      opacity: 0.9,
+    });
+    const bboxMinMarker = new THREE.Mesh(bboxMinGeometry, bboxMinMaterial);
+    bboxMinMarker.position.copy(this.bbox.min);
+    bboxMinMarker.name = 'BBoxMinMarker';
+    this.group.add(bboxMinMarker);
+
+    // Add blue sphere at bbox center to see center
+    const bboxCenter = this.bbox.getCenter(new THREE.Vector3());
+    const bboxCenterGeometry = new THREE.SphereGeometry(0.05, 16, 16);
+    const bboxCenterMaterial = new THREE.MeshBasicMaterial({
+      color: 0x0000ff, // Blue color
+      transparent: true,
+      opacity: 0.9,
+    });
+    const bboxCenterMarker = new THREE.Mesh(bboxCenterGeometry, bboxCenterMaterial);
+    bboxCenterMarker.position.copy(bboxCenter);
+    bboxCenterMarker.name = 'BBoxCenterMarker';
+    this.group.add(bboxCenterMarker);
+
+    console.log('🔴 Красная точка pivot добавлена в позиции (0, 0, 0)');
+    console.log('🟢 Зеленая точка bbox.min в позиции:', this.bbox.min);
+    console.log('🔵 Синяя точка bbox.center в позиции:', bboxCenter);
+  }
+
+  /**
+   * Method to load furniture from external model (future)
+   */
+  loadModel(url: string): void {
+    // TODO: Implement model loading
+    // After loading, call setupPivot() again
+    console.warn('loadModel not implemented yet');
+  }
+}
+
+
+
+
+
+
+
+
+
+

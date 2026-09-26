@@ -1,0 +1,210 @@
+// ⭐ ЭТАП 1: УПРОЩЕННАЯ ВЕРСИЯ - только базовая структура
+// Цель: деталь просто появляется в секции (без позиционирования, pivot, rot, scale)
+
+function createDetailPlanPlace_STAGE1(
+  parentSection: SceneNode,
+  detailTypeId: string,
+  name: string,
+  params?: {
+    size?: { x: string | number; y: string | number; z: string | number };
+    materialId?: string;
+  }
+): SceneNode | null {
+  console.log('🔷 [createDetailPlanPlace_STAGE1] ЭТАП 1: Создание детали (базовая структура):', { 
+    parentSection: parentSection.name, 
+    detailTypeId, 
+    name 
+  });
+  
+  const units = 1000;
+  
+  // Находим тип детали
+  const detailType = detailTypes.find(dt => dt.id === detailTypeId);
+  if (!detailType) {
+    console.error('❌ [createDetailPlanPlace_STAGE1] Тип детали не найден:', detailTypeId);
+    return null;
+  }
+  
+  // Материал
+  const materialId = (params?.materialId as keyof typeof detailMaterials) || 'ldsp16';
+  const material = detailMaterials[materialId];
+  
+  // ⭐ ЭТАП 1.1: _build_struct() - создание структуры детали
+  // Референс: main_core_v2_part18.js:2576-2583
+  const detailGroup = new THREE.Group();
+  detailGroup.name = name;
+  detailGroup.visible = true;
+  
+  const detailOwnObject = new THREE.Group();
+  detailOwnObject.name = '__own_object';
+  detailOwnObject.visible = true;
+  detailGroup.add(detailOwnObject);
+  
+  initUserDataStruct(detailGroup, detailOwnObject);
+  initUserDataComputed(detailGroup);
+  initUserDataParams(detailGroup);
+  
+  console.log('✅ [createDetailPlanPlace_STAGE1] Этап 1.1: Структура создана');
+  
+  // ⭐ ЭТАП 1.2: _build_size() - вычисление размеров
+  // Референс: main_core_v2_part19.js:4680-4734
+  const parentSize = getNodeSize(parentSection);
+  if (!parentSize) {
+    console.error('❌ [createDetailPlanPlace_STAGE1] Не удалось получить размеры родительской секции');
+    return null;
+  }
+  
+  const rootSection = sceneNodes.find(n => n.type === 'section' && n.parent === null) || null;
+  const tempGroup = new THREE.Group();
+  const c_object = createCObject(tempGroup, parentSection, rootSection, null);
+  
+  // Добавляем материалы
+  if (!c_object.materials || !c_object.materials.g0) {
+    if (!c_object.materials) c_object.materials = {};
+    const thickness_mm = material.thickness * 1000;
+    c_object.materials.g0 = { thickness: thickness_mm };
+  }
+  
+  // Определяем ориентацию
+  const isFrontDetail = detailType.position === 'front-front' || detailType.position === 'front-middle' || detailType.position === 'back-front';
+  let orientation: 'v' | 'h' | 'f';
+  if (isFrontDetail) {
+    orientation = 'f';
+  } else if (detailType.orientation === 'vertical') {
+    orientation = 'v';
+  } else {
+    orientation = 'h';
+  }
+  
+  // Выражения размеров
+  const defaultSizeParams = 
+    orientation === 'v' ? { x: 'g:g0.thickness', y: 's:y', z: 's:z' }
+    : orientation === 'h' ? { x: 's:x', y: 'g:g0.thickness', z: 's:z' }
+    : { x: 's:x', y: 's:y', z: 'g:g0.thickness' };
+  
+  const sizeParams = {
+    x: params?.size?.x ?? detailType.expressions?.size?.x ?? defaultSizeParams.x,
+    y: params?.size?.y ?? detailType.expressions?.size?.y ?? defaultSizeParams.y,
+    z: params?.size?.z ?? detailType.expressions?.size?.z ?? defaultSizeParams.z
+  };
+  
+  // Вычисляем размеры
+  const computedSize = {
+    x: comp2(sizeParams.x, c_object),
+    y: comp2(sizeParams.y, c_object),
+    z: comp2(sizeParams.z, c_object)
+  };
+  
+  // real_size для геометрии
+  let realSize: { x: number; y: number; z: number };
+  if (orientation === 'h') {
+    realSize = { x: computedSize.x, y: computedSize.z, z: computedSize.y };
+  } else {
+    realSize = { x: computedSize.x, y: computedSize.y, z: computedSize.z };
+  }
+  
+  // Сохраняем в userData
+  const computed = detailGroup.userData.computed;
+  computed.size.set(computedSize.x, computedSize.y, computedSize.z);
+  computed.u_size.set(realSize.x / units, realSize.y / units, realSize.z / units);
+  computed.c_object = c_object;
+  detailGroup.userData.params.size = sizeParams;
+  
+  console.log('✅ [createDetailPlanPlace_STAGE1] Этап 1.2: Размеры вычислены:', {
+    orientation,
+    computedSize_мм: computedSize,
+    realSize_мм: realSize
+  });
+  
+  // ⭐ ЭТАП 1.3: _build_spec() - создание простого mesh
+  // Референс: main_core_v2_part19.js:4769+
+  // Для ЭТАПА 1: просто BoxGeometry без сложной логики
+  const width = realSize.x / units;
+  const height = realSize.y / units;
+  const depth = realSize.z / units;
+  
+  const geometry = new THREE.BoxGeometry(width, height, depth);
+  const mat = new THREE.MeshStandardMaterial({
+    color: material.color,
+    metalness: 0.1,
+    roughness: 0.6
+  });
+  
+  const mesh = new THREE.Mesh(geometry, mat);
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
+  mesh.name = name;
+  mesh.visible = true;
+  
+  // ⚠️ ДЛЯ ЭТАПА 1: mesh в (0,0,0) - без смещений
+  mesh.position.set(0, 0, 0);
+  
+  detailOwnObject.add(mesh);
+  
+  mesh.userData.isDetail = true;
+  mesh.userData.detailType = 'detail';
+  mesh.userData.detailName = name;
+  mesh.userData.orientation = orientation;
+  mesh.userData.materialId = materialId;
+  
+  detailGroup.userData.isDetail = true;
+  detailGroup.userData.materialId = materialId;
+  
+  console.log('✅ [createDetailPlanPlace_STAGE1] Этап 1.3: Mesh создан:', {
+    geometry_size_метры: { width, height, depth },
+    mesh_position: mesh.position.clone()
+  });
+  
+  // ⭐ ЭТАП 1.4: Добавление в иерархию
+  // ⚠️ ДЛЯ ЭТАПА 1: позиция (0,0,0) - деталь в центре секции
+  detailGroup.position.set(0, 0, 0);
+  
+  // Получаем parentOwnObject
+  let parentOwnObject: THREE.Group | null = null;
+  if (parentSection.group.userData?.struct?.['__own_object']) {
+    parentOwnObject = parentSection.group.userData.struct['__own_object'] as THREE.Group;
+  } else if (parentSection.metadata?.own_object) {
+    parentOwnObject = parentSection.metadata.own_object as THREE.Group;
+  } else {
+    parentOwnObject = parentSection.group.getObjectByName('__own_object') as THREE.Group | null;
+  }
+  
+  if (!parentOwnObject) {
+    console.warn('⚠️ [createDetailPlanPlace_STAGE1] own_object не найден, создаем его');
+    parentOwnObject = new THREE.Group();
+    parentOwnObject.name = '__own_object';
+    parentSection.group.add(parentOwnObject);
+    if (!parentSection.group.userData.struct) {
+      parentSection.group.userData.struct = {};
+    }
+    parentSection.group.userData.struct['__own_object'] = parentOwnObject;
+  }
+  
+  // Создаем SceneNode
+  const detailNode: SceneNode = {
+    id: generateId(),
+    name: name,
+    type: 'detail',
+    group: detailGroup,
+    children: [],
+    parent: parentSection,
+    expanded: false,
+    orientation: orientation,
+    position: detailType.position,
+    metadata: {
+      detailTypeId: detailTypeId,
+      materialId: materialId,
+      size: { x: width, y: height, z: depth },
+      size_mm: realSize
+    }
+  };
+  
+  sceneNodes.push(detailNode);
+  
+  // Добавляем через addChildNode
+  addChildNode(parentSection, detailNode);
+  
+  console.log('✅ [createDetailPlanPlace_STAGE1] ЭТАП 1 ЗАВЕРШЕН: Деталь создана и добавлена в секцию (позиция 0,0,0)');
+  
+  return detailNode;
+}

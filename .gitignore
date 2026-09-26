@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Сохраненные модули (JSON файлы)
+modules/
+
+# База данных (JSON файл для разработки)
+db.json
+
+# Environment variables
+.env
+AI_PILOT.env
+ai-pilot/ai_pilot_config.json
+ai-pilot/drafts/
+
+# Референсы (не коммитим референсный код)
+planplace_refs/
+
+# Старая папка git (бэкап)
+.git.old.backup/

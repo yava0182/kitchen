@@ -1,0 +1,41 @@
+[
+  {
+    "id": 1,
+    "catalog_type": "facades",
+    "name": "Прямые",
+    "article": "",
+    "code": "",
+    "category": "25",
+    "order": 100000,
+    "active": 1,
+    "thickness": 16,
+    "side_thickness": 16,
+    "handle": 1,
+    "handle_offset": 30,
+    "icon": "",
+    "notes": "",
+    "data": {
+      "materials": [],
+      "additional_materials": {},
+      "prices": {},
+      "prices_edge": {},
+      "types": {},
+      "types_radius": {},
+      "types_double": {},
+      "types_triple": {},
+      "double_offset": 0,
+      "triple_decor_model": {
+        "model": "",
+        "model_file": "",
+        "current_model": "",
+        "height": 0,
+        "thickness": 0,
+        "offset": 0
+      },
+      "rec_cornice": "0",
+      "additions": [],
+      "decor_prices": [],
+      "size_prices": []
+    }
+  }
+]

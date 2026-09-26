@@ -1,0 +1,154 @@
+[
+  {
+    "catalog_type": "butt_butts",
+    "name": "Безмолвная пустыня",
+    "article": "",
+    "thickness": "0.8",
+    "width": "18",
+    "color": "#ffffff",
+    "category": "",
+    "order": 10000,
+    "active": 1,
+    "icon": "/files/decor/bezmolvnaya_pustynya_art.k514_1783848391746.jpg",
+    "description": "",
+    "displayMode": "custom",
+    "roughness": 0.8,
+    "metalness": 0,
+    "transparent": false,
+    "opacity": 1,
+    "texture": "",
+    "normalMap": "",
+    "roughnessMap": "",
+    "stretchWidth": false,
+    "stretchHeight": false,
+    "realTextureWidth": 256,
+    "realTextureHeight": 256,
+    "normal_map_width": 256,
+    "normal_map_height": 256,
+    "oneSided": false,
+    "one_side": false,
+    "previewWidth": 450,
+    "previewHeight": 720,
+    "edge_variants": [
+      {
+        "name": "Безмолвная пустыня",
+        "article": "",
+        "length": 5000,
+        "width": 18,
+        "thickness": 1,
+        "calc_type": "per_mp",
+        "price_input_type": "manual",
+        "price": 60
+      },
+      {
+        "name": "Безмолвная пустыня",
+        "article": "",
+        "length": 5000,
+        "width": 18,
+        "thickness": 0.4,
+        "calc_type": "per_mp",
+        "price_input_type": "manual",
+        "price": 50
+      }
+    ],
+    "variants": [
+      {
+        "name": "Безмолвная пустыня",
+        "article": "",
+        "length": 5000,
+        "width": 18,
+        "thickness": 1,
+        "calc_type": "per_mp",
+        "price_input_type": "manual",
+        "price": 60
+      },
+      {
+        "name": "Безмолвная пустыня",
+        "article": "",
+        "length": 5000,
+        "width": 18,
+        "thickness": 0.4,
+        "calc_type": "per_mp",
+        "price_input_type": "manual",
+        "price": 50
+      }
+    ],
+    "id": 1
+  },
+  {
+    "catalog_type": "butt_butts",
+    "name": "Белый воздушный",
+    "article": "SO 1",
+    "thickness": "1",
+    "width": "18",
+    "color": "#ffffff",
+    "category": "Клодис",
+    "order": 2,
+    "active": 1,
+    "icon": "/files/decor/belyy_vozdushnyy_so_1_1783859989593.jpg",
+    "description": "",
+    "displayMode": "custom",
+    "roughness": 0.8,
+    "metalness": 0,
+    "transparent": false,
+    "opacity": 1,
+    "texture": "/files/decor/belyy_vozdushnyy_so_1_1783859989593.jpg",
+    "normalMap": "/files/decor/belyy_vozdushnyy_so_1_1783859989593.jpg",
+    "roughnessMap": "/files/decor/belyy_vozdushnyy_so_1_1783859989593.jpg",
+    "stretchWidth": false,
+    "stretchHeight": false,
+    "realTextureWidth": 256,
+    "realTextureHeight": 256,
+    "normal_map_width": 256,
+    "normal_map_height": 256,
+    "oneSided": false,
+    "one_side": false,
+    "previewWidth": 450,
+    "previewHeight": 720,
+    "edge_variants": [
+      {
+        "name": "Белый воздушный",
+        "article": "SO 1",
+        "length": 5000,
+        "width": 18,
+        "thickness": 1,
+        "calc_type": "per_mp",
+        "price_input_type": "manual",
+        "price": 60
+      },
+      {
+        "name": "Белый воздушный",
+        "article": "SO 1",
+        "length": 5000,
+        "width": 18,
+        "thickness": 0.4,
+        "calc_type": "per_mp",
+        "price_input_type": "manual",
+        "price": 50
+      }
+    ],
+    "variants": [
+      {
+        "name": "Белый воздушный",
+        "article": "SO 1",
+        "length": 5000,
+        "width": 18,
+        "thickness": 1,
+        "calc_type": "per_mp",
+        "price_input_type": "manual",
+        "price": 60
+      },
+      {
+        "name": "Белый воздушный",
+        "article": "SO 1",
+        "length": 5000,
+        "width": 18,
+        "thickness": 0.4,
+        "calc_type": "per_mp",
+        "price_input_type": "manual",
+        "price": 50
+      }
+    ],
+    "id": 2
+  }
+]

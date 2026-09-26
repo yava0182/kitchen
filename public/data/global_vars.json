@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Набор по умолчанию",
+    "default": true,
+    "vars": [
+      {
+        "key": "vysota_cokolya",
+        "name": "Высота цоколя",
+        "value": 100,
+        "type": "number",
+        "unit": "мм"
+      },
+      {
+        "key": "glubina_standart",
+        "name": "Стандартная глубина",
+        "value": 560,
+        "type": "number",
+        "unit": "мм"
+      },
+      {
+        "key": "vysota_verhnih",
+        "name": "Высота верхних модулей",
+        "value": 720,
+        "type": "number",
+        "unit": "мм"
+      },
+      {
+        "key": "vysota_nizhnih",
+        "name": "Высота нижних модулей",
+        "value": 720,
+        "type": "number",
+        "unit": "мм"
+      }
+    ]
+  }
+]
+

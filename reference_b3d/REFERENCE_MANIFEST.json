@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "description": "Эталоны PlanPlace для сверки сборки и экспорта CFRN/Bazis",
+  "cabinet": {
+    "file": "planplace-cabinet-antresol-dver-v-pol.json",
+    "label": "Шкаф 1-ый с антресолью дверь в пол",
+    "sizeMm": { "x": 400, "y": 2600, "z": 400 },
+    "b3d": "model.b3d",
+    "modules": {
+      "основание": { "catalogId": "89", "file": "planplace-shablony_korpusov-id89.json" },
+      "антресоль": { "catalogId": "88", "file": "planplace-shablony_korpusov-id88.json" },
+      "дверьАТ": { "catalogId": "18", "file": "planplace-dveri_shkaf-id18.json" },
+      "дверьОсновная": { "catalogId": "16", "file": "planplace-dveri_shkaf-id16.json" },
+      "добор": { "catalogId": "90", "file": "planplace-shablony_korpusov-id90.json" }
+    }
+  },
+  "items": [
+    {
+      "catalogId": "89",
+      "elementType": "shablony_korpusov",
+      "label": "Шаблон шкаф 1950 (Секция 540 Копия)",
+      "file": "planplace-shablony_korpusov-id89.json",
+      "savedAt": "2026-06-01"
+    },
+    {
+      "catalogId": "88",
+      "elementType": "shablony_korpusov",
+      "label": "Секция 800 (антресоль)",
+      "file": "planplace-shablony_korpusov-id88.json",
+      "savedAt": "2026-06-01"
+    },
+    {
+      "catalogId": "18",
+      "elementType": "dveri_shkaf",
+      "label": "Дверь АТ (фасад + петли)",
+      "file": "planplace-dveri_shkaf-id18.json",
+      "savedAt": "2026-06-01"
+    },
+    {
+      "catalogId": "16",
+      "elementType": "dveri_shkaf",
+      "label": "Дверь основная (ручка, Metalla петли id 1)",
+      "file": "planplace-dveri_shkaf-id16.json",
+      "savedAt": "2026-06-01"
+    },
+    {
+      "catalogId": "90",
+      "elementType": "shablony_korpusov",
+      "label": "Секция добор (дубль + фасад 189 + саморезы 57)",
+      "file": "planplace-shablony_korpusov-id90.json",
+      "savedAt": "2026-06-02"
+    }
+  ]
+}

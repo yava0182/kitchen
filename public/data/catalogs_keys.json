@@ -1,0 +1,31 @@
+[
+  {
+    "key": "catalog_module",
+    "name": "Кухни",
+    "description": "Кухонные модули",
+    "icon": "fa-kitchen-set",
+    "order": 1
+  },
+  {
+    "key": "catalog_cabinet",
+    "name": "Шкафы",
+    "description": "Корпусная мебель - шкафы",
+    "icon": "fa-cabinet-filing",
+    "order": 2
+  },
+  {
+    "key": "catalog_door",
+    "name": "Двери",
+    "description": "Дверцы для модулей",
+    "icon": "fa-door-closed",
+    "order": 3
+  },
+  {
+    "key": "catalog_shelves",
+    "name": "Полки",
+    "description": "Полки и перегородки",
+    "icon": "fa-layer-group",
+    "order": 4
+  }
+]
+

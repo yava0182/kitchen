@@ -1,0 +1,957 @@
+{
+  "version": 1790316201563,
+  "managedTemplateIds": [
+    1,
+    2,
+    3,
+    7,
+    8,
+    9
+  ],
+  "managedSchemeIds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "templates": [
+    {
+      "id": 1,
+      "name": "Конфирмат T-стык (бок + полка)",
+      "article": "CNFRM-T-JOINT",
+      "categories": [
+        "Крепёж"
+      ],
+      "category": "Крепёж",
+      "icon": "",
+      "order": 10,
+      "active": true,
+      "showSpec": true,
+      "calcType": "piece",
+      "priceMode": "manual",
+      "price": 0,
+      "setupType": 3,
+      "currentSetupType": 3,
+      "frameW": 100,
+      "frameH": 100,
+      "frameD": 100,
+      "furnitureType": "",
+      "cabinetModelId": 25,
+      "cabinetModelName": "Конфирмат 7х50",
+      "corpusModelId": 25,
+      "corpusModelName": "Конфирмат 7х50",
+      "facadeModelId": 0,
+      "facadeModelName": "",
+      "jointModelVisualOffsetMm": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "facadeModelVisualOffsetMm": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "jointModelVisualRotDeg": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "facadeModelVisualRotDeg": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "holesBySetup": {
+        "1": [],
+        "2": [],
+        "3": [
+          {
+            "id": 1,
+            "name": "Технологическое отверстие",
+            "diameter": 8,
+            "depth": 16,
+            "direction": "-x",
+            "x": 16,
+            "y": 0,
+            "z": 0,
+            "coordBase": "auto",
+            "mountSide": "face",
+            "hostPanel": "auto",
+            "through": false
+          },
+          {
+            "id": 2,
+            "name": "Технологическое отверстие",
+            "diameter": 5,
+            "depth": 35,
+            "direction": "x",
+            "x": 16,
+            "y": 0,
+            "z": 0,
+            "coordBase": "auto",
+            "mountSide": "edge",
+            "hostPanel": "auto",
+            "through": false
+          }
+        ],
+        "4": []
+      },
+      "holes": [
+        {
+          "id": 1,
+          "name": "Технологическое отверстие",
+          "diameter": 8,
+          "depth": 16,
+          "direction": "-x",
+          "x": 16,
+          "y": 0,
+          "z": 0,
+          "coordBase": "auto",
+          "mountSide": "face",
+          "hostPanel": "auto",
+          "through": false
+        },
+        {
+          "id": 2,
+          "name": "Технологическое отверстие",
+          "diameter": 5,
+          "depth": 35,
+          "direction": "x",
+          "x": 16,
+          "y": 0,
+          "z": 0,
+          "coordBase": "auto",
+          "mountSide": "edge",
+          "hostPanel": "auto",
+          "through": false
+        }
+      ],
+      "_coordOrigin": "outer_plane"
+    },
+    {
+      "id": 2,
+      "name": "Эксцентр ящики (пласть + торец)",
+      "article": "ECC-DRAWER",
+      "categories": [
+        "Крепёж"
+      ],
+      "category": "Крепёж",
+      "icon": "",
+      "order": 20,
+      "active": true,
+      "showSpec": true,
+      "calcType": "piece",
+      "priceMode": "manual",
+      "price": 0,
+      "setupType": 3,
+      "currentSetupType": 3,
+      "frameW": 100,
+      "frameH": 100,
+      "frameD": 100,
+      "furnitureType": "",
+      "cabinetModelId": 26,
+      "cabinetModelName": "Эксцентр",
+      "corpusModelId": 26,
+      "corpusModelName": "Эксцентр",
+      "facadeModelId": 0,
+      "facadeModelName": "",
+      "jointModelVisualOffsetMm": {
+        "x": 5,
+        "y": 0,
+        "z": 0
+      },
+      "facadeModelVisualOffsetMm": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "jointModelVisualRotDeg": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "facadeModelVisualRotDeg": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "holesBySetup": {
+        "1": [],
+        "2": [],
+        "3": [
+          {
+            "id": 1,
+            "name": "Технологическое отверстие",
+            "diameter": 15,
+            "depth": 14,
+            "direction": "-y",
+            "x": 50,
+            "y": -9,
+            "z": 0,
+            "coordBase": "auto",
+            "mountSide": "face",
+            "hostPanel": "auto",
+            "through": false
+          },
+          {
+            "id": 2,
+            "name": "Технологическое отверстие",
+            "diameter": 8,
+            "depth": 30,
+            "direction": "x",
+            "x": 16,
+            "y": 0,
+            "z": 0,
+            "coordBase": "auto",
+            "mountSide": "edge",
+            "hostPanel": "auto",
+            "through": false
+          },
+          {
+            "id": 3,
+            "name": "Технологическое отверстие",
+            "diameter": 5,
+            "depth": 12,
+            "direction": "-x",
+            "x": 16,
+            "y": 0,
+            "z": 0,
+            "coordBase": "auto",
+            "mountSide": "auto",
+            "hostPanel": "auto",
+            "through": false
+          }
+        ],
+        "4": []
+      },
+      "holes": [
+        {
+          "id": 1,
+          "name": "Технологическое отверстие",
+          "diameter": 15,
+          "depth": 14,
+          "direction": "-y",
+          "x": 50,
+          "y": -9,
+          "z": 0,
+          "coordBase": "auto",
+          "mountSide": "face",
+          "hostPanel": "auto",
+          "through": false
+        },
+        {
+          "id": 2,
+          "name": "Технологическое отверстие",
+          "diameter": 8,
+          "depth": 30,
+          "direction": "x",
+          "x": 16,
+          "y": 0,
+          "z": 0,
+          "coordBase": "auto",
+          "mountSide": "edge",
+          "hostPanel": "auto",
+          "through": false
+        },
+        {
+          "id": 3,
+          "name": "Технологическое отверстие",
+          "diameter": 5,
+          "depth": 12,
+          "direction": "-x",
+          "x": 16,
+          "y": 0,
+          "z": 0,
+          "coordBase": "auto",
+          "mountSide": "auto",
+          "hostPanel": "auto",
+          "through": false
+        }
+      ],
+      "_coordOrigin": "outer_plane"
+    },
+    {
+      "id": 3,
+      "name": "Полкодержатель с фиксацией TriA",
+      "article": "",
+      "categories": [],
+      "category": "",
+      "icon": "",
+      "order": 10000,
+      "active": true,
+      "showSpec": true,
+      "calcType": "piece",
+      "priceMode": "manual",
+      "price": 0,
+      "setupType": 3,
+      "currentSetupType": 3,
+      "frameW": 100,
+      "frameH": 100,
+      "frameD": 100,
+      "furnitureType": "Свободная фурнитура",
+      "cabinetModelId": 0,
+      "cabinetModelName": "",
+      "corpusModelId": 0,
+      "corpusModelName": "",
+      "facadeModelId": 0,
+      "facadeModelName": "",
+      "jointModelVisualOffsetMm": {
+        "x": -16,
+        "y": 0,
+        "z": 0
+      },
+      "facadeModelVisualOffsetMm": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "jointModelVisualRotDeg": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "facadeModelVisualRotDeg": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "holesBySetup": {
+        "1": [],
+        "2": [],
+        "3": [
+          {
+            "id": 1,
+            "name": "Технологическое отверстие",
+            "diameter": 5,
+            "depth": 12,
+            "direction": "-x",
+            "x": 16,
+            "y": 0,
+            "z": 0,
+            "coordBase": "auto",
+            "mountSide": "auto",
+            "hostPanel": "auto",
+            "through": false
+          },
+          {
+            "id": 2,
+            "name": "Технологическое отверстие",
+            "diameter": 12,
+            "depth": 13,
+            "direction": "y",
+            "x": 20,
+            "y": 8,
+            "z": 0,
+            "coordBase": "auto",
+            "mountSide": "auto",
+            "hostPanel": "auto",
+            "through": false
+          }
+        ],
+        "4": []
+      },
+      "holes": [
+        {
+          "id": 1,
+          "name": "Технологическое отверстие",
+          "diameter": 5,
+          "depth": 12,
+          "direction": "-x",
+          "x": 16,
+          "y": 0,
+          "z": 0,
+          "coordBase": "auto",
+          "mountSide": "auto",
+          "hostPanel": "auto",
+          "through": false
+        },
+        {
+          "id": 2,
+          "name": "Технологическое отверстие",
+          "diameter": 12,
+          "depth": 13,
+          "direction": "y",
+          "x": 20,
+          "y": 8,
+          "z": 0,
+          "coordBase": "auto",
+          "mountSide": "auto",
+          "hostPanel": "auto",
+          "through": false
+        }
+      ],
+      "_coordOrigin": "outer_plane"
+    },
+    {
+      "id": 7,
+      "name": "Петля накладная",
+      "article": "",
+      "categories": [],
+      "category": "",
+      "icon": "",
+      "order": 10000,
+      "active": true,
+      "showSpec": true,
+      "calcType": "piece",
+      "priceMode": "manual",
+      "price": 0,
+      "setupType": 2,
+      "currentSetupType": 2,
+      "frameW": 100,
+      "frameH": 100,
+      "frameD": 100,
+      "furnitureType": "",
+      "cabinetModelId": 27,
+      "cabinetModelName": "Петля корпус с саморезами",
+      "corpusModelId": 27,
+      "corpusModelName": "Петля корпус с саморезами",
+      "facadeModelId": 5,
+      "facadeModelName": "Петля накладная фасад",
+      "jointModelVisualOffsetMm": {
+        "x": -7,
+        "y": 0,
+        "z": 0
+      },
+      "facadeModelVisualOffsetMm": {
+        "x": -11.5,
+        "y": -7.5,
+        "z": 0.5
+      },
+      "jointModelVisualRotDeg": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "facadeModelVisualRotDeg": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "holesBySetup": {
+        "1": [],
+        "2": [
+          {
+            "id": 1,
+            "name": "Технологическое отверстие",
+            "diameter": 5,
+            "depth": 11,
+            "direction": "-y",
+            "x": 37,
+            "y": 0,
+            "z": 16,
+            "coordBase": "auto",
+            "mountSide": "auto",
+            "hostPanel": "auto",
+            "through": false
+          },
+          {
+            "id": 2,
+            "name": "Технологическое отверстие",
+            "diameter": 5,
+            "depth": 11,
+            "direction": "-y",
+            "x": 37,
+            "y": 0,
+            "z": -16,
+            "coordBase": "auto",
+            "mountSide": "auto",
+            "hostPanel": "auto",
+            "through": false
+          },
+          {
+            "id": 3,
+            "name": "Технологическое отверстие",
+            "diameter": 35,
+            "depth": 12.5,
+            "direction": "-x",
+            "x": 0,
+            "y": -7.5,
+            "z": 0,
+            "coordBase": "auto",
+            "mountSide": "auto",
+            "hostPanel": "auto",
+            "through": false
+          },
+          {
+            "id": 4,
+            "name": "Технологическое отверстие",
+            "diameter": 2,
+            "depth": 1,
+            "direction": "-x",
+            "x": 0,
+            "y": -13.5,
+            "z": 24,
+            "coordBase": "auto",
+            "mountSide": "auto",
+            "hostPanel": "auto",
+            "through": false
+          },
+          {
+            "id": 5,
+            "name": "Технологическое отверстие",
+            "diameter": 2,
+            "depth": 1,
+            "direction": "-x",
+            "x": 0,
+            "y": -13.5,
+            "z": -24,
+            "coordBase": "auto",
+            "mountSide": "auto",
+            "hostPanel": "auto",
+            "through": false
+          }
+        ],
+        "3": [],
+        "4": []
+      },
+      "holes": [
+        {
+          "id": 1,
+          "name": "Технологическое отверстие",
+          "diameter": 5,
+          "depth": 11,
+          "direction": "-y",
+          "x": 37,
+          "y": 0,
+          "z": 16,
+          "coordBase": "auto",
+          "mountSide": "auto",
+          "hostPanel": "auto",
+          "through": false
+        },
+        {
+          "id": 2,
+          "name": "Технологическое отверстие",
+          "diameter": 5,
+          "depth": 11,
+          "direction": "-y",
+          "x": 37,
+          "y": 0,
+          "z": -16,
+          "coordBase": "auto",
+          "mountSide": "auto",
+          "hostPanel": "auto",
+          "through": false
+        },
+        {
+          "id": 3,
+          "name": "Технологическое отверстие",
+          "diameter": 35,
+          "depth": 12.5,
+          "direction": "-x",
+          "x": 0,
+          "y": -7.5,
+          "z": 0,
+          "coordBase": "auto",
+          "mountSide": "auto",
+          "hostPanel": "auto",
+          "through": false
+        },
+        {
+          "id": 4,
+          "name": "Технологическое отверстие",
+          "diameter": 2,
+          "depth": 1,
+          "direction": "-x",
+          "x": 0,
+          "y": -13.5,
+          "z": 24,
+          "coordBase": "auto",
+          "mountSide": "auto",
+          "hostPanel": "auto",
+          "through": false
+        },
+        {
+          "id": 5,
+          "name": "Технологическое отверстие",
+          "diameter": 2,
+          "depth": 1,
+          "direction": "-x",
+          "x": 0,
+          "y": -13.5,
+          "z": -24,
+          "coordBase": "auto",
+          "mountSide": "auto",
+          "hostPanel": "auto",
+          "through": false
+        }
+      ],
+      "_coordOrigin": "outer_plane"
+    },
+    {
+      "id": 8,
+      "name": "Направляющая левая 500",
+      "article": "",
+      "categories": [],
+      "category": "",
+      "icon": "",
+      "order": 10000,
+      "active": false,
+      "showSpec": false,
+      "calcType": "piece",
+      "priceMode": "manual",
+      "price": 0,
+      "setupType": 1,
+      "currentSetupType": 1,
+      "frameW": 790,
+      "frameH": 100,
+      "frameD": 16,
+      "furnitureType": "",
+      "cabinetModelId": 0,
+      "cabinetModelName": "",
+      "corpusModelId": 0,
+      "corpusModelName": "",
+      "facadeModelId": 0,
+      "facadeModelName": "",
+      "jointModelVisualOffsetMm": {
+        "x": 4,
+        "y": 0,
+        "z": 0
+      },
+      "facadeModelVisualOffsetMm": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "jointModelVisualRotDeg": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "facadeModelVisualRotDeg": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "holesBySetup": {
+        "1": [
+          {
+            "id": 1,
+            "name": "Технологическое отверстие",
+            "diameter": 5,
+            "depth": 11,
+            "direction": "-z",
+            "x": 37,
+            "y": -36,
+            "z": 0,
+            "coordBase": "auto",
+            "mountSide": "auto",
+            "hostPanel": "auto",
+            "through": false
+          },
+          {
+            "id": 2,
+            "name": "Технологическое отверстие",
+            "diameter": 5,
+            "depth": 11,
+            "direction": "-z",
+            "x": 261,
+            "y": -36,
+            "z": 0,
+            "coordBase": "auto",
+            "mountSide": "auto",
+            "hostPanel": "auto",
+            "through": false
+          }
+        ],
+        "2": [],
+        "3": [],
+        "4": []
+      },
+      "holes": [
+        {
+          "id": 1,
+          "name": "Технологическое отверстие",
+          "diameter": 5,
+          "depth": 11,
+          "direction": "-z",
+          "x": 37,
+          "y": -36,
+          "z": 0,
+          "coordBase": "auto",
+          "mountSide": "auto",
+          "hostPanel": "auto",
+          "through": false
+        },
+        {
+          "id": 2,
+          "name": "Технологическое отверстие",
+          "diameter": 5,
+          "depth": 11,
+          "direction": "-z",
+          "x": 261,
+          "y": -36,
+          "z": 0,
+          "coordBase": "auto",
+          "mountSide": "auto",
+          "hostPanel": "auto",
+          "through": false
+        }
+      ],
+      "_coordOrigin": "outer_plane"
+    },
+    {
+      "id": 9,
+      "name": "Направляющая правая 500 (копия)",
+      "article": "",
+      "categories": [],
+      "category": "",
+      "icon": "",
+      "order": 10000,
+      "active": false,
+      "showSpec": false,
+      "calcType": "piece",
+      "priceMode": "manual",
+      "price": 0,
+      "setupType": 1,
+      "currentSetupType": 1,
+      "frameW": 790,
+      "frameH": 100,
+      "frameD": 16,
+      "furnitureType": "",
+      "cabinetModelId": 0,
+      "cabinetModelName": "",
+      "corpusModelId": 0,
+      "corpusModelName": "",
+      "facadeModelId": 0,
+      "facadeModelName": "",
+      "jointModelVisualOffsetMm": {
+        "x": 4,
+        "y": 0,
+        "z": 0
+      },
+      "facadeModelVisualOffsetMm": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "jointModelVisualRotDeg": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "facadeModelVisualRotDeg": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "holesBySetup": {
+        "1": [
+          {
+            "id": 1,
+            "name": "Технологическое отверстие",
+            "diameter": 5,
+            "depth": 11,
+            "direction": "z",
+            "x": 37,
+            "y": -36,
+            "z": 0,
+            "coordBase": "auto",
+            "mountSide": "auto",
+            "hostPanel": "auto",
+            "through": false
+          },
+          {
+            "id": 2,
+            "name": "Технологическое отверстие",
+            "diameter": 5,
+            "depth": 11,
+            "direction": "z",
+            "x": 261,
+            "y": -36,
+            "z": 0,
+            "coordBase": "auto",
+            "mountSide": "auto",
+            "hostPanel": "auto",
+            "through": false
+          }
+        ],
+        "2": [],
+        "3": [],
+        "4": []
+      },
+      "holes": [
+        {
+          "id": 1,
+          "name": "Технологическое отверстие",
+          "diameter": 5,
+          "depth": 11,
+          "direction": "z",
+          "x": 37,
+          "y": -36,
+          "z": 0,
+          "coordBase": "auto",
+          "mountSide": "auto",
+          "hostPanel": "auto",
+          "through": false
+        },
+        {
+          "id": 2,
+          "name": "Технологическое отверстие",
+          "diameter": 5,
+          "depth": 11,
+          "direction": "z",
+          "x": 261,
+          "y": -36,
+          "z": 0,
+          "coordBase": "auto",
+          "mountSide": "auto",
+          "hostPanel": "auto",
+          "through": false
+        }
+      ],
+      "_coordOrigin": "outer_plane"
+    }
+  ],
+  "schemes": [
+    {
+      "id": 1,
+      "name": "Конфирмат 50 мм",
+      "article": "SCH-CNFRM-50",
+      "templateId": 1,
+      "cabinetModelId": 25,
+      "schemeType": "symmetric",
+      "base": "back",
+      "offsetFromBase": 50,
+      "step": 32,
+      "minOffsetOpposite": 50,
+      "symOffset": 50,
+      "symStep": 32,
+      "countRules": [
+        {
+          "from": 0,
+          "to": 600,
+          "count": 2
+        },
+        {
+          "from": 601,
+          "to": 1200,
+          "count": 3
+        },
+        {
+          "from": 1201,
+          "to": 3000,
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Эксцентр",
+      "article": "SCH-ECC",
+      "templateId": 2,
+      "cabinetModelId": 26,
+      "schemeType": "symmetric",
+      "base": "back",
+      "offsetFromBase": 50,
+      "step": 32,
+      "minOffsetOpposite": 50,
+      "symOffset": 50,
+      "symStep": 32,
+      "minSeamWidthMm": 0,
+      "countRules": [
+        {
+          "from": 0,
+          "to": 600,
+          "count": 2
+        },
+        {
+          "from": 601,
+          "to": 1200,
+          "count": 3
+        },
+        {
+          "from": 1201,
+          "to": 3000,
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Полкодержатель Tri A",
+      "article": "",
+      "templateId": 3,
+      "schemeType": "symmetric",
+      "base": "back",
+      "offsetFromBase": 50,
+      "step": 32,
+      "minOffsetOpposite": 32,
+      "symOffset": 30,
+      "symStep": 32,
+      "countRules": [
+        {
+          "from": 0,
+          "to": 800,
+          "count": 2
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Конфирмат ящики",
+      "article": "SCH-CNFRM-DRAWER",
+      "templateId": 1,
+      "cabinetModelId": 25,
+      "schemeType": "symmetric",
+      "base": "back",
+      "offsetFromBase": 50,
+      "step": 32,
+      "minOffsetOpposite": 50,
+      "symOffset": 50,
+      "symStep": 32,
+      "countRules": [
+        {
+          "from": 0,
+          "to": 200,
+          "count": 1
+        },
+        {
+          "from": 201,
+          "to": 600,
+          "count": 2
+        },
+        {
+          "from": 601,
+          "to": 3000,
+          "count": 3
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Эксцентр ящики",
+      "article": "SCH-ECC-DRAWER",
+      "templateId": 2,
+      "cabinetModelId": 26,
+      "schemeType": "symmetric",
+      "base": "back",
+      "offsetFromBase": 50,
+      "step": 32,
+      "minOffsetOpposite": 50,
+      "symOffset": 50,
+      "symStep": 32,
+      "countRules": [
+        {
+          "from": 0,
+          "to": 200,
+          "count": 1
+        },
+        {
+          "from": 201,
+          "to": 600,
+          "count": 2
+        },
+        {
+          "from": 601,
+          "to": 3000,
+          "count": 3
+        }
+      ]
+    }
+  ],
+  "updatedAt": "2026-09-25T06:03:21.568Z",
+  "_note": "Выгружено из админки (библиотека присадки)"
+}

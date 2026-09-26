@@ -1,0 +1,63 @@
+{
+  "schema": "ikea-dump-drop-screencal-20260826",
+  "when": "2026-08-26T18:31:00.000Z",
+  "url": "https://www.ikea.com/addon-app/storageone/pax/web/latest/se/en/#/planner",
+  "agent": "cursor-browser CDP empty room",
+  "findings": {
+    "emptyPunctualLights": 0,
+    "active_punctual_lights_count": 0,
+    "lm_lights_length": 0,
+    "soft_heightmap_mean": 0,
+    "soft_renderMask": 2,
+    "soft_blockMask": 32,
+    "note": "Empty room = IBL only. Spot UBO slot0 has template color_line but count=0 so not applied. Soft heightmap all zeros (furniture layer mask 2)."
+  },
+  "exposure": 2,
+  "envIntensity": 0.6,
+  "envRotationDeg": 80,
+  "ambientIntensity": 0,
+  "sceneBackground": null,
+  "clear": { "r": 0, "g": 0, "b": 0, "a": 0 },
+  "soft": {
+    "class": "SoftShadowRenderer",
+    "intensity": 1,
+    "resolution": 80,
+    "center": { "x": 0, "y": 1.300000037997961, "z": 1.9999999143183231 },
+    "size": { "x": 10, "y": 2.7400000765919685, "z": 10 },
+    "refH": 0,
+    "renderMask": 2,
+    "blockMask": 32,
+    "blurScale": null,
+    "heightmapPixels": { "min": 0, "max": 0, "mean": 0, "nonzero": 0, "n": 6400 }
+  },
+  "wall": {
+    "mat": "paint_30x30_white_instance",
+    "class": "BetraktaPBRMaterial",
+    "base_linear": [0.877005339, 0.874226034, 0.77851814],
+    "rough": 0.75,
+    "metal": 0,
+    "normal_scale": 2,
+    "occ": 1,
+    "albedoMap": null
+  },
+  "floor": {
+    "mat": "Floor_Herringbone_Medium_Wood_instance",
+    "class": "BetraktaPBRMaterial",
+    "base_linear": [1, 1, 1],
+    "rough": 1,
+    "metal": 0,
+    "normal_scale": 1,
+    "occ": 1
+  },
+  "ubo_slot0_template_even_when_count_0": {
+    "position_attenuation": { "x": 0, "y": 5, "z": 2, "w": 0.6018150231520484 },
+    "direction_attenuation": { "x": 0, "y": -1, "z": 0, "w": 0.8433914458128857 },
+    "color_line_and_range": {
+      "x": 39.91884375521912,
+      "y": 38.5546666311462,
+      "z": 36.52648961363465,
+      "w": -12.636272196374867
+    }
+  },
+  "implication_for_clodis": "Dump punctual count=0 on empty, BUT screen shows wall hotspots under ceiling. Do NOT turn Spot off for empty — count field alone is insufficient. Keep Spot + screenCal for empty match. Soft heightmap empty (mask=2) still true.",
+}

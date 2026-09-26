@@ -1,0 +1,4874 @@
+[
+  {
+    "type": "section",
+    "name": "Секция 800",
+    "id": "",
+    "lib": "",
+    "tags": "",
+    "interactive": 0,
+    "spec": [],
+    "custom": [],
+    "children": [
+      {
+        "type": "section",
+        "name": "Секция корпус",
+        "id": "",
+        "lib": "",
+        "tags": "",
+        "interactive": 0,
+        "spec": [],
+        "custom": [],
+        "children": [
+          {
+            "type": "wall",
+            "name": "Дно АТ",
+            "id": "",
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "spec": {
+              "name": "",
+              "code": "",
+              "orientation": "h",
+              "group": "wall",
+              "type": "common",
+              "type_params": [],
+              "points": [],
+              "butts": [
+                {
+                  "face_index": 1,
+                  "id": 0,
+                  "key": "butts",
+                  "thickness": 0.4,
+                  "variant_id": 0
+                },
+                {
+                  "face_index": 2,
+                  "id": 0,
+                  "key": "butts",
+                  "thickness": "1",
+                  "variant_id": 0
+                },
+                {
+                  "face_index": 3,
+                  "id": 0,
+                  "key": "butts",
+                  "thickness": 0.4,
+                  "variant_id": 0
+                }
+              ],
+              "holes": [],
+              "key": "left",
+              "shape": null,
+              "material": {
+                "group": "g0",
+                "key": "ldsp",
+                "key_lock": "",
+                "thickness_lock": 0,
+                "id": "1",
+                "variant_id": 0,
+                "rotated": 0,
+                "av_index": 0
+              },
+              "show_index": 1,
+              "n_map": 0,
+              "n_scale": 1
+            },
+            "custom": [],
+            "children": [
+              {
+                "type": "model",
+                "name": "Конфирмат 1",
+                "id": "",
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "spec": {
+                  "id": "17",
+                  "key": "",
+                  "model_mats": []
+                },
+                "custom": [],
+                "children": [],
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "active": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": []
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": [],
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "auto_generate": {
+                  "enabled": 0,
+                  "element_id": null,
+                  "element_type": "",
+                  "auto_by": 0,
+                  "select_variant": 0,
+                  "enabled_variants": 1,
+                  "step": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "count": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "start_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "end_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot_section": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "auto_by_step": 0,
+                  "auto_by_count": 0
+                },
+                "size": {
+                  "x": "1",
+                  "y": "7",
+                  "z": "50"
+                },
+                "pos": {
+                  "x": "8",
+                  "y": 0,
+                  "z": "50"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": "90",
+                  "y": 0,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "accessories": [],
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "current": []
+              },
+              {
+                "type": "model",
+                "name": "Конфирмат 5",
+                "id": "",
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "spec": {
+                  "id": "17",
+                  "key": "",
+                  "model_mats": []
+                },
+                "custom": [],
+                "children": [],
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "active": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": []
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": [],
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "auto_generate": {
+                  "enabled": 0,
+                  "element_id": null,
+                  "element_type": "",
+                  "auto_by": 0,
+                  "select_variant": 0,
+                  "enabled_variants": 1,
+                  "step": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "count": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "start_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "end_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot_section": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "auto_by_step": 0,
+                  "auto_by_count": 0
+                },
+                "size": {
+                  "x": "1",
+                  "y": "7",
+                  "z": "50"
+                },
+                "pos": {
+                  "x": "8",
+                  "y": 0,
+                  "z": "s:z/2"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": "90",
+                  "y": 0,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "accessories": [],
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "current": []
+              },
+              {
+                "type": "model",
+                "name": "Конфирмат 4",
+                "id": "",
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "spec": {
+                  "id": "17",
+                  "key": "",
+                  "model_mats": []
+                },
+                "custom": [],
+                "children": [],
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "active": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": []
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": [],
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "auto_generate": {
+                  "enabled": 0,
+                  "element_id": null,
+                  "element_type": "",
+                  "auto_by": 0,
+                  "select_variant": 0,
+                  "enabled_variants": 1,
+                  "step": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "count": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "start_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "end_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot_section": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "auto_by_step": 0,
+                  "auto_by_count": 0
+                },
+                "size": {
+                  "x": "1",
+                  "y": "7",
+                  "z": "50"
+                },
+                "pos": {
+                  "x": "s:x-8",
+                  "y": 0,
+                  "z": "50"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": "90",
+                  "y": 0,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "accessories": [],
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "current": []
+              },
+              {
+                "type": "model",
+                "name": "Конфирмат 2",
+                "id": "",
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "spec": {
+                  "id": "17",
+                  "key": "",
+                  "model_mats": []
+                },
+                "custom": [],
+                "children": [],
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "active": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": []
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": [],
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "auto_generate": {
+                  "enabled": 0,
+                  "element_id": null,
+                  "element_type": "",
+                  "auto_by": 0,
+                  "select_variant": 0,
+                  "enabled_variants": 1,
+                  "step": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "count": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "start_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "end_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot_section": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "auto_by_step": 0,
+                  "auto_by_count": 0
+                },
+                "size": {
+                  "x": "1",
+                  "y": "7",
+                  "z": "50"
+                },
+                "pos": {
+                  "x": "8",
+                  "y": 0,
+                  "z": "s:z-50"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": "90",
+                  "y": "0",
+                  "z": "0"
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "accessories": [],
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "current": []
+              },
+              {
+                "type": "model",
+                "name": "Конфирмат 3",
+                "id": "",
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "spec": {
+                  "id": "17",
+                  "key": "",
+                  "model_mats": []
+                },
+                "custom": [],
+                "children": [],
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "active": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": []
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": [],
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "auto_generate": {
+                  "enabled": 0,
+                  "element_id": null,
+                  "element_type": "",
+                  "auto_by": 0,
+                  "select_variant": 0,
+                  "enabled_variants": 1,
+                  "step": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "count": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "start_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "end_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot_section": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "auto_by_step": 0,
+                  "auto_by_count": 0
+                },
+                "size": {
+                  "x": "1",
+                  "y": "7",
+                  "z": "50"
+                },
+                "pos": {
+                  "x": "s:x-8",
+                  "y": 0,
+                  "z": "s:z-50"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": "90",
+                  "y": "0",
+                  "z": "0"
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "accessories": [],
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "current": []
+              },
+              {
+                "type": "model",
+                "name": "Конфирмат 6",
+                "id": "",
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "spec": {
+                  "id": "17",
+                  "key": "",
+                  "model_mats": []
+                },
+                "custom": [],
+                "children": [],
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "active": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": []
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": [],
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "auto_generate": {
+                  "enabled": 0,
+                  "element_id": null,
+                  "element_type": "",
+                  "auto_by": 0,
+                  "select_variant": 0,
+                  "enabled_variants": 1,
+                  "step": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "count": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "start_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "end_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot_section": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "auto_by_step": 0,
+                  "auto_by_count": 0
+                },
+                "size": {
+                  "x": "1",
+                  "y": "7",
+                  "z": "50"
+                },
+                "pos": {
+                  "x": "s:x-8",
+                  "y": 0,
+                  "z": "s:z/2"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": "90",
+                  "y": "0",
+                  "z": "0"
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "accessories": [],
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "current": []
+              },
+              {
+                "type": "model",
+                "name": "Саморез 1",
+                "id": "",
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "spec": {
+                  "id": "65",
+                  "key": "",
+                  "model_mats": []
+                },
+                "custom": [],
+                "children": [],
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "active": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": []
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": [],
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "auto_generate": {
+                  "enabled": 0,
+                  "element_id": null,
+                  "element_type": "",
+                  "auto_by": 0,
+                  "select_variant": 0,
+                  "enabled_variants": 1,
+                  "step": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "count": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "start_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "end_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot_section": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                },
+                "size": {
+                  "x": "4",
+                  "y": "4",
+                  "z": "30"
+                },
+                "pos": {
+                  "x": "50",
+                  "y": "-15",
+                  "z": "20"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": "90",
+                  "y": 0,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "accessories": [],
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "current": []
+              },
+              {
+                "type": "model",
+                "name": "Саморез 2",
+                "id": "",
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "spec": {
+                  "id": "65",
+                  "key": "",
+                  "model_mats": []
+                },
+                "custom": [],
+                "children": [],
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "active": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": []
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": [],
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "auto_generate": {
+                  "enabled": 0,
+                  "element_id": null,
+                  "element_type": "",
+                  "auto_by": 0,
+                  "select_variant": 0,
+                  "enabled_variants": 1,
+                  "step": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "count": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "start_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "end_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot_section": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                },
+                "size": {
+                  "x": "4",
+                  "y": "4",
+                  "z": "30"
+                },
+                "pos": {
+                  "x": "s:x-50",
+                  "y": "-15",
+                  "z": "20"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": "90",
+                  "y": 0,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "accessories": [],
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "current": []
+              },
+              {
+                "type": "model",
+                "name": "Саморез 3",
+                "id": "",
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "spec": {
+                  "id": "65",
+                  "key": "",
+                  "model_mats": []
+                },
+                "custom": [],
+                "children": [],
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "active": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": []
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": [],
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "auto_generate": {
+                  "enabled": 0,
+                  "element_id": null,
+                  "element_type": "",
+                  "auto_by": 0,
+                  "select_variant": 0,
+                  "enabled_variants": 1,
+                  "step": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "count": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "start_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "end_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot_section": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                },
+                "size": {
+                  "x": "4",
+                  "y": "4",
+                  "z": "30"
+                },
+                "pos": {
+                  "x": "s:x-50",
+                  "y": "-15",
+                  "z": "s:z-20"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": "90",
+                  "y": 0,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "accessories": [],
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "current": []
+              },
+              {
+                "type": "model",
+                "name": "Саморез 4",
+                "id": "",
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "spec": {
+                  "id": "65",
+                  "key": "",
+                  "model_mats": []
+                },
+                "custom": [],
+                "children": [],
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "active": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": []
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": [],
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "auto_generate": {
+                  "enabled": 0,
+                  "element_id": null,
+                  "element_type": "",
+                  "auto_by": 0,
+                  "select_variant": 0,
+                  "enabled_variants": 1,
+                  "step": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "count": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "start_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "end_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot_section": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                },
+                "size": {
+                  "x": "4",
+                  "y": "4",
+                  "z": "30"
+                },
+                "pos": {
+                  "x": "50",
+                  "y": "-15",
+                  "z": "s:z-20"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": "90",
+                  "y": 0,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "accessories": [],
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "current": []
+              },
+              {
+                "type": "cut",
+                "name": "Вырез 1",
+                "id": "",
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "spec": {
+                  "name": "",
+                  "code": "",
+                  "group": "cut",
+                  "type": "radius",
+                  "type_params": {
+                    "r": 5
+                  },
+                  "key": "",
+                  "points": [],
+                  "reverse": false,
+                  "direction": "z",
+                  "material": {
+                    "id": "1"
+                  },
+                  "trajectory": []
+                },
+                "custom": [],
+                "children": [],
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "active": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": []
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": [],
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "auto_generate": {
+                  "enabled": 0,
+                  "element_id": null,
+                  "element_type": "",
+                  "auto_by": 0,
+                  "select_variant": 0,
+                  "enabled_variants": 1,
+                  "step": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "count": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "start_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "end_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot_section": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                },
+                "size": {
+                  "x": "5",
+                  "y": "16",
+                  "z": "5"
+                },
+                "pos": {
+                  "x": "50",
+                  "y": 0,
+                  "z": "20"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "accessories": [],
+                "comments": "",
+                "section_key": "",
+                "params_key": ""
+              },
+              {
+                "type": "cut",
+                "name": "Вырез 2",
+                "id": "",
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "spec": {
+                  "name": "",
+                  "code": "",
+                  "group": "cut",
+                  "type": "radius",
+                  "type_params": {
+                    "r": 5
+                  },
+                  "key": "",
+                  "points": [],
+                  "reverse": false,
+                  "direction": "z",
+                  "material": {
+                    "id": "1"
+                  },
+                  "trajectory": []
+                },
+                "custom": [],
+                "children": [],
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "active": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": []
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": [],
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "auto_generate": {
+                  "enabled": 0,
+                  "element_id": null,
+                  "element_type": "",
+                  "auto_by": 0,
+                  "select_variant": 0,
+                  "enabled_variants": 1,
+                  "step": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "count": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "start_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "end_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot_section": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                },
+                "size": {
+                  "x": "5",
+                  "y": "16",
+                  "z": "5"
+                },
+                "pos": {
+                  "x": "s:x-50",
+                  "y": 0,
+                  "z": "20"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "accessories": [],
+                "comments": "",
+                "section_key": "",
+                "params_key": ""
+              },
+              {
+                "type": "cut",
+                "name": "Вырез 3",
+                "id": "",
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "spec": {
+                  "name": "",
+                  "code": "",
+                  "group": "cut",
+                  "type": "radius",
+                  "type_params": {
+                    "r": 5
+                  },
+                  "key": "",
+                  "points": [],
+                  "reverse": false,
+                  "direction": "z",
+                  "material": {
+                    "id": "1"
+                  },
+                  "trajectory": []
+                },
+                "custom": [],
+                "children": [],
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "active": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": []
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": [],
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "auto_generate": {
+                  "enabled": 0,
+                  "element_id": null,
+                  "element_type": "",
+                  "auto_by": 0,
+                  "select_variant": 0,
+                  "enabled_variants": 1,
+                  "step": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "count": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "start_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "end_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot_section": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                },
+                "size": {
+                  "x": "5",
+                  "y": "16",
+                  "z": "5"
+                },
+                "pos": {
+                  "x": "s:x-50",
+                  "y": 0,
+                  "z": "s:z-20"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "accessories": [],
+                "comments": "",
+                "section_key": "",
+                "params_key": ""
+              },
+              {
+                "type": "cut",
+                "name": "Вырез 4",
+                "id": "",
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "spec": {
+                  "name": "",
+                  "code": "",
+                  "group": "cut",
+                  "type": "radius",
+                  "type_params": {
+                    "r": 5
+                  },
+                  "key": "",
+                  "points": [],
+                  "reverse": false,
+                  "direction": "z",
+                  "material": {
+                    "id": "1"
+                  },
+                  "trajectory": []
+                },
+                "custom": [],
+                "children": [],
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "active": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": []
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": [],
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "auto_generate": {
+                  "enabled": 0,
+                  "element_id": null,
+                  "element_type": "",
+                  "auto_by": 0,
+                  "select_variant": 0,
+                  "enabled_variants": 1,
+                  "step": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "count": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "start_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "end_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot_section": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                },
+                "size": {
+                  "x": "5",
+                  "y": "16",
+                  "z": "5"
+                },
+                "pos": {
+                  "x": "50",
+                  "y": 0,
+                  "z": "s:z-20"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "accessories": [],
+                "comments": "",
+                "section_key": "",
+                "params_key": ""
+              }
+            ],
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 0,
+            "active": 1,
+            "variables": {
+              "visible": 1,
+              "main": []
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": [],
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "auto_generate": {
+              "enabled": 0,
+              "element_id": null,
+              "element_type": "",
+              "auto_by": 0,
+              "select_variant": 0,
+              "enabled_variants": 1,
+              "step": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "count": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "start_offset": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "end_offset": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot_section": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "auto_by_step": 0,
+              "auto_by_count": 0
+            },
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "c_rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "accessories": [],
+            "comments": "",
+            "section_key": "",
+            "params_key": ""
+          },
+          {
+            "type": "wall",
+            "name": "Задняя стенка",
+            "id": "",
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "spec": {
+              "name": "",
+              "code": "",
+              "orientation": "f",
+              "group": "wall",
+              "type": "common",
+              "type_params": [],
+              "points": [],
+              "butts": [],
+              "holes": [],
+              "key": "left",
+              "shape": null,
+              "material": {
+                "group": "g1",
+                "key": "hdf",
+                "key_lock": "",
+                "thickness_lock": 0,
+                "id": "322",
+                "variant_id": 0,
+                "rotated": 0,
+                "av_index": 0
+              },
+              "show_index": 1,
+              "n_map": 0,
+              "n_scale": 1
+            },
+            "custom": [],
+            "children": [
+              {
+                "type": "model",
+                "name": "Уголок Maxi 1",
+                "id": "",
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "spec": {
+                  "id": "66",
+                  "key": "",
+                  "model_mats": []
+                },
+                "custom": [],
+                "children": [],
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "active": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": []
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": [],
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "auto_generate": {
+                  "enabled": 0,
+                  "element_id": null,
+                  "element_type": "",
+                  "auto_by": 0,
+                  "select_variant": 0,
+                  "enabled_variants": 1,
+                  "step": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "count": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "start_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "end_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot_section": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                },
+                "size": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0"
+                },
+                "pos": {
+                  "x": "16",
+                  "y": "80",
+                  "z": "s:z"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": "270",
+                  "y": "180",
+                  "z": "270"
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "accessories": [],
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "current": []
+              },
+              {
+                "type": "model",
+                "name": "Уголок Maxi 2",
+                "id": "",
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "spec": {
+                  "id": "66",
+                  "key": "",
+                  "model_mats": []
+                },
+                "custom": [],
+                "children": [],
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "active": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": []
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": [],
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "auto_generate": {
+                  "enabled": 0,
+                  "element_id": null,
+                  "element_type": "",
+                  "auto_by": 0,
+                  "select_variant": 0,
+                  "enabled_variants": 1,
+                  "step": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "count": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "start_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "end_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot_section": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                },
+                "size": {
+                  "x": "0",
+                  "y": "0",
+                  "z": "0"
+                },
+                "pos": {
+                  "x": "s:x-16",
+                  "y": "80",
+                  "z": "s:z"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": "90",
+                  "y": "180",
+                  "z": "90"
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "accessories": [],
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "current": []
+              }
+            ],
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 0,
+            "active": 1,
+            "variables": {
+              "visible": 1,
+              "main": []
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": [],
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "auto_generate": {
+              "enabled": 0,
+              "element_id": null,
+              "element_type": "",
+              "auto_by": 0,
+              "select_variant": 0,
+              "enabled_variants": 1,
+              "step": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "count": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "start_offset": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "end_offset": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot_section": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "auto_by_step": 0,
+              "auto_by_count": 0
+            },
+            "size": {
+              "x": "s:x-2",
+              "y": "s:y-2",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": "-3"
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "c_rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "accessories": [],
+            "comments": "",
+            "section_key": "",
+            "params_key": "",
+            "fill_intersec": 1
+          },
+          {
+            "type": "wall",
+            "name": "Левый бок ",
+            "id": "",
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "spec": {
+              "name": "",
+              "code": "",
+              "orientation": "v",
+              "group": "wall",
+              "type": "common",
+              "type_params": [],
+              "points": [],
+              "butts": [
+                {
+                  "face_index": 0,
+                  "id": 0,
+                  "key": "butts",
+                  "thickness": 0.4,
+                  "variant_id": 0
+                },
+                {
+                  "face_index": 1,
+                  "id": 0,
+                  "key": "butts",
+                  "thickness": "1",
+                  "variant_id": 0
+                },
+                {
+                  "face_index": 2,
+                  "id": 0,
+                  "key": "butts",
+                  "thickness": 0.4,
+                  "variant_id": 0
+                }
+              ],
+              "holes": [],
+              "key": "left",
+              "shape": null,
+              "material": {
+                "group": "g0",
+                "key": "ldsp",
+                "key_lock": "",
+                "thickness_lock": 0,
+                "id": "1",
+                "variant_id": 0,
+                "rotated": 0,
+                "av_index": 0
+              },
+              "show_index": 1,
+              "n_map": 0,
+              "n_scale": 1
+            },
+            "custom": [],
+            "children": [],
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 0,
+            "active": 1,
+            "variables": {
+              "visible": 1,
+              "main": []
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": [],
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "auto_generate": {
+              "enabled": 0,
+              "element_id": null,
+              "element_type": "",
+              "auto_by": 0,
+              "select_variant": 0,
+              "enabled_variants": 1,
+              "step": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "count": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "start_offset": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "end_offset": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot_section": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "auto_by_step": 0,
+              "auto_by_count": 0
+            },
+            "size": {
+              "x": "s:x",
+              "y": "s:y-32",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": "16",
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "c_rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "accessories": [],
+            "comments": "",
+            "section_key": "",
+            "params_key": ""
+          },
+          {
+            "type": "wall",
+            "name": "Правый бок",
+            "id": "",
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "spec": {
+              "name": "",
+              "code": "",
+              "orientation": "v",
+              "group": "wall",
+              "type": "common",
+              "type_params": [],
+              "points": [],
+              "butts": [
+                {
+                  "face_index": 0,
+                  "id": 0,
+                  "key": "butts",
+                  "thickness": 0.4,
+                  "variant_id": 0
+                },
+                {
+                  "face_index": 1,
+                  "id": 0,
+                  "key": "butts",
+                  "thickness": "1",
+                  "variant_id": 0
+                },
+                {
+                  "face_index": 2,
+                  "id": 0,
+                  "key": "butts",
+                  "thickness": 0.4,
+                  "variant_id": 0
+                }
+              ],
+              "holes": [],
+              "key": "left",
+              "shape": null,
+              "material": {
+                "group": "g0",
+                "key": "ldsp",
+                "key_lock": "",
+                "thickness_lock": 0,
+                "id": "1",
+                "variant_id": 0,
+                "rotated": 0,
+                "av_index": 0
+              },
+              "show_index": 1,
+              "n_map": 0,
+              "n_scale": 1
+            },
+            "custom": [],
+            "children": [],
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 0,
+            "active": 1,
+            "variables": {
+              "visible": 1,
+              "main": []
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": [],
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "auto_generate": {
+              "enabled": 0,
+              "element_id": null,
+              "element_type": "",
+              "auto_by": 0,
+              "select_variant": 0,
+              "enabled_variants": 1,
+              "step": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "count": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "start_offset": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "end_offset": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot_section": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "auto_by_step": 0,
+              "auto_by_count": 0
+            },
+            "size": {
+              "x": "s:x",
+              "y": "s:y-32",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": "s:x",
+              "y": "16",
+              "z": 0
+            },
+            "pivot": {
+              "x": 1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "c_rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "accessories": [],
+            "comments": "",
+            "section_key": "",
+            "params_key": ""
+          },
+          {
+            "type": "wall",
+            "name": "Крышка АТ",
+            "id": "",
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "spec": {
+              "name": "",
+              "code": "",
+              "orientation": "h",
+              "group": "wall",
+              "type": "common",
+              "type_params": [],
+              "points": [],
+              "butts": [
+                {
+                  "face_index": 1,
+                  "id": 0,
+                  "key": "butts",
+                  "thickness": 0.4,
+                  "variant_id": 0
+                },
+                {
+                  "face_index": 2,
+                  "id": 0,
+                  "key": "butts",
+                  "thickness": "1",
+                  "variant_id": 0
+                },
+                {
+                  "face_index": 3,
+                  "id": 0,
+                  "key": "butts",
+                  "thickness": 0.4,
+                  "variant_id": 0
+                }
+              ],
+              "holes": [],
+              "key": "left",
+              "shape": null,
+              "material": {
+                "group": "g0",
+                "key": "ldsp",
+                "key_lock": "",
+                "thickness_lock": 0,
+                "id": "1",
+                "variant_id": 0,
+                "rotated": 0,
+                "av_index": 0
+              },
+              "show_index": 1,
+              "n_map": 0,
+              "n_scale": 1
+            },
+            "custom": [],
+            "children": [
+              {
+                "type": "model",
+                "name": "Конфирмат 1",
+                "id": "",
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "spec": {
+                  "id": "17",
+                  "key": "",
+                  "model_mats": []
+                },
+                "custom": [],
+                "children": [],
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "active": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": []
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": [],
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "auto_generate": {
+                  "enabled": 0,
+                  "element_id": null,
+                  "element_type": "",
+                  "auto_by": 0,
+                  "select_variant": 0,
+                  "enabled_variants": 1,
+                  "step": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "count": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "start_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "end_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot_section": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "auto_by_step": 0,
+                  "auto_by_count": 0
+                },
+                "size": {
+                  "x": "1",
+                  "y": "7",
+                  "z": "50"
+                },
+                "pos": {
+                  "x": "8",
+                  "y": "-36",
+                  "z": "s:z-51"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": "90",
+                  "y": 0,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "accessories": [],
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "current": []
+              },
+              {
+                "type": "model",
+                "name": "Конфирмат 5",
+                "id": "",
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "spec": {
+                  "id": "17",
+                  "key": "",
+                  "model_mats": []
+                },
+                "custom": [],
+                "children": [],
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "active": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": []
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": [],
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "auto_generate": {
+                  "enabled": 0,
+                  "element_id": null,
+                  "element_type": "",
+                  "auto_by": 0,
+                  "select_variant": 0,
+                  "enabled_variants": 1,
+                  "step": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "count": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "start_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "end_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot_section": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "auto_by_step": 0,
+                  "auto_by_count": 0
+                },
+                "size": {
+                  "x": "1",
+                  "y": "7",
+                  "z": "50"
+                },
+                "pos": {
+                  "x": "8",
+                  "y": "-36",
+                  "z": "s:z/2"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": "90",
+                  "y": 0,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "accessories": [],
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "current": []
+              },
+              {
+                "type": "model",
+                "name": "Конфирмат 3",
+                "id": "",
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "spec": {
+                  "id": "17",
+                  "key": "",
+                  "model_mats": []
+                },
+                "custom": [],
+                "children": [],
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "active": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": []
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": [],
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "auto_generate": {
+                  "enabled": 0,
+                  "element_id": null,
+                  "element_type": "",
+                  "auto_by": 0,
+                  "select_variant": 0,
+                  "enabled_variants": 1,
+                  "step": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "count": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "start_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "end_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot_section": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "auto_by_step": 0,
+                  "auto_by_count": 0
+                },
+                "size": {
+                  "x": "1",
+                  "y": "7",
+                  "z": "50"
+                },
+                "pos": {
+                  "x": "s:x-8",
+                  "y": "-36",
+                  "z": "s:z-51"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": "90",
+                  "y": 0,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "accessories": [],
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "current": []
+              },
+              {
+                "type": "model",
+                "name": "Конфирмат 6",
+                "id": "",
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "spec": {
+                  "id": "17",
+                  "key": "",
+                  "model_mats": []
+                },
+                "custom": [],
+                "children": [],
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "active": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": []
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": [],
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "auto_generate": {
+                  "enabled": 0,
+                  "element_id": null,
+                  "element_type": "",
+                  "auto_by": 0,
+                  "select_variant": 0,
+                  "enabled_variants": 1,
+                  "step": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "count": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "start_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "end_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot_section": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "auto_by_step": 0,
+                  "auto_by_count": 0
+                },
+                "size": {
+                  "x": "1",
+                  "y": "7",
+                  "z": "50"
+                },
+                "pos": {
+                  "x": "s:x-8",
+                  "y": "-36",
+                  "z": "s:z/2"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": "90",
+                  "y": 0,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "accessories": [],
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "current": []
+              },
+              {
+                "type": "model",
+                "name": "Конфирмат 2",
+                "id": "",
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "spec": {
+                  "id": "17",
+                  "key": "",
+                  "model_mats": []
+                },
+                "custom": [],
+                "children": [],
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "active": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": []
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": [],
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "auto_generate": {
+                  "enabled": 0,
+                  "element_id": null,
+                  "element_type": "",
+                  "auto_by": 0,
+                  "select_variant": 0,
+                  "enabled_variants": 1,
+                  "step": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "count": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "start_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "end_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot_section": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "auto_by_step": 0,
+                  "auto_by_count": 0
+                },
+                "size": {
+                  "x": "1",
+                  "y": "7",
+                  "z": "50"
+                },
+                "pos": {
+                  "x": "8",
+                  "y": "-36",
+                  "z": "51"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": "90",
+                  "y": 0,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "accessories": [],
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "current": []
+              },
+              {
+                "type": "model",
+                "name": "Конфирмат 4",
+                "id": "",
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "spec": {
+                  "id": "17",
+                  "key": "",
+                  "model_mats": []
+                },
+                "custom": [],
+                "children": [],
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "active": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": []
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": [],
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "auto_generate": {
+                  "enabled": 0,
+                  "element_id": null,
+                  "element_type": "",
+                  "auto_by": 0,
+                  "select_variant": 0,
+                  "enabled_variants": 1,
+                  "step": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "count": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "start_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "end_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot_section": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "auto_by_step": 0,
+                  "auto_by_count": 0
+                },
+                "size": {
+                  "x": "1",
+                  "y": "7",
+                  "z": "50"
+                },
+                "pos": {
+                  "x": "s:x-8",
+                  "y": "-36",
+                  "z": "51"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": "90",
+                  "y": 0,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "accessories": [],
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "current": []
+              },
+              {
+                "type": "cut",
+                "name": "Вырез 1",
+                "id": "",
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "spec": {
+                  "name": "",
+                  "code": "",
+                  "group": "cut",
+                  "type": "radius",
+                  "type_params": {
+                    "r": 5
+                  },
+                  "key": "",
+                  "points": [],
+                  "reverse": false,
+                  "direction": "z",
+                  "material": {
+                    "id": "1"
+                  },
+                  "trajectory": []
+                },
+                "custom": [],
+                "children": [],
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "active": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": []
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": [],
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "auto_generate": {
+                  "enabled": 0,
+                  "element_id": null,
+                  "element_type": "",
+                  "auto_by": 0,
+                  "select_variant": 0,
+                  "enabled_variants": 1,
+                  "step": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "count": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "start_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "end_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot_section": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                },
+                "size": {
+                  "x": "5",
+                  "y": "16",
+                  "z": "5"
+                },
+                "pos": {
+                  "x": "50",
+                  "y": 0,
+                  "z": "s:z-8"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "accessories": [],
+                "comments": "",
+                "section_key": "",
+                "params_key": ""
+              },
+              {
+                "type": "cut",
+                "name": "Вырез 2",
+                "id": "",
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "spec": {
+                  "name": "",
+                  "code": "",
+                  "group": "cut",
+                  "type": "radius",
+                  "type_params": {
+                    "r": 5
+                  },
+                  "key": "",
+                  "points": [],
+                  "reverse": false,
+                  "direction": "z",
+                  "material": {
+                    "id": "1"
+                  },
+                  "trajectory": []
+                },
+                "custom": [],
+                "children": [],
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "active": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": []
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": [],
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "auto_generate": {
+                  "enabled": 0,
+                  "element_id": null,
+                  "element_type": "",
+                  "auto_by": 0,
+                  "select_variant": 0,
+                  "enabled_variants": 1,
+                  "step": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "count": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "start_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "end_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot_section": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                },
+                "size": {
+                  "x": "5",
+                  "y": "16",
+                  "z": "5"
+                },
+                "pos": {
+                  "x": "s:x/2",
+                  "y": 0,
+                  "z": "s:z-8"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "accessories": [],
+                "comments": "",
+                "section_key": "",
+                "params_key": ""
+              },
+              {
+                "type": "cut",
+                "name": "Вырез 3",
+                "id": "",
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "spec": {
+                  "name": "",
+                  "code": "",
+                  "group": "cut",
+                  "type": "radius",
+                  "type_params": {
+                    "r": 5
+                  },
+                  "key": "",
+                  "points": [],
+                  "reverse": false,
+                  "direction": "z",
+                  "material": {
+                    "id": "1"
+                  },
+                  "trajectory": []
+                },
+                "custom": [],
+                "children": [],
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "active": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": []
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": [],
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "auto_generate": {
+                  "enabled": 0,
+                  "element_id": null,
+                  "element_type": "",
+                  "auto_by": 0,
+                  "select_variant": 0,
+                  "enabled_variants": 1,
+                  "step": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "count": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "start_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "end_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot_section": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                },
+                "size": {
+                  "x": "5",
+                  "y": "16",
+                  "z": "5"
+                },
+                "pos": {
+                  "x": "s:x-50",
+                  "y": 0,
+                  "z": "s:z-8"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "accessories": [],
+                "comments": "",
+                "section_key": "",
+                "params_key": ""
+              }
+            ],
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 0,
+            "active": 1,
+            "variables": {
+              "visible": 1,
+              "main": []
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": [],
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "auto_generate": {
+              "enabled": 0,
+              "element_id": null,
+              "element_type": "",
+              "auto_by": 0,
+              "select_variant": 0,
+              "enabled_variants": 1,
+              "step": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "count": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "start_offset": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "end_offset": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot_section": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "auto_by_step": 0,
+              "auto_by_count": 0
+            },
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": "s:y",
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": 1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "c_rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "accessories": [],
+            "comments": "",
+            "section_key": "",
+            "params_key": ""
+          },
+          {
+            "type": "section",
+            "name": "Секция наполнение",
+            "id": "",
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "spec": [],
+            "custom": [],
+            "children": [
+              {
+                "type": "fill_section",
+                "name": "Наполняемая секция",
+                "id": "",
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "spec": {
+                  "show_sizes": 0,
+                  "replace": 0,
+                  "snap_distance": 15,
+                  "step_axes": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "invert": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                },
+                "custom": [],
+                "children": [],
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 0,
+                "active": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": []
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": [],
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "auto_generate": {
+                  "enabled": 0,
+                  "element_id": null,
+                  "element_type": "",
+                  "auto_by": 0,
+                  "select_variant": 0,
+                  "enabled_variants": 1,
+                  "step": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "count": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "start_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "end_offset": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot_section": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "auto_by_step": 0,
+                  "auto_by_count": 0
+                },
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "accessories": [],
+                "comments": "",
+                "section_key": "Three_3",
+                "params_key": "",
+                "fill": {
+                  "drag_items": [
+                    {
+                      "id": "33",
+                      "key": "korpusnaya_mebel"
+                    }
+                  ]
+                }
+              }
+            ],
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 0,
+            "active": 1,
+            "variables": {
+              "visible": 1,
+              "main": []
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": [],
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "auto_generate": {
+              "enabled": 0,
+              "element_id": null,
+              "element_type": "",
+              "auto_by": 0,
+              "select_variant": 0,
+              "enabled_variants": 1,
+              "step": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "count": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "start_offset": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "end_offset": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot_section": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "auto_by_step": 0,
+              "auto_by_count": 0
+            },
+            "size": {
+              "x": "s:x-32",
+              "y": "s:y-32",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": "16",
+              "y": "16",
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "c_rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "accessories": [],
+            "comments": "",
+            "section_key": "",
+            "params_key": ""
+          }
+        ],
+        "condition": null,
+        "visible": 1,
+        "helpers_visible": 0,
+        "active": 1,
+        "variables": {
+          "visible": 1,
+          "main": []
+        },
+        "interaction": {
+          "auto_rotation": 1,
+          "check_intersection": 0,
+          "raycast": 1,
+          "rotate_free": 0
+        },
+        "resizable": {
+          "enabled": 0,
+          "locks": [],
+          "minmax": {
+            "min": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "max": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          }
+        },
+        "auto_generate": {
+          "enabled": 0,
+          "element_id": null,
+          "element_type": "",
+          "auto_by": 0,
+          "select_variant": 0,
+          "enabled_variants": 1,
+          "step": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "count": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "size": {
+            "x": "s:x",
+            "y": "s:y",
+            "z": "s:z"
+          },
+          "start_offset": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "end_offset": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pivot_section": {
+            "x": -1,
+            "y": -1,
+            "z": -1
+          },
+          "pivot": {
+            "x": -1,
+            "y": -1,
+            "z": -1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "auto_by_step": 0,
+          "auto_by_count": 0
+        },
+        "size": {
+          "x": "s:x",
+          "y": "s:y",
+          "z": "s:z"
+        },
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "pivot": {
+          "x": -1,
+          "y": -1,
+          "z": -1
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        },
+        "rot": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "c_rot": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "events": {
+          "on_before_params": "",
+          "on_before_build": "",
+          "on_after_build": "",
+          "on_drag_end": ""
+        },
+        "accessories": [],
+        "comments": "",
+        "section_key": "",
+        "params_key": ""
+      }
+    ],
+    "condition": null,
+    "visible": 1,
+    "helpers_visible": 0,
+    "active": 1,
+    "variables": {
+      "visible": 1,
+      "main": []
+    },
+    "interaction": {
+      "auto_rotation": 1,
+      "check_intersection": 0,
+      "raycast": 1,
+      "rotate_free": 0
+    },
+    "resizable": {
+      "enabled": 0,
+      "locks": [],
+      "minmax": {
+        "min": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "max": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
+      }
+    },
+    "auto_generate": {
+      "enabled": 0,
+      "element_id": null,
+      "element_type": "",
+      "auto_by": 0,
+      "select_variant": 0,
+      "enabled_variants": 1,
+      "step": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "count": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "size": {
+        "x": "s:x",
+        "y": "s:y",
+        "z": "s:z"
+      },
+      "start_offset": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "end_offset": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "pivot_section": {
+        "x": -1,
+        "y": -1,
+        "z": -1
+      },
+      "pivot": {
+        "x": -1,
+        "y": -1,
+        "z": -1
+      },
+      "rot": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "auto_by_step": 0,
+      "auto_by_count": 0
+    },
+    "size": {
+      "x": "s:x",
+      "y": "s:y",
+      "z": "s:z"
+    },
+    "pos": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "pivot": {
+      "x": -1,
+      "y": -1,
+      "z": -1
+    },
+    "scale": {
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "rot": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "c_rot": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "events": {
+      "on_before_params": "",
+      "on_before_build": "",
+      "on_after_build": "",
+      "on_drag_end": ""
+    },
+    "accessories": [],
+    "comments": "",
+    "section_key": "",
+    "params_key": ""
+  }
+]

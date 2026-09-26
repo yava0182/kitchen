@@ -1,0 +1,100 @@
+{
+  "version": 1,
+  "constructId": "antresol_v1",
+  "moduleLabel": "Антресоль",
+  "dimensionsMm": { "w": 800, "h": 360, "d": 300 },
+  "parts": [
+    {
+      "partKey": "horizontal_bottom",
+      "no": 1,
+      "label": "Дно антресоль",
+      "detailTypeId": "horizontal_bottom",
+      "sizeMm": [800, 16, 297],
+      "slotMm": { "pos": [0, 0, 3], "pivot": [-1, -1, -1] }
+    },
+    {
+      "partKey": "vertical_left",
+      "no": 2,
+      "label": "Бок левый антресоли",
+      "detailTypeId": "vertical_left",
+      "sizeMm": [16, 328, 297],
+      "slotMm": { "pos": [0, 16, 3], "pivot": [-1, -1, -1] }
+    },
+    {
+      "partKey": "vertical_right",
+      "no": 3,
+      "label": "Бок правый антресоли",
+      "detailTypeId": "vertical_right",
+      "sizeMm": [16, 328, 297],
+      "slotMm": { "pos": [784, 16, 3], "pivot": [1, -1, -1] }
+    },
+    {
+      "partKey": "back_front",
+      "no": 4,
+      "label": "Задняя стенка",
+      "detailTypeId": "back_front",
+      "sizeMm": [800, 328, 3],
+      "slotMm": { "pos": [0, 16, 3], "pivot": [-1, -1, -1] }
+    },
+    {
+      "partKey": "horizontal_top",
+      "no": 5,
+      "label": "Крыша антресоли",
+      "detailTypeId": "horizontal_top",
+      "sizeMm": [800, 16, 297],
+      "slotMm": { "pos": [0, 344, 3], "pivot": [-1, 1, -1] }
+    }
+  ],
+  "steps": [
+    {
+      "id": "s01",
+      "index": 1,
+      "title": "Дно антресоль",
+      "hint": "Найдите деталь с такой же надписью на наклейке",
+      "pickPart": { "no": 1, "partKey": "horizontal_bottom", "label": "Дно антресоль" },
+      "mateWith": null,
+      "spawnFromMm": [400, -120, 200],
+      "highlightHoles": false
+    },
+    {
+      "id": "s02",
+      "index": 2,
+      "title": "Бок левый",
+      "hint": "Приложите к длинной стороне дна",
+      "pickPart": { "no": 2, "partKey": "vertical_left", "label": "Бок левый антресоли" },
+      "mateWith": { "no": 1, "partKey": "horizontal_bottom", "label": "Дно антресоль" },
+      "spawnFromMm": [-120, 180, 200],
+      "highlightHoles": true
+    },
+    {
+      "id": "s03",
+      "index": 3,
+      "title": "Бок правый",
+      "hint": "Зеркально левому боку",
+      "pickPart": { "no": 3, "partKey": "vertical_right", "label": "Бок правый антресоли" },
+      "mateWith": { "no": 1, "partKey": "horizontal_bottom", "label": "Дно антресоль" },
+      "spawnFromMm": [920, 180, 200],
+      "highlightHoles": true
+    },
+    {
+      "id": "s04",
+      "index": 4,
+      "title": "Задняя стенка",
+      "hint": "Вставьте в паз между боковинами",
+      "pickPart": { "no": 4, "partKey": "back_front", "label": "Задняя стенка" },
+      "mateWith": { "no": 2, "partKey": "vertical_left", "label": "Бок левый антресоли" },
+      "spawnFromMm": [400, 180, -100],
+      "highlightHoles": false
+    },
+    {
+      "id": "s05",
+      "index": 5,
+      "title": "Крыша антресоли",
+      "hint": "Уложите сверху на боковины",
+      "pickPart": { "no": 5, "partKey": "horizontal_top", "label": "Крыша антресоли" },
+      "mateWith": { "no": 2, "partKey": "vertical_left", "label": "Бок левый антресоли" },
+      "spawnFromMm": [400, 520, 200],
+      "highlightHoles": true
+    }
+  ]
+}

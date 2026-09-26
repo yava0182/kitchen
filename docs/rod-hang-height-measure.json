@@ -1,0 +1,401 @@
+{
+  "unit_guess": "m",
+  "max_raw_extent": 1.7179,
+  "thresholds_mm": {
+    "short_max": 850,
+    "long_min": 1000
+  },
+  "garments_total": 46,
+  "paired_total": 16,
+  "by_class_all": {
+    "short": 38,
+    "mid": 7,
+    "long": 1
+  },
+  "by_class_paired": {
+    "short": 10,
+    "mid": 5,
+    "long": 1
+  },
+  "long_paired_names": [
+    "shirt03"
+  ],
+  "mid_paired_names": [
+    "blouse_black002",
+    "vest02",
+    "dress004",
+    "shirt05",
+    "shirt06"
+  ],
+  "long_unpaired_names": [],
+  "items": [
+    {
+      "name": "cloth4449",
+      "height_mm": 324.8,
+      "class": "short",
+      "paired": false,
+      "pair_dist": null,
+      "hanger": null
+    },
+    {
+      "name": "cloth4446",
+      "height_mm": 384.0,
+      "class": "short",
+      "paired": false,
+      "pair_dist": null,
+      "hanger": null
+    },
+    {
+      "name": "cloth021",
+      "height_mm": 384.0,
+      "class": "short",
+      "paired": false,
+      "pair_dist": 0.7157,
+      "hanger": "Hangers_for_clothes091"
+    },
+    {
+      "name": "blouse22",
+      "height_mm": 775.3,
+      "class": "short",
+      "paired": true,
+      "pair_dist": 0.0288,
+      "hanger": "Hangers_for_clothes091"
+    },
+    {
+      "name": "cloth4448",
+      "height_mm": 388.3,
+      "class": "short",
+      "paired": false,
+      "pair_dist": null,
+      "hanger": null
+    },
+    {
+      "name": "cloth4447",
+      "height_mm": 396.2,
+      "class": "short",
+      "paired": false,
+      "pair_dist": null,
+      "hanger": null
+    },
+    {
+      "name": "cloth022",
+      "height_mm": 388.3,
+      "class": "short",
+      "paired": false,
+      "pair_dist": 0.2243,
+      "hanger": "wood_hanger4"
+    },
+    {
+      "name": "cloth020",
+      "height_mm": 396.2,
+      "class": "short",
+      "paired": false,
+      "pair_dist": 0.6888,
+      "hanger": "Hangers_for_clothes097"
+    },
+    {
+      "name": "knitted_sweater02",
+      "height_mm": 420.1,
+      "class": "short",
+      "paired": false,
+      "pair_dist": 0.5801,
+      "hanger": "Hangers_for_clothes097"
+    },
+    {
+      "name": "knitted_sweater01",
+      "height_mm": 413.9,
+      "class": "short",
+      "paired": false,
+      "pair_dist": 0.5418,
+      "hanger": "Hangers_for_clothes097"
+    },
+    {
+      "name": "blouse03",
+      "height_mm": 617.2,
+      "class": "short",
+      "paired": true,
+      "pair_dist": 0.0291,
+      "hanger": "Hangers_for_clothes097"
+    },
+    {
+      "name": "vest01",
+      "height_mm": 684.7,
+      "class": "short",
+      "paired": true,
+      "pair_dist": 0.0208,
+      "hanger": "Hangers_for_clothes087"
+    },
+    {
+      "name": "blouse04",
+      "height_mm": 678.8,
+      "class": "short",
+      "paired": true,
+      "pair_dist": 0.0184,
+      "hanger": "Hangers_for_clothes095"
+    },
+    {
+      "name": "blouse05",
+      "height_mm": 790.1,
+      "class": "short",
+      "paired": true,
+      "pair_dist": 0.0208,
+      "hanger": "Hangers_for_clothes096"
+    },
+    {
+      "name": "cloth030",
+      "height_mm": 339.0,
+      "class": "short",
+      "paired": false,
+      "pair_dist": 0.8468,
+      "hanger": "Hangers_for_clothes098"
+    },
+    {
+      "name": "cloth031",
+      "height_mm": 330.4,
+      "class": "short",
+      "paired": false,
+      "pair_dist": 0.8775,
+      "hanger": "Hangers_for_clothes098"
+    },
+    {
+      "name": "cloth4454",
+      "height_mm": 265.8,
+      "class": "short",
+      "paired": false,
+      "pair_dist": null,
+      "hanger": null
+    },
+    {
+      "name": "cloth4455",
+      "height_mm": 258.9,
+      "class": "short",
+      "paired": false,
+      "pair_dist": null,
+      "hanger": null
+    },
+    {
+      "name": "cloth4453",
+      "height_mm": 258.3,
+      "class": "short",
+      "paired": false,
+      "pair_dist": null,
+      "hanger": null
+    },
+    {
+      "name": "cloth4459",
+      "height_mm": 365.7,
+      "class": "short",
+      "paired": false,
+      "pair_dist": null,
+      "hanger": null
+    },
+    {
+      "name": "lace_sweater002",
+      "height_mm": 195.9,
+      "class": "short",
+      "paired": false,
+      "pair_dist": 0.7178,
+      "hanger": "Hangers_for_clothes099"
+    },
+    {
+      "name": "cloth4460",
+      "height_mm": 370.3,
+      "class": "short",
+      "paired": false,
+      "pair_dist": 0.7395,
+      "hanger": "Hangers_for_clothes099"
+    },
+    {
+      "name": "cloth4461",
+      "height_mm": 373.4,
+      "class": "short",
+      "paired": false,
+      "pair_dist": 0.2029,
+      "hanger": "wood_hanger5"
+    },
+    {
+      "name": "sweater05",
+      "height_mm": 774.4,
+      "class": "short",
+      "paired": true,
+      "pair_dist": 0.031,
+      "hanger": "Hangers_for_clothes101"
+    },
+    {
+      "name": "cloth_dress2",
+      "height_mm": 289.0,
+      "class": "short",
+      "paired": false,
+      "pair_dist": null,
+      "hanger": null
+    },
+    {
+      "name": "blouse_knitted3",
+      "height_mm": 298.1,
+      "class": "short",
+      "paired": false,
+      "pair_dist": null,
+      "hanger": null
+    },
+    {
+      "name": "blouse_black002",
+      "height_mm": 873.4,
+      "class": "mid",
+      "paired": true,
+      "pair_dist": 0.0345,
+      "hanger": "Hangers_for_clothes089"
+    },
+    {
+      "name": "sweater06",
+      "height_mm": 881.9,
+      "class": "mid",
+      "paired": false,
+      "pair_dist": 0.0771,
+      "hanger": "Hangers_for_clothes090"
+    },
+    {
+      "name": "vest02",
+      "height_mm": 855.6,
+      "class": "mid",
+      "paired": true,
+      "pair_dist": 0.0219,
+      "hanger": "Hangers_for_clothes090"
+    },
+    {
+      "name": "dress004",
+      "height_mm": 978.4,
+      "class": "mid",
+      "paired": true,
+      "pair_dist": 0.0324,
+      "hanger": "Hangers_for_clothes084"
+    },
+    {
+      "name": "shirt01",
+      "height_mm": 821.4,
+      "class": "short",
+      "paired": true,
+      "pair_dist": 0.0135,
+      "hanger": "Hangers_for_clothes086"
+    },
+    {
+      "name": "shirt02",
+      "height_mm": 783.2,
+      "class": "short",
+      "paired": true,
+      "pair_dist": 0.0057,
+      "hanger": "Hangers_for_clothes092"
+    },
+    {
+      "name": "cloth042",
+      "height_mm": 373.0,
+      "class": "short",
+      "paired": false,
+      "pair_dist": 0.7392,
+      "hanger": "Hangers_for_clothes085"
+    },
+    {
+      "name": "cloth040",
+      "height_mm": 388.1,
+      "class": "short",
+      "paired": false,
+      "pair_dist": 0.7683,
+      "hanger": "Hangers_for_clothes085"
+    },
+    {
+      "name": "cloth04",
+      "height_mm": 379.0,
+      "class": "short",
+      "paired": false,
+      "pair_dist": 0.7099,
+      "hanger": "Hangers_for_clothes085"
+    },
+    {
+      "name": "shirt03",
+      "height_mm": 1024.3,
+      "class": "long",
+      "paired": true,
+      "pair_dist": 0.0157,
+      "hanger": "Hangers_for_clothes085"
+    },
+    {
+      "name": "Jean_jacket",
+      "height_mm": 619.0,
+      "class": "short",
+      "paired": true,
+      "pair_dist": 0.0113,
+      "hanger": "Hangers_for_clothes121"
+    },
+    {
+      "name": "dress_white",
+      "height_mm": 855.5,
+      "class": "mid",
+      "paired": false,
+      "pair_dist": null,
+      "hanger": null
+    },
+    {
+      "name": "cloth033",
+      "height_mm": 330.4,
+      "class": "short",
+      "paired": false,
+      "pair_dist": 0.8845,
+      "hanger": "Hangers_for_clothes083"
+    },
+    {
+      "name": "cloth032",
+      "height_mm": 293.9,
+      "class": "short",
+      "paired": false,
+      "pair_dist": 0.8532,
+      "hanger": "Hangers_for_clothes083"
+    },
+    {
+      "name": "shirt05",
+      "height_mm": 872.3,
+      "class": "mid",
+      "paired": true,
+      "pair_dist": 0.0124,
+      "hanger": "Hangers_for_clothes083"
+    },
+    {
+      "name": "shirt06",
+      "height_mm": 875.0,
+      "class": "mid",
+      "paired": true,
+      "pair_dist": 0.0128,
+      "hanger": "Hangers_for_clothes081"
+    },
+    {
+      "name": "cloth037",
+      "height_mm": 386.9,
+      "class": "short",
+      "paired": false,
+      "pair_dist": 0.7456,
+      "hanger": "Hangers_for_clothes100"
+    },
+    {
+      "name": "cloth039",
+      "height_mm": 374.8,
+      "class": "short",
+      "paired": false,
+      "pair_dist": 0.7223,
+      "hanger": "Hangers_for_clothes100"
+    },
+    {
+      "name": "cloth038",
+      "height_mm": 373.4,
+      "class": "short",
+      "paired": false,
+      "pair_dist": 0.7683,
+      "hanger": "Hangers_for_clothes100"
+    },
+    {
+      "name": "shirt044",
+      "height_mm": 800.1,
+      "class": "short",
+      "paired": true,
+      "pair_dist": 0.0132,
+      "hanger": "Hangers_for_clothes100"
+    }
+  ]
+}

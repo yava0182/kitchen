@@ -1,0 +1,26 @@
+{
+  "ok": true,
+  "purpose": "gl-v4-compiledEffects",
+  "when": "2026-08-26T12:00:10.080Z",
+  "note": "PBR shell only (~2491) — lighting in #include betrakta_material_renderer. Soft PP keys present. SSAO ao_compute/ao_apply captured.",
+  "effectKeyCount": 28,
+  "interestingCount": 17,
+  "keyFindings": {
+    "ENABLE_SOFT_SHADOWS": 1,
+    "ACTIVE_LIGHTS_on_defines_blob": 0,
+    "softPostprocesses": [
+      "soft_shadow_transfer_depth",
+      "soft_shadow_blur",
+      "soft_shadow_generate_texture"
+    ],
+    "aoPostprocesses": [
+      "ao_compute",
+      "ao_temporal_filter",
+      "ao_half_depth",
+      "ao_half_normals",
+      "ao_apply"
+    ],
+    "aoApplyFormula": "ao = 1.0 - ao * aoStrength",
+    "aoCompute": "sampleKernelSize 12, ssaoDepthBias 0.01, radius uniform"
+  }
+}

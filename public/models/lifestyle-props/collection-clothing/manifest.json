@@ -1,0 +1,642 @@
+[
+  {
+    "id": "shelf-box_white",
+    "kind": "box",
+    "slot": "shelf",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\shelf\\shelf-box_white.glb",
+    "bytes": 349340,
+    "meshes": [
+      "box_white"
+    ]
+  },
+  {
+    "id": "shelf-cloth_box1",
+    "kind": "box",
+    "slot": "shelf",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\shelf\\shelf-cloth_box1.glb",
+    "bytes": 578448,
+    "meshes": [
+      "cloth_box1"
+    ]
+  },
+  {
+    "id": "shelf-cloth_box2",
+    "kind": "box",
+    "slot": "shelf",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\shelf\\shelf-cloth_box2.glb",
+    "bytes": 578448,
+    "meshes": [
+      "cloth_box2"
+    ]
+  },
+  {
+    "id": "shelf-cloth_crate",
+    "kind": "box",
+    "slot": "shelf",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\shelf\\shelf-cloth_crate.glb",
+    "bytes": 580692,
+    "meshes": [
+      "Cloth_crate"
+    ]
+  },
+  {
+    "id": "shelf-cloth_crate001",
+    "kind": "box",
+    "slot": "shelf",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\shelf\\shelf-cloth_crate001.glb",
+    "bytes": 580692,
+    "meshes": [
+      "Cloth_crate001"
+    ]
+  },
+  {
+    "id": "shelf-crate002",
+    "kind": "box",
+    "slot": "shelf",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\shelf\\shelf-crate002.glb",
+    "bytes": 176108,
+    "meshes": [
+      "crate002"
+    ]
+  },
+  {
+    "id": "shelf-crate01",
+    "kind": "box",
+    "slot": "shelf",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\shelf\\shelf-crate01.glb",
+    "bytes": 176108,
+    "meshes": [
+      "crate01"
+    ]
+  },
+  {
+    "id": "shelf-drip-city-tote003",
+    "kind": "bag",
+    "slot": "shelf",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\shelf\\shelf-drip-city-tote003.glb",
+    "bytes": 81840,
+    "meshes": [
+      "Drip City Tote003"
+    ]
+  },
+  {
+    "id": "shelf-group_folded-items01",
+    "kind": "stack",
+    "slot": "shelf",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\shelf\\shelf-group_folded-items01.glb",
+    "bytes": 1524424,
+    "meshes": [
+      "cloth022",
+      "cloth021",
+      "cloth020"
+    ]
+  },
+  {
+    "id": "shelf-group_folded-items1",
+    "kind": "stack",
+    "slot": "shelf",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\shelf\\shelf-group_folded-items1.glb",
+    "bytes": 2325972,
+    "meshes": [
+      "lace_sweater002",
+      "cloth4461",
+      "cloth4460",
+      "cloth4459"
+    ]
+  },
+  {
+    "id": "shelf-group_folded_items2",
+    "kind": "stack",
+    "slot": "shelf",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\shelf\\shelf-group_folded_items2.glb",
+    "bytes": 1731228,
+    "meshes": [
+      "Zipper",
+      "Plane129",
+      "cloth042",
+      "cloth040",
+      "cloth04"
+    ]
+  },
+  {
+    "id": "shelf-group_folded_items3",
+    "kind": "stack",
+    "slot": "shelf",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\shelf\\shelf-group_folded_items3.glb",
+    "bytes": 1187864,
+    "meshes": [
+      "cloth039",
+      "cloth038",
+      "cloth037"
+    ]
+  },
+  {
+    "id": "shelf-group_knitted_sweater",
+    "kind": "stack",
+    "slot": "shelf",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\shelf\\shelf-group_knitted_sweater.glb",
+    "bytes": 750260,
+    "meshes": [
+      "knitted_sweater02",
+      "knitted_sweater01",
+      "button018"
+    ]
+  },
+  {
+    "id": "shelf-group_slippers_gray",
+    "kind": "shoes",
+    "slot": "shelf",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\shelf\\shelf-group_slippers_gray.glb",
+    "bytes": 727240,
+    "meshes": [
+      "slippers_sole",
+      "slippers_gray"
+    ]
+  },
+  {
+    "id": "shelf-group_slippers_gray2",
+    "kind": "shoes",
+    "slot": "shelf",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\shelf\\shelf-group_slippers_gray2.glb",
+    "bytes": 727244,
+    "meshes": [
+      "slippers_sole2",
+      "slippers_gray2"
+    ]
+  },
+  {
+    "id": "shelf-group_tamaris",
+    "kind": "shoes",
+    "slot": "shelf",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\shelf\\shelf-group_tamaris.glb",
+    "bytes": 371700,
+    "meshes": [
+      "sandal_outsole2",
+      "brown_leather"
+    ]
+  },
+  {
+    "id": "shelf-group_tamaris1",
+    "kind": "shoes",
+    "slot": "shelf",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\shelf\\shelf-group_tamaris1.glb",
+    "bytes": 371744,
+    "meshes": [
+      "sandal_outsole",
+      "brown_leather.001"
+    ]
+  },
+  {
+    "id": "shelf-hat_classic",
+    "kind": "box",
+    "slot": "shelf",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\shelf\\shelf-hat_classic.glb",
+    "bytes": 236540,
+    "meshes": [
+      "hat_classic"
+    ]
+  },
+  {
+    "id": "shelf-leather_bag",
+    "kind": "bag",
+    "slot": "shelf",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\shelf\\shelf-leather_bag.glb",
+    "bytes": 907136,
+    "meshes": [
+      "leather_bag"
+    ]
+  },
+  {
+    "id": "shelf-rattan_box",
+    "kind": "box",
+    "slot": "shelf",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\shelf\\shelf-rattan_box.glb",
+    "bytes": 202400,
+    "meshes": [
+      "rattan_box"
+    ]
+  },
+  {
+    "id": "shelf-rope",
+    "kind": "box",
+    "slot": "shelf",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\shelf\\shelf-rope.glb",
+    "bytes": 404960,
+    "meshes": [
+      "rope"
+    ]
+  },
+  {
+    "id": "rod-blouse03",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-blouse03.glb",
+    "bytes": 1053224,
+    "meshes": [
+      "blouse03",
+      "Hangers_for_clothes096"
+    ]
+  },
+  {
+    "id": "rod-blouse04",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-blouse04.glb",
+    "bytes": 474356,
+    "meshes": [
+      "blouse04",
+      "Hangers_for_clothes099"
+    ]
+  },
+  {
+    "id": "rod-blouse05",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-blouse05.glb",
+    "bytes": 329444,
+    "meshes": [
+      "blouse05",
+      "Hangers_for_clothes101"
+    ]
+  },
+  {
+    "id": "rod-blouse22",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-blouse22.glb",
+    "bytes": 558444,
+    "meshes": [
+      "blouse22",
+      "Hangers_for_clothes087"
+    ]
+  },
+  {
+    "id": "rod-blouse_black002",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-blouse_black002.glb",
+    "bytes": 529244,
+    "meshes": [
+      "blouse_black002",
+      "Hangers_for_clothes086"
+    ]
+  },
+  {
+    "id": "rod-blouse_knitted3",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-blouse_knitted3.glb",
+    "bytes": 450556,
+    "meshes": [
+      "blouse_knitted3",
+      "Hangers_for_clothes084"
+    ]
+  },
+  {
+    "id": "rod-cloth030",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-cloth030.glb",
+    "bytes": 755336,
+    "meshes": [
+      "cloth030",
+      "wood_hanger5"
+    ]
+  },
+  {
+    "id": "rod-cloth031",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-cloth031.glb",
+    "bytes": 666920,
+    "meshes": [
+      "cloth031",
+      "wood_hanger8"
+    ]
+  },
+  {
+    "id": "rod-cloth032",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-cloth032.glb",
+    "bytes": 366036,
+    "meshes": [
+      "cloth032",
+      "wood_hanger6"
+    ]
+  },
+  {
+    "id": "rod-cloth033",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-cloth033.glb",
+    "bytes": 543840,
+    "meshes": [
+      "cloth033",
+      "wood_hanger9"
+    ]
+  },
+  {
+    "id": "rod-cloth4446",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-cloth4446.glb",
+    "bytes": 562244,
+    "meshes": [
+      "cloth4446",
+      "Hangers_for_clothes091"
+    ]
+  },
+  {
+    "id": "rod-cloth4447",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-cloth4447.glb",
+    "bytes": 450360,
+    "meshes": [
+      "cloth4447",
+      "Hangers_for_clothes095"
+    ]
+  },
+  {
+    "id": "rod-cloth4448",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-cloth4448.glb",
+    "bytes": 373464,
+    "meshes": [
+      "cloth4448",
+      "Hangers_for_clothes097"
+    ]
+  },
+  {
+    "id": "rod-cloth4449",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-cloth4449.glb",
+    "bytes": 551604,
+    "meshes": [
+      "cloth4449",
+      "wood_hanger"
+    ]
+  },
+  {
+    "id": "rod-cloth4453",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-cloth4453.glb",
+    "bytes": 398952,
+    "meshes": [
+      "cloth4453",
+      "Hangers_for_clothes089"
+    ]
+  },
+  {
+    "id": "rod-cloth4454",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-cloth4454.glb",
+    "bytes": 247524,
+    "meshes": [
+      "cloth4454",
+      "plastic_hanger"
+    ]
+  },
+  {
+    "id": "rod-cloth4455",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-cloth4455.glb",
+    "bytes": 667536,
+    "meshes": [
+      "cloth4455",
+      "wood_hanger2"
+    ]
+  },
+  {
+    "id": "rod-cloth_dress2",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-cloth_dress2.glb",
+    "bytes": 562248,
+    "meshes": [
+      "cloth_dress2",
+      "Hangers_for_clothes090"
+    ]
+  },
+  {
+    "id": "rod-dress004",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-dress004.glb",
+    "bytes": 819084,
+    "meshes": [
+      "dress004",
+      "Hangers_for_clothes121"
+    ]
+  },
+  {
+    "id": "rod-dress_white",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-dress_white.glb",
+    "bytes": 229412,
+    "meshes": [
+      "dress_white"
+    ]
+  },
+  {
+    "id": "rod-hang-row",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-hang-row.glb",
+    "bytes": 7159300,
+    "meshes": [
+      "Hangers_for_clothes081",
+      "Hangers_for_clothes083",
+      "Hangers_for_clothes084",
+      "Hangers_for_clothes085",
+      "Hangers_for_clothes086",
+      "Hangers_for_clothes087",
+      "Hangers_for_clothes089",
+      "Hangers_for_clothes090",
+      "Hangers_for_clothes091",
+      "Hangers_for_clothes092",
+      "Hangers_for_clothes095",
+      "Hangers_for_clothes096",
+      "Hangers_for_clothes097",
+      "Hangers_for_clothes098",
+      "Hangers_for_clothes099",
+      "Hangers_for_clothes100",
+      "Hangers_for_clothes101",
+      "Hangers_for_clothes121",
+      "plastic_hanger",
+      "wood_hanger",
+      "wood_hanger2",
+      "wood_hanger3",
+      "wood_hanger4",
+      "wood_hanger5",
+      "wood_hanger6",
+      "wood_hanger7",
+      "wood_hanger8",
+      "wood_hanger9",
+      "blouse03",
+      "blouse04",
+      "blouse05",
+      "blouse22",
+      "blouse_black002",
+      "blouse_knitted3",
+      "cloth030",
+      "cloth031",
+      "cloth032",
+      "cloth033",
+      "cloth4446",
+      "cloth4447",
+      "cloth4448",
+      "cloth4449",
+      "cloth4453",
+      "cloth4454",
+      "cloth4455",
+      "cloth_dress2",
+      "dress004",
+      "dress_white",
+      "Jean_jacket",
+      "shirt01",
+      "shirt02",
+      "shirt03",
+      "shirt044",
+      "shirt05",
+      "shirt06",
+      "sweater05",
+      "sweater06",
+      "vest01",
+      "vest02"
+    ]
+  },
+  {
+    "id": "rod-hanger-empty",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-hanger-empty.glb",
+    "bytes": 149516,
+    "meshes": [
+      "wood_hanger3"
+    ]
+  },
+  {
+    "id": "rod-jean_jacket",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-jean_jacket.glb",
+    "bytes": 601360,
+    "meshes": [
+      "Jean_jacket",
+      "Hangers_for_clothes100"
+    ]
+  },
+  {
+    "id": "rod-shirt01",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-shirt01.glb",
+    "bytes": 1028364,
+    "meshes": [
+      "shirt01",
+      "Hangers_for_clothes083"
+    ]
+  },
+  {
+    "id": "rod-shirt02",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-shirt02.glb",
+    "bytes": 450004,
+    "meshes": [
+      "shirt02"
+    ]
+  },
+  {
+    "id": "rod-shirt03",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-shirt03.glb",
+    "bytes": 378812,
+    "meshes": [
+      "shirt03",
+      "Hangers_for_clothes081"
+    ]
+  },
+  {
+    "id": "rod-shirt044",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-shirt044.glb",
+    "bytes": 487700,
+    "meshes": [
+      "shirt044"
+    ]
+  },
+  {
+    "id": "rod-shirt05",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-shirt05.glb",
+    "bytes": 273204,
+    "meshes": [
+      "shirt05"
+    ]
+  },
+  {
+    "id": "rod-shirt06",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-shirt06.glb",
+    "bytes": 421448,
+    "meshes": [
+      "shirt06"
+    ]
+  },
+  {
+    "id": "rod-sweater05",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-sweater05.glb",
+    "bytes": 226192,
+    "meshes": [
+      "sweater05"
+    ]
+  },
+  {
+    "id": "rod-sweater06",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-sweater06.glb",
+    "bytes": 1141092,
+    "meshes": [
+      "sweater06",
+      "Hangers_for_clothes092"
+    ]
+  },
+  {
+    "id": "rod-vest01",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-vest01.glb",
+    "bytes": 601520,
+    "meshes": [
+      "vest01",
+      "Hangers_for_clothes098"
+    ]
+  },
+  {
+    "id": "rod-vest02",
+    "kind": "hang",
+    "slot": "rod",
+    "file": "D:\\Configurator-Clodis-ThreeJS-24\\Configurator-Clodis-ThreeJS-7\\public\\models\\lifestyle-props\\collection-clothing\\rod\\rod-vest02.glb",
+    "bytes": 601800,
+    "meshes": [
+      "vest02",
+      "Hangers_for_clothes085"
+    ]
+  }
+]

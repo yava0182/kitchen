@@ -1,0 +1,51 @@
+[
+  {
+    "id": 1,
+    "name": "Спальни",
+    "parent": null,
+    "description": "",
+    "active": 1
+  },
+  {
+    "id": 2,
+    "name": "Однодверные",
+    "parent": null,
+    "description": "",
+    "active": 1
+  },
+  {
+    "id": 3,
+    "name": "Двухдверные",
+    "parent": null,
+    "description": "",
+    "active": 1
+  },
+  {
+    "id": 4,
+    "name": "Гостиная",
+    "parent": null,
+    "description": "",
+    "active": 1
+  },
+  {
+    "id": 5,
+    "name": "Прямые",
+    "parent": null,
+    "description": "",
+    "active": 1
+  },
+  {
+    "id": 6,
+    "name": "Модули с дверями",
+    "parent": null,
+    "description": "",
+    "active": 1
+  },
+  {
+    "id": 7,
+    "name": "Модули без дверей",
+    "parent": null,
+    "description": "",
+    "active": 1
+  }
+]

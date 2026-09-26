@@ -1,0 +1,251 @@
+{
+  "version": 9,
+  "managedTemplateIds": [1, 2],
+  "managedSchemeIds": [1, 2, 4, 5],
+  "_cadSingleChainNote": "v9: конфирмат tpl=1 — отверстия соосны (edge y=0), как один шуруп в БМ. Стык→станции без изменений.",
+  "templates": [
+    {
+      "id": 1,
+      "name": "Конфирмат T-стык (бок + полка)",
+      "article": "CNFRM-T-JOINT",
+      "categories": ["Крепёж"],
+      "category": "Крепёж",
+      "icon": "",
+      "order": 10,
+      "active": true,
+      "showSpec": true,
+      "calcType": "piece",
+      "priceMode": "manual",
+      "price": 0,
+      "setupType": 3,
+      "currentSetupType": 3,
+      "frameW": 100,
+      "frameH": 100,
+      "frameD": 100,
+      "furnitureType": "",
+      "cabinetModelId": 25,
+      "cabinetModelName": "Конфирмат 7х50",
+      "jointModelVisualOffsetMm": { "x": -1, "y": 0, "z": 0 },
+      "_coordOrigin": "outer_plane",
+      "holesBySetup": {
+        "3": [
+          {
+            "id": 1,
+            "name": "В пласть (Ø8)",
+            "diameter": 8,
+            "depth": 16,
+            "direction": "-z",
+            "x": 8,
+            "y": 0,
+            "z": 0,
+            "mountSide": "face",
+            "coordBase": "auto",
+            "through": false
+          },
+          {
+            "id": 2,
+            "name": "В торец (Ø5)",
+            "diameter": 5,
+            "depth": 35,
+            "direction": "x",
+            "x": 16,
+            "y": 0,
+            "z": 0,
+            "mountSide": "edge",
+            "coordBase": "auto",
+            "through": false
+          }
+        ]
+      },
+      "holes": [
+        {
+          "id": 1,
+          "name": "В пласть (Ø8)",
+          "diameter": 8,
+          "depth": 16,
+          "direction": "-z",
+          "x": 8,
+          "y": 0,
+          "z": 0,
+          "mountSide": "face",
+          "coordBase": "auto",
+          "through": false
+        },
+        {
+          "id": 2,
+          "name": "В торец (Ø5)",
+          "diameter": 5,
+          "depth": 35,
+          "direction": "x",
+          "x": 16,
+          "y": 0,
+          "z": 0,
+          "mountSide": "edge",
+          "coordBase": "auto",
+          "through": false
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Эксцентр ящики (пласть + торец)",
+      "article": "ECC-DRAWER",
+      "categories": ["Крепёж"],
+      "category": "Крепёж",
+      "icon": "",
+      "order": 20,
+      "active": true,
+      "showSpec": true,
+      "calcType": "piece",
+      "priceMode": "manual",
+      "price": 0,
+      "setupType": 3,
+      "currentSetupType": 3,
+      "frameW": 100,
+      "frameH": 100,
+      "frameD": 100,
+      "furnitureType": "",
+      "cabinetModelId": 26,
+      "cabinetModelName": "Эксцентр",
+      "jointModelVisualOffsetMm": { "x": -1, "y": 0, "z": 0 },
+      "_coordOrigin": "outer_plane",
+      "holesBySetup": {
+        "3": [
+          {
+            "id": 1,
+            "name": "Бочонок в пласть (Ø15)",
+            "diameter": 15,
+            "depth": 14,
+            "direction": "-z",
+            "x": 9,
+            "y": 0,
+            "z": 0,
+            "mountSide": "face",
+            "coordBase": "auto",
+            "through": false
+          },
+          {
+            "id": 2,
+            "name": "Шток в торец (Ø8)",
+            "diameter": 8,
+            "depth": 30,
+            "direction": "x",
+            "x": 34,
+            "y": 0,
+            "z": 0,
+            "mountSide": "edge",
+            "coordBase": "auto",
+            "through": false
+          }
+        ]
+      },
+      "holes": [
+        {
+          "id": 1,
+          "name": "Бочонок в пласть (Ø15)",
+          "diameter": 15,
+          "depth": 14,
+          "direction": "-z",
+          "x": 9,
+          "y": 0,
+          "z": 0,
+          "mountSide": "face",
+          "coordBase": "auto",
+          "through": false
+        },
+        {
+          "id": 2,
+          "name": "Шток в торец (Ø8)",
+          "diameter": 8,
+          "depth": 30,
+          "direction": "x",
+          "x": 34,
+          "y": 0,
+          "z": 0,
+          "mountSide": "edge",
+          "coordBase": "auto",
+          "through": false
+        }
+      ]
+    }
+  ],
+  "schemes": [
+    {
+      "id": 1,
+      "name": "Конфирмат 50 мм",
+      "article": "SCH-CNFRM-50",
+      "templateId": 1,
+      "cabinetModelId": 25,
+      "schemeType": "symmetric",
+      "base": "back",
+      "offsetFromBase": 50,
+      "step": 32,
+      "minOffsetOpposite": 50,
+      "symOffset": 50,
+      "symStep": 32,
+      "countRules": [
+        { "from": 0, "to": 600, "count": 2 },
+        { "from": 601, "to": 1200, "count": 3 },
+        { "from": 1201, "to": 3000, "count": 4 }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Эксцентр",
+      "article": "SCH-ECC",
+      "templateId": 2,
+      "cabinetModelId": 26,
+      "schemeType": "symmetric",
+      "base": "back",
+      "offsetFromBase": 50,
+      "step": 32,
+      "minOffsetOpposite": 50,
+      "symOffset": 50,
+      "symStep": 32,
+      "minSeamWidthMm": 0,
+      "countRules": [
+        { "from": 0, "to": 600, "count": 2 },
+        { "from": 601, "to": 1200, "count": 3 },
+        { "from": 1201, "to": 3000, "count": 4 }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Конфирмат ящики",
+      "article": "SCH-CNFRM-DRAWER",
+      "templateId": 1,
+      "cabinetModelId": 25,
+      "schemeType": "symmetric",
+      "base": "back",
+      "offsetFromBase": 50,
+      "step": 32,
+      "minOffsetOpposite": 50,
+      "symOffset": 50,
+      "symStep": 32,
+      "countRules": [
+        { "from": 0, "to": 500, "count": 2 },
+        { "from": 501, "to": 1200, "count": 3 },
+        { "from": 1201, "to": 3000, "count": 4 }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Эксцентр ящики",
+      "article": "SCH-ECC-DRAWER",
+      "templateId": 2,
+      "cabinetModelId": 26,
+      "schemeType": "symmetric",
+      "base": "back",
+      "offsetFromBase": 50,
+      "step": 32,
+      "minOffsetOpposite": 50,
+      "symOffset": 50,
+      "symStep": 32,
+      "countRules": [
+        { "from": 0, "to": 500, "count": 2 },
+        { "from": 501, "to": 1200, "count": 3 },
+        { "from": 1201, "to": 3000, "count": 4 }
+      ]
+    }
+  ]
+}

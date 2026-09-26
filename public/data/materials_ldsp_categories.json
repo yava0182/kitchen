@@ -1,0 +1,31 @@
+[
+  {
+    "id": 1,
+    "parent": 0,
+    "name": "Базовые декоры",
+    "code": "base",
+    "order": 1
+  },
+  {
+    "id": 2,
+    "parent": 0,
+    "name": "Премиум коллекция",
+    "code": "premium",
+    "order": 2
+  },
+  {
+    "id": 3,
+    "parent": 1,
+    "name": "Светлые тона",
+    "code": "base_light",
+    "order": 1
+  },
+  {
+    "id": 4,
+    "parent": 1,
+    "name": "Темные тона",
+    "code": "base_dark",
+    "order": 2
+  }
+]
+

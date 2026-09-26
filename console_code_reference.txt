@@ -1,0 +1,81 @@
+// ============================================
+// КОД ДЛЯ КОНСОЛИ РЕФЕРЕНСА (planplace.ru)
+// Вставьте этот код в консоль референса
+// ============================================
+
+console.log('=== РЕФЕРЕНС: ПРОВЕРКА СОЗДАНИЯ CABINET ===');
+
+// 1. Проверяем view_mode
+console.log('1. view_mode:', typeof view_mode !== 'undefined' ? view_mode : 'undefined');
+
+// 2. Проверяем sc
+console.log('2. sc:', {
+  has_global_sc: typeof sc !== 'undefined',
+  has_window_sc: !!window.sc,
+  has_scene_controller: typeof scene_controller !== 'undefined',
+  sc_type: typeof sc !== 'undefined' ? typeof sc : 'null',
+  has_add_object: typeof sc !== 'undefined' && typeof sc.add_object === 'function'
+});
+
+// 3. Проверяем cabinet
+console.log('3. cabinet:', {
+  has_global_cabinet: typeof cabinet !== 'undefined',
+  has_window_cabinet: !!window.cabinet,
+  cabinet_value: typeof cabinet !== 'undefined' ? cabinet : (window.cabinet || null),
+  is_object: typeof cabinet !== 'undefined' && cabinet !== null && typeof cabinet === 'object'
+});
+
+// 4. Проверяем d_objects
+console.log('4. d_objects:', {
+  length: typeof d_objects !== 'undefined' ? d_objects.length : 'undefined',
+  has_modules: typeof d_objects !== 'undefined' ? d_objects.filter(d => d && d.userData && d.userData.is_root).length : 0
+});
+
+// 5. Проверяем room
+console.log('5. room:', {
+  exists: typeof room !== 'undefined',
+  children_count: typeof room !== 'undefined' ? room.children.length : 0,
+  has_modules: typeof room !== 'undefined' ? room.children.filter(c => c && c.userData && c.userData.is_root).length : 0
+});
+
+// 6. Если cabinet есть, показываем его свойства
+if (typeof cabinet !== 'undefined' && cabinet) {
+  console.log('6. ✅ CABINET НАЙДЕН:', {
+    name: cabinet.name,
+    is_root: cabinet.userData?.is_root,
+    size: cabinet.userData?.params?.size || cabinet.userData?.computed?.size,
+    in_d_objects: typeof d_objects !== 'undefined' && d_objects.includes(cabinet),
+    in_room: typeof room !== 'undefined' && room.children.includes(cabinet),
+    has_own_object: !!cabinet.userData?.own_object,
+    own_object_children: cabinet.userData?.own_object?.children?.length || 0
+  });
+} else {
+  console.log('6. ❌ CABINET НЕ НАЙДЕН');
+}
+
+// 7. Перехватываем sc.add_object для отслеживания создания модулей
+if (typeof sc !== 'undefined' && sc && typeof sc.add_object === 'function') {
+  const originalAddObject = sc.add_object;
+  sc.add_object = function(type, params, ...args) {
+    if (type === 'module') {
+      console.log('🔍 [REF] sc.add_object("module") вызван:', {
+        params_type: params?.type,
+        params_size: params?.size,
+        args: args,
+        view_mode: typeof view_mode !== 'undefined' ? view_mode : 'undefined'
+      });
+      const result = originalAddObject.apply(this, arguments);
+      console.log('🔍 [REF] sc.add_object("module") вернул:', {
+        result_type: result ? typeof result : 'null',
+        result_name: result?.name,
+        result_is_root: result?.userData?.is_root,
+        in_d_objects: typeof d_objects !== 'undefined' && d_objects.includes(result)
+      });
+      return result;
+    }
+    return originalAddObject.apply(this, arguments);
+  };
+  console.log('✅ [REF] Перехват sc.add_object установлен');
+}
+
+console.log('=== КОНЕЦ ПРОВЕРКИ РЕФЕРЕНСА ===');

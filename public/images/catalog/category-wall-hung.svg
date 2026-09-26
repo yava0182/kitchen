@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 120" fill="none">
+  <rect width="160" height="120" fill="#F5F5F5"/>
+  <!-- floor hint -->
+  <line x1="28" y1="98" x2="132" y2="98" stroke="#CCCCCC" stroke-width="1.25"/>
+  <!-- floating body (no legs) -->
+  <rect x="40" y="28" width="80" height="56" rx="3" fill="#E8E8E8" stroke="#555555" stroke-width="1.5"/>
+  <line x1="40" y1="46" x2="120" y2="46" stroke="#555555" stroke-width="1.25"/>
+  <line x1="40" y1="64" x2="120" y2="64" stroke="#555555" stroke-width="1.25"/>
+  <rect x="74" y="35" width="12" height="3" rx="1.5" fill="#555555"/>
+  <rect x="74" y="53" width="12" height="3" rx="1.5" fill="#555555"/>
+  <rect x="74" y="71" width="12" height="3" rx="1.5" fill="#555555"/>
+  <!-- wall mount brackets -->
+  <rect x="48" y="86" width="10" height="3" rx="1" fill="#777777"/>
+  <rect x="102" y="86" width="10" height="3" rx="1" fill="#777777"/>
+</svg>

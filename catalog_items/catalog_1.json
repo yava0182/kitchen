@@ -1,0 +1,443 @@
+[
+  {
+    "id": 1,
+    "catalog_type": "catalog_1"
+  },
+  {
+    "id": 4,
+    "catalog_type": "catalog_1",
+    "data": {
+      "name": "при4",
+      "category": [],
+      "show_in_spec": "1",
+      "include_nested": "1",
+      "show_in_constructor": "1",
+      "order": 0,
+      "icon": "",
+      "module_group": "bottom",
+      "drag_type": "top",
+      "stick_type": "common",
+      "is_fill": "0",
+      "no_intersections": "0",
+      "catalog_type": "",
+      "width": "200",
+      "height": 400,
+      "depth": 200,
+      "constructor_structure": {
+        "type": "module",
+        "name": "(модуль без названия)",
+        "children": [
+          {
+            "type": "section",
+            "id": "node_1771360434720_3ldyo6i9i",
+            "name": "Секция",
+            "originalType": "section",
+            "hide_when_filled": false,
+            "active": true,
+            "article": "",
+            "children": [
+              {
+                "type": "wall",
+                "id": "node_1771360434721_4s7zok3rw",
+                "name": "Деталь",
+                "originalType": "detail",
+                "hide_when_filled": false,
+                "active": true,
+                "article": "",
+                "children": [],
+                "accessories": [],
+                "size": {
+                  "x": "@section.width",
+                  "y": "@section.height",
+                  "z": "@section.depth"
+                },
+                "position": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "anchor": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rotation": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "comments": "",
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "fill_key": "left",
+                "consider_size": false,
+                "consider_cuts": false,
+                "consider_intersections": false,
+                "spec": {
+                  "orientation": "v",
+                  "direction": "z",
+                  "side": "left",
+                  "detailTypeId": "vertical_left"
+                }
+              },
+              {
+                "type": "facade",
+                "id": "node_1771360434721_fds3yd4dx",
+                "name": "Фасад",
+                "originalType": "facade",
+                "hide_when_filled": false,
+                "active": 1,
+                "article": "",
+                "children": [],
+                "accessories": [],
+                "spec": {
+                  "orientation": "f",
+                  "direction": "-z",
+                  "side": "back"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "c_rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "size": {
+                  "x": "@section.width",
+                  "y": "@section.height",
+                  "z": 16
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "visible": 1
+              }
+            ],
+            "accessories": []
+          },
+          {
+            "type": "wall",
+            "id": "node_1771360434721_4s7zok3rw",
+            "name": "Деталь",
+            "originalType": "detail",
+            "hide_when_filled": false,
+            "active": true,
+            "article": "",
+            "children": [],
+            "accessories": [],
+            "size": {
+              "x": "@section.width",
+              "y": "@section.height",
+              "z": "@section.depth"
+            },
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "anchor": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "comments": "",
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "fill_key": "left",
+            "consider_size": false,
+            "consider_cuts": false,
+            "consider_intersections": false,
+            "spec": {
+              "orientation": "v",
+              "direction": "z",
+              "side": "left",
+              "detailTypeId": "vertical_left"
+            }
+          },
+          {
+            "type": "facade",
+            "id": "node_1771360434721_fds3yd4dx",
+            "name": "Фасад",
+            "originalType": "facade",
+            "hide_when_filled": false,
+            "active": 1,
+            "article": "",
+            "children": [],
+            "accessories": [],
+            "spec": {
+              "orientation": "f",
+              "direction": "-z",
+              "side": "back"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "c_rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "size": {
+              "x": "@section.width",
+              "y": "@section.height",
+              "z": 16
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "visible": 1
+          }
+        ],
+        "variables": {
+          "main": {},
+          "groups": []
+        },
+        "template": {
+          "structure": [
+            {
+              "type": "section",
+              "name": "Секция",
+              "active": 1,
+              "size": {
+                "x": "@section.width",
+                "y": "@section.height",
+                "z": "@section.depth"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "f"
+              },
+              "children": [
+                {
+                  "type": "wall",
+                  "name": "Деталь",
+                  "active": 1,
+                  "size": {
+                    "x": "@section.width",
+                    "y": "@section.height",
+                    "z": "@section.depth"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "orientation": "v",
+                    "direction": "z",
+                    "side": "left",
+                    "detailTypeId": "vertical_left"
+                  },
+                  "material_key": "material_2",
+                  "material_group": "g0"
+                },
+                {
+                  "type": "facade",
+                  "name": "Фасад",
+                  "active": 1,
+                  "size": {
+                    "x": "@section.width",
+                    "y": "@section.height",
+                    "z": 16
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "orientation": "f",
+                    "direction": "-z",
+                    "side": "back"
+                  },
+                  "material_key": "material_2",
+                  "material_group": "g0"
+                }
+              ]
+            }
+          ]
+        },
+        "materials_overrides": {},
+        "spec": {
+          "template": {
+            "tree": [
+              {
+                "type": "section",
+                "name": "Секция",
+                "active": 1,
+                "size": {
+                  "x": "@section.width",
+                  "y": "@section.height",
+                  "z": "@section.depth"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "f"
+                },
+                "children": [
+                  {
+                    "type": "wall",
+                    "name": "Деталь",
+                    "active": 1,
+                    "size": {
+                      "x": "@section.width",
+                      "y": "@section.height",
+                      "z": "@section.depth"
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "orientation": "v",
+                      "direction": "z",
+                      "side": "left",
+                      "detailTypeId": "vertical_left"
+                    },
+                    "material_key": "material_2",
+                    "material_group": "g0"
+                  },
+                  {
+                    "type": "facade",
+                    "name": "Фасад",
+                    "active": 1,
+                    "size": {
+                      "x": "@section.width",
+                      "y": "@section.height",
+                      "z": 16
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": 1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "orientation": "f",
+                      "direction": "-z",
+                      "side": "back"
+                    },
+                    "material_key": "material_2",
+                    "material_group": "g0"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+]

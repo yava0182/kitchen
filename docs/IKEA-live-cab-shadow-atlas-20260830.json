@@ -1,0 +1,45 @@
+{
+  "ok": true,
+  "schema": "ikea-live-cab-shadow-atlas",
+  "when": "2026-08-30T16:30:37Z",
+  "source": "Cursor browser CDP on live IKEA PAX planner (cabinet in room)",
+  "spot": {
+    "class": "BetraktaSpotLight",
+    "intensity": 115,
+    "pos_m": { "x": 0, "y": 5, "z": 2 },
+    "shadowClass": "BetraktaLightShadow",
+    "bias": { "z_factor": 3, "z_units": 8000 }
+  },
+  "shadowCasters": {
+    "count": 15,
+    "unit": "SceneAssetInstance",
+    "list": [
+      { "root": "f4iflduiu5e9_opt_webp.glb (id: 76)", "mesh_instances": 10 },
+      { "root": "nhnv001bvvh8_opt_webp.glb (id: 77)", "mesh_instances": 1 },
+      { "root": "nhnv001bvvh8_opt_webp.glb (id: 79)", "mesh_instances": 1 },
+      { "root": "nhnv001bvvh8_opt_webp.glb (id: 81)", "mesh_instances": 1 },
+      { "root": "nhnv001bvvh8_opt_webp.glb (id: 83)", "mesh_instances": 1 },
+      { "root": "nhnv001bvvh8_opt_webp.glb (id: 85)", "mesh_instances": 1 },
+      { "root": "tnparnmc6q57_opt_webp.glb (id: 87)", "mesh_instances": 1 },
+      { "root": "tnparnmc6q57_opt_webp.glb (id: 88)", "mesh_instances": 1 },
+      { "root": "tnparnmc6q57_opt_webp.glb (id: 89)", "mesh_instances": 1 },
+      { "root": "tnparnmc6q57_opt_webp.glb (id: 90)", "mesh_instances": 1 },
+      { "root": "PROPS_FOLDED_TSHIRTS… (id: 98)", "mesh_instances": 4 },
+      { "root": "Props_Folded_Tshirts_04… (id: 99)", "mesh_instances": 3 },
+      { "root": "PROPS_FOLDED_TSHIRTS… (id: 100)", "mesh_instances": 3 },
+      { "root": "PROPS_FOLDED_TSHIRTS… (id: 101)", "mesh_instances": 4 }
+    ]
+  },
+  "cabMaterials": {
+    "010_White": { "receiveShadows": true, "layerMask": "268435455 or 3" },
+    "003_Backside_Furniture": { "receiveShadows": true },
+    "011_White_Plastic": { "receiveShadows": true }
+  },
+  "meshCount": 110,
+  "layer3MeshCount": 88,
+  "clodisPort": {
+    "casterKey": "isCabinetModel group OR isFurniture root (SceneAssetInstance equivalent)",
+    "ikeaRefInstances": 15,
+    "notPerMesh": true
+  }
+}

@@ -1,0 +1,316 @@
+{
+  "source": "cfrn_fixture_confirmat.json",
+  "sourcePath": "D:\\Configurator-Clodis-ThreeJS-21\\Configurator-Clodis-ThreeJS-7\\public\\data\\cfrn_fixture_confirmat.json",
+  "parsedAt": "2026-07-13",
+  "parser": "tools/parse-cfrn.mjs",
+  "modelParams": {
+    "name": "Fixture confirmat T-joint",
+    "art": "FIX-001"
+  },
+  "summary": {
+    "panels": 1,
+    "fastenerGroups": 1,
+    "totalHoles": 4,
+    "stlModels": 0,
+    "sections": 0,
+    "diameterPairs": [
+      {
+        "diameter": 8,
+        "depth": 16,
+        "count": 2
+      },
+      {
+        "diameter": 5,
+        "depth": 35,
+        "count": 2
+      }
+    ]
+  },
+  "seamSpacingHints": [
+    {
+      "fastener": "Конфирмат 50 мм",
+      "path": "Полка / Конфирмат 50 мм",
+      "axis": "z",
+      "holeCount": 4,
+      "deltasMm": [
+        32
+      ],
+      "medianStepMm": 32
+    }
+  ],
+  "panels": [
+    {
+      "path": "Полка",
+      "name": "Полка",
+      "thickness": 16,
+      "material": "ЛДСП",
+      "sizeMm": {
+        "width": 564,
+        "height": 400
+      },
+      "tableIndex": 1,
+      "matrixWorld": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    }
+  ],
+  "fasteners": [
+    {
+      "path": "Полка / Конфирмат 50 мм",
+      "name": "Конфирмат 50 мм",
+      "material": "Конфирмат 50 мм",
+      "tableIndex": 2,
+      "holeCount": 4,
+      "holes": [
+        {
+          "localMm": {
+            "x": 8,
+            "y": 0,
+            "z": 50
+          },
+          "worldMm": {
+            "x": 108,
+            "y": 200,
+            "z": 50
+          },
+          "dirLocal": {
+            "x": 0,
+            "y": 0,
+            "z": -1
+          },
+          "dirWorld": {
+            "x": 0,
+            "y": 0,
+            "z": -1
+          },
+          "diameter": 8,
+          "depth": 16,
+          "infoIndex": 0
+        },
+        {
+          "localMm": {
+            "x": 16,
+            "y": 16,
+            "z": 50
+          },
+          "worldMm": {
+            "x": 116,
+            "y": 216,
+            "z": 50
+          },
+          "dirLocal": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "dirWorld": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "diameter": 5,
+          "depth": 35,
+          "infoIndex": 1
+        },
+        {
+          "localMm": {
+            "x": 8,
+            "y": 0,
+            "z": 82
+          },
+          "worldMm": {
+            "x": 108,
+            "y": 200,
+            "z": 82
+          },
+          "dirLocal": {
+            "x": 0,
+            "y": 0,
+            "z": -1
+          },
+          "dirWorld": {
+            "x": 0,
+            "y": 0,
+            "z": -1
+          },
+          "diameter": 8,
+          "depth": 16,
+          "infoIndex": 0
+        },
+        {
+          "localMm": {
+            "x": 16,
+            "y": 16,
+            "z": 82
+          },
+          "worldMm": {
+            "x": 116,
+            "y": 216,
+            "z": 82
+          },
+          "dirLocal": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "dirWorld": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "diameter": 5,
+          "depth": 35,
+          "infoIndex": 1
+        }
+      ]
+    }
+  ],
+  "models": [],
+  "sections": [],
+  "notes": [
+    "localMm — в системе координат панели (как в CFRN при экспорте из Clodis).",
+    "worldMm — после умножения матриц дерева model.objs.",
+    "Для сверки с шаблоном №1 Clodis смотрите пары diameter×depth и localMm на полках/стойках."
+  ],
+  "clodisTemplate1Comparison": {
+    "template": "Конфирмат T-стык (бок + полка)",
+    "expected": {
+      "face": "8×16 мм (пласть)",
+      "edge": "5×35 мм (торец)"
+    },
+    "found": {
+      "faceHoles": 2,
+      "edgeHoles": 2
+    },
+    "match": "partial — пары Ø/глубина найдены; координаты сверять по localMm/worldMm",
+    "samples": {
+      "face": [
+        {
+          "localMm": {
+            "x": 8,
+            "y": 0,
+            "z": 50
+          },
+          "worldMm": {
+            "x": 108,
+            "y": 200,
+            "z": 50
+          },
+          "dirLocal": {
+            "x": 0,
+            "y": 0,
+            "z": -1
+          },
+          "dirWorld": {
+            "x": 0,
+            "y": 0,
+            "z": -1
+          },
+          "diameter": 8,
+          "depth": 16,
+          "infoIndex": 0,
+          "fastener": "Конфирмат 50 мм",
+          "path": "Полка / Конфирмат 50 мм"
+        },
+        {
+          "localMm": {
+            "x": 8,
+            "y": 0,
+            "z": 82
+          },
+          "worldMm": {
+            "x": 108,
+            "y": 200,
+            "z": 82
+          },
+          "dirLocal": {
+            "x": 0,
+            "y": 0,
+            "z": -1
+          },
+          "dirWorld": {
+            "x": 0,
+            "y": 0,
+            "z": -1
+          },
+          "diameter": 8,
+          "depth": 16,
+          "infoIndex": 0,
+          "fastener": "Конфирмат 50 мм",
+          "path": "Полка / Конфирмат 50 мм"
+        }
+      ],
+      "edge": [
+        {
+          "localMm": {
+            "x": 16,
+            "y": 16,
+            "z": 50
+          },
+          "worldMm": {
+            "x": 116,
+            "y": 216,
+            "z": 50
+          },
+          "dirLocal": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "dirWorld": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "diameter": 5,
+          "depth": 35,
+          "infoIndex": 1,
+          "fastener": "Конфирмат 50 мм",
+          "path": "Полка / Конфирмат 50 мм"
+        },
+        {
+          "localMm": {
+            "x": 16,
+            "y": 16,
+            "z": 82
+          },
+          "worldMm": {
+            "x": 116,
+            "y": 216,
+            "z": 82
+          },
+          "dirLocal": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "dirWorld": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "diameter": 5,
+          "depth": 35,
+          "infoIndex": 1,
+          "fastener": "Конфирмат 50 мм",
+          "path": "Полка / Конфирмат 50 мм"
+        }
+      ]
+    }
+  }
+}

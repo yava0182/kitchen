@@ -1,0 +1,19 @@
+{
+  "status": "active",
+  "note": "wardrobe-5 short/long with hooks joined; FACE_YAW=90 shoulders along rod (door-facing)",
+  "active": {
+    "short": {
+      "catalog_id": 77,
+      "file": "public/models/lifestyle-props/wardrobe-5/rod/rod-hang-short.glb"
+    },
+    "long": {
+      "catalog_id": 78,
+      "file": "public/models/lifestyle-props/wardrobe-5/rod/rod-hang-long.glb"
+    },
+    "room": "adaptCompanionsCfgForRoomStep: rot.y=0, strip clip by usable width"
+  },
+  "collection_clothing": {
+    "file": "public/models/lifestyle-props/collection-clothing/rod/rod-hang-row.glb",
+    "note": "fallback reference; FBX scene already door-facing"
+  }
+}

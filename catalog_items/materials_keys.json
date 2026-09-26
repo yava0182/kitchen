@@ -1,0 +1,15 @@
+[
+  {
+    "id": 2,
+    "name": "ЛДСП",
+    "order": 0,
+    "active": 1,
+    "catalog_type": "materials_keys"
+  },
+  {
+    "id": 3,
+    "name": "ЛХДФ",
+    "order": 0,
+    "active": 1
+  }
+]

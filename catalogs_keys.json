@@ -1,0 +1,149 @@
+[
+  {
+    "id": 25,
+    "key": "catalog_25",
+    "name": "Тумбы",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 26,
+    "key": "catalog_26",
+    "name": "Шкафы",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 27,
+    "key": "catalog_27",
+    "name": "Шаблоны корпусов шкафов.",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 28,
+    "key": "catalog_28",
+    "name": "Фасады",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 29,
+    "key": "catalog_29",
+    "name": "Элементы",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 30,
+    "key": "catalog_30",
+    "name": "Антресоль",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 31,
+    "key": "catalog_31",
+    "name": "Петли",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 32,
+    "key": "catalog_32",
+    "name": "Цоколь",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 33,
+    "key": "catalog_33",
+    "name": "Ящики",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 34,
+    "key": "catalog_34",
+    "name": "Направляющие",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 35,
+    "key": "catalog_35",
+    "name": "Шаблоны тумб",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 36,
+    "key": "catalog_36",
+    "name": "Шаблон комодов",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 37,
+    "key": "catalog_37",
+    "name": "Комоды",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 38,
+    "key": "catalog_38",
+    "name": "Наполнения для шкафов",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 39,
+    "key": "catalog_39",
+    "name": "Наполнение антресоли",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 40,
+    "key": "catalog_40",
+    "name": "Корпуса шкафов с наполнением",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 41,
+    "key": "catalog_41",
+    "name": "Торцевые шкафы",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 42,
+    "key": "catalog_42",
+    "name": "Навесные модули нижние",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 43,
+    "key": "catalog_43",
+    "name": "Навесные модули верхние",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 44,
+    "key": "catalog_44",
+    "name": "Угловые модули",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 1,
+    "key": "catalog_1",
+    "name": "Кухни",
+    "order": 1,
+    "active": 1
+  }
+]

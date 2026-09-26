@@ -1,0 +1,39 @@
+{
+  "living-room": {
+    "layoutKeys": [],
+    "catalogFolderKeys": [
+      "26",
+      "25",
+      "37",
+      "41",
+      "42",
+      "43",
+      "44"
+    ]
+  },
+  "bedroom": {
+    "layoutKeys": [],
+    "catalogFolderKeys": [
+      "26",
+      "41"
+    ]
+  },
+  "nursery": {
+    "layoutKeys": [],
+    "catalogFolderKeys": [
+      "41"
+    ]
+  },
+  "hallway": {
+    "layoutKeys": [],
+    "catalogFolderKeys": [
+      "41"
+    ]
+  },
+  "laundry": {
+    "layoutKeys": [],
+    "catalogFolderKeys": [
+      "41"
+    ]
+  }
+}
