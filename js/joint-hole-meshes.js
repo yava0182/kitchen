@@ -2,9 +2,9 @@
  * Стыковой крепёж в комнате: 3D-цилиндры по jointSchemes + шаблонам присадки.
  * Математика — joint-fitting-resolve.js + joint-engine-v2 (как превью / CFRN).
  */
-import * as THREE from '/node_modules/three/build/three.module.js';
+import * as THREE from 'three';
 import { detectJointContact, panelBBoxWorld, contactAllowsSchemeBySeamWidth } from '/js/joint-engine-v2.js?v=20260727-ecc-export';
-import { getJointStripeFrameWorld } from '/js/panel-edge-frame.js?v=20260727-blb-seam';
+import { getJointStripeFrameWorld } from '/js/panel-edge-frame.js?v=20261115-jointNegScale1';
 import {
   resolveJointSchemeStationsMm,
   jointSeamGeomLenPreferContactMm,
@@ -161,9 +161,15 @@ function _collectJointPanelTargets(furnitureRoot) {
   furnitureRoot.traverse((ch) => {
     const schemes = ch.userData?.jointSchemes;
     if (!Array.isArray(schemes) || !schemes.length) return;
+    // jointSchemes часто копируются и на *_core → второй проход = дубль отверстий/крепежа.
+    if (/_core$/i.test(String(ch.name || ''))) return;
     const panelRoot = _resolvePanelRoot(ch);
     if (!panelRoot || seen.has(panelRoot.uuid)) return;
+    // Тот же own_object / та же деталь под другим uuid — не дублировать.
+    const attach = panelRoot.userData?.own_object || panelRoot;
+    if (seen.has(attach.uuid)) return;
     seen.add(panelRoot.uuid);
+    seen.add(attach.uuid);
     out.push({ panelRoot, schemes });
   });
   return out;
@@ -238,9 +244,10 @@ function _makeHoleMesh(entry, isFace, parentForLocal) {
     const localPos = centerWorld.clone();
     parentForLocal.worldToLocal(localPos);
     cyl.position.copy(localPos);
-    const parentQ = new THREE.Quaternion();
-    parentForLocal.getWorldQuaternion(parentQ);
-    const localDir = dirWorld.clone().applyQuaternion(parentQ.clone().invert());
+    // inv(matrix3), не quaternion: иначе scale.x<0 переворачивает ось отверстия.
+    const invM = new THREE.Matrix4().copy(parentForLocal.matrixWorld).invert();
+    const inv3 = new THREE.Matrix3().setFromMatrix4(invM);
+    const localDir = dirWorld.clone().applyMatrix3(inv3);
     if (localDir.lengthSq() > 1e-12) {
       cyl.quaternion.setFromUnitVectors(CYL_Y, localDir.normalize());
     } else {
@@ -255,6 +262,332 @@ function _makeHoleMesh(entry, isFace, parentForLocal) {
   cyl.userData.isAccessory = true;
   cyl.userData.furniDrillHole = true;
   return cyl;
+}
+
+/**
+ * Жёсткий snap в WORLD: крепёж на грань bbox панели (лево/право по jointIdx).
+ * Не зависит от BLB/center и от LS схем — baked ±300 после resize 600→500
+ * больше не «висит» снаружи.
+ */
+function _snapJointFrameToPanelWorldFace(furn) {
+  if (!furn?.parent || !furn.userData || typeof THREE === 'undefined') return false;
+  const ud = furn.userData;
+  const jIdx = Number(ud.jointIdx);
+  let panelRoot = null;
+  let p = furn.parent;
+  for (let i = 0; i < 12 && p; i++) {
+    const pud = p.userData || {};
+    if (
+      Array.isArray(pud.jointSchemes) ||
+      pud.type === 'wall' ||
+      pud.isDetail ||
+      Number(pud.__cldCfrnSizeMm?.x) > 0 ||
+      Number(pud.calculated?.size?.x) > 0
+    ) {
+      panelRoot = _resolvePanelRoot(p) || p;
+      break;
+    }
+    p = p.parent;
+  }
+  if (!panelRoot) panelRoot = _resolvePanelRoot(furn.parent) || furn.parent;
+  const hostBBox = panelBBoxWorld(panelRoot);
+  if (!hostBBox || hostBBox.isEmpty()) return false;
+
+  const parent = furn.parent;
+  if (typeof parent.worldToLocal !== 'function') return false;
+  parent.updateWorldMatrix(true, false);
+
+  const wp = new THREE.Vector3();
+  furn.getWorldPosition(wp);
+  const target = wp.clone();
+
+  // Гориз. панель (дно/планка): jointIdx 2/3 = minX/maxX. Вертик. бок — реже.
+  const size = new THREE.Vector3();
+  hostBBox.getSize(size);
+  const thinIsY = size.y <= size.x && size.y <= size.z;
+  const thinIsZ = size.z <= size.x && size.z <= size.y;
+  // Тонкая по Y → горизонтальная панель, ширина по X
+  if (thinIsY || (!thinIsZ && size.x >= size.z)) {
+    if (jIdx === 2) target.x = hostBBox.min.x;
+    else if (jIdx === 3) target.x = hostBBox.max.x;
+    else {
+      target.x =
+        Math.abs(wp.x - hostBBox.min.x) <= Math.abs(wp.x - hostBBox.max.x)
+          ? hostBBox.min.x
+          : hostBBox.max.x;
+    }
+  } else {
+    // вертикальная: стык по Z или X
+    if (jIdx === 0) target.z = hostBBox.max.z;
+    else if (jIdx === 1) target.z = hostBBox.min.z;
+    else if (jIdx === 2) target.x = hostBBox.min.x;
+    else if (jIdx === 3) target.x = hostBBox.max.x;
+  }
+
+  const local = target.clone();
+  parent.worldToLocal(local);
+  const nx = Math.round(local.x * 100) / 100;
+  const ny = Math.round(local.y * 100) / 100;
+  const nz = Math.round(local.z * 100) / 100;
+  const dx = Math.abs((Number(furn.position.x) || 0) - nx);
+  const dy = Math.abs((Number(furn.position.y) || 0) - ny);
+  const dz = Math.abs((Number(furn.position.z) || 0) - nz);
+  if (dx < 0.5 && dy < 0.5 && dz < 0.5) return false;
+  furn.position.set(nx, ny, nz);
+  return true;
+}
+
+/**
+ * Как в админ-превью (_rebuildAllJointSchemeModelsLive): 3D-крепёж fromJointScheme
+ * переставить на живой стык при текущем W×H×D, а не оставлять baked pos из JSON.
+ * Иначе в админке 500 мм ок, в комнате при ячейке/rebuild — конфирматы «висят» снаружи.
+ *
+ * @param {THREE.Object3D} furnitureRoot корень шкафа
+ * @param {{ mmPerWorldUnit?: number }} [options]
+ * @returns {number} сколько узлов сдвинули
+ */
+export function repositionJointSchemeFurnitureInRoom(furnitureRoot, options = {}) {
+  if (!furnitureRoot || typeof THREE === 'undefined') return 0;
+  const mmPerWorldUnit =
+    Number(options.mmPerWorldUnit) > 0 ? Number(options.mmPerWorldUnit) : ROOM_MM_PER_UNIT;
+  const allSchemes = _readLs('clodis_drill_schemes_v1');
+  const allTemplates = _readLs('clodis_drilling_templates_v2');
+
+  furnitureRoot.updateMatrixWorld(true);
+  const frames = [];
+  furnitureRoot.traverse((o) => {
+    if (!o?.isObject3D || !o.userData) return;
+    const ud = o.userData;
+    if (!ud.fromJointScheme) return;
+    // Двигаем furniture-кадр, не child model.
+    if (Number(ud.jointTemplateModel) === 1 || Number(ud.spec?.joint_template_model) === 1) return;
+    const isFrame =
+      Number(ud.jointTemplateFrame) === 1 ||
+      Number(ud.spec?.joint_template_frame) === 1 ||
+      (Number(ud.schemeId) > 0 &&
+        (Number.isFinite(Number(ud.jointIdx)) || (ud.contactId != null && String(ud.contactId))));
+    if (!isFrame) return;
+    frames.push(o);
+  });
+  if (!frames.length) {
+    console.warn('[CLD][joint-furniture] no frames to reposition', {
+      root: furnitureRoot.name,
+    });
+    return 0;
+  }
+
+  // 1) World-face snap — всегда, без LS/контакта (главный фикс «не уменьшается с модулем»).
+  let snapped = 0;
+  for (const furn of frames) {
+    if (_snapJointFrameToPanelWorldFace(furn)) snapped += 1;
+  }
+  if (snapped > 0) {
+    furnitureRoot.updateMatrixWorld(true);
+    console.log('[CLD][joint-furniture] world-face snap', { snapped, frames: frames.length });
+  }
+
+  if (!allSchemes.length || !allTemplates.length) return snapped;
+
+  let moved = 0;
+  for (const furn of frames) {
+    const ud = furn.userData || {};
+    const schemeId = Number(ud.schemeId) || 0;
+    const jointIdx = Number(ud.jointIdx);
+    const contactId = ud.contactId != null ? String(ud.contactId) : '';
+    const seamPosMm = Number(ud.seamPosMm);
+    const frameIndex = Number(ud.frameIndex ?? ud.index);
+    if (!schemeId || (!Number.isFinite(jointIdx) && !contactId)) continue;
+
+    let panelRoot = null;
+    let schemes = null;
+    let p = furn.parent;
+    for (let i = 0; i < 12 && p; i++) {
+      const js = p.userData?.jointSchemes;
+      if (Array.isArray(js) && js.length) {
+        panelRoot = _resolvePanelRoot(p);
+        schemes = js;
+        break;
+      }
+      p = p.parent;
+    }
+    if (!panelRoot || !schemes) continue;
+
+    const jEntry = schemes.find((j) => {
+      if (Number(j.schemeId) !== schemeId) return false;
+      if (contactId && j.contactId != null && String(j.contactId) === contactId) return true;
+      return Number.isFinite(jointIdx) && Number(j.jointIdx) === jointIdx;
+    });
+    if (!jEntry) continue;
+
+    const scheme = allSchemes.find((s) => Number(s.id) === schemeId);
+    if (!scheme) continue;
+    const template = allTemplates.find((t) => Number(t.id) === Number(scheme.templateId));
+    if (!template) continue;
+
+    const hostBBox = panelBBoxWorld(panelRoot);
+    if (!hostBBox || hostBBox.isEmpty()) continue;
+    const jIdx = Number(jEntry.jointIdx);
+    const contact =
+      resolveContactForJointSchemeEntry(panelRoot, jEntry, furnitureRoot, { mmPerWorldUnit }) ||
+      (Number.isFinite(jIdx) && jIdx >= 0 && jIdx <= 3
+        ? detectJointContact(panelRoot, jIdx, furnitureRoot, { mmPerWorldUnit })
+        : null);
+    const hasContact =
+      !!(contact?.active && contact?.neighborPanel && Number(contact.seamOverlapMm) >= 5);
+
+    const setupType = resolveJointDrillTemplateSetupType(template, jEntry.setupType);
+    const holeList = jointTemplateHolesForSetup(template, setupType)
+      .map(normalizeJointHoleForFitting)
+      .filter((h) => h && !h.through);
+    if (!holeList.length) continue;
+
+    const seamGeomMm = _seamGeomLenMm(hostBBox, jIdx, hasContact ? contact : null);
+    const { seamLenMm: seamForScheme, positions } = resolveJointSchemeStationsMm({
+      scheme,
+      seamGeomMm,
+      seamStoredMm: Number(jEntry.seamLen) || 0,
+      authoredPositions: jEntry.positions,
+    });
+    if (!(seamForScheme > 0) || !positions.length) continue;
+
+    let stationMm = null;
+    if (Number.isFinite(seamPosMm)) {
+      let best = null;
+      let bestD = Infinity;
+      for (const pMm of positions) {
+        const d = Math.abs(Number(pMm) - seamPosMm);
+        if (d < bestD) {
+          bestD = d;
+          best = Number(pMm);
+        }
+      }
+      if (best != null && bestD <= 48) stationMm = best;
+    }
+    if (stationMm == null && Number.isFinite(frameIndex) && positions.length) {
+      const idx = Math.max(0, Math.min(positions.length - 1, Math.floor(frameIndex)));
+      stationMm = Number(positions[idx]);
+    }
+    if (stationMm == null) {
+      const cur = new THREE.Vector3();
+      furn.getWorldPosition(cur);
+      let best = Number(positions[0]);
+      let bestD = Infinity;
+      for (const pMm of positions) {
+        const seamW = _seamPointWorld(
+          hostBBox,
+          jIdx,
+          pMm,
+          panelRoot,
+          seamForScheme,
+          hasContact ? contact : null,
+        );
+        const d = cur.distanceTo(seamW);
+        if (d < bestD) {
+          bestD = d;
+          best = Number(pMm);
+        }
+      }
+      stationMm = best;
+    }
+
+    const parent = furn.parent;
+    if (!parent || typeof parent.worldToLocal !== 'function') continue;
+    parent.updateWorldMatrix(true, false);
+
+    let O = null;
+    if (hasContact) {
+      const neighborBBox = contact.neighborBBox || panelBBoxWorld(contact.neighborPanel);
+      if (neighborBBox && !neighborBBox.isEmpty()) {
+        const outward = contact.hostOutwardWorld.clone().normalize();
+        const nIn = outward.clone().multiplyScalar(-1).normalize();
+        const tSeam = contact.hostSeamDirWorld.clone().normalize();
+        const panelThickMm = _panelThicknessMm(panelRoot, hostBBox);
+        const neighborThickMm = _neighborThicknessMm(contact.neighborPanel, neighborBBox);
+        const { faceAxis, thinAxis } = _jointFaceInfo(jIdx, hostBBox);
+        const hostFaceType =
+          contact.hostFaceType || (faceAxis === thinAxis ? 'plast' : 'torets');
+        const neighborFaceType = contact.neighborFaceType || 'torets';
+        const targetThickMm =
+          hostFaceType === 'torets' && neighborFaceType === 'plast'
+            ? neighborThickMm
+            : panelThickMm;
+        const seamW = _seamPointWorld(
+          hostBBox,
+          jIdx,
+          stationMm,
+          panelRoot,
+          seamForScheme,
+          contact,
+        );
+        const raw = getJointTemplatePlacementsUnified({
+          seamWorld: seamW,
+          outward,
+          nInWorld: nIn,
+          tSeamWorld: tSeam,
+          jointIdx: jIdx,
+          setupType,
+          holes: [holeList[0]],
+          panelThickMm,
+          targetThickMm,
+          classificationThickMm: targetThickMm,
+          mmPerWorldUnit,
+          hostPanel: panelRoot,
+          neighborPanel: contact.neighborPanel,
+          hostBBox,
+          neighborBBox,
+          seamPosMm: stationMm,
+          seamLenMm: seamForScheme,
+          hostFaceType,
+          neighborFaceType,
+          seamSizeKey: String(jEntry.seamSizeKey || 'z'),
+          facing:
+            String(jEntry.facing || 'inside').toLowerCase() === 'outside'
+              ? 'outside'
+              : 'inside',
+          contact,
+        });
+        if (Array.isArray(raw) && raw.length) {
+          const framed =
+            raw.find((h) => h?.templateFrame?.O || h?.setup3Frame?.O) || raw[0];
+          O = framed?.templateFrame?.O || framed?.setup3Frame?.O || framed?.worldEntry || null;
+        }
+      }
+    }
+
+    // Без контакта соседа (частый случай после resize ячейки) — якорь на грань host.
+    // Иначе baked ±300 при W=500 остаётся снаружи боковин.
+    if (!O) {
+      O = _seamPointWorld(
+        hostBBox,
+        jIdx,
+        stationMm,
+        panelRoot,
+        seamForScheme,
+        hasContact ? contact : null,
+      );
+    }
+    if (!O) continue;
+
+    const local = O.clone();
+    parent.worldToLocal(local);
+    const nx = Math.round(local.x * 100) / 100;
+    const ny = Math.round(local.y * 100) / 100;
+    const nz = Math.round(local.z * 100) / 100;
+    const dx = Math.abs((Number(furn.position.x) || 0) - nx);
+    const dy = Math.abs((Number(furn.position.y) || 0) - ny);
+    const dz = Math.abs((Number(furn.position.z) || 0) - nz);
+    if (dx < 0.35 && dy < 0.35 && dz < 0.35) continue;
+    furn.position.set(nx, ny, nz);
+    ud.seamPosMm = stationMm;
+    if (Number.isFinite(frameIndex)) ud.frameIndex = frameIndex;
+    moved += 1;
+  }
+
+  if (moved > 0) {
+    furnitureRoot.updateMatrixWorld(true);
+    console.log('[CLD][joint-furniture] live reposition (room=admin parity)', { moved });
+  }
+  return snapped + moved;
 }
 
 /**

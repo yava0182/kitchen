@@ -1,0 +1,18 @@
+# Пустая прямая секция — единая вертикальная сетка
+
+## Канон
+
+Пока на прямой секции **нет мебели** (BASE/MID/TOP/tall), карандаш ширины ячейки
+меняет **один вертикальный столбец** во всех трёх поясах:
+
+- `kitchenBandGrids.base|mid|top.customZoneWidthsMm` — одинаковые
+- `pinnedZoneWidthsMm` — одинаковые
+- `parts` должны совпадать; при mismatch — sync не делать (не маппить чужие индексы)
+
+С мебелью — ярусы снова независимы (старое поведение). Не трогать parts/отступы/пенал/накладки.
+
+## Код
+
+`_syncEmptyStraightSectionBandGridsFrom` из `setZoneCustomWidthMm` (base и mid/top path).
+
+Пустота: `sectionHasPlacedFurniture` === false.

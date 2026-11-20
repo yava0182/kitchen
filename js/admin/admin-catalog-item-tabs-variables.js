@@ -37,7 +37,11 @@
       if (!root) return null;
       if (!root.nodeData) root.nodeData = { name: '(модуль без названия)' };
       if (!root.nodeData.variables) root.nodeData.variables = {};
-      if (!Array.isArray(root.nodeData.variables.groups)) {
+      // groups: [] в JSON — валидный массив, но пустой → «Добавить» молча ничего не делал.
+      const groupsEmpty =
+        !Array.isArray(root.nodeData.variables.groups) ||
+        root.nodeData.variables.groups.length === 0;
+      if (groupsEmpty) {
         const legacyMain = (root.nodeData.variables.main && typeof root.nodeData.variables.main === 'object')
           ? root.nodeData.variables.main
           : null;
@@ -57,10 +61,14 @@
             if (!key || !Number.isFinite(n)) continue;
             root.nodeData.variables.groups[0].vars.push({
               id: 'var_' + Math.random().toString(36).slice(2),
+              name: key,
               key,
               value: n,
+              type: 'number',
               enabled: true,
+              local: 1,
               scope: 'module',
+              params: { min: 0, max: '', step: 1 },
             });
           }
         }
@@ -715,10 +723,25 @@
 
     const saveVarFromModal = () => {
       const nd = getRootNodeData();
-      if (!nd) return;
+      if (!nd) {
+        alert('Нет данных модуля (constructor-root). Обновите страницу карточки.');
+        return;
+      }
       const gid = String(varGroupId.value || '').trim();
-      const g = (nd.variables.groups || []).find((x) => x && x.id === gid) || (nd.variables.groups || [])[0];
-      if (!g) return;
+      let g = (nd.variables.groups || []).find((x) => x && x.id === gid) || (nd.variables.groups || [])[0];
+      if (!g) {
+        // страховка: создать группу «Основные», если всё ещё пусто
+        g = {
+          id: 'grp_' + Date.now().toString(36),
+          name: 'Основные',
+          enabled: true,
+          vars: [],
+          collapsed: false,
+        };
+        nd.variables.groups = [g];
+        varGroupId.value = g.id;
+        setSelectedGroupId(g.id);
+      }
 
       const name = String(fName.value || '').trim();
       const key = String(fKey.value || '').trim();

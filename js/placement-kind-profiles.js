@@ -154,42 +154,302 @@
       },
       hinges: { productKind: 'wardrobe' },
     },
+    // Кухня: поведение как standalone_floor; отдельные id для каталога / режимов фронта.
+    kitchen_base: {
+      behavior: {
+        fixedHeight: true,
+        fixedHeightCm: null,
+        syncHeightInSection: true,
+        anchorFrontOnDepthChange: true,
+        useLayoutZones: false,
+        allowNicheTransition: true,
+        zoneSlotRole: 'base',
+        cohabitGroup: 'kitchen_column',
+        kitchenFrontMode: 'non_gola',
+      },
+      editPopup: {
+        showHeight: true,
+        showDepth: true,
+        showWidth: true,
+        heightMinCm: 82,
+        heightMaxCm: 92,
+        depthMinCm: 40,
+        depthMaxCm: 70,
+        // Этап 1 Kitchen Cell: допустимая ширина ячейки/корпуса (мм→см в UI).
+        widthMinCm: 30,
+        widthMaxCm: 120,
+        heightLimitText:
+          'Введённая высота выходит за допустимые пределы. Выберите значение от {MIN} до {MAX} см (корпус 720 + опоры 100–150).',
+        depthLimitText: '',
+        widthLimitText:
+          'Ширина выходит за допустимые пределы модуля. Выберите значение от {MIN} до {MAX} см.',
+      },
+      hinges: { productKind: 'kitchen_base' },
+    },
+    kitchen_base_corner: {
+      behavior: {
+        fixedHeight: true,
+        fixedHeightCm: null,
+        syncHeightInSection: true,
+        anchorFrontOnDepthChange: true,
+        useLayoutZones: false,
+        allowNicheTransition: true,
+        zoneSlotRole: 'base',
+        cohabitGroup: 'kitchen_column',
+        kitchenFrontMode: 'non_gola',
+        kitchenCorner: true,
+      },
+      editPopup: {
+        showHeight: true,
+        showDepth: true,
+        showWidth: true,
+        showSideWallClearance: true,
+        heightMinCm: 82,
+        heightMaxCm: 92,
+        depthMinCm: 40,
+        depthMaxCm: 70,
+        widthMinCm: 30,
+        widthMaxCm: 120,
+        heightLimitText:
+          'Введённая высота выходит за допустимые пределы. Выберите значение от {MIN} до {MAX} см (корпус 720 + опоры 100–150).',
+        depthLimitText: '',
+        widthLimitText:
+          'Ширина выходит за допустимые пределы модуля. Выберите значение от {MIN} до {MAX} см.',
+      },
+      hinges: { productKind: 'kitchen_base' },
+    },
+    kitchen_base_gola: {
+      behavior: {
+        fixedHeight: true,
+        fixedHeightCm: null,
+        syncHeightInSection: true,
+        anchorFrontOnDepthChange: true,
+        useLayoutZones: false,
+        allowNicheTransition: true,
+        zoneSlotRole: 'base',
+        cohabitGroup: 'kitchen_column',
+        kitchenFrontMode: 'gola',
+      },
+      editPopup: {
+        showHeight: true,
+        showDepth: true,
+        showWidth: true,
+        heightMinCm: 82,
+        heightMaxCm: 92,
+        depthMinCm: 40,
+        depthMaxCm: 70,
+        heightLimitText:
+          'Введённая высота выходит за допустимые пределы. Выберите значение от {MIN} до {MAX} см (корпус 720 + опоры 100–150).',
+        depthLimitText: '',
+      },
+      hinges: { productKind: 'kitchen_base' },
+    },
+    kitchen_tall: {
+      behavior: {
+        fixedHeight: false,
+        syncHeightInSection: false,
+        anchorFrontOnDepthChange: false,
+        useLayoutZones: true,
+        allowNicheTransition: true,
+        zoneSlotRole: 'full',
+        // kitchen_column: пенал сносит base/mid, но делит ячейку с НШ2 (top).
+        cohabitGroup: 'kitchen_column',
+        kitchenFrontMode: 'non_gola',
+      },
+      editPopup: {
+        showHeight: false,
+        showDepth: true,
+        showWidth: true,
+        heightMinCm: null,
+        heightMaxCm: null,
+        depthMinCm: 40,
+        depthMaxCm: 70,
+        heightLimitText: '',
+        depthLimitText: '',
+      },
+      hinges: { productKind: 'kitchen_tall' },
+    },
+    kitchen_wall_mid: {
+      behavior: {
+        fixedHeight: true,
+        fixedHeightCm: null,
+        syncHeightInSection: true,
+        anchorFrontOnDepthChange: false,
+        useLayoutZones: false,
+        allowNicheTransition: false,
+        wallHungAnchor: 'floor',
+        // mid: с НМ (base) и НШ2 (top) в одной ячейке.
+        zoneSlotRole: 'mid',
+        cohabitGroup: 'kitchen_column',
+        kitchenFrontMode: 'non_gola',
+      },
+      editPopup: {
+        showHeight: true,
+        showDepth: true,
+        showWidth: true,
+        heightMinCm: 40,
+        heightMaxCm: 100,
+        depthMinCm: 25,
+        depthMaxCm: 45,
+        heightLimitText:
+          'Введённая высота выходит за допустимые пределы. Выберите значение от {MIN} до {MAX} см.',
+        depthLimitText: '',
+      },
+      hinges: { productKind: 'kitchen_wall' },
+    },
+    kitchen_wall_top: {
+      behavior: {
+        fixedHeight: true,
+        fixedHeightCm: null,
+        syncHeightInSection: true,
+        anchorFrontOnDepthChange: false,
+        useLayoutZones: false,
+        allowNicheTransition: false,
+        wallHungAnchor: 'floor',
+        // top: 2-й ярус; низ = верх НШ1 / верх корпуса пенала.
+        zoneSlotRole: 'top',
+        cohabitGroup: 'kitchen_column',
+        kitchenFrontMode: 'non_gola',
+      },
+      editPopup: {
+        showHeight: true,
+        showDepth: true,
+        showWidth: true,
+        heightMinCm: 30,
+        heightMaxCm: 80,
+        // НШ2: 20…70 см (не как НШ1 ≤45 — иначе карандаш режет 55→45).
+        depthMinCm: 20,
+        depthMaxCm: 70,
+        heightLimitText:
+          'Введённая высота выходит за допустимые пределы. Выберите значение от {MIN} до {MAX} см.',
+        depthLimitText: '',
+      },
+      hinges: { productKind: 'kitchen_wall' },
+    },
+    kitchen_wall_corner: {
+      behavior: {
+        fixedHeight: true,
+        fixedHeightCm: null,
+        syncHeightInSection: true,
+        anchorFrontOnDepthChange: true,
+        useLayoutZones: true,
+        allowNicheTransition: true,
+        wallHungAnchor: 'floor',
+        // mid: над НМУ (base) в той же спец-ячейке, как kitchen_wall_mid.
+        zoneSlotRole: 'mid',
+        cohabitGroup: 'kitchen_column',
+        kitchenFrontMode: 'non_gola',
+        kitchenCorner: true,
+      },
+      editPopup: {
+        showHeight: true,
+        showDepth: true,
+        showWidth: true,
+        heightMinCm: 40,
+        heightMaxCm: 100,
+        depthMinCm: 25,
+        depthMaxCm: 45,
+        heightLimitText:
+          'Введённая высота выходит за допустимые пределы. Выберите значение от {MIN} до {MAX} см.',
+        depthLimitText: '',
+      },
+      hinges: { productKind: 'kitchen_wall' },
+    },
+  };
+
+  /** Профили типов размещения для kitchen-playground (Clodis-Kitchen). */
+  var KITCHEN_PLACEMENT_PROFILE_IDS = {
+    kitchen_base: 1,
+    kitchen_base_gola: 1,
+    kitchen_base_corner: 1,
+    kitchen_tall: 1,
+    kitchen_wall_mid: 1,
+    kitchen_wall_top: 1,
+    kitchen_wall_corner: 1,
+  };
+
+  /** Каталоги модулей кухни (не фасады/ящики/цоколь) — упрощённая карточка «Основных». */
+  var KITCHEN_UNIT_CATALOG_TYPES = {
+    catalog_1: 1,
+    catalog_41: 1,
+    catalog_42: 1,
+    catalog_43: 1,
+    catalog_44: 1,
+    catalog_45: 1,
+    catalog_46: 1,
+    catalog_50: 1,
+    catalog_51: 1,
+    catalog_54: 1,
+    catalog_55: 1,
   };
 
   var PLACEMENT_KIND_RU_LABELS = {
-    floor_in_niche: 'Шкаф в нише (по высоте секции)',
-    standalone_floor: 'Тумба напольная (фикс. высота)',
-    wall_hung: 'Навесной верхний (legacy)',
-    wall_hung_low: 'Навесной нижний (к полу)',
-    wall_hung_high: 'Навесной верхний (к потолку)',
+    // Технические baseKind (движок) — подписи для кухни, без шкафной терминологии
+    floor_in_niche: 'По высоте секции (пенал)',
+    standalone_floor: 'Напольный фикс. высоты (стол)',
+    wall_hung: 'Навесной к потолку (legacy)',
+    wall_hung_low: 'Навесной от пола',
+    wall_hung_high: 'Навесной к потолку',
     corpus_only: 'Только корпус',
+    kitchen_base: 'Напольный стол',
+    kitchen_base_gola: 'Напольный стол (Gola)',
+    kitchen_base_corner: 'Угловой напольный',
+    kitchen_tall: 'Пенал',
+    kitchen_wall_mid: 'Навесной 1-й ярус',
+    kitchen_wall_top: 'Навесной 2-й ярус',
+    kitchen_wall_corner: 'Угловой навесной',
   };
 
+  /** Базовые режимы движка (для поля «Базовый режим» в редакторе профиля). */
   var PLACEMENT_KIND_BASE_OPTIONS = [
-    { id: 'floor_in_niche', label: PLACEMENT_KIND_RU_LABELS.floor_in_niche },
     { id: 'standalone_floor', label: PLACEMENT_KIND_RU_LABELS.standalone_floor },
+    { id: 'floor_in_niche', label: PLACEMENT_KIND_RU_LABELS.floor_in_niche },
     { id: 'wall_hung_low', label: PLACEMENT_KIND_RU_LABELS.wall_hung_low },
     { id: 'wall_hung_high', label: PLACEMENT_KIND_RU_LABELS.wall_hung_high },
-    { id: 'wall_hung', label: PLACEMENT_KIND_RU_LABELS.wall_hung },
-    { id: 'corpus_only', label: PLACEMENT_KIND_RU_LABELS.corpus_only },
   ];
 
   var PLACEMENT_KIND_PRODUCT_OPTIONS = [
-    { id: '', label: '— как у базового режима —' },
-    { id: 'wardrobe', label: 'Шкаф (ниша)' },
-    { id: 'pedestal', label: 'Тумба' },
-    { id: 'console', label: 'Консоль' },
-    { id: 'wall_hung', label: 'Навесной' },
+    { id: '', label: '— как у типа модуля —' },
+    { id: 'kitchen_base', label: 'Напольный стол' },
+    { id: 'kitchen_tall', label: 'Пенал' },
+    { id: 'kitchen_wall', label: 'Навесной модуль' },
   ];
 
-  var SYSTEM_PROFILE_IDS = {
-    floor_in_niche: 1,
-    standalone_floor: 1,
-    wall_hung: 1,
-    wall_hung_low: 1,
-    wall_hung_high: 1,
-    corpus_only: 1,
-  };
+  var SYSTEM_PROFILE_IDS = KITCHEN_PLACEMENT_PROFILE_IDS;
+
+  function isKitchenUnitCatalogType(adminCatalogType, itemCatalogType) {
+    var a = String(adminCatalogType || '')
+      .trim()
+      .toLowerCase();
+    var b = String(itemCatalogType || '')
+      .trim()
+      .toLowerCase();
+    return !!(KITCHEN_UNIT_CATALOG_TYPES[a] || KITCHEN_UNIT_CATALOG_TYPES[b]);
+  }
+
+  function isLegacyWardrobePlacementKind(id) {
+    var s = String(id || '').trim();
+    return (
+      s === 'floor_in_niche' ||
+      s === 'standalone_floor' ||
+      s === 'wall_hung' ||
+      s === 'wall_hung_low' ||
+      s === 'wall_hung_high' ||
+      s === 'corpus_only'
+    );
+  }
+
+  function defaultKitchenUnitPlacementKind(adminCatalogType) {
+    var t = String(adminCatalogType || '')
+      .trim()
+      .toLowerCase();
+    if (t === 'catalog_42' || t === 'catalog_43' || t === 'catalog_50') return 'kitchen_wall_mid';
+    if (t === 'catalog_51') return 'kitchen_wall_top';
+    if (t === 'catalog_44') return 'kitchen_base_corner';
+    if (t === 'catalog_54') return 'kitchen_wall_corner';
+    if (t === 'catalog_41' || t === 'catalog_48') return 'kitchen_tall';
+    return 'kitchen_base';
+  }
 
   function shallowMergeSection(base, custom) {
     var out = {};
@@ -209,36 +469,163 @@
     return out;
   }
 
-  function getDefaultPlacementKindProfiles() {
+  function isKitchenProductLine(config) {
+    var cfg = config || null;
+    if (cfg && String(cfg.productLine || '').trim().toLowerCase() === 'kitchen') return true;
+    try {
+      if (typeof global.getRoomStepsConfig === 'function') {
+        var live = global.getRoomStepsConfig();
+        if (live && String(live.productLine || '').trim().toLowerCase() === 'kitchen') return true;
+      }
+    } catch (_) {}
+    return true;
+  }
+
+  function getDefaultPlacementKindProfiles(config) {
+    if (!isKitchenProductLine(config)) {
+      return [
+        { id: 'floor_in_niche', label: 'Шкаф в нише', baseKind: 'floor_in_niche', settings: {} },
+        { id: 'standalone_floor', label: 'Тумба напольная', baseKind: 'standalone_floor', settings: {} },
+        {
+          id: 'wall_hung_low',
+          label: PLACEMENT_KIND_RU_LABELS.wall_hung_low,
+          baseKind: 'wall_hung_low',
+          settings: {},
+        },
+        {
+          id: 'wall_hung_high',
+          label: PLACEMENT_KIND_RU_LABELS.wall_hung_high,
+          baseKind: 'wall_hung_high',
+          settings: {},
+        },
+        {
+          id: 'wall_hung',
+          label: PLACEMENT_KIND_RU_LABELS.wall_hung,
+          baseKind: 'wall_hung',
+          settings: {},
+        },
+        { id: 'corpus_only', label: 'Только корпус', baseKind: 'corpus_only', settings: {} },
+      ];
+    }
     return [
-      { id: 'floor_in_niche', label: 'Шкаф в нише', baseKind: 'floor_in_niche', settings: {} },
-      { id: 'standalone_floor', label: 'Тумба напольная', baseKind: 'standalone_floor', settings: {} },
       {
-        id: 'wall_hung_low',
-        label: PLACEMENT_KIND_RU_LABELS.wall_hung_low,
+        id: 'kitchen_base',
+        label: PLACEMENT_KIND_RU_LABELS.kitchen_base,
+        baseKind: 'standalone_floor',
+        settings: {
+          frontMode: 'non_gola',
+          behavior: {
+            kitchenFrontMode: 'non_gola',
+            kitchenCarcassOnlyHeight: true,
+            cohabitGroup: 'kitchen_column',
+            zoneSlotRole: 'base',
+          },
+          editPopup: PLACEMENT_KIND_BASE_PRESETS.kitchen_base.editPopup,
+          hinges: { productKind: 'kitchen_base' },
+        },
+      },
+      {
+        id: 'kitchen_base_gola',
+        label: PLACEMENT_KIND_RU_LABELS.kitchen_base_gola,
+        baseKind: 'standalone_floor',
+        settings: {
+          frontMode: 'gola',
+          behavior: {
+            kitchenFrontMode: 'gola',
+            kitchenCarcassOnlyHeight: true,
+            cohabitGroup: 'kitchen_column',
+            zoneSlotRole: 'base',
+          },
+          editPopup: PLACEMENT_KIND_BASE_PRESETS.kitchen_base_gola.editPopup,
+          hinges: { productKind: 'kitchen_base' },
+        },
+      },
+      {
+        id: 'kitchen_base_corner',
+        label: PLACEMENT_KIND_RU_LABELS.kitchen_base_corner,
+        baseKind: 'standalone_floor',
+        settings: {
+          frontMode: 'non_gola',
+          behavior: {
+            kitchenFrontMode: 'non_gola',
+            kitchenCarcassOnlyHeight: true,
+            kitchenCorner: true,
+            cohabitGroup: 'kitchen_column',
+            zoneSlotRole: 'base',
+          },
+          editPopup: PLACEMENT_KIND_BASE_PRESETS.kitchen_base_corner.editPopup,
+          hinges: { productKind: 'kitchen_base' },
+        },
+      },
+      {
+        id: 'kitchen_tall',
+        label: PLACEMENT_KIND_RU_LABELS.kitchen_tall,
+        baseKind: 'floor_in_niche',
+        settings: {
+          frontMode: 'non_gola',
+          behavior: {
+            kitchenFrontMode: 'non_gola',
+            zoneSlotRole: 'full',
+            cohabitGroup: 'kitchen_column',
+          },
+          editPopup: PLACEMENT_KIND_BASE_PRESETS.kitchen_tall.editPopup,
+          hinges: { productKind: 'kitchen_tall' },
+        },
+      },
+      {
+        id: 'kitchen_wall_mid',
+        label: PLACEMENT_KIND_RU_LABELS.kitchen_wall_mid,
         baseKind: 'wall_hung_low',
-        settings: {},
+        settings: {
+          behavior: {
+            kitchenFrontMode: 'non_gola',
+            zoneSlotRole: 'mid',
+            cohabitGroup: 'kitchen_column',
+          },
+          editPopup: PLACEMENT_KIND_BASE_PRESETS.kitchen_wall_mid.editPopup,
+          hinges: { productKind: 'kitchen_wall' },
+        },
       },
       {
-        id: 'wall_hung_high',
-        label: PLACEMENT_KIND_RU_LABELS.wall_hung_high,
+        id: 'kitchen_wall_top',
+        label: PLACEMENT_KIND_RU_LABELS.kitchen_wall_top,
         baseKind: 'wall_hung_high',
-        settings: {},
+        settings: {
+          behavior: {
+            kitchenFrontMode: 'non_gola',
+            zoneSlotRole: 'top',
+            cohabitGroup: 'kitchen_column',
+          },
+          editPopup: PLACEMENT_KIND_BASE_PRESETS.kitchen_wall_top.editPopup,
+          hinges: { productKind: 'kitchen_wall' },
+        },
       },
       {
-        id: 'wall_hung',
-        label: PLACEMENT_KIND_RU_LABELS.wall_hung,
-        baseKind: 'wall_hung',
-        settings: {},
+        id: 'kitchen_wall_corner',
+        label: PLACEMENT_KIND_RU_LABELS.kitchen_wall_corner,
+        baseKind: 'wall_hung_low',
+        settings: {
+          behavior: {
+            kitchenFrontMode: 'non_gola',
+            kitchenCorner: true,
+            zoneSlotRole: 'mid',
+            cohabitGroup: 'kitchen_column',
+          },
+          editPopup: PLACEMENT_KIND_BASE_PRESETS.kitchen_wall_corner.editPopup,
+          hinges: { productKind: 'kitchen_wall' },
+        },
       },
-      { id: 'corpus_only', label: 'Только корпус', baseKind: 'corpus_only', settings: {} },
     ];
   }
 
-  /** Дописать системные профили (low/high), если в сохранённом конфиге их ещё нет. */
-  function ensureSystemPlacementKindProfiles(profiles) {
+  /** Для kitchen — всегда актуальный кухонный набор (без шкафных id и старых подписей). */
+  function ensureSystemPlacementKindProfiles(profiles, config) {
+    var cfg = config || null;
+    if (isKitchenProductLine(cfg)) {
+      return getDefaultPlacementKindProfiles(cfg);
+    }
+    var defaults = getDefaultPlacementKindProfiles(cfg);
     var list = Array.isArray(profiles) ? profiles.slice() : [];
-    var defaults = getDefaultPlacementKindProfiles();
     var seen = {};
     for (var i = 0; i < list.length; i++) {
       var id = String((list[i] && (list[i].id != null ? list[i].id : list[i].key)) || '').trim();
@@ -248,20 +635,7 @@
       var d = defaults[j];
       var did = String(d.id || '').trim();
       if (!did || seen[did]) continue;
-      // Вставляем low/high перед legacy wall_hung, остальное — в конец.
-      if (did === 'wall_hung_low' || did === 'wall_hung_high') {
-        var whIdx = -1;
-        for (var k = 0; k < list.length; k++) {
-          if (String((list[k] && list[k].id) || '').trim() === 'wall_hung') {
-            whIdx = k;
-            break;
-          }
-        }
-        if (whIdx >= 0) list.splice(whIdx, 0, JSON.parse(JSON.stringify(d)));
-        else list.push(JSON.parse(JSON.stringify(d)));
-      } else {
-        list.push(JSON.parse(JSON.stringify(d)));
-      }
+      list.push(JSON.parse(JSON.stringify(d)));
       seen[did] = 1;
     }
     return list;
@@ -336,13 +710,31 @@
           : preset.hinges.productKind,
     };
 
+    var carcassHeightMm = null;
+    try {
+      var ch = Number(
+        custom.carcassHeightMm != null
+          ? custom.carcassHeightMm
+          : custom.rhythm && custom.rhythm.carcassHeightMm
+      );
+      if (ch >= 500 && ch <= 1000) carcassHeightMm = Math.round(ch);
+    } catch (_) {}
+    if (carcassHeightMm == null) {
+      if (id === 'kitchen_base_gola') carcassHeightMm = 780;
+      else if (id === 'kitchen_base' || id === 'kitchen_base_corner') carcassHeightMm = 720;
+    }
+
     return {
       id: id,
-      label: (profile && profile.label && String(profile.label).trim()) || id,
+      label:
+        PLACEMENT_KIND_RU_LABELS[id] ||
+        (profile && profile.label && String(profile.label).trim()) ||
+        id,
       baseKind: baseKind,
       behavior: behavior,
       editPopup: editPopup,
       hinges: hinges,
+      carcassHeightMm: carcassHeightMm,
       hasCustomSettings: !!(profile && profile.settings && Object.keys(profile.settings).length > 0),
     };
   }
@@ -377,9 +769,9 @@
           config.placementKindsProfiles)) ||
       null;
     if (!Array.isArray(profiles) || !profiles.length) {
-      profiles = getDefaultPlacementKindProfiles();
+      profiles = getDefaultPlacementKindProfiles(config);
     } else {
-      profiles = ensureSystemPlacementKindProfiles(profiles);
+      profiles = ensureSystemPlacementKindProfiles(profiles, config);
     }
     var seen = {};
     for (var i = 0; i < profiles.length; i++) {
@@ -388,13 +780,13 @@
       if (!id || seen[id]) continue;
       seen[id] = 1;
       var resolved = resolvePlacementKindProfile(id, config);
+      // Канонические RU-подписи важнее устаревших label из room_steps_config.
       var label =
-        (resolved && resolved.label) ||
-        (p && p.label) ||
         PLACEMENT_KIND_RU_LABELS[id] ||
+        (p && p.label) ||
+        (resolved && resolved.label) ||
         id;
       label = String(label).trim() || PLACEMENT_KIND_RU_LABELS[id] || id;
-      // Не показывать сырой id, если в профиле забыли label.
       if (label === id && PLACEMENT_KIND_RU_LABELS[id]) label = PLACEMENT_KIND_RU_LABELS[id];
       options.push({ id: id, label: label });
     }
@@ -437,6 +829,9 @@
     if (typeof ep.depthMaxCm === 'number' && ep.depthMaxCm > 0) out.depthMaxCm = ep.depthMaxCm;
     else if (s4.depthMaxCm != null) out.depthMaxCm = s4.depthMaxCm;
 
+    if (typeof ep.widthMinCm === 'number' && ep.widthMinCm > 0) out.widthMinCm = ep.widthMinCm;
+    if (typeof ep.widthMaxCm === 'number' && ep.widthMaxCm > 0) out.widthMaxCm = ep.widthMaxCm;
+
     if (typeof ep.heightLimitText === 'string' && ep.heightLimitText.trim()) {
       out.heightLimitTextTemplate = ep.heightLimitText.trim();
     } else if (s4.heightLimitText) {
@@ -449,25 +844,50 @@
       out.depthLimitTextTemplate = s4.depthLimitText;
     }
 
+    if (typeof ep.widthLimitText === 'string' && ep.widthLimitText.trim()) {
+      out.widthLimitTextTemplate = ep.widthLimitText.trim();
+    } else if (s4.widthLimitText) {
+      out.widthLimitTextTemplate = s4.widthLimitText;
+    }
+
     out.isFixedHeightModule = profile.behavior && profile.behavior.fixedHeight === true;
     out.syncHeightInSection = !(profile.behavior && profile.behavior.syncHeightInSection === false);
 
     return out;
   }
 
-  /** Роль в ячейке: base (низ) | upper (верх) | full (один на всю высоту). */
+  /**
+   * Роль в ячейке:
+   * - шкаф wall_column: base | upper | full
+   * - кухня kitchen_column: base | mid | top | full
+   */
   var ZONE_SLOT_ROLE = {
     BASE: 'base',
     UPPER: 'upper',
+    MID: 'mid',
+    TOP: 'top',
     FULL: 'full',
   };
 
   function _normSlotRole(raw) {
     var s = String(raw || '').trim().toLowerCase();
-    if (s === ZONE_SLOT_ROLE.BASE || s === ZONE_SLOT_ROLE.UPPER || s === ZONE_SLOT_ROLE.FULL) {
+    if (
+      s === ZONE_SLOT_ROLE.BASE ||
+      s === ZONE_SLOT_ROLE.UPPER ||
+      s === ZONE_SLOT_ROLE.MID ||
+      s === ZONE_SLOT_ROLE.TOP ||
+      s === ZONE_SLOT_ROLE.FULL
+    ) {
       return s;
     }
     return ZONE_SLOT_ROLE.FULL;
+  }
+
+  /** Кухня: upper (legacy) = mid. */
+  function _kitchenColumnRole(role) {
+    var r = _normSlotRole(role);
+    if (r === ZONE_SLOT_ROLE.UPPER) return ZONE_SLOT_ROLE.MID;
+    return r;
   }
 
   function _normCohabitGroup(raw) {
@@ -502,8 +922,15 @@
         ? _normCohabitGroup(fromItemGroup)
         : _normCohabitGroup(b.cohabitGroup);
 
-    // full всегда без группы — не делит ячейку
-    if (role === ZONE_SLOT_ROLE.FULL) group = '';
+    // Шкафной full — без группы. Кухонный пенал держит kitchen_column (НШ2 сверху).
+    if (role === ZONE_SLOT_ROLE.FULL) {
+      var pkFull = String(placementKindId || '').trim();
+      if (pkFull === 'kitchen_tall' || group === 'kitchen_column') {
+        group = 'kitchen_column';
+      } else {
+        group = '';
+      }
+    }
 
     return {
       role: role,
@@ -514,24 +941,36 @@
 
   function resolveZoneCohabitSpecFromUserData(userData, config) {
     var ud = userData || {};
+    var profileId =
+      String(ud.__placementKindProfileId || ud.placementKind || ud.__placementKind || '').trim() ||
+      'floor_in_niche';
+    // Кухня: роль всегда из профиля (не залипший stamp base у НШ1 после старого конфига).
+    if (/^kitchen_/i.test(profileId)) {
+      var fromProfile = resolveZoneCohabitSpec(profileId, config, null);
+      // Подлечить stamp на модуле, чтобы UI/layout не читали устаревшее.
+      try {
+        ud.__zoneSlotRole = fromProfile.role;
+        ud.__cohabitGroup = fromProfile.group || '';
+      } catch (_) {}
+      return fromProfile;
+    }
     if (ud.__zoneSlotRole != null || ud.__cohabitGroup != null) {
       var role = _normSlotRole(ud.__zoneSlotRole);
       var group = role === ZONE_SLOT_ROLE.FULL ? '' : _normCohabitGroup(ud.__cohabitGroup);
       return {
         role: role,
         group: group,
-        placementKindId: String(
-          ud.__placementKindProfileId || ud.__placementKind || ud.placementKind || ''
-        ).trim(),
+        placementKindId: profileId,
       };
     }
-    var profileId =
-      String(ud.__placementKindProfileId || ud.placementKind || ud.__placementKind || '').trim() ||
-      'floor_in_niche';
     return resolveZoneCohabitSpec(profileId, config, null);
   }
 
-  /** Два модуля могут делить одну ячейку: одна группа, роли base+upper. */
+  /**
+   * Два модуля могут делить одну ячейку:
+   * - kitchen_column: base|mid|top между собой; full(пенал)+top(НШ2)
+   * - wall_column (шкаф): base + upper
+   */
   function canCohabitInSameZone(specA, specB) {
     if (!specA || !specB) return false;
     var gA = _normCohabitGroup(specA.group);
@@ -539,6 +978,21 @@
     if (!gA || !gB || gA !== gB) return false;
     var rA = _normSlotRole(specA.role);
     var rB = _normSlotRole(specB.role);
+    if (gA === 'kitchen_column') {
+      rA = _kitchenColumnRole(rA);
+      rB = _kitchenColumnRole(rB);
+      // Пенал + НШ2 (антресоль отдельно над корпусом).
+      if (
+        (rA === ZONE_SLOT_ROLE.FULL && rB === ZONE_SLOT_ROLE.TOP) ||
+        (rA === ZONE_SLOT_ROLE.TOP && rB === ZONE_SLOT_ROLE.FULL)
+      ) {
+        return true;
+      }
+      if (rA === ZONE_SLOT_ROLE.FULL || rB === ZONE_SLOT_ROLE.FULL) return false;
+      var ok = { base: 1, mid: 1, top: 1 };
+      if (!ok[rA] || !ok[rB]) return false;
+      return rA !== rB;
+    }
     if (rA === ZONE_SLOT_ROLE.FULL || rB === ZONE_SLOT_ROLE.FULL) return false;
     if (rA === rB) return false;
     return (
@@ -549,20 +1003,20 @@
 
   /**
    * При посадке pending: снести occupant?
-   * — pending full / occupant full → да
-   * — могут cohabit → нет
+   * — могут cohabit (в т.ч. пенал+НШ2) → нет
+   * — pending/occupant full (иначе) → да
    * — иначе (та же роль / другая группа) → да (replace)
    */
   function shouldRemoveOccupantForIncoming(occupantSpec, pendingSpec) {
     if (!pendingSpec) return true;
     if (!occupantSpec) return false;
+    if (canCohabitInSameZone(occupantSpec, pendingSpec)) return false;
     if (
       _normSlotRole(pendingSpec.role) === ZONE_SLOT_ROLE.FULL ||
       _normSlotRole(occupantSpec.role) === ZONE_SLOT_ROLE.FULL
     ) {
       return true;
     }
-    if (canCohabitInSameZone(occupantSpec, pendingSpec)) return false;
     return true;
   }
 
@@ -571,7 +1025,12 @@
     PLACEMENT_KIND_BASE_PRESETS: PLACEMENT_KIND_BASE_PRESETS,
     PLACEMENT_KIND_BASE_OPTIONS: PLACEMENT_KIND_BASE_OPTIONS,
     PLACEMENT_KIND_PRODUCT_OPTIONS: PLACEMENT_KIND_PRODUCT_OPTIONS,
+    KITCHEN_UNIT_CATALOG_TYPES: KITCHEN_UNIT_CATALOG_TYPES,
     ZONE_SLOT_ROLE: ZONE_SLOT_ROLE,
+    isKitchenProductLine: isKitchenProductLine,
+    isKitchenUnitCatalogType: isKitchenUnitCatalogType,
+    isLegacyWardrobePlacementKind: isLegacyWardrobePlacementKind,
+    defaultKitchenUnitPlacementKind: defaultKitchenUnitPlacementKind,
     getDefaultPlacementKindProfiles: getDefaultPlacementKindProfiles,
     ensureSystemPlacementKindProfiles: ensureSystemPlacementKindProfiles,
     isSystemPlacementKindProfile: isSystemPlacementKindProfile,

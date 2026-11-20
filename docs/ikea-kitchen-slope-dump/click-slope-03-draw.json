@@ -1,0 +1,252 @@
+{
+  "interesting": [
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "cta",
+      "t": "Go back"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "step-floorplan",
+      "cls": "",
+      "t": "Задайте форму и размер комнаты"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "",
+      "t": "Выбрать готовый вариант"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "step-design",
+      "cls": "",
+      "t": "Добавьте индивидуальности"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "",
+      "t": "Итог"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "bt-icon",
+      "t": "Item notes"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "bt-icon",
+      "t": "See product list"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "bt-icon",
+      "t": "Измерить"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "bt-icon",
+      "t": "Отменить"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "bt-icon",
+      "t": "Повторить"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "bt-icon",
+      "t": "Сохранить"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "close-app",
+      "cls": "bt-icon",
+      "t": "Закрыть"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "import-plan",
+      "cls": "bt-icon-label-alt",
+      "t": "Нарисовать форму"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "draw-plan",
+      "cls": "bt-icon-label-alt selected",
+      "t": "Нарисовать план"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "objects",
+      "cls": "bt-icon-label-alt",
+      "t": "Объекты"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "openings",
+      "cls": "bt-icon-label-alt",
+      "t": "Проёмы"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "search",
+      "cls": "bt-icon-label-alt",
+      "t": "Поиск"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "WaterSupply",
+      "cls": "bt-icon-label-alt",
+      "t": "Вывод воды"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "go-to-auto-design",
+      "cls": "cta-primary-alt-l",
+      "t": "Продолжить"
+    },
+    {
+      "tag": "DIV",
+      "id": "nav-overlay-draw-plan",
+      "cls": "mod-nav-overlay",
+      "t": "Добавить стену Разграничить зоны Добавить скошенный потолок"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "bt-text",
+      "t": "Добавить стену"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "bt-text",
+      "t": "Разграничить зоны"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "bt-text",
+      "t": "Добавить скошенный потолок"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "bt-icon",
+      "t": "Другие варианты"
+    },
+    {
+      "tag": "DIV",
+      "id": "mod-options-overlay-container",
+      "cls": "mod-overlay-container",
+      "t": "Другие варианты Показать все товары"
+    },
+    {
+      "tag": "SECTION",
+      "id": "",
+      "cls": "mod-overlay",
+      "t": "Другие варианты Показать все товары"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "bt-icon mod-tooltip-top selected",
+      "t": "Вид на этаж"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "bt-icon mod-tooltip-top",
+      "t": "Вид спереди"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "bt-icon mod-tooltip-top",
+      "t": "Трехмерный вид"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "bt-icon mod-tooltip-top first-person",
+      "t": "Виртуальный визит"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "show-help",
+      "cls": "bt-icon",
+      "t": "Новые уведомления"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "bt-tab-help-center-1",
+      "cls": "bt-filter-tab",
+      "t": "Подсказки по инструментам"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "bt-tab-help-center-2",
+      "cls": "bt-filter-tab",
+      "t": "Советы по проекту"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "tooltip-button",
+      "cls": "cta-secondary-sm",
+      "t": "Показать"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "tooltip-button",
+      "cls": "cta-secondary-sm",
+      "t": "Показать"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "tooltip-button",
+      "cls": "cta-secondary-sm",
+      "t": "Показать"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "tooltip-button",
+      "cls": "cta-secondary-sm",
+      "t": "Показать"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "tooltip-button",
+      "cls": "cta-secondary-sm",
+      "t": "Показать"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "tooltip-button",
+      "cls": "cta-secondary-sm",
+      "t": "Показать"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "tooltip-button",
+      "cls": "cta-secondary-sm",
+      "t": "Показать"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "tooltip-button",
+      "cls": "cta-secondary-sm",
+      "t": "Показать"
+    }
+  ],
+  "body": "Error We've encountered an error. Refresh the application Go back Задайте форму и размер комнаты Выбрать готовый вариант Добавьте индивидуальности Итог Item notes See product list Измерить Отменить Повторить Сохранить Закрыть Нарисовать форму Нарисовать план Объекты Проёмы Поиск Вывод воды Высота потолка Моя кухня IKEA 0,00 € Total price updated0,00 € Продолжить Добавить стену Разграничить зоны Добавить скошенный потолок Другие варианты Показать все товары Вид на этаж 16 m² Новые уведомления Помощь Подсказки по инструментам Советы по проекту Начать с формы Показать Создать кухню открытого типа Показать Добавить недвижимый объект Показать Разместите вывод воды Показать Изменить высоту потолка Показать Изменить стену или угол Показать Изменить размеры вашего пространства Показать Разместите ваши двери и окна Показать 2500 mm",
+  "imgs": []
+}

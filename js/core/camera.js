@@ -3,8 +3,8 @@
 
 import { state } from '../utils/state.js';
 import { updateMousePosition } from '../events/mouse-handler.js';
-import { updateSectionGhostPosition } from '../sections/section-ghost.js?v=20260925-corner44y';
-import { updateFurnitureGhostPosition } from '../furniture/furniture-ghost.js?v=20260925-corner44y';
+import { updateSectionGhostPosition } from '../sections/section-ghost.js?v=20261013-no-ward-gap';
+import { updateFurnitureGhostPosition } from '../furniture/furniture-ghost.js?v=20261115-upperGLeft27';
 import {
   dragFurnitureAlongWall,
   placePendingFurniture,
@@ -14,16 +14,16 @@ import {
   finishFurnitureDragFromCanvas,
   updateFurnitureHoverHighlight,
   clearAllFurnitureHighlights,
-} from '../furniture/furniture-manager.js?v=20260925-corner44y';
+} from '../furniture/furniture-manager.js?v=20261118-plinthInset16';
 import { isPendingEndCabinetModule } from '../sections/section-end-cabinet.js?v=20260917-endcab-nobridge';
-import { updateRoomDimensionLabels } from '../ui/scene-icons.js?v=20260921-whh1';
+import { updateRoomDimensionLabels } from '../ui/scene-icons.js?v=20261027-nmu142q';
 import { getWallAxes } from '../utils/wall-coords.js';
 
 // Минимум до точки под курсором / pivot (мм); near clip — dynamic (syncCameraNearClip).
 const DEFAULT_ZOOM_MIN_DISTANCE_MM = 0.5;
 const DEFAULT_ZOOM_MAX_DISTANCE_MM = 30000; // safety cap
 const DEFAULT_ZOOM_EXP_FACTOR = 0.0012;     // lower = smoother wheel response
-const ZOOM_TARGET_PULL = 0.88; // target С‚СЏРЅРµС‚СЃСЏ Рє hit вЂ” orbit РѕСЃС‚Р°С‘С‚СЃСЏ РЅР° С€РєР°С„Рµ
+const ZOOM_TARGET_PULL = 0.88; // target тянется к hit — orbit остаётся на шкафе
 
 /**
  * Live IKEA OrbitPlannerCamera.drag_input (2026-09-04 measure):
@@ -43,7 +43,7 @@ const IKEA_PHI_MIN = Math.PI / 2 - IKEA_MAX_PITCH; // в‰€ 0.01
 const IKEA_PHI_MAX = Math.PI / 2 + IKEA_MAX_PITCH; // в‰€ ПЂ в€’ 0.01
 /**
  * Dump: get_ground_collision_radius = max(0.1, 2 * ALLOWED_PLANE.near), near=0.1 в†’ 0.2 m.
- * РќР°С€Р° СЃС†РµРЅР° РІ РјРј.
+ * Наша сцена в мм.
  */
 const IKEA_GROUND_COLLISION_RADIUS_MM = 200;
 
@@ -51,6 +51,24 @@ const _zoomWheelForward = new THREE.Vector3();
 const _zoomWheelDirToHit = new THREE.Vector3();
 const _orbitOffset = new THREE.Vector3();
 const _orbitSpherical = new THREE.Spherical();
+
+/** После ручного orbit/pan/zoom автокадр не трогает камеру (домик / пресеты вида — с force). */
+function markUserCameraTouched() {
+  if (typeof window === 'undefined') return;
+  window.__cldUserCameraTouched = true;
+}
+
+function clearUserCameraTouched() {
+  if (typeof window === 'undefined') return;
+  window.__cldUserCameraTouched = false;
+}
+
+function shouldSkipAutoCameraFrame(options = {}) {
+  if (options?.force === true) return false;
+  if (typeof window === 'undefined') return false;
+  if (window.__cldSuppressAutoCameraFrame === true) return true;
+  return window.__cldUserCameraTouched === true;
+}
 
 function getRoomFloorWorldYMm() {
   try {
@@ -103,7 +121,7 @@ function getIkeaOrbitRadPerPx() {
   return IKEA_ORBIT_RAD_PER_TURN / 900;
 }
 
-/** Room clip planes (mm). Near scales with dist to target вЂ” stable depth at ~4 m, close-up ok. */
+/** Room clip planes (mm). Near scales with dist to target — stable depth at ~4 m, close-up ok. */
 export const CAMERA_NEAR_MIN_MM = 0.5;
 export const CAMERA_NEAR_MAX_MM = 10;
 export const CAMERA_FAR_MM = 22000;
@@ -170,16 +188,25 @@ function ensureCameraRig() {
   return state.cameraRig;
 }
 
-/** Snap eye to desired вЂ” used while LMB/RMB drag (IKEA has no lag behind pointer). */
+/** Snap eye to desired — used while LMB/RMB drag (IKEA has no lag behind pointer). */
 function snapCameraRigToDesired() {
   const rig = state.cameraRig;
   const cam = state.camera;
   if (!rig || !cam || !rig.positionDesired || !rig.targetDesired) return;
   rig.target.copy(rig.targetDesired);
   cam.position.copy(rig.positionDesired);
+  // Up только от пресета сцены. isRoomEditTopView2d() сюда нельзя:
+  // иначе «Сбоку/Прямо» получают up плана (0,0,−1) и вид «не ставится».
+  cam.up.copy(getSceneViewPreset() === 'top' ? _camUpTop : _camUpY);
   cam.lookAt(rig.target);
-  syncCameraNearClip(cam.position.distanceTo(rig.target));
+  cam.updateMatrixWorld(true);
+  if (!cam.isOrthographicCamera) {
+    syncCameraNearClip(cam.position.distanceTo(rig.target));
+  }
 }
+
+const _camUpY = new THREE.Vector3(0, 1, 0);
+const _camUpTop = new THREE.Vector3(0, 0, -1);
 
 function applyOrbitSphericalDelta(dTheta, dPhi) {
   const rig = ensureCameraRig();
@@ -201,8 +228,42 @@ const _orbitPending = { dx: 0, dy: 0, panDx: 0, panDy: 0 };
  */
 export function updateCameraRigFrame(dt) {
   const rig = state.cameraRig;
-  const cam = state.camera;
+  let cam = state.camera;
   if (!rig?.targetDesired || !rig?.positionDesired || !cam) return;
+
+  // Плоские 2D-виды: без орбиты/lerp, только ortho + pan/zoom.
+  if (isLockedOrthoView()) {
+    cancelIkeaEmptyCameraIntro();
+    if (!cam.isOrthographicCamera) {
+      cam = ensureOrthoCamera();
+      const m = getSceneViewPreset();
+      if (m === 'front' || m === 'side') syncElevationOrthoFrustum(m, getFlatViewFocusBox());
+      else syncRoomEditPlanFrustum();
+    }
+    setOrbitControlsEnabled(false);
+    if (state.isPanning && (_orbitPending.panDx !== 0 || _orbitPending.panDy !== 0)) {
+      const span = cam.isOrthographicCamera
+        ? Math.max(1, (cam.top - cam.bottom) / Math.max(0.01, cam.zoom || 1))
+        : cam.position.distanceTo(rig.targetDesired);
+      const speed = cam.isOrthographicCamera ? span * 0.0018 : 0.02 * (span / 5);
+      const forward = new THREE.Vector3();
+      cam.getWorldDirection(forward);
+      const right = new THREE.Vector3().crossVectors(forward, cam.up).normalize();
+      const up = cam.up.clone().normalize();
+      const pan = new THREE.Vector3()
+        .addScaledVector(right, -_orbitPending.panDx * speed)
+        .addScaledVector(up, _orbitPending.panDy * speed);
+      rig.positionDesired.add(pan);
+      rig.targetDesired.add(pan);
+      _orbitPending.panDx = 0;
+      _orbitPending.panDy = 0;
+    }
+    state.isRotating = false;
+    _orbitPending.dx = 0;
+    _orbitPending.dy = 0;
+    snapCameraRigToDesired();
+    return;
+  }
 
   if (state.isRotating) {
     cancelIkeaEmptyCameraIntro();
@@ -238,7 +299,7 @@ export function updateCameraRigFrame(dt) {
     return;
   }
 
-  // Intro: РґР°Р»СЊС€Рµ в†’ Р±Р»РёР¶Рµ (IKEA empty: offset 14.8 в†’ target 8). Cap dt вЂ” РёРЅР°С‡Рµ 1-Р№ РєР°РґСЂ РїРѕСЃР»Рµ load О±=1.
+  // Intro: дальше → ближе (IKEA empty). Cap dt — иначе 1-й кадр после load α=1.
   if (rig.introActive) {
     const dtIntro = Math.min(Math.max(0.001, dt), IKEA_INTRO_DT_CAP);
     const a = Math.min(1, dtIntro * IKEA_INTRO_LERP_SPEED);
@@ -282,8 +343,8 @@ export function setupCameraControls() {
     event.preventDefault();
   });
 
-  // Mouse down handlers (РЅР° canvas/renderer.domElement)
-  console.log('[РћРўР›РђР”РљРђ] Camera: mousedown/mousemove/mouseup РЅР°', renderer.domElement?.tagName || 'canvas');
+  // Mouse down handlers (на canvas/renderer.domElement)
+  console.log('[DEBUG] Camera: mousedown/mousemove/mouseup on', renderer.domElement?.tagName || 'canvas');
   renderer.domElement.addEventListener('mousedown', onMouseDown);
   renderer.domElement.addEventListener('mousemove', onMouseMove);
   renderer.domElement.addEventListener('mouseup', onMouseUp);
@@ -335,7 +396,7 @@ function meshEligibleForZoomRaycast(mesh) {
   return true;
 }
 
-/** Raycast РїРѕРґ РєСѓСЂСЃРѕСЂРѕРј вЂ” С€РєР°С„ / СЃС‚РµРЅС‹ / РїРѕР» (РЅРµ pivot РІ С†РµРЅС‚СЂРµ РєРѕРјРЅР°С‚С‹). */
+/** Raycast под курсором — шкаф / стены / пол (не pivot в центре комнаты). */
 function getZoomRaycastMeshes() {
   const out = [];
   const scene = state.scene;
@@ -356,12 +417,189 @@ function getZoomRaycastMeshes() {
 }
 
 function isRoomEditTopView2d() {
+  // Сценические «Прямо/Сбоку/3D» важнее флага room-edit 2D:
+  // иначе frustum/up плана ломают elevation после действий с НМ.
+  const scene = getSceneViewPreset();
+  if (scene === 'front' || scene === 'side' || scene === '3d') return false;
   return !!(window.__cldRoomEditOpen && window.__cldRoomEditView !== '3d');
 }
 
-/** Р—Р°РїР°СЃ РІРѕРєСЂСѓРі РєРѕРјРЅР°С‚С‹ РїРѕРґ РЅР°СЂСѓР¶РЅС‹Рµ СЂР°Р·РјРµСЂС‹ (РјРј). */
+/** Сценовые орто-пресеты (кнопки вида) — без orbit, zoom как в plan 2D. */
+function getSceneViewPreset() {
+  return String(
+    (typeof window !== 'undefined' && window.__cldSceneViewPreset) || '3d'
+  )
+    .trim()
+    .toLowerCase();
+}
+
+function isSceneOrthoPreset() {
+  const m = getSceneViewPreset();
+  return m === 'top' || m === 'front' || m === 'side';
+}
+
+function isLockedOrthoView() {
+  // Явный room-edit 3D важнее залипшего scene preset 'top'.
+  if (typeof window !== 'undefined' && window.__cldRoomEditView === '3d') return false;
+  return isRoomEditTopView2d() || isSceneOrthoPreset();
+}
+
+function setCeilingVisible(visible) {
+  const room = state.room;
+  if (!room) return;
+  if (room.walls?.ceiling) room.walls.ceiling.visible = !!visible;
+  room.group?.traverse((child) => {
+    if (child.userData?.isCeiling) child.visible = !!visible;
+  });
+}
+
+/** Запас вокруг комнаты под наружные размеры (мм). */
 const PLAN_VIEW_MARGIN_MM = 900;
 const PLAN_WALL_T_MM = 100;
+const ELEVATION_VIEW_MARGIN_MM = 350;
+
+/**
+ * Всегда вернуть OrthographicCamera (плоский 2D).
+ * Если perspective «протекла» назад при живом backup — всё равно создаём новый ortho.
+ */
+function ensureOrthoCamera() {
+  const cur = state.camera;
+  if (cur?.isOrthographicCamera) return cur;
+  if (cur?.isPerspectiveCamera) {
+    state.__cldPerspCameraBackup = cur;
+  }
+  const ortho = new THREE.OrthographicCamera(-1, 1, 1, -1, 1, 100000);
+  ortho.zoom = 1;
+  state.camera = ortho;
+  if (state.controls) {
+    state.controls.object = ortho;
+    state.controls.enabled = false;
+  }
+  return ortho;
+}
+
+function setOrbitControlsEnabled(enabled) {
+  if (!state.controls) return;
+  state.controls.enabled = !!enabled;
+  if (enabled && state.camera) state.controls.object = state.camera;
+}
+
+/** Безопасный bbox: selectedFurniture = {group}, дети после rebuild могут быть «битыми». */
+function safeBox3FromObject(obj) {
+  const root =
+    obj && typeof obj.updateWorldMatrix === 'function' && obj.isObject3D
+      ? obj
+      : obj?.group && typeof obj.group.updateWorldMatrix === 'function' && obj.group.isObject3D
+        ? obj.group
+        : obj?.object && typeof obj.object.updateWorldMatrix === 'function' && obj.object.isObject3D
+          ? obj.object
+          : null;
+  if (!root) return null;
+  const out = new THREE.Box3();
+  let any = false;
+  try {
+    root.updateWorldMatrix(true, true);
+  } catch (_) {
+    return null;
+  }
+  try {
+    root.traverse((o) => {
+      if (!o?.isMesh || !o.geometry) return;
+      if (typeof o.updateWorldMatrix !== 'function') return;
+      try {
+        if (!o.geometry.boundingBox) o.geometry.computeBoundingBox();
+        const gb = o.geometry.boundingBox;
+        if (!gb || gb.isEmpty()) return;
+        const b = gb.clone().applyMatrix4(o.matrixWorld);
+        if (b.isEmpty()) return;
+        if (!any) {
+          out.copy(b);
+          any = true;
+        } else {
+          out.union(b);
+        }
+      } catch (_) {}
+    });
+  } catch (_) {
+    return any ? out : null;
+  }
+  return any && !out.isEmpty() ? out : null;
+}
+
+/** BBox мебели для плотного CAD-кадра; иначе полоса у задней стены. */
+function getFlatViewFocusBox() {
+  try {
+    const box = new THREE.Box3();
+    let found = false;
+    const absorb = (obj) => {
+      const b = safeBox3FromObject(obj);
+      if (!b) return;
+      if (!found) {
+        box.copy(b);
+        found = true;
+      } else {
+        box.union(b);
+      }
+    };
+    if (state.selectedFurniture) absorb(state.selectedFurniture);
+    state.scene?.traverse?.((o) => {
+      if (o?.isGroup && o.userData?.isFurniture) absorb(o);
+    });
+    if (!found && state.room) {
+      const r = state.room;
+      const backZ = -Number(r.depth) * 0.5;
+      box.min.set(-r.width * 0.35, 0, backZ);
+      box.max.set(r.width * 0.35, Math.max(1200, r.height * 0.55), backZ + 900);
+      found = true;
+    }
+    return found ? box : null;
+  } catch (e) {
+    console.warn('[CAMERA] getFlatViewFocusBox failed', e?.message || e);
+    return null;
+  }
+}
+
+/** Frustum для фронт/бок (elevation), мм — плоский CAD. */
+function syncElevationOrthoFrustum(kind, focusBox = null) {
+  const cam = state.camera;
+  const room = state.room;
+  if (!cam?.isOrthographicCamera) return;
+  const margin = ELEVATION_VIEW_MARGIN_MM;
+  let halfH;
+  let halfAlong;
+  if (focusBox && !focusBox.isEmpty()) {
+    const size = focusBox.getSize(new THREE.Vector3());
+    halfH = Math.max(200, size.y * 0.5 + margin);
+    halfAlong =
+      kind === 'side'
+        ? Math.max(200, size.z * 0.5 + margin)
+        : Math.max(200, size.x * 0.5 + margin);
+  } else if (room) {
+    halfH = room.height / 2 + margin;
+    halfAlong =
+      kind === 'side'
+        ? room.depth / 2 + PLAN_WALL_T_MM + margin
+        : room.width / 2 + PLAN_WALL_T_MM + margin;
+  } else {
+    halfH = 1500;
+    halfAlong = 1500;
+  }
+  const el = state.renderer?.domElement;
+  const aspect = el
+    ? Math.max(0.25, el.clientWidth / Math.max(1, el.clientHeight))
+    : 1.4;
+  let viewH = halfH;
+  let viewW = halfAlong;
+  if (viewW / viewH > aspect) viewH = viewW / aspect;
+  else viewW = viewH * aspect;
+  cam.left = -viewW;
+  cam.right = viewW;
+  cam.top = viewH;
+  cam.bottom = -viewH;
+  cam.near = 1;
+  cam.far = 100000;
+  cam.updateProjectionMatrix();
+}
 
 function planHalfExtents(room) {
   const halfW = room.width / 2 + PLAN_WALL_T_MM + PLAN_VIEW_MARGIN_MM;
@@ -375,27 +613,31 @@ function planHalfExtents(room) {
  */
 function enterRoomEditPlanOrtho(room) {
   if (!state.camera || !room) return state.camera;
-  if (!state.__cldPerspCameraBackup && state.camera.isPerspectiveCamera) {
-    state.__cldPerspCameraBackup = state.camera;
-    const ortho = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.5, 80000);
-    ortho.zoom = 1;
-    state.camera = ortho;
-    if (state.controls) state.controls.object = ortho;
-  }
+  const cam = ensureOrthoCamera();
   syncRoomEditPlanFrustum();
-  return state.camera;
+  return cam;
 }
 
-/** Р’РѕСЃСЃС‚Р°РЅРѕРІРёС‚СЊ PerspectiveCamera РїРѕСЃР»Рµ plan 2D. */
+/** Восстановить PerspectiveCamera после plan/elevation ortho. */
 export function exitRoomEditPlanOrtho() {
   const backup = state.__cldPerspCameraBackup;
   if (!backup) return;
   state.camera = backup;
   state.__cldPerspCameraBackup = null;
-  if (state.controls) state.controls.object = backup;
+  if (state.controls) {
+    state.controls.object = backup;
+    state.controls.enabled = true;
+  }
 }
 
-/** РџРµСЂРµСЃС‡РёС‚Р°С‚СЊ frustum РѕСЂС‚Рѕ-РєР°РјРµСЂС‹ РїРѕРґ СЂР°Р·РјРµСЂ РєРѕРјРЅР°С‚С‹ Рё aspect canvas. */
+function notifySceneViewPills() {
+  if (typeof window === 'undefined') return;
+  try {
+    window.__cldSyncSceneViewPills?.(getSceneViewPreset());
+  } catch (_) {}
+}
+
+/** Пересчитать frustum орто-камеры под размер комнаты и aspect canvas. */
 export function syncRoomEditPlanFrustum() {
   const cam = state.camera;
   const room = state.room;
@@ -421,13 +663,14 @@ export function syncRoomEditPlanFrustum() {
 function onMouseWheel(event) {
   event.preventDefault();
   if (!state.camera) return;
+  markUserCameraTouched();
   cancelIkeaEmptyCameraIntro();
   const rig = ensureCameraRig();
 
   const zoomFactor = Math.exp(event.deltaY * rig.zoomExpFactor);
 
-  // Room-edit 2D: РѕСЂС‚Рѕ вЂ” zoom frustum; РёРЅР°С‡Рµ РІС‹СЃРѕС‚Р° РєР°РјРµСЂС‹. Р‘РµР· РѕСЂР±РёС‚С‹.
-  if (isRoomEditTopView2d()) {
+  // Room-edit / сценовые орто-виды: zoom frustum (или высота для top без ortho). Без орбиты.
+  if (isLockedOrthoView()) {
     if (state.camera.isOrthographicCamera) {
       let z = (Number(state.camera.zoom) || 1) / zoomFactor;
       z = Math.max(0.35, Math.min(2.8, z));
@@ -485,7 +728,7 @@ function onMouseWheel(event) {
 
 function onMouseDown(event) {
   if (state.isPlacingFurniture) {
-    console.log('[РћРўР›РђР”РљРђ mousedown] isPlacingFurniture=true, button=', event.button);
+    console.log('[ghost-down] isPlacingFurniture=true, button=', event.button);
   }
   if (event.button === 0) {
     // Left mouse button (ЛКМ) - rotation или размещение секции/мебели
@@ -493,8 +736,8 @@ function onMouseDown(event) {
       // При размещении секции или мебели не вращаем камеру — размещение произойдёт при mouseup
     } else if (tryBeginFurnitureDragFromCanvas(event)) {
       // Drag already started inside tryBeginFurnitureDragFromCanvas
-    } else if (isRoomEditTopView2d()) {
-      // 2D РїР»Р°РЅ: Р›РљРњ РЅРµ РѕСЂР±РёС‚РёС‚ РєРѕРјРЅР°С‚Сѓ
+    } else if (isLockedOrthoView()) {
+      // 2D / орто-пресеты: ЛКМ не орбитирует
     } else {
       state.isRotating = true;
       ensureCameraRig();
@@ -503,7 +746,7 @@ function onMouseDown(event) {
       state.previousMousePosition = { x: event.clientX, y: event.clientY };
     }
   } else if (event.button === 2) {
-    // Right mouse button (РџРљРњ) - panning
+    // Right mouse button (ПКМ) - panning
     if (!state.isPlacingSection && !state.isPlacingFurniture) {
       state.isPanning = true;
       ensureCameraRig();
@@ -527,21 +770,45 @@ function onMouseMove(event) {
     // Обновление позиции ghost при размещении мебели из каталога
     if (!window._ghostMoveCount) window._ghostMoveCount = 0;
     if (++window._ghostMoveCount <= 3 || window._ghostMoveCount % 50 === 0) {
-      console.log('[РћРўР›РђР”РљРђ mousemove] isPlacingFurniture, count=', window._ghostMoveCount, 'pos=', !!state.ghostPosition, 'wall=', state.ghostWall);
+      console.log('[ghost-move] isPlacingFurniture, count=', window._ghostMoveCount, 'pos=', !!state.ghostPosition, 'wall=', state.ghostWall);
     }
     updateMousePosition(event);
     updateFurnitureGhostPosition(event);
   } else if (state.isRotating && !state.isPlacingSection) {
-    // Accumulate deltas вЂ” apply once per rAF (avoids N snaps when frames drop)
+    // Сразу на pointer — один модуль camera.js + без «шагов» от пустого pending в другой копии.
     if (!state.camera) return;
-    _orbitPending.dx += event.clientX - state.previousMousePosition.x;
-    _orbitPending.dy += event.clientY - state.previousMousePosition.y;
+    markUserCameraTouched();
+    const dx = event.clientX - state.previousMousePosition.x;
+    const dy = event.clientY - state.previousMousePosition.y;
     state.previousMousePosition = { x: event.clientX, y: event.clientY };
+    if (dx !== 0 || dy !== 0) {
+      const radPerPx = getIkeaOrbitRadPerPx();
+      applyOrbitSphericalDelta(-dx * radPerPx, dy * radPerPx);
+      snapCameraRigToDesired();
+    }
   } else if (state.isPanning) {
     if (!state.camera) return;
-    _orbitPending.panDx += event.clientX - state.previousMousePosition.x;
-    _orbitPending.panDy += event.clientY - state.previousMousePosition.y;
+    markUserCameraTouched();
+    const panDx = event.clientX - state.previousMousePosition.x;
+    const panDy = event.clientY - state.previousMousePosition.y;
     state.previousMousePosition = { x: event.clientX, y: event.clientY };
+    if (panDx !== 0 || panDy !== 0) {
+      const rig = ensureCameraRig();
+      const cam = state.camera;
+      const distance = cam.position.distanceTo(rig.targetDesired);
+      const speed = 0.02 * (distance / 5);
+      const forward = new THREE.Vector3();
+      cam.getWorldDirection(forward);
+      const right = new THREE.Vector3().crossVectors(forward, cam.up).normalize();
+      const up = cam.up.clone().normalize();
+      const pan = new THREE.Vector3()
+        .addScaledVector(right, -panDx * speed)
+        .addScaledVector(up, panDy * speed);
+      rig.positionDesired.add(pan);
+      rig.targetDesired.add(pan);
+      clampOrbitEyeAboveGround();
+      snapCameraRigToDesired();
+    }
   } else {
     // Update mouse position for raycast (when not dragging)
     updateMousePosition(event);
@@ -598,7 +865,7 @@ function onMouseUp(event) {
     state.dragWall = null;
     console.log('✅ Перетаскивание мебели завершено');
   } else if (state.isPlacingSection) {
-    // РќРµСЃРєРѕР»СЊРєРѕ СЃРІРѕР±РѕРґРЅС‹С… РїСЂРѕР»С‘С‚РѕРІ: РѕР±С‹С‡РЅРѕ С‚РѕР»СЊРєРѕ РєРЅРѕРїРєР° В«РџРѕСЃС‚Р°РІРёС‚СЊВ».
+    // Несколько свободных пролётов: обычно только кнопка «Поставить».
     // П-образная — без chooser: сразу ставим (сплошная или авто-мост).
     const spansOnWall = Array.isArray(state.sectionPlacementSpans)
       ? state.sectionPlacementSpans
@@ -614,7 +881,21 @@ function onMouseUp(event) {
     if (freeSpans.length > 1 && !isUPlace) {
       return;
     }
-    // Один пролёт / П / мост — отпускание ЛКМ ставит секцию.
+    // Click-place (прямая / L): клик по стене → диалог, не мгновенная постановка.
+    const isClickPlaceLayout =
+      layoutKey === 'top-wall' ||
+      layoutKey === 'corner-wardrobe' ||
+      layoutKey === 'top-right' ||
+      layoutKey === 'corner-wardrobe-left' ||
+      layoutKey === 'top-left';
+    const clickPlace = !!state.sectionClickPlaceMode && isClickPlaceLayout;
+    if (clickPlace) {
+      if (typeof window.__cldAskSectionPlaceConfirm === 'function') {
+        window.__cldAskSectionPlaceConfirm();
+      }
+      return;
+    }
+    // L/U / drag: отпускание ЛКМ ставит секцию.
     if (typeof window.__cldConfirmPendingSectionPlacement === 'function') {
       window.__cldConfirmPendingSectionPlacement();
     }
@@ -625,7 +906,7 @@ function onMouseUp(event) {
       state.isPanning = false;
       return;
     }
-    // РўРѕСЂС†РµРІРѕР№ РјРѕРґСѓР»СЊ вЂ” С‚РѕР»СЊРєРѕ РµСЃР»Рё РєСѓСЂСЃРѕСЂ РЅР°Рґ СЃР»РѕС‚РѕРј (_ghostZonePlacementAllowed).
+    // Торцевой модуль — только если курсор над слотом (_ghostZonePlacementAllowed).
     if (
       isPendingEndCabinetModule(state.pendingFurnitureData) &&
       state._ghostZonePlacementAllowed !== false
@@ -709,15 +990,15 @@ function onMouseUp(event) {
       }
     }
     if (state.furnitureGhost && state.ghostPosition && state.ghostWall) {
-      // РџСЂРѕРІРµСЂСЏРµРј С‡С‚Рѕ СЃС‚РµРЅР° РІРёРґРёРјР° (РЅРµ СЃРєСЂС‹С‚Р°)
+      // Проверяем что стена видима (не скрыта)
       if (state.room && state.room.walls && state.room.walls[state.ghostWall] && state.room.walls[state.ghostWall].visible === false) {
-        console.warn('вљ пёЏ РЎС‚РµРЅР° СЃРєСЂС‹С‚Р° вЂ” СЂР°Р·РјРµС‰РµРЅРёРµ РјРµР±РµР»Рё РЅРµРІРѕР·РјРѕР¶РЅРѕ');
+        console.warn('⚠️ Стена скрыта — размещение мебели невозможно');
         cancelFurniturePlacement();
         return;
       }
       placePendingFurniture();
     } else {
-      console.warn('[РћРўР›РђР”РљРђ mouseup] вљ пёЏ РЈСЃР»РѕРІРёРµ РЅРµ РІС‹РїРѕР»РЅРµРЅРѕ вЂ” РѕС‚РјРµРЅР°. ghost=', !!state.furnitureGhost, 'pos=', !!state.ghostPosition, 'wall=', state.ghostWall);
+      console.warn('[ghost-up] blocked — cancel. ghost=', !!state.furnitureGhost, 'pos=', !!state.ghostPosition, 'wall=', state.ghostWall);
       cancelFurniturePlacement();
     }
   }
@@ -739,50 +1020,187 @@ function onMouseLeave() {
 
 // Функция для установки вида сверху
 export function setTopViewCamera() {
+  if (typeof window !== 'undefined') window.__cldSceneViewPreset = 'top';
   const room = state.room;
   if (!room || !state.camera) return;
   const rig = ensureCameraRig();
 
-  // РЎРєСЂС‹РІР°РµРј РїРѕС‚РѕР»РѕРє РїСЂРё РІРёРґРµ СЃРІРµСЂС…Сѓ (РєР°Рє РІ legacy main.js)
-  if (room.walls && room.walls.ceiling) {
-    room.walls.ceiling.visible = false;
-  }
-  room.group.traverse((child) => {
-    if (child.userData && child.userData.isCeiling) {
-      child.visible = false;
-    }
-  });
+  setCeilingVisible(false);
+  cancelIkeaEmptyCameraIntro();
 
-  // РћСЂС‚Рѕ-РїР»Р°РЅ: Р±РµР· РїРµСЂСЃРїРµРєС‚РёРІРЅРѕРіРѕ РЅР°РєР»РѕРЅР° СЃС‚РµРЅ (С„Р°Р·Р° A+; РѕС‚РєР°С‚ вЂ” exitRoomEditPlanOrtho)
-  const cam = enterRoomEditPlanOrtho(room);
+  // Орто-план: без перспективного наклона стен
+  const cam = ensureOrthoCamera();
+  if (typeof cam.clearViewOffset === 'function') {
+    try {
+      cam.clearViewOffset();
+    } catch (_) {}
+  }
+  syncRoomEditPlanFrustum();
   const roomCenterX = 0;
   const roomCenterZ = 0;
   const cameraHeight = Math.max(room.height * 2, 8000);
 
-  cam.up.set(0, 0, -1);
+  cam.up.copy(_camUpTop);
+  cam.zoom = 1;
   rig.targetDesired.set(0, 0, 0);
   rig.positionDesired.set(roomCenterX, cameraHeight, roomCenterZ);
-  rig.target.copy(rig.targetDesired);
-  cam.position.copy(rig.positionDesired);
-  cam.lookAt(rig.targetDesired);
-  cam.updateMatrixWorld();
+  setOrbitControlsEnabled(false);
+  snapCameraRigToDesired();
+  try {
+    if (typeof window !== 'undefined' && typeof window.__cldResetIkeaHdrAccum === 'function') {
+      window.__cldResetIkeaHdrAccum('scene-view-top');
+    }
+  } catch (_) {}
 
-  if (state.controls && state.controls.update) {
-    state.controls.target.set(0, 0, 0);
-    state.controls.update();
-  }
-
-  // Обновляем метки размеров комнаты при переходе в режим редактирования
-  updateRoomDimensionLabels();
-
-  console.log('рџ“ђ РЈСЃС‚Р°РЅРѕРІР»РµРЅ РІРёРґ СЃРІРµСЂС…Сѓ (РѕСЂС‚Рѕ-РїР»Р°РЅ room-edit)');
+  try {
+    updateRoomDimensionLabels();
+  } catch (_) {}
+  notifySceneViewPills();
+  console.warn('[CAMERA] top ortho plan', {
+    ortho: !!cam.isOrthographicCamera,
+    roomEditOpen: !!(typeof window !== 'undefined' && window.__cldRoomEditOpen),
+    xray: !!(typeof window !== 'undefined' && window.__cldRoomFurnitureXray),
+  });
 }
 
 /**
- * РџР»РѕС‚РЅС‹Р№ РєР°РґСЂ РЅР° С€РєР°С„ (РєР°Рє product close-up IKEA): Р·Р°РїРѕР»РЅСЏРµС‚ РєР°РґСЂ bbox РјРµР±РµР»Рё.
+ * Пресеты вида сцены: 3d | top | front | side.
+ * 2D = настоящий OrthographicCamera (плоский CAD), не перспектива сбоку.
+ */
+export function setSceneViewPreset(mode) {
+  const m = String(mode || '3d').trim().toLowerCase();
+  const room = state.room;
+  if (!room || !state.camera) return { ok: false, reason: 'no_room' };
+  // Явный пресет вида — снова можно автокадрить до следующего ручного движения.
+  clearUserCameraTouched();
+  if (typeof window !== 'undefined') window.__cldSceneViewPreset = m;
+  cancelIkeaEmptyCameraIntro();
+  const rig = ensureCameraRig();
+
+  if (m === '3d') {
+    setCeilingVisible(true);
+    if (typeof window !== 'undefined') window.__cldSceneViewPreset = '3d';
+    exitRoomEditPlanOrtho();
+    setOrbitControlsEnabled(true);
+    applyIkeaEmptyRoomCamera(room, state.camera, { intro: false });
+    try {
+      updateRoomDimensionLabels();
+    } catch (_) {}
+    notifySceneViewPills();
+    console.log('[CAMERA] scene view 3d', {
+      persp: !!state.camera?.isPerspectiveCamera,
+    });
+    return { ok: true, mode: '3d' };
+  }
+
+  if (m === 'top') {
+    setTopViewCamera();
+    notifySceneViewPills();
+    return { ok: true, mode: 'top' };
+  }
+
+  setCeilingVisible(true);
+  // Новый ortho — не тащить matrix/viewOffset от плана сверху.
+  if (state.camera?.isOrthographicCamera) {
+    exitRoomEditPlanOrtho();
+  }
+  const cam = ensureOrthoCamera();
+  cam.up.copy(_camUpY);
+  cam.zoom = 1;
+  if (typeof cam.clearViewOffset === 'function') {
+    try {
+      cam.clearViewOffset();
+    } catch (_) {}
+  }
+  let focus = getFlatViewFocusBox();
+  // Elevation: если фокус слишком «плоский» (только полоса у стены) — кадр по комнате.
+  if (focus && !focus.isEmpty() && room) {
+    const sz0 = focus.getSize(new THREE.Vector3());
+    const thin =
+      m === 'side' ? !(sz0.z > 200) || !(sz0.y > 200) : !(sz0.x > 200) || !(sz0.y > 200);
+    if (thin) focus = null;
+  }
+  const center = focus
+    ? focus.getCenter(new THREE.Vector3())
+    : new THREE.Vector3(0, Math.max(400, room.height * 0.35), 0);
+  if (!focus) {
+    center.set(0, Math.max(400, room.height * 0.35), 0);
+  }
+  const size = focus
+    ? focus.getSize(new THREE.Vector3())
+    : new THREE.Vector3(room.width, room.height, room.depth);
+  // Камера далеко по оси — в ortho дистанция не даёт перспективу, только near/far.
+  const axisDist = Math.max(size.x, size.y, size.z, room.width || 2000, room.depth || 2000) + 8000;
+
+  // Камера ВНУТРИ комнаты (не снаружи): иначе ortho упирается в наружную грань стены.
+  const inset = 250;
+  const halfW = (Number(room.width) || 4000) * 0.5;
+  const halfD = (Number(room.depth) || 4000) * 0.5;
+  if (m === 'front') {
+    // Прямо: из комнаты на заднюю стену (−Z), фасад НМ к зрителю.
+    syncElevationOrthoFrustum('front', focus);
+    const eyeZ = Math.min(halfD - inset, center.z + Math.max(axisDist * 0.15, 1200));
+    rig.targetDesired.set(center.x, center.y, center.z);
+    rig.positionDesired.set(center.x, center.y, eyeZ);
+  } else if (m === 'side') {
+    // Сбоку: из комнаты слева (+X), профиль глубины НМ.
+    syncElevationOrthoFrustum('side', focus);
+    const eyeX = Math.max(-halfW + inset, center.x - Math.max(axisDist * 0.15, 1200));
+    rig.targetDesired.set(center.x, center.y, center.z);
+    rig.positionDesired.set(eyeX, center.y, center.z);
+  } else {
+    if (typeof window !== 'undefined') window.__cldSceneViewPreset = '3d';
+    return setSceneViewPreset('3d');
+  }
+
+  // Elevation: явный Y-up до snap (не up плана сверху).
+  cam.up.copy(_camUpY);
+  setOrbitControlsEnabled(false);
+  snapCameraRigToDesired();
+  try {
+    if (typeof window !== 'undefined' && typeof window.__cldResetIkeaHdrAccum === 'function') {
+      window.__cldResetIkeaHdrAccum('scene-view-' + m);
+    }
+  } catch (_) {}
+  try {
+    updateRoomDimensionLabels();
+  } catch (_) {}
+  notifySceneViewPills();
+  console.warn('[CAMERA] scene view', m, {
+    ortho: !!state.camera?.isOrthographicCamera,
+    pos: rig.positionDesired.toArray().map((n) => Math.round(n)),
+    target: rig.targetDesired.toArray().map((n) => Math.round(n)),
+    roomEditOpen: !!(typeof window !== 'undefined' && window.__cldRoomEditOpen),
+    roomEditView: typeof window !== 'undefined' ? window.__cldRoomEditView : null,
+    shapePlan: !!(typeof window !== 'undefined' && window.__cldKitchenShapePlan),
+  });
+  return { ok: true, mode: m };
+}
+
+export function getSceneViewPresetMode() {
+  return getSceneViewPreset();
+}
+
+/** Пересчитать frustum при resize для текущего орто-пресета. */
+export function syncSceneViewOrthoFrustum() {
+  const m = getSceneViewPreset();
+  if (!state.camera?.isOrthographicCamera && isLockedOrthoView()) {
+    ensureOrthoCamera();
+  }
+  // front/side раньше room-edit top — иначе DevTools resize сбивает elevation в plan-frustum.
+  if (m === 'front' || m === 'side') {
+    syncElevationOrthoFrustum(m, getFlatViewFocusBox());
+  } else if (m === 'top' || isRoomEditTopView2d()) {
+    syncRoomEditPlanFrustum();
+  }
+}
+
+/**
+ * Плотный кадр на шкаф (как product close-up IKEA): заполняет кадр bbox мебели.
  * Азимут сохраняем от текущего взгляда, дистанцию — по FOV + padding.
  */
 export function frameCameraToFurnitureClose(options = {}) {
+  if (shouldSkipAutoCameraFrame(options)) return false;
   if (!state.camera || !state.scene) return false;
   const rig = ensureCameraRig();
   const box = new THREE.Box3();
@@ -819,7 +1237,7 @@ export function frameCameraToFurnitureClose(options = {}) {
     dir.subVectors(state.camera.position, look);
   }
   if (dir.lengthSq() < 1e-3) dir.set(0.4, 0.15, 1);
-  // Р§СѓС‚СЊ РІС‹СЂР°РІРЅРёРІР°РµРј РїРѕ РіРѕСЂРёР·РѕРЅС‚Сѓ вЂ” С„СЂРѕРЅС‚Р°Р»СЊРЅС‹Р№ product-view
+  // Чуть выравниваем по горизонту — фронтальный product-view
   dir.y *= 0.45;
   if (dir.lengthSq() < 1e-3) dir.set(0.25, 0.12, 1);
   dir.normalize();
@@ -850,11 +1268,11 @@ const IKEA_EMPTY_CAM_Y_MM = 1000;
 const IKEA_EMPTY_CAM_FROM_BACK_MM = 5300;
 /**
  * Intro (live dump 2026-09-18 lt/ru): OrbitPlannerCamera rest _target_offset=8,
- * mid/start-like _offsetв‰€14.8 в†’ pull 14.8/8=1.85. Spring update РёР· Console РЅРµ РєСЂСѓС‚РёС‚СЃСЏ
- * (updateTicks=0) вЂ” РґР»РёС‚РµР»СЊРЅРѕСЃС‚СЊ в‰€1.5вЂ“2 СЃ РЅР° РіР»Р°Р·, РЅРµ raw 4Г—10=40 (С‚Рѕ СЃС…Р»РѕРїС‹РІР°Р»Рѕ Р·Р° 1 РєР°РґСЂ).
+ * mid/start-like _offsetв‰€14.8 в†’ pull 14.8/8=1.85. Spring update из Console не крутится
+ * (updateTicks=0) — длительность ≈1.5–2 с на глаз, не raw 4Г—10=40 (то схлопывало за 1 кадр).
  */
 const IKEA_INTRO_START_PULL = 1.85;
-/** ~3вЂ“3.5 СЃ РґРѕ С„РёРЅР°Р»Р° (Р±С‹Р»Рѕ 2.4 вЂ” В«СЃР»РёС€РєРѕРј Р±С‹СЃС‚СЂРѕВ»). */
+/** ~3–3.5 с до финала (было 2.4 — «слишком быстро»). */
 const IKEA_INTRO_LERP_SPEED = 1.35;
 const IKEA_INTRO_DT_CAP = 1 / 30;
 const IKEA_INTRO_EPS_MM = 12;
@@ -915,6 +1333,7 @@ function __cldDistToFitBox(size, padding = 1.12, pull = 0.92) {
  * - overview: corner ~45В° so both arms visible
  */
 export function frameCameraForLArmFocus(focusState, pair, options = {}) {
+  if (shouldSkipAutoCameraFrame(options)) return false;
   if (!state.camera || !pair?.primary || !pair?.attached) return false;
   try {
     exitRoomEditPlanOrtho();
@@ -963,13 +1382,13 @@ export function frameCameraForLArmFocus(focusState, pair, options = {}) {
   const look = center.clone();
   look.y = box.min.y + Math.max(size.y * 0.42, 700);
 
-  // Р›С‘РіРєРёР№ РїРѕРґСЉС‘Рј РєР°РјРµСЂС‹ (РЅРµ РѕСЂС‚Рѕ СЃРІРµСЂС…Сѓ)
+  // Лёгкий подъём камеры (не орто сверху)
   const elev = mode === 'overview' ? 0.18 : 0.1;
   const dir = intoRoom.clone();
   dir.y += elev;
   dir.normalize();
 
-  // РћР±Р·РѕСЂ РѕРє; РїР»РµС‡Рѕ (Р»РµРІРѕ/РїСЂР°РІРѕ/Р·Р°РґРЅСЏСЏ) вЂ” С‡СѓС‚СЊ РґР°Р»СЊС€Рµ, РёРЅР°С‡Рµ СЃР»РёС€РєРѕРј РІ СѓРїРѕСЂ Рє СЃС‚РµРЅРµ.
+  // Обзор ок; плечо (лево/право/задняя) — чуть дальше, иначе слишком в упор к стене.
   let dist = __cldDistToFitBox(size, mode === 'overview' ? 1.2 : 1.28, mode === 'overview' ? 0.98 : 1.12);
   if (mode === 'overview') dist *= 1.08;
   else dist *= 1.22;
@@ -997,9 +1416,10 @@ export function frameCameraForLArmFocus(focusState, pair, options = {}) {
 }
 
 /**
- * РљР°РґСЂ РЅР° РѕРґРЅСѓ СЃРµРєС†РёСЋ (РїСЂРѕР»С‘С‚ СЃР»РµРІР°/СЃРїСЂР°РІР° РѕС‚ РґРІРµСЂРё).
+ * Кадр на одну секцию (пролёт слева/справа от двери).
  */
 export function frameCameraToSection(sectionData, options = {}) {
+  if (shouldSkipAutoCameraFrame(options)) return false;
   if (!state.camera || !sectionData) return false;
   try {
     exitRoomEditPlanOrtho();
@@ -1046,8 +1466,22 @@ export function frameCameraToSection(sectionData, options = {}) {
  * @param {{ intro?: boolean }} [opts] intro=true — старт дальше, lerp к финалу (открытие планировщика).
  */
 export function applyIkeaEmptyRoomCamera(room = state.room, camera = state.camera, opts = {}) {
-  // РЎРЅР°С‡Р°Р»Р° РІРµСЂРЅСѓС‚СЊ PerspectiveCamera, РµСЃР»Рё Р±С‹Р»Рё РІ РѕСЂС‚Рѕ-РїР»Р°РЅРµ 2D
+  // Не сбивать плоский 2D-пресет сцены (кнопки Сверху/Прямо/Сбоку).
+  // Room-edit и явный force3d / setSceneViewPreset('3d') — можно.
+  const preset = getSceneViewPreset();
+  const roomEditOpen = typeof window !== 'undefined' && !!window.__cldRoomEditOpen;
+  if (
+    !opts?.force3d &&
+    !roomEditOpen &&
+    (preset === 'top' || preset === 'front' || preset === 'side')
+  ) {
+    return { ok: false, reason: 'scene_ortho_preset', mode: preset };
+  }
+  // Сначала вернуть PerspectiveCamera, если были в орто-плане / elevation
   exitRoomEditPlanOrtho();
+  if (typeof window !== 'undefined') window.__cldSceneViewPreset = '3d';
+  setOrbitControlsEnabled(true);
+  notifySceneViewPills();
   camera = state.camera;
   if (!room || !camera) return { ok: false, reason: 'no room/camera' };
   const wantIntro = opts.intro !== false;
@@ -1098,6 +1532,7 @@ export function applyIkeaEmptyRoomCamera(room = state.room, camera = state.camer
 }
 
 if (typeof window !== 'undefined') {
+  window.__cldSceneViewPreset = window.__cldSceneViewPreset || '3d';
   window.__cldFrameCameraToFurnitureClose = frameCameraToFurnitureClose;
   window.__cldFrameCameraForLArmFocus = frameCameraForLArmFocus;
   window.__cldFrameCameraToSection = frameCameraToSection;
@@ -1105,6 +1540,9 @@ if (typeof window !== 'undefined') {
   window.__cldCameraNearAudit = getCameraNearClipAudit;
   window.__cldSyncRoomEditPlanFrustum = syncRoomEditPlanFrustum;
   window.__cldExitRoomEditPlanOrtho = exitRoomEditPlanOrtho;
+  window.__cldSetSceneViewPreset = setSceneViewPreset;
+  window.__cldGetSceneViewPreset = getSceneViewPresetMode;
+  window.__cldSyncSceneViewOrthoFrustum = syncSceneViewOrthoFrustum;
   window.__cldSetZoomMinMm = (mm) => {
     const rig = ensureCameraRig();
     rig.zoomMinDistanceMm = Math.max(0.1, Number(mm) || DEFAULT_ZOOM_MIN_DISTANCE_MM);

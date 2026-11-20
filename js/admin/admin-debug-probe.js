@@ -3,7 +3,7 @@
 (function () {
   try {
     // console.error — чтобы было видно даже при жёстких фильтрах уровней в консоли
-    console.error('[CLD][probe] admin-debug-probe.js loaded v=20260319-10');
+    console.log('[CLD][probe] admin-debug-probe.js loaded v=20260319-10');
     window.__CLD_PROBE_LOADED = '20260319-10';
   } catch (_) {}
 

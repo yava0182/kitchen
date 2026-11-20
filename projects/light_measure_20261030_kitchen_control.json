@@ -1,0 +1,98 @@
+﻿{
+    "furniture":  15,
+    "softAo":  "off",
+    "capturedAt":  "2026-10-30T23:18:42.7567813+03:00",
+    "build":  "20261030-bootfix2",
+    "ikeaFixture":  "projects/ikea_light_fixture_ikea_v0_cab.json",
+    "spotPos":  "сбоку слева",
+    "room":  {
+                 "width":  5000,
+                 "depth":  4000,
+                 "height":  2500
+             },
+    "controlFixture":  "projects/light_control_kitchen_v1_light_control_v1.json",
+    "draftUntouched":  true,
+    "modes":  [
+                  {
+                      "id":  "A",
+                      "ikeaTargetDiskDelta":  26.2,
+                      "casters":  {
+                                      "meshes":  60,
+                                      "instances":  15
+                                  },
+                      "sh":  "pax",
+                      "backLum":  193,
+                      "floorDeltaEye":  70,
+                      "backTarget":  170,
+                      "backDelta":  23,
+                      "floorCornerLum":  156,
+                      "shadowBake":  "pax-spot",
+                      "shL00":  [
+                                    0.519988,
+                                    0.517323,
+                                    0.518659
+                                ],
+                      "floorMidLum":  226,
+                      "diskLinearDisplayDelta":  24,
+                      "wallLum":  193,
+                      "punctual":  "pax-spot"
+                  },
+                  {
+                      "id":  "B",
+                      "ikeaTargetDiskDelta":  26.2,
+                      "casters":  {
+                                      "meshes":  60,
+                                      "instances":  15
+                                  },
+                      "sh":  "pax",
+                      "backLum":  193,
+                      "floorDeltaEye":  70,
+                      "backTarget":  170,
+                      "backDelta":  23,
+                      "floorCornerLum":  156,
+                      "shadowBake":  "kitchen-dir",
+                      "shL00":  [
+                                    0.519988,
+                                    0.517323,
+                                    0.518659
+                                ],
+                      "floorMidLum":  226,
+                      "diskLinearDisplayDelta":  24,
+                      "wallLum":  193,
+                      "punctual":  "kitchen-dir",
+                      "note":  "Eye pipette ≈ A; kitchen-dir bake ok but floor disk numbers unchanged vs PAX Spot at this camera"
+                  },
+                  {
+                      "id":  "C",
+                      "ikeaTargetDiskDelta":  26.2,
+                      "casters":  {
+                                      "meshes":  60,
+                                      "instances":  15
+                                  },
+                      "sh":  "kitchen",
+                      "backLum":  222,
+                      "floorDeltaEye":  64,
+                      "backTarget":  170,
+                      "backDelta":  52,
+                      "floorCornerLum":  181,
+                      "shadowBake":  "kitchen-dir",
+                      "shL00":  [
+                                    0.644675,
+                                    0.644675,
+                                    0.644675
+                                ],
+                      "floorMidLum":  245,
+                      "diskLinearDisplayDelta":  15,
+                      "wallLum":  222,
+                      "punctual":  "kitchen-dir",
+                      "note":  "Kitchen SH brighter + flatter disk (15 vs target 26.2); worse back over-bright"
+                  }
+              ],
+    "sections":  1,
+    "firstRealismImprovement":  {
+                                    "title":  "Тень полок на заднюю стенку шкафа (getShadow casters)",
+                                    "doNot":  "Не трогать Kitchen SH как первый шаг: он ещё сильнее задирает back (222) и плющит disk delta 24→15.",
+                                    "why":  "Interior pipette: back lum 193 vs IKEA target 170 (delta +23). nextKnob: back too bright — spot shelf casters shadow on back.",
+                                    "preferKeep":  "SH: PAX; Soft AO off for this layer"
+                                }
+}

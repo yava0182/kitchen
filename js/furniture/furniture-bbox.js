@@ -5,6 +5,18 @@
 // Важно (пол / 1.321): placeholder и GLB опор (не петли) должны попадать в bbox —
 // иначе низ берётся по logical pivot цоколя и шкаф парит. Не выкидывать ModelPlaceholder_*
 // оптом вместе с петлями.
+//
+// THREE — только window.THREE из index.html (не import 'three': второй инстанс + падение
+// на top-level new THREE.* до готовности глобала).
+
+function __bboxTHREE() {
+  const T =
+    (typeof window !== 'undefined' && window.THREE) ||
+    (typeof globalThis !== 'undefined' && globalThis.THREE) ||
+    null;
+  if (!T) throw new Error('[CLD] furniture-bbox: window.THREE not ready');
+  return T;
+}
 
 /**
  * @param {THREE.Object3D} obj
@@ -48,6 +60,20 @@ export function shouldExcludeMeshFromFurnitureBBox(obj) {
   ) {
     return true;
   }
+  // Стыковой крепёж (конфирмат/эксцентр) — иначе при W=500 и baked ±300
+  // раздувает bbox → столешница шире корпуса.
+  if (
+    ud.fromJointScheme ||
+    Number(ud.jointTemplateFrame) === 1 ||
+    Number(ud.jointTemplateModel) === 1 ||
+    Number(ud.joint_hardware) === 1 ||
+    Number(ud.spec?.joint_template_frame) === 1 ||
+    Number(ud.spec?.joint_template_model) === 1 ||
+    Number(ud.spec?.joint_hardware) === 1
+  ) {
+    return true;
+  }
+  if (/Конфирм|Эксцентр|Крепёж/i.test(nm)) return true;
   if (nm.includes('PivotMarker') || nm.includes('BBox')) return true;
   if (/^Hole_/i.test(nm) || /^furni_hole_/i.test(nm)) return true;
   if (/^furni_hinge_/i.test(nm)) return true;
@@ -163,11 +189,19 @@ export function shouldExcludeMeshFromZoneFitBBox(obj) {
         ud.isHingeBazisExport ||
         ud.fromDrillTemplateModel ||
         ud.cldGuideCabinetModel ||
-        /петл|hinge|присад|furni_hinge|направл/i.test(nm))
+        ud.fromJointScheme ||
+        /петл|hinge|присад|furni_hinge|направл|Конфирм|Эксцентр/i.test(nm))
     ) {
       return true;
     }
-    if (/петл|hinge|присад|furni_hinge|направл/i.test(nm)) return true;
+    if (
+      ud.fromJointScheme ||
+      Number(ud.jointTemplateFrame) === 1 ||
+      Number(ud.spec?.joint_hardware) === 1
+    ) {
+      return true;
+    }
+    if (/петл|hinge|присад|furni_hinge|направл|Конфирм|Эксцентр/i.test(nm)) return true;
     if (spec === '5' || spec === '6' || spec === '7' || spec === '8' || spec === '9' || spec === '10') {
       return true;
     }
@@ -176,7 +210,11 @@ export function shouldExcludeMeshFromZoneFitBBox(obj) {
   return false;
 }
 
-const _zoneFitCorner = new THREE.Vector3();
+let _zoneFitCorner = null;
+function zoneFitCorner() {
+  if (!_zoneFitCorner) _zoneFitCorner = new (__bboxTHREE()).Vector3();
+  return _zoneFitCorner;
+}
 
 /** Только геометрия этого mesh, без потомков (петля GLB часто висит на боковине). */
 function expandWorldBoxByMeshSelf(out, mesh) {
@@ -188,13 +226,14 @@ function expandWorldBoxByMeshSelf(out, mesh) {
   const min = bb.min;
   const max = bb.max;
   const wp = mesh.matrixWorld;
+  const corner = zoneFitCorner();
   for (let ix = 0; ix <= 1; ix++) {
     for (let iy = 0; iy <= 1; iy++) {
       for (let iz = 0; iz <= 1; iz++) {
-        _zoneFitCorner
+        corner
           .set(ix ? max.x : min.x, iy ? max.y : min.y, iz ? max.z : min.z)
           .applyMatrix4(wp);
-        out.expandByPoint(_zoneFitCorner);
+        out.expandByPoint(corner);
       }
     }
   }
@@ -205,6 +244,7 @@ function expandWorldBoxByMeshSelf(out, mesh) {
  * Bbox посадки ниши = корпус+фасад без петель/ручек (в т.ч. до тегов на GLB).
  */
 export function computeFurnitureZoneFitWorldBBox(root) {
+  const THREE = __bboxTHREE();
   const out = new THREE.Box3();
   let has = false;
   if (!root) return out;
@@ -232,6 +272,8 @@ function isFacadeLayoutBranch(obj) {
     const pud = p.userData || {};
     const lr = String(pud.layoutRole || '').toLowerCase();
     if (/^facades/.test(lr) || lr === 'facades') return true;
+    // Угловая планка / нащельник — впереди корпуса (+40 к столешнице), не в глубине корпуса.
+    if (lr === 'corner_post') return true;
     if (pud.isFacade && !pud.isBody) return true;
     p = p.parent;
   }
@@ -252,7 +294,18 @@ function resolveMeshDetailTypeId(obj) {
   return '';
 }
 
-function isCorpusShellMeshForLayout(obj) {
+function isUnderLayoutRoles(obj, roles) {
+  const set = roles instanceof Set ? roles : new Set(roles);
+  let p = obj?.parent;
+  for (let i = 0; i < 24 && p; i++) {
+    const lr = String(p.userData?.layoutRole || '').toLowerCase();
+    if (lr && set.has(lr)) return true;
+    p = p.parent;
+  }
+  return false;
+}
+
+function isCorpusShellMeshForLayout(obj, opts = {}) {
   if (!obj?.isMesh || shouldExcludeMeshFromFurnitureBBox(obj)) return false;
   if (isFacadeHandleObject(obj)) return false;
   if (isFacadeLayoutBranch(obj)) return false;
@@ -260,12 +313,34 @@ function isCorpusShellMeshForLayout(obj) {
   if (dt === 'horizontal_top' || dt === 'horizontal_bottom') return false;
   const ud = obj.userData || {};
   if (ud.isFacade && !ud.isBody) return false;
+  // Сначала роли предков: иначе isBody у стен приставки попадает в Z-scale корпуса.
+  if (isUnderLayoutRoles(obj, ['top', 'corner_post'])) return false;
+  if (opts.forDepthScale && isUnderLayoutRoles(obj, ['corner_return'])) return false;
+  // Столешка без layout_role:top (старые карточки) — не в corpus Z.
+  if (opts.forDepthScale) {
+    let pTt = obj;
+    for (let i = 0; i < 16 && pTt; i++) {
+      const nm = String(pTt.name || pTt.userData?.name || '');
+      const et = String(pTt.userData?.elementType || pTt.userData?.catalogType || '').toLowerCase();
+      if (/столеш/i.test(nm) || et === 'catalog_53' || pTt.userData?.isKitchenWorktop) {
+        return false;
+      }
+      pTt = pTt.parent;
+    }
+  }
   if (ud.isBody === true || ud.isDetail === true) return true;
   let p = obj.parent;
   for (let i = 0; i < 24 && p; i++) {
     const lr = String(p.userData?.layoutRole || '').toLowerCase();
     if (lr === 'top') return false;
-    if (['plinth', 'corpus', 'corpus_antresol', 'service'].includes(lr)) return true;
+    if (lr === 'corner_post') return false;
+    if (opts.forDepthScale && lr === 'corner_return') return false;
+    // corner_return в layout X (соседи / спец-ячейка); в forDepthScale уже отсечён выше.
+    if (
+      ['plinth', 'corpus', 'corpus_antresol', 'service', 'corner_return'].includes(lr)
+    ) {
+      return true;
+    }
     p = p.parent;
   }
   return false;
@@ -274,15 +349,17 @@ function isCorpusShellMeshForLayout(obj) {
 /**
  * Bbox корпуса для посадки тумбы в зону (без facades и без верхней крышки s:x).
  * @param {THREE.Object3D} root
+ * @param {{ forDepthScale?: boolean }} [opts] forDepthScale — без corner_return (не жать Z).
  * @returns {THREE.Box3}
  */
-export function computeFurnitureCorpusLayoutWorldBBoxNoAo(root) {
+export function computeFurnitureCorpusLayoutWorldBBoxNoAo(root, opts = {}) {
+  const THREE = __bboxTHREE();
   const out = new THREE.Box3();
   let has = false;
   if (!root) return out;
   root.updateMatrixWorld(true);
   root.traverse((obj) => {
-    if (!isCorpusShellMeshForLayout(obj)) return;
+    if (!isCorpusShellMeshForLayout(obj, opts)) return;
     try {
       const b = new THREE.Box3();
       if (!expandWorldBoxByMeshSelf(b, obj) || b.isEmpty()) return;
@@ -305,6 +382,7 @@ export function computeFurnitureCorpusLayoutWorldBBoxNoAo(root) {
  * @returns {THREE.Box3}
  */
 export function computeFurnitureLayoutWorldBBoxNoAo(root) {
+  const THREE = __bboxTHREE();
   const out = new THREE.Box3();
   let has = false;
   if (!root) return out;
@@ -332,6 +410,7 @@ export function computeFurnitureLayoutWorldBBoxNoAo(root) {
  * @returns {THREE.Box3}
  */
 export function computeFurnitureWorldBBoxNoAo(root) {
+  const THREE = __bboxTHREE();
   const out = new THREE.Box3();
   let has = false;
   if (!root) return out;

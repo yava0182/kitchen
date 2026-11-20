@@ -19,14 +19,31 @@ function pickFirst(obj, keys) {
   return undefined;
 }
 
+function coerceClodisTree(v) {
+  if (v == null) return undefined;
+  if (typeof v === 'string') {
+    try {
+      v = JSON.parse(v);
+    } catch (_) {
+      return undefined;
+    }
+  }
+  if (Array.isArray(v)) return v;
+  if (v && typeof v === 'object' && Array.isArray(v.children)) return v.children;
+  if (v && typeof v === 'object' && Array.isArray(v.template?.structure)) {
+    return v.template.structure;
+  }
+  return undefined;
+}
+
 function readClodisJSON(obj) {
   if (!obj || typeof obj !== 'object') return undefined;
   if (Array.isArray(obj)) return obj;
   const keys = [CLODIS_JSON_KEY, STORAGE_JSON_KEY_V1];
-  let v = pickFirst(obj, keys);
+  let v = coerceClodisTree(pickFirst(obj, keys));
   if (v != null) return v;
   if (obj.data && typeof obj.data === 'object') {
-    v = pickFirst(obj.data, keys);
+    v = coerceClodisTree(pickFirst(obj.data, keys));
     if (v != null) return v;
   }
   return undefined;

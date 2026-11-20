@@ -18,12 +18,39 @@
 
   function isHangPlacement(pk) {
     const s = String(pk || '').trim();
-    return s === 'wall_hung' || s === 'wall_hung_low' || s === 'wall_hung_high';
+    return (
+      s === 'wall_hung' ||
+      s === 'wall_hung_low' ||
+      s === 'wall_hung_high' ||
+      s === 'kitchen_wall_mid' ||
+      s === 'kitchen_wall_top' ||
+      s === 'kitchen_wall_corner'
+    );
   }
 
   function isDrawerFamilyPlacement(pk) {
     const s = String(pk || '').trim();
     return s === 'standalone_floor' || isHangPlacement(s);
+  }
+
+  /** Кухня: три высоты опор. 50 мм у кнопки — отступ от угла, не высота. */
+  var KITCHEN_SUPPORT_HEIGHTS_MM = [100, 120, 150];
+
+  function isKitchenBasePlacement(pk) {
+    const s = String(pk || '').trim();
+    return s === 'kitchen_base' || s === 'kitchen_base_gola';
+  }
+
+  function snapKitchenSupportMm(v) {
+    const n = Math.round(num(v, 100));
+    if (KITCHEN_SUPPORT_HEIGHTS_MM.indexOf(n) >= 0) return n;
+    let best = KITCHEN_SUPPORT_HEIGHTS_MM[0];
+    for (let i = 1; i < KITCHEN_SUPPORT_HEIGHTS_MM.length; i += 1) {
+      if (Math.abs(KITCHEN_SUPPORT_HEIGHTS_MM[i] - n) < Math.abs(best - n)) {
+        best = KITCHEN_SUPPORT_HEIGHTS_MM[i];
+      }
+    }
+    return best;
   }
 
   function walkNodes(nodes, fn) {
@@ -242,6 +269,19 @@
     const isTumba = pk === 'standalone_floor';
     const isFamily = isHang || isTumba;
 
+    // Стол: опора не съедает корпус 720. h_bottom — отдельный слой снизу (100/120/150).
+    if (isKitchenBasePlacement(pk)) {
+      let raw = num(vueItem.clodisVariables?.h_bottom, 100);
+      try {
+        const sel = document.getElementById('catalog-constructor-kitchen-leg-height');
+        if (sel && sel.value) raw = sel.value;
+      } catch (_) {}
+      const hb = snapKitchenSupportMm(raw);
+      result.changed = setHBottomOnVueAndDom(vueItem, hb) || result.changed;
+      result.h_bottom = hb;
+      return result;
+    }
+
     if (hasPlinth) {
       result.changed = setHBottomOnVueAndDom(vueItem, inferPlinthHeightMm(tree)) || result.changed;
       result.h_bottom = num(vueItem.clodisVariables?.h_bottom, 100);
@@ -293,6 +333,9 @@
     applyModuleProfileFromUi,
     isHangPlacement,
     isDrawerFamilyPlacement,
+    isKitchenBasePlacement,
+    snapKitchenSupportMm,
+    KITCHEN_SUPPORT_HEIGHTS_MM,
     hasLayoutRole,
   };
 })();

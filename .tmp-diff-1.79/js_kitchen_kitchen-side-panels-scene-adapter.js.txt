@@ -1,0 +1,27 @@
+﻿FILE js\kitchen\kitchen-side-panels-scene-adapter.js
+onlyIn1.79 count=23
+import { isKitchenSectionLayoutActive } from './kitchen-section-layout.js?v=BUST';
+const _SIDE_TRIM_MESH_RE = /^(SideOverlay|SidePlank)(Left|Right|Front|Back)$/;
+/** Есть ли на секции реальные SideOverlay/SidePlank (не predict). */
+function _sectionHasSideTrimMeshes(sectionData) {
+  const g = sectionData?.group;
+  if (!g || typeof g.traverse !== 'function') return false;
+  let found = false;
+  g.traverse((obj) => {
+    if (found) return;
+    const n = String(obj?.name || '');
+    if (_SIDE_TRIM_MESH_RE.test(n)) {
+      found = true;
+      return;
+    const ud = obj?.userData;
+    if (ud?.isSideOverlay || ud?.isSidePlank) found = true;
+  return found;
+ * Кухня: SideOverlay/SidePlank намеренно не строятся (addSidePlanksIfNeeded early-return).
+ * Detect=none + predict≠none тогда не «unconfirmed trim», а отсутствие wardrobe-trim.
+function _kitchenConfirmedNoWardrobeSideTrim(sectionData) {
+    if (typeof isKitchenSectionLayoutActive !== 'function' || !isKitchenSectionLayoutActive()) {
+      return false;
+    return false;
+  return !_sectionHasSideTrimMeshes(sectionData);
+----
+onlyInCurrent count=0

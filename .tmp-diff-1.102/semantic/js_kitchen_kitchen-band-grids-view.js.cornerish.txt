@@ -1,0 +1,9 @@
+﻿FILE js\kitchen\kitchen-band-grids-view.js
+onlyIn1.102 cornerish=2
+    // Низ: спец 1050 × столешка 600.
+            Number(resolveKitchenCornerSpecialWidthMm()) || 1050
+----
+onlyInCurrent cornerish=3
+    // Низ: спец = сетка/Joint (канон 1050 или карандаш). Не форсить 1050 при W<900.
+        // W из сетки/Joint (1050 или карандаш); layout уже не травит auto-600.
+        const specialW = ww >= 300 && ww <= 1200 ? ww : 1050;

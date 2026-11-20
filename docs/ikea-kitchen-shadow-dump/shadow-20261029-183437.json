@@ -1,0 +1,1774 @@
+{
+  "at": "2026-10-29T15:32:59.887Z",
+  "url": "https://kitchen.planner.ikea.com/lv/ru/planner/",
+  "headed": false,
+  "steps": [
+    {
+      "step": "shell-modals",
+      "log": [
+        {
+          "label": "Убрать уведомление",
+          "ok": false,
+          "err": "locator.click: Timeout 3000ms exceeded.\nCall log:\n  - waiting for getByText('Убрать уведомление').first()\n    - locator resolved to <span class=\"btn__label\">Убр"
+        },
+        {
+          "label": "Принять",
+          "ok": true,
+          "how": "role"
+        },
+        {
+          "label": "Accept",
+          "ok": false
+        },
+        {
+          "label": "OK",
+          "ok": false
+        },
+        {
+          "label": "Agree",
+          "ok": false
+        }
+      ]
+    }
+  ],
+  "plannerFrameUrl": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV",
+  "probeBeforeClicks": {
+    "when": "2026-10-29T15:33:26.370Z",
+    "url": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV",
+    "hasBetraktaViewer": false,
+    "engines": {
+      "BABYLON": false,
+      "babylonVersion": null,
+      "THREE": false,
+      "unityInstance": false,
+      "hasUnitySendMessage": false,
+      "Module": false
+    },
+    "canvases": [
+      {
+        "w": 1400,
+        "h": 754,
+        "id": "canvas",
+        "cls": null
+      }
+    ],
+    "windowKeys": []
+  },
+  "stages": [
+    {
+      "name": "close-shape-modal",
+      "err": "Cannot read properties of undefined (reading 'press')",
+      "shot": "D:\\Clodis-Kitchen\\docs\\ikea-kitchen-shadow-dump\\stage-close-shape-modal-20261029-183330.png",
+      "uiBefore": {
+        "btns": [
+          {
+            "t": "Go back",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Задайте форму и размер комнаты",
+            "aria": null,
+            "id": "step-floorplan"
+          },
+          {
+            "t": "Выбрать готовый вариант",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Добавьте индивидуальности",
+            "aria": null,
+            "id": "step-design"
+          },
+          {
+            "t": "Итог",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Item notes",
+            "aria": "Заметки",
+            "id": null
+          },
+          {
+            "t": "See product list",
+            "aria": "Посмотреть список товаров",
+            "id": null
+          },
+          {
+            "t": "Измерить",
+            "aria": "Линейка",
+            "id": null
+          },
+          {
+            "t": "Отменить",
+            "aria": "Отменить",
+            "id": null
+          },
+          {
+            "t": "Повторить",
+            "aria": "Повторить",
+            "id": null
+          },
+          {
+            "t": "Сохранить",
+            "aria": "Сохранить проект",
+            "id": null
+          },
+          {
+            "t": "Закрыть",
+            "aria": "Закрыть",
+            "id": "close-app"
+          },
+          {
+            "t": "Нарисовать форму",
+            "aria": null,
+            "id": "import-plan"
+          },
+          {
+            "t": "Нарисовать план",
+            "aria": null,
+            "id": "draw-plan"
+          },
+          {
+            "t": "Объекты",
+            "aria": null,
+            "id": "objects"
+          },
+          {
+            "t": "Проёмы",
+            "aria": null,
+            "id": "openings"
+          },
+          {
+            "t": "Поиск",
+            "aria": null,
+            "id": "search"
+          },
+          {
+            "t": "Вывод воды",
+            "aria": null,
+            "id": "WaterSupply"
+          },
+          {
+            "t": "",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Продолжить",
+            "aria": null,
+            "id": "go-to-auto-design"
+          },
+          {
+            "t": "",
+            "aria": null,
+            "id": "zoom-in"
+          },
+          {
+            "t": "",
+            "aria": null,
+            "id": "zoom-out"
+          },
+          {
+            "t": "",
+            "aria": "Другие варианты",
+            "id": null
+          },
+          {
+            "t": "Вид на этаж",
+            "aria": "Вид на этаж",
+            "id": null
+          },
+          {
+            "t": "",
+            "aria": "Вид спереди",
+            "id": null
+          },
+          {
+            "t": "",
+            "aria": "Трехмерный вид",
+            "id": null
+          },
+          {
+            "t": "",
+            "aria": "Виртуальный визит",
+            "id": null
+          },
+          {
+            "t": "Новые уведомления",
+            "aria": "Помощь",
+            "id": "show-help"
+          },
+          {
+            "t": "Подсказки по инструментам",
+            "aria": null,
+            "id": "bt-tab-help-center-1"
+          },
+          {
+            "t": "Советы по проекту",
+            "aria": null,
+            "id": "bt-tab-help-center-2"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Начать с формы tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Создать кухню открытого типа tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Добавить недвижимый объект tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Разместите вывод воды tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Изменить высоту потолка tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Изменить стену или угол tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Изменить размеры вашего пространства tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Разместите ваши двери и окна tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Close",
+            "aria": "Закрыть",
+            "id": null
+          }
+        ],
+        "modalOpen": true,
+        "modalText": "Другие варианты\nПоказать все товары",
+        "bodyText": "Error\nWe've encountered an error. Refresh the application\nGo back\nЗадайте форму и размер комнаты\nВыбрать готовый вариант\nДобавьте индивидуальности\nИтог\nItem notes\nSee product list\nИзмерить\nОтменить\nПовторить\nСохранить\nЗакрыть\nНарисовать форму\nНарисовать план\nОбъекты\nПроёмы\nПоиск\nВывод воды\nВысота по"
+      },
+      "uiAfter": {
+        "btns": [
+          {
+            "t": "Go back",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Задайте форму и размер комнаты",
+            "aria": null,
+            "id": "step-floorplan"
+          },
+          {
+            "t": "Выбрать готовый вариант",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Добавьте индивидуальности",
+            "aria": null,
+            "id": "step-design"
+          },
+          {
+            "t": "Итог",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Item notes",
+            "aria": "Заметки",
+            "id": null
+          },
+          {
+            "t": "See product list",
+            "aria": "Посмотреть список товаров",
+            "id": null
+          },
+          {
+            "t": "Измерить",
+            "aria": "Линейка",
+            "id": null
+          },
+          {
+            "t": "Отменить",
+            "aria": "Отменить",
+            "id": null
+          },
+          {
+            "t": "Повторить",
+            "aria": "Повторить",
+            "id": null
+          },
+          {
+            "t": "Сохранить",
+            "aria": "Сохранить проект",
+            "id": null
+          },
+          {
+            "t": "Закрыть",
+            "aria": "Закрыть",
+            "id": "close-app"
+          },
+          {
+            "t": "Нарисовать форму",
+            "aria": null,
+            "id": "import-plan"
+          },
+          {
+            "t": "Нарисовать план",
+            "aria": null,
+            "id": "draw-plan"
+          },
+          {
+            "t": "Объекты",
+            "aria": null,
+            "id": "objects"
+          },
+          {
+            "t": "Проёмы",
+            "aria": null,
+            "id": "openings"
+          },
+          {
+            "t": "Поиск",
+            "aria": null,
+            "id": "search"
+          },
+          {
+            "t": "Вывод воды",
+            "aria": null,
+            "id": "WaterSupply"
+          },
+          {
+            "t": "",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Продолжить",
+            "aria": null,
+            "id": "go-to-auto-design"
+          },
+          {
+            "t": "",
+            "aria": null,
+            "id": "zoom-in"
+          },
+          {
+            "t": "",
+            "aria": null,
+            "id": "zoom-out"
+          },
+          {
+            "t": "",
+            "aria": "Другие варианты",
+            "id": null
+          },
+          {
+            "t": "Вид на этаж",
+            "aria": "Вид на этаж",
+            "id": null
+          },
+          {
+            "t": "",
+            "aria": "Вид спереди",
+            "id": null
+          },
+          {
+            "t": "",
+            "aria": "Трехмерный вид",
+            "id": null
+          },
+          {
+            "t": "",
+            "aria": "Виртуальный визит",
+            "id": null
+          },
+          {
+            "t": "Новые уведомления",
+            "aria": "Помощь",
+            "id": "show-help"
+          },
+          {
+            "t": "Подсказки по инструментам",
+            "aria": null,
+            "id": "bt-tab-help-center-1"
+          },
+          {
+            "t": "Советы по проекту",
+            "aria": null,
+            "id": "bt-tab-help-center-2"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Начать с формы tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Создать кухню открытого типа tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Добавить недвижимый объект tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Разместите вывод воды tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Изменить высоту потолка tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Изменить стену или угол tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Изменить размеры вашего пространства tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Разместите ваши двери и окна tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Close",
+            "aria": "Закрыть",
+            "id": null
+          }
+        ],
+        "modalOpen": true,
+        "modalText": "Другие варианты\nПоказать все товары",
+        "bodyText": "Error\nWe've encountered an error. Refresh the application\nGo back\nЗадайте форму и размер комнаты\nВыбрать готовый вариант\nДобавьте индивидуальности\nИтог\nItem notes\nSee product list\nИзмерить\nОтменить\nПовторить\nСохранить\nЗакрыть\nНарисовать форму\nНарисовать план\nОбъекты\nПроёмы\nПоиск\nВывод воды\nВысота по"
+      }
+    },
+    {
+      "name": "go-to-auto-design",
+      "err": "locator.click: Timeout 5000ms exceeded.\nCall log:\n  - waiting for locator('#go-to-auto-design').first()\n    - locator resolved to <button data-step=\"2\" id=\"go-to-auto-design\" class=\"cta-primary-alt-l\"",
+      "shot": "D:\\Clodis-Kitchen\\docs\\ikea-kitchen-shadow-dump\\stage-go-to-auto-design-20261029-183339.png",
+      "uiBefore": {
+        "btns": [
+          {
+            "t": "Go back",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Задайте форму и размер комнаты",
+            "aria": null,
+            "id": "step-floorplan"
+          },
+          {
+            "t": "Выбрать готовый вариант",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Добавьте индивидуальности",
+            "aria": null,
+            "id": "step-design"
+          },
+          {
+            "t": "Итог",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Item notes",
+            "aria": "Заметки",
+            "id": null
+          },
+          {
+            "t": "See product list",
+            "aria": "Посмотреть список товаров",
+            "id": null
+          },
+          {
+            "t": "Измерить",
+            "aria": "Линейка",
+            "id": null
+          },
+          {
+            "t": "Отменить",
+            "aria": "Отменить",
+            "id": null
+          },
+          {
+            "t": "Повторить",
+            "aria": "Повторить",
+            "id": null
+          },
+          {
+            "t": "Сохранить",
+            "aria": "Сохранить проект",
+            "id": null
+          },
+          {
+            "t": "Закрыть",
+            "aria": "Закрыть",
+            "id": "close-app"
+          },
+          {
+            "t": "Нарисовать форму",
+            "aria": null,
+            "id": "import-plan"
+          },
+          {
+            "t": "Нарисовать план",
+            "aria": null,
+            "id": "draw-plan"
+          },
+          {
+            "t": "Объекты",
+            "aria": null,
+            "id": "objects"
+          },
+          {
+            "t": "Проёмы",
+            "aria": null,
+            "id": "openings"
+          },
+          {
+            "t": "Поиск",
+            "aria": null,
+            "id": "search"
+          },
+          {
+            "t": "Вывод воды",
+            "aria": null,
+            "id": "WaterSupply"
+          },
+          {
+            "t": "",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Продолжить",
+            "aria": null,
+            "id": "go-to-auto-design"
+          },
+          {
+            "t": "",
+            "aria": null,
+            "id": "zoom-in"
+          },
+          {
+            "t": "",
+            "aria": null,
+            "id": "zoom-out"
+          },
+          {
+            "t": "",
+            "aria": "Другие варианты",
+            "id": null
+          },
+          {
+            "t": "Вид на этаж",
+            "aria": "Вид на этаж",
+            "id": null
+          },
+          {
+            "t": "",
+            "aria": "Вид спереди",
+            "id": null
+          },
+          {
+            "t": "",
+            "aria": "Трехмерный вид",
+            "id": null
+          },
+          {
+            "t": "",
+            "aria": "Виртуальный визит",
+            "id": null
+          },
+          {
+            "t": "Новые уведомления",
+            "aria": "Помощь",
+            "id": "show-help"
+          },
+          {
+            "t": "Подсказки по инструментам",
+            "aria": null,
+            "id": "bt-tab-help-center-1"
+          },
+          {
+            "t": "Советы по проекту",
+            "aria": null,
+            "id": "bt-tab-help-center-2"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Начать с формы tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Создать кухню открытого типа tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Добавить недвижимый объект tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Разместите вывод воды tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Изменить высоту потолка tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Изменить стену или угол tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Изменить размеры вашего пространства tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Разместите ваши двери и окна tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Close",
+            "aria": "Закрыть",
+            "id": null
+          }
+        ],
+        "modalOpen": true,
+        "modalText": "Другие варианты\nПоказать все товары",
+        "bodyText": "Error\nWe've encountered an error. Refresh the application\nGo back\nЗадайте форму и размер комнаты\nВыбрать готовый вариант\nДобавьте индивидуальности\nИтог\nItem notes\nSee product list\nИзмерить\nОтменить\nПовторить\nСохранить\nЗакрыть\nНарисовать форму\nНарисовать план\nОбъекты\nПроёмы\nПоиск\nВывод воды\nВысота по"
+      },
+      "uiAfter": {
+        "btns": [
+          {
+            "t": "Go back",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Задайте форму и размер комнаты",
+            "aria": null,
+            "id": "step-floorplan"
+          },
+          {
+            "t": "Выбрать готовый вариант",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Добавьте индивидуальности",
+            "aria": null,
+            "id": "step-design"
+          },
+          {
+            "t": "Итог",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Item notes",
+            "aria": "Заметки",
+            "id": null
+          },
+          {
+            "t": "See product list",
+            "aria": "Посмотреть список товаров",
+            "id": null
+          },
+          {
+            "t": "Измерить",
+            "aria": "Линейка",
+            "id": null
+          },
+          {
+            "t": "Отменить",
+            "aria": "Отменить",
+            "id": null
+          },
+          {
+            "t": "Повторить",
+            "aria": "Повторить",
+            "id": null
+          },
+          {
+            "t": "Сохранить",
+            "aria": "Сохранить проект",
+            "id": null
+          },
+          {
+            "t": "Закрыть",
+            "aria": "Закрыть",
+            "id": "close-app"
+          },
+          {
+            "t": "Нарисовать форму",
+            "aria": null,
+            "id": "import-plan"
+          },
+          {
+            "t": "Нарисовать план",
+            "aria": null,
+            "id": "draw-plan"
+          },
+          {
+            "t": "Объекты",
+            "aria": null,
+            "id": "objects"
+          },
+          {
+            "t": "Проёмы",
+            "aria": null,
+            "id": "openings"
+          },
+          {
+            "t": "Поиск",
+            "aria": null,
+            "id": "search"
+          },
+          {
+            "t": "Вывод воды",
+            "aria": null,
+            "id": "WaterSupply"
+          },
+          {
+            "t": "",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Продолжить",
+            "aria": null,
+            "id": "go-to-auto-design"
+          },
+          {
+            "t": "",
+            "aria": null,
+            "id": "zoom-in"
+          },
+          {
+            "t": "",
+            "aria": null,
+            "id": "zoom-out"
+          },
+          {
+            "t": "",
+            "aria": "Другие варианты",
+            "id": null
+          },
+          {
+            "t": "Вид на этаж",
+            "aria": "Вид на этаж",
+            "id": null
+          },
+          {
+            "t": "",
+            "aria": "Вид спереди",
+            "id": null
+          },
+          {
+            "t": "",
+            "aria": "Трехмерный вид",
+            "id": null
+          },
+          {
+            "t": "",
+            "aria": "Виртуальный визит",
+            "id": null
+          },
+          {
+            "t": "Новые уведомления",
+            "aria": "Помощь",
+            "id": "show-help"
+          },
+          {
+            "t": "Подсказки по инструментам",
+            "aria": null,
+            "id": "bt-tab-help-center-1"
+          },
+          {
+            "t": "Советы по проекту",
+            "aria": null,
+            "id": "bt-tab-help-center-2"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Начать с формы tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Создать кухню открытого типа tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Добавить недвижимый объект tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Разместите вывод воды tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Изменить высоту потолка tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Изменить стену или угол tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Изменить размеры вашего пространства tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Разместите ваши двери и окна tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Close",
+            "aria": "Закрыть",
+            "id": null
+          }
+        ],
+        "modalOpen": true,
+        "modalText": "Другие варианты\nПоказать все товары",
+        "bodyText": "Error\nWe've encountered an error. Refresh the application\nGo back\nЗадайте форму и размер комнаты\nВыбрать готовый вариант\nДобавьте индивидуальности\nИтог\nItem notes\nSee product list\nИзмерить\nОтменить\nПовторить\nСохранить\nЗакрыть\nНарисовать форму\nНарисовать план\nОбъекты\nПроёмы\nПоиск\nВывод воды\nВысота по"
+      }
+    },
+    {
+      "name": "wait-auto-design",
+      "err": null,
+      "shot": "D:\\Clodis-Kitchen\\docs\\ikea-kitchen-shadow-dump\\stage-wait-auto-design-20261029-183403.png",
+      "uiBefore": {
+        "btns": [
+          {
+            "t": "Go back",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Задайте форму и размер комнаты",
+            "aria": null,
+            "id": "step-floorplan"
+          },
+          {
+            "t": "Выбрать готовый вариант",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Добавьте индивидуальности",
+            "aria": null,
+            "id": "step-design"
+          },
+          {
+            "t": "Итог",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Item notes",
+            "aria": "Заметки",
+            "id": null
+          },
+          {
+            "t": "See product list",
+            "aria": "Посмотреть список товаров",
+            "id": null
+          },
+          {
+            "t": "Измерить",
+            "aria": "Линейка",
+            "id": null
+          },
+          {
+            "t": "Отменить",
+            "aria": "Отменить",
+            "id": null
+          },
+          {
+            "t": "Повторить",
+            "aria": "Повторить",
+            "id": null
+          },
+          {
+            "t": "Сохранить",
+            "aria": "Сохранить проект",
+            "id": null
+          },
+          {
+            "t": "Закрыть",
+            "aria": "Закрыть",
+            "id": "close-app"
+          },
+          {
+            "t": "Нарисовать форму",
+            "aria": null,
+            "id": "import-plan"
+          },
+          {
+            "t": "Нарисовать план",
+            "aria": null,
+            "id": "draw-plan"
+          },
+          {
+            "t": "Объекты",
+            "aria": null,
+            "id": "objects"
+          },
+          {
+            "t": "Проёмы",
+            "aria": null,
+            "id": "openings"
+          },
+          {
+            "t": "Поиск",
+            "aria": null,
+            "id": "search"
+          },
+          {
+            "t": "Вывод воды",
+            "aria": null,
+            "id": "WaterSupply"
+          },
+          {
+            "t": "",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Продолжить",
+            "aria": null,
+            "id": "go-to-auto-design"
+          },
+          {
+            "t": "",
+            "aria": null,
+            "id": "zoom-in"
+          },
+          {
+            "t": "",
+            "aria": null,
+            "id": "zoom-out"
+          },
+          {
+            "t": "",
+            "aria": "Другие варианты",
+            "id": null
+          },
+          {
+            "t": "Вид на этаж",
+            "aria": "Вид на этаж",
+            "id": null
+          },
+          {
+            "t": "",
+            "aria": "Вид спереди",
+            "id": null
+          },
+          {
+            "t": "",
+            "aria": "Трехмерный вид",
+            "id": null
+          },
+          {
+            "t": "",
+            "aria": "Виртуальный визит",
+            "id": null
+          },
+          {
+            "t": "Новые уведомления",
+            "aria": "Помощь",
+            "id": "show-help"
+          },
+          {
+            "t": "Подсказки по инструментам",
+            "aria": null,
+            "id": "bt-tab-help-center-1"
+          },
+          {
+            "t": "Советы по проекту",
+            "aria": null,
+            "id": "bt-tab-help-center-2"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Начать с формы tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Создать кухню открытого типа tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Добавить недвижимый объект tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Разместите вывод воды tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Изменить высоту потолка tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Изменить стену или угол tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Изменить размеры вашего пространства tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Разместите ваши двери и окна tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Close",
+            "aria": "Закрыть",
+            "id": null
+          }
+        ],
+        "modalOpen": true,
+        "modalText": "Другие варианты\nПоказать все товары",
+        "bodyText": "Error\nWe've encountered an error. Refresh the application\nGo back\nЗадайте форму и размер комнаты\nВыбрать готовый вариант\nДобавьте индивидуальности\nИтог\nItem notes\nSee product list\nИзмерить\nОтменить\nПовторить\nСохранить\nЗакрыть\nНарисовать форму\nНарисовать план\nОбъекты\nПроёмы\nПоиск\nВывод воды\nВысота по"
+      },
+      "uiAfter": {
+        "btns": [
+          {
+            "t": "Go back",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Задайте форму и размер комнаты",
+            "aria": null,
+            "id": "step-floorplan"
+          },
+          {
+            "t": "Выбрать готовый вариант",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Добавьте индивидуальности",
+            "aria": null,
+            "id": "step-design"
+          },
+          {
+            "t": "Итог",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Item notes",
+            "aria": "Заметки",
+            "id": null
+          },
+          {
+            "t": "See product list",
+            "aria": "Посмотреть список товаров",
+            "id": null
+          },
+          {
+            "t": "Измерить",
+            "aria": "Линейка",
+            "id": null
+          },
+          {
+            "t": "Отменить",
+            "aria": "Отменить",
+            "id": null
+          },
+          {
+            "t": "Повторить",
+            "aria": "Повторить",
+            "id": null
+          },
+          {
+            "t": "Сохранить",
+            "aria": "Сохранить проект",
+            "id": null
+          },
+          {
+            "t": "Закрыть",
+            "aria": "Закрыть",
+            "id": "close-app"
+          },
+          {
+            "t": "Нарисовать форму",
+            "aria": null,
+            "id": "import-plan"
+          },
+          {
+            "t": "Нарисовать план",
+            "aria": null,
+            "id": "draw-plan"
+          },
+          {
+            "t": "Объекты",
+            "aria": null,
+            "id": "objects"
+          },
+          {
+            "t": "Проёмы",
+            "aria": null,
+            "id": "openings"
+          },
+          {
+            "t": "Поиск",
+            "aria": null,
+            "id": "search"
+          },
+          {
+            "t": "Вывод воды",
+            "aria": null,
+            "id": "WaterSupply"
+          },
+          {
+            "t": "",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Продолжить",
+            "aria": null,
+            "id": "go-to-auto-design"
+          },
+          {
+            "t": "",
+            "aria": null,
+            "id": "zoom-in"
+          },
+          {
+            "t": "",
+            "aria": null,
+            "id": "zoom-out"
+          },
+          {
+            "t": "",
+            "aria": "Другие варианты",
+            "id": null
+          },
+          {
+            "t": "Вид на этаж",
+            "aria": "Вид на этаж",
+            "id": null
+          },
+          {
+            "t": "",
+            "aria": "Вид спереди",
+            "id": null
+          },
+          {
+            "t": "",
+            "aria": "Трехмерный вид",
+            "id": null
+          },
+          {
+            "t": "",
+            "aria": "Виртуальный визит",
+            "id": null
+          },
+          {
+            "t": "Новые уведомления",
+            "aria": "Помощь",
+            "id": "show-help"
+          },
+          {
+            "t": "Подсказки по инструментам",
+            "aria": null,
+            "id": "bt-tab-help-center-1"
+          },
+          {
+            "t": "Советы по проекту",
+            "aria": null,
+            "id": "bt-tab-help-center-2"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Начать с формы tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Создать кухню открытого типа tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Добавить недвижимый объект tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Разместите вывод воды tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Изменить высоту потолка tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Изменить стену или угол tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Изменить размеры вашего пространства tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Разместите ваши двери и окна tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Close",
+            "aria": "Закрыть",
+            "id": null
+          }
+        ],
+        "modalOpen": true,
+        "modalText": "Другие варианты\nПоказать все товары",
+        "bodyText": "Error\nWe've encountered an error. Refresh the application\nGo back\nЗадайте форму и размер комнаты\nВыбрать готовый вариант\nДобавьте индивидуальности\nИтог\nItem notes\nSee product list\nИзмерить\nОтменить\nПовторить\nСохранить\nЗакрыть\nНарисовать форму\nНарисовать план\nОбъекты\nПроёмы\nПоиск\nВывод воды\nВысота по"
+      }
+    },
+    {
+      "name": "view-3d",
+      "err": null,
+      "shot": "D:\\Clodis-Kitchen\\docs\\ikea-kitchen-shadow-dump\\stage-view-3d-20261029-183418.png",
+      "uiBefore": {
+        "btns": [
+          {
+            "t": "Go back",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Задайте форму и размер комнаты",
+            "aria": null,
+            "id": "step-floorplan"
+          },
+          {
+            "t": "Выбрать готовый вариант",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Добавьте индивидуальности",
+            "aria": null,
+            "id": "step-design"
+          },
+          {
+            "t": "Итог",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Item notes",
+            "aria": "Заметки",
+            "id": null
+          },
+          {
+            "t": "See product list",
+            "aria": "Посмотреть список товаров",
+            "id": null
+          },
+          {
+            "t": "Измерить",
+            "aria": "Линейка",
+            "id": null
+          },
+          {
+            "t": "Отменить",
+            "aria": "Отменить",
+            "id": null
+          },
+          {
+            "t": "Повторить",
+            "aria": "Повторить",
+            "id": null
+          },
+          {
+            "t": "Сохранить",
+            "aria": "Сохранить проект",
+            "id": null
+          },
+          {
+            "t": "Закрыть",
+            "aria": "Закрыть",
+            "id": "close-app"
+          },
+          {
+            "t": "Нарисовать форму",
+            "aria": null,
+            "id": "import-plan"
+          },
+          {
+            "t": "Нарисовать план",
+            "aria": null,
+            "id": "draw-plan"
+          },
+          {
+            "t": "Объекты",
+            "aria": null,
+            "id": "objects"
+          },
+          {
+            "t": "Проёмы",
+            "aria": null,
+            "id": "openings"
+          },
+          {
+            "t": "Поиск",
+            "aria": null,
+            "id": "search"
+          },
+          {
+            "t": "Вывод воды",
+            "aria": null,
+            "id": "WaterSupply"
+          },
+          {
+            "t": "",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Продолжить",
+            "aria": null,
+            "id": "go-to-auto-design"
+          },
+          {
+            "t": "",
+            "aria": null,
+            "id": "zoom-in"
+          },
+          {
+            "t": "",
+            "aria": null,
+            "id": "zoom-out"
+          },
+          {
+            "t": "",
+            "aria": "Другие варианты",
+            "id": null
+          },
+          {
+            "t": "Вид на этаж",
+            "aria": "Вид на этаж",
+            "id": null
+          },
+          {
+            "t": "",
+            "aria": "Вид спереди",
+            "id": null
+          },
+          {
+            "t": "",
+            "aria": "Трехмерный вид",
+            "id": null
+          },
+          {
+            "t": "",
+            "aria": "Виртуальный визит",
+            "id": null
+          },
+          {
+            "t": "Новые уведомления",
+            "aria": "Помощь",
+            "id": "show-help"
+          },
+          {
+            "t": "Подсказки по инструментам",
+            "aria": null,
+            "id": "bt-tab-help-center-1"
+          },
+          {
+            "t": "Советы по проекту",
+            "aria": null,
+            "id": "bt-tab-help-center-2"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Начать с формы tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Создать кухню открытого типа tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Добавить недвижимый объект tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Разместите вывод воды tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Изменить высоту потолка tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Изменить стену или угол tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Изменить размеры вашего пространства tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Разместите ваши двери и окна tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Close",
+            "aria": "Закрыть",
+            "id": null
+          }
+        ],
+        "modalOpen": true,
+        "modalText": "Другие варианты\nПоказать все товары",
+        "bodyText": "Error\nWe've encountered an error. Refresh the application\nGo back\nЗадайте форму и размер комнаты\nВыбрать готовый вариант\nДобавьте индивидуальности\nИтог\nItem notes\nSee product list\nИзмерить\nОтменить\nПовторить\nСохранить\nЗакрыть\nНарисовать форму\nНарисовать план\nОбъекты\nПроёмы\nПоиск\nВывод воды\nВысота по"
+      },
+      "uiAfter": {
+        "btns": [
+          {
+            "t": "Go back",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Задайте форму и размер комнаты",
+            "aria": null,
+            "id": "step-floorplan"
+          },
+          {
+            "t": "Выбрать готовый вариант",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Добавьте индивидуальности",
+            "aria": null,
+            "id": "step-design"
+          },
+          {
+            "t": "Итог",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Item notes",
+            "aria": "Заметки",
+            "id": null
+          },
+          {
+            "t": "See product list",
+            "aria": "Посмотреть список товаров",
+            "id": null
+          },
+          {
+            "t": "Измерить",
+            "aria": "Линейка",
+            "id": null
+          },
+          {
+            "t": "Отменить",
+            "aria": "Отменить",
+            "id": null
+          },
+          {
+            "t": "Повторить",
+            "aria": "Повторить",
+            "id": null
+          },
+          {
+            "t": "Сохранить",
+            "aria": "Сохранить проект",
+            "id": null
+          },
+          {
+            "t": "Закрыть",
+            "aria": "Закрыть",
+            "id": "close-app"
+          },
+          {
+            "t": "Нарисовать форму",
+            "aria": null,
+            "id": "import-plan"
+          },
+          {
+            "t": "Нарисовать план",
+            "aria": null,
+            "id": "draw-plan"
+          },
+          {
+            "t": "Объекты",
+            "aria": null,
+            "id": "objects"
+          },
+          {
+            "t": "Проёмы",
+            "aria": null,
+            "id": "openings"
+          },
+          {
+            "t": "Поиск",
+            "aria": null,
+            "id": "search"
+          },
+          {
+            "t": "Вывод воды",
+            "aria": null,
+            "id": "WaterSupply"
+          },
+          {
+            "t": "",
+            "aria": null,
+            "id": null
+          },
+          {
+            "t": "Продолжить",
+            "aria": null,
+            "id": "go-to-auto-design"
+          },
+          {
+            "t": "",
+            "aria": null,
+            "id": "zoom-in"
+          },
+          {
+            "t": "",
+            "aria": null,
+            "id": "zoom-out"
+          },
+          {
+            "t": "",
+            "aria": "Другие варианты",
+            "id": null
+          },
+          {
+            "t": "Вид на этаж",
+            "aria": "Вид на этаж",
+            "id": null
+          },
+          {
+            "t": "",
+            "aria": "Вид спереди",
+            "id": null
+          },
+          {
+            "t": "",
+            "aria": "Трехмерный вид",
+            "id": null
+          },
+          {
+            "t": "",
+            "aria": "Виртуальный визит",
+            "id": null
+          },
+          {
+            "t": "Новые уведомления",
+            "aria": "Помощь",
+            "id": "show-help"
+          },
+          {
+            "t": "Подсказки по инструментам",
+            "aria": null,
+            "id": "bt-tab-help-center-1"
+          },
+          {
+            "t": "Советы по проекту",
+            "aria": null,
+            "id": "bt-tab-help-center-2"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Начать с формы tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Создать кухню открытого типа tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Добавить недвижимый объект tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Разместите вывод воды tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Изменить высоту потолка tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Изменить стену или угол tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Изменить размеры вашего пространства tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Показать",
+            "aria": "Показать Разместите ваши двери и окна tooltip",
+            "id": "tooltip-button"
+          },
+          {
+            "t": "Close",
+            "aria": "Закрыть",
+            "id": null
+          }
+        ],
+        "modalOpen": true,
+        "modalText": "Другие варианты\nПоказать все товары",
+        "bodyText": "Error\nWe've encountered an error. Refresh the application\nGo back\nЗадайте форму и размер комнаты\nВыбрать готовый вариант\nДобавьте индивидуальности\nИтог\nItem notes\nSee product list\nИзмерить\nОтменить\nПовторить\nСохранить\nЗакрыть\nНарисовать форму\nНарисовать план\nОбъекты\nПроёмы\nПоиск\nВывод воды\nВысота по"
+      }
+    }
+  ],
+  "probeAfterClicks": {
+    "when": "2026-10-29T15:34:29.096Z",
+    "url": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV",
+    "hasBetraktaViewer": false,
+    "engines": {
+      "BABYLON": false,
+      "babylonVersion": null,
+      "THREE": false,
+      "unityInstance": false,
+      "hasUnitySendMessage": false,
+      "Module": false
+    },
+    "canvases": [
+      {
+        "w": 1400,
+        "h": 754,
+        "id": "canvas",
+        "cls": null
+      }
+    ],
+    "windowKeys": []
+  },
+  "gl": {
+    "frames": 4781,
+    "draws": 0,
+    "contexts": [
+      {
+        "type": "webgl",
+        "attrs": null,
+        "canvas": {
+          "w": 300,
+          "h": 150,
+          "id": null
+        }
+      },
+      {
+        "type": "webgl2",
+        "attrs": {
+          "alpha": false,
+          "depth": true,
+          "stencil": true,
+          "antiAlias": true,
+          "premultipliedAlpha": true,
+          "failIfMajorPerformanceCaveat": true
+        },
+        "canvas": {
+          "w": 300,
+          "h": 150,
+          "id": "canvas"
+        }
+      }
+    ],
+    "passCount": 0,
+    "passes": [],
+    "passOrderFirstFrames": [],
+    "depthPasses": [],
+    "squarePasses": [],
+    "textureSizes": {
+      "1x1 RGBA": 43,
+      "1400x900 DEPTH_COMPONENT24": 1,
+      "1400x900 RGBA16F": 3,
+      "700x450 RGBA16F": 1,
+      "350x225 RGBA16F": 2,
+      "175x113 RGBA16F": 2,
+      "88x56 RGBA16F": 2,
+      "44x28 RGBA16F": 2,
+      "22x14 RGBA16F": 1,
+      "1400x754 DEPTH_COMPONENT24": 1,
+      "1400x754 RGBA16F": 3,
+      "700x377 RGBA16F": 1,
+      "350x189 RGBA16F": 2,
+      "175x94 RGBA16F": 2,
+      "88x47 RGBA16F": 2,
+      "44x24 RGBA16F": 2,
+      "22x12 RGBA16F": 1,
+      "6408x5121 RGBA": 10
+    }
+  },
+  "screenshot": "D:\\Clodis-Kitchen\\docs\\ikea-kitchen-shadow-dump\\shadow-20261029-183437.png"
+}

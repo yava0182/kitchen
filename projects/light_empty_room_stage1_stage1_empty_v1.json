@@ -1,0 +1,60 @@
+{
+  "version": 2,
+  "kind": "ikea-room-fixture",
+  "exportedAt": "2026-10-30T20:22:26.436Z",
+  "step": 4,
+  "stripTrim": false,
+  "note": "STAGE1 empty room baseline — walls/floor/ceiling only; kitchen draft untouched",
+  "kitchenProject": {
+    "frontMode": "non_gola",
+    "plinthHeightMm": 100,
+    "worktopDepthMm": 600,
+    "baseCarcassDepthMm": 550,
+    "kitchenSystem": "standard"
+  },
+  "room": {
+    "width": 5000,
+    "depth": 4000,
+    "height": 2500
+  },
+  "kitchenRoomShapeKey": "enclosed_rect",
+  "kitchenFootprintParams": {
+    "width": 5000,
+    "depth": 4000
+  },
+  "kitchenInteriorWalls": null,
+  "openings": [],
+  "roomEditObjects": [],
+  "kitchenJoints": [],
+  "sections": [],
+  "furniture": [],
+  "camera": {
+    "position": [
+      -1134.2516093319543,
+      2049.366585815912,
+      5891.9683751769135
+    ],
+    "target": null,
+    "fov": 45.83662361046586
+  },
+  "stage1": {
+    "renderSettings": {
+      "pixelRatio": 1.25,
+      "toneMapping": 0,
+      "toneMappingExposure": 1,
+      "outputColorSpace": "srgb",
+      "shadowMapEnabled": false,
+      "clearHex": "#f2f2f0"
+    },
+    "softAo": "off",
+    "punctual": "pax-spot",
+    "sh": "pax",
+    "spotPos": "сбоку слева"
+  },
+  "project_settings": {
+    "project_id": "stage1_empty_v1",
+    "name": "light_empty_room_stage1"
+  },
+  "date_updated": "2026-10-30T20:22:26.753Z",
+  "date_created": "2026-10-30T20:22:26.753Z"
+}

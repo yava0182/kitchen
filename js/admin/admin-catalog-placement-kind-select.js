@@ -1,6 +1,5 @@
 /**
- * Список «Тип размещения» в карточке каталога — из room_steps_config.placementKindProfiles.
- * Подписи только на русском (без standalone_floor в интерфейсе).
+ * Список «Тип модуля» в карточке каталога — кухонные placementKind без шкафных полей.
  */
 (function (global) {
   var FALLBACK_RU = {
@@ -10,42 +9,121 @@
     wall_hung_low: 'Навесной нижний (к полу)',
     wall_hung_high: 'Навесной верхний (к потолку)',
     corpus_only: 'Только корпус',
+    kitchen_base: 'Напольный стол',
+    kitchen_base_gola: 'Напольный стол (Gola)',
+    kitchen_base_corner: 'Угловой напольный',
+    kitchen_tall: 'Пенал',
+    kitchen_wall_mid: 'Навесной 1-й ярус',
+    kitchen_wall_top: 'Навесной 2-й ярус',
+    kitchen_wall_corner: 'Угловой навесной',
   };
+
+  function api() {
+    return global.__cldPlacementKindProfiles || null;
+  }
 
   function ruLabelForPlacementKind(id) {
     var key = String(id || '').trim();
     if (!key) return '';
-    var api = global.__cldPlacementKindProfiles;
-    if (api && api.PLACEMENT_KIND_RU_LABELS && api.PLACEMENT_KIND_RU_LABELS[key]) {
-      return api.PLACEMENT_KIND_RU_LABELS[key];
+    var pk = api();
+    if (pk && pk.PLACEMENT_KIND_RU_LABELS && pk.PLACEMENT_KIND_RU_LABELS[key]) {
+      return pk.PLACEMENT_KIND_RU_LABELS[key];
     }
     return FALLBACK_RU[key] || key;
   }
 
-  function getPlacementKindOptions() {
-    var api = global.__cldPlacementKindProfiles;
+  function isKitchenUnitApp(app) {
+    var pk = api();
+    if (!pk || typeof pk.isKitchenUnitCatalogType !== 'function') return false;
+    var adminType = (app && app.catalogType) || '';
+    var itemType = app && app.item ? app.item.catalog_type : '';
+    return !!pk.isKitchenUnitCatalogType(adminType, itemType);
+  }
+
+  function getPlacementKindOptions(app) {
+    var pk = api();
     var cfg =
       typeof global.getRoomStepsConfig === 'function' ? global.getRoomStepsConfig() : null;
-    if (api && typeof api.getPlacementKindOptionsForCatalog === 'function') {
-      var fromCfg = api.getPlacementKindOptionsForCatalog(cfg);
-      if (Array.isArray(fromCfg) && fromCfg.length) return fromCfg;
+    var opts = [];
+    if (pk && typeof pk.getPlacementKindOptionsForCatalog === 'function') {
+      var fromCfg = pk.getPlacementKindOptionsForCatalog(cfg);
+      if (Array.isArray(fromCfg) && fromCfg.length) opts = fromCfg.slice();
     }
-    if (api && Array.isArray(api.PLACEMENT_KIND_BASE_OPTIONS) && api.PLACEMENT_KIND_BASE_OPTIONS.length) {
-      return api.PLACEMENT_KIND_BASE_OPTIONS.slice();
+    if (!opts.length && pk && Array.isArray(pk.PLACEMENT_KIND_BASE_OPTIONS)) {
+      opts = pk.PLACEMENT_KIND_BASE_OPTIONS.slice();
     }
-    return [
-      { id: 'floor_in_niche', label: FALLBACK_RU.floor_in_niche },
-      { id: 'standalone_floor', label: FALLBACK_RU.standalone_floor },
-      { id: 'wall_hung_low', label: FALLBACK_RU.wall_hung_low },
-      { id: 'wall_hung_high', label: FALLBACK_RU.wall_hung_high },
-      { id: 'wall_hung', label: FALLBACK_RU.wall_hung },
-      { id: 'corpus_only', label: FALLBACK_RU.corpus_only },
-    ];
+    if (!opts.length) {
+      opts = [
+        { id: 'kitchen_base', label: FALLBACK_RU.kitchen_base },
+        { id: 'kitchen_base_gola', label: FALLBACK_RU.kitchen_base_gola },
+        { id: 'kitchen_base_corner', label: FALLBACK_RU.kitchen_base_corner },
+        { id: 'kitchen_tall', label: FALLBACK_RU.kitchen_tall },
+        { id: 'kitchen_wall_mid', label: FALLBACK_RU.kitchen_wall_mid },
+        { id: 'kitchen_wall_top', label: FALLBACK_RU.kitchen_wall_top },
+        { id: 'kitchen_wall_corner', label: FALLBACK_RU.kitchen_wall_corner },
+      ];
+    }
+
+    // Для модулей кухни — только kitchen_* типы.
+    if (isKitchenUnitApp(app)) {
+      opts = opts.filter(function (o) {
+        return String(o && o.id || '').indexOf('kitchen_') === 0;
+      });
+      if (!opts.length && pk && typeof pk.getDefaultPlacementKindProfiles === 'function') {
+        opts = pk.getDefaultPlacementKindProfiles(cfg).map(function (p) {
+          return { id: p.id, label: p.label || ruLabelForPlacementKind(p.id) };
+        });
+      }
+    }
+    return opts;
+  }
+
+  function ensureKitchenPlacementKind(app, opts) {
+    if (!app || !app.item || !isKitchenUnitApp(app)) return;
+    var pk = api();
+    var cur = String(app.item.placementKind || '').trim();
+    var known = (opts || []).some(function (o) {
+      return o && o.id === cur;
+    });
+    var legacy =
+      pk && typeof pk.isLegacyWardrobePlacementKind === 'function'
+        ? pk.isLegacyWardrobePlacementKind(cur)
+        : false;
+    if (cur && known && !legacy) return;
+    var next =
+      pk && typeof pk.defaultKitchenUnitPlacementKind === 'function'
+        ? pk.defaultKitchenUnitPlacementKind(app.catalogType || app.item.catalog_type)
+        : 'kitchen_base';
+    if (typeof app.$set === 'function') {
+      app.$set(app.item, 'placementKind', next);
+    } else {
+      app.item.placementKind = next;
+    }
+    // Тип каталога комнаты = раздел (Рабочие столы / навес…), не общий «Кухни».
+    var section = '';
+    try {
+      var tagsApi = global.__cldRoomFurnitureTags;
+      if (tagsApi && typeof tagsApi.kitchenFolderKeyForPlacement === 'function') {
+        section = tagsApi.kitchenFolderKeyForPlacement(
+          app.item.placementKind,
+          app.catalogType
+        );
+      }
+    } catch (_) {}
+    var adminType = String(app.catalogType || '').replace(/^catalog_/, '');
+    var nextType = section
+      ? 'catalog_' + section
+      : adminType
+        ? 'catalog_' + adminType
+        : 'catalog_46';
+    if (typeof app.$set === 'function') app.$set(app.item, 'catalog_type', nextType);
+    else app.item.catalog_type = nextType;
   }
 
   function syncPlacementKindOptions(app) {
     if (!app) return;
-    var opts = getPlacementKindOptions();
+    var opts = getPlacementKindOptions(app);
+    ensureKitchenPlacementKind(app, opts);
     var cur = String((app.item && app.item.placementKind) || '').trim();
     if (cur && !opts.some(function (o) {
       return o.id === cur;
@@ -105,6 +183,11 @@
     }
   }, 200);
 
-  global.__cldDefaultPlacementKindOptions = getPlacementKindOptions;
+  global.__cldDefaultPlacementKindOptions = function () {
+    return getPlacementKindOptions(global.catalogItemVueApp);
+  };
   global.__cldSyncCatalogPlacementKindOptions = syncPlacementKindOptions;
+  global.__cldIsKitchenUnitCatalogCard = function (app) {
+    return isKitchenUnitApp(app || global.catalogItemVueApp);
+  };
 })(typeof window !== 'undefined' ? window : globalThis);

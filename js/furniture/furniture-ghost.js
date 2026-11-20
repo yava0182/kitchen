@@ -89,11 +89,23 @@ import {
   getZoneDoorKind,
   TOP_PLANK_HEIGHT_MM,
   getLShapeSpecialZoneIndex,
+  getLShapeSpecialZoneIndices,
   getLShapeSpecialSnapBounds,
-} from '../sections/section-manager.js?v=20260925-corner44y';
+  getLShapePairForSection,
+} from '../sections/section-manager.js?v=20261103-wdepth5';
+import {
+  buildKitchenBandCellLayoutForSection,
+  isKitchenUpperCornerSeatBZone,
+} from '../kitchen/kitchen-section-layout.js?v=20261118-overlayL6';
+import {
+  resolveKitchenUpperCornerSeatTarget,
+  isSectionUpperCornerGPresent,
+  getNsh1BlockedMidZoneIndexes,
+} from '../kitchen/kitchen-upper-corner-seats.js?v=20261115-upperGLeft27';
+import { isUShapeBackSection } from '../sections/l-corner.js?v=20261022-bust12';
 import {
   disposeTempLCornerGhost,
-} from '../sections/section-ghost.js?v=20260925-corner44y';
+} from '../sections/section-ghost.js?v=20261013-no-ward-gap';
 import {
   isEndCabinetCatalogModule,
   setEndCabinetSlotHighlight,
@@ -102,23 +114,223 @@ import {
   setPendingEndCabinetPlacement,
 } from '../sections/section-end-cabinet.js?v=20260917-endcab-nobridge';
 
-/** catalog_44    (  furniture-manager: ). */
-function isPendingLCornerCabinet() {
+/** catalog_44 НМУ / catalog_54 ВМУ — только спец-ячейка L/П. */
+/** Только ВМУ / catalog_54 (навесной угол). */
+function isPendingWallCornerCabinet() {
+  const fd = state.pendingFurnitureData;
+  if (!fd) return false;
+  const raw = fd?.catalogItem || fd;
+  let rawPk = '';
+  try {
+    if (typeof window !== 'undefined' && typeof window.__cldGetRawPlacementKind === 'function') {
+      rawPk = String(window.__cldGetRawPlacementKind(fd) || '').trim().toLowerCase();
+    }
+  } catch (_) {}
+  if (!rawPk) {
+    rawPk = String(
+      fd?.__placementKindProfileId ||
+        fd?.placementKind ||
+        raw?.placementKind ||
+        raw?.data?.placementKind ||
+        ''
+    )
+      .trim()
+      .toLowerCase();
+  }
+  if (rawPk === 'kitchen_wall_corner') return true;
+  if (rawPk === 'kitchen_base_corner') return false;
+  const ct = String(
+    fd?.catalogType ||
+      fd?.catalog_type ||
+      raw?.catalog_type ||
+      raw?.catalogType ||
+      raw?.element_type ||
+      raw?.data?.catalog_type ||
+      ''
+  )
+    .replace(/^catalog_/i, '')
+    .trim()
+    .toLowerCase();
+  return ct === '54';
+}
+
+/** НМУ / catalog_44 (низ угла). */
+function isPendingBaseCornerCabinet() {
+  if (isPendingWallCornerCabinet()) return false;
   if (typeof window !== 'undefined' && typeof window.__cldIsLCornerCabinetModule === 'function') {
-    return !!window.__cldIsLCornerCabinetModule(state.pendingFurnitureData);
+    if (!window.__cldIsLCornerCabinetModule(state.pendingFurnitureData)) return false;
+    return !isPendingWallCornerCabinet();
   }
   const fd = state.pendingFurnitureData;
   const raw = fd?.catalogItem || fd;
+  const pk = String(
+    fd?.placementKind || raw?.placementKind || raw?.data?.placementKind || ''
+  )
+    .trim()
+    .toLowerCase();
+  if (pk === 'kitchen_base_corner') return true;
   const ct = String(
-    raw?.catalog_type ||
-      raw?.catalogType ||
-      raw?.data?.catalog_type ||
-      fd?.catalogType ||
-      ''
+    raw?.catalog_type || raw?.catalogType || fd?.catalogType || ''
   )
     .replace(/^catalog_/i, '')
     .trim();
   return ct === '44';
+}
+
+function isPendingLCornerCabinet() {
+  return isPendingWallCornerCabinet() || isPendingBaseCornerCabinet();
+}
+
+/** Спец-зона угла под сторону pending (П: 0 и parts-1). */
+function resolvePendingCornerSpecialZi(section) {
+  if (!section) return null;
+  const atStart = pendingCornerCabinetAtStart();
+  const indices =
+    typeof getLShapeSpecialZoneIndices === 'function'
+      ? getLShapeSpecialZoneIndices(section)
+      : [];
+  if (Array.isArray(indices) && indices.length >= 2) {
+    return atStart ? Math.min(...indices.map(Number)) : Math.max(...indices.map(Number));
+  }
+  if (typeof getLShapeSpecialZoneIndex === 'function') {
+    return getLShapeSpecialZoneIndex(section, atStart);
+  }
+  return null;
+}
+
+/** Сторона pending НМУ: true=лев, false=прав (как corner_at_start). */
+function pendingCornerCabinetAtStart() {
+  const fd = state.pendingFurnitureData;
+  const item = fd?.catalogItem || fd || {};
+  let data = item.data;
+  if (typeof data === 'string') {
+    try {
+      data = JSON.parse(data);
+    } catch (_) {
+      data = {};
+    }
+  }
+  const cv =
+    (item.clodisVariables && typeof item.clodisVariables === 'object'
+      ? item.clodisVariables
+      : null) ||
+    (data && typeof data === 'object' && data.clodisVariables) ||
+    {};
+  if (cv.corner_at_start === false || cv.corner_at_start === 0 || cv.corner_at_start === '0') {
+    return false;
+  }
+  if (cv.corner_at_start === true || cv.corner_at_start === 1 || cv.corner_at_start === '1') {
+    return true;
+  }
+  const nm = String(item.name || data?.name || '').toLowerCase();
+  if (/прав/.test(nm) && !/лев/.test(nm)) return false;
+  return true;
+}
+
+/** Только карточка «Угловой Г обр», не приставной ВМУ1 левый/правый. */
+function isPendingUpperGCabinet() {
+  if (!isPendingWallCornerCabinet()) return false;
+  try {
+    if (typeof window.__cldIsKitchenUpperGModuleData === 'function') {
+      return !!window.__cldIsKitchenUpperGModuleData(state.pendingFurnitureData);
+    }
+  } catch (_) {}
+  const fd = state.pendingFurnitureData;
+  const item = fd?.catalogItem || fd || {};
+  const name = String(item.name || item.title || item.data?.name || '');
+  if (/угловой\s*г/i.test(name) || /\bг\s*обр/i.test(name)) return true;
+  const id = Number(item.id ?? fd?.catalogItemId) || 0;
+  return id === 3 && isPendingWallCornerCabinet();
+}
+
+/**
+ * «Угловой Г обр» → Г-ячейка mid (НШ1) или top (антресоль).
+ * Приставной ВМУ1 сюда не цепляем.
+ */
+function resolveWallCornerCabinetLTarget(hitSection, opts = {}) {
+  if (!isPendingUpperGCabinet()) return null;
+  try {
+    if (typeof window.__cldResolveUpperGGhostTarget === 'function') {
+      const t = window.__cldResolveUpperGGhostTarget(hitSection, {
+        furnitureData: state.pendingFurnitureData,
+        pendingZone: state._pendingZoneInfo,
+        hitY: opts.hitY,
+        band: opts.band,
+        upperGBand: opts.upperGBand,
+        ...opts,
+      });
+      if (t?.snap && t.section) return t;
+    }
+  } catch (_) {}
+  return null;
+}
+
+/**
+ * Угловой НМ: L → одна спец; П → лев/прав по модулю.
+ * ВМУ Г → resolveWallCornerCabinetLTarget (mid|top).
+ */
+function resolveCornerCabinetLTarget(section, opts = {}) {
+  if (!section?.lShape || !isPendingLCornerCabinet()) return null;
+  if (isPendingWallCornerCabinet()) {
+    return resolveWallCornerCabinetLTarget(section, opts);
+  }
+  let primary = section;
+  try {
+    if (isUShapeBackSection(section)) {
+      primary = section;
+    } else {
+      const pairId = section.lShape.pairId;
+      const other =
+        pairId != null && Array.isArray(state.customSections)
+          ? state.customSections.find((s) => s && String(s.id) === String(pairId))
+          : null;
+      if (other && isUShapeBackSection(other)) {
+        primary = other;
+      } else {
+        const pair =
+          typeof getLShapePairForSection === 'function'
+            ? getLShapePairForSection(section)
+            : null;
+        if (pair?.primary) primary = pair.primary;
+      }
+    }
+  } catch (_) {}
+  if (!primary?.division) return null;
+  try {
+    if (isUShapeBackSection(primary) || primary.division.uShape === true) {
+      primary.division.uShape = true;
+    }
+  } catch (_) {}
+  const atStart = pendingCornerCabinetAtStart();
+  const indices =
+    typeof getLShapeSpecialZoneIndices === 'function'
+      ? getLShapeSpecialZoneIndices(primary)
+      : [];
+  let specialZi =
+    indices.length >= 2
+      ? atStart
+        ? Math.min(...indices)
+        : Math.max(...indices)
+      : getLShapeSpecialZoneIndex(primary, atStart);
+  if (specialZi == null) return null;
+  const wallName =
+    primary.wallName || primary.division?.wallName || 'back';
+  let snap = buildZoneSnapForSection(primary, specialZi, wallName);
+  const sp = getLShapeSpecialSnapBounds(primary.division, specialZi);
+  if (sp?.moduleWidth > 0 && Number.isFinite(sp.zoneStart)) {
+    const wMm = Math.round(sp.moduleWidth);
+    const pivotCoord =
+      wallName === 'left' || wallName === 'front'
+        ? sp.zoneStart + wMm
+        : sp.zoneStart;
+    snap = {
+      pivotCoord,
+      zoneIndex: sp.zoneIndex != null ? sp.zoneIndex : specialZi,
+      moduleWidth: wMm,
+    };
+  }
+  if (!snap || !(snap.moduleWidth > 0)) return null;
+  return { section: primary, wallName, snap, specialZi };
 }
 
 /**  -        .
@@ -128,10 +340,16 @@ function _triggerAutoSwitchForZone(section, zoneIndex) {
   const doorKind = getZoneDoorKind(section, zoneIndex);
   if (!doorKind) return;
   const mod = getPendingModuleDoorKind();
-  const specialZi = getLShapeSpecialZoneIndex(section);
+  const specialZis =
+    typeof getLShapeSpecialZoneIndices === 'function'
+      ? getLShapeSpecialZoneIndices(section)
+      : [];
+  const specialZiOne = getLShapeSpecialZoneIndex(section);
   const onLSpecial =
-    specialZi != null && Number(zoneIndex) === specialZi;
-  //  catalog_44 ↔  ;     ./.
+    (Array.isArray(specialZis) &&
+      specialZis.some((z) => Number(z) === Number(zoneIndex))) ||
+    (specialZiOne != null && Number(zoneIndex) === Number(specialZiOne));
+  // catalog_44/54 ↔ спец; без переключения одн./двуств.
   if (state.isPlacingFurniture && state.pendingFurnitureData && isPendingLCornerCabinet()) {
     if (onLSpecial) {
       state._catalogSwitchDoorKindOnRelease = null;
@@ -208,18 +426,26 @@ function applyMaatkastenStraightGhostCellSnap(
   const authSnap = buildZoneSnapForSection(section, snap.zoneIndex, resolvedWallName);
   if (authSnap?.moduleWidth > 0) moduleW = authSnap.moduleWidth;
 
+  const specialIndices =
+    typeof getLShapeSpecialZoneIndices === 'function'
+      ? getLShapeSpecialZoneIndices(section)
+      : [];
   const specialZi = getLShapeSpecialZoneIndex(section);
-  const isLSpecial = specialZi != null && Number(snap.zoneIndex) === specialZi;
+  const zi = Number(snap.zoneIndex);
+  const isLSpecial =
+    (Number.isFinite(zi) && specialIndices.includes(zi)) ||
+    (specialZi != null && zi === specialZi);
   const isCorner = isPendingLCornerCabinet();
   const mod = getPendingModuleDoorKind();
+  // Спец-ячейка: double = ширина S+D / половинки; полный модуль всё равно по isLSpecial.
   const zKind = isLSpecial ? 'double' : getZoneDoorKind(section, snap.zoneIndex);
   const segs = section._layoutCache?.segments;
   const parts = Math.max(0, Math.floor(Number(section.division?.parts) || 0));
-  const zi = Number(snap.zoneIndex);
 
-  // catalog_44 / спец L: всегда полная ширина S+D, никогда half single.
-  if (isLSpecial || (isCorner && specialZi != null && zi === specialZi)) {
-    const sp = getLShapeSpecialSnapBounds(section.division);
+  // catalog_44 / спец L/П: всегда полная ширина S+D, никогда half single.
+  if (isLSpecial || (isCorner && isLSpecial)) {
+    const spZiUse = Number.isFinite(zi) && specialIndices.includes(zi) ? zi : specialZi;
+    const sp = getLShapeSpecialSnapBounds(section.division, spZiUse);
     const wMm = sp?.moduleWidth > 0 ? Math.round(sp.moduleWidth) : Math.round(moduleW);
     const zStart = sp?.zoneStart;
     const pivotCoord =
@@ -230,17 +456,19 @@ function applyMaatkastenStraightGhostCellSnap(
         : authSnap?.pivotCoord ?? snap.pivotCoord;
     snap = {
       pivotCoord,
-      zoneIndex: specialZi != null ? specialZi : zi,
+      zoneIndex: spZiUse != null ? spZiUse : zi,
       moduleWidth: wMm,
     };
     moduleW = wMm;
-    console.log('[L-CORNER] ghost force S+D width', {
-      moduleW,
-      specialZi,
-      S: sp?.S,
-      D: sp?.D,
-      isCorner,
-    });
+    if (typeof window !== 'undefined' && window.__cldLCornerVerbose === true) {
+      console.log('[L-CORNER] ghost force S+D width', {
+        moduleW,
+        specialZi,
+        S: sp?.S,
+        D: sp?.D,
+        isCorner,
+      });
+    }
   } else if (mod === 'double' && moduleW > 0) {
     // Double = ровно 2 ячейки (Maatkasten). Никогда не sum(single+double) и не 2 doubles.
     const cellW = zKind === 'double' ? moduleW / 2 : moduleW;
@@ -310,6 +538,449 @@ function applyMaatkastenStraightGhostCellSnap(
   return { snap, worldPos, zoneSize, moduleW };
 }
 
+/** Папка 50/51/42/43 → НШ1/НШ2 (даже если placementKind уже mapped в wall_hung_*). */
+function _kitchenWallBandFolderId(data) {
+  const ct = String(
+    data?.catalogItem?.element_type ||
+      data?.catalogItem?.key ||
+      data?.catalogType ||
+      data?.element_type ||
+      data?.catalogItem?.params?.spec?.element_type ||
+      data?.catalogItem?.catalog_type ||
+      data?.catalogItem?.catalogType ||
+      data?.catalog_type ||
+      ''
+  )
+    .trim()
+    .toLowerCase()
+    .replace(/^catalog_/, '');
+  if (ct === '50' || ct === '42' || ct === '43') return 'mid';
+  if (ct === '51') return 'top';
+  return '';
+}
+
+/** Stamp mid/top на data — place/ghost не теряют НШ1 после map→wall_hung. */
+function _ensureKitchenWallBandStamp(data) {
+  if (!data || typeof data !== 'object') return '';
+  const cur = String(data.__kitchenWallBand || '')
+    .trim()
+    .toLowerCase();
+  if (cur === 'mid' || cur === 'top') return cur;
+  if (_isCornerCabinetGhostData(data)) return '';
+  const folder = _kitchenWallBandFolderId(data);
+  if (folder === 'top' || folder === 'mid') {
+    data.__kitchenWallBand = folder;
+    return folder;
+  }
+  const profile = String(
+    data.__placementKindProfileId ||
+      data.placementKindProfileId ||
+      data?.catalogItem?.placementKind ||
+      ''
+  )
+    .trim()
+    .toLowerCase();
+  if (profile === 'kitchen_wall_top') {
+    data.__kitchenWallBand = 'top';
+    return 'top';
+  }
+  if (profile === 'kitchen_wall_mid') {
+    data.__kitchenWallBand = 'mid';
+    return 'mid';
+  }
+  let dataPk = '';
+  try {
+    const raw = data?.catalogItem?.data ?? data?.data;
+    if (typeof raw === 'string' && raw.trim()) {
+      dataPk = String(JSON.parse(raw)?.placementKind || '').trim().toLowerCase();
+    } else if (raw && typeof raw === 'object') {
+      dataPk = String(raw.placementKind || '').trim().toLowerCase();
+    }
+  } catch (_) {}
+  if (dataPk === 'kitchen_wall_top') {
+    data.__kitchenWallBand = 'top';
+    return 'top';
+  }
+  if (dataPk === 'kitchen_wall_mid') {
+    data.__kitchenWallBand = 'mid';
+    return 'mid';
+  }
+  return '';
+}
+
+function _isCornerCabinetGhostData(data) {
+  if (!data || typeof data !== 'object') return false;
+  if (
+    typeof window !== 'undefined' &&
+    typeof window.__cldIsLCornerCabinetModule === 'function'
+  ) {
+    return !!window.__cldIsLCornerCabinetModule(data);
+  }
+  const raw = data?.catalogItem || data;
+  const pk = String(
+    data?.placementKind || raw?.placementKind || raw?.data?.placementKind || ''
+  )
+    .trim()
+    .toLowerCase();
+  if (pk === 'kitchen_base_corner' || pk === 'kitchen_wall_corner') return true;
+  const ct = String(
+    raw?.catalog_type ||
+      raw?.catalogType ||
+      raw?.data?.catalog_type ||
+      data?.catalogType ||
+      data?.catalogItem?.element_type ||
+      ''
+  )
+    .replace(/^catalog_/i, '')
+    .trim();
+  return ct === '44' || ct === '54';
+}
+
+/** НШ1/НШ2 по data (не ВМУ / не угол). */
+function _isKitchenWallBandGhostData(data) {
+  if (!data || typeof data !== 'object') return false;
+  if (_isCornerCabinetGhostData(data)) return false;
+  if (_ensureKitchenWallBandStamp(data)) return true;
+  const profile = String(
+    data.__placementKindProfileId || data.placementKindProfileId || ''
+  )
+    .trim()
+    .toLowerCase();
+  if (profile === 'kitchen_wall_mid' || profile === 'kitchen_wall_top') return true;
+  const folder = _kitchenWallBandFolderId(data);
+  if (folder) return true;
+  const raw = String(getRawGhostPlacementKind(data) || '')
+    .trim()
+    .toLowerCase();
+  if (raw === 'kitchen_wall_corner') return false;
+  if (raw === 'kitchen_wall_mid' || raw === 'kitchen_wall_top') return true;
+  const pk = String(resolvePlacementKind(data) || '')
+    .trim()
+    .toLowerCase();
+  return pk === 'kitchen_wall_mid' || pk === 'kitchen_wall_top';
+}
+
+/** Для place/drag в manager: НШ1/НШ2 (stamp/папка), не ВМУ. */
+export function isKitchenWallBandFurnitureData(data) {
+  return _isKitchenWallBandGhostData(data);
+}
+
+function _isKitchenWallTopGhostData(data) {
+  if (!_isKitchenWallBandGhostData(data)) return false;
+  const stamp = String(data.__kitchenWallBand || '')
+    .trim()
+    .toLowerCase();
+  if (stamp === 'top') return true;
+  if (stamp === 'mid') return false;
+  const profile = String(
+    data.__placementKindProfileId || data.placementKindProfileId || ''
+  )
+    .trim()
+    .toLowerCase();
+  if (profile === 'kitchen_wall_top') return true;
+  if (_kitchenWallBandFolderId(data) === 'top') return true;
+  const raw = String(getRawGhostPlacementKind(data) || '')
+    .trim()
+    .toLowerCase();
+  if (raw === 'kitchen_wall_top') return true;
+  return isKitchenWallTopPlacementKind(resolvePlacementKind(data));
+}
+
+/** Габарит призрака = ячейка MID/TOP (W×H×D≈350), не секция низа. */
+function _forceKitchenWallBandZoneSizeMm(zoneSize, data, section) {
+  const catalog = resolveGhostCatalogSizeMm(data);
+  const cx = Number(catalog.x) || 0;
+  const isTop = _isKitchenWallTopGhostData(data);
+  // Без sectionDepthMm: глубина секции 550–600 не должна раздувать призрак.
+  const sized = isTop
+    ? resolveKitchenWallTopGhostSizing(null)
+    : resolveKitchenWallMidGhostSizing(null);
+  const x =
+    Number(zoneSize?.x) > 0
+      ? Math.round(Number(zoneSize.x))
+      : cx > 0
+        ? Math.round(cx)
+        : 600;
+  const y = Math.round(
+    (sized && sized.heightMm) || (isTop ? 360 : 720)
+  );
+  let z = Math.round((sized && sized.depthMm) || 350);
+  if (!(z > 0) || z > 450) z = 350;
+  return { x, y, z };
+}
+
+/** НШ1/НШ2 (не ВМУ): сырой kind + папка 50/51 — mapped wall_hung не должен ломать. */
+function _isPendingKitchenWallBandModule() {
+  if (isPendingLCornerCabinet()) return false;
+  return _isKitchenWallBandGhostData(state.pendingFurnitureData);
+}
+
+/**
+ * НШ1/НШ2 рядом с приставным ВМУ — просто разрешено (не catalog_54).
+ * Угловая mid.special = ВМУ; соседняя MID = НШ1.
+ */
+function _allowsKitchenWallOnLSpecial(data) {
+  if (!data || typeof data !== 'object') return false;
+  if (isPendingLCornerCabinet()) return false;
+  if (_isKitchenWallBandGhostData(data)) return true;
+  const pk = String(resolvePlacementKind(data) || '')
+    .trim()
+    .toLowerCase();
+  if (isKitchenWallMidPlacementKind(pk) || isKitchenWallTopPlacementKind(pk)) {
+    return true;
+  }
+  if (
+    pk === 'wall_hung_low' ||
+    pk === 'wall_hung' ||
+    pk === 'wall_hung_high'
+  ) {
+    return (
+      !!_ensureKitchenWallBandStamp(data) || !!_kitchenWallBandFolderId(data)
+    );
+  }
+  return false;
+}
+
+/** Мебель внутри section.group (Г/НШ) — не брать как hit для пояса MID. */
+function _isPlacedFurnitureRayObject(obj) {
+  let o = obj;
+  while (o) {
+    const ud = o.userData || {};
+    if (ud.isGhost === true || ud.isFurnitureGhost === true) return true;
+    if (ud.isFurniture === true) return true;
+    if (
+      ud.__kitchenUpperGSeated === true ||
+      ud.__kitchenUpperGKind === 'g_arms' ||
+      String(ud.__kitchenUpperCornerSeat || '').toUpperCase() === 'G'
+    ) {
+      return true;
+    }
+    if (ud.__placementKindProfileId || ud.catalogItemId != null) return true;
+    if (ud.isSection === true || ud.sectionData || ud.sectionId) break;
+    o = o.parent;
+  }
+  return false;
+}
+
+function _midCornerSpecialZi(section) {
+  const midSp = Math.floor(
+    Number(section?.kitchenBandGrids?.mid?.specialZoneIndex)
+  );
+  if (Number.isFinite(midSp) && midSp >= 0) return midSp;
+  return null;
+}
+
+function _midCornerSeatBZi(section) {
+  const iz = Math.floor(
+    Number(section?.kitchenBandGrids?.mid?.cornerSeatZoneIndex)
+  );
+  if (Number.isFinite(iz) && iz >= 0) return iz;
+  return null;
+}
+
+function _pendingKitchenWallMidWidthMm() {
+  const fd = state.pendingFurnitureData;
+  if (!fd) return 600;
+  const own = Math.round(Number(fd.customWidthMm) || 0);
+  if (own >= 150 && own <= 1200) return own;
+  try {
+    const item = fd.catalogItem || fd.item || fd;
+    const w = Math.round(
+      Number(item?.width) ||
+        Number(item?.data?.width) ||
+        Number(item?.params?.width) ||
+        Number(fd.width) ||
+        0
+    );
+    if (w >= 150 && w <= 1200) return w;
+  } catch (_) {}
+  return 600;
+}
+
+function _packMidZiGhostSnap(section, zoneIndex, wallName, bandId = 'mid') {
+  const zi = Math.floor(Number(zoneIndex));
+  if (!Number.isFinite(zi) || zi < 0) return null;
+  const band = String(bandId || 'mid').toLowerCase() === 'top' ? 'top' : 'mid';
+  const layout = buildKitchenBandCellLayoutForSection(section, band);
+  const seg = (layout?.segments || []).find(
+    (s) => s && s.type === 'module' && Number(s.zoneIndex) === zi
+  );
+  if (!seg) {
+    return { zoneIndex: zi, moduleWidth: 600, pivotCoord: null };
+  }
+  const a = Math.min(Number(seg.startU), Number(seg.endU));
+  const b = Math.max(Number(seg.startU), Number(seg.endU));
+  const pivotCoord =
+    wallName === 'left' || wallName === 'front' ? b : a;
+  return {
+    zoneIndex: zi,
+    moduleWidth: Math.round(b - a),
+    pivotCoord,
+  };
+}
+
+function _packSeatBGhostSnap(seatB) {
+  if (!seatB || seatB.seat !== 'B') return null;
+  return {
+    pivotCoord: seatB.pivotCoord,
+    zoneIndex: seatB.zoneIndex,
+    moduleWidth: seatB.moduleWidth,
+    upperCornerSeat: 'B',
+    upperCornerCellId: seatB.upperCornerCellId,
+    seatBStartU: seatB.startU,
+    seatBEndU: seatB.endU,
+    seatBSpannedZones: Array.isArray(seatB.spannedZoneIndexes)
+      ? seatB.spannedZoneIndexes.slice()
+      : [],
+    seatBAnchorEdge: seatB.anchorEdge,
+    seatBStartMm: seatB.seatStartMm,
+  };
+}
+
+/**
+ * При стоящем Г: special / seatB / G-arm — это крыло угла, не «слева».
+ * Уводим НШ1 на ближайшую свободную MID (реальная соседняя слева/справа).
+ * Без тоста/запрета: просто другая zi.
+ */
+function _redirectOffGFootprintMidZi(section, fromZi, wallName, bandId = 'mid') {
+  if (!section || !isSectionUpperCornerGPresent(section)) return null;
+  const band = String(bandId || 'mid').toLowerCase() === 'top' ? 'top' : 'mid';
+  const blocked = new Set(getNsh1BlockedMidZoneIndexes(section, band));
+  const zi = Math.floor(Number(fromZi));
+  if (!Number.isFinite(zi) || zi < 0 || !blocked.has(zi)) return null;
+  const parts = Math.max(
+    0,
+    Math.floor(
+      Number(
+        section?.kitchenBandGrids?.[band]?.parts ||
+          section?.kitchenBandGrids?.mid?.parts
+      ) || 0
+    )
+  );
+  if (!(parts > 1)) return null;
+  const order = [];
+  if (zi - 1 >= 0) order.push(zi - 1);
+  if (zi + 1 < parts) order.push(zi + 1);
+  for (let i = 0; i < parts; i++) {
+    if (i !== zi && i !== zi - 1 && i !== zi + 1) order.push(i);
+  }
+  for (const cand of order) {
+    if (!(cand >= 0 && cand < parts)) continue;
+    if (blocked.has(cand)) continue;
+    const packed = _packMidZiGhostSnap(section, cand, wallName, band);
+    if (packed) return packed;
+  }
+  return null;
+}
+
+/**
+ * Snap НШ1/НШ2: MID/TOP.
+ * Слева от 210 / крыла Г = свободная MID, не seat B и не Г.
+ */
+function resolveKitchenWallBandGhostSnap(section, hitCoord, wallName) {
+  if (!section || !_isPendingKitchenWallBandModule()) return null;
+  const rawBand = String(
+    getRawGhostPlacementKind(state.pendingFurnitureData) || ''
+  )
+    .trim()
+    .toLowerCase();
+  const stamp = String(
+    state.pendingFurnitureData?.__kitchenWallBand || ''
+  )
+    .trim()
+    .toLowerCase();
+  const bandId =
+    rawBand === 'kitchen_wall_top' ||
+    stamp === 'top' ||
+    _kitchenWallBandFolderId(state.pendingFurnitureData) === 'top'
+      ? 'top'
+      : 'mid';
+
+  const gHere = isSectionUpperCornerGPresent(section);
+
+  // При Г: среди СВОБОДНЫХ MID/TOP (не special/seatB/G-arm).
+  if (gHere) {
+    const blocked = new Set(getNsh1BlockedMidZoneIndexes(section, bandId));
+    const freeSnap = snapHitToKitchenBandZone(section, hitCoord, bandId, wallName, {
+      excludeZoneIndexes: blocked,
+    });
+    if (freeSnap) return freeSnap;
+    const anySnap = snapHitToKitchenBandZone(
+      section,
+      hitCoord,
+      bandId,
+      wallName
+    );
+    if (anySnap) {
+      const offG = _redirectOffGFootprintMidZi(
+        section,
+        anySnap.zoneIndex,
+        wallName,
+        bandId
+      );
+      if (offG) return offG;
+    }
+    return anySnap;
+  }
+
+  // Без Г: ячейка строго по hit. Без seat B 210 на пустом углу.
+  return snapHitToKitchenBandZone(section, hitCoord, bandId, wallName);
+}
+
+/**
+ * Snap НШ1/НШ2 по MID/TOP сетке (не спец низа 1050).
+ * opts.excludeZoneIndexes — не брать special/seatB (левая свободная при Г).
+ */
+function snapHitToKitchenBandZone(section, hitCoord, bandId, wallName, opts = {}) {
+  if (!section?.division) return null;
+  let layout = null;
+  try {
+    layout = buildKitchenBandCellLayoutForSection(section, bandId);
+  } catch (_) {
+    layout = null;
+  }
+  if (!layout?.segments?.length) return null;
+  const hit = Number(hitCoord);
+  if (!Number.isFinite(hit)) return null;
+  const exclude = opts.excludeZoneIndexes;
+  const hasExclude =
+    exclude &&
+    (exclude instanceof Set
+      ? exclude.size > 0
+      : Array.isArray(exclude) && exclude.length > 0);
+  const isExcluded = (zi) => {
+    if (!hasExclude) return false;
+    const z = Math.floor(Number(zi));
+    if (exclude instanceof Set) return exclude.has(z);
+    return exclude.some((x) => Math.floor(Number(x)) === z);
+  };
+  let best = null;
+  let bestDist = Infinity;
+  for (const seg of layout.segments) {
+    if (!seg || seg.type !== 'module') continue;
+    if (isExcluded(seg.zoneIndex)) continue;
+    const a = Math.min(Number(seg.startU), Number(seg.endU));
+    const b = Math.max(Number(seg.startU), Number(seg.endU));
+    if (!(b > a + 1)) continue;
+    let d = 0;
+    if (hit < a) d = a - hit;
+    else if (hit > b) d = hit - b;
+    if (d < bestDist) {
+      bestDist = d;
+      best = { zoneIndex: Number(seg.zoneIndex), startU: a, endU: b };
+    }
+    if (d === 0) break;
+  }
+  if (!best) return null;
+  const pivotCoord =
+    wallName === 'left' || wallName === 'front' ? best.endU : best.startU;
+  return {
+    pivotCoord,
+    zoneIndex: best.zoneIndex,
+    moduleWidth: Math.round(best.endU - best.startU),
+  };
+}
+
 function isZoneCompatibleWithPendingModule(zoneDoorKind, sectionOpt, zoneIndexOpt) {
   if (!zoneDoorKind) return true;
   const sid = sectionOpt?.id ?? state._pendingZoneInfo?.sectionId;
@@ -320,15 +991,32 @@ function isZoneCompatibleWithPendingModule(zoneDoorKind, sectionOpt, zoneIndexOp
     (sid != null && Array.isArray(state.customSections)
       ? state.customSections.find((s) => s && s.id === sid)
       : null);
-  const specialZi = sec ? getLShapeSpecialZoneIndex(sec) : null;
-  const onLSpecial =
-    specialZi != null && zi != null && Number(zi) === specialZi;
   const isCorner = isPendingLCornerCabinet();
-  // catalog_44:  - L (),    L.
+  const specialZi = isCorner
+    ? resolvePendingCornerSpecialZi(sec)
+    : sec
+      ? getLShapeSpecialZoneIndex(sec)
+      : null;
+  const specialZis =
+    !isCorner && sec && typeof getLShapeSpecialZoneIndices === 'function'
+      ? getLShapeSpecialZoneIndices(sec)
+      : null;
+  const onLSpecial = isCorner
+    ? specialZi != null && zi != null && Number(zi) === Number(specialZi)
+    : (Array.isArray(specialZis) &&
+        specialZis.some((z) => Number(z) === Number(zi))) ||
+      (specialZi != null && zi != null && Number(zi) === Number(specialZi));
+  // catalog_44/54: только свой спец (лев/прав).
   if (isCorner) {
     return !!onLSpecial;
   }
-  if (onLSpecial) return false;
+  // НШ1/НШ2: угловая + сосед — не блокировать (обычный НШ1 в угол MID).
+  if (
+    onLSpecial &&
+    !_allowsKitchenWallOnLSpecial(state.pendingFurnitureData)
+  ) {
+    return false;
+  }
 
   const mod = getPendingModuleDoorKind();
   if (!mod) return true;
@@ -362,10 +1050,15 @@ function _pendingZoneIsUnderWindowBay() {
   return !!(sec.underWindowBay || sec.windowBridgeRole === 'under-window');
 }
 
-/** //:  ./.    ( base+upper   ). */
+/** Тумба / навес / кухня НМ+пенал — без шкафного doorKind gate. */
 function _pendingSkipsZoneDoorKindGate(pendingPk) {
   return (
-    pendingPk === PLACEMENT_KIND.STANDALONE_FLOOR || isWallHungPlacementKind(pendingPk)
+    pendingPk === PLACEMENT_KIND.STANDALONE_FLOOR ||
+    isWallHungPlacementKind(pendingPk) ||
+    isKitchenBasePlacementKind(pendingPk) ||
+    isKitchenTallPlacementKind(pendingPk) ||
+    // НШ1/НШ2 / любой mid-навес рядом с ВМУ — не switch catalog по doorKind.
+    _isPendingKitchenWallBandModule()
   );
 }
 
@@ -403,30 +1096,154 @@ function commitGhostSnap(worldPos, wallName, rotationY, zoneSize, afterScaleFn) 
     skipDoorGate ||
     !zoneDoor ||
     isZoneCompatibleWithPendingModule(zoneDoor, secForGate, zi?.zoneIndex);
-  //    -;    L place .
+  // НШ1/НШ2: угловая MID + сосед — всегда можно (не только ВМУ catalog_54).
+  const wallBandOk = _allowsKitchenWallOnLSpecial(state.pendingFurnitureData);
+  if (wallBandOk) {
+    canPlace = true;
+  }
+  // Спец L/U низа: только НМУ. WIPED ucorner20: без seat B MID.
+  if (
+    !isPendingLCornerCabinet() &&
+    !wallBandOk &&
+    secForGate &&
+    zi?.zoneIndex != null &&
+    typeof getLShapeSpecialZoneIndex === 'function'
+  ) {
+    const ziN = Math.floor(Number(zi.zoneIndex));
+    const spZi = getLShapeSpecialZoneIndex(secForGate);
+    const spAll =
+      typeof getLShapeSpecialZoneIndices === 'function'
+        ? getLShapeSpecialZoneIndices(secForGate)
+        : spZi != null
+          ? [spZi]
+          : [];
+    if (
+      (spZi != null && ziN === Number(spZi)) ||
+      (Array.isArray(spAll) && spAll.some((z) => Number(z) === ziN))
+    ) {
+      canPlace = false;
+    }
+  }
+  // Угловой: без секций — свободно; с секциями — спец.
+  // ВМУ → mid.special upper-host (600). НМУ → спец низа.
   if (isPendingLCornerCabinet()) {
-    const specialZi = secForGate ? getLShapeSpecialZoneIndex(secForGate) : null;
-    const onLSpecial =
-      specialZi != null &&
-      zi?.zoneIndex != null &&
-      Number(zi.zoneIndex) === specialZi;
-    canPlace = !!onLSpecial;
-    try {
-      const segs =
-        secForGate?.division?.segmentsLShapeBack ||
-        secForGate?.division?.segmentsLShape;
-      console.log('[L-CORNER] commitGhostSnap', {
-        canPlace,
-        onLSpecial,
-        zoneIndex: zi?.zoneIndex ?? null,
-        specialZi,
-        sectionId: zi?.sectionId ?? null,
-        doorKind: zoneDoor,
-        segs: Array.isArray(segs)
-          ? segs.map((s) => ({ type: s?.type, zi: s?.zoneIndex, w: s?.widthMm }))
-          : null,
-      });
-    } catch (_) {}
+    const freeWall =
+      state.kitchenSectionsEnabled === false ||
+      !(state.customSections || []).length;
+    if (freeWall) {
+      canPlace = true;
+      try {
+        const prev = window.__cldLCornerLastGhostReason;
+        if (prev !== 'free-wall' || window.__cldLCornerVerbose === true) {
+          window.__cldLCornerLastGhostReason = 'free-wall';
+          console.warn('[L-CORNER] commitGhostSnap', {
+            reason: 'free-wall',
+            canPlace: true,
+          });
+        }
+      } catch (_) {}
+    } else if (isPendingWallCornerCabinet()) {
+      // «Угловой Г обр» → G-ячейка. Приставной ВМУ1 — пока без mid.special (wiped).
+      let gOk =
+        isPendingUpperGCabinet() &&
+        (zi?.upperGCell === true || zi?.upperCornerSeat === 'G');
+      if (!gOk && isPendingUpperGCabinet() && secForGate?.lShape) {
+        try {
+          const t =
+            typeof window.__cldResolveUpperGGhostTarget === 'function'
+              ? window.__cldResolveUpperGGhostTarget(secForGate, {
+                  furnitureData: state.pendingFurnitureData,
+                  pendingZone: zi,
+                  hitY: zi?.hitY,
+                })
+              : null;
+          if (t?.snap) {
+            gOk = true;
+            state._pendingZoneInfo = {
+              ...(zi || {}),
+              sectionId: t.section?.id ?? zi?.sectionId,
+              wallName: t.wallName || zi?.wallName,
+              zoneIndex: t.snap.zoneIndex,
+              upperGCell: true,
+              upperCornerSeat: 'G',
+              upperGBand: t.upperGBand || null,
+              jointId: t.jointId || null,
+              upperCornerCellId: t.cornerCellId || null,
+            };
+          }
+        } catch (_) {}
+      }
+      if (gOk) {
+        canPlace = true;
+        try {
+          window.__cldLCornerLastGhostReason = 'upper-g-cell';
+          console.warn('[L-CORNER] commitGhostSnap', {
+            reason: 'upper-g-cell',
+            canPlace: true,
+            jointId: state._pendingZoneInfo?.jointId || zi?.jointId || null,
+          });
+        } catch (_) {}
+      } else {
+        canPlace = false;
+        try {
+          window.__cldLCornerLastGhostReason = 'vmu-upper-wiped';
+          console.warn('[L-CORNER] commitGhostSnap', {
+            reason: 'vmu-upper-wiped',
+            canPlace: false,
+            isG: isPendingUpperGCabinet(),
+          });
+        } catch (_) {}
+      }
+    } else {
+      let pairPrimary = null;
+      try {
+        if (secForGate?.lShape) {
+          pairPrimary = getLShapePairForSection(secForGate)?.primary || null;
+        }
+      } catch (_) {}
+      const specialSec = pairPrimary || secForGate;
+      const specialZi = specialSec
+        ? resolvePendingCornerSpecialZi(specialSec)
+        : null;
+      const onPrimary =
+        !!specialSec &&
+        !!secForGate &&
+        String(specialSec.id) === String(secForGate.id);
+      const onLSpecial =
+        specialZi != null &&
+        zi?.zoneIndex != null &&
+        Number(zi.zoneIndex) === Number(specialZi) &&
+        onPrimary;
+      canPlace = !!onLSpecial;
+      const reason = !secForGate
+        ? 'no-section'
+        : specialZi == null
+          ? 'specialZi-null'
+          : !onPrimary
+            ? 'hit-attached-not-primary'
+            : Number(zi?.zoneIndex) !== Number(specialZi)
+              ? `zi=${zi?.zoneIndex}!==special=${specialZi}`
+              : canPlace
+                ? 'ok'
+                : 'blocked';
+      try {
+        const prev = window.__cldLCornerLastGhostReason;
+        if (prev !== reason || window.__cldLCornerVerbose === true) {
+          window.__cldLCornerLastGhostReason = reason;
+          console.warn('[L-CORNER] commitGhostSnap', {
+            reason,
+            canPlace,
+            zoneIndex: zi?.zoneIndex ?? null,
+            specialZi,
+            sectionId: zi?.sectionId ?? null,
+            wall: secForGate?.wallName ?? null,
+            role: secForGate?.lShape?.role ?? null,
+            primaryId: pairPrimary?.id ?? null,
+            doorKind: zoneDoor,
+          });
+        }
+      } catch (_) {}
+    }
   }
   state._ghostZonePlacementAllowed = canPlace;
   if (!canPlace && zoneDoor) {
@@ -448,12 +1265,20 @@ function commitGhostSnap(worldPos, wallName, rotationY, zoneSize, afterScaleFn) 
     state.ghostPosition = worldPos.clone();
     state.lastValidGhostPosition = worldPos.clone();
     state.lastValidGhostWall = wallName;
-  } else {
+  } else if (wallBandOk) {
+    // НШ1 над спец-ячейкой: не сбрасывать pivot — иначе release отменяет place.
+    state.ghostWall = wallName;
+    state.ghostPosition = worldPos.clone();
+    state.lastValidGhostPosition = worldPos.clone();
+    state.lastValidGhostWall = wallName;
+    state._ghostZonePlacementAllowed = true;
+  } else if (!isPendingLCornerCabinet()) {
     state.ghostWall = null;
     state.ghostPosition = null;
     state.lastValidGhostPosition = null;
     state.lastValidGhostWall = null;
   }
+  // Угловой: не сбрасывать lastValid при кратком промахе — place с lastValid.
   if (typeof window !== 'undefined' && typeof window.__cldSyncGhostClodisPrebuildContext === 'function') {
     window.__cldSyncGhostClodisPrebuildContext();
   }
@@ -470,8 +1295,12 @@ import {
   isWallHungPlacementKind,
   isWallHungLowPlacementKind,
   isWallHungHighPlacementKind,
+  isKitchenBasePlacementKind,
+  isKitchenTallPlacementKind,
+  isKitchenWallMidPlacementKind,
+  isKitchenWallTopPlacementKind,
   resolveWallHungFloorClearanceMm,
-} from '../sections/vertical-layout.js?v=20260921-whh1';
+} from '../sections/vertical-layout.js?v=20261010-tall-top1';
 
 /**     ():  ; fallback    */
 function nicheSlotYOrFallback(section, rawYmm, opts = {}) {
@@ -499,7 +1328,49 @@ function withNichePlinthGhostBoxY(size, section, data) {
   return { ...size, ghostBoxYMm: y + plinth };
 }
 
+/** Сырой profile id (kitchen_tall), не mapped baseKind (floor_in_niche). */
+function getRawGhostPlacementKind(data) {
+  if (!data || typeof data !== 'object') return '';
+  // Папка 50/51 раньше card placementKind (иначе wall_hung_* ломает MID/TOP).
+  {
+    const folder = _kitchenWallBandFolderId(data);
+    if (folder === 'top') return 'kitchen_wall_top';
+    if (folder === 'mid') return 'kitchen_wall_mid';
+  }
+  const pick = (v) =>
+    typeof v === 'string' && v.trim() && v.trim() !== 'floor_in_niche' ? v.trim() : '';
+  const fromProfile =
+    pick(data.__placementKindProfileId) ||
+    pick(data.placementKindProfileId) ||
+    pick(data?.catalogItem?.placementKind) ||
+    pick(data?.catalogItem?.placement_kind);
+  if (fromProfile) return fromProfile;
+
+  const readDataPk = (raw) => {
+    if (!raw) return '';
+    if (typeof raw === 'object') return pick(raw.placementKind || raw.placement_kind);
+    if (typeof raw === 'string' && raw.trim()) {
+      try {
+        const parsed = JSON.parse(raw);
+        return pick(parsed?.placementKind || parsed?.placement_kind);
+      } catch (_) {
+        return '';
+      }
+    }
+    return '';
+  };
+  const fromData =
+    readDataPk(data?.catalogItem?.data) ||
+    readDataPk(data?.data) ||
+    pick(data.placementKind);
+  return fromData;
+}
+
 function resolvePlacementKind(data) {
+  // Сначала сырой kitchen_* из карточки — furnitureData.placementKind часто уже mapped.
+  const catalogRaw = getRawGhostPlacementKind(data);
+  if (catalogRaw) return catalogRaw;
+
   const raw =
     data?.placementKind ||
     data?.catalogItem?.placementKind ||
@@ -507,10 +1378,14 @@ function resolvePlacementKind(data) {
   if (typeof raw === 'string' && raw.trim() && raw.trim() !== 'floor_in_niche') return raw.trim();
 
   const parseFrom = (v) => {
+    if (typeof v === 'object' && v) {
+      const pk = v.placementKind || v.placement_kind;
+      return typeof pk === 'string' && pk.trim() ? pk.trim() : '';
+    }
     if (typeof v !== 'string' || !v.trim()) return '';
     try {
       const parsed = JSON.parse(v);
-      const pk = parsed?.placementKind;
+      const pk = parsed?.placementKind || parsed?.placement_kind;
       return typeof pk === 'string' && pk.trim() ? pk.trim() : '';
     } catch (_) {
       return '';
@@ -623,14 +1498,14 @@ function computeLayoutZonesForSection(sectionData, pendingFurnitureData) {
     return null;
   }
 }
-import { readClodisJSON, readUserDataClodisRoots, readUserDataClodisData } from '../clodis-json-fields.js?v=20260615-purity';
-import { getClodisDataForBuild, extractSectionSizeFromFurnitureData, getDataForBuild, extractModuleVariablesFromFurnitureData } from './furniture-clodis.js?v=20260614-clodis-typo-fix';
+import { readClodisJSON, readUserDataClodisRoots, readUserDataClodisData } from '../clodis-json-fields.js?v=20261008-joint-room2';
+import { getClodisDataForBuild, extractSectionSizeFromFurnitureData, getDataForBuild, extractModuleVariablesFromFurnitureData } from './furniture-clodis.js?v=20261109-seatb3';
 import {
   prepareClodisForRoomBuild,
   buildRoomDoorPrepareOpts,
   resolveDoorKindFromFurnitureData,
   resolveModuleHasSwingDoor,
-} from './furniture-door-layout.js?v=20260624-unified-wardrobe-only';
+} from './furniture-door-layout.js?v=20261010-kitchen-base-doors';
 
 function ghostSectionSwingNeighborZones(sectionId) {
   const rows = [];
@@ -691,14 +1566,111 @@ function resolveGhostCatalogSizeMm(data) {
   return extractSectionSizeFromFurnitureData(stripped);
 }
 
-/**  / :  =  ,   . */
+/** kitchen_base / gola / corner / НШ1 — не ниша шкафа. */
+function isKitchenBaseGhostData(data) {
+  const pk = resolvePlacementKind(data);
+  return (
+    isKitchenBasePlacementKind(pk) ||
+    isKitchenTallPlacementKind(pk) ||
+    isKitchenWallMidPlacementKind(pk) ||
+    isKitchenWallTopPlacementKind(pk)
+  );
+}
+
+function resolveKitchenTallGhostHeightMm(data) {
+  try {
+    const km =
+      typeof window !== 'undefined' ? window.__cldKitchenManufacturing : null;
+    if (!km || typeof km.resolveKitchenTallPlaceSizing !== 'function') return 0;
+    const item = data?.catalogItem || data;
+    let kt = data?.__kitchenTall || item?.data?.kitchenTall || item?.kitchenTall || {};
+    if (typeof item?.data === 'string' && item.data.trim()) {
+      try {
+        const parsed = JSON.parse(item.data);
+        if (parsed?.kitchenTall) kt = parsed.kitchenTall;
+      } catch (_) {}
+    }
+    kt = kt && typeof kt === 'object' ? kt : {};
+    const sizing = km.resolveKitchenTallPlaceSizing({
+      facadeType: kt.facadeType || 'doors_3',
+      lowerHalfOfNmMm: kt.lowerHalfOfNmMm,
+      ovenNicheMm: kt.ovenNicheMm,
+      microwaveNicheMm: kt.microwaveNicheMm,
+    });
+    return sizing?.ok ? Math.round(Number(sizing.totalHeightMm) || 0) : 0;
+  } catch (_) {
+    return 0;
+  }
+}
+
+function _sectionDepthMmForGhost(section) {
+  const wallName = String(section?.wallName || 'back').toLowerCase();
+  return wallName === 'left' || wallName === 'right'
+    ? Math.round(Number(section?.size?.x) || 0)
+    : Math.round(Number(section?.size?.z ?? section?.size?.depth) || 0);
+}
+
+/** НШ1: H/D/floorClearance из ритма + секция/проект (каталог тянется). */
+function resolveKitchenWallMidGhostSizing(section) {
+  try {
+    const km =
+      typeof window !== 'undefined' ? window.__cldKitchenManufacturing : null;
+    if (!km || typeof km.resolveKitchenWallMidPlaceSizing !== 'function') {
+      return null;
+    }
+    const secD = _sectionDepthMmForGhost(section);
+    const sizing = km.resolveKitchenWallMidPlaceSizing({
+      sectionDepthMm: secD > 0 ? secD : undefined,
+    });
+    if (!sizing || !sizing.ok) return null;
+    return {
+      heightMm: Math.round(Number(sizing.carcassHeightMm) || 720),
+      depthMm: Math.round(Number(sizing.carcassDepthMm) || 350),
+      floorClearanceMm: Math.round(Number(sizing.floorClearanceMm) || 0),
+    };
+  } catch (_) {
+    return null;
+  }
+}
+
+/** НШ2: низ = верх НШ1. */
+function resolveKitchenWallTopGhostSizing(section) {
+  try {
+    const km =
+      typeof window !== 'undefined' ? window.__cldKitchenManufacturing : null;
+    if (!km || typeof km.resolveKitchenWallTopPlaceSizing !== 'function') {
+      return null;
+    }
+    const secD = _sectionDepthMmForGhost(section);
+    const sizing = km.resolveKitchenWallTopPlaceSizing({
+      sectionDepthMm: secD > 0 ? secD : undefined,
+    });
+    if (!sizing || !sizing.ok) return null;
+    return {
+      heightMm: Math.round(Number(sizing.carcassHeightMm) || 360),
+      depthMm: Math.round(Number(sizing.carcassDepthMm) || 350),
+      floorClearanceMm: Math.round(Number(sizing.floorClearanceMm) || 0),
+    };
+  } catch (_) {
+    return null;
+  }
+}
+
+/** Тумба/навес: глубина (и частично ширина) из каталога. Кухня — тоже. */
 function ghostUsesModuleCatalogSize(data) {
   const pk = resolvePlacementKind(data);
-  return pk === PLACEMENT_KIND.STANDALONE_FLOOR || isWallHungPlacementKind(pk);
+  // НШ1/НШ2: D из секции/проекта, не из карточки.
+  if (isKitchenWallMidPlacementKind(pk) || isKitchenWallTopPlacementKind(pk)) return false;
+  return (
+    pk === PLACEMENT_KIND.STANDALONE_FLOOR ||
+    isWallHungPlacementKind(pk) ||
+    isKitchenBasePlacementKind(pk) ||
+    isKitchenTallPlacementKind(pk)
+  );
 }
 
 /**
- *   :  ()  /;    .
+ * Высота призрака: тумба/НМ/пенал/НШ1 — своя; шкаф — ниша.
  */
 function resolveGhostModuleHeightMm(data, section) {
   const nicheY = nicheSlotYOrFallback(
@@ -707,7 +1679,24 @@ function resolveGhostModuleHeightMm(data, section) {
   );
   if (!data) return nicheY;
   const pk = resolvePlacementKind(data);
-  if (pk === PLACEMENT_KIND.STANDALONE_FLOOR) {
+  if (isKitchenTallPlacementKind(pk)) {
+    return (
+      resolveKitchenTallGhostHeightMm(data) ||
+      Number(resolveGhostCatalogSizeMm(data).y) ||
+      nicheY
+    );
+  }
+  if (_isKitchenWallBandGhostData(data)) {
+    if (_isKitchenWallTopGhostData(data)) {
+      const top = resolveKitchenWallTopGhostSizing(section);
+      if (top && top.heightMm > 0) return top.heightMm;
+      return 360;
+    }
+    const mid = resolveKitchenWallMidGhostSizing(section);
+    if (mid && mid.heightMm > 0) return mid.heightMm;
+    return 720;
+  }
+  if (pk === PLACEMENT_KIND.STANDALONE_FLOOR || isKitchenBasePlacementKind(pk)) {
     return (
       resolveStandaloneGhostHeightMm(data, section) ||
       Number(resolveGhostCatalogSizeMm(data).y) ||
@@ -738,11 +1727,27 @@ function finalizeGhostZoneSizeMm(zoneSize, data, section, wallName) {
     y: y > 0 ? y : Number(zoneSize.y) || 0,
     z: Number(zoneSize.z) || 0,
   };
+  // НШ1/НШ2: W = ячейка, D/H из ритма (~350), НЕ глубина секции/столешки.
+  if (_isKitchenWallBandGhostData(data)) {
+    return _forceKitchenWallBandZoneSizeMm(out, data, section);
+  }
   if (!ghostUsesModuleCatalogSize(data)) return out;
   const catalog = resolveGhostCatalogSizeMm(data);
   const cz = Number(catalog.z) || 0;
-  //        =  .
+  const cx = Number(catalog.x) || 0;
+  // Глубина из каталога (тумба / навес / kitchen_base / пенал).
   if (cz > 0) out.z = cz;
+  // Кухня (Cell Engine): ширина = ячейка; если зона ещё не задана — каталог.
+  if (isKitchenBaseGhostData(data)) {
+    const pk = resolvePlacementKind(data);
+    if (cx > 0 && !(out.x > 0)) out.x = cx;
+    // Пенал: не схлопывать в тонкую полоску при битом zoneWidth.
+    if (isKitchenTallPlacementKind(pk) && cx > 0 && out.x > 0 && out.x < 100) {
+      out.x = cx;
+    }
+    if (!(out.y > 100) && y > 0) out.y = y;
+    if (!(out.z > 100) && cz > 0) out.z = cz;
+  }
   return out;
 }
 
@@ -754,6 +1759,35 @@ function getGhostPivotWorldY(section, data) {
   if (floorY == null) return null;
   if (!data || !section) return floorY;
   const pk = resolvePlacementKind(data);
+  // ВМУ (54): mid НШ1 или top антресоль — не у пола.
+  if (isPendingWallCornerCabinet() || _isKitchenWallBandGhostData(data)) {
+    const upperGTop =
+      isPendingUpperGCabinet() &&
+      (String(state._pendingZoneInfo?.upperGBand || '').toLowerCase() ===
+        'top' ||
+        (typeof window.__cldResolveUpperGBandFromContext === 'function' &&
+          window.__cldResolveUpperGBandFromContext(
+            data,
+            state._pendingZoneInfo,
+            null
+          ) === 'top'));
+    if (
+      upperGTop ||
+      (_isKitchenWallTopGhostData(data) && !isPendingWallCornerCabinet())
+    ) {
+      // Не ceiling-якорь шкафа: низ = верх НШ1 / антресоль.
+      const top = resolveKitchenWallTopGhostSizing(section);
+      const clr =
+        top && top.floorClearanceMm > 0 ? top.floorClearanceMm : 2140;
+      return floorY + Math.max(0, clr);
+    }
+    const mid = resolveKitchenWallMidGhostSizing(section);
+    const clr =
+      mid && mid.floorClearanceMm > 0
+        ? mid.floorClearanceMm
+        : resolveWallHungFloorClearanceMm(null, section);
+    return floorY + Math.max(0, clr);
+  }
   if (isWallHungLowPlacementKind(pk)) {
     try {
       refreshSectionVerticalLayout(section);
@@ -779,7 +1813,13 @@ function getGhostPivotWorldY(section, data) {
 
 function isProfileFixedHeightModule(data) {
   const pk = resolvePlacementKind(data);
-  if (pk === PLACEMENT_KIND.STANDALONE_FLOOR) return true;
+  if (
+    pk === PLACEMENT_KIND.STANDALONE_FLOOR ||
+    isKitchenBasePlacementKind(pk) ||
+    isKitchenTallPlacementKind(pk)
+  ) {
+    return true;
+  }
   try {
     const cfg =
       typeof window !== 'undefined' && typeof window.getRoomStepsConfig === 'function'
@@ -917,6 +1957,10 @@ function resizeFurnitureGhostBox(ghostGroup, size, logicalSize = null) {
 
 export function startFurniturePlacement(furnitureData) {
   console.log('🚀🚀🚀 startFurniturePlacement ВЫЗВАН 🚀🚀🚀');
+  // Stamp НШ1/НШ2 до любого snap — иначе mapped wall_hung + sectionSize.z=550.
+  if (furnitureData && typeof furnitureData === 'object') {
+    _ensureKitchenWallBandStamp(furnitureData);
+  }
   state.pendingFurnitureData = furnitureData;
   state.isPlacingFurniture = true;
   state.lastValidGhostPosition = null;
@@ -924,8 +1968,87 @@ export function startFurniturePlacement(furnitureData) {
   window._ghostMoveCount = 0;
   window._ghostUpdateCount = 0;
 
-  // Create furniture ghost (без переопределения размеров, по умолчанию)
-  createFurnitureGhost(furnitureData, null);
+  // Пенал / НШ1: сразу H/D из ритма (не ждать hover секции).
+  let initialSize = null;
+  try {
+    const pk = resolvePlacementKind(furnitureData);
+    if (isKitchenTallPlacementKind(pk)) {
+      const cat = resolveGhostCatalogSizeMm(furnitureData);
+      const tallH = resolveKitchenTallGhostHeightMm(furnitureData);
+      initialSize = {
+        x: Math.max(1, Math.round(Number(cat.x) || Number(furnitureData?.width) || 600)),
+        y: Math.max(
+          1,
+          Math.round(tallH || Number(cat.y) || Number(furnitureData?.height) || 2100)
+        ),
+        z: Math.max(1, Math.round(Number(cat.z) || Number(furnitureData?.depth) || 550)),
+      };
+      furnitureData.sectionSize = { ...initialSize };
+      console.log('[KITCHEN-TALL] ghost start size', initialSize);
+    } else if (
+      isPendingWallCornerCabinet() ||
+      _isKitchenWallBandGhostData(furnitureData)
+    ) {
+      const cat = resolveGhostCatalogSizeMm(furnitureData);
+      let upperGStartTop = false;
+      if (isPendingUpperGCabinet()) {
+        try {
+          if (typeof window.__cldResolveUpperGBandFromContext === 'function') {
+            upperGStartTop =
+              window.__cldResolveUpperGBandFromContext(
+                furnitureData,
+                state._pendingZoneInfo,
+                null
+              ) === 'top';
+          } else {
+            const vs = state.kitchenBandGridsView;
+            upperGStartTop =
+              !!vs?.enabled &&
+              String(vs.band || '').toLowerCase() === 'top';
+          }
+        } catch (_) {}
+      }
+      const isTop =
+        upperGStartTop ||
+        (!isPendingWallCornerCabinet() &&
+          _isKitchenWallTopGhostData(furnitureData));
+      const sized = isTop
+        ? resolveKitchenWallTopGhostSizing(null)
+        : resolveKitchenWallMidGhostSizing(null);
+      initialSize = {
+        x: Math.max(
+          1,
+          Math.round(
+            isPendingWallCornerCabinet()
+              ? 600
+              : Number(cat.x) || Number(furnitureData?.width) || 600
+          )
+        ),
+        y: Math.max(
+          1,
+          Math.round(
+            (sized && sized.heightMm) || (isTop ? 360 : 720)
+          )
+        ),
+        z: Math.max(1, Math.round((sized && sized.depthMm) || 350)),
+      };
+      furnitureData.sectionSize = { ...initialSize };
+      console.log(
+        isPendingWallCornerCabinet()
+          ? upperGStartTop
+            ? '[KITCHEN-WALL-CORNER-TOP] ghost start size'
+            : '[KITCHEN-WALL-CORNER] ghost start size'
+          : isTop
+            ? '[KITCHEN-WALL-TOP] ghost start size'
+            : '[KITCHEN-WALL-MID] ghost start size',
+        initialSize,
+        { floorClearanceMm: sized && sized.floorClearanceMm }
+      );
+    }
+  } catch (e) {
+    console.warn('[KITCHEN] ghost start size failed', e);
+  }
+  createFurnitureGhost(furnitureData, initialSize);
 
   if (state.renderer) {
     const pr = getRoomRenderPixelRatio();
@@ -944,9 +2067,18 @@ export function startFurniturePlacement(furnitureData) {
 function resolveGhostSlotWidthMm(zoneX, catalogX, furnitureData) {
   const zx = Number(zoneX) || 0;
   const cx = Number(catalogX) || 0;
-  //  /   :   (1/2),  .
+  // НШ1/НШ2: тянется на ширину ячейки.
+  if (_isKitchenWallBandGhostData(furnitureData)) {
+    return zx > 0 ? zx : cx;
+  }
+  // Кухня НМ/пенал: ширина карточки, внутри зоны (не растягивать до зоны).
+  if (isKitchenBaseGhostData(furnitureData)) {
+    if (zx > 0 && cx > 0) return Math.min(zx, cx);
+    return cx > 0 ? cx : zx;
+  }
+  // Тумба/навес: ширина слота зоны (1/2 и т.п.).
   if (ghostUsesModuleCatalogSize(furnitureData) && zx > 0) return zx;
-  //   :    ( ).
+  // Шкаф в нише: min(зона, каталог).
   if (zx > 0 && cx > 0) return Math.min(zx, cx);
   return zx > 0 ? zx : cx;
 }
@@ -1029,7 +2161,13 @@ export function createFurnitureGhost(
       Number(sectionSizeOverride.ghostBoxYMm) > 0
         ? Number(sectionSizeOverride.ghostBoxYMm)
         : zy;
-    const depthMm = ghostUsesModuleCatalogSize(furnitureData) && cz > 0 ? cz : zz;
+    // НШ1/НШ2: только override/ритм (≤450), никогда каталог/секция 550–600.
+    let depthMm = zz;
+    if (_isKitchenWallBandGhostData(furnitureData)) {
+      depthMm = zz > 0 && zz <= 450 ? zz : 350;
+    } else if (ghostUsesModuleCatalogSize(furnitureData) && cz > 0) {
+      depthMm = cz;
+    }
     size = new THREE.Vector3(wx, boxY, depthMm);
     logicalSize = { x: wx, y: zy, z: depthMm };
     bboxMax = size.clone();
@@ -1038,6 +2176,7 @@ export function createFurnitureGhost(
       catalog: catalogSize,
       ghostBox: size,
       placementKind: resolvePlacementKind(furnitureData),
+      wallBand: furnitureData?.__kitchenWallBand || null,
     });
   } else {
     size = new THREE.Vector3(
@@ -1144,7 +2283,6 @@ export function updateFurnitureGhostPosition(event) {
 
   try {
 
-  //   ,       .
   // Ниже, когда успешно привязываемся к зоне секции, заполним state._pendingZoneInfo.
   state._pendingZoneInfo = null;
 
@@ -1174,14 +2312,20 @@ export function updateFurnitureGhostPosition(event) {
     return true;
   });
 
-  // Raycast        (, , )  
+  // Raycast по секциям. НШ1/НШ2: не бить в уже стоящую мебель (Г) —
+  // иначе hitPoint в углу и «левая ячейка» никогда не выбирается.
   const sectionGroups = (state.customSections || []).map(s => s.group).filter(Boolean);
+  const skipFurnRay = _isPendingKitchenWallBandModule();
   let sectionHit = null;
   if (sectionGroups.length > 0) {
     const sh = state.raycaster.intersectObjects(sectionGroups, true);
-    //         ,  
-    //   :       .
-    sectionHit = sh.find((h) => !isEndCabinetPartObject(h.object)) || null;
+    sectionHit =
+      sh.find((h) => {
+        if (!h?.object) return false;
+        if (isEndCabinetPartObject(h.object)) return false;
+        if (skipFurnRay && _isPlacedFurnitureRayObject(h.object)) return false;
+        return true;
+      }) || null;
   }
 
   //     :   ,    .
@@ -1248,17 +2392,26 @@ export function updateFurnitureGhostPosition(event) {
 
   if (useSection && sectionHit) {
     const hitPoint = sectionHit.point.clone();
-    const section = state.customSections.find(s => {
+    let section = state.customSections.find(s => {
       let obj = sectionHit.object;
       while (obj && obj !== s.group) obj = obj.parent;
       return obj === s.group;
     });
       if (section) {
       let zoneSnap = null;
+      // Угловой НМ: не цепляться к attached / соседней ячейке — только спец primary.
+      // Г: hitY → mid (НШ1) или top (антресоль).
+      const cornerTarget = resolveCornerCabinetLTarget(section, {
+        hitY: hitPoint.y,
+      });
+      if (cornerTarget) {
+        section = cornerTarget.section;
+      }
       const wallName = section.wallName || section.division?.wallName || 'back';
       const resolvedWallName = section.wallName || section.division?.wallName || wallName;
       const rotationY = wallName === 'front' ? Math.PI : wallName === 'left' ? Math.PI / 2 : wallName === 'right' ? -Math.PI / 2 : 0;
-      let worldPos;
+      // Всегда есть fallback — иначе NaN/undefined → призрак невидим, wall=null.
+      let worldPos = hitPoint.clone();
       let zoneSize = null;
       //    snap    doorKind →  .
       if (
@@ -1270,21 +2423,67 @@ export function updateFurnitureGhostPosition(event) {
       if (section.division) {
         const division = section.division;
         const hitCoord = (resolvedWallName === 'front' || resolvedWallName === 'back') ? hitPoint.x : hitPoint.z;
-        let snap = snapToZoneDoubleModule(
-          hitCoord,
-          division,
-          resolvedWallName,
-          section.id
-        );
+        let snap = cornerTarget
+          ? cornerTarget.snap
+          : snapToZoneDoubleModule(
+              hitCoord,
+              division,
+              resolvedWallName,
+              section.id
+            );
+        // НШ1/НШ2 на L: только MID/TOP. Без bandSnap не оставляем BASE-спец 1050
+        // (иначе ячейка слева от Г «перескакивает» в угол).
+        if (!cornerTarget) {
+          const bandSnap = resolveKitchenWallBandGhostSnap(
+            section,
+            hitCoord,
+            resolvedWallName
+          );
+          if (bandSnap) {
+            snap = bandSnap;
+          } else if (_isPendingKitchenWallBandModule()) {
+            snap = null;
+          }
+        }
         if (snap) {
           //  ,     ,
           //      zoneIndex.
+          const wallCornerPending = isPendingWallCornerCabinet();
+          const upperGPending = cornerTarget?.upperGCell === true;
+          const isSeatB = snap.upperCornerSeat === 'B';
           state._pendingZoneInfo = {
             sectionId: section.id,
             wallName: resolvedWallName,
             zoneIndex: snap.zoneIndex,
             doorKind: getZoneDoorKind(section, snap.zoneIndex),
             hitAlongMm: hitCoord,
+            hitY: hitPoint.y,
+            ...(isSeatB
+              ? {
+                  upperCornerSeat: 'B',
+                  upperCornerCellId: snap.upperCornerCellId || null,
+                  seatBStartU: snap.seatBStartU,
+                  seatBEndU: snap.seatBEndU,
+                  seatBSpannedZones: Array.isArray(snap.seatBSpannedZones)
+                    ? snap.seatBSpannedZones.slice()
+                    : [],
+                  seatBAnchorEdge: snap.seatBAnchorEdge || null,
+                  seatBModuleWidth: snap.moduleWidth,
+                  seatBStartMm: snap.seatBStartMm,
+                }
+              : {
+                  upperCornerSeat: upperGPending
+                    ? 'G'
+                    : wallCornerPending
+                      ? 'A'
+                      : null,
+                  upperGCell: upperGPending,
+                  upperGBand: upperGPending
+                    ? cornerTarget?.upperGBand || null
+                    : null,
+                  jointId: cornerTarget?.jointId || null,
+                  upperCornerCellId: cornerTarget?.cornerCellId || null,
+                }),
           };
           _triggerAutoSwitchForZone(section, snap.zoneIndex);
           const key = `${section.id}|${resolvedWallName}`;
@@ -1296,6 +2495,14 @@ export function updateFurnitureGhostPosition(event) {
               sectionName: section.name,
               wallName: resolvedWallName,
               zoneIndex: snap.zoneIndex,
+              upperCornerSeat: isSeatB
+                ? 'B'
+                : upperGPending
+                  ? 'G'
+                  : wallCornerPending
+                    ? 'A'
+                    : null,
+              upperGCell: upperGPending,
               hitCoord,
               division: {
                 sectionStart: division.sectionStart,
@@ -1312,33 +2519,147 @@ export function updateFurnitureGhostPosition(event) {
             resolvedWallName === 'left' || resolvedWallName === 'right'
               ? section.size.x
               : (section.size.z ?? section.size.depth);
-          let zoneSizeDraft = finalizeGhostZoneSizeMm(
-            { x: snap.moduleWidth, y: sy, z: depthForZone },
-            state.pendingFurnitureData,
-            section,
-            resolvedWallName
-          );
-          const cell = applyMaatkastenStraightGhostCellSnap(
-            section,
-            resolvedWallName,
-            hitCoord,
-            snap,
-            zoneSizeDraft
-          );
-          snap = cell.snap;
-          if (cell.worldPos) worldPos = cell.worldPos;
-          zoneSize = finalizeGhostZoneSizeMm(
-            cell.zoneSize || zoneSizeDraft,
-            state.pendingFurnitureData,
-            section,
-            resolvedWallName
-          );
+          const wallCornerGhost =
+            isPendingWallCornerCabinet() || cornerTarget?.wallCorner === true;
+          const upperGTopGhost =
+            cornerTarget?.upperGCell === true &&
+            cornerTarget?.upperGBand === 'top';
+          let zoneSizeDraft;
+          if (_isPendingKitchenWallBandModule() || wallCornerGhost) {
+            const bandSized = upperGTopGhost
+              ? resolveKitchenWallTopGhostSizing(section)
+              : resolveKitchenWallMidGhostSizing(section);
+            zoneSizeDraft = _forceKitchenWallBandZoneSizeMm(
+              {
+                x: wallCornerGhost
+                  ? Math.min(600, snap.moduleWidth || 600)
+                  : snap.moduleWidth,
+                y:
+                  (bandSized && bandSized.heightMm) ||
+                  sy ||
+                  (upperGTopGhost ? 360 : 720),
+                z: (bandSized && bandSized.depthMm) || 350,
+              },
+              state.pendingFurnitureData,
+              section
+            );
+            if (wallCornerGhost) {
+              zoneSizeDraft = {
+                ...zoneSizeDraft,
+                x: Math.max(50, Math.round(Number(snap.moduleWidth) || 600)),
+                z: Math.max(
+                  50,
+                  Math.round((bandSized && bandSized.depthMm) || 350)
+                ),
+                y: Math.max(
+                  50,
+                  Math.round(
+                    (bandSized && bandSized.heightMm) ||
+                      (upperGTopGhost ? 360 : 720)
+                  )
+                ),
+              };
+            }
+          } else {
+            zoneSizeDraft = finalizeGhostZoneSizeMm(
+              { x: snap.moduleWidth, y: sy, z: depthForZone },
+              state.pendingFurnitureData,
+              section,
+              resolvedWallName
+            );
+          }
+          // Угловой НМ: не давать Maatkasten half/merge сбить specialZi.
+          // НШ1/НШ2: не раздувать в спец низа 1050 — ширина = ячейка MID.
+          let cell = { snap, worldPos: null, zoneSize: zoneSizeDraft };
+          if (
+            !cornerTarget &&
+            !_isPendingKitchenWallBandModule() &&
+            !wallCornerGhost
+          ) {
+            cell = applyMaatkastenStraightGhostCellSnap(
+              section,
+              resolvedWallName,
+              hitCoord,
+              snap,
+              zoneSizeDraft
+            );
+          }
+          snap = cell.snap || snap;
+          const pivotPos =
+            cell.worldPos ||
+            getZonePivotWorldPosition(section, snap, resolvedWallName);
+          if (pivotPos && Number.isFinite(pivotPos.x) && Number.isFinite(pivotPos.z)) {
+            worldPos = pivotPos.clone();
+          }
+          // Г-ячейка: пивот = угол комнаты (не zone pivot вдоль стены).
+          if (
+            cornerTarget?.upperGCell &&
+            cornerTarget.worldPos &&
+            Number.isFinite(Number(cornerTarget.worldPos.x)) &&
+            Number.isFinite(Number(cornerTarget.worldPos.z))
+          ) {
+            worldPos.x = Number(cornerTarget.worldPos.x);
+            worldPos.z = Number(cornerTarget.worldPos.z);
+            if (Number.isFinite(Number(cornerTarget.worldPos.y))) {
+              worldPos.y = Number(cornerTarget.worldPos.y);
+            }
+          }
+          zoneSize =
+            _isPendingKitchenWallBandModule() || wallCornerGhost
+              ? {
+                  ...zoneSizeDraft,
+                  ...(cell.zoneSize || {}),
+                  x: Math.max(
+                    50,
+                    Math.round(
+                      Number(snap.moduleWidth) ||
+                        Number(zoneSizeDraft?.x) ||
+                        600
+                    )
+                  ),
+                  z: Math.max(50, Math.round(Number(zoneSizeDraft?.z) || 350)),
+                  y: Math.max(50, Math.round(Number(zoneSizeDraft?.y) || 720)),
+                }
+              : finalizeGhostZoneSizeMm(
+                  cell.zoneSize || zoneSizeDraft,
+                  state.pendingFurnitureData,
+                  section,
+                  resolvedWallName
+                );
+          const isSeatB2 = snap.upperCornerSeat === 'B';
           state._pendingZoneInfo = {
             sectionId: section.id,
             wallName: resolvedWallName,
             zoneIndex: snap.zoneIndex,
             doorKind: getZoneDoorKind(section, snap.zoneIndex),
             hitAlongMm: hitCoord,
+            ...(isSeatB2
+              ? {
+                  upperCornerSeat: 'B',
+                  upperCornerCellId: snap.upperCornerCellId || null,
+                  seatBStartU: snap.seatBStartU,
+                  seatBEndU: snap.seatBEndU,
+                  seatBSpannedZones: Array.isArray(snap.seatBSpannedZones)
+                    ? snap.seatBSpannedZones.slice()
+                    : [],
+                  seatBAnchorEdge: snap.seatBAnchorEdge || null,
+                  seatBModuleWidth: snap.moduleWidth,
+                  seatBStartMm: snap.seatBStartMm,
+                }
+              : {
+                  upperCornerSeat: cornerTarget?.upperGCell
+                    ? 'G'
+                    : isPendingWallCornerCabinet()
+                      ? 'A'
+                      : null,
+                  upperGCell: cornerTarget?.upperGCell === true,
+                  upperGBand: cornerTarget?.upperGCell
+                    ? cornerTarget?.upperGBand || null
+                    : null,
+                  jointId: cornerTarget?.jointId || null,
+                  upperCornerCellId: cornerTarget?.cornerCellId || null,
+                  hitY: hitPoint.y,
+                }),
           };
           _triggerAutoSwitchForZone(section, snap.zoneIndex);
           zoneSnap = snap;
@@ -1380,7 +2701,12 @@ export function updateFurnitureGhostPosition(event) {
       }
       {
         const yPivot = getGhostPivotWorldY(section, state.pendingFurnitureData);
-        if (yPivot != null) {
+        if (
+          cornerTarget?.upperGCell &&
+          Number.isFinite(Number(cornerTarget.worldPos?.y))
+        ) {
+          worldPos.y = Number(cornerTarget.worldPos.y);
+        } else if (yPivot != null) {
           worldPos.y = yPivot;
         } else if (state.room) {
           const rwp = new THREE.Vector3();
@@ -1398,6 +2724,16 @@ export function updateFurnitureGhostPosition(event) {
         state.furnitureGhost.userData.wall = wallName;
         state.furnitureGhost.userData.rotation = rotationY;
         state.furnitureGhost.userData.zoneSize = zoneSize || undefined;
+        if (cornerTarget?.upperGCell && cornerTarget.frame) {
+          try {
+            if (typeof window.__cldApplyUpperGCellPoseToGroup === 'function') {
+              window.__cldApplyUpperGCellPoseToGroup(
+                state.furnitureGhost,
+                cornerTarget.frame
+              );
+            }
+          } catch (_) {}
+        }
       }
       const effSectionSize = section.size
         ? {
@@ -1416,7 +2752,10 @@ export function updateFurnitureGhostPosition(event) {
         const sizeKey = `${sizeToUse.x}_${sizeToUse.y}_${sizeToUse.z}`;
         const currentSizeKey = currentSectionSize ? `${currentSectionSize.x}_${currentSectionSize.y}_${currentSectionSize.z}` : null;
         if (sizeKey !== currentSizeKey) {
-          const orig = state.furnitureGhost?.userData?.originalFurnitureData || state.pendingFurnitureData;
+          const orig =
+            state.pendingFurnitureData ||
+            state.furnitureGhost?.userData?.originalFurnitureData;
+          if (orig) _ensureKitchenWallBandStamp(orig);
           createFurnitureGhost(
             orig,
             withNichePlinthGhostBoxY(sizeToUse, section, state.pendingFurnitureData)
@@ -1426,6 +2765,16 @@ export function updateFurnitureGhostPosition(event) {
             state.furnitureGhost.visible = true;
             state.furnitureGhost.userData.rotation = rotationY;
             state.furnitureGhost.userData.zoneSize = zoneSize || undefined;
+            if (cornerTarget?.upperGCell && cornerTarget.frame) {
+              try {
+                if (typeof window.__cldApplyUpperGCellPoseToGroup === 'function') {
+                  window.__cldApplyUpperGCellPoseToGroup(
+                    state.furnitureGhost,
+                    cornerTarget.frame
+                  );
+                }
+              } catch (_) {}
+            }
           }
         }
       }
@@ -1619,6 +2968,14 @@ export function updateFurnitureGhostPosition(event) {
           sectionAtPosition.id
         );
         let snap = snap0;
+        {
+          const bandSnap = resolveKitchenWallBandGhostSnap(
+            sectionAtPosition,
+            hitCoord,
+            resolvedWallName
+          );
+          if (bandSnap) snap = bandSnap;
+        }
         if (snap) {
           let srcHeight = resolveGhostModuleHeightMm(
             state.pendingFurnitureData,
@@ -1639,32 +2996,69 @@ export function updateFurnitureGhostPosition(event) {
             resolvedWallName === 'left' || resolvedWallName === 'right'
               ? sectionAtPosition.size.x
               : (sectionAtPosition.size.z ?? sectionAtPosition.size.depth);
-          const cell = applyMaatkastenStraightGhostCellSnap(
-            sectionAtPosition,
-            resolvedWallName,
-            hitCoord,
-            snap,
-            finalizeGhostZoneSizeMm(
-              { x: snap.moduleWidth, y: srcHeight, z: srcDepth },
-              state.pendingFurnitureData,
+          const zoneSizeDraft = _isPendingKitchenWallBandModule()
+            ? _forceKitchenWallBandZoneSizeMm(
+                { x: snap.moduleWidth, y: srcHeight, z: srcDepth },
+                state.pendingFurnitureData,
+                sectionAtPosition
+              )
+            : finalizeGhostZoneSizeMm(
+                { x: snap.moduleWidth, y: srcHeight, z: srcDepth },
+                state.pendingFurnitureData,
+                sectionAtPosition,
+                resolvedWallName
+              );
+          let cell = { snap, worldPos: null, zoneSize: zoneSizeDraft };
+          if (!_isPendingKitchenWallBandModule()) {
+            cell = applyMaatkastenStraightGhostCellSnap(
               sectionAtPosition,
+              resolvedWallName,
+              hitCoord,
+              snap,
+              zoneSizeDraft
+            );
+          } else {
+            cell.worldPos = getZonePivotWorldPosition(
+              sectionAtPosition,
+              snap,
               resolvedWallName
-            )
-          );
+            );
+          }
           snap = cell.snap;
           worldPos = cell.worldPos;
-          zoneSize = finalizeGhostZoneSizeMm(
-            cell.zoneSize,
-            state.pendingFurnitureData,
-            sectionAtPosition,
-            resolvedWallName
-          );
+          zoneSize = _isPendingKitchenWallBandModule()
+            ? _forceKitchenWallBandZoneSizeMm(
+                cell.zoneSize,
+                state.pendingFurnitureData,
+                sectionAtPosition
+              )
+            : finalizeGhostZoneSizeMm(
+                cell.zoneSize,
+                state.pendingFurnitureData,
+                sectionAtPosition,
+                resolvedWallName
+              );
+          const isSeatBWall = snap.upperCornerSeat === 'B';
           state._pendingZoneInfo = {
             sectionId: sectionAtPosition.id,
             wallName: resolvedWallName,
             zoneIndex: snap.zoneIndex,
             doorKind: getZoneDoorKind(sectionAtPosition, snap.zoneIndex),
             hitAlongMm: hitCoord,
+            ...(isSeatBWall
+              ? {
+                  upperCornerSeat: 'B',
+                  upperCornerCellId: snap.upperCornerCellId || null,
+                  seatBStartU: snap.seatBStartU,
+                  seatBEndU: snap.seatBEndU,
+                  seatBSpannedZones: Array.isArray(snap.seatBSpannedZones)
+                    ? snap.seatBSpannedZones.slice()
+                    : [],
+                  seatBAnchorEdge: snap.seatBAnchorEdge || null,
+                  seatBModuleWidth: snap.moduleWidth,
+                  seatBStartMm: snap.seatBStartMm,
+                }
+              : {}),
           };
           _triggerAutoSwitchForZone(sectionAtPosition, snap.zoneIndex);
           const key = `${sectionAtPosition.id}|${resolvedWallName}`;
@@ -1676,6 +3070,7 @@ export function updateFurnitureGhostPosition(event) {
               sectionName: sectionAtPosition.name,
               wallName: resolvedWallName,
               zoneIndex: snap.zoneIndex,
+              upperCornerSeat: isSeatBWall ? 'B' : null,
               hitCoord,
               worldPosBeforeSnap: worldPos.clone(),
               division: {
@@ -1793,7 +3188,12 @@ export function updateFurnitureGhostPosition(event) {
       
       if (sizeKey !== currentSizeKey) {
         console.log('📦 ПРИЗРАК В СЕКЦИИ/ЗОНЕ! Масштабируем:', zoneSize ? 'зона (двойной модуль)' : 'секция');
-        const originalFurnitureData = state.furnitureGhost?.userData?.originalFurnitureData || state.pendingFurnitureData;
+        const originalFurnitureData =
+          state.pendingFurnitureData ||
+          state.furnitureGhost?.userData?.originalFurnitureData;
+        if (originalFurnitureData) {
+          _ensureKitchenWallBandStamp(originalFurnitureData);
+        }
         createFurnitureGhost(
           originalFurnitureData,
           withNichePlinthGhostBoxY(
@@ -1841,8 +3241,14 @@ export function updateFurnitureGhostPosition(event) {
     const sectionGroups = (state.customSections || []).map(s => s.group).filter(Boolean);
     if (sectionGroups.length > 0) {
       const sectionHits = state.raycaster.intersectObjects(sectionGroups, true);
-      if (sectionHits.length > 0) {
-        const hit = sectionHits[0];
+      const skipFurnFb = _isPendingKitchenWallBandModule();
+      const hit =
+        sectionHits.find((h) => {
+          if (!h?.object) return false;
+          if (skipFurnFb && _isPlacedFurnitureRayObject(h.object)) return false;
+          return true;
+        }) || null;
+      if (hit) {
         const hitPoint = hit.point.clone();
         const section = state.customSections.find(s => {
           let obj = hit.object;
@@ -1866,38 +3272,83 @@ export function updateFurnitureGhostPosition(event) {
               section.id
             );
             let snap = snap0;
+            {
+              const bandSnap = resolveKitchenWallBandGhostSnap(
+                section,
+                hitCoord,
+                resolvedWallName
+              );
+              if (bandSnap) snap = bandSnap;
+            }
             if (snap) {
               const sy = resolveGhostModuleHeightMm(state.pendingFurnitureData, section);
               const depthForZone =
                 resolvedWallName === 'left' || resolvedWallName === 'right'
                   ? section.size.x
                   : (section.size.z ?? section.size.depth);
-              const cell = applyMaatkastenStraightGhostCellSnap(
-                section,
-                resolvedWallName,
-                hitCoord,
-                snap,
-                finalizeGhostZoneSizeMm(
-                  { x: snap.moduleWidth, y: sy, z: depthForZone },
-                  state.pendingFurnitureData,
+              const zoneSizeDraft = _isPendingKitchenWallBandModule()
+                ? _forceKitchenWallBandZoneSizeMm(
+                    { x: snap.moduleWidth, y: sy, z: depthForZone },
+                    state.pendingFurnitureData,
+                    section
+                  )
+                : finalizeGhostZoneSizeMm(
+                    { x: snap.moduleWidth, y: sy, z: depthForZone },
+                    state.pendingFurnitureData,
+                    section,
+                    resolvedWallName
+                  );
+              let cell = { snap, worldPos: null, zoneSize: zoneSizeDraft };
+              if (!_isPendingKitchenWallBandModule()) {
+                cell = applyMaatkastenStraightGhostCellSnap(
                   section,
+                  resolvedWallName,
+                  hitCoord,
+                  snap,
+                  zoneSizeDraft
+                );
+              } else {
+                cell.worldPos = getZonePivotWorldPosition(
+                  section,
+                  snap,
                   resolvedWallName
-                )
-              );
+                );
+              }
               snap = cell.snap;
               worldPos = cell.worldPos;
-              zoneSize = finalizeGhostZoneSizeMm(
-                cell.zoneSize,
-                state.pendingFurnitureData,
-                section,
-                resolvedWallName
-              );
+              zoneSize = _isPendingKitchenWallBandModule()
+                ? _forceKitchenWallBandZoneSizeMm(
+                    cell.zoneSize,
+                    state.pendingFurnitureData,
+                    section
+                  )
+                : finalizeGhostZoneSizeMm(
+                    cell.zoneSize,
+                    state.pendingFurnitureData,
+                    section,
+                    resolvedWallName
+                  );
+              const isSeatBFb = snap.upperCornerSeat === 'B';
               state._pendingZoneInfo = {
                 sectionId: section.id,
                 wallName: resolvedWallName,
                 zoneIndex: snap.zoneIndex,
                 doorKind: getZoneDoorKind(section, snap.zoneIndex),
                 hitAlongMm: hitCoord,
+                ...(isSeatBFb
+                  ? {
+                      upperCornerSeat: 'B',
+                      upperCornerCellId: snap.upperCornerCellId || null,
+                      seatBStartU: snap.seatBStartU,
+                      seatBEndU: snap.seatBEndU,
+                      seatBSpannedZones: Array.isArray(snap.seatBSpannedZones)
+                        ? snap.seatBSpannedZones.slice()
+                        : [],
+                      seatBAnchorEdge: snap.seatBAnchorEdge || null,
+                      seatBModuleWidth: snap.moduleWidth,
+                      seatBStartMm: snap.seatBStartMm,
+                    }
+                  : {}),
               };
               _triggerAutoSwitchForZone(section, snap.zoneIndex);
               zoneSnap = snap;
@@ -1910,6 +3361,7 @@ export function updateFurnitureGhostPosition(event) {
                   sectionName: section.name,
                   wallName: resolvedWallName,
                   zoneIndex: snap.zoneIndex,
+                  upperCornerSeat: isSeatBFb ? 'B' : null,
                   hitCoord,
                   division: {
                     sectionStart: division.sectionStart,
@@ -1944,12 +3396,14 @@ export function updateFurnitureGhostPosition(event) {
 
     //     ,   
     if (window._ghostUpdateCount <= 5 || window._ghostUpdateCount % 50 === 0) {
-      console.log('[ОТЛАДКА ghost] нет пересечения со стенами и секциями');
+      console.log('[ghost] no wall/section hit');
     }
     if (state.furnitureGhost) state.furnitureGhost.visible = false;
     if (state.room && state.room.resetWallHighlight) state.room.resetWallHighlight();
     if (state.room && state.room.hideAllMarkers) state.room.hideAllMarkers();
   }
+  } catch (err) {
+    console.warn('[ghost] updateFurnitureGhostPosition failed', err);
   } finally {
     if (event) updateCatalogDragIcon(event);
   }

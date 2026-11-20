@@ -1,0 +1,124 @@
+[
+  {
+    "file": "app.js",
+    "size": 363423,
+    "hits": {
+      "sloped-ceiling": [
+        {
+          "at": 233332,
+          "ctx": "n zr;_r=1;var e=u();return zr=function(){var t,i={};function n(){return t.parentNode.removeChild(t),e.unsubscribe(t,\"ui.sloped-ceiling-overlay.destroy\",n),i.toggleSchemaBtn.removeEventListener(\"click\",r),void i.radioInputs.forEach((function(e){e.removeEventListener(\"change\",a)}))}function r(e){var t;e.target.matches(\".mod-overlay-container-sloped-ceiling [ar"
+        },
+        {
+          "at": 233554,
+          "ctx": ".forEach((function(e){e.removeEventListener(\"change\",a)}))}function r(e){var t;e.target.matches(\".mod-overlay-container-sloped-ceiling [aria-controls]\")&&(t=\"true\"===i.toggleSchemaBtn.getAttribute(\"aria-expanded\"),i.toggleSchemaBtn.setAttribute(\"aria-expanded\",!t),i.schema.setAttribute(\"aria-hidden\",t),i.toggleSchemaBtn.innerText=t?i.toggleSchemaBtn.getAttri"
+        },
+        {
+          "at": 234215,
+          "ctx": "disabled\",!0),n.setAttribute(\"readonly\",!0),n.setAttribute(\"aria-disabled\",!0))}))}return e.subscribe(document.body,\"ui.sloped-ceiling-overlay.init\",(function(s,o,l){if(!l||!l.node||!l.node.nodeName)throw new Error(\"No node passed to ui.sloped-ceiling-overlay.init.\");t=l.node,i.radioInputs=[].slice.call(t.querySelectorAll('input[type=\"radio\"]')),i.toggleSche"
+        },
+        {
+          "at": 234332,
+          "ctx": "ui.sloped-ceiling-overlay.init\",(function(s,o,l){if(!l||!l.node||!l.node.nodeName)throw new Error(\"No node passed to ui.sloped-ceiling-overlay.init.\");t=l.node,i.radioInputs=[].slice.call(t.querySelectorAll('input[type=\"radio\"]')),i.toggleSchemaBtn=t.querySelector('[aria-controls=\"toggle-schema\"]'),i.schema=t.querySelector(\"figure.illustration\"),e.subscribe("
+        },
+        {
+          "at": 234578,
+          "ctx": "tn=t.querySelector('[aria-controls=\"toggle-schema\"]'),i.schema=t.querySelector(\"figure.illustration\"),e.subscribe(t,\"ui.sloped-ceiling-overlay.destroy\",n),i.toggleSchemaBtn.addEventListener(\"click\",r),i.radioInputs.forEach((function(e){e.addEventListener(\"change\",a)}))})),{}}}function Vr(e,t,i,n){return e.params.createElements&&Object.keys(n).forEach((r=>{if"
+        }
+      ]
+    }
+  },
+  {
+    "file": "common_Kitchen_KitchenRTL.js",
+    "size": 1074370,
+    "hits": {
+      "1300": [
+        {
+          "at": 1065180,
+          "ctx": "23292),i(8468),i(42639),i(21873),i(41088),i(92635),i(55643),i(50281),i(97790),i(32360),i(55162)),gd=(i(6246),i(94554),i(13005),i(33727)),vd=i(60401),fd=i(73141),yd=i(64036),wd=i(12179),bd=i(87289),Pd=i(6403),Cd=i(6831),Md=(i(40167),i(76092)),Sd=i(87403),Ed=i(27771),kd=i(16027),Dd=i(87262);(0,s.E)()},97188:(e,t,i)=>{\"use strict\";i.d(t,{H:()=>n});var o=i(98024"
+        }
+      ],
+      "1400": [
+        {
+          "at": 1071128,
+          "ctx": "i(35334),Ie=(i(30172),i(40175),i(21660),i(10705),i(43540)),Oe=(i(74546),i(63441)),Re=(i(96714),i(96526),i(26260)),Ae=(i(14004),i(57249),i(63417)),Fe=(i(21763),i(29149),i(34186)),Le=(i(93063),i(34804),i(64238)),Be=i(99896),We=i(30975),Ue=i(29450),Ve=(i(84414),i(17525),i(99863),i(78344)),Ne=i(23090),je=(i(82338),i(84670)),Qe=i(18669),Ge=(i(47466),i(97443)),He="
+        }
+      ],
+      "SlopedCeilingState": [
+        {
+          "at": 156426,
+          "ctx": "ST_IFRAME_VERSION),this._localUndoRedoStates=[n.oU4.WorktopEditor,n.oU4.WallPanelEditor,n.oU4.WallEdgeStripEditor,n.oU4.SlopedCeilingState,n.oU4.AddBorderState,n.oU4.MultiReplace,n.oU4.WaterSupply,n.oU4.AdvancedDecoration],this.setOnProjectSavedAction(null),n.gVx.WaterfallInset=this.productSettings.waterfallInset,this._loadStylesAndFeatures(),this._initUIMod"
+        },
+        {
+          "at": 179770,
+          "ctx": "or:i=n.MHA,r=\"WallEdgeStripEditorState\";break;case n.oU4.MeasureToolState:i=n.uVQ,r=\"MeasureToolState\";break;case n.oU4.SlopedCeilingState:i=n.seJ,r=\"SlopedCeilingState\";break;case n.oU4.AddBorderState:i=n.FZS,r=\"AddBorderState\";break;case n.oU4.Render360State:i=n.xYM,r=\"Render360State\";break;case n.oU4.ItemNotes:i=n.Squ,r=\"ItemNotesState\";break;case n.oU4.M"
+        },
+        {
+          "at": 179800,
+          "ctx": "torState\";break;case n.oU4.MeasureToolState:i=n.uVQ,r=\"MeasureToolState\";break;case n.oU4.SlopedCeilingState:i=n.seJ,r=\"SlopedCeilingState\";break;case n.oU4.AddBorderState:i=n.FZS,r=\"AddBorderState\";break;case n.oU4.Render360State:i=n.xYM,r=\"Render360State\";break;case n.oU4.ItemNotes:i=n.Squ,r=\"ItemNotesState\";break;case n.oU4.MultiReplace:i=n.HKJ,r=\"MultiRe"
+        },
+        {
+          "at": 533920,
+          "ctx": "d 0!==h.D&&h.D.currentView?h.D.currentView:\"ViewIn3D\",\"ViewIn2D\"==t&&(i=\"ViewInFE\")),o&&g.app.currentState.stateId!=m.o.SlopedCeilingState&&g.app.currentState.stateId!=m.o.MeasureToolState||g.app.currentState.stateId===m.o.Design||g.app.currentState.stateId===m.o.Snapshot||(t=null!==h.D&&void 0!==h.D&&h.D.currentView?h.D.currentView:g.app.currentState.stateI"
+        }
+      ],
+      "getSlopeSingleFace": [
+        {
+          "at": 398833,
+          "ctx": "e:!0};this._linearManager.updateLinearsToLevel(this.getLevel(),h);const m=this.getPresenter(\"SlopeFacePresenter2D\"),_=e.getSlopeSingleFace2DA();m&&_.forEach((e=>{m.unRegisterModel(t,e)}));const g=this.getPresenter(\"BayPresenter2D\");if(g){e.getBays().forEach((e=>{e.productInfo?e.productInfo.tags.type[0]===o.MF4.RoofWindows&&g.unRegisterModel(t,e):Math.abs(e.t"
+        },
+        {
+          "at": 411021,
+          "ctx": ")},N.prototype.onContextBuilt=function(){const e=this.getLevel(),t=this,i=this.getPresenter(\"SlopeFacePresenter2D\"),o=e.getSlopeSingleFace2DA();i&&o.forEach((e=>{i.unRegisterModel(t,e)}));const n=this.getPresenter(\"BayPresenter2D\");if(n){e.getBays().forEach((e=>{e.productInfo?e.productInfo.tags.type[0]===a.MF4.RoofWindows&&n.unRegisterModel(t,e):Math.abs(e.t"
+        }
+      ],
+      "updateSlopedWallSVG": [
+        {
+          "at": 108268,
+          "ctx": "om-shape-open-3\":return\"openKitchen3\"}},y.prototype._updateSVGFeedback=function(){this._updateWaterSupplySymbol(),this._updateSlopedWallSVG()},y.prototype._updateWaterSupplySymbol=function(){\"function\"==typeof this._viewController2D.updateWaterSupplySVG&&this._viewController2D.updateWaterSupplySVG()},y.prototype._updateSlopedWallSVG=function(){\"function\"==ty"
+        },
+        {
+          "at": 108463,
+          "ctx": "ction\"==typeof this._viewController2D.updateWaterSupplySVG&&this._viewController2D.updateWaterSupplySVG()},y.prototype._updateSlopedWallSVG=function(){\"function\"==typeof this._viewController2D.updateSlopedWallSVG&&this._viewController2D.updateSlopedWallSVG()},y.prototype._createWaterPopin=function(e){const t=\"water-supply-popin\";this._app.createPopInModule(t"
+        },
+        {
+          "at": 108536,
+          "ctx": "troller2D.updateWaterSupplySVG()},y.prototype._updateSlopedWallSVG=function(){\"function\"==typeof this._viewController2D.updateSlopedWallSVG&&this._viewController2D.updateSlopedWallSVG()},y.prototype._createWaterPopin=function(e){const t=\"water-supply-popin\";this._app.createPopInModule(t);const i={id:\"water-supply\"};i.title=o.wDx.Translate(\"popin.water_supply"
+        },
+        {
+          "at": 108580,
+          "ctx": "e._updateSlopedWallSVG=function(){\"function\"==typeof this._viewController2D.updateSlopedWallSVG&&this._viewController2D.updateSlopedWallSVG()},y.prototype._createWaterPopin=function(e){const t=\"water-supply-popin\";this._app.createPopInModule(t);const i={id:\"water-supply\"};i.title=o.wDx.Translate(\"popin.water_supply.title\"),i.message=o.wDx.Translate(\"popin.wa"
+        }
+      ],
+      "SlopedWall": [
+        {
+          "at": 108274,
+          "ctx": "pe-open-3\":return\"openKitchen3\"}},y.prototype._updateSVGFeedback=function(){this._updateWaterSupplySymbol(),this._updateSlopedWallSVG()},y.prototype._updateWaterSupplySymbol=function(){\"function\"==typeof this._viewController2D.updateWaterSupplySVG&&this._viewController2D.updateWaterSupplySVG()},y.prototype._updateSlopedWallSVG=function(){\"function\"==typeof t"
+        },
+        {
+          "at": 108469,
+          "ctx": "==typeof this._viewController2D.updateWaterSupplySVG&&this._viewController2D.updateWaterSupplySVG()},y.prototype._updateSlopedWallSVG=function(){\"function\"==typeof this._viewController2D.updateSlopedWallSVG&&this._viewController2D.updateSlopedWallSVG()},y.prototype._createWaterPopin=function(e){const t=\"water-supply-popin\";this._app.createPopInModule(t);cons"
+        },
+        {
+          "at": 108542,
+          "ctx": "r2D.updateWaterSupplySVG()},y.prototype._updateSlopedWallSVG=function(){\"function\"==typeof this._viewController2D.updateSlopedWallSVG&&this._viewController2D.updateSlopedWallSVG()},y.prototype._createWaterPopin=function(e){const t=\"water-supply-popin\";this._app.createPopInModule(t);const i={id:\"water-supply\"};i.title=o.wDx.Translate(\"popin.water_supply.title"
+        },
+        {
+          "at": 108586,
+          "ctx": "ateSlopedWallSVG=function(){\"function\"==typeof this._viewController2D.updateSlopedWallSVG&&this._viewController2D.updateSlopedWallSVG()},y.prototype._createWaterPopin=function(e){const t=\"water-supply-popin\";this._app.createPopInModule(t);const i={id:\"water-supply\"};i.title=o.wDx.Translate(\"popin.water_supply.title\"),i.message=o.wDx.Translate(\"popin.water_su"
+        }
+      ]
+    }
+  },
+  {
+    "file": "common_Kitchen_KitchenRTL_TemplateEditor.js",
+    "size": 204496,
+    "hits": {
+      "getBaseHeightOneSlope": [
+        {
+          "at": 47253,
+          "ctx": "Height&&(s=t.minHeight);const a=i.getWalls();for(let e=0;e<a.length;e++){let t=s;const r=a[e];if(t=r instanceof o.URV?r.getBaseHeightOneSlope():r.getHeight(),t<s){n=!1;break}}return new r.jP7(n)},b.prototype.getCheckErrorMessage=function(e,t){let n=2e3;t&&t.minHeight&&(n=t.minHeight);const i=o.wDx.Translate(\"business_rule.ceiling_height_rule.title\"),s=o.wDx."
+        }
+      ]
+    }
+  }
+]

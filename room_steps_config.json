@@ -1,65 +1,84 @@
 {
+  "productLine": "kitchen",
   "steps": [
     {
       "stepId": 1,
-      "title": "Тип комнаты",
+      "title": "Форма кухни",
       "items": [
         {
-          "id": "1",
-          "name": "Гостиная",
-          "icon": "fa-couch",
+          "id": "ks-enclosed-rect",
+          "name": "Прямоугольник",
+          "icon": "shape:enclosed_rect",
           "image": "",
-          "key": "living-room",
+          "key": "enclosed_rect",
+          "group": "enclosed",
+          "groupLabel": "Закрытая кухня",
+          "desc": "Четыре стены",
           "categoryId": null,
           "order": 0
         },
         {
-          "id": "2",
-          "name": "Спальня",
-          "icon": "fa-bed",
+          "id": "ks-enclosed-notch",
+          "name": "С вырезом",
+          "icon": "shape:enclosed_notch",
           "image": "",
-          "key": "bedroom",
+          "key": "enclosed_notch",
+          "group": "enclosed",
+          "groupLabel": "Закрытая кухня",
+          "desc": "Ниша в углу",
           "categoryId": null,
           "order": 1
         },
         {
-          "id": "3",
-          "name": "Детская",
-          "icon": "fa-child",
+          "id": "ks-enclosed-chamfer",
+          "name": "Со срезом угла",
+          "icon": "shape:enclosed_chamfer",
           "image": "",
-          "key": "nursery",
+          "key": "enclosed_chamfer",
+          "group": "enclosed",
+          "groupLabel": "Закрытая кухня",
+          "desc": "Срезанный угол",
           "categoryId": null,
           "order": 2
         },
         {
-          "id": "4",
-          "name": "Прихожая",
-          "icon": "fa-door-open",
+          "id": "ks-open-one",
+          "name": "Открытая стена",
+          "icon": "shape:open_one_wall",
           "image": "",
-          "key": "hallway",
+          "key": "open_one_wall",
+          "group": "open",
+          "groupLabel": "Открытая кухня",
+          "desc": "Одна сторона без стены",
           "categoryId": null,
           "order": 3
         },
         {
-          "id": "5",
-          "name": "Постирочная",
-          "icon": "fa-tshirt",
+          "id": "ks-open-corner",
+          "name": "Открытый угол",
+          "icon": "shape:open_corner",
           "image": "",
-          "key": "laundry",
+          "key": "open_corner",
+          "group": "open",
+          "groupLabel": "Открытая кухня",
+          "desc": "Две соседние стороны открыты",
           "categoryId": null,
           "order": 4
         },
         {
-          "id": "6",
-          "name": "Балкон",
-          "icon": "fa-home",
+          "id": "ks-open-protrusion",
+          "name": "Выступ",
+          "icon": "shape:open_protrusion",
           "image": "",
-          "key": "balcony",
+          "key": "open_protrusion",
+          "group": "open",
+          "groupLabel": "Открытая кухня",
+          "desc": "Частично открытая стена",
           "categoryId": null,
           "order": 5
         }
       ],
-      "columnsPerRow": 2,
+      "columnsPerRow": 3,
       "price_subline": {
         "show_price_subline": false,
         "price_subline_text": "",
@@ -73,32 +92,110 @@
       "items": [
         {
           "id": "layout-1",
-          "name": "Верхняя стена",
-          "icon": "/files/Управление комнатой/pryamoy_3.png",
+          "name": "Прямая",
+          "icon": "shape:top-wall",
           "key": "top-wall",
           "categoryId": null,
-          "order": 0
+          "order": 0,
+          "variants": [
+            {
+              "id": "straight-no-tall",
+              "name": "Без пеналов",
+              "order": 0,
+              "image": "/files/room_icons/clodis_bez_penalov.png"
+            },
+            {
+              "id": "straight-tall-left",
+              "name": "Пенал слева",
+              "order": 1,
+              "image": "/files/room_icons/clodis_penal_sleva.png"
+            },
+            {
+              "id": "straight-tall-right",
+              "name": "Пенал справа",
+              "order": 2,
+              "image": "/files/room_icons/clodis_penal_sprava.png"
+            },
+            {
+              "id": "straight-tall-both",
+              "name": "Два пенала",
+              "order": 3,
+              "image": "/files/room_icons/clodis_dva_penala.png"
+            }
+          ]
         },
         {
           "id": "layout-2",
           "name": "Угловой шкаф (задняя+правая)",
-          "icon": "/files/Управление комнатой/uglovaya_pravaya2.png",
+          "icon": "shape:top-right",
           "key": "corner-wardrobe",
           "categoryId": null,
-          "order": 1
+          "order": 1,
+          "variants": [
+            {
+              "id": "l-right-no-tall",
+              "name": "Без пеналов",
+              "order": 0,
+              "image": "/files/room_icons/clodis_L_right_no_tall.png"
+            },
+            {
+              "id": "l-right-tall-left",
+              "name": "Пенал слева",
+              "order": 1,
+              "image": "/files/room_icons/clodis_L_right_tall_left.png"
+            },
+            {
+              "id": "l-right-tall-right",
+              "name": "Пенал справа",
+              "order": 2,
+              "image": "/files/room_icons/clodis_L_right_tall_right.png"
+            },
+            {
+              "id": "l-right-tall-both",
+              "name": "Два пенала",
+              "order": 3,
+              "image": "/files/room_icons/clodis_L_right_two_tall.png"
+            }
+          ]
         },
         {
           "id": "layout-2b",
           "name": "Угловой шкаф (задняя+левая)",
-          "icon": "/files/Управление комнатой/uglovaya_levaya2.png",
+          "icon": "shape:top-left",
           "key": "corner-wardrobe-left",
           "categoryId": null,
-          "order": 2
+          "order": 2,
+          "variants": [
+            {
+              "id": "l-left-no-tall",
+              "name": "Без пеналов",
+              "order": 0,
+              "image": "/files/room_icons/clodis_L_left_no_tall.png"
+            },
+            {
+              "id": "l-left-tall-left",
+              "name": "Пенал слева",
+              "order": 1,
+              "image": "/files/room_icons/clodis_L_left_tall_left.png"
+            },
+            {
+              "id": "l-left-tall-right",
+              "name": "Пенал справа",
+              "order": 2,
+              "image": "/files/room_icons/clodis_L_left_tall_right.png"
+            },
+            {
+              "id": "l-left-tall-both",
+              "name": "Два пенала",
+              "order": 3,
+              "image": "/files/room_icons/clodis_L_left_two_tall.png"
+            }
+          ]
         },
         {
           "id": "layout-6",
           "name": "П-образная",
-          "icon": "/files/Управление комнатой/shkaf_p-_obr2.png",
+          "icon": "shape:top-right-bottom-partition",
           "key": "top-right-bottom-partition",
           "categoryId": null,
           "order": 3
@@ -117,67 +214,60 @@
       "title": "С чего начнём?",
       "items": [
         {
-          "id": "i1781372609176",
-          "name": "Шкафы",
-          "icon": "fa-circle",
-          "image": "/images/catalog/category-wardrobe.svg",
-          "key": "26",
-          "categoryId": 26,
-          "order": 0
+          "id": "46",
+          "key": "46",
+          "name": "Рабочие столы",
+          "order": 1,
+          "icon": "",
+          "image": ""
         },
         {
-          "id": "i1781372633509",
-          "name": "Тумбы",
-          "icon": "fa-circle",
-          "image": "/images/catalog/category-cabinet.svg",
-          "key": "25",
-          "categoryId": 25,
-          "order": 0
+          "id": "52",
+          "key": "52",
+          "name": "Нижние модули Gola",
+          "order": 2,
+          "icon": "",
+          "image": ""
         },
         {
-          "id": "i1781372638256",
-          "name": "Комоды",
-          "icon": "fa-circle",
-          "image": "/images/catalog/category-dresser.svg",
-          "key": "37",
-          "categoryId": 37,
-          "order": 0
+          "id": "50",
+          "key": "50",
+          "name": "Навесные шкафы 1 ярус",
+          "order": 3,
+          "icon": "",
+          "image": ""
         },
         {
-          "id": "i1786726173517",
-          "name": "Торцевые шкафы",
-          "icon": "fa-circle",
-          "image": "/images/catalog/category-end-cabinet.svg",
-          "key": "41",
-          "categoryId": 41,
-          "order": 0
+          "id": "51",
+          "key": "51",
+          "name": "Навесные шкафы 2 яруса",
+          "order": 4,
+          "icon": "",
+          "image": ""
         },
         {
-          "id": "i1789836724238",
-          "name": "Навесные модули нижние",
-          "icon": "fa-circle",
-          "image": "/images/catalog/category-wall-hung.svg",
-          "key": "42",
-          "categoryId": 42,
-          "order": 0
-        },
-        {
-          "id": "i1790150400001",
-          "name": "Навесные модули верхние",
-          "icon": "fa-circle",
-          "image": "/images/catalog/category-wall-hung.svg",
-          "key": "43",
-          "categoryId": 43,
-          "order": 1
-        },
-        {
-          "id": "i1790311000044",
-          "name": "Угловые модули",
-          "icon": "fa-circle",
-          "image": "/images/catalog/category-wardrobe.svg",
+          "id": "44",
           "key": "44",
-          "categoryId": 44,
-          "order": 2
+          "name": "Угловые модули",
+          "order": 5,
+          "icon": "",
+          "image": ""
+        },
+        {
+          "id": "48",
+          "key": "48",
+          "name": "Пеналы",
+          "order": 6,
+          "icon": "",
+          "image": ""
+        },
+        {
+          "id": "54",
+          "key": "54",
+          "name": "Навесные угловые",
+          "order": 7,
+          "icon": "",
+          "image": ""
         }
       ],
       "columnsPerRow": 2,
@@ -201,403 +291,325 @@
       },
       "moduleItems": [],
       "pillSets": {
-        "25": [
+        "44": [
           {
-            "id": "p25-doors",
+            "id": "pk44-0",
             "name": "С дверями",
-            "categoryId": 7,
+            "categoryId": null,
             "orCategoryId": null,
             "cabinetDoorFilter": null,
+            "facadeFilter": "with",
             "pillGroup": 0,
             "order": 0
           },
           {
-            "id": "p25-no-doors",
+            "id": "pk44-1",
             "name": "Без дверей",
-            "categoryId": 4,
+            "categoryId": null,
             "orCategoryId": null,
             "cabinetDoorFilter": null,
+            "facadeFilter": "without",
             "pillGroup": 0,
             "order": 1
           },
           {
-            "id": "p25-single",
+            "id": "pk44-2",
             "name": "Однодверные",
-            "categoryId": 5,
+            "categoryId": null,
             "orCategoryId": null,
             "cabinetDoorFilter": "single",
+            "facadeFilter": null,
             "pillGroup": 1,
             "order": 2
           },
           {
-            "id": "p25-double",
+            "id": "pk44-3",
             "name": "Двустворчатые",
-            "categoryId": 6,
+            "categoryId": null,
             "orCategoryId": null,
             "cabinetDoorFilter": "double",
+            "facadeFilter": null,
             "pillGroup": 1,
             "order": 3
           }
         ],
-        "26": [
+        "46": [
           {
-            "id": "p1781372710310",
-            "name": "Модули с дверями",
+            "id": "pk46-0",
+            "name": "С дверями",
             "categoryId": null,
             "orCategoryId": null,
             "cabinetDoorFilter": null,
+            "facadeFilter": "with",
             "pillGroup": 0,
             "order": 0
           },
           {
-            "id": "p1781372747948",
-            "name": "Модули без дверей",
+            "id": "pk46-1",
+            "name": "Без дверей",
             "categoryId": null,
             "orCategoryId": null,
             "cabinetDoorFilter": null,
+            "facadeFilter": "without",
             "pillGroup": 0,
-            "order": 0
+            "order": 1
           },
           {
-            "id": "p1781372758228",
+            "id": "pk46-2",
             "name": "Однодверные",
             "categoryId": null,
             "orCategoryId": null,
             "cabinetDoorFilter": "single",
+            "facadeFilter": null,
             "pillGroup": 1,
-            "order": 0
+            "order": 2
           },
           {
-            "id": "p1781372759908",
-            "name": "Двухдверные",
+            "id": "pk46-3",
+            "name": "Двустворчатые",
             "categoryId": null,
             "orCategoryId": null,
             "cabinetDoorFilter": "double",
+            "facadeFilter": null,
             "pillGroup": 1,
-            "order": 0
+            "order": 3
           }
         ],
-        "37": [
+        "48": [
           {
-            "id": "p1781372710310",
-            "name": "Модули с дверями",
+            "id": "pk48-0",
+            "name": "С дверями",
             "categoryId": null,
             "orCategoryId": null,
             "cabinetDoorFilter": null,
+            "facadeFilter": "with",
             "pillGroup": 0,
             "order": 0
           },
           {
-            "id": "p1781372747948",
-            "name": "Модули без дверей",
+            "id": "pk48-1",
+            "name": "Без дверей",
             "categoryId": null,
             "orCategoryId": null,
             "cabinetDoorFilter": null,
+            "facadeFilter": "without",
             "pillGroup": 0,
-            "order": 0
+            "order": 1
           },
           {
-            "id": "p1781372758228",
+            "id": "pk48-2",
             "name": "Однодверные",
             "categoryId": null,
             "orCategoryId": null,
             "cabinetDoorFilter": "single",
+            "facadeFilter": null,
             "pillGroup": 1,
-            "order": 0
+            "order": 2
           },
           {
-            "id": "p1781372759908",
-            "name": "Двухдверные",
+            "id": "pk48-3",
+            "name": "Двустворчатые",
             "categoryId": null,
             "orCategoryId": null,
             "cabinetDoorFilter": "double",
+            "facadeFilter": null,
             "pillGroup": 1,
-            "order": 0
+            "order": 3
           }
         ],
-        "41": [
+        "50": [
           {
-            "id": "p1786726715897",
-            "name": "Модули с дверями",
+            "id": "pk50-0",
+            "name": "С дверями",
             "categoryId": null,
             "orCategoryId": null,
             "cabinetDoorFilter": null,
+            "facadeFilter": "with",
             "pillGroup": 0,
             "order": 0
           },
           {
-            "id": "p1786726820153",
-            "name": "Модули без дверей",
+            "id": "pk50-1",
+            "name": "Без дверей",
             "categoryId": null,
             "orCategoryId": null,
             "cabinetDoorFilter": null,
+            "facadeFilter": "without",
             "pillGroup": 0,
-            "order": 0
+            "order": 1
+          },
+          {
+            "id": "pk50-2",
+            "name": "Однодверные",
+            "categoryId": null,
+            "orCategoryId": null,
+            "cabinetDoorFilter": "single",
+            "facadeFilter": null,
+            "pillGroup": 1,
+            "order": 2
+          },
+          {
+            "id": "pk50-3",
+            "name": "Двустворчатые",
+            "categoryId": null,
+            "orCategoryId": null,
+            "cabinetDoorFilter": "double",
+            "facadeFilter": null,
+            "pillGroup": 1,
+            "order": 3
           }
         ],
-        "42": []
-      },
-      "zoneEditTitle": "",
-      "zoneEditText": "",
-      "zoneEditDepthMinCm": null,
-      "zoneEditDepthMaxCm": null,
-      "zoneEditDepthLimitText": "",
-      "zoneEditDepthOverSectionText": "",
-      "zoneEditHeightMinCm": null,
-      "zoneEditHeightMaxCm": null,
-      "zoneEditHeightLimitText": "",
-      "zoneEditWidthLimitText": ""
+        "51": [
+          {
+            "id": "pk51-0",
+            "name": "С дверями",
+            "categoryId": null,
+            "orCategoryId": null,
+            "cabinetDoorFilter": null,
+            "facadeFilter": "with",
+            "pillGroup": 0,
+            "order": 0
+          },
+          {
+            "id": "pk51-1",
+            "name": "Без дверей",
+            "categoryId": null,
+            "orCategoryId": null,
+            "cabinetDoorFilter": null,
+            "facadeFilter": "without",
+            "pillGroup": 0,
+            "order": 1
+          },
+          {
+            "id": "pk51-2",
+            "name": "Однодверные",
+            "categoryId": null,
+            "orCategoryId": null,
+            "cabinetDoorFilter": "single",
+            "facadeFilter": null,
+            "pillGroup": 1,
+            "order": 2
+          },
+          {
+            "id": "pk51-3",
+            "name": "Двустворчатые",
+            "categoryId": null,
+            "orCategoryId": null,
+            "cabinetDoorFilter": "double",
+            "facadeFilter": null,
+            "pillGroup": 1,
+            "order": 3
+          }
+        ],
+        "52": [
+          {
+            "id": "pk52-0",
+            "name": "С дверями",
+            "categoryId": null,
+            "orCategoryId": null,
+            "cabinetDoorFilter": null,
+            "facadeFilter": "with",
+            "pillGroup": 0,
+            "order": 0
+          },
+          {
+            "id": "pk52-1",
+            "name": "Без дверей",
+            "categoryId": null,
+            "orCategoryId": null,
+            "cabinetDoorFilter": null,
+            "facadeFilter": "without",
+            "pillGroup": 0,
+            "order": 1
+          },
+          {
+            "id": "pk52-2",
+            "name": "Однодверные",
+            "categoryId": null,
+            "orCategoryId": null,
+            "cabinetDoorFilter": "single",
+            "facadeFilter": null,
+            "pillGroup": 1,
+            "order": 2
+          },
+          {
+            "id": "pk52-3",
+            "name": "Двустворчатые",
+            "categoryId": null,
+            "orCategoryId": null,
+            "cabinetDoorFilter": "double",
+            "facadeFilter": null,
+            "pillGroup": 1,
+            "order": 3
+          }
+        ],
+        "54": [
+          {
+            "id": "pk54-0",
+            "name": "С дверями",
+            "categoryId": null,
+            "orCategoryId": null,
+            "cabinetDoorFilter": null,
+            "facadeFilter": "with",
+            "pillGroup": 0,
+            "order": 0
+          },
+          {
+            "id": "pk54-1",
+            "name": "Без дверей",
+            "categoryId": null,
+            "orCategoryId": null,
+            "cabinetDoorFilter": null,
+            "facadeFilter": "without",
+            "pillGroup": 0,
+            "order": 1
+          },
+          {
+            "id": "pk54-2",
+            "name": "Однодверные",
+            "categoryId": null,
+            "orCategoryId": null,
+            "cabinetDoorFilter": "single",
+            "facadeFilter": null,
+            "pillGroup": 1,
+            "order": 2
+          },
+          {
+            "id": "pk54-3",
+            "name": "Двустворчатые",
+            "categoryId": null,
+            "orCategoryId": null,
+            "cabinetDoorFilter": "double",
+            "facadeFilter": null,
+            "pillGroup": 1,
+            "order": 3
+          }
+        ]
+      }
     },
     {
       "stepId": 5,
       "title": "Цвет и отделка",
-      "price_subline": {
-        "show_price_subline": false,
-        "price_subline_text": "",
-        "show_price_subline_help_icon": false,
-        "price_subline_help_text": ""
-      },
-      "step5Tabs": {
-        "outside": {
-          "label": "Снаружи",
-          "desc": ""
-        },
-        "inside": {
-          "label": "Внутри",
-          "desc": ""
-        },
-        "params": {
-          "label": "Параметры",
-          "desc": ""
-        }
-      },
-      "step5Defaults": {
-        "outsideId": "m-8",
-        "insideId": "m-8",
-        "defaultId": "m-8"
-      },
-      "step5WheelOuter": [
-        {
-          "id": "m-7",
-          "name": "Безмолвная пустыня",
-          "texture": "/files/decor/bezmolvnaya_pustynya_art.k514_1783848391746.jpg",
-          "material_type": "material_2",
-          "material_id": 7
-        },
-        {
-          "id": "m-8",
-          "name": "Белый воздушный",
-          "texture": "/files/decor/belyy_vozdushnyy_so_1_1783859989593.jpg",
-          "material_type": "material_2",
-          "material_id": 8
-        },
-        {
-          "id": "outer-3",
-          "name": "outer-3",
-          "texture": "",
-          "material_type": null,
-          "material_id": null,
-          "hex": "#cccccc"
-        },
-        {
-          "id": "outer-4",
-          "name": "outer-4",
-          "texture": "",
-          "material_type": null,
-          "material_id": null,
-          "hex": "#cccccc"
-        },
-        {
-          "id": "outer-5",
-          "name": "outer-5",
-          "texture": "",
-          "material_type": null,
-          "material_id": null,
-          "hex": "#cccccc"
-        },
-        {
-          "id": "outer-6",
-          "name": "outer-6",
-          "texture": "",
-          "material_type": null,
-          "material_id": null,
-          "hex": "#cccccc"
-        },
-        {
-          "id": "outer-7",
-          "name": "outer-7",
-          "texture": "",
-          "material_type": null,
-          "material_id": null,
-          "hex": "#cccccc"
-        },
-        {
-          "id": "outer-8",
-          "name": "outer-8",
-          "texture": "",
-          "material_type": null,
-          "material_id": null,
-          "hex": "#cccccc"
-        },
-        {
-          "id": "outer-9",
-          "name": "outer-9",
-          "texture": "",
-          "material_type": null,
-          "material_id": null,
-          "hex": "#cccccc"
-        },
-        {
-          "id": "outer-10",
-          "name": "outer-10",
-          "texture": "",
-          "material_type": null,
-          "material_id": null,
-          "hex": "#cccccc"
-        },
-        {
-          "id": "outer-11",
-          "name": "outer-11",
-          "texture": "",
-          "material_type": null,
-          "material_id": null,
-          "hex": "#cccccc"
-        },
-        {
-          "id": "outer-12",
-          "name": "outer-12",
-          "texture": "",
-          "material_type": null,
-          "material_id": null,
-          "hex": "#cccccc"
-        },
-        {
-          "id": "outer-13",
-          "name": "outer-13",
-          "texture": "",
-          "material_type": null,
-          "material_id": null,
-          "hex": "#cccccc"
-        },
-        {
-          "id": "outer-14",
-          "name": "outer-14",
-          "texture": "",
-          "material_type": null,
-          "material_id": null,
-          "hex": "#cccccc"
-        },
-        {
-          "id": "outer-15",
-          "name": "outer-15",
-          "texture": "",
-          "material_type": null,
-          "material_id": null,
-          "hex": "#cccccc"
-        },
-        {
-          "id": "outer-16",
-          "name": "outer-16",
-          "texture": "",
-          "material_type": null,
-          "material_id": null,
-          "hex": "#cccccc"
-        }
-      ],
-      "step5WheelInner": [
-        {
-          "id": "inner-1",
-          "name": "inner-1",
-          "texture": "",
-          "material_type": null,
-          "material_id": null,
-          "hex": "#cccccc"
-        },
-        {
-          "id": "inner-2",
-          "name": "inner-2",
-          "texture": "",
-          "material_type": null,
-          "material_id": null,
-          "hex": "#cccccc"
-        },
-        {
-          "id": "inner-3",
-          "name": "inner-3",
-          "texture": "",
-          "material_type": null,
-          "material_id": null,
-          "hex": "#cccccc"
-        },
-        {
-          "id": "inner-4",
-          "name": "inner-4",
-          "texture": "",
-          "material_type": null,
-          "material_id": null,
-          "hex": "#cccccc"
-        },
-        {
-          "id": "inner-5",
-          "name": "inner-5",
-          "texture": "",
-          "material_type": null,
-          "material_id": null,
-          "hex": "#cccccc"
-        },
-        {
-          "id": "inner-6",
-          "name": "inner-6",
-          "texture": "",
-          "material_type": null,
-          "material_id": null,
-          "hex": "#cccccc"
-        }
-      ],
-      "step5ParamsItems": []
-    },
-    {
-      "stepId": 6,
-      "title": "Ручки",
-      "items": [
-        {
-          "id": "h2",
-          "catalogCollectionId": 2,
-          "name": "Волна",
-          "icon": "",
-          "key": "handle-volna",
-          "seriesId": "handle-volna",
-          "kind": "bar",
-          "cabinetModelId": 13,
-          "modelPath": "/models/volna_1770230423546.fbx",
-          "order": 100
-        },
-        {
-          "id": "h6",
-          "catalogCollectionId": 6,
-          "name": "Поп Лайн",
-          "icon": "",
-          "key": "collection-1781455544459",
-          "seriesId": "collection-1781455544459",
-          "kind": "bar",
-          "cabinetModelId": 17,
-          "modelPath": "/models/ruchka_pop_layn_1781455420751.glb",
-          "order": 100
-        }
-      ],
+      "items": [],
       "columnsPerRow": 2,
       "price_subline": {
         "show_price_subline": false,
         "price_subline_text": "",
         "show_price_subline_help_icon": false,
         "price_subline_help_text": ""
-      },
-      "hintText": "",
-      "handleDefaults": {
-        "seriesId": "collection-1781455544459",
-        "finishId": null
-      },
-      "defaultHandleSeriesId": "collection-1781455544459"
+      }
+    },
+    {
+      "stepId": 6,
+      "title": "Ручки",
+      "items": [],
+      "columnsPerRow": 2,
+      "price_subline": {
+        "show_price_subline": false,
+        "price_subline_text": "",
+        "show_price_subline_help_icon": false,
+        "price_subline_help_text": ""
+      }
     },
     {
       "stepId": 7,
@@ -609,75 +621,222 @@
         "price_subline_text": "",
         "show_price_subline_help_icon": false,
         "price_subline_help_text": ""
-      },
-      "hintText": ""
+      }
+    }
+  ],
+  "placementKindProfiles": [
+    {
+      "id": "kitchen_base",
+      "label": "Напольный стол",
+      "baseKind": "standalone_floor",
+      "settings": {
+        "frontMode": "non_gola",
+        "behavior": {
+          "kitchenFrontMode": "non_gola",
+          "kitchenCarcassOnlyHeight": true,
+          "cohabitGroup": "kitchen_column",
+          "zoneSlotRole": "base"
+        },
+        "editPopup": {
+          "showHeight": true,
+          "showDepth": true,
+          "showWidth": true,
+          "heightMinCm": 82,
+          "heightMaxCm": 92,
+          "depthMinCm": 40,
+          "depthMaxCm": 70,
+          "widthMinCm": 30,
+          "widthMaxCm": 120,
+          "heightLimitText": "Введённая высота выходит за допустимые пределы. Выберите значение от {MIN} до {MAX} см (корпус 720 + опоры 100–150).",
+          "depthLimitText": "",
+          "widthLimitText": "Ширина выходит за допустимые пределы модуля. Выберите значение от {MIN} до {MAX} см."
+        },
+        "hinges": {
+          "productKind": "kitchen_base"
+        }
+      }
+    },
+    {
+      "id": "kitchen_base_gola",
+      "label": "Напольный стол (Gola)",
+      "baseKind": "standalone_floor",
+      "settings": {
+        "frontMode": "gola",
+        "behavior": {
+          "kitchenFrontMode": "gola",
+          "kitchenCarcassOnlyHeight": true,
+          "cohabitGroup": "kitchen_column",
+          "zoneSlotRole": "base"
+        },
+        "editPopup": {
+          "showHeight": true,
+          "showDepth": true,
+          "showWidth": true,
+          "heightMinCm": 82,
+          "heightMaxCm": 92,
+          "depthMinCm": 40,
+          "depthMaxCm": 70,
+          "heightLimitText": "Введённая высота выходит за допустимые пределы. Выберите значение от {MIN} до {MAX} см (корпус 720 + опоры 100–150).",
+          "depthLimitText": ""
+        },
+        "hinges": {
+          "productKind": "kitchen_base"
+        }
+      }
+    },
+    {
+      "id": "kitchen_base_corner",
+      "label": "Угловой напольный",
+      "baseKind": "standalone_floor",
+      "settings": {
+        "frontMode": "non_gola",
+        "behavior": {
+          "kitchenFrontMode": "non_gola",
+          "kitchenCarcassOnlyHeight": true,
+          "kitchenCorner": true,
+          "cohabitGroup": "kitchen_column",
+          "zoneSlotRole": "base"
+        },
+        "editPopup": {
+          "showHeight": true,
+          "showDepth": true,
+          "showWidth": true,
+          "showSideWallClearance": true,
+          "heightMinCm": 82,
+          "heightMaxCm": 92,
+          "depthMinCm": 40,
+          "depthMaxCm": 70,
+          "widthMinCm": 30,
+          "widthMaxCm": 120,
+          "heightLimitText": "Введённая высота выходит за допустимые пределы. Выберите значение от {MIN} до {MAX} см (корпус 720 + опоры 100–150).",
+          "depthLimitText": "",
+          "widthLimitText": "Ширина выходит за допустимые пределы модуля. Выберите значение от {MIN} до {MAX} см."
+        },
+        "hinges": {
+          "productKind": "kitchen_base"
+        }
+      }
+    },
+    {
+      "id": "kitchen_tall",
+      "label": "Пенал",
+      "baseKind": "floor_in_niche",
+      "settings": {
+        "frontMode": "non_gola",
+        "behavior": {
+          "kitchenFrontMode": "non_gola",
+          "zoneSlotRole": "full",
+          "cohabitGroup": "kitchen_column"
+        },
+        "editPopup": {
+          "showHeight": false,
+          "showDepth": true,
+          "showWidth": true,
+          "heightMinCm": null,
+          "heightMaxCm": null,
+          "depthMinCm": 40,
+          "depthMaxCm": 70,
+          "heightLimitText": "",
+          "depthLimitText": ""
+        },
+        "hinges": {
+          "productKind": "kitchen_tall"
+        }
+      }
+    },
+    {
+      "id": "kitchen_wall_mid",
+      "label": "Навесной 1-й ярус",
+      "baseKind": "wall_hung_low",
+      "settings": {
+        "behavior": {
+          "kitchenFrontMode": "non_gola",
+          "zoneSlotRole": "mid",
+          "cohabitGroup": "kitchen_column"
+        },
+        "editPopup": {
+          "showHeight": true,
+          "showDepth": true,
+          "showWidth": true,
+          "heightMinCm": 40,
+          "heightMaxCm": 100,
+          "depthMinCm": 25,
+          "depthMaxCm": 45,
+          "heightLimitText": "Введённая высота выходит за допустимые пределы. Выберите значение от {MIN} до {MAX} см.",
+          "depthLimitText": ""
+        },
+        "hinges": {
+          "productKind": "kitchen_wall"
+        }
+      }
+    },
+    {
+      "id": "kitchen_wall_top",
+      "label": "Навесной 2-й ярус",
+      "baseKind": "wall_hung_high",
+      "settings": {
+        "behavior": {
+          "kitchenFrontMode": "non_gola",
+          "zoneSlotRole": "top",
+          "cohabitGroup": "kitchen_column"
+        },
+        "editPopup": {
+          "showHeight": true,
+          "showDepth": true,
+          "showWidth": true,
+          "heightMinCm": 30,
+          "heightMaxCm": 80,
+          "depthMinCm": 25,
+          "depthMaxCm": 45,
+          "heightLimitText": "Введённая высота выходит за допустимые пределы. Выберите значение от {MIN} до {MAX} см.",
+          "depthLimitText": ""
+        },
+        "hinges": {
+          "productKind": "kitchen_wall"
+        }
+      }
+    },
+    {
+      "id": "kitchen_wall_corner",
+      "label": "Угловой навесной",
+      "baseKind": "wall_hung_low",
+      "settings": {
+        "behavior": {
+          "kitchenFrontMode": "non_gola",
+          "kitchenCorner": true,
+          "zoneSlotRole": "mid",
+          "cohabitGroup": "kitchen_column"
+        },
+        "editPopup": {
+          "showHeight": true,
+          "showDepth": true,
+          "showWidth": true,
+          "heightMinCm": 40,
+          "heightMaxCm": 100,
+          "depthMinCm": 25,
+          "depthMaxCm": 45,
+          "heightLimitText": "Введённая высота выходит за допустимые пределы. Выберите значение от {MIN} до {MAX} см.",
+          "depthLimitText": ""
+        },
+        "hinges": {
+          "productKind": "kitchen_wall"
+        }
+      }
     }
   ],
   "roomFurnitureByRoom": {
-    "living-room": {
+    "kitchen": {
       "layoutKeys": [],
       "catalogFolderKeys": [
-        "26",
-        "25",
-        "37",
-        "41",
-        "42",
-        "43",
-        "44"
-      ]
-    },
-    "bedroom": {
-      "layoutKeys": [],
-      "catalogFolderKeys": [
-        "26",
-        "41"
-      ]
-    },
-    "nursery": {
-      "layoutKeys": [],
-      "catalogFolderKeys": [
-        "41"
-      ]
-    },
-    "hallway": {
-      "layoutKeys": [],
-      "catalogFolderKeys": [
-        "41"
-      ]
-    },
-    "laundry": {
-      "layoutKeys": [],
-      "catalogFolderKeys": [
-        "41"
+        "46",
+        "52",
+        "50",
+        "51",
+        "44",
+        "48",
+        "54"
       ]
     }
-  },
-  "drawerDepthRulesGlobal": [
-    {
-      "minDepthMm": 455,
-      "maxDepthMm": 504,
-      "drawerCatalogId": "3",
-      "guideCatalogId": "2",
-      "name": "Ящик выдвижной 450",
-      "order": 1
-    },
-    {
-      "minDepthMm": 505,
-      "maxDepthMm": 554,
-      "drawerCatalogId": "2",
-      "guideCatalogId": "1",
-      "name": "Ящик выдвижной 500",
-      "order": 2
-    }
-  ],
-  "endCabinet": {
-    "enabled": true,
-    "minGapMm": 100,
-    "maxGapMm": 1500,
-    "catalogType": "",
-    "catalogCategoryId": "",
-    "catalogFilterTag": "",
-    "label": "Торцевой шкаф"
   },
   "sectionTrimParts": {
     "top_plank_facade": {
@@ -689,7 +848,7 @@
           "height": 2200,
           "depth": 600
         },
-        "wallGapMm": 50,
+        "wallGapMm": 0,
         "width": 1000,
         "height": 2200,
         "depth": 600,
@@ -700,19 +859,19 @@
       },
       "edges": {
         "1": {
-          "enabled": true,
+          "enabled": false,
           "thickness": 0.8
         },
         "2": {
-          "enabled": false,
+          "enabled": true,
           "thickness": 0.8
         },
         "3": {
-          "enabled": false,
+          "enabled": true,
           "thickness": 0.8
         },
         "4": {
-          "enabled": false,
+          "enabled": true,
           "thickness": 0.8
         }
       },
@@ -727,7 +886,7 @@
           "height": 2200,
           "depth": 1000
         },
-        "wallGapMm": 50,
+        "wallGapMm": 0,
         "width": 1000,
         "height": 2200,
         "depth": 1000,
@@ -765,7 +924,7 @@
           "height": 2200,
           "depth": 600
         },
-        "wallGapMm": 50,
+        "wallGapMm": 0,
         "width": 1000,
         "height": 2200,
         "depth": 600,
@@ -776,7 +935,7 @@
       },
       "edges": {
         "1": {
-          "enabled": false,
+          "enabled": true,
           "thickness": 0.8
         },
         "2": {
@@ -784,11 +943,11 @@
           "thickness": 0.8
         },
         "3": {
-          "enabled": false,
+          "enabled": true,
           "thickness": 0.8
         },
         "4": {
-          "enabled": false,
+          "enabled": true,
           "thickness": 0.8
         }
       },
@@ -1221,7 +1380,7 @@
           "height": 2200,
           "depth": 600
         },
-        "wallGapMm": 50,
+        "wallGapMm": 0,
         "width": 600,
         "height": 2200,
         "depth": 600,
@@ -1232,26 +1391,26 @@
       },
       "edges": {
         "1": {
-          "enabled": false,
+          "enabled": true,
           "thickness": 0.8
         },
         "2": {
-          "enabled": false,
+          "enabled": true,
           "thickness": 0.8
         },
         "3": {
-          "enabled": false,
+          "enabled": true,
           "thickness": 0.8
         },
         "4": {
-          "enabled": false,
+          "enabled": true,
           "thickness": 0.8
         }
       },
       "fasteners": null
     },
     "end_cabinet_facade_overlay_whole": {
-      "label": "Торцевой шкаф — фасадная накладка (цельная)",
+      "label": "Торцевой — накладка (цельный фасад ряда)",
       "edgeNumbering": true,
       "preview": {
         "section": {
@@ -1259,7 +1418,7 @@
           "height": 2200,
           "depth": 600
         },
-        "wallGapMm": 50,
+        "wallGapMm": 0,
         "width": 1000,
         "height": 2200,
         "depth": 600,
@@ -1289,7 +1448,7 @@
       "fasteners": null
     },
     "end_cabinet_facade_overlay_main": {
-      "label": "Торцевой шкаф — фасадная накладка (основная)",
+      "label": "Торцевой — накладка (основная полоса)",
       "edgeNumbering": true,
       "preview": {
         "section": {
@@ -1297,7 +1456,7 @@
           "height": 2200,
           "depth": 600
         },
-        "wallGapMm": 50,
+        "wallGapMm": 0,
         "width": 1000,
         "height": 2200,
         "depth": 600,
@@ -1327,7 +1486,7 @@
       "fasteners": null
     },
     "end_cabinet_facade_overlay_top": {
-      "label": "Торцевой шкаф — фасадная накладка (антресоль)",
+      "label": "Торцевой — накладка (антresоль)",
       "edgeNumbering": true,
       "preview": {
         "section": {
@@ -1335,7 +1494,7 @@
           "height": 2200,
           "depth": 600
         },
-        "wallGapMm": 50,
+        "wallGapMm": 0,
         "width": 1000,
         "height": 2200,
         "depth": 600,
@@ -1365,7 +1524,7 @@
       "fasteners": null
     },
     "end_cabinet_top_plank": {
-      "label": "Торцевой шкаф — верхняя планка",
+      "label": "Торцевой — верхняя планка",
       "edgeNumbering": true,
       "preview": {
         "section": {
@@ -1373,7 +1532,7 @@
           "height": 2200,
           "depth": 1000
         },
-        "wallGapMm": 50,
+        "wallGapMm": 0,
         "width": 1000,
         "height": 2200,
         "depth": 1000,
@@ -1403,7 +1562,7 @@
       "fasteners": null
     },
     "end_cabinet_plinth": {
-      "label": "Торцевой шкаф — цоколь",
+      "label": "Торцевой — цоколь",
       "edgeNumbering": true,
       "preview": {
         "section": {
@@ -1411,7 +1570,7 @@
           "height": 2200,
           "depth": 1000
         },
-        "wallGapMm": 50,
+        "wallGapMm": 0,
         "width": 1000,
         "height": 2200,
         "depth": 1000,
@@ -1441,168 +1600,13 @@
       "fasteners": null
     }
   },
-  "roomEdit": {
-    "doors": [
-      {
-        "id": "re-doors-1",
-        "name": "Дверь фрезерованная",
-        "group": "Межкомнатные двери",
-        "thumb": "/files/Door/Icons/chatgpt_image_9_sent._2026_g._21_23_11_1788978229294.png",
-        "defaultWidthCm": 95,
-        "defaultHeightCm": 207,
-        "kind": "interior",
-        "modelUrl": "/files/Door/Models/clodis_door_fluted_1788976598558.glb"
-      },
-      {
-        "id": "re-doors-2",
-        "name": "Дверь белая",
-        "group": "Межкомнатные двери",
-        "thumb": "/files/Door/Icons/chatgpt_image_9_sent._2026_g._21_42_43_1788979385141.png",
-        "defaultWidthCm": 90,
-        "defaultHeightCm": 210,
-        "kind": "interior",
-        "modelUrl": "/files/Door/Models/clodis_door_glass_1788976945862.glb"
-      },
-      {
-        "id": "re-doors-3",
-        "name": "Дверь прямая",
-        "group": "Межкомнатные двери",
-        "thumb": "/files/Door/Icons/chatgpt_image_9_sent._2026_g._21_12_13_1788977562149.png",
-        "kind": "interior",
-        "modelUrl": "/files/Door/Models/clodis_door_plain_taupe_1788975041849.glb"
-      }
-    ],
-    "windows": [
-      {
-        "id": "re-windows-1",
-        "name": "Окно тройное",
-        "group": "Пластиковые",
-        "thumb": "/files/Window/Iconc/chatgpt_image_9_sent._2026_g._19_51_21_1788972724006.png",
-        "defaultWidthCm": 264,
-        "defaultHeightCm": 153,
-        "defaultSillCm": 90,
-        "modelUrl": "/models/windows/set-of-plastic-windows-01-01-triple.glb"
-      },
-      {
-        "id": "re-windows-2",
-        "name": "Окно двухстворчатое",
-        "group": "Пластиковые",
-        "thumb": "/files/Window/Iconc/chatgpt_image_9_sent._2026_g._19_58_29_1788973140333.png",
-        "defaultWidthCm": 214,
-        "defaultHeightCm": 153,
-        "defaultSillCm": 90,
-        "modelUrl": "/models/windows/set-of-plastic-windows-01-02-double.glb"
-      },
-      {
-        "id": "re-windows-3",
-        "name": "Окно маленькое",
-        "group": "Пластиковые",
-        "thumb": "/files/Window/Iconc/chatgpt_image_9_sent._2026_g._20_02_28_1788973403666.png",
-        "defaultWidthCm": 66,
-        "defaultHeightCm": 51,
-        "defaultSillCm": 120,
-        "modelUrl": "/models/windows/set-of-plastic-windows-01-03-single-small.glb"
-      },
-      {
-        "id": "re-windows-4",
-        "name": "Окно высокое",
-        "group": "Пластиковые",
-        "thumb": "/files/Window/Iconc/chatgpt_image_9_sent._2026_g._20_04_03_1788973533991.png",
-        "defaultWidthCm": 132,
-        "defaultHeightCm": 153,
-        "defaultSillCm": 90,
-        "modelUrl": "/models/windows/set-of-plastic-windows-01-04-tall.glb"
-      },
-      {
-        "id": "re-windows-5",
-        "name": "Окно горизонтальное",
-        "group": "Пластиковые",
-        "thumb": "/files/Window/Iconc/chatgpt_image_9_sent._2026_g._20_06_40_1788973618736.png",
-        "defaultWidthCm": 143,
-        "defaultHeightCm": 44,
-        "defaultSillCm": 120,
-        "modelUrl": "/models/windows/set-of-plastic-windows-01-05-horizontal-double.glb"
-      },
-      {
-        "id": "re-windows-6",
-        "name": "Окно широкое низкое",
-        "group": "Пластиковые",
-        "thumb": "/files/Window/Iconc/chatgpt_image_9_sent._2026_g._20_08_22_1788973723075.png",
-        "defaultWidthCm": 214,
-        "defaultHeightCm": 44,
-        "defaultSillCm": 120,
-        "modelUrl": "/models/windows/set-of-plastic-windows-01-07-horizontal-wide.glb"
-      }
-    ],
-    "materials": {
-      "walls": [
-        {
-          "id": "re-walls-default",
-          "name": "Белая краска",
-          "group": "Краска",
-          "hex": "#F0F0E3"
-        },
-        {
-          "id": "re-walls-grey",
-          "name": "Светло-серая",
-          "group": "Краска",
-          "hex": "#E8E8E0"
-        }
-      ],
-      "floors": [
-        {
-          "id": "re-floors-herringbone",
-          "name": "Паркет ёлочка",
-          "group": "Дерево",
-          "thumb": "/images/textures/ikea/floor/ee604ccf7d4ed0ec53b5d8cf0032e707.jpg"
-        }
-      ],
-      "ceilings": [
-        {
-          "id": "re-ceilings-white",
-          "name": "Белый потолок",
-          "group": "",
-          "hex": "#FEFEFE"
-        }
-      ]
-    }
-  },
-  "placementKindProfiles": [
-    {
-      "id": "floor_in_niche",
-      "label": "Шкаф в нише",
-      "baseKind": "floor_in_niche",
-      "settings": {}
-    },
-    {
-      "id": "standalone_floor",
-      "label": "Тумба напольная",
-      "baseKind": "standalone_floor",
-      "settings": {}
-    },
-    {
-      "id": "wall_hung_low",
-      "label": "Навесной нижний (к полу)",
-      "baseKind": "wall_hung_low",
-      "settings": {}
-    },
-    {
-      "id": "wall_hung_high",
-      "label": "Навесной верхний (к потолку)",
-      "baseKind": "wall_hung_high",
-      "settings": {}
-    },
-    {
-      "id": "wall_hung",
-      "label": "Навесной верхний (legacy)",
-      "baseKind": "wall_hung",
-      "settings": {}
-    },
-    {
-      "id": "corpus_only",
-      "label": "Только корпус",
-      "baseKind": "corpus_only",
-      "settings": {}
-    }
-  ]
+  "endCabinet": {
+    "enabled": true,
+    "minGapMm": 100,
+    "maxGapMm": 1500,
+    "catalogType": "",
+    "catalogCategoryId": "",
+    "catalogFilterTag": "",
+    "label": "Торцевой шкаф"
+  }
 }

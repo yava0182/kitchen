@@ -478,6 +478,16 @@ class Furniture {
 
     // Тумба: pivot по corpus (боковины), не по крышке s:x — иначе zone-fit и свес расходятся.
     const offset = pivotMin.clone().negate();
+    // НМУ/НМ: дерево уже в координатах ячейки (0 = край). X из bbox (фасад/фурнитура)
+    // даёт сдвиг ~4 мм у правого угла — «столб/ячейка уезжает».
+    if (
+      placement === 'kitchen_base_corner' ||
+      placement === 'kitchen_wall_corner' ||
+      placement === 'kitchen_base' ||
+      placement === 'kitchen_base_gola'
+    ) {
+      offset.x = 0;
+    }
 
     console.log('Offset to apply:', offset);
     console.log('🔧 ИСПРАВЛЕННАЯ ЛОГИКА: Смещаем builtGroup (корневая группа с мешами)');

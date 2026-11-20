@@ -1,0 +1,3910 @@
+[
+  {
+    "catalog_type": "catalog_44",
+    "name": "Угловой левый",
+    "data": {
+      "name": "Угловой левый",
+      "category": [],
+      "show_in_spec": "1",
+      "include_nested": "1",
+      "show_in_constructor": "1",
+      "order": 0,
+      "icon": "/files/catalog_icons/catalog_icon_1_1792657443860_1792657443867.png",
+      "iconAspect": "low",
+      "module_group": "bottom",
+      "drag_type": "top",
+      "stick_type": "common",
+      "is_fill": "0",
+      "no_intersections": "0",
+      "catalog_type": "catalog_44",
+      "width": "1050",
+      "height": "820",
+      "depth": "550",
+      "placementKind": "kitchen_base_corner",
+      "roomTags": {
+        "rooms": [
+          "kitchen"
+        ],
+        "layouts": [],
+        "catalogFolders": [
+          "44"
+        ],
+        "categories": [
+          "kitchen-44"
+        ]
+      },
+      "hingeLayoutId": null,
+      "clodisVariables": {
+        "h_bottom": 100,
+        "h_top": 0,
+        "tech_zone_mm": 0,
+        "facade_thickness_mm": 16,
+        "corner_return_mm": 550,
+        "corner_return_depth_mm": 40,
+        "corner_post_mm": 50,
+        "corner_post_depth_mm": 40,
+        "side_wall_clearance_mm": 10,
+        "corner_return_wall_gap_mm": 10,
+        "corner_leg_mm": 490,
+        "corner_corpus_span_mm": 1040,
+        "corner_return_pos_x": 10,
+        "corner_side_inset_mm": 10,
+        "corner_at_start": true
+      },
+      "clodisJSON": [
+        {
+          "type": "section",
+          "id": "node_1792483703604_grcxoy03g",
+          "name": "Секция",
+          "active": 1,
+          "helpers_visible": 1,
+          "size": {
+            "x": "s:x",
+            "y": "s:y",
+            "z": "s:z"
+          },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pivot": {
+            "x": -1,
+            "y": -1,
+            "z": -1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "spec": {
+            "orientation": "f"
+          },
+          "section_key": "",
+          "children": [
+            {
+              "type": "module",
+              "id": "node_1792483703605_1wkyimy2p",
+              "name": "Рабочий стол без дв",
+              "active": 1,
+              "size": {
+                "x": "v:corner_corpus_span_mm",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": "v:corner_side_inset_mm",
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "2",
+                "element_type": "catalog_46",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "key": "Рабочий стол без дв"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "cabinet_root"
+            },
+            {
+              "type": "module",
+              "id": "node_1792483703605_vjcxeodl7",
+              "name": "Приставка углового левого",
+              "active": 1,
+              "size": {
+                "x": "v:corner_return_mm",
+                "y": "s:y - v:h_bottom",
+                "z": "v:corner_return_depth_mm"
+              },
+              "pos": {
+                "x": "v:corner_return_pos_x",
+                "y": "v:h_bottom",
+                "z": "s:z"
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "5",
+                "element_type": "catalog_45",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "key": "Приставка углового левого"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "corner_return"
+            }
+          ]
+        }
+      ],
+      "pairedCatalogItemIds": {
+        "single": 0,
+        "double": 0
+      },
+      "interiorLayout": {
+        "zones": [
+          {
+            "name": "Вся высота",
+            "position": "",
+            "heightPercent": 100,
+            "content": "shelves",
+            "rodRules": {
+              "anchor": "top",
+              "offsetMm": 80,
+              "companionMode": "none",
+              "topShelfGapMm": 80,
+              "bottomShelvesCount": 1,
+              "bottomShelvesTopGapMm": 80,
+              "gridShiftDownSteps": 0
+            },
+            "drawerRules": {
+              "anchor": "bottom",
+              "offsetMm": 19,
+              "count": 0,
+              "gapMm": 3,
+              "topShelfGapMm": 26,
+              "forceShelfAboveDrawers": true
+            },
+            "id": "zone_mvgelxg1_qqlz"
+          }
+        ]
+      },
+      "interiorTemplates": {
+        "shelf": null,
+        "drawer": null,
+        "rod": {
+          "modelId": "22",
+          "label": "Штанга"
+        },
+        "shelfProps": {
+          "enabled": 0,
+          "slots": [
+            {
+              "model_id": "",
+              "label": "",
+              "x_mm": -20,
+              "y_mm": 0,
+              "z_mm": 0,
+              "rot_y": 0
+            },
+            {
+              "model_id": "",
+              "label": "",
+              "x_mm": 90,
+              "y_mm": 0,
+              "z_mm": 0,
+              "rot_y": 0
+            }
+          ]
+        }
+      },
+      "shelfStack": {
+        "enabled": true,
+        "distribution": "step",
+        "stepMm": 400,
+        "shelfThicknessMm": 16,
+        "bottomOffsetMm": 0,
+        "topOffsetMm": 0,
+        "mode": "max_count",
+        "maxCount": 12,
+        "minGapMm": 50,
+        "fixedPositionsFromBottomMm": []
+      },
+      "constructor_structure": {
+        "type": "module",
+        "name": "Угловой левый",
+        "children": [
+          {
+            "type": "section",
+            "id": "node_1792483703604_grcxoy03g",
+            "name": "Секция",
+            "active": 1,
+            "helpers_visible": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "orientation": "f"
+            },
+            "section_key": "",
+            "children": [
+              {
+                "type": "module",
+                "id": "node_1792483703605_1wkyimy2p",
+                "name": "Рабочий стол без дв",
+                "active": 1,
+                "size": {
+                  "x": "v:corner_corpus_span_mm",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": "v:corner_side_inset_mm",
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "2",
+                  "element_type": "catalog_46",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "key": "Рабочий стол без дв"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "cabinet_root"
+              },
+              {
+                "type": "module",
+                "id": "node_1792483703605_vjcxeodl7",
+                "name": "Приставка углового левого",
+                "active": 1,
+                "size": {
+                  "x": "v:corner_return_mm",
+                  "y": "s:y - v:h_bottom",
+                  "z": "v:corner_return_depth_mm"
+                },
+                "pos": {
+                  "x": "v:corner_return_pos_x",
+                  "y": "v:h_bottom",
+                  "z": "s:z"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "5",
+                  "element_type": "catalog_45",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "key": "Приставка углового левого"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "corner_return"
+              }
+            ]
+          }
+        ],
+        "variables": {
+          "main": {
+            "h_bottom": 100,
+            "h_top": 0,
+            "tech_zone_mm": 0,
+            "facade_thickness_mm": 16
+          },
+          "groups": [
+            {
+              "id": "grp_mvkwexew_85ri4ts78",
+              "name": "Основные",
+              "enabled": true,
+              "vars": [
+                {
+                  "id": "var_mvkwexew_9h3wp8qml",
+                  "name": "h_bottom",
+                  "key": "h_bottom",
+                  "value": 100,
+                  "type": "number",
+                  "enabled": true,
+                  "local": 1,
+                  "scope": "module",
+                  "params": {
+                    "min": 0,
+                    "max": "",
+                    "step": 1
+                  }
+                },
+                {
+                  "id": "var_mvkwexew_kec0dlqtc",
+                  "name": "h_top",
+                  "key": "h_top",
+                  "value": 0,
+                  "type": "number",
+                  "enabled": true,
+                  "local": 1,
+                  "scope": "module",
+                  "params": {
+                    "min": 0,
+                    "max": "",
+                    "step": 1
+                  }
+                },
+                {
+                  "id": "var_mvkwexew_o80wk8y5a",
+                  "name": "tech_zone_mm",
+                  "key": "tech_zone_mm",
+                  "value": 0,
+                  "type": "number",
+                  "enabled": true,
+                  "local": 1,
+                  "scope": "module",
+                  "params": {
+                    "min": 0,
+                    "max": "",
+                    "step": 1
+                  }
+                },
+                {
+                  "id": "var_mvkwexew_ff8bgkf3s",
+                  "name": "facade_thickness_mm",
+                  "key": "facade_thickness_mm",
+                  "value": 16,
+                  "type": "number",
+                  "enabled": true,
+                  "local": 1,
+                  "scope": "module",
+                  "params": {
+                    "min": 0,
+                    "max": "",
+                    "step": 1
+                  }
+                }
+              ],
+              "collapsed": false
+            }
+          ]
+        },
+        "template": {
+          "structure": [
+            {
+              "type": "section",
+              "id": "node_1792483703604_grcxoy03g",
+              "name": "Секция",
+              "active": 1,
+              "helpers_visible": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "f"
+              },
+              "section_key": "",
+              "children": [
+                {
+                  "type": "module",
+                  "id": "node_1792483703605_1wkyimy2p",
+                  "name": "Рабочий стол без дв",
+                  "active": 1,
+                  "size": {
+                    "x": "v:corner_corpus_span_mm",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": "v:corner_side_inset_mm",
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "2",
+                    "element_type": "catalog_46",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "key": "Рабочий стол без дв"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "cabinet_root"
+                },
+                {
+                  "type": "module",
+                  "id": "node_1792483703605_vjcxeodl7",
+                  "name": "Приставка углового левого",
+                  "active": 1,
+                  "size": {
+                    "x": "v:corner_return_mm",
+                    "y": "s:y - v:h_bottom",
+                    "z": "v:corner_return_depth_mm"
+                  },
+                  "pos": {
+                    "x": "v:corner_return_pos_x",
+                    "y": "v:h_bottom",
+                    "z": "s:z"
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "5",
+                    "element_type": "catalog_45",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "key": "Приставка углового левого"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "corner_return"
+                }
+              ]
+            }
+          ]
+        },
+        "materials_overrides": {},
+        "spec": {
+          "template": {
+            "tree": [
+              {
+                "type": "section",
+                "id": "node_1792483703604_grcxoy03g",
+                "name": "Секция",
+                "active": 1,
+                "helpers_visible": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "f"
+                },
+                "section_key": "",
+                "children": [
+                  {
+                    "type": "module",
+                    "id": "node_1792483703605_1wkyimy2p",
+                    "name": "Рабочий стол без дв",
+                    "active": 1,
+                    "size": {
+                      "x": "v:corner_corpus_span_mm",
+                      "y": "s:y",
+                      "z": "s:z"
+                    },
+                    "pos": {
+                      "x": "v:corner_side_inset_mm",
+                      "y": 0,
+                      "z": 0
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "scale": {
+                      "x": 1,
+                      "y": 1,
+                      "z": 1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "id": "2",
+                      "element_type": "catalog_46",
+                      "fill_content": {},
+                      "linked_item_id": 0,
+                      "live_catalog": true,
+                      "key": "Рабочий стол без дв"
+                    },
+                    "children": [],
+                    "lib": "",
+                    "tags": "",
+                    "interactive": 0,
+                    "custom": {},
+                    "condition": null,
+                    "visible": 1,
+                    "helpers_visible": 1,
+                    "variables": {
+                      "visible": 1,
+                      "main": {}
+                    },
+                    "interaction": {
+                      "auto_rotation": 1,
+                      "check_intersection": 0,
+                      "raycast": 1,
+                      "rotate_free": 0
+                    },
+                    "resizable": {
+                      "enabled": 0,
+                      "locks": {},
+                      "minmax": {
+                        "min": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "max": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        }
+                      }
+                    },
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "comments": "",
+                    "section_key": "",
+                    "params_key": "",
+                    "layout_role": "cabinet_root"
+                  },
+                  {
+                    "type": "module",
+                    "id": "node_1792483703605_vjcxeodl7",
+                    "name": "Приставка углового левого",
+                    "active": 1,
+                    "size": {
+                      "x": "v:corner_return_mm",
+                      "y": "s:y - v:h_bottom",
+                      "z": "v:corner_return_depth_mm"
+                    },
+                    "pos": {
+                      "x": "v:corner_return_pos_x",
+                      "y": "v:h_bottom",
+                      "z": "s:z"
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "scale": {
+                      "x": 1,
+                      "y": 1,
+                      "z": 1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "id": "5",
+                      "element_type": "catalog_45",
+                      "fill_content": {},
+                      "linked_item_id": 0,
+                      "live_catalog": true,
+                      "can_change": {
+                        "id": 0
+                      },
+                      "not_load_default": 0,
+                      "key": "Приставка углового левого"
+                    },
+                    "children": [],
+                    "lib": "",
+                    "tags": "",
+                    "interactive": 0,
+                    "custom": {},
+                    "condition": null,
+                    "visible": 1,
+                    "helpers_visible": 1,
+                    "variables": {
+                      "visible": 1,
+                      "main": {}
+                    },
+                    "interaction": {
+                      "auto_rotation": 1,
+                      "check_intersection": 0,
+                      "raycast": 1,
+                      "rotate_free": 0
+                    },
+                    "resizable": {
+                      "enabled": 0,
+                      "locks": {},
+                      "minmax": {
+                        "min": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "max": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        }
+                      }
+                    },
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "comments": "",
+                    "section_key": "",
+                    "params_key": "",
+                    "layout_role": "corner_return"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    "constructor_structure": {
+      "type": "module",
+      "name": "Угловой левый",
+      "children": [
+        {
+          "type": "section",
+          "id": "node_1792483703604_grcxoy03g",
+          "name": "Секция",
+          "active": 1,
+          "helpers_visible": 1,
+          "size": {
+            "x": "s:x",
+            "y": "s:y",
+            "z": "s:z"
+          },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pivot": {
+            "x": -1,
+            "y": -1,
+            "z": -1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "spec": {
+            "orientation": "f"
+          },
+          "section_key": "",
+          "children": [
+            {
+              "type": "module",
+              "id": "node_1792483703605_1wkyimy2p",
+              "name": "Рабочий стол без дв",
+              "active": 1,
+              "size": {
+                "x": "v:corner_corpus_span_mm",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": "v:corner_side_inset_mm",
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "2",
+                "element_type": "catalog_46",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "key": "Рабочий стол без дв"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "cabinet_root"
+            },
+            {
+              "type": "module",
+              "id": "node_1792483703605_vjcxeodl7",
+              "name": "Приставка углового левого",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": "s:z-24"
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": 1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "f",
+                "direction": "z",
+                "side": "front",
+                "material": {
+                  "group": "g0",
+                  "key": "material_2",
+                  "rotated": false,
+                  "fixed": false
+                },
+                "detailTypeId": "front_front",
+                "id": "5",
+                "element_type": "catalog_45",
+                "live_catalog": true,
+                "key": "Приставка углового левого"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "corner_return",
+              "material_key": "material_2",
+              "material_group": "g0"
+            }
+          ]
+        }
+      ],
+      "variables": {
+        "main": {
+          "h_bottom": 100,
+          "h_top": 0,
+          "tech_zone_mm": 0,
+          "facade_thickness_mm": 16
+        },
+        "groups": [
+          {
+            "id": "grp_mvkwexex_cd3yajsmf",
+            "name": "Основные",
+            "enabled": true,
+            "vars": [
+              {
+                "id": "var_mvkwexex_c6l1swmci",
+                "name": "h_bottom",
+                "key": "h_bottom",
+                "value": 100,
+                "type": "number",
+                "enabled": true,
+                "local": 1,
+                "scope": "module",
+                "params": {
+                  "min": 0,
+                  "max": "",
+                  "step": 1
+                }
+              },
+              {
+                "id": "var_mvkwexex_ogneem98t",
+                "name": "h_top",
+                "key": "h_top",
+                "value": 0,
+                "type": "number",
+                "enabled": true,
+                "local": 1,
+                "scope": "module",
+                "params": {
+                  "min": 0,
+                  "max": "",
+                  "step": 1
+                }
+              },
+              {
+                "id": "var_mvkwexex_zav5gkfyj",
+                "name": "tech_zone_mm",
+                "key": "tech_zone_mm",
+                "value": 0,
+                "type": "number",
+                "enabled": true,
+                "local": 1,
+                "scope": "module",
+                "params": {
+                  "min": 0,
+                  "max": "",
+                  "step": 1
+                }
+              },
+              {
+                "id": "var_mvkwexex_cb30vb14l",
+                "name": "facade_thickness_mm",
+                "key": "facade_thickness_mm",
+                "value": 16,
+                "type": "number",
+                "enabled": true,
+                "local": 1,
+                "scope": "module",
+                "params": {
+                  "min": 0,
+                  "max": "",
+                  "step": 1
+                }
+              }
+            ],
+            "collapsed": false
+          }
+        ]
+      },
+      "template": {
+        "structure": [
+          {
+            "type": "section",
+            "id": "node_1792483703604_grcxoy03g",
+            "name": "Секция",
+            "active": 1,
+            "helpers_visible": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "orientation": "f"
+            },
+            "section_key": "",
+            "children": [
+              {
+                "type": "module",
+                "id": "node_1792483703605_1wkyimy2p",
+                "name": "Рабочий стол без дв",
+                "active": 1,
+                "size": {
+                  "x": "v:corner_corpus_span_mm",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": "v:corner_side_inset_mm",
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "2",
+                  "element_type": "catalog_46",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "key": "Рабочий стол без дв"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "cabinet_root"
+              },
+              {
+                "type": "module",
+                "id": "node_1792483703605_vjcxeodl7",
+                "name": "Приставка углового левого",
+                "active": 1,
+                "size": {
+                  "x": "v:corner_return_mm",
+                  "y": "s:y - v:h_bottom",
+                  "z": "v:corner_return_depth_mm"
+                },
+                "pos": {
+                  "x": "v:corner_return_pos_x",
+                  "y": "v:h_bottom",
+                  "z": "s:z"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "5",
+                  "element_type": "catalog_45",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "key": "Приставка углового левого"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "corner_return"
+              }
+            ]
+          }
+        ]
+      },
+      "materials_overrides": {},
+      "spec": {
+        "template": {
+          "tree": [
+            {
+              "type": "section",
+              "id": "node_1792483703604_grcxoy03g",
+              "name": "Секция",
+              "active": 1,
+              "helpers_visible": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "f"
+              },
+              "section_key": "",
+              "children": [
+                {
+                  "type": "module",
+                  "id": "node_1792483703605_1wkyimy2p",
+                  "name": "Рабочий стол без дв",
+                  "active": 1,
+                  "size": {
+                    "x": "v:corner_corpus_span_mm",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": "v:corner_side_inset_mm",
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "2",
+                    "element_type": "catalog_46",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "key": "Рабочий стол без дв"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "cabinet_root"
+                },
+                {
+                  "type": "module",
+                  "id": "node_1792483703605_vjcxeodl7",
+                  "name": "Приставка углового левого",
+                  "active": 1,
+                  "size": {
+                    "x": "v:corner_return_mm",
+                    "y": "s:y - v:h_bottom",
+                    "z": "v:corner_return_depth_mm"
+                  },
+                  "pos": {
+                    "x": "v:corner_return_pos_x",
+                    "y": "v:h_bottom",
+                    "z": "s:z"
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "5",
+                    "element_type": "catalog_45",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "key": "Приставка углового левого"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "corner_return"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "clodisJSON": [
+      {
+        "type": "section",
+        "id": "node_1792483703604_grcxoy03g",
+        "name": "Секция",
+        "active": 1,
+        "helpers_visible": 1,
+        "size": {
+          "x": "s:x",
+          "y": "s:y",
+          "z": "s:z"
+        },
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "pivot": {
+          "x": -1,
+          "y": -1,
+          "z": -1
+        },
+        "rot": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "spec": {
+          "orientation": "f"
+        },
+        "section_key": "",
+        "children": [
+          {
+            "type": "module",
+            "id": "node_1792483703605_1wkyimy2p",
+            "name": "Рабочий стол без дв",
+            "active": 1,
+            "size": {
+              "x": "v:corner_corpus_span_mm",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": "v:corner_side_inset_mm",
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "2",
+              "element_type": "catalog_46",
+              "fill_content": {},
+              "linked_item_id": 0,
+              "live_catalog": true,
+              "key": "Рабочий стол без дв"
+            },
+            "children": [],
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "custom": {},
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 1,
+            "variables": {
+              "visible": 1,
+              "main": {}
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": {},
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "comments": "",
+            "section_key": "",
+            "params_key": "",
+            "layout_role": "cabinet_root"
+          },
+          {
+            "type": "module",
+            "id": "node_1792483703605_vjcxeodl7",
+            "name": "Приставка углового левого",
+            "active": 1,
+            "size": {
+              "x": "v:corner_return_mm",
+              "y": "s:y - v:h_bottom",
+              "z": "v:corner_return_depth_mm"
+            },
+            "pos": {
+              "x": "v:corner_return_pos_x",
+              "y": "v:h_bottom",
+              "z": "s:z"
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "5",
+              "element_type": "catalog_45",
+              "fill_content": {},
+              "linked_item_id": 0,
+              "live_catalog": true,
+              "can_change": {
+                "id": 0
+              },
+              "not_load_default": 0,
+              "key": "Приставка углового левого"
+            },
+            "children": [],
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "custom": {},
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 1,
+            "variables": {
+              "visible": 1,
+              "main": {}
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": {},
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "comments": "",
+            "section_key": "",
+            "params_key": "",
+            "layout_role": "corner_return"
+          }
+        ]
+      }
+    ],
+    "id": 1,
+    "icon": "/files/catalog_icons/catalog_icon_1_1792657443860_1792657443867.png",
+    "iconAspect": "low"
+  },
+  {
+    "catalog_type": "catalog_44",
+    "name": "Угловой правый",
+    "data": {
+      "name": "Угловой правый",
+      "category": [],
+      "show_in_spec": "1",
+      "include_nested": "1",
+      "show_in_constructor": "1",
+      "order": 0,
+      "icon": "/files/catalog_icons/catalog_icon_2_1792657422871_1792657422893.png",
+      "iconAspect": "low",
+      "module_group": "bottom",
+      "drag_type": "top",
+      "stick_type": "common",
+      "is_fill": "0",
+      "no_intersections": "0",
+      "catalog_type": "catalog_44",
+      "width": "1050",
+      "height": "820",
+      "depth": "550",
+      "placementKind": "kitchen_base_corner",
+      "roomTags": {
+        "rooms": [
+          "kitchen"
+        ],
+        "layouts": [],
+        "catalogFolders": [
+          "44"
+        ],
+        "categories": [
+          "kitchen-44"
+        ]
+      },
+      "hingeLayoutId": null,
+      "clodisVariables": {
+        "h_bottom": 100,
+        "h_top": 0,
+        "tech_zone_mm": 0,
+        "facade_thickness_mm": 16,
+        "corner_return_mm": 550,
+        "corner_return_depth_mm": 40,
+        "corner_post_mm": 50,
+        "corner_post_depth_mm": 40,
+        "side_wall_clearance_mm": 10,
+        "corner_return_wall_gap_mm": 10,
+        "corner_leg_mm": 490,
+        "corner_corpus_span_mm": 1040,
+        "corner_return_pos_x": 490,
+        "corner_side_inset_mm": 0,
+        "corner_at_start": false
+      },
+      "clodisJSON": [
+        {
+          "type": "section",
+          "id": "node_1792483703604_grcxoy03g_r",
+          "name": "Секция",
+          "active": 1,
+          "helpers_visible": 1,
+          "size": {
+            "x": "s:x",
+            "y": "s:y",
+            "z": "s:z"
+          },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pivot": {
+            "x": -1,
+            "y": -1,
+            "z": -1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "spec": {
+            "orientation": "f"
+          },
+          "section_key": "",
+          "children": [
+            {
+              "type": "module",
+              "id": "node_1792483703605_1wkyimy2p_r",
+              "name": "Рабочий стол без дв",
+              "active": 1,
+              "size": {
+                "x": "v:corner_corpus_span_mm",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": "v:corner_side_inset_mm",
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "2",
+                "element_type": "catalog_46",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "key": "Рабочий стол без дв"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "cabinet_root"
+            },
+            {
+              "type": "module",
+              "id": "node_1792483703605_vjcxeodl7_r",
+              "name": "Приставка углового правая",
+              "active": 1,
+              "size": {
+                "x": "v:corner_return_mm",
+                "y": "s:y - v:h_bottom",
+                "z": "v:corner_return_depth_mm"
+              },
+              "pos": {
+                "x": "v:corner_return_pos_x",
+                "y": "v:h_bottom",
+                "z": "s:z"
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "6",
+                "element_type": "catalog_45",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "can_change": {
+                  "id": 0
+                },
+                "not_load_default": 0,
+                "key": "Приставка углового правая"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "corner_return"
+            }
+          ]
+        }
+      ],
+      "pairedCatalogItemIds": {
+        "single": 0,
+        "double": 0
+      },
+      "interiorLayout": {
+        "zones": [
+          {
+            "name": "Вся высота",
+            "position": "",
+            "heightPercent": 100,
+            "content": "shelves",
+            "rodRules": {
+              "anchor": "top",
+              "offsetMm": 80,
+              "companionMode": "none",
+              "topShelfGapMm": 80,
+              "bottomShelvesCount": 1,
+              "bottomShelvesTopGapMm": 80,
+              "gridShiftDownSteps": 0
+            },
+            "drawerRules": {
+              "anchor": "bottom",
+              "offsetMm": 19,
+              "count": 0,
+              "gapMm": 3,
+              "topShelfGapMm": 26,
+              "forceShelfAboveDrawers": true
+            },
+            "id": "zone_mvgelxg1_qqlz"
+          }
+        ]
+      },
+      "interiorTemplates": {
+        "shelf": null,
+        "drawer": null,
+        "rod": {
+          "modelId": "22",
+          "label": "Штанга"
+        },
+        "shelfProps": {
+          "enabled": 0,
+          "slots": [
+            {
+              "model_id": "",
+              "label": "",
+              "x_mm": -20,
+              "y_mm": 0,
+              "z_mm": 0,
+              "rot_y": 0
+            },
+            {
+              "model_id": "",
+              "label": "",
+              "x_mm": 90,
+              "y_mm": 0,
+              "z_mm": 0,
+              "rot_y": 0
+            }
+          ]
+        }
+      },
+      "shelfStack": {
+        "enabled": true,
+        "distribution": "step",
+        "stepMm": 400,
+        "shelfThicknessMm": 16,
+        "bottomOffsetMm": 0,
+        "topOffsetMm": 0,
+        "mode": "max_count",
+        "maxCount": 12,
+        "minGapMm": 50,
+        "fixedPositionsFromBottomMm": []
+      },
+      "constructor_structure": {
+        "type": "module",
+        "name": "Угловой правый",
+        "children": [
+          {
+            "type": "section",
+            "id": "node_1792483703604_grcxoy03g_r",
+            "name": "Секция",
+            "active": 1,
+            "helpers_visible": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "orientation": "f"
+            },
+            "section_key": "",
+            "children": [
+              {
+                "type": "module",
+                "id": "node_1792483703605_1wkyimy2p_r",
+                "name": "Рабочий стол без дв",
+                "active": 1,
+                "size": {
+                  "x": "v:corner_corpus_span_mm",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": "v:corner_side_inset_mm",
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "2",
+                  "element_type": "catalog_46",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "key": "Рабочий стол без дв"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "cabinet_root"
+              },
+              {
+                "type": "module",
+                "id": "node_1792483703605_vjcxeodl7_r",
+                "name": "Приставка углового правая",
+                "active": 1,
+                "size": {
+                  "x": "v:corner_return_mm",
+                  "y": "s:y - v:h_bottom",
+                  "z": "v:corner_return_depth_mm"
+                },
+                "pos": {
+                  "x": "v:corner_return_pos_x",
+                  "y": "v:h_bottom",
+                  "z": "s:z"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "6",
+                  "element_type": "catalog_45",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "key": "Приставка углового правая"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "corner_return"
+              }
+            ]
+          }
+        ],
+        "variables": {
+          "main": {
+            "h_bottom": 100,
+            "h_top": 0,
+            "tech_zone_mm": 0,
+            "facade_thickness_mm": 16
+          },
+          "groups": [
+            {
+              "id": "grp_mvkwexex_6f07si7p1",
+              "name": "Основные",
+              "enabled": true,
+              "vars": [
+                {
+                  "id": "var_mvkwexex_h8y98xofs",
+                  "name": "h_bottom",
+                  "key": "h_bottom",
+                  "value": 100,
+                  "type": "number",
+                  "enabled": true,
+                  "local": 1,
+                  "scope": "module",
+                  "params": {
+                    "min": 0,
+                    "max": "",
+                    "step": 1
+                  }
+                },
+                {
+                  "id": "var_mvkwexex_b83sif40p",
+                  "name": "h_top",
+                  "key": "h_top",
+                  "value": 0,
+                  "type": "number",
+                  "enabled": true,
+                  "local": 1,
+                  "scope": "module",
+                  "params": {
+                    "min": 0,
+                    "max": "",
+                    "step": 1
+                  }
+                },
+                {
+                  "id": "var_mvkwexex_stczxnw2o",
+                  "name": "tech_zone_mm",
+                  "key": "tech_zone_mm",
+                  "value": 0,
+                  "type": "number",
+                  "enabled": true,
+                  "local": 1,
+                  "scope": "module",
+                  "params": {
+                    "min": 0,
+                    "max": "",
+                    "step": 1
+                  }
+                },
+                {
+                  "id": "var_mvkwexex_gx1ugpcta",
+                  "name": "facade_thickness_mm",
+                  "key": "facade_thickness_mm",
+                  "value": 16,
+                  "type": "number",
+                  "enabled": true,
+                  "local": 1,
+                  "scope": "module",
+                  "params": {
+                    "min": 0,
+                    "max": "",
+                    "step": 1
+                  }
+                }
+              ],
+              "collapsed": false
+            }
+          ]
+        },
+        "template": {
+          "structure": [
+            {
+              "type": "section",
+              "id": "node_1792483703604_grcxoy03g_r",
+              "name": "Секция",
+              "active": 1,
+              "helpers_visible": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "f"
+              },
+              "section_key": "",
+              "children": [
+                {
+                  "type": "module",
+                  "id": "node_1792483703605_1wkyimy2p_r",
+                  "name": "Рабочий стол без дв",
+                  "active": 1,
+                  "size": {
+                    "x": "v:corner_corpus_span_mm",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": "v:corner_side_inset_mm",
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "2",
+                    "element_type": "catalog_46",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "key": "Рабочий стол без дв"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "cabinet_root"
+                },
+                {
+                  "type": "module",
+                  "id": "node_1792483703605_vjcxeodl7_r",
+                  "name": "Приставка углового правая",
+                  "active": 1,
+                  "size": {
+                    "x": "v:corner_return_mm",
+                    "y": "s:y - v:h_bottom",
+                    "z": "v:corner_return_depth_mm"
+                  },
+                  "pos": {
+                    "x": "v:corner_return_pos_x",
+                    "y": "v:h_bottom",
+                    "z": "s:z"
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "6",
+                    "element_type": "catalog_45",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "key": "Приставка углового правая"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "corner_return"
+                }
+              ]
+            }
+          ]
+        },
+        "materials_overrides": {},
+        "spec": {
+          "template": {
+            "tree": [
+              {
+                "type": "section",
+                "id": "node_1792483703604_grcxoy03g_r",
+                "name": "Секция",
+                "active": 1,
+                "helpers_visible": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "f"
+                },
+                "section_key": "",
+                "children": [
+                  {
+                    "type": "module",
+                    "id": "node_1792483703605_1wkyimy2p_r",
+                    "name": "Рабочий стол без дв",
+                    "active": 1,
+                    "size": {
+                      "x": "v:corner_corpus_span_mm",
+                      "y": "s:y",
+                      "z": "s:z"
+                    },
+                    "pos": {
+                      "x": "v:corner_side_inset_mm",
+                      "y": 0,
+                      "z": 0
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "scale": {
+                      "x": 1,
+                      "y": 1,
+                      "z": 1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "id": "2",
+                      "element_type": "catalog_46",
+                      "fill_content": {},
+                      "linked_item_id": 0,
+                      "live_catalog": true,
+                      "key": "Рабочий стол без дв"
+                    },
+                    "children": [],
+                    "lib": "",
+                    "tags": "",
+                    "interactive": 0,
+                    "custom": {},
+                    "condition": null,
+                    "visible": 1,
+                    "helpers_visible": 1,
+                    "variables": {
+                      "visible": 1,
+                      "main": {}
+                    },
+                    "interaction": {
+                      "auto_rotation": 1,
+                      "check_intersection": 0,
+                      "raycast": 1,
+                      "rotate_free": 0
+                    },
+                    "resizable": {
+                      "enabled": 0,
+                      "locks": {},
+                      "minmax": {
+                        "min": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "max": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        }
+                      }
+                    },
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "comments": "",
+                    "section_key": "",
+                    "params_key": "",
+                    "layout_role": "cabinet_root"
+                  },
+                  {
+                    "type": "module",
+                    "id": "node_1792483703605_vjcxeodl7_r",
+                    "name": "Приставка углового правая",
+                    "active": 1,
+                    "size": {
+                      "x": "v:corner_return_mm",
+                      "y": "s:y - v:h_bottom",
+                      "z": "v:corner_return_depth_mm"
+                    },
+                    "pos": {
+                      "x": "v:corner_return_pos_x",
+                      "y": "v:h_bottom",
+                      "z": "s:z"
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "scale": {
+                      "x": 1,
+                      "y": 1,
+                      "z": 1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "id": "6",
+                      "element_type": "catalog_45",
+                      "fill_content": {},
+                      "linked_item_id": 0,
+                      "live_catalog": true,
+                      "can_change": {
+                        "id": 0
+                      },
+                      "not_load_default": 0,
+                      "key": "Приставка углового правая"
+                    },
+                    "children": [],
+                    "lib": "",
+                    "tags": "",
+                    "interactive": 0,
+                    "custom": {},
+                    "condition": null,
+                    "visible": 1,
+                    "helpers_visible": 1,
+                    "variables": {
+                      "visible": 1,
+                      "main": {}
+                    },
+                    "interaction": {
+                      "auto_rotation": 1,
+                      "check_intersection": 0,
+                      "raycast": 1,
+                      "rotate_free": 0
+                    },
+                    "resizable": {
+                      "enabled": 0,
+                      "locks": {},
+                      "minmax": {
+                        "min": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "max": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        }
+                      }
+                    },
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "comments": "",
+                    "section_key": "",
+                    "params_key": "",
+                    "layout_role": "corner_return"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    "constructor_structure": {
+      "type": "module",
+      "name": "Угловой правый",
+      "children": [
+        {
+          "type": "section",
+          "id": "node_1792483703604_grcxoy03g_r",
+          "name": "Секция",
+          "active": 1,
+          "helpers_visible": 1,
+          "size": {
+            "x": "s:x",
+            "y": "s:y",
+            "z": "s:z"
+          },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pivot": {
+            "x": -1,
+            "y": -1,
+            "z": -1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "spec": {
+            "orientation": "f"
+          },
+          "section_key": "",
+          "children": [
+            {
+              "type": "module",
+              "id": "node_1792483703605_1wkyimy2p_r",
+              "name": "Рабочий стол без дв",
+              "active": 1,
+              "size": {
+                "x": "v:corner_corpus_span_mm",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": "v:corner_side_inset_mm",
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "2",
+                "element_type": "catalog_46",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "key": "Рабочий стол без дв"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "cabinet_root"
+            },
+            {
+              "type": "module",
+              "id": "node_1792483703605_vjcxeodl7_r",
+              "name": "Приставка углового правая",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": "s:z-24"
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": 1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "f",
+                "direction": "z",
+                "side": "front",
+                "material": {
+                  "group": "g0",
+                  "key": "material_2",
+                  "rotated": false,
+                  "fixed": false
+                },
+                "detailTypeId": "front_front",
+                "id": "6",
+                "element_type": "catalog_45",
+                "live_catalog": true,
+                "key": "Приставка углового правая"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": "",
+              "layout_role": "corner_return",
+              "material_key": "material_2",
+              "material_group": "g0"
+            }
+          ]
+        }
+      ],
+      "variables": {
+        "main": {
+          "h_bottom": 100,
+          "h_top": 0,
+          "tech_zone_mm": 0,
+          "facade_thickness_mm": 16
+        },
+        "groups": [
+          {
+            "id": "grp_mvkwexex_dljqdpev6",
+            "name": "Основные",
+            "enabled": true,
+            "vars": [
+              {
+                "id": "var_mvkwexex_moigktsm0",
+                "name": "h_bottom",
+                "key": "h_bottom",
+                "value": 100,
+                "type": "number",
+                "enabled": true,
+                "local": 1,
+                "scope": "module",
+                "params": {
+                  "min": 0,
+                  "max": "",
+                  "step": 1
+                }
+              },
+              {
+                "id": "var_mvkwexex_bc2um4e6y",
+                "name": "h_top",
+                "key": "h_top",
+                "value": 0,
+                "type": "number",
+                "enabled": true,
+                "local": 1,
+                "scope": "module",
+                "params": {
+                  "min": 0,
+                  "max": "",
+                  "step": 1
+                }
+              },
+              {
+                "id": "var_mvkwexex_puzx4cgzp",
+                "name": "tech_zone_mm",
+                "key": "tech_zone_mm",
+                "value": 0,
+                "type": "number",
+                "enabled": true,
+                "local": 1,
+                "scope": "module",
+                "params": {
+                  "min": 0,
+                  "max": "",
+                  "step": 1
+                }
+              },
+              {
+                "id": "var_mvkwexex_9ltctd7q7",
+                "name": "facade_thickness_mm",
+                "key": "facade_thickness_mm",
+                "value": 16,
+                "type": "number",
+                "enabled": true,
+                "local": 1,
+                "scope": "module",
+                "params": {
+                  "min": 0,
+                  "max": "",
+                  "step": 1
+                }
+              }
+            ],
+            "collapsed": false
+          }
+        ]
+      },
+      "template": {
+        "structure": [
+          {
+            "type": "section",
+            "id": "node_1792483703604_grcxoy03g_r",
+            "name": "Секция",
+            "active": 1,
+            "helpers_visible": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "orientation": "f"
+            },
+            "section_key": "",
+            "children": [
+              {
+                "type": "module",
+                "id": "node_1792483703605_1wkyimy2p_r",
+                "name": "Рабочий стол без дв",
+                "active": 1,
+                "size": {
+                  "x": "v:corner_corpus_span_mm",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": "v:corner_side_inset_mm",
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "2",
+                  "element_type": "catalog_46",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "key": "Рабочий стол без дв"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "cabinet_root"
+              },
+              {
+                "type": "module",
+                "id": "node_1792483703605_vjcxeodl7_r",
+                "name": "Приставка углового правая",
+                "active": 1,
+                "size": {
+                  "x": "v:corner_return_mm",
+                  "y": "s:y - v:h_bottom",
+                  "z": "v:corner_return_depth_mm"
+                },
+                "pos": {
+                  "x": "v:corner_return_pos_x",
+                  "y": "v:h_bottom",
+                  "z": "s:z"
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "6",
+                  "element_type": "catalog_45",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "can_change": {
+                    "id": 0
+                  },
+                  "not_load_default": 0,
+                  "key": "Приставка углового правая"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": "",
+                "layout_role": "corner_return"
+              }
+            ]
+          }
+        ]
+      },
+      "materials_overrides": {},
+      "spec": {
+        "template": {
+          "tree": [
+            {
+              "type": "section",
+              "id": "node_1792483703604_grcxoy03g_r",
+              "name": "Секция",
+              "active": 1,
+              "helpers_visible": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "f"
+              },
+              "section_key": "",
+              "children": [
+                {
+                  "type": "module",
+                  "id": "node_1792483703605_1wkyimy2p_r",
+                  "name": "Рабочий стол без дв",
+                  "active": 1,
+                  "size": {
+                    "x": "v:corner_corpus_span_mm",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": "v:corner_side_inset_mm",
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "2",
+                    "element_type": "catalog_46",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "key": "Рабочий стол без дв"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "cabinet_root"
+                },
+                {
+                  "type": "module",
+                  "id": "node_1792483703605_vjcxeodl7_r",
+                  "name": "Приставка углового правая",
+                  "active": 1,
+                  "size": {
+                    "x": "v:corner_return_mm",
+                    "y": "s:y - v:h_bottom",
+                    "z": "v:corner_return_depth_mm"
+                  },
+                  "pos": {
+                    "x": "v:corner_return_pos_x",
+                    "y": "v:h_bottom",
+                    "z": "s:z"
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "6",
+                    "element_type": "catalog_45",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "can_change": {
+                      "id": 0
+                    },
+                    "not_load_default": 0,
+                    "key": "Приставка углового правая"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": "",
+                  "layout_role": "corner_return"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "clodisJSON": [
+      {
+        "type": "section",
+        "id": "node_1792483703604_grcxoy03g_r",
+        "name": "Секция",
+        "active": 1,
+        "helpers_visible": 1,
+        "size": {
+          "x": "s:x",
+          "y": "s:y",
+          "z": "s:z"
+        },
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "pivot": {
+          "x": -1,
+          "y": -1,
+          "z": -1
+        },
+        "rot": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "spec": {
+          "orientation": "f"
+        },
+        "section_key": "",
+        "children": [
+          {
+            "type": "module",
+            "id": "node_1792483703605_1wkyimy2p_r",
+            "name": "Рабочий стол без дв",
+            "active": 1,
+            "size": {
+              "x": "v:corner_corpus_span_mm",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": "v:corner_side_inset_mm",
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "2",
+              "element_type": "catalog_46",
+              "fill_content": {},
+              "linked_item_id": 0,
+              "live_catalog": true,
+              "key": "Рабочий стол без дв"
+            },
+            "children": [],
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "custom": {},
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 1,
+            "variables": {
+              "visible": 1,
+              "main": {}
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": {},
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "comments": "",
+            "section_key": "",
+            "params_key": "",
+            "layout_role": "cabinet_root"
+          },
+          {
+            "type": "module",
+            "id": "node_1792483703605_vjcxeodl7_r",
+            "name": "Приставка углового правая",
+            "active": 1,
+            "size": {
+              "x": "v:corner_return_mm",
+              "y": "s:y - v:h_bottom",
+              "z": "v:corner_return_depth_mm"
+            },
+            "pos": {
+              "x": "v:corner_return_pos_x",
+              "y": "v:h_bottom",
+              "z": "s:z"
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "6",
+              "element_type": "catalog_45",
+              "fill_content": {},
+              "linked_item_id": 0,
+              "live_catalog": true,
+              "can_change": {
+                "id": 0
+              },
+              "not_load_default": 0,
+              "key": "Приставка углового правая"
+            },
+            "children": [],
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "custom": {},
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 1,
+            "variables": {
+              "visible": 1,
+              "main": {}
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": {},
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "comments": "",
+            "section_key": "",
+            "params_key": "",
+            "layout_role": "corner_return"
+          }
+        ]
+      }
+    ],
+    "id": 2,
+    "icon": "/files/catalog_icons/catalog_icon_2_1792657422871_1792657422893.png",
+    "iconAspect": "low"
+  }
+]

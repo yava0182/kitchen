@@ -1,0 +1,4442 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clodis Room Configurator</title>
+    <script>
+    (function () {
+      // Единственный bust комнаты. Меняет агент при правках JS комнаты — не руками в URL.
+      // Раньше location.replace затирал любой ?v=… обратно на worktop3 > «вставил pp4 — всё равно worktop3».
+      var bust = '20261118-overlayL5';
+      var q = new URLSearchParams(location.search);
+      if (q.get('v') !== bust) {
+        q.set('v', bust);
+        history.replaceState(null, '', location.pathname + '?' + q.toString() + location.hash);
+      }
+      window.__CLD_BUILD = bust;
+      // Dual-load guard: HMR/старые ?v= не переписывают API.
+      // Пустой слот (_api без методов) всегда принимаем — иначе отступ НМУ/rebuild мертвы.
+      (function () {
+        var _build = '';
+        var _api = null;
+        var skipApi = false;
+        function _apiAlive(a) {
+          return !!(a && typeof a === 'object' && typeof a.normalizeKitchenBaseClodisTree === 'function');
+        }
+        Object.defineProperty(window, '__cldKitchenBaseEngineBuild', {
+          configurable: true,
+          enumerable: true,
+          get: function () { return _build; },
+          set: function (v) {
+            v = String(v || '');
+            // Нет живого API — принять любой bust (первый полный register).
+            if (!_apiAlive(_api)) {
+              skipApi = false;
+              _build = v;
+              return;
+            }
+            if (v && v !== bust) {
+              skipApi = true;
+              try { console.warn('[CLD] skip engine bust', v, 'want', bust); } catch (e) {}
+              return;
+            }
+            skipApi = false;
+            _build = v;
+          }
+        });
+        Object.defineProperty(window, '__cldKitchenBaseEngine', {
+          configurable: true,
+          enumerable: true,
+          get: function () { return _api; },
+          set: function (v) {
+            if (skipApi) { skipApi = false; return; }
+            // Не затирать живой API пустым {} от старого dual-load.
+            if (_apiAlive(_api) && !_apiAlive(v)) return;
+            _api = v;
+          }
+        });
+      })();
+      document.addEventListener('DOMContentLoaded', function () {
+        var el = document.createElement('div');
+        el.id = 'cld-build-badge';
+        el.textContent = 'build ' + bust;
+        el.title = 'Dev: при смене bust вкладка перезагрузится сама. ?v= ставит index.html';
+        el.style.cssText =
+          'position:fixed;bottom:6px;left:6px;z-index:10000;font:11px/1.2 monospace;color:#111;background:rgba(255,220,100,.95);padding:2px 6px;border-radius:4px;pointer-events:none;';
+        document.body.appendChild(el);
+      });
+      // Dev localhost: сами подхватываем новый bust — без «сделай Ctrl+F5».
+      (function () {
+        var host = location.hostname;
+        if (host !== 'localhost' && host !== '127.0.0.1') return;
+        var current = bust;
+        setInterval(function () {
+          fetch(location.pathname + '?__cld_watch=' + Date.now(), { cache: 'no-store' })
+            .then(function (r) {
+              return r.text();
+            })
+            .then(function (html) {
+              var m = html.match(/var bust = '([^']+)'/);
+              if (!m || !m[1] || m[1] === current) return;
+              var q = new URLSearchParams(location.search);
+              q.set('v', m[1]);
+              location.replace(location.pathname + '?' + q.toString() + location.hash);
+            })
+            .catch(function () {});
+        }, 2500);
+      })();
+    })();
+    </script>
+    <script>
+    /** ? ES-?: GLB ? ? ? clodis-cabinet-model-loader ? room-cabinet-studio. */
+    (function () {
+      var pending = new Set();
+      function findFurnitureRoot(obj) {
+        var p = obj;
+        for (var i = 0; i < 32 && p; i++) {
+          if (p.isGroup && p.userData && p.userData.isFurniture) return p;
+          p = p.parent;
+        }
+        return null;
+      }
+      window.__cldQueueCabinetStudioRebind = function (root) {
+        var fr = findFurnitureRoot(root) || root;
+        if (fr) pending.add(fr);
+        if (typeof window.__cldFlushPendingCabinetStudioRebinds === 'function') {
+          window.__cldFlushPendingCabinetStudioRebinds();
+        }
+      };
+      window.__cldFlushPendingCabinetStudioRebinds = function () {
+        var apply = window.__cldApplyRoomCabinetStudioLook;
+        var sync = window.__cldSyncAllRoomCabinetStudio;
+        if (!apply && !sync) return 0;
+        var n = 0;
+        pending.forEach(function (r) {
+          try {
+            if (apply && apply(r)) n += 1;
+          } catch (_) {}
+        });
+        pending.clear();
+        try {
+          if (sync) sync();
+        } catch (_) {}
+        return n;
+      };
+      window.__cldScheduleCabinetStudioRebind = function (root) {
+        window.__cldQueueCabinetStudioRebind(root);
+        [100, 500, 1500, 3500, 8000].forEach(function (ms) {
+          setTimeout(function () {
+            window.__cldQueueCabinetStudioRebind(root);
+          }, ms);
+        });
+      };
+      /** ? ? room-steps.js ? ? ? ? ? ? Cursor. */
+      window.__cldPendingRoomStep = null;
+      window.__cldGoToRoomStep = function (n) {
+        var step = Number(n);
+        if (!Number.isFinite(step)) return false;
+        if (typeof window.__cldGoToRoomStepImpl === 'function') {
+          return window.__cldGoToRoomStepImpl(step);
+        }
+        window.__cldPendingRoomStep = step;
+        return true;
+      };
+      window.__cldRoomStepNext = function () {
+        var top = document.getElementById('sidebar-next-btn-top');
+        var foot = document.getElementById('sidebar-next-btn');
+        var fl = document.getElementById('cld-step-float-next');
+        if (top) top.click();
+        else if (foot) foot.click();
+        else if (fl) fl.click();
+      };
+    })();
+    </script>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="js/room/room-edit-toolbar.css?v=20261104-ghoststep1">
+    <style>
+        /* Clodis design system ? ? 1: tokens + layout shell */
+        :root {
+            --clodis-bg: #F5F5F5;
+            --clodis-surface: #FFFFFF;
+            --clodis-text: #222222;
+            --clodis-text-secondary: #777777;
+            --clodis-text-muted: #A3A3A3;
+            --clodis-border: #E8E8E8;
+            --clodis-orange: #FF9F1C;
+            --clodis-orange-hover: #F39100;
+            --clodis-orange-soft: #FFF3DF;
+            --clodis-radius-sm: 8px;
+            --clodis-radius-md: 12px;
+            --clodis-radius-lg: 16px;
+        }
+        /* Cera Pro: ? ? public/fonts/ ? ? ? ? Arial */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            overflow: hidden;
+            height: 100%;
+            height: 100vh;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            overflow-x: hidden;
+            font-family: "Cera Pro", Arial, sans-serif;
+            color: var(--clodis-text);
+            display: flex;
+            height: 100%;
+            height: 100vh;
+            width: 100%;
+            background: var(--clodis-bg);
+        }
+        #canvas-container {
+            flex: 1 1 auto;
+            position: relative;
+            background: var(--clodis-bg);
+            overflow: hidden;
+            min-width: 0;
+            contain: layout paint;
+            isolation: isolate;
+        }
+        #canvas-container canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+        #sidebar {
+            position: relative;
+            z-index: 10;
+            box-sizing: border-box;
+            width: 440px;
+            flex: 0 0 440px;
+            height: 100%;
+            background: var(--clodis-surface);
+            color: var(--clodis-text);
+            border-left: 1px solid var(--clodis-border);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        @media (max-width: 1279px) {
+            #sidebar {
+                width: clamp(380px, 28vw, 440px);
+                flex: 0 0 clamp(380px, 28vw, 440px);
+            }
+            /* Dev-? ?: ? ? ? ? ? ? ? */
+            #cld-step-float {
+                right: calc(clamp(380px, 28vw, 440px) + 16px);
+            }
+        }
+        #sidebar-header {
+            position: relative;
+            padding: 20px 28px;
+            background: var(--clodis-surface);
+            border-bottom: none;
+            flex-shrink: 0;
+        }
+        .step-header {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin: 0 0 20px;
+            padding: 0;
+            gap: 6px;
+            background: transparent;
+            border: none;
+            border-radius: 0;
+        }
+        .step-badge {
+            width: auto;
+            height: auto;
+            min-height: 0;
+            background: transparent;
+            color: var(--clodis-text-secondary);
+            border-radius: 0;
+            display: block;
+            font-weight: 500;
+            font-size: 13px;
+            margin: 0;
+            padding: 0;
+            line-height: 1.3;
+            font-family: "Cera Pro", Arial, sans-serif;
+        }
+        .step-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--clodis-text);
+            padding: 0;
+            line-height: 1.2;
+            text-transform: none;
+            font-family: "Cera Pro", Arial, sans-serif;
+        }
+        .cld-step-description {
+            margin: 8px 0 0;
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.5;
+            color: var(--clodis-text-secondary);
+        }
+        .cld-step-description[hidden] {
+            display: none !important;
+        }
+        .cld-step-progress {
+            width: 100%;
+            height: 3px;
+            background: #ECECEC;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+        .cld-step-progress-fill {
+            height: 100%;
+            width: 16.666%;
+            background: var(--clodis-orange);
+            border-radius: inherit;
+            transition: width 250ms ease;
+        }
+        .price-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background: #F7F7F7;
+            border-radius: 12px;
+            box-shadow: none;
+            border: 1px solid var(--clodis-border);
+        }
+        .price-display {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--clodis-text);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0;
+            font-family: "Cera Pro", Arial, sans-serif;
+        }
+        .price-display i {
+            display: none;
+        }
+        .delivery-info {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            color: var(--clodis-text-secondary);
+            padding: 0;
+            font-family: "Cera Pro", Arial, sans-serif;
+        }
+        .delivery-date {
+            color: var(--clodis-text);
+            font-weight: 600;
+            padding: 0;
+            font-size: 14px;
+            font-family: "Cera Pro", Arial, sans-serif;
+        }
+        .price-subline-row {
+            padding: 6px 11px 8px;
+            font-size: 18px;
+            font-weight: 500;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Cera Pro', Arial, sans-serif;
+        }
+        .price-subline-help-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #2196f3;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .price-subline-help-icon:hover {
+            background: #1976d2;
+        }
+        .price-subline-help-popup {
+            position: absolute;
+            left: 12px;
+            right: 12px;
+            margin-top: 2px;
+            padding: 12px;
+            background: #fff;
+            border: 1px solid #e0e4e8;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            font-size: 13px;
+            color: #333;
+            line-height: 1.45;
+            z-index: 1000;
+        }
+        .price-subline-help-link,
+        .sidebar-info-line .price-subline-help-link,
+        #step4-modules-help-link {
+            color: #2196f3;
+            cursor: pointer;
+            text-decoration: none !important;
+            -webkit-text-decoration: none !important;
+            border-bottom: none !important;
+            font-weight: 500;
+            font-size: 18px;
+            font-family: 'Cera Pro', Arial, sans-serif;
+        }
+        .price-subline-help-link:hover,
+        #step4-modules-help-link:hover {
+            color: #1976d2;
+        }
+        /* ? ? ? 4: Cera Pro, 18px */
+        .sidebar-info-line {
+            font-size: 18px;
+            font-weight: 500;
+            color: #555;
+            font-family: 'Cera Pro', Arial, sans-serif;
+        }
+        .step4-help-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 20000;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-end;
+            padding: 40px 36px 40px 40px;
+        }
+        /* Module edit: no dark veil — scene must stay readable (Maatkasten focus) */
+        .step4-help-modal-overlay.step4-help-modal-overlay--module-edit {
+            background: transparent;
+        }
+        .step4-help-modal {
+            background: #FFFFFF;
+            border-radius: 16px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.14);
+            border: 1px solid rgba(34,34,34,0.06);
+            width: 440px;
+            max-width: min(440px, calc(100vw - 48px));
+            height: auto;
+            max-height: calc(100vh - 100px);
+            padding: 24px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            font-family: "Cera Pro", Arial, sans-serif;
+        }
+        .step4-help-modal.step4-help-modal--module-edit {
+            width: 420px;
+            max-width: calc(100vw - 32px);
+            padding: 0;
+            overflow: hidden;
+        }
+        .step4-help-modal h3 {
+            margin: 0 0 16px 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: #222;
+        }
+        .step4-help-modal.step4-help-modal--module-edit > h3,
+        .step4-help-modal.step4-help-modal--module-edit > .step4-help-modal-btn {
+            display: none !important;
+        }
+        .step4-help-modal-content {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #555;
+            margin-bottom: 20px;
+            min-height: 0;
+        }
+        .step4-help-modal.step4-help-modal--module-edit .step4-help-modal-content {
+            margin: 0;
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            overflow: hidden;
+            color: #222;
+        }
+        .step4-help-modal-btn {
+            width: 100%;
+            padding: 12px 20px;
+            background: #FF9F1C;
+            color: #222;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: "Cera Pro", Arial, sans-serif;
+        }
+        .step4-help-modal-btn:hover {
+            background: #F39100;
+        }
+        /* Module settings panel (Clodis) */
+        .cld-module-edit {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            min-height: 0;
+            max-height: calc(100vh - 100px);
+        }
+        .cld-module-edit__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 24px 28px 18px;
+            flex-shrink: 0;
+        }
+        .cld-module-edit__title {
+            margin: 0;
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 22px;
+            font-weight: 600;
+            line-height: 1.2;
+            color: #222222;
+        }
+        .cld-module-edit__close {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            border-radius: 10px;
+            color: #777777;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: background-color 160ms ease, color 160ms ease;
+        }
+        .cld-module-edit__close:hover {
+            background: #F5F5F5;
+            color: #222222;
+        }
+        .cld-module-edit__body {
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow-y: auto;
+            padding: 4px 28px 28px;
+        }
+        .cld-module-edit__field {
+            margin-bottom: 24px;
+        }
+        .cld-module-edit__label-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        .cld-module-edit__label {
+            display: block;
+            margin: 0 0 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #222222;
+        }
+        .cld-module-edit__label-row .cld-module-edit__label {
+            margin-bottom: 0;
+        }
+        .cld-module-edit__reset {
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: 13px;
+            font-weight: 500;
+            color: #777777;
+            cursor: pointer;
+            font-family: "Cera Pro", Arial, sans-serif;
+        }
+        .cld-module-edit__reset:hover {
+            color: #FF9F1C;
+        }
+        .cld-module-edit__input-wrap {
+            position: relative;
+        }
+        .cld-module-edit__input {
+            box-sizing: border-box;
+            height: 48px;
+            width: 100%;
+            background: #FFFFFF;
+            border: 1px solid #E8E8E8;
+            border-radius: 12px;
+            padding: 0 48px 0 14px;
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            color: #222222;
+            outline: none;
+            transition: border-color 160ms ease, box-shadow 160ms ease;
+        }
+        .cld-module-edit__input:focus {
+            border-color: #FF9F1C;
+            box-shadow: 0 0 0 3px rgba(255, 159, 28, 0.12);
+        }
+        .cld-module-edit__unit {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 13px;
+            color: #A3A3A3;
+            pointer-events: none;
+        }
+        .cld-module-edit__validity {
+            display: none !important;
+        }
+        .cld-module-edit__hint {
+            margin-top: 6px;
+            font-size: 12px;
+            line-height: 1.4;
+            color: #A3A3A3;
+        }
+        .cld-module-edit__segment {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px;
+            padding: 4px;
+            background: #F5F5F5;
+            border-radius: 12px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .step4-module-hand-btn {
+            height: 40px;
+            border: none;
+            border-radius: 9px;
+            background: transparent;
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #555555;
+            cursor: pointer;
+            transition: background-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
+        }
+        .step4-module-hand-btn.is-selected {
+            background: #FFF3DF;
+            color: #222222;
+            box-shadow: inset 0 0 0 1px rgba(255, 159, 28, 0.30);
+        }
+        .cld-module-edit__delete {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+            padding: 0;
+            background: transparent;
+            border: none;
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: #B94A48;
+            cursor: pointer;
+        }
+        .cld-module-edit__delete:hover {
+            color: #9A3533;
+        }
+        .cld-module-edit__footer {
+            flex-shrink: 0;
+            position: sticky;
+            bottom: 0;
+            background: #FFFFFF;
+            border-top: 1px solid #F0F0F0;
+            padding: 16px 28px 20px;
+        }
+        .cld-module-edit__save {
+            width: 100%;
+            height: 48px;
+            padding: 0 22px;
+            background: #FF9F1C;
+            color: #222222;
+            border: none;
+            border-radius: 12px;
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 160ms ease;
+        }
+        .cld-module-edit__save:hover {
+            background: #F39100;
+        }
+        .section-zone-edit-icon {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            min-height: 32px;
+            padding: 0;
+            border-radius: 50%;
+            background: #FFFFFF;
+            border: 1px solid rgba(34, 34, 34, 0.10);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            pointer-events: auto;
+            user-select: none;
+            color: #333333;
+            font-size: 15px;
+            line-height: 1;
+            transition:
+                background-color 160ms ease,
+                border-color 160ms ease,
+                color 160ms ease,
+                box-shadow 160ms ease;
+            z-index: 1002;
+        }
+        /* Обычные ячейки — тонкий карандаш; угол остаётся 32px. */
+        .section-zone-edit-icon--slim {
+            width: 20px;
+            height: 20px;
+            min-width: 20px;
+            min-height: 20px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+            font-size: 10px;
+            z-index: 1001;
+        }
+        .section-zone-edit-icon--slim .section-zone-edit-icon__pen {
+            width: 10px;
+            height: 10px;
+            font-size: 10px;
+            line-height: 10px;
+        }
+        .section-zone-edit-icon--corner {
+            z-index: 1003;
+        }
+        .section-zone-edit-icon i,
+        .section-zone-edit-icon svg,
+        .section-zone-edit-icon__pen {
+            width: 15px;
+            height: 15px;
+            color: inherit;
+            fill: none;
+            stroke: currentColor;
+            font-size: 15px;
+            line-height: 15px;
+            background: transparent;
+            display: block;
+            flex-shrink: 0;
+        }
+        .section-zone-edit-icon:hover {
+            background: #FFF8EE;
+            border-color: rgba(255, 159, 28, 0.35);
+            color: #FF9F1C;
+        }
+        /* No visual active/selected style for module pencils */
+        /* ? 4: ? ? + segmented pills (Clodis) */
+        .step4-filters {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 0 0 14px;
+        }
+        .step4-pill-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 0;
+        }
+        .step4-pill-row {
+            width: 100%;
+        }
+        .step4-pill-track {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: stretch;
+            width: 100%;
+            background: #F5F5F5;
+            border-radius: 12px;
+            padding: 4px;
+            box-sizing: border-box;
+        }
+        .step4-pill-track[data-pill-count="3"] {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+        .step4-pill-track[data-pill-count="4"] {
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+        .step4-pill-slider {
+            position: absolute;
+            top: 4px;
+            bottom: 4px;
+            left: 4px;
+            width: 0;
+            border-radius: 9px;
+            background: #FFF3DF;
+            border: none;
+            box-shadow: inset 0 0 0 1px rgba(255, 159, 28, 0.25);
+            transition:
+                transform 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+                width 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.15s ease;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0;
+        }
+        .step4-pill-slider.is-visible {
+            opacity: 1;
+        }
+        .step4-pill-button {
+            position: relative;
+            z-index: 1;
+            flex: 1 1 0;
+            min-width: 0;
+            height: 40px;
+            margin: 0;
+            padding: 0 10px;
+            border: none;
+            border-radius: 9px;
+            background: transparent;
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1.2;
+            color: #555555;
+            cursor: pointer;
+            white-space: normal;
+            text-align: center;
+            transition: color 0.15s ease;
+        }
+        .step4-pill-button:hover {
+            color: #222222;
+        }
+        .step4-pill-button.selected {
+            color: #222222;
+            background: transparent;
+        }
+        /* ? 4: ? horizontal category switcher */
+        .step4-category-crumbs {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: stretch;
+            gap: 8px;
+            margin-bottom: 12px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 2px;
+        }
+        .step4-category-crumbs::-webkit-scrollbar {
+            display: none;
+        }
+        .step4-category-crumb {
+            display: flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            min-width: 72px;
+            max-width: 92px;
+            min-height: 64px;
+            padding: 6px 8px;
+            border: 1px solid var(--clodis-border);
+            border-radius: 12px;
+            background: #fff;
+            cursor: pointer;
+            transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+            font-family: "Cera Pro", Arial, sans-serif;
+        }
+        .step4-category-crumb:hover {
+            border-color: rgba(255, 159, 28, 0.4);
+            background: #FFF8EE;
+        }
+        .step4-category-crumb--active {
+            border: 1px solid rgba(255, 159, 28, 0.45);
+            background: #FFF3DF;
+            box-shadow: none;
+            color: #222222;
+        }
+        .step4-category-crumb-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #F7F7F7;
+            border-radius: 8px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .step4-category-crumb-icon img,
+        .step4-category-crumb-icon svg,
+        .step4-category-crumb-icon i {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+        .step4-category-crumb-icon i {
+            font-size: 15px;
+            line-height: 32px;
+            text-align: center;
+            color: #555;
+        }
+        .step4-category-crumb-fallback {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .step4-category-crumb-name {
+            margin-top: 0;
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 1.2;
+            text-align: center;
+            color: #222222;
+            word-break: break-word;
+        }
+        .step4-options-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .step4-l-arm-pills {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            margin: 0 0 10px;
+            padding: 3px;
+            border-radius: 999px;
+            background: #F3F3F1;
+            border: 1px solid var(--clodis-border, #E5E5E5);
+        }
+        .step4-door-flank-pills {
+            margin-top: -4px;
+        }
+        .step4-l-arm-pills[hidden] {
+            display: none !important;
+        }
+        .step4-l-arm-pill {
+            flex: 1 1 0;
+            min-width: 0;
+            margin: 0;
+            padding: 8px 10px;
+            border: none;
+            border-radius: 999px;
+            background: transparent;
+            color: #555;
+            font-size: 12px;
+            font-weight: 600;
+            font-family: "Cera Pro", Arial, sans-serif;
+            cursor: pointer;
+            line-height: 1.2;
+            transition: background 0.15s ease, color 0.15s ease;
+        }
+        .step4-l-arm-pill[aria-pressed="true"] {
+            background: #FFFFFF;
+            color: #222;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+        }
+        .step4-l-arm-pill:hover {
+            color: var(--clodis-orange, #FF9F1C);
+        }
+        .step4-ctrl-btn {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            border: 1px solid var(--clodis-border);
+            border-radius: 10px;
+            background: #FFFFFF;
+            color: #333333;
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 1;
+            cursor: pointer;
+            font-family: "Cera Pro", Arial, sans-serif;
+            transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+        }
+        .step4-ctrl-btn:hover {
+            background: #FFF8EE;
+            color: var(--clodis-orange);
+            border-color: rgba(255, 159, 28, 0.35);
+        }
+        #step4-options-value {
+            min-width: 28px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 16px;
+            color: #222;
+            font-family: "Cera Pro", Arial, sans-serif;
+        }
+        .step4-toggles-group {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+        .step4-unified-toggle {
+            flex-shrink: 0;
+            cursor: pointer;
+            user-select: none;
+        }
+        .step4-unified-toggle input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+            pointer-events: none;
+        }
+        .step4-unified-toggle-track {
+            display: block;
+            width: 44px;
+            height: 24px;
+            border-radius: 999px;
+            background: #E8E8E8;
+            position: relative;
+            transition: background 0.2s ease;
+        }
+        .step4-unified-toggle-thumb {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+            transition: transform 0.2s ease;
+        }
+        .step4-unified-toggle input:checked + .step4-unified-toggle-track {
+            background: var(--clodis-orange);
+        }
+        .step4-unified-toggle input:checked + .step4-unified-toggle-track .step4-unified-toggle-thumb {
+            transform: translateX(20px);
+        }
+        .step4-pill-button small {
+            font-weight: 500;
+            opacity: 0.75;
+        }
+        /* ? 5: ? ? ? */
+        .step5-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .step5-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            font-family: 'Cera Pro', Arial, sans-serif;
+        }
+        .step5-tabs {
+            display: flex;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 4px;
+            border-radius: 12px;
+            background: #F5F5F5;
+            gap: 4px;
+        }
+        .step5-tab {
+            flex: 1 1 0;
+            min-width: 0;
+            border: none;
+            border-radius: 9px;
+            height: 40px;
+            padding: 0 12px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'Cera Pro', Arial, sans-serif;
+            background: transparent;
+            color: #555555;
+            cursor: pointer;
+            transition: color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+        }
+        .step5-tab--active {
+            background: #FFF3DF;
+            color: #222222;
+            box-shadow: inset 0 0 0 1px rgba(255, 159, 28, 0.25);
+        }
+        .step5-wheel-placeholder {
+            width: 100%;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .step5-panel > .step5-title,
+        .step5-panel > .step5-tabs,
+        .step5-panel > .step5-tabs-hint {
+            flex-shrink: 0;
+        }
+        .step5-tabs-hint {
+            font-size: 12px;
+            color: #666;
+            margin-top: 6px;
+        }
+        .step5-params-host {
+            padding: 8px 0;
+        }
+        /* ? 6: ? ? */
+        .step6-handles-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .step6-handles-hint {
+            margin: 0;
+            font-size: 13px;
+            line-height: 1.45;
+            color: #555;
+            font-family: 'Cera Pro', Arial, sans-serif;
+        }
+        .step6-handles-nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .step6-handles-back {
+            border: 1px solid #d8dee8;
+            border-radius: 8px;
+            background: #fff;
+            color: #333;
+            font-size: 13px;
+            padding: 6px 12px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .step6-handles-back:hover {
+            border-color: #1f7cff;
+            color: #1f7cff;
+        }
+        .step6-handles-breadcrumb {
+            font-size: 14px;
+            font-weight: 600;
+            color: #222;
+        }
+        .step6-handle-card__sub {
+            font-size: 12px;
+            color: #888;
+            text-align: center;
+            padding: 0 8px 10px;
+        }
+        .step6-handle-card--collection .step6-handle-card__sub {
+            color: #1f7cff;
+        }
+        .step6-role-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-left: -12px;
+            margin-right: -12px;
+            width: calc(100% + 24px);
+        }
+        .step6-role-row {
+            border: 1px solid #e4e8ee;
+            border-radius: 10px;
+            background: #fff;
+            padding: 12px;
+        }
+        .step6-role-row__head {
+            margin-bottom: 8px;
+        }
+        .step6-role-row__title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #222;
+            line-height: 1.35;
+        }
+        .step6-role-row__meta {
+            font-size: 12px;
+            color: #888;
+            margin-top: 2px;
+        }
+        .step6-role-row__nohandle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #444;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        .step6-role-row__fields {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px 10px;
+        }
+        .step6-role-field label {
+            display: block;
+            font-size: 11px;
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+        .step6-role-field select,
+        .step6-role-field input {
+            width: 100%;
+            font-size: 13px;
+            padding: 6px 8px;
+            border: 1px solid #d8dee8;
+            border-radius: 6px;
+            background: #fff;
+        }
+        .step6-role-field--narrow input {
+            max-width: 100%;
+        }
+        @media (max-width: 420px) {
+            .step6-role-row__fields {
+                grid-template-columns: 1fr;
+            }
+        }
+        .step6-handles-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-left: -12px;
+            margin-right: -12px;
+            width: calc(100% + 24px);
+        }
+        .step6-handles-grid[data-cols="1"] {
+            grid-template-columns: 1fr;
+        }
+        .step6-handles-empty {
+            grid-column: 1 / -1;
+            padding: 24px 12px;
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+        }
+        .step6-handle-card {
+            position: relative;
+            border: 2px solid #e4e8ee;
+            border-radius: 10px;
+            background: #fff;
+            cursor: pointer;
+            transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            min-height: 140px;
+            overflow: hidden;
+        }
+        .step6-handle-card:hover {
+            border-color: #90caf9;
+            box-shadow: 0 2px 10px rgba(33, 150, 243, 0.12);
+        }
+        .step6-handle-card.selected {
+            border-color: #1f7cff;
+            background: #f5f9ff;
+            box-shadow: 0 2px 12px rgba(31, 124, 255, 0.2);
+        }
+        .step6-handle-card__visual {
+            flex: 1;
+            min-height: 88px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 12px 8px;
+            background: #fafbfc;
+        }
+        .step6-handle-card__visual img {
+            max-width: 100%;
+            max-height: 72px;
+            object-fit: contain;
+        }
+        .step6-handle-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+        .step6-handle-visual--push i {
+            font-size: 42px;
+            color: #444;
+        }
+        .step6-handle-bar {
+            display: block;
+            width: 72%;
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(180deg, #555 0%, #222 100%);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.25);
+        }
+        .step6-handle-knob {
+            display: block;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 30%, #666, #1a1a1a);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .step6-handle-card__name {
+            font-size: 11px;
+            font-weight: 600;
+            text-align: center;
+            padding: 8px 6px 10px;
+            color: #333;
+            line-height: 1.25;
+            border-top: 1px solid #eef1f5;
+            background: #fff;
+        }
+        .step6-handle-card.selected .step6-handle-card__name {
+            color: #1565c0;
+        }
+        .step6-handle-zoom {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            z-index: 2;
+            width: 26px;
+            height: 26px;
+            border: none;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.92);
+            color: #555;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        }
+        .step6-handle-zoom:hover {
+            color: #1f7cff;
+        }
+        .step6-handle-finishes {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            padding: 0 8px 10px;
+            background: #fff;
+        }
+        .step6-handle-finish {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 0 0 1px #ccc;
+            cursor: pointer;
+            padding: 0;
+        }
+        .step6-handle-finish--active {
+            box-shadow: 0 0 0 2px #1f7cff;
+        }
+        .step6-handle-preview-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 100000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.4);
+        }
+        .step6-handle-preview-card {
+            position: relative;
+            background: #fff;
+            border-radius: 14px;
+            padding: 28px 24px 24px;
+            max-width: 360px;
+            width: 90%;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+        }
+        .step6-handle-preview-card h3 {
+            margin: 0 0 16px;
+            font-size: 18px;
+            font-weight: 700;
+            text-align: center;
+        }
+        .step6-handle-preview-visual {
+            min-height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .step6-handle-preview-close {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            border: none;
+            background: transparent;
+            font-size: 24px;
+            color: #999;
+            cursor: pointer;
+            line-height: 1;
+        }
+        /* -- ? 4: ? ? (? ?) + ? ? (Clodis) -- */
+        .step4-section-edit-icon {
+            position: absolute;
+            width: 44px;
+            height: 44px;
+            min-width: 44px;
+            padding: 0;
+            border-radius: 50%;
+            background: #FFFFFF;
+            border: 1px solid rgba(34, 34, 34, 0.10);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.10);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            pointer-events: auto;
+            user-select: none;
+            color: #333333;
+            font-size: 20px;
+            line-height: 1;
+            transition:
+                background-color 160ms ease,
+                border-color 160ms ease,
+                color 160ms ease,
+                box-shadow 160ms ease;
+            z-index: 1004;
+        }
+        .step4-section-edit-icon i,
+        .step4-section-edit-icon svg {
+            color: inherit;
+            fill: currentColor;
+            font-size: inherit;
+            background: transparent;
+        }
+        .step4-section-edit-icon:hover {
+            background: #FFF8EE;
+            border-color: rgba(255, 159, 28, 0.35);
+            color: #FF9F1C;
+        }
+        .step4-section-edit-icon.is-active,
+        .step4-section-edit-icon.is-active:hover {
+            background: #FFF3DF;
+            border: 1px solid rgba(255, 159, 28, 0.55);
+            color: #FF9F1C;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
+        }
+        /* ? ? ? */
+        .cld-edit-section-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 400px;
+            height: 100vh;
+            background: #FFFFFF;
+            z-index: 10000;
+            box-shadow: -2px 0 16px rgba(0, 0, 0, 0.08);
+            overflow-y: auto;
+            font-family: "Cera Pro", Arial, sans-serif;
+        }
+        .cld-edit-section-modal__inner {
+            padding: 28px;
+        }
+        .cld-edit-section-modal__title {
+            margin: 0 0 24px;
+            font-size: 22px;
+            font-weight: 600;
+            line-height: 1.25;
+            color: #222222;
+        }
+        .cld-edit-section-field {
+            margin-bottom: 20px;
+        }
+        .cld-edit-section-label {
+            display: block;
+            margin: 0 0 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #222222;
+        }
+        .cld-edit-section-input-wrap {
+            position: relative;
+        }
+        .cld-edit-section-input {
+            box-sizing: border-box;
+            height: 48px;
+            width: 100%;
+            background: #FFFFFF;
+            border: 1px solid #E8E8E8;
+            border-radius: 12px;
+            padding: 0 42px 0 14px;
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            color: #222222;
+            outline: none;
+            transition: border-color 160ms ease, box-shadow 160ms ease;
+        }
+        .cld-edit-section-input:focus {
+            border-color: #FF9F1C;
+            box-shadow: 0 0 0 3px rgba(255, 159, 28, 0.12);
+        }
+        #edit-section-content input.is-over-max,
+        .cld-edit-section-input.is-over-max {
+            border-color: #e53935 !important;
+            box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.14) !important;
+        }
+        .cld-edit-section-unit {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 13px;
+            font-weight: 500;
+            color: #A3A3A3;
+            pointer-events: none;
+        }
+        .cld-edit-section-modal__actions {
+            margin-top: 26px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .cld-filler-hint {
+            margin: 0 0 20px;
+            font-size: 13px;
+            line-height: 1.4;
+            color: #666666;
+        }
+        /* Maatkasten-style entry rows (room edit) */
+        .cld-filler-entry {
+            margin-top: 28px;
+            padding-top: 20px;
+            border-top: 1px solid #E8E8E8;
+        }
+        .cld-filler-entry__title {
+            margin: 0 0 6px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #222;
+            font-family: "Cera Pro", Arial, sans-serif;
+        }
+        .cld-filler-entry__hint {
+            margin: 0 0 14px;
+            font-size: 13px;
+            line-height: 1.4;
+            color: #666;
+            font-family: "Cera Pro", Arial, sans-serif;
+        }
+        .cld-filler-entry__list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .cld-filler-entry__btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            min-height: 52px;
+            padding: 12px 16px;
+            border: 1px solid rgba(34, 34, 34, 0.10);
+            border-radius: 14px;
+            background: #FFFFFF;
+            cursor: pointer;
+            text-align: left;
+            font-family: "Cera Pro", Arial, sans-serif;
+            transition: border-color 140ms ease, background-color 140ms ease, box-shadow 140ms ease;
+        }
+        .cld-filler-entry__btn:hover {
+            border-color: rgba(255, 159, 28, 0.55);
+            background: #FFFBF5;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+        .cld-filler-entry__btn:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        .cld-filler-entry__label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #222;
+        }
+        .cld-filler-entry__meta {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #666;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .cld-filler-entry__value {
+            color: #222;
+            font-weight: 600;
+            min-width: 1.5em;
+            text-align: right;
+        }
+        .cld-filler-entry__unit {
+            color: #A3A3A3;
+        }
+        .cld-filler-entry__chev {
+            font-size: 22px;
+            line-height: 1;
+            color: #BBBBBB;
+            margin-left: 2px;
+        }
+        /* ? ? ? ? / ? (? ? Maatkasten) */
+        .cld-filler-overlay {
+            z-index: 10050 !important;
+            transform: translateX(100%);
+            transition: transform 220ms ease, opacity 180ms ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .cld-filler-overlay.is-open {
+            display: block !important;
+            transform: translateX(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .cld-filler-overlay__back {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin: 0 0 12px;
+            padding: 0;
+            border: none;
+            background: transparent;
+            color: #666;
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .cld-filler-overlay__back:hover {
+            color: #FF9F1C;
+        }
+        .cld-edit-section-planks-btn {
+            width: 100%;
+            margin: 8px 0 0;
+            box-sizing: border-box;
+        }
+        .cld-edit-section-btn {
+            height: 48px;
+            padding: 0 20px;
+            border-radius: 12px;
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+        }
+        .cld-edit-section-btn--primary {
+            background: #FF9F1C;
+            border: none;
+            color: #222222;
+        }
+        .cld-edit-section-btn--primary:hover {
+            background: #F39100;
+        }
+        .cld-edit-section-btn--secondary {
+            background: #FFFFFF;
+            border: 1px solid #E8E8E8;
+            color: #222222;
+        }
+        .cld-edit-section-btn--secondary:hover {
+            background: #F7F7F7;
+        }
+        /* -- ? 5: ?-? ? ? -- */
+        .step5-cabinet-icon {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            border: 1.5px solid rgba(0,0,0,0.15);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            pointer-events: auto;
+            user-select: none;
+            color: #444;
+            transition: background 0.15s, border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+            z-index: 1005;
+        }
+        .step5-cabinet-icon:hover {
+            background: #f0f6ff;
+            border-color: #1f7cff;
+            color: #1f7cff;
+            transform: scale(1.12);
+        }
+        .step5-cabinet-icon--selected {
+            background: #1f7cff;
+            border-color: #1f7cff;
+            color: white;
+            box-shadow: 0 4px 14px rgba(31,124,255,0.45);
+            transform: scale(1.15);
+        }
+        /* ? ? 5: ? ? ? ? ? ? */
+        .step5-module-panel {
+            display: none;
+            flex-direction: column;
+            gap: 16px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+            padding: 18px 18px 14px;
+            position: relative;
+        }
+        .step5-module-panel__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .step5-module-panel__title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #222;
+            font-family: 'Cera Pro', Arial, sans-serif;
+        }
+        .step5-module-panel__save-btn {
+            border: none;
+            background: #1f7cff;
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+            font-family: 'Cera Pro', Arial, sans-serif;
+            border-radius: 999px;
+            padding: 7px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.15s;
+        }
+        .step5-module-panel__save-btn:hover {
+            background: #1568e0;
+        }
+        .step5-module-panel__close-x {
+            font-size: 15px;
+            font-weight: 700;
+            line-height: 1;
+        }
+        .step5-module-tabs {
+            margin-top: 0;
+        }
+        #sidebar-content {
+            flex: 1;
+            padding: 28px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            min-height: 0;
+            scrollbar-gutter: stable;
+        }
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            margin-bottom: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+        }
+        .menu-item:hover {
+            border-color: #2196f3;
+            background: #f5f9ff;
+        }
+        .menu-item.selected {
+            background: #e3f2fd;
+            border-color: #2196f3;
+        }
+        .menu-item.highlighted {
+            background: #e3f2fd;
+            border-color: #2196f3;
+        }
+        .menu-item.highlighted:hover {
+            background: #bbdefb;
+        }
+        .menu-item-icon {
+            width: 44px;
+            height: 44px;
+            margin-right: 14px;
+            background: #f5f5f5;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 20px;
+        }
+        .menu-item.selected .menu-item-icon {
+            background: #2196f3;
+            color: white;
+        }
+        .menu-item-icon i {
+            font-size: 20px;
+        }
+        .menu-item-text {
+            flex: 1;
+            font-size: 15px;
+            font-weight: 500;
+            color: #333;
+            padding: 4px 8px;
+        }
+        .menu-item-arrow {
+            color: #999;
+            font-size: 18px;
+            padding: 4px 8px;
+        }
+        #info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 100;
+        }
+        .sidebar-view {
+            display: none;
+            padding: 8px;
+        }
+        .sidebar-view.active {
+            display: block;
+        }
+        .light-settings-panel {
+            margin-top: 16px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #fafafa;
+        }
+        .light-settings-header {
+            padding: 10px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #555;
+            cursor: pointer;
+            background: #f0f0f0;
+        }
+        .light-settings-body {
+            padding: 12px 14px;
+        }
+        .light-settings-body.collapsed { display: none; }
+        .light-settings-group {
+            margin-bottom: 12px;
+        }
+        .light-settings-group:last-child { margin-bottom: 0; }
+        .light-settings-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 8px;
+        }
+        .light-settings-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+        .light-settings-row label {
+            flex: 0 0 90px;
+            font-size: 12px;
+            color: #666;
+        }
+        .light-settings-row input[type="range"] {
+            flex: 1;
+            min-width: 0;
+            height: 6px;
+        }
+        .light-settings-row span {
+            flex: 0 0 40px;
+            font-size: 11px;
+            color: #888;
+        }
+        .empty-message {
+            border: 1px solid #e0e0e0;
+            padding: 20px !important;
+            text-align: center;
+            color: #666;
+        }
+        .room-types-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            /* ? ? ? ? ? ? */
+            gap: 6px;
+            margin-top: 0;
+            margin-left: -28px;
+            margin-right: -28px;
+            width: calc(100% + 56px);
+        }
+        @media (max-width: 520px) {
+            .room-types-grid {
+                grid-template-columns: 1fr !important;
+            }
+            .room-types-grid .room-type-item { min-height: 0; }
+            .room-types-grid .room-type-icon { flex: none; height: auto; min-height: 80px; }
+            .room-types-grid .room-type-icon img {
+                width: 100%;
+                height: auto;
+                max-height: 70vh;
+                object-fit: contain;
+                display: block;
+            }
+        }
+        .room-types-grid[data-cols="1"] .room-type-item {
+            min-height: 0;
+        }
+        .room-types-grid[data-cols="1"] .room-type-icon {
+            flex: none;
+            height: auto;
+            min-height: 80px;
+        }
+        .room-types-grid[data-cols="1"] .room-type-icon img {
+            width: 100%;
+            height: auto;
+            max-height: 70vh;
+            object-fit: contain;
+            display: block;
+        }
+        .room-types-grid[data-cols="1"] .room-type-icon i.fas {
+            font-size: 4rem;
+        }
+        .room-type-item {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 0;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: flex-start;
+            min-height: 120px;
+            overflow: hidden;
+        }
+        .room-type-item:hover {
+            border-color: #2196f3;
+            background: #f5f9ff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .room-type-item.selected {
+            background: #e3f2fd;
+            border-color: #2196f3;
+        }
+        .room-type-icon {
+            font-size: 36px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            flex: 1;
+            min-height: 60px;
+        }
+        .room-type-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .room-type-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+        .room-type-item:hover .room-type-icon,
+        .room-type-item.selected .room-type-icon {
+            color: #2196f3;
+        }
+        .room-type-name {
+            font-size: 10px;
+            font-weight: 500;
+            color: #333;
+            padding: 4px 6px;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
+            min-height: 18px;
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            line-height: 1.2;
+        }
+        .room-type-item.selected .room-type-name {
+            color: #1976d2;
+            font-weight: 600;
+            background: #e8f4fd;
+        }
+        /* ? 1: ? ? ? ? ? (? ? ? 2/3) */
+        .room-types-grid.room-type-photos {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 0;
+            margin-left: 0;
+            margin-right: 0;
+            width: 100%;
+        }
+        .room-type-photos .room-type-item {
+            background: var(--clodis-surface);
+            border: 1px solid var(--clodis-border);
+            border-radius: var(--clodis-radius-md);
+            overflow: hidden;
+            box-shadow: none;
+            cursor: pointer;
+            padding: 0;
+            min-height: 0;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            transition: border-color 160ms ease, box-shadow 160ms ease;
+        }
+        .room-type-photos .room-type-item:focus {
+            outline: none;
+        }
+        .room-type-photos .room-type-item:focus-visible {
+            outline: 2px solid var(--clodis-orange);
+            outline-offset: 2px;
+        }
+        .room-type-photos .room-type-image {
+            position: relative;
+            aspect-ratio: 3 / 2;
+            width: 100%;
+            overflow: hidden;
+            background: #F3F3F3;
+        }
+        .room-type-photos .room-type-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 250ms ease;
+        }
+        .room-type-photos .room-type-name {
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--clodis-text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 10px 12px;
+            height: 46px;
+            box-sizing: border-box;
+            background: var(--clodis-surface);
+            border-top: 1px solid #EEEEEE;
+            min-height: 46px;
+            margin-top: 0;
+            line-height: 1.3;
+            text-transform: none;
+        }
+        .room-type-photos .room-type-item.selected .room-type-name {
+            color: var(--clodis-text);
+            font-weight: 500;
+            background: var(--clodis-surface);
+        }
+        .room-type-photos .room-type-selected-indicator {
+            display: none;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--clodis-orange);
+            color: #fff;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            line-height: 1;
+            pointer-events: none;
+        }
+        .room-type-photos .room-type-item.selected .room-type-selected-indicator {
+            display: flex;
+        }
+        .room-type-photos .room-type-item.selected {
+            background: var(--clodis-surface);
+            border: 1px solid var(--clodis-orange);
+            box-shadow: none;
+        }
+        @media (hover: hover) {
+            .room-type-photos .room-type-item:hover {
+                border-color: #D2D2D2;
+                background: var(--clodis-surface);
+                box-shadow: none;
+            }
+            .room-type-photos .room-type-item.selected:hover {
+                border-color: var(--clodis-orange);
+            }
+            .room-type-photos .room-type-item:hover .room-type-image img {
+                transform: scale(1.02);
+            }
+        }
+
+        /* Step 1 ? kitchen room shapes (IKEA-like) */
+        .kitchen-room-shapes {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            width: 100%;
+        }
+        .kitchen-room-shapes__hint {
+            margin: 0 0 4px;
+            font-size: 13px;
+            line-height: 1.35;
+            color: #666;
+        }
+        .kitchen-room-shapes__section-title {
+            margin: 8px 0 10px;
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: #222;
+        }
+        .kitchen-room-shapes__grid {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            width: 100% !important;
+            gap: 10px;
+        }
+        .kitchen-room-shape-card {
+            background: #fff;
+            border: 1px solid #e8e8e8;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            box-sizing: border-box;
+            padding: 10px 10px 12px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            position: relative;
+            min-height: 0;
+            transition: border-color 160ms ease, box-shadow 160ms ease;
+        }
+        .kitchen-room-shape-card:hover {
+            border-color: #cfcfcf;
+        }
+        .kitchen-room-shape-card.selected {
+            border-color: #0058a3;
+            box-shadow: 0 0 0 1px #0058a3;
+        }
+        .kitchen-room-shape-card .room-layout-preview--scheme {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 118px;
+            background: #ffffff;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border: 1px solid #eee;
+            position: relative;
+        }
+        .kitchen-room-shape-card .kitchen-room-shape-icon {
+            display: block;
+        }
+        /* ?: ? > ? ? ? (? IKEA). ?: fill ? ? PAX layout. */
+        .kitchen-room-shape-card .kitchen-room-shape-icon__floor,
+        .kitchen-room-shape-card .room-layout-scheme__room {
+            fill: #ffffff;
+            stroke: none;
+        }
+        .kitchen-room-shape-card.selected .kitchen-room-shape-icon__floor,
+        .kitchen-room-shape-card.selected .room-layout-scheme__room {
+            fill: #cce5f6;
+        }
+        .kitchen-room-shape-card .kitchen-room-shape-icon__wall,
+        .kitchen-room-shape-card .kitchen-room-shape-icon__wall path,
+        .kitchen-room-shape-card .room-layout-scheme__furniture,
+        .kitchen-room-shape-card .room-layout-scheme__furniture path {
+            fill: #111111;
+            stroke: none;
+        }
+        .kitchen-room-shape-card.selected .kitchen-room-shape-icon__wall,
+        .kitchen-room-shape-card.selected .kitchen-room-shape-icon__wall path,
+        .kitchen-room-shape-card.selected .room-layout-scheme__furniture,
+        .kitchen-room-shape-card.selected .room-layout-scheme__furniture path {
+            fill: #111111;
+            stroke: none;
+        }
+        .kitchen-room-shape-card .kitchen-room-shape-icon__open {
+            stroke: #8a8a8a;
+            fill: none;
+        }
+        .kitchen-room-shape-card .room-layout-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #222;
+        }
+        .kitchen-shape-orients {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 2px 0 6px;
+            padding: 0;
+        }
+        .kitchen-shape-orients[hidden] {
+            display: none !important;
+        }
+        .kitchen-shape-orients__title {
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #222;
+        }
+        .kitchen-shape-orients__row {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 8px;
+        }
+        .kitchen-shape-orient-btn {
+            appearance: none;
+            -webkit-appearance: none;
+            margin: 0;
+            padding: 6px;
+            background: #fff;
+            border: 1px solid #e8e8e8;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: border-color 160ms ease, box-shadow 160ms ease;
+        }
+        .kitchen-shape-orient-btn:hover {
+            border-color: #cfcfcf;
+        }
+        .kitchen-shape-orient-btn.selected {
+            border-color: #0058a3;
+            box-shadow: 0 0 0 1px #0058a3;
+        }
+        .kitchen-shape-orient-btn__icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+        .kitchen-shape-orient-btn .kitchen-room-shape-icon__floor {
+            fill: #ffffff;
+        }
+        .kitchen-shape-orient-btn.selected .kitchen-room-shape-icon__floor {
+            fill: #cce5f6;
+        }
+        .kitchen-shape-orient-btn .kitchen-room-shape-icon__wall,
+        .kitchen-shape-orient-btn .kitchen-room-shape-icon__wall path {
+            fill: #111111;
+        }
+        .kitchen-shape-orient-btn .kitchen-room-shape-icon__open {
+            stroke: #8a8a8a;
+        }
+        .kitchen-room-shape-card .room-layout-desc {
+            margin-top: 2px;
+            font-size: 11px;
+            line-height: 1.3;
+            color: #777;
+        }
+        /* ? ? ? ? ? ? ? ? IKEA Choose room shape */
+        .kitchen-room-shape-card .room-layout-selected-indicator {
+            display: none;
+            position: absolute;
+            left: 50%;
+            right: auto;
+            top: auto;
+            bottom: 6px;
+            width: 22px;
+            height: 22px;
+            margin-left: -11px;
+            border-radius: 50%;
+            background: #0058a3;
+            z-index: 3;
+            pointer-events: none;
+        }
+        .kitchen-room-shape-card.selected .room-layout-selected-indicator {
+            display: block;
+        }
+        .kitchen-room-shape-card.selected .room-layout-selected-indicator::after {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 4px;
+            width: 6px;
+            height: 10px;
+            border: solid #fff;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        /* Шаг 2: компоновка прямой после «Да» на стене */
+        .cld-straight-compose {
+            background: #FAFAFA;
+            border: 1px solid #E8E8E8;
+            border-radius: 12px;
+            padding: 14px 12px 16px;
+            margin: 0 0 18px;
+            box-sizing: border-box;
+        }
+        .cld-straight-compose__title {
+            margin: 0 0 4px;
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.25;
+            color: #222222;
+        }
+        .cld-straight-compose__sub {
+            margin: 0 0 12px;
+            font-size: 13px;
+            line-height: 1.35;
+            color: #666666;
+        }
+        .cld-straight-compose__grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            width: 100%;
+        }
+        .cld-straight-compose__card {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            margin: 0;
+            padding: 0;
+            border: 1px solid #E8E8E8;
+            border-radius: 10px;
+            background: #FFFFFF;
+            overflow: hidden;
+            cursor: pointer;
+            text-align: left;
+            font: inherit;
+            color: inherit;
+            box-sizing: border-box;
+            transition: border-color 160ms ease;
+        }
+        .cld-straight-compose__card:hover {
+            border-color: rgba(255, 159, 28, 0.45);
+        }
+        .cld-straight-compose__card.is-selected {
+            border: 1.5px solid #FF9F1C;
+        }
+        .cld-straight-compose__media {
+            aspect-ratio: 4 / 3;
+            background: #EDEDED;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .cld-straight-compose__media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .cld-straight-compose__placeholder {
+            font-size: 11px;
+            color: #999;
+        }
+        .cld-straight-compose__label {
+            padding: 8px 10px;
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1.3;
+            color: #222;
+        }
+
+        /* Шаг 2: кружок в центре секции (ездит с ней до шага 3) */
+        .cld-wall-pick-hint {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2500;
+            width: min(260px, 36vw);
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background: rgba(48, 48, 48, 0.78);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 26px 22px;
+            box-sizing: border-box;
+            pointer-events: none;
+            user-select: none;
+            text-align: center;
+            font-family: "Cera Pro", Arial, sans-serif;
+            box-shadow: 0 10px 32px rgba(0, 0, 0, 0.22);
+            opacity: 0;
+            transition: opacity 160ms ease;
+            will-change: left, top;
+        }
+        .cld-wall-pick-hint.is-visible {
+            opacity: 1;
+        }
+        .cld-wall-pick-hint__icon {
+            width: 58%;
+            max-width: 130px;
+            height: auto;
+            display: block;
+            flex-shrink: 0;
+        }
+        .cld-wall-pick-hint__text {
+            margin: 0;
+            font-size: clamp(14px, 1.8vw, 17px);
+            font-weight: 500;
+            line-height: 1.28;
+            letter-spacing: 0.01em;
+            max-width: 12em;
+        }
+
+        /* Step 2 ? furniture layout configuration cards */
+        .room-layout-section-title {
+            margin: 28px 0 14px;
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.25;
+            color: #222222;
+        }
+        .room-types-grid.room-layout-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin-left: 0;
+            margin-right: 0;
+            width: 100%;
+        }
+        .room-layout-grid .room-layout-card,
+        .room-layout-grid .room-type-item.room-layout-card {
+            background: #FFFFFF;
+            border: 1px solid #E8E8E8;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            box-sizing: border-box;
+            min-height: 0;
+            padding: 0;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            box-shadow: none;
+            position: relative;
+            aspect-ratio: 4 / 3;
+            width: 100%;
+            transition: border-color 160ms ease, background-color 160ms ease;
+        }
+        .room-layout-grid .room-layout-card:hover {
+            background: #FFFFFF;
+            box-shadow: none;
+        }
+        .room-layout-grid .room-layout-card.selected {
+            background: #FFFFFF;
+        }
+        @media (hover: hover) {
+            .room-layout-grid .room-layout-card:hover {
+                border-color: rgba(255, 159, 28, 0.40);
+                background: #FFFFFF;
+                box-shadow: none;
+            }
+            .room-layout-grid .room-layout-card--scheme:hover .room-layout-preview--scheme {
+                background: #FAFAFA;
+            }
+            .room-layout-grid .room-layout-card:hover .room-type-icon {
+                color: inherit;
+            }
+        }
+        .room-layout-grid .room-layout-card.selected {
+            border: 1.5px solid #FF9F1C;
+            background: #FFFFFF;
+            box-shadow: none;
+        }
+        /* ? ? ?: ? PNG (? ?.?. ? ?), ? = intrinsic */
+        .room-layout-grid .room-type-item.room-layout-card--photo,
+        .room-layout-grid .room-layout-card--photo {
+            display: block;
+            background: #EDEDED;
+            min-height: 0;
+            height: auto;
+            aspect-ratio: auto;
+            justify-content: stretch;
+            text-align: left;
+        }
+        .room-layout-grid .room-type-item.room-layout-card--photo:hover,
+        .room-layout-grid .room-type-item.room-layout-card--photo.selected,
+        .room-layout-grid .room-layout-card--photo:hover,
+        .room-layout-grid .room-layout-card--photo.selected {
+            background: #EDEDED;
+        }
+        .room-layout-grid .room-layout-card--photo .room-layout-card__photo {
+            position: static;
+            inset: auto;
+            width: 100%;
+            height: auto;
+            max-height: none;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            display: block;
+            vertical-align: top;
+            object-fit: fill;
+            object-position: center top;
+        }
+        /* ? ? .room-type-icon img { object-fit: contain } */
+        .room-layout-grid .room-layout-card--photo .room-type-icon,
+        .room-layout-grid .room-layout-card--photo .room-layout-preview {
+            display: none !important;
+        }
+        /* Fallback ? ?: SVG + ? ? ? ? 4:3 ? */
+        .room-layout-grid .room-layout-card--scheme .room-layout-preview,
+        .room-layout-grid .room-layout-card--scheme .room-type-icon.room-layout-preview {
+            position: relative;
+            flex: 1 1 auto;
+            width: 100%;
+            min-height: 0;
+            height: auto;
+            aspect-ratio: auto;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: #F7F7F7;
+            display: block;
+            border-radius: 0;
+        }
+        .room-layout-preview__scheme {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+        .room-layout-preview__scheme svg,
+        .room-layout-scheme {
+            width: 64%;
+            height: 64%;
+            display: block;
+        }
+        .room-layout-scheme__room {
+            fill: none;
+            stroke: #D8D8D8;
+            stroke-width: 1.75;
+        }
+        .room-layout-scheme__furniture {
+            fill: #555555;
+        }
+        .room-layout-grid .room-layout-card.selected .room-layout-scheme__furniture {
+            fill: #FF9F1C;
+        }
+        .room-layout-selected-indicator {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #FF9F1C;
+            display: none;
+            z-index: 3;
+            pointer-events: none;
+        }
+        .room-layout-selected-indicator::after {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 7px;
+            width: 5px;
+            height: 9px;
+            border: solid #222222;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            box-sizing: border-box;
+        }
+        .room-layout-grid .room-layout-card.selected .room-layout-selected-indicator {
+            display: block;
+        }
+        .room-layout-grid .room-layout-card--scheme .room-layout-meta {
+            flex: 0 0 auto;
+            padding: 8px 10px 10px;
+            background: #FFFFFF;
+            box-sizing: border-box;
+        }
+        .room-layout-name,
+        .room-layout-grid .room-type-name {
+            margin: 0;
+            padding: 0;
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.25;
+            color: #222222;
+            white-space: normal;
+            overflow: visible;
+            text-overflow: unset;
+            max-width: none;
+            border: none;
+            background: transparent;
+        }
+        .room-layout-grid .room-layout-card.selected .room-layout-name,
+        .room-layout-grid .room-layout-card.selected .room-type-name {
+            color: #222222;
+            background: transparent;
+        }
+        .room-layout-desc {
+            margin: 3px 0 0;
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 1.3;
+            color: #777777;
+        }
+        @media (max-width: 520px) {
+            .room-types-grid.room-layout-grid {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        /* Step 3  furniture category catalog cards */
+        .room-types-grid.catalog-category-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin-left: 0;
+            margin-right: 0;
+            width: 100%;
+        }
+        .catalog-category-grid .catalog-category-card,
+        .catalog-category-grid .room-type-item {
+            background: #FFFFFF;
+            border: 1px solid #E8E8E8;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            box-sizing: border-box;
+            min-height: 0;
+            padding: 0;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            box-shadow: none;
+            transition: border-color 160ms ease;
+        }
+        @media (hover: hover) {
+            .catalog-category-grid .catalog-category-card:hover {
+                border-color: rgba(255, 159, 28, 0.40);
+                background: #FFFFFF;
+                box-shadow: none;
+            }
+            .catalog-category-grid .catalog-category-card:hover .catalog-category-preview__img {
+                transform: scale(1.02);
+            }
+            .catalog-category-grid .catalog-category-card:hover .room-type-icon {
+                color: inherit;
+            }
+        }
+        .catalog-category-grid .catalog-category-card.selected {
+            border: 1.5px solid #FF9F1C;
+            background: #FFFFFF;
+            box-shadow: none;
+        }
+        .catalog-category-preview,
+        .catalog-category-grid .room-type-icon {
+            position: relative;
+            aspect-ratio: 4 / 3;
+            width: 100%;
+            flex: none;
+            min-height: 0;
+            height: auto;
+            background: #F5F5F5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            font-size: inherit;
+            color: inherit;
+        }
+        .catalog-category-preview__img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            transition: transform 160ms ease;
+        }
+        .catalog-category-preview__img--cover {
+            object-fit: cover;
+        }
+        .catalog-category-preview__img--contain {
+            object-fit: contain;
+        }
+        .catalog-category-preview__fallback {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #A3A3A3;
+            font-size: 28px;
+            background: #F5F5F5;
+        }
+        .catalog-category-selected-indicator {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #FF9F1C;
+            display: none;
+            z-index: 2;
+            pointer-events: none;
+        }
+        .catalog-category-selected-indicator::after {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 7px;
+            width: 5px;
+            height: 9px;
+            border: solid #222222;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            box-sizing: border-box;
+        }
+        .catalog-category-grid .catalog-category-card.selected .catalog-category-selected-indicator {
+            display: block;
+        }
+        .catalog-category-meta {
+            padding: 10px 11px 12px;
+            background: #FFFFFF;
+        }
+        .catalog-category-name,
+        .catalog-category-grid .room-type-name {
+            margin: 0;
+            padding: 0;
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.25;
+            color: #222222;
+            white-space: normal;
+            overflow: visible;
+            text-overflow: unset;
+            max-width: none;
+            border: none;
+            background: transparent;
+        }
+        .catalog-category-grid .catalog-category-card.selected .catalog-category-name,
+        .catalog-category-grid .catalog-category-card.selected .room-type-name {
+            color: #222222;
+            background: transparent;
+        }
+
+        /* Step 3 kitchen: ? + ? */
+        .kitchen-step3-setup {
+            margin: 0 0 16px;
+            padding: 0;
+        }
+        .kitchen-step3-setup__title {
+            margin: 0 0 10px;
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: #222222;
+            line-height: 1.3;
+        }
+        .kitchen-step3-systems {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .kitchen-step3-system-card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            padding: 0;
+            margin: 0;
+            background: #FFFFFF;
+            border: 1px solid #E8E8E8;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            text-align: left;
+            font: inherit;
+            color: #222222;
+            transition: border-color 160ms ease;
+        }
+        .kitchen-step3-system-card:hover:not(.is-disabled) {
+            border-color: rgba(255, 159, 28, 0.40);
+        }
+        .kitchen-step3-system-card.selected {
+            border: 1.5px solid #FF9F1C;
+        }
+        .kitchen-step3-system-card.is-disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+        .kitchen-step3-system-card__preview {
+            aspect-ratio: 4 / 3;
+            background: #F5F5F5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .kitchen-step3-system-card__preview img {
+            width: 70%;
+            height: 70%;
+            object-fit: contain;
+            display: block;
+        }
+        .kitchen-step3-system-card__body {
+            padding: 8px 10px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .kitchen-step3-system-card__name {
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: #222222;
+        }
+        .kitchen-step3-system-card__meta {
+            font-size: 11px;
+            color: #6b7280;
+            line-height: 1.3;
+        }
+        .kitchen-step3-system-card__badge {
+            display: inline-block;
+            margin-top: 4px;
+            padding: 2px 6px;
+            border-radius: 6px;
+            background: #F3F4F6;
+            color: #6b7280;
+            font-size: 10px;
+            font-weight: 600;
+            width: fit-content;
+        }
+        .kitchen-step3-system-card .catalog-category-selected-indicator {
+            display: none;
+        }
+        .kitchen-step3-system-card.selected .catalog-category-selected-indicator {
+            display: block;
+        }
+        .kitchen-step3-plinth {
+            margin-bottom: 10px;
+        }
+        .kitchen-step3-plinth__label {
+            margin: 0 0 6px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #222222;
+        }
+        .kitchen-step3-plinth__btns {
+            display: flex;
+            gap: 8px;
+        }
+        .kitchen-step3-plinth-btn {
+            flex: 1;
+            height: 36px;
+            padding: 0 8px;
+            border: 1px solid #E8E8E8;
+            border-radius: 10px;
+            background: #FFFFFF;
+            color: #222222;
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: border-color 160ms ease;
+        }
+        .kitchen-step3-plinth-btn:hover {
+            border-color: rgba(255, 159, 28, 0.40);
+        }
+        .kitchen-step3-plinth-btn.selected {
+            border: 1.5px solid #FF9F1C;
+        }
+        .kitchen-step3-info {
+            margin: 0 0 4px;
+            padding: 8px 10px;
+            border-radius: 10px;
+            background: #F7F7F7;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .kitchen-step3-info__label {
+            font-size: 11px;
+            color: #6b7280;
+        }
+        .kitchen-step3-info__value {
+            font-size: 12px;
+            color: #222222;
+            line-height: 1.35;
+        }
+        .kitchen-step3-info__value strong {
+            font-weight: 700;
+            color: #222222;
+        }
+
+        /* ? ? ? ? ? ? ? (? 3/4) */
+        .kitchen-manage-slot {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            margin: 10px 0 0;
+            padding: 0;
+        }
+        .kitchen-manage-slot.is-visible {
+            display: flex;
+        }
+        .kitchen-manage-slot__btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            height: 42px;
+            padding: 0 14px;
+            border: 1px solid #E8E8E8;
+            border-radius: 12px;
+            background: #FFFFFF;
+            color: #222222;
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: border-color 160ms ease, background 160ms ease;
+        }
+        .kitchen-manage-slot__btn i {
+            font-size: 14px;
+            color: #333;
+        }
+        .kitchen-manage-slot__btn:hover {
+            border-color: rgba(255, 159, 28, 0.40);
+            background: #FFF8EE;
+        }
+        .kitchen-manage-slot__btn.is-active {
+            border: 1.5px solid #FF9F1C;
+            background: #FFF8EE;
+        }
+        .kitchen-manage-panel {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+            background: #fff;
+            border: 1px solid #E8E8E8;
+            border-radius: 12px;
+            padding: 10px 10px 8px;
+            font-family: "Cera Pro", Arial, sans-serif;
+            color: #222;
+        }
+        .kitchen-manage-panel.is-open {
+            display: flex;
+        }
+        .kitchen-manage-panel__head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .kitchen-manage-panel__title {
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+        .kitchen-manage-panel__close {
+            width: 28px;
+            height: 28px;
+            border: 0;
+            border-radius: 8px;
+            background: #F5F5F5;
+            color: #444;
+            font-size: 18px;
+            line-height: 1;
+            cursor: pointer;
+        }
+        .kitchen-manage-panel__tabs {
+            display: flex;
+            gap: 4px;
+            padding: 3px;
+            margin-bottom: 10px;
+            background: #F3F3F3;
+            border-radius: 10px;
+        }
+        .kitchen-manage-panel__tab {
+            flex: 1;
+            border: 0;
+            border-radius: 8px;
+            background: transparent;
+            padding: 7px 8px;
+            font: inherit;
+            font-size: 12px;
+            font-weight: 600;
+            color: #555;
+            cursor: pointer;
+        }
+        .kitchen-manage-panel__tab.is-active {
+            background: #fff;
+            color: #222;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+        }
+        .kitchen-manage-panel__tab:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+        .kitchen-manage-panel__body {
+            max-height: min(40vh, 360px);
+            overflow: auto;
+        }
+        .kitchen-manage-panel .kitchen-step3-setup {
+            margin: 0;
+        }
+        .kitchen-manage-panel__hint {
+            margin: 10px 0 0;
+            font-size: 11px;
+            line-height: 1.35;
+            color: #6b7280;
+        }
+
+        .catalog-category-show-all {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 44px;
+            margin-top: 16px;
+            padding: 0 16px;
+            background: #FFFFFF;
+            border: 1px solid #E8E8E8;
+            border-radius: 10px;
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #222222;
+            cursor: pointer;
+            transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+        }
+        @media (hover: hover) {
+            .catalog-category-show-all:hover {
+                background: #FFF8EE;
+                border-color: rgba(255, 159, 28, 0.30);
+                color: #222222;
+            }
+        }
+        .catalog-category-hint {
+            margin-top: 10px;
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 1.45;
+            color: #777777;
+        }
+        @media (max-width: 520px) {
+            .room-types-grid.catalog-category-grid {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        .sidebar-header-nav {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 8px;
+        }
+        .sidebar-back-btn {
+            background: none;
+            border: 1px solid #ddd;
+            font-size: 22px;
+            cursor: pointer;
+            padding: 8px 12px;
+            margin-right: 12px;
+            color: #333;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+        .sidebar-back-btn:hover {
+            background: #f5f5f5;
+        }
+        .question-group {
+            margin-bottom: 32px;
+        }
+        .question-label {
+            font-size: 15px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .question-label i {
+            color: #2196f3;
+            font-size: 16px;
+            cursor: help;
+        }
+        .option-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .option-button {
+            padding: 14px 16px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 15px;
+            font-weight: 500;
+            color: #333;
+            text-align: left;
+        }
+        .option-button:hover {
+            border-color: #2196f3;
+            background: #f5f9ff;
+        }
+        .option-button.selected {
+            background: #e3f2fd;
+            border-color: #2196f3;
+            color: #1976d2;
+        }
+        .sidebar-footer {
+            padding: 16px 28px;
+            border-top: 1px solid var(--clodis-border);
+            background: var(--clodis-surface);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+            gap: 8px;
+            z-index: 2;
+        }
+        .sidebar-footer .step-indicator {
+            flex: 1;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--clodis-text-secondary);
+            padding: 0;
+            font-family: "Cera Pro", Arial, sans-serif;
+            text-transform: none;
+        }
+        .sidebar-footer .back-button {
+            padding: 0 20px;
+            background: #F5F5F5;
+            color: var(--clodis-text);
+            border: 1px solid var(--clodis-border);
+            border-radius: 12px;
+            height: 48px;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: "Cera Pro", Arial, sans-serif;
+        }
+        .sidebar-footer .back-button:hover {
+            background: #EEEEEE;
+            border-color: var(--clodis-border);
+        }
+        .sidebar-footer .next-button {
+            padding: 0 20px;
+            background: var(--clodis-orange);
+            color: #222222;
+            border: none;
+            border-radius: 12px;
+            height: 48px;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: "Cera Pro", Arial, sans-serif;
+            margin-left: 0;
+        }
+        .sidebar-footer .next-button:hover {
+            background: var(--clodis-orange-hover);
+        }
+        .sidebar-footer .next-button:disabled,
+        .sidebar-footer .next-button:disabled:hover {
+            background: #E8E8E8;
+            color: #A3A3A3;
+            cursor: not-allowed;
+        }
+        .step-indicator {
+            font-size: 12px;
+            color: #666;
+            padding: 2px 4px;
+        }
+        .back-button {
+            padding: 8px 16px;
+            background: #f5f5f5;
+            color: #333;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .back-button:hover {
+            background: #e0e0e0;
+            border-color: #bbb;
+        }
+        .back-button.hidden {
+            display: none;
+        }
+        .next-button {
+            padding: 8px 16px;
+            background: #2196f3;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: auto;
+        }
+        .next-button:hover {
+            background: #1976d2;
+        }
+        .next-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .cabinets-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-top: 0;
+            margin-left: -28px;
+            margin-right: -28px;
+            width: calc(100% + 56px);
+        }
+        /* ? 4: 3 ?, ? image-gallery */
+        #step4-cabinets-grid.cabinets-grid,
+        #step4-cabinets-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-top: 0;
+            margin-left: -28px;
+            margin-right: -28px;
+            width: calc(100% + 56px);
+        }
+        .cabinet-item {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 0 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            aspect-ratio: 1 / 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            overflow: hidden;
+            background: #fff;
+        }
+        #step4-cabinets-grid .cabinet-item {
+            aspect-ratio: 1 / 2;
+            padding: 0 4px;
+            text-align: center;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            transition: border-color 0.2s ease;
+            box-shadow: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            cursor: pointer;
+        }
+        #step4-cabinets-grid .cabinet-item:hover {
+            border-color: #333;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        #step4-cabinets-grid .cabinet-item:hover .cabinet-item-image img,
+        #step4-cabinets-grid .cabinet-item:hover .cabinet-item-image i {
+            transform: none;
+        }
+        #step4-cabinets-grid .cabinet-item.selected {
+            border: 1.5px solid #FF9F1C;
+        }
+        #step4-cabinets-grid .cabinet-item-selected-check {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #FF9F1C;
+            color: #fff;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            line-height: 1;
+            z-index: 2;
+            pointer-events: none;
+        }
+        #step4-cabinets-grid .cabinet-item.selected .cabinet-item-selected-check {
+            display: flex;
+        }
+        #step4-cabinets-grid .cabinet-item.cabinet-item--icon-low {
+            aspect-ratio: 3 / 2;
+        }
+        #step4-cabinets-grid .cabinet-item.cabinet-item--icon-low .cabinet-item-image img {
+            object-fit: contain;
+            object-position: center bottom;
+        }
+        .cabinet-item:hover {
+            border-color: #333;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .cabinet-item-image {
+            width: 100%;
+            background: transparent;
+            border-radius: 0;
+            margin-bottom: 0;
+            display: block;
+            height: 100%;
+        }
+        #step4-cabinets-grid .cabinet-item-image {
+            width: 100%;
+            height: 100%;
+            flex: 1 1 auto;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+        #step4-cabinets-grid .cabinet-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            padding: 0;
+            box-sizing: border-box;
+            display: block;
+        }
+        #step4-cabinets-grid .cabinet-item-image i {
+            font-size: 36px;
+            color: #999;
+            transition: transform 160ms ease;
+        }
+        .cabinet-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+        .cabinet-item-name {
+            display: none;
+        }
+        .cabinet-item-price {
+            display: none;
+        }
+        #step4-cabinets-grid .cabinet-item-body,
+        #step4-cabinets-grid .cabinet-item-name,
+        #step4-cabinets-grid .cabinet-item-dims,
+        #step4-cabinets-grid .cabinet-item-price {
+            display: none !important;
+        }
+
+        /* Scene view presets: 3D / ? / ? / ? */
+        .scene-view-pills {
+            position: absolute;
+            right: 20px;
+            top: 76px;
+            /* ? ? ? (1002) ? ? ?/? ? ? ? ? */
+            z-index: 1100;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+            pointer-events: auto;
+        }
+        .scene-view-pills__track {
+            position: relative;
+            display: inline-flex;
+            gap: 0;
+            padding: 4px;
+            border-radius: 12px;
+            background: #F5F5F5;
+            box-shadow: none;
+            pointer-events: auto;
+        }
+        .scene-view-pill--xray {
+            height: 44px;
+            padding: 0 14px;
+            border-radius: 12px;
+            background: #F5F5F5;
+            color: #555555;
+            box-shadow: none;
+        }
+        .scene-view-pill--xray[aria-pressed="true"],
+        .scene-view-pill--xray.is-active {
+            color: #222222;
+            background: #E3F2FD;
+            box-shadow: inset 0 0 0 1px rgba(33, 150, 243, 0.35);
+        }
+        .scene-view-pill--cells[aria-pressed="true"],
+        .scene-view-pill--cells.is-active {
+            color: #222222;
+            background: #E0F2FE;
+            box-shadow: inset 0 0 0 1px rgba(2, 132, 199, 0.4);
+        }
+        .scene-view-pills__slider {
+            position: absolute;
+            top: 4px;
+            left: 0;
+            height: calc(100% - 8px);
+            border-radius: 9px;
+            background: #FFF3DF;
+            box-shadow: inset 0 0 0 1px rgba(255, 159, 28, 0.25);
+            transition: transform 0.22s ease, width 0.22s ease, opacity 0.18s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .scene-view-pill {
+            position: relative;
+            z-index: 1;
+            min-width: 0;
+            height: 36px;
+            padding: 0 12px;
+            border: none;
+            border-radius: 9px;
+            background: transparent;
+            color: #555555;
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.18s ease;
+            pointer-events: auto;
+            white-space: nowrap;
+        }
+        .scene-view-pill[aria-pressed="true"] {
+            color: #222222;
+        }
+        .scene-pie-pill[aria-pressed="true"] {
+            color: #222222;
+            background: #E8F5E9;
+            box-shadow: inset 0 0 0 1px rgba(76, 175, 80, 0.35);
+        }
+        body.cld-kitchen-shape-step .scene-view-pills,
+        body.cld-room-edit-open .scene-view-pills {
+            display: none !important;
+        }
+
+        /* Step 5 scene door segmented control (Clodis) */
+        .scene-door-pills {
+            position: absolute;
+            left: 50%;
+            top: 20px;
+            transform: translateX(-50%);
+            z-index: 1001;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            pointer-events: auto;
+        }
+        .scene-door-pills__track {
+            position: relative;
+            display: inline-flex;
+            gap: 0;
+            padding: 4px;
+            border-radius: 12px;
+            background: #F5F5F5;
+            box-shadow: none;
+            pointer-events: auto;
+        }
+        .scene-door-pills__slider {
+            position: absolute;
+            top: 4px;
+            left: 0;
+            height: calc(100% - 8px);
+            border-radius: 9px;
+            background: #FFF3DF;
+            box-shadow: inset 0 0 0 1px rgba(255, 159, 28, 0.25);
+            transition: transform 0.22s ease, width 0.22s ease, opacity 0.18s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .scene-door-pill {
+            position: relative;
+            z-index: 1;
+            min-width: 0;
+            height: 42px;
+            padding: 0 18px;
+            border: none;
+            border-radius: 9px;
+            background: transparent;
+            color: #555555;
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.18s ease;
+            pointer-events: auto;
+        }
+        .scene-door-pill[aria-pressed="true"] {
+            color: #222222;
+        }
+        /* ? ? ? ? ? drag ? ? (? ? ?) */
+        .cld-catalog-drag-icon {
+            position: fixed;
+            z-index: 10050;
+            pointer-events: none;
+            user-select: none;
+        }
+        .cld-catalog-drag-icon--low .cld-catalog-drag-icon__inner {
+            align-items: flex-end;
+        }
+        .cld-catalog-drag-icon__inner {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            overflow: visible;
+        }
+        .cld-catalog-drag-icon__inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center bottom;
+            display: block;
+            background: transparent;
+        }
+        .cld-catalog-drag-icon__inner i {
+            font-size: 56px;
+            color: #444;
+        }
+        .cld-catalog-drag-icon__fallback {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .scene-icon {
+            background: white;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .scene-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+        }
+        .scene-icon i {
+            font-size: 24px;
+            color: #333;
+        }
+
+        /* Scene Controls Clodis ? ? ? ? 3D-? (? 1?6) */
+        .scene-control {
+            box-sizing: border-box;
+            width: 46px;
+            height: 46px;
+            padding: 0;
+            border-radius: var(--clodis-radius-md);
+            background: #FFFFFF;
+            border: 1px solid rgba(34, 34, 34, 0.08);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+            color: #333333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            cursor: pointer;
+            font-family: "Cera Pro", Arial, sans-serif;
+            transition:
+                background-color 160ms ease,
+                border-color 160ms ease,
+                color 160ms ease,
+                box-shadow 160ms ease;
+        }
+        .scene-control i {
+            font-size: 21px;
+            line-height: 1;
+            color: inherit;
+        }
+        @media (hover: hover) {
+            .scene-control:hover:not(.scene-control--disabled):not([aria-disabled="true"]):not(:disabled) {
+                background: #FFF8EE;
+                border-color: rgba(255, 159, 28, 0.25);
+                color: var(--clodis-orange);
+            }
+        }
+        .scene-control--active {
+            background: var(--clodis-orange-soft);
+            border-color: rgba(255, 159, 28, 0.35);
+            color: var(--clodis-orange);
+        }
+        .scene-control--active i {
+            color: var(--clodis-orange);
+        }
+        @media (hover: hover) {
+            .scene-control--active:hover:not(.scene-control--disabled):not([aria-disabled="true"]):not(:disabled) {
+                background: var(--clodis-orange-soft);
+                border-color: rgba(255, 159, 28, 0.35);
+                color: var(--clodis-orange);
+            }
+        }
+        .scene-control--disabled,
+        .scene-control[aria-disabled="true"],
+        .scene-control:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        @media (hover: hover) {
+            .scene-control--disabled:hover,
+            .scene-control[aria-disabled="true"]:hover,
+            .scene-control:disabled:hover {
+                background: #FFFFFF;
+                border-color: rgba(34, 34, 34, 0.08);
+                color: #333333;
+            }
+        }
+
+        .scene-controls-stack,
+        .scene-controls-history {
+            position: absolute;
+            z-index: 1001;
+            pointer-events: none;
+        }
+        .scene-controls-stack {
+            left: 20px;
+            top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .scene-controls-history {
+            left: 20px;
+            bottom: 20px;
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+        }
+        body.cld-room-edit-open .scene-controls-history {
+            bottom: 88px;
+        }
+        /* ? 1 ? ? ?: ? + ? ?; ? PAX-? */
+        body.cld-kitchen-shape-step .scene-controls-stack,
+        body.cld-kitchen-shape-step .scene-icon-top-right,
+        body.cld-kitchen-shape-step .scene-icon-cavity-tune,
+        body.cld-kitchen-shape-step .scene-icon-all-dims,
+        body.cld-kitchen-shape-step .scene-icon-edit-room,
+        body.cld-kitchen-shape-step .cld-room-edit-rail,
+        body.cld-kitchen-shape-step #info,
+        body.cld-kitchen-shape-step .info-panel,
+        body.cld-kitchen-shape-step .canvas-hint,
+        body.cld-kitchen-shape-step #canvas-info {
+            display: none !important;
+        }
+        body.cld-kitchen-shape-step .cld-room-edit-viewbar.is-open {
+            display: flex;
+        }
+        body.cld-kitchen-shape-step #cld-room-edit-filler-entry {
+            display: none !important;
+        }
+        .cld-kitchen-ceiling-chip {
+            display: none !important;
+        }
+
+        .kitchen-room-step__modes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 0 0 14px;
+        }
+        .kitchen-room-step__mode {
+            border: 1px solid #d8d4cc;
+            background: #fff;
+            color: #3a3a36;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font: 600 13px/1.2 system-ui, sans-serif;
+            cursor: pointer;
+        }
+        .kitchen-room-step__mode.is-active {
+            border-color: #1a73e8;
+            background: #eef5ff;
+            color: #0b57d0;
+        }
+        .kitchen-room-step__host .cld-room-edit-panel {
+            padding: 0;
+        }
+        /* ceiling chip removed ? ? ? ? ? ? */
+        .cld-kitchen-edge-dims {
+            margin-top: 18px;
+            padding-top: 14px;
+            border-top: 1px solid #e6e2da;
+        }
+        .cld-kitchen-edge-dims__title {
+            margin: 0 0 4px;
+            font: 700 14px/1.3 system-ui, sans-serif;
+            color: #2a2a28;
+        }
+        .cld-kitchen-edge-dims__hint {
+            margin: 0 0 12px;
+            font: 400 12px/1.35 system-ui, sans-serif;
+            color: #777;
+        }
+        .cld-kitchen-edge-dims__row {
+            margin-bottom: 10px;
+        }
+        .scene-controls-stack > .scene-control,
+        .scene-controls-history > .scene-control {
+            position: relative !important;
+            left: auto !important;
+            top: auto !important;
+            right: auto !important;
+            bottom: auto !important;
+            transform: none !important;
+            pointer-events: auto;
+        }
+
+        .scene-control.scene-action {
+            width: auto;
+            min-width: 46px;
+            height: 46px;
+            padding: 0 18px;
+            color: var(--clodis-text);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1;
+            white-space: nowrap;
+        }
+        .scene-control.scene-action i {
+            font-size: 16px;
+            color: #333333;
+        }
+        .scene-control.scene-action.scene-action--primary,
+        body.cld-room-edit-open .scene-control.scene-action.scene-icon-edit-room {
+            height: 48px;
+            padding: 0 22px;
+            background: var(--clodis-orange);
+            color: var(--clodis-text);
+            border: none;
+            box-shadow: 0 4px 14px rgba(255, 159, 28, 0.18);
+            font-size: 15px;
+            font-weight: 600;
+        }
+        .scene-control.scene-action.scene-action--primary i,
+        body.cld-room-edit-open .scene-control.scene-action.scene-icon-edit-room i {
+            margin: 0;
+            font-size: 19px;
+            color: var(--clodis-text);
+        }
+        @media (hover: hover) {
+            .scene-control.scene-action:hover:not(.scene-control--disabled):not([aria-disabled="true"]):not(:disabled) {
+                background: #FFF8EE;
+                border-color: rgba(255, 159, 28, 0.25);
+                color: var(--clodis-text);
+            }
+            .scene-control.scene-action:hover:not(.scene-control--disabled):not([aria-disabled="true"]):not(:disabled) i {
+                color: var(--clodis-orange);
+            }
+            .scene-control.scene-action.scene-action--primary:hover:not(.scene-control--disabled):not([aria-disabled="true"]):not(:disabled),
+            body.cld-room-edit-open .scene-control.scene-action.scene-icon-edit-room:hover:not(.scene-control--disabled):not([aria-disabled="true"]):not(:disabled) {
+                background: var(--clodis-orange-hover);
+                border: none;
+                color: var(--clodis-text);
+                box-shadow: 0 4px 14px rgba(255, 159, 28, 0.18);
+            }
+            .scene-control.scene-action.scene-action--primary:hover:not(.scene-control--disabled):not([aria-disabled="true"]):not(:disabled) i,
+            body.cld-room-edit-open .scene-control.scene-action.scene-icon-edit-room:hover:not(.scene-control--disabled):not([aria-disabled="true"]):not(:disabled) i {
+                color: var(--clodis-text);
+            }
+            .scene-control.scene-action.scene-control--disabled:hover i,
+            .scene-control.scene-action[aria-disabled="true"]:hover i,
+            .scene-control.scene-action:disabled:hover i {
+                color: #333333;
+            }
+        }
+        /** Debug-? ? ?: ? ?stepNavDbg=1 ? DEBUG_STEP_NAV */
+        .cld-step-nav-top {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+        body.cld-debug-step-nav .cld-step-nav-top {
+            display: flex;
+        }
+        .cld-step-nav-top .step-indicator {
+            display: none;
+        }
+        .cld-step-nav-top .next-button {
+            flex: 1;
+            margin-left: 0;
+            justify-content: center;
+            min-height: 40px;
+            font-size: 16px;
+        }
+        #sidebar-next-btn-top.next-button {
+            background: var(--clodis-text);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 12px;
+            height: 48px;
+            min-height: 48px;
+            font-family: "Cera Pro", Arial, sans-serif;
+        }
+        #sidebar-next-btn-top.next-button:hover {
+            background: #333333;
+        }
+        #sidebar-next-btn-top.next-button:disabled {
+            background: #ccc;
+            color: #fff;
+        }
+        .cld-step-nav-top .back-button {
+            min-height: 40px;
+        }
+        #cld-step-float {
+            display: none !important;
+        }
+        #cld-step-float button {
+            border: none;
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        #cld-step-float-back {
+            background: #f0f0f0;
+            color: #333;
+        }
+        #cld-step-float-next {
+            background: #2196f3;
+            color: #fff;
+        }
+        #cld-step-float-label {
+            font-size: 12px;
+            color: #444;
+            min-width: 72px;
+            text-align: center;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    <div id="cld-step-float" aria-label="Навигация по шагам комнаты">
+        <button type="button" id="cld-step-float-back">← Назад</button>
+        <span id="cld-step-float-label">Шаг 1/6</span>
+        <button type="button" id="cld-step-float-next">Далее →</button>
+    </div>
+    <div id="sidebar">
+        <div id="sidebar-header">
+            <div class="step-header">
+                <div class="step-badge">1 из 7</div>
+                <div class="cld-step-progress" role="progressbar" aria-valuemin="1" aria-valuemax="7" aria-valuenow="1" aria-label="Прогресс шагов">
+                    <div class="cld-step-progress-fill" id="cld-step-progress-fill"></div>
+                </div>
+                <div class="step-title">Тип комнаты</div>
+                <p class="cld-step-description" id="cld-step-description" hidden></p>
+            </div>
+            <div class="price-row">
+                <div class="price-display">
+                    <i class="fas fa-check-circle"></i>
+                    <span id="room-total-price">0 ?</span>
+                </div>
+                <div class="delivery-info">
+                    <span>Доставка</span>
+                    <span class="delivery-date">20 декабря</span>
+                </div>
+            </div>
+            <div id="cld-kitchen-manage-slot" class="kitchen-manage-slot" hidden></div>
+            <div id="price-subline-block" class="price-subline-row" style="display: none;">
+                <span id="price-subline-text"></span>
+                <span id="price-subline-help-icon" class="price-subline-help-icon" style="display: none;" title="Панель">?</span>
+                <span id="price-subline-help-link" class="price-subline-help-link" style="display: none;"></span>
+            </div>
+            <div id="price-subline-help-popup" class="price-subline-help-popup" style="display: none;"></div>
+            <div class="cld-step-nav-top" id="cld-step-nav-top">
+                <button type="button" class="back-button hidden" id="sidebar-back-btn-top">← Назад</button>
+                <div class="step-indicator" id="step-indicator-top">Шаг 1/6</div>
+                <button type="button" class="next-button" id="sidebar-next-btn-top">Далее →</button>
+            </div>
+        </div>
+        <div id="sidebar-content">
+            <!-- Main menu view -->
+            <div class="sidebar-view active" id="main-menu-view">
+                <!-- ? ? ? ? -->
+            </div>
+            
+            <!-- Cabinets view -->
+            <div class="sidebar-view" id="cabinets-view">
+                <div class="sidebar-header-nav">
+                    <button class="sidebar-back-btn" id="back-to-menu">←</button>
+                    <h2 style="font-size: 18px; margin: 0; font-weight: 600; color: #333;" id="cabinets-view-title">Каталог</h2>
+                </div>
+                <div class="cabinets-grid" id="cabinets-grid">
+                    <!-- ? ? ? ? ? ? ? -->
+                </div>
+            </div>
+
+            <!-- Light settings panel (temporary)  A:@KB> -->
+            <!--
+            <div id="light-settings-panel" class="light-settings-panel">
+              ...
+            </div>
+            -->
+        </div>
+        <div class="sidebar-footer">
+            <button class="back-button hidden" id="sidebar-back-btn">← Назад</button>
+            <div class="step-indicator">Шаг 1/7</div>
+            <button class="next-button" id="sidebar-next-btn" disabled>Далее →</button>
+        </div>
+    </div>
+    <div id="info">
+        <div>Информация по сцене для отладки</div>
+        <div id="debug-info"></div>
+    </div>
+    
+    <!-- Centered modal for step 4 help popup -->
+    <div id="step4-help-modal-overlay" class="step4-help-modal-overlay" style="display: none;">
+        <div class="step4-help-modal">
+            <h3 id="step4-help-modal-title">Подсказка шага каталога</h3>
+            <div id="step4-help-modal-content" class="step4-help-modal-content"></div>
+            <button type="button" id="step4-help-modal-ok" class="step4-help-modal-btn">Понятно, к делу</button>
+        </div>
+    </div>
+
+    <!-- Delete button for selected furniture -->
+    <div id="furniture-actions" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000;">
+        <button id="delete-furniture-btn" type="button" style="padding: 12px 24px; background: #ff4444; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+            Удалить
+        </button>
+    </div>
+    
+    <!-- Modal for editing room dimensions -->
+    <div id="edit-room-modal" class="cld-room-edit" role="dialog" aria-label="Панель">
+        <div class="cld-room-edit-rail" role="toolbar" aria-label="Панель">
+            <button type="button" class="cld-room-edit-rail-btn is-active" data-panel="shape" aria-label="Панель" aria-pressed="true" title="Панель">
+                <i class="fas fa-vector-square" aria-hidden="true"></i>
+            </button>
+            <div class="cld-room-edit-rail-divider" aria-hidden="true"></div>
+            <button type="button" class="cld-room-edit-rail-btn" data-panel="doors" aria-label="Панель" aria-pressed="false" title="Панель">
+                <i class="fas fa-door-closed" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="cld-room-edit-rail-btn" data-panel="windows" aria-label="Панель" aria-pressed="false" title="Панель">
+                <i class="fas fa-border-all" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="cld-room-edit-rail-btn" data-panel="style" aria-label="Панель" aria-pressed="false" title="Панель">
+                <i class="fas fa-paint-roller" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div class="cld-room-edit-sidebar">
+            <div id="cld-room-edit-panel-shape" class="cld-room-edit-panel">
+                <h2 class="cld-room-edit-title">Параметры комнаты</h2>
+                <p class="cld-room-edit-subtitle">Задайте размеры</p>
+                <div class="cld-room-edit-field">
+                    <label for="room-width-input">Ширина</label>
+                    <div class="cld-dim-control">
+                        <input type="text" inputmode="decimal" id="room-width-input" value="500" min="100" max="2000" step="1" autocomplete="off">
+                        <span class="cld-dim-control__unit" aria-hidden="true">см</span>
+                    </div>
+                </div>
+                <div class="cld-room-edit-field">
+                    <label for="room-depth-input">Глубина</label>
+                    <div class="cld-dim-control">
+                        <input type="text" inputmode="decimal" id="room-depth-input" value="400" min="100" max="2000" step="1" autocomplete="off">
+                        <span class="cld-dim-control__unit" aria-hidden="true">см</span>
+                    </div>
+                </div>
+                <div class="cld-room-edit-field">
+                    <label for="room-height-input">Высота потолка</label>
+                    <div class="cld-dim-height-row">
+                        <input type="range" id="room-height-slider" min="200" max="500" value="250" step="1">
+                        <div class="cld-dim-control cld-dim-control--compact">
+                            <input type="text" inputmode="decimal" id="room-height-input" value="250" min="200" max="500" step="1" autocomplete="off">
+                            <span class="cld-dim-control__unit" aria-hidden="true">см</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Maatkasten-style: ? > ? ? ? -->
+                <div class="cld-filler-entry" id="cld-room-edit-filler-entry">
+                    <h3 class="cld-filler-entry__title">Зазоры и ниши</h3>
+                    <p class="cld-filler-entry__hint">Задайте зазоры. От них рассчитываются размеры ниш модулей.</p>
+                    <div class="cld-filler-entry__list" role="group" aria-label="Панель">
+                        <button type="button" class="cld-filler-entry__btn" data-filler-focus="left" id="cld-filler-btn-left">
+                            <span class="cld-filler-entry__label">Левый зазор</span>
+                            <span class="cld-filler-entry__meta">
+                                <span class="cld-filler-entry__value" id="cld-filler-val-left">5</span>
+                                <span class="cld-filler-entry__unit">см</span>
+                                <span class="cld-filler-entry__chev" aria-hidden="true">?</span>
+                            </span>
+                        </button>
+                        <button type="button" class="cld-filler-entry__btn" data-filler-focus="right" id="cld-filler-btn-right">
+                            <span class="cld-filler-entry__label">Правый зазор</span>
+                            <span class="cld-filler-entry__meta">
+                                <span class="cld-filler-entry__value" id="cld-filler-val-right">5</span>
+                                <span class="cld-filler-entry__unit">см</span>
+                                <span class="cld-filler-entry__chev" aria-hidden="true">?</span>
+                            </span>
+                        </button>
+                        <button type="button" class="cld-filler-entry__btn" data-filler-focus="top" id="cld-filler-btn-top">
+                            <span class="cld-filler-entry__label">Задний зазор</span>
+                            <span class="cld-filler-entry__meta">
+                                <span class="cld-filler-entry__value" id="cld-filler-val-top">5</span>
+                                <span class="cld-filler-entry__unit">см</span>
+                                <span class="cld-filler-entry__chev" aria-hidden="true">?</span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div id="cld-room-edit-panel-doors" class="cld-room-edit-panel cld-opening-panel" hidden>
+                <h2 class="cld-room-edit-title" id="cld-room-edit-doors-title">Двери комнаты</h2>
+                <p class="cld-room-edit-hint" id="cld-room-edit-doors-hint">Добавьте проём в выбранную стену или перенесите по длине выбранной стены. Ширину задайте ниже.</p>
+                <div id="cld-room-edit-door-editor" class="cld-room-edit-door-editor cld-opening-settings" hidden>
+                    <div class="cld-room-edit-door-hero">
+                        <div id="cld-room-edit-door-thumb" class="cld-room-edit-door-thumb" aria-hidden="true"></div>
+                        <h3 id="cld-room-edit-door-editor-title" class="cld-opening-settings__sr-title">Проём</h3>
+                    </div>
+                    <div class="cld-room-edit-section">
+                        <h4 class="cld-room-edit-section-title">Положение</h4>
+                        <div class="cld-room-edit-field">
+                            <label for="cld-room-edit-door-w">Ширина</label>
+                            <div class="cld-room-edit-input-unit">
+                                <input type="number" id="cld-room-edit-door-w" min="40" max="300" step="1">
+                                <span class="cld-room-edit-suffix" aria-hidden="true">см</span>
+                            </div>
+                        </div>
+                        <div class="cld-room-edit-field">
+                            <label for="cld-room-edit-door-h">Высота</label>
+                            <div class="cld-room-edit-input-unit">
+                                <input type="number" id="cld-room-edit-door-h" min="80" max="280" step="1">
+                                <span class="cld-room-edit-suffix" aria-hidden="true">см</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cld-room-edit-section cld-room-edit-door-swing">
+                        <h4 class="cld-room-edit-section-title">Открывание</h4>
+                        <p class="cld-room-edit-note">От выбранной стороны, слева к правой</p>
+                        <div class="cld-room-edit-field">
+                            <label>Направление открывания</label>
+                            <div class="cld-room-edit-seg" role="group" aria-label="Панель">
+                                <button type="button" class="cld-room-edit-seg-btn" data-door-open="OUTWARDS" aria-pressed="false">Наружу</button>
+                                <button type="button" class="cld-room-edit-seg-btn" data-door-open="INWARDS" aria-pressed="true">Внутрь</button>
+                            </div>
+                        </div>
+                        <div class="cld-room-edit-field">
+                            <label>Сторона ручки</label>
+                            <div class="cld-room-edit-seg" role="group" aria-label="Панель">
+                                <button type="button" class="cld-room-edit-seg-btn" data-door-handle="LEFT" aria-pressed="true">Слева</button>
+                                <button type="button" class="cld-room-edit-seg-btn" data-door-handle="RIGHT" aria-pressed="false">Справа</button>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" id="cld-room-edit-door-change-model" class="cld-room-edit-change-model" hidden>
+                        <span>Изменить модель двери</span>
+                        <span class="cld-room-edit-change-model__arrow" aria-hidden="true">?</span>
+                    </button>
+                    <button type="button" id="cld-room-edit-door-del" class="cld-room-edit-door-del">
+                        <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                        <span>Удалить дверь</span>
+                    </button>
+                </div>
+                <div id="cld-room-edit-catalog-doors" class="cld-opening-catalog"></div>
+            </div>
+            <div id="cld-room-edit-panel-objects" class="cld-room-edit-panel cld-object-panel" hidden>
+                <h2 class="cld-room-edit-title" id="cld-room-edit-objects-title">Добавить стационарный объект</h2>
+                <p class="cld-room-edit-hint" id="cld-room-edit-objects-hint">Добавьте колонну в выбранную стену и настройте в карточке. Ширину задайте ниже.</p>
+                <div id="cld-room-edit-object-categories" class="cld-object-categories" role="tablist" aria-label="Панель"></div>
+                <div id="cld-room-edit-object-editor" class="cld-object-action-card" hidden>
+                    <div class="cld-object-action-card__head">
+                        <h3 id="cld-room-edit-object-editor-title" class="cld-object-action-card__title">Объект</h3>
+                        <p id="cld-room-edit-object-editor-desc" class="cld-object-action-card__desc">Стационарный прямоугольный объект</p>
+                    </div>
+                    <div class="cld-object-actions" role="toolbar" aria-label="Панель">
+                        <button type="button" class="cld-object-action" data-obj-action="edit" id="cld-room-edit-object-act-edit">
+                            <span class="cld-object-action__icon" aria-hidden="true">?</span>
+                            <span class="cld-object-action__label">Добавить</span>
+                        </button>
+                        <button type="button" class="cld-object-action" data-obj-action="position" id="cld-room-edit-object-act-pos">
+                            <span class="cld-object-action__icon" aria-hidden="true">-</span>
+                            <span class="cld-object-action__label">Положение</span>
+                        </button>
+                        <button type="button" class="cld-object-action" data-obj-action="copy" id="cld-room-edit-object-act-copy">
+                            <span class="cld-object-action__icon" aria-hidden="true">?</span>
+                            <span class="cld-object-action__label">Дублировать</span>
+                        </button>
+                        <button type="button" class="cld-object-action" data-obj-action="delete" id="cld-room-edit-object-act-del">
+                            <span class="cld-object-action__icon" aria-hidden="true">??</span>
+                            <span class="cld-object-action__label">Удалить</span>
+                        </button>
+                    </div>
+                    <div id="cld-object-size-fields" class="cld-object-size-fields" hidden>
+                        <h4 class="cld-room-edit-section-title">Размеры</h4>
+                        <div class="cld-room-edit-field" id="cld-room-edit-object-d-wrap">
+                            <label for="cld-room-edit-object-d">Глубина</label>
+                            <div class="cld-room-edit-input-unit">
+                                <input type="number" id="cld-room-edit-object-d" min="100" max="5000" step="1">
+                                <span class="cld-room-edit-suffix" aria-hidden="true">mm</span>
+                            </div>
+                        </div>
+                        <div class="cld-room-edit-field">
+                            <label for="cld-room-edit-object-w" id="cld-room-edit-object-w-label">Ширина</label>
+                            <div class="cld-room-edit-input-unit">
+                                <input type="number" id="cld-room-edit-object-w" min="100" max="5000" step="1">
+                                <span class="cld-room-edit-suffix" aria-hidden="true">mm</span>
+                            </div>
+                        </div>
+                        <div class="cld-room-edit-field">
+                            <label for="cld-room-edit-object-h">Высота</label>
+                            <div class="cld-room-edit-input-unit">
+                                <input type="number" id="cld-room-edit-object-h" min="100" max="5000" step="1">
+                                <span class="cld-room-edit-suffix" aria-hidden="true">mm</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="cld-room-edit-catalog-objects" class="cld-opening-catalog cld-object-catalog"></div>
+            </div>
+            <div id="cld-room-edit-panel-windows" class="cld-room-edit-panel cld-opening-panel" hidden>
+                <h2 class="cld-room-edit-title" id="cld-room-edit-windows-title">Окна</h2>
+                <p class="cld-room-edit-hint" id="cld-room-edit-windows-hint">Добавьте окно в выбранную стену или перенесите по длине выбранной стены. Ширину задайте ниже.</p>
+                <div id="cld-room-edit-window-editor" class="cld-room-edit-door-editor cld-opening-settings" hidden>
+                    <div class="cld-room-edit-door-hero">
+                        <div id="cld-room-edit-window-thumb" class="cld-room-edit-door-thumb" aria-hidden="true"></div>
+                        <h3 id="cld-room-edit-window-editor-title" class="cld-opening-settings__sr-title">Окно</h3>
+                        <div id="cld-room-edit-window-finishes" class="cld-window-finish-row" role="listbox" aria-label="Панель">
+                            <button type="button" class="cld-window-finish is-selected" data-finish="white" title="Панель" aria-label="Панель" role="option" aria-selected="true">
+                                <span class="cld-window-finish__swatch cld-window-finish__swatch--white"></span>
+                            </button>
+                            <button type="button" class="cld-window-finish" data-finish="beige" title="Панель" aria-label="Панель" role="option" aria-selected="false">
+                                <span class="cld-window-finish__swatch cld-window-finish__swatch--beige"></span>
+                            </button>
+                            <button type="button" class="cld-window-finish" data-finish="Wood_2" title="Панель" aria-label="Панель" role="option" aria-selected="false">
+                                <span class="cld-window-finish__swatch" style="background-image:url('/models/windows/thumbs/finish-Wood_2.jpg')"></span>
+                            </button>
+                            <button type="button" class="cld-window-finish" data-finish="Wood_1" title="Панель" aria-label="Панель" role="option" aria-selected="false">
+                                <span class="cld-window-finish__swatch" style="background-image:url('/models/windows/thumbs/finish-Wood_1.jpg')"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="cld-room-edit-section">
+                        <h4 class="cld-room-edit-section-title">Размеры</h4>
+                        <div class="cld-room-edit-field">
+                            <label for="cld-room-edit-window-w">Ширина</label>
+                            <div class="cld-room-edit-input-unit">
+                                <input type="number" id="cld-room-edit-window-w" min="40" max="400" step="1">
+                                <span class="cld-room-edit-suffix" aria-hidden="true">см</span>
+                            </div>
+                        </div>
+                        <div class="cld-room-edit-field">
+                            <label for="cld-room-edit-window-h">Высота</label>
+                            <div class="cld-room-edit-input-unit">
+                                <input type="number" id="cld-room-edit-window-h" min="40" max="280" step="1">
+                                <span class="cld-room-edit-suffix" aria-hidden="true">см</span>
+                            </div>
+                        </div>
+                        <div class="cld-room-edit-field">
+                            <label for="cld-room-edit-window-sill">Отступ от пола</label>
+                            <div class="cld-room-edit-input-unit">
+                                <input type="number" id="cld-room-edit-window-sill" min="0" max="250" step="1">
+                                <span class="cld-room-edit-suffix" aria-hidden="true">см</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cld-room-edit-section">
+                        <label class="cld-room-edit-switch" for="cld-room-edit-window-sillboard">
+                            <span class="cld-room-edit-switch__label">Подоконник</span>
+                            <span class="cld-room-edit-switch__control">
+                                <input type="checkbox" id="cld-room-edit-window-sillboard" checked>
+                                <span class="cld-room-edit-switch__track" aria-hidden="true"></span>
+                            </span>
+                        </label>
+                    </div>
+                    <button type="button" id="cld-room-edit-window-change-model" class="cld-room-edit-change-model" hidden>
+                        <span>Изменить модель окна</span>
+                        <span class="cld-room-edit-change-model__arrow" aria-hidden="true">?</span>
+                    </button>
+                    <button type="button" id="cld-room-edit-window-del" class="cld-room-edit-door-del">
+                        <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                        <span>Удалить окно</span>
+                    </button>
+                </div>
+                <div id="cld-room-edit-catalog-windows" class="cld-opening-catalog"></div>
+            </div>
+            <div id="cld-room-edit-panel-style" class="cld-room-edit-panel cld-style-panel" hidden>
+                <h2 class="cld-room-edit-title">Материалы комнаты</h2>
+                <p class="cld-room-edit-hint">Выберите покрытие пола, стен и потолка для этой комнаты</p>
+                <div id="cld-room-edit-catalog-style" class="cld-style-catalog"></div>
+            </div>
+        </div>
+    </div>
+    <div id="cld-room-edit-viewbar" class="cld-room-edit-viewbar" role="group" aria-label="Панель">
+        <button type="button" class="cld-room-edit-view-btn is-active" data-view="2d" aria-label="2D" aria-pressed="true" title="2D">2D</button>
+        <button type="button" class="cld-room-edit-view-btn" data-view="3d" aria-label="3D" aria-pressed="false" title="3D">3D</button>
+    </div>
+    
+    <!-- Modal for creating custom section -->
+    <!-- Modal for editing section dimensions -->
+    <div id="edit-section-modal" class="cld-edit-section-modal" style="display: none;">
+        <div class="cld-edit-section-modal__inner">
+            <h2 class="cld-edit-section-modal__title">Редактировать секцию</h2>
+
+            <div id="edit-section-content" class="cld-edit-section-content">
+                <!-- Content will be filled dynamically based on wall -->
+            </div>
+
+            <button type="button" id="edit-section-planks-btn" class="cld-filler-entry__btn cld-edit-section-planks-btn">
+                <span class="cld-filler-entry__label">Зазор</span>
+                <span class="cld-filler-entry__meta">
+                    <span class="cld-filler-entry__chev" aria-hidden="true">?</span>
+                </span>
+            </button>
+
+            <div class="cld-edit-section-modal__actions">
+                <button type="button" id="edit-section-apply-btn" class="cld-edit-section-btn cld-edit-section-btn--primary">
+                    Применить
+                </button>
+                <button type="button" id="edit-section-cancel-btn" class="cld-edit-section-btn cld-edit-section-btn--secondary">
+                    Отмена
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Maatkasten-style filler panels (L / R / Top) ? ? ? ? -->
+    <div id="section-filler-modal" class="cld-edit-section-modal cld-filler-overlay" style="display: none;">
+        <div class="cld-edit-section-modal__inner">
+            <button type="button" id="section-filler-back-btn" class="cld-filler-overlay__back" aria-label="Панель">
+                <span aria-hidden="true">←</span> Назад
+            </button>
+            <h2 class="cld-edit-section-modal__title">Зазоры</h2>
+            <div id="section-filler-content" class="cld-edit-section-content"></div>
+            <div class="cld-edit-section-modal__actions">
+                <button type="button" id="section-filler-apply-btn" class="cld-edit-section-btn cld-edit-section-btn--primary">
+                    Применить
+                </button>
+                <button type="button" id="section-filler-cancel-btn" class="cld-edit-section-btn cld-edit-section-btn--secondary">
+                    Отмена
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="create-section-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center;">
+        <div style="background: white; padding: 30px; border-radius: 8px; max-width: 400px; width: 90%; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+            <h2 style="margin: 0 0 20px 0; font-size: 24px;">Создать секцию</h2>
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: bold;">Ширина (мм):</label>
+                <input type="number" id="section-width" value="600" min="100" step="10" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px;">
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: bold;">Глубина (мм):</label>
+                <input type="number" id="section-height" value="2400" min="100" step="10" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px;">
+            </div>
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: bold;">Размер (мм):</label>
+                <input type="number" id="section-depth" value="600" min="100" step="10" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px;">
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button id="create-section-confirm" style="flex: 1; padding: 12px; background: #2196f3; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; font-weight: bold;">
+                    Создать
+                </button>
+                <button id="create-section-cancel" style="flex: 1; padding: 12px; background: #f5f5f5; color: #333; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; cursor: pointer;">
+                    Отмена
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Three.js (ESM) + importmap ? three/examples/jsm/... (? ? postprocessing passes) -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "/node_modules/three/build/three.module.js",
+          "three/examples/jsm/": "/node_modules/three/examples/jsm/",
+          "n8ao": "/node_modules/n8ao/dist/N8AO.js",
+          "postprocessing": "/node_modules/postprocessing/build/index.js"
+        }
+      }
+    </script>
+    <!-- External file: Vite html-proxy for inline type=module returns text/html (MIME fail). -->
+    <script type="module" src="js/bootstrap-three.js?v=20261110-ikeaPort14"></script>
+    <script src="js/section-layout-roles-catalog.js?v=20261109-orbitsmooth1"></script>
+    <script src="js/hinge-layout-generator.js?v=20261010-gola-facade343"></script>
+    <script src="js/step5-edge-bindings.js?v=20260712-edge-same-decor"></script>
+    <script src="js/handle-runtime.js?v=20261012-hide-handles1"></script>
+    <script src="js/clodis-rod-companions.js?v=20260914-icon-line"></script>
+    <script src="js/clodis-shelf-props.js?v=20260912-w5-pack"></script>
+    <script src="js/planplace-load-model.js?v=20261009-legs37"></script>
+    <script src="js/clodis-cabinet-model-loader.js?v=20261115-upperGLeft27"></script>
+    <script src="js/joint-parity-dump.js?v=20261010-dump7"></script>
+    <script src="js/cld-drill-resolve.js?v=20260810-guides-revert"></script>
+    <script src="js/handle-drawer-attach.js?v=20260906-ikea-r3j95"></script>
+    <script>
+      window.DEBUG_HINGE_SECTION_VOL = false;
+      // ???? ?????: ?handleDbg=1
+      window.DEBUG_HANDLE_ROOM = (function () {
+        try {
+          const q = new URLSearchParams(location.search).get('handleDbg');
+          if (q === '1' || q === 'true') return true;
+        } catch (_) {}
+        return false;
+      })();
+      // ???? ??????: ?hingeRoomDbg=1 (?? ????????? ???? ? ????? ?????? ????? ? Console)
+      window.DEBUG_HINGE_ROOM = (function () {
+        try {
+          const q = new URLSearchParams(location.search).get('hingeRoomDbg');
+          if (q === '1' || q === 'true') return true;
+        } catch (_) {}
+        return false;
+      })();
+      if (window.DEBUG_HINGE_ROOM) {
+        console.warn(
+          '[CLD][HINGE-ROOM] ???? ?????? ??? (?hingeRoomDbg=1). ??????: [CLD][HINGE'
+        );
+      }
+      window.DEBUG_HINGE_ROOM_VERBOSE = false;
+      window.DEBUG_HINGE_ROLE_MARKERS = false;
+      window.DEBUG_HINGE_ROLE_MARKERS_AXIS = 'Y';
+      window.DEBUG_HINGE_ROLE_GUIDE_LINES = false;
+      window.DEBUG_HINGE_ROLE_VERIFY = false;
+      // Place/rebuild spam: ?placeDbg=1
+      window.__CLD_DEBUG_PLACE = (function () {
+        try {
+          const q = new URLSearchParams(location.search).get('placeDbg');
+          if (q === '1' || q === 'true') return true;
+        } catch (_) {}
+        return false;
+      })();
+      // Price spam: ?priceDbg=1
+      window.__CLD_DEBUG_PRICE = (function () {
+        try {
+          const q = new URLSearchParams(location.search).get('priceDbg');
+          if (q === '1' || q === 'true') return true;
+        } catch (_) {}
+        return false;
+      })();
+      window.__CLD_DEBUG_REBUILD = false;
+      // Z ? ??????? 16 ?? ????? reparent ? swing ? ?????????? ? ??????? (?? ?????????).
+      window.CLD_HINGE_FACADE_POSTALIGN = true;
+      window.CLD_HINGE_FACADE_REF_Z = true;
+      // false = X ???????? ???????? ?????? ?? catalog_31; true = post-align part7 j*refW/2
+      window.CLD_HINGE_FACADE_REF_X = false;
+      window.CLD_HINGE_CORPUS_POSTALIGN = false;
+      window.CLD_HINGE_CORPUS_ONLY = false;
+    </script>
+    <script>
+      (function () {
+        var host = location.hostname;
+        var devHost = host === 'localhost' || host === '127.0.0.1' || host === '';
+        var enabled = devHost && (localStorage.__CLD_REF_CATALOG === '1' || /\brefCatalog=1\b/.test(location.search));
+        if (!enabled) return;
+        var s = document.createElement('script');
+        s.src = 'js/reference/reference-catalog-overlay.js?v=20260602-ref';
+        document.body.appendChild(s);
+      })();
+    </script>
+    <script src="js/material/template-material-panel.js?v=20260604-no-export"></script>
+    <script>window.__CLD_SHELF_COUNT_DEBUG = false;</script>
+    <script type="module" src="js/bootstrap-interior-exports.js?v=20261012-gola-vis1"></script>
+    <script src="js/utils/clodis-drill-registry.js?v=20260727-bm-library"></script>
+    <script type="module" src="js/bootstrap-wall-shape.js?v=20261012-gola-vis1"></script>
+    <script src="js/ClodisBuilder-builderScale2.js?v=20261118-plinthInset16"></script>
+    <script src="js/Room.js?v=20261110-ikeaPort14"></script>
+    <script src="js/Furniture.js?v=20261025-vmu23"></script>
+    <script src="js/constructor-price-subline.js?v=20260907-module-focus"></script>
+    <script>
+        // Debug: ? ????? ????????? ?????????? ??????:
+        // - ?????? "??????? ?????" (top-wall)
+        // - ?????? ??????? (corner-wardrobe / top-right)
+        // - ????? ??????? (corner-wardrobe-left / top-left)
+        window.DEBUG_SIMPLE_LAYOUTS = true;
+    </script>
+    <script>
+        // ??????/????????? ????? ????? ? ???????? ? ?????? (section-debug-panel), ?? ?????????.
+        window.DEBUG_PLINTH_GEOMETRY = false;
+        window.DEBUG_ROLE_PIVOTS = false;
+    </script>
+    <script>
+        // ??????? ?????? ??? ????? ? debug. Production: ?????? ???.
+        // ????????: ?stepNavDbg=1 ??? window.DEBUG_STEP_NAV = true
+        window.DEBUG_STEP_NAV = (function () {
+            try {
+                var q = new URLSearchParams(location.search);
+                if (q.get('stepNavDbg') === '1') return true;
+                if (q.get('stepNavDbg') === '0') return false;
+            } catch (_) {}
+            return window.DEBUG_STEP_NAV === true;
+        })();
+        if (window.DEBUG_STEP_NAV) {
+            document.documentElement.classList.add('cld-debug-step-nav');
+            document.addEventListener('DOMContentLoaded', function () {
+                document.body.classList.add('cld-debug-step-nav');
+            });
+        }
+    </script>
+    <script src="js/room-step4-pill-sets.js?v=20261115-upperGLeft27"></script>
+    <script>
+      (function () {
+        var b = window.__CLD_BUILD || '20261027-nmu142r';
+        var s = document.createElement('script');
+        s.type = 'module';
+        s.src = 'js/main-refactored.js?v=' + b;
+        document.body.appendChild(s);
+        var led = document.createElement('script');
+        led.type = 'module';
+        led.src = 'js/ui/led-panel.js?v=20261008-led8';
+        document.body.appendChild(led);
+      })();
+    </script>
+</body>
+</html>
+
+
+
+

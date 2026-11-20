@@ -1,0 +1,22 @@
+﻿FILE js\kitchen\kitchen-upper-g-place.js
+onlyIn1.102 count=4
+const __BUILD = '20261115-upperGLeft27';
+  if (String(n.layout_role || '') === 'corner_g_return') return false;
+    if (_isHostArmNode(n)) hostN++;
+    else if (_isOtherArmNode(n)) {
+----
+onlyInCurrent count=14
+const __BUILD = '20261116-upperGHostArm1';
+  const role = String(n.layout_role || n.sectionLayoutRole || '').trim();
+  if (role === 'corner_g_return') return false;
+  // Корень рукава host: cabinet_root / «Шкаф…» / корпус (не только live_catalog).
+  if (role === 'cabinet_root') return true;
+  if (/шкаф/i.test(name) && !/приставка/i.test(name)) return true;
+    if (_isHostArmNode(n)) {
+      hostN++;
+      // Явно arm×H×depthA — не s:x: иначе при правом L s:x схлопывается (~толщина)
+      // и оба бока остаются у угла, а «Деталь» торчит полкой в объёме рукава.
+        x: 'v:corner_g_arm_mm',
+        z: 'v:corner_g_depth_a_mm',
+      n.pos = n.pos && typeof n.pos === 'object' ? n.pos : { x: 0, y: 0, z: 0 };
+    } else if (_isOtherArmNode(n)) {

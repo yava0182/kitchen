@@ -1,0 +1,10 @@
+{
+  "ok": false,
+  "err": "app_not_found",
+  "globals": [
+    "onappinstalled",
+    "XRViewerPose",
+    "ByMeAPI",
+    "app"
+  ]
+}

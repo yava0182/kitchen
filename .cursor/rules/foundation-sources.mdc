@@ -1,0 +1,30 @@
+---
+description: Фундамент — куда писать код/данные; мёртвые копии не трогать
+alwaysApply: true
+---
+
+# Источники правды (фундамент)
+
+Каноны мм кухни — **отдельные** задачи. Здесь только «не править не то».
+
+## Писать сюда
+
+| Что | Файл |
+|-----|------|
+| API / static / upload / save | `server.js` (старт: `server-dev.js`) |
+| Vite | `vite.config.ts` |
+| Карта архитектуры | `docs/ARCHITECTURE.md` |
+| Карточки каталога | `catalog_items/*.json` через save (зеркало `public/catalog_items/` пишет сервер) |
+| Конструктор iframe | `src/constructor-clodis.js` → `npm run sync:constructor-clodis` |
+
+## Не писать (ловушки)
+
+- `public/server.js` — **DEAD MIRROR**, не API
+- `server-db.js` — **OBSOLETE**
+- `_checkpoint_*`, `.bak`, `.rollback`, `.tmp-*` — не рабочий код
+- Править только `public/catalog_items/` в обход `saveCatalogItems` — комната и канон разъедутся
+
+## Режим
+
+Фраза «фундамент / сервер / архитектура» → режим `foundation` в `task-modes.mdc`.  
+Не смешивать с `geometry` / канонами мм в том же диффе.

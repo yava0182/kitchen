@@ -9,7 +9,15 @@ function __cldItemEmbeddedTree(item) {
     const t = globalThis.__cldReadClodisJSON(item);
     return Array.isArray(t) ? t : null;
   }
-  return Array.isArray(item?.clodisJSON) ? item.clodisJSON : null;
+  let cj = item?.clodisJSON;
+  if (typeof cj === 'string') {
+    try {
+      cj = JSON.parse(cj);
+    } catch (_) {
+      cj = null;
+    }
+  }
+  return Array.isArray(cj) ? cj : null;
 }
 
 class ClodisBuilder {
@@ -183,6 +191,12 @@ class ClodisBuilder {
               'top',
               'wall_hung_body',
               'drawer',
+              'tall_band_low',
+              'tall_band_mid',
+              'tall_band_high',
+              'corner_return',
+              'corner_g_return',
+              'corner_post',
             ]);
             return allowed.has(s) ? s : '';
           };
@@ -261,6 +275,18 @@ class ClodisBuilder {
           item?.name || ''
         );
       }
+    } else if (
+      norm === 'cabinet_root' &&
+      parentSection &&
+      this._isKitchenBaseBuildContext()
+    ) {
+      // НМУ: catalog_46 вложен под корневой section без роли — оставлять cabinet_root
+      // на оболочке не нужно; пирамида plinth/corpus живёт внутри шаблона.
+      role = '';
+      console.warn(
+        '[CLD][layout] kitchen: nested module cabinet_root cleared:',
+        item?.name || ''
+      );
     }
     if (!this._normalizeLayoutRoleKey(role) && this._isDrawerCatalogElementType(item?.spec)) {
       role = 'drawer';
@@ -1681,6 +1707,12 @@ class ClodisBuilder {
     this.unifiedFacade = !!params.unifiedFacade;
     this.placementKind = params.placementKind || null;
     this.productKind = params.productKind || null;
+    this._kitchenSupports = params.kitchenSupports || null;
+    if (this._isKitchenBaseBuildContext()) {
+      try {
+        this._normalizeKitchenTemplateTree(jsonData);
+      } catch (_) {}
+    }
     this.hingeLayoutOverride =
       params.hingeLayoutOverride != null ? params.hingeLayoutOverride : null;
     this._suppressHingeRoomLog = !!params.isFurnitureGhost;
@@ -1743,7 +1775,8 @@ class ClodisBuilder {
       const z = this.layoutZones.zones;
       const pm = Number(z.plinthMm);
       if (Number.isFinite(pm) && pm >= 0) {
-        this.variables = { ...this.variables, h_bottom: pm };
+        // Реф: __cokol_height; у нас кухня пишет v:h_bottom — держим оба имени.
+        this.variables = { ...this.variables, h_bottom: pm, __cokol_height: pm };
       }
       const ht = Number(z.hTopMm);
       if (Number.isFinite(ht) && ht >= 0) {
@@ -2010,8 +2043,65 @@ class ClodisBuilder {
             globalThis.__cldStampDrawerNoHandleFlagsInTree(stampRoots);
           } catch (_) {}
         }
-        jsonData = hydrated;
+        // После live_catalog (catalog_45→фасады): doorLayout none/corpus режет и template_tree.
+        const doorLayoutNorm = String(this.doorLayout || '').trim().toLowerCase();
+        if (doorLayoutNorm) {
+          const layoutApi =
+            typeof window !== 'undefined' ? window.__cldFurnitureDoorLayout : null;
+          if (layoutApi && typeof layoutApi.filterClodisTreeByDoorLayout === 'function') {
+            jsonData = layoutApi.filterClodisTreeByDoorLayout(hydrated, doorLayoutNorm);
+          } else {
+            jsonData = hydrated;
+          }
+        } else {
+          jsonData = hydrated;
+        }
         this._stripFillCatalogSnapshotsFromPlan(jsonData);
+        // НМУ: corpus/столешка появляются только после live hydrate — нормализуем здесь.
+        // place часто даёт placementKind=standalone_floor, а профиль — kitchen_base_corner;
+        // иначе корпус остаётся s:x=ячейка и столешка≠единственная на 1050.
+        const pkBuild = String(this.placementKind || '').trim();
+        const hasCornerVar =
+          Number(this.variables?.corner_return_mm) > 0 ||
+          Number(this.variables?.corner_corpus_span_mm) > 0;
+        let hasCornerRole = false;
+        try {
+          const stack = Array.isArray(jsonData) ? [...jsonData] : jsonData ? [jsonData] : [];
+          while (stack.length) {
+            const n = stack.pop();
+            if (!n || typeof n !== 'object') continue;
+            const r = String(n.layout_role ?? n.sectionLayoutRole ?? '')
+              .trim()
+              .toLowerCase();
+            if (r === 'corner_return') {
+              hasCornerRole = true;
+              break;
+            }
+            if (Array.isArray(n.children)) stack.push(...n.children);
+            const tt = n.spec && n.spec.template_tree;
+            if (Array.isArray(tt)) stack.push(...tt);
+          }
+        } catch (_) {}
+        const doNmuNorm =
+          pkBuild === 'kitchen_base_corner' || hasCornerVar || hasCornerRole;
+        if (doNmuNorm) {
+          try {
+            const eng =
+              typeof window !== 'undefined' ? window.__cldKitchenBaseEngine : null;
+            if (eng && typeof eng.normalizeKitchenBaseClodisTree === 'function') {
+              eng.normalizeKitchenBaseClodisTree(jsonData, {
+                plinthHeightMm: Number(this.variables?.h_bottom) || undefined,
+                kitchenSupports: this._kitchenSupports || null,
+                cornerNmu: true,
+              });
+            }
+          } catch (nmuNormErr) {
+            console.warn('[CLD][NMU] post-hydrate normalize failed', nmuNormErr);
+          }
+        }
+        if (stats.hydrated > 0 || stats.failed > 0 || stats.jointFrames > 0) {
+          console.warn('[CLD][PARITY] hydrate catalog modules', stats);
+        }
         if (stats.hydrated > 0 && this._hingeRoomDbg()) {
           console.warn('[CLD][HINGE-ROOM] hydrate catalog modules', stats);
         }
@@ -2086,17 +2176,24 @@ class ClodisBuilder {
     this._finalizeDrawerSlideAssemblies(rootGroup);
     this._finalizeRoomDrawerStackSlideCascade(rootGroup);
 
-    if (
-      !params.isFurnitureGhost &&
-      typeof globalThis.__cldApplyJointFittingHoles === 'function'
-    ) {
-      try {
-        const n = globalThis.__cldApplyJointFittingHoles(rootGroup);
-        if (n > 0) {
-          console.log('[CLD][joint-holes] применено отверстий крепежа:', n);
+    if (!params.isFurnitureGhost) {
+      if (typeof globalThis.__cldApplyJointFittingHoles === 'function') {
+        try {
+          const n = globalThis.__cldApplyJointFittingHoles(rootGroup);
+          if (n > 0) {
+            console.log('[CLD][joint-holes] применено отверстий крепежа:', n);
+          }
+        } catch (jointHoleErr) {
+          console.warn('[CLD][joint-holes] apply failed', jointHoleErr);
         }
-      } catch (jointHoleErr) {
-        console.warn('[CLD][joint-holes] apply failed', jointHoleErr);
+      }
+      // Как админ-iframe: после resize Ш×В×Г крепёж на живой стык, не baked pos из JSON.
+      if (typeof globalThis.__cldRepositionJointSchemeFurniture === 'function') {
+        try {
+          globalThis.__cldRepositionJointSchemeFurniture(rootGroup);
+        } catch (jointFurnErr) {
+          console.warn('[CLD][joint-furniture] reposition failed', jointFurnErr);
+        }
       }
     }
 
@@ -2261,7 +2358,17 @@ class ClodisBuilder {
     const n = { ...item };
     if (!n.pos && n.position) n.pos = n.position;
     if (!n.pivot && n.anchor) n.pivot = n.anchor;
-    if (n.type === 'detail') n.type = 'wall'; // detail = стенка/деталь
+    // Как _normalizeAdminFields / admin iframe: rotation → rot (иначе tree y:180 теряется).
+    if (n.rotation && !n.rot) {
+      n.rot = n.rotation;
+      delete n.rotation;
+    }
+    // detail = стенка, но комплектующие в конструкторе: detail + originalType model|furniture.
+    if (n.type === 'detail') {
+      const ot = String(n.originalType || '').toLowerCase();
+      if (ot === 'model' || ot === 'furniture') n.type = ot;
+      else n.type = 'wall';
+    }
     return n;
   }
 
@@ -2315,6 +2422,29 @@ class ClodisBuilder {
         this._dbg(`  → Вызов buildWall для "${name}"`);
         result = this.buildWall(item, parentSection);
         break;
+      // Реф PlanPlace: type:cokol → планка; type:leg → опора (CabinetLegN).
+      // У нас: plinth≈cokol, leg≈model (cabinet_model) — без полного порта классов.
+      case 'plinth':
+      case 'cokol':
+        this._dbg(`  → Вызов buildWall для цоколя "${name}" (type: ${type})`);
+        result = this.buildWall(item, parentSection);
+        if (result) {
+          result.userData = result.userData || {};
+          result.userData.itemType = type;
+          result.userData.isModulePlinthBoard = true;
+        }
+        break;
+      case 'countertop':
+      case 'tabletop':
+        // Реф type:tabletop — плита; толщина из size.y / модели, не g0=16.
+        this._dbg(`  → Вызов buildWall для столешницы "${name}" (type: ${type})`);
+        result = this.buildWall(item, parentSection);
+        if (result) {
+          result.userData = result.userData || {};
+          result.userData.itemType = type;
+          result.userData.isModuleCountertopBoard = true;
+        }
+        break;
       case 'facade':
         this._dbg(`  → Вызов buildFacade для "${name}"`);
         result = this.buildFacade(item, parentSection);
@@ -2323,8 +2453,9 @@ class ClodisBuilder {
         this._dbg(`  → Вызов buildModule для "${name}"`);
         result = this.buildModule(item, parentSection);
         break;
+      case 'leg':
       case 'model':
-        this._dbg(`  → Вызов buildModel для "${name}"`);
+        this._dbg(`  → Вызов buildModel для "${name}" (type: ${type})`);
         result = this.buildModel(item, parentSection);
         break;
       case 'furniture':
@@ -3205,6 +3336,12 @@ class ClodisBuilder {
               'top',
               'wall_hung_body',
               'drawer',
+              'tall_band_low',
+              'tall_band_mid',
+              'tall_band_high',
+              'corner_return',
+              'corner_g_return',
+              'corner_post',
             ]);
             return allowed.has(s) ? s : '';
           };
@@ -3223,12 +3360,15 @@ class ClodisBuilder {
     // Зоны ниши комнаты — только для корневого шкафа. Внутри buildModule дерево строится
     // в moduleSectionContext; если оставить room zones, plinth/corpus/facades получают
     // размеры всей ниши вместо родительского модуля → «разлёт» деталей и ломанный bbox.
+    // НМ/НМУ: дерево уже с v:h_bottom — layoutZones.pos.y=plinthMm даёт двойной цоколь.
     const roomZones =
-      this.layoutZones &&
-      this.layoutZones.zones &&
-      (this._catalogModuleBuildDepth || 0) === 0
-        ? this.layoutZones.zones
-        : null;
+      this._isKitchenBaseBuildContext()
+        ? null
+        : this.layoutZones &&
+            this.layoutZones.zones &&
+            (this._catalogModuleBuildDepth || 0) === 0
+          ? this.layoutZones.zones
+          : null;
 
     // Эвристика зажима высоты plinth — применяется ТОЛЬКО когда есть layoutZones
     // (т.е. шкаф ставится в нишу комнаты). Для призрака и каталога (layoutZones = null)
@@ -3278,6 +3418,24 @@ class ClodisBuilder {
       // Для top оставляем > 0 (нулевой top = его нет).
       if (lrAfter === 'plinth' && Number.isFinite(Number(z.plinthMm)) && Number(z.plinthMm) >= 0) {
         size.y = Math.max(0, Number(z.plinthMm));
+      } else if (
+        lrAfter === 'tall_band_low' &&
+        Number.isFinite(Number(z.tallBandLowMm)) &&
+        Number(z.tallBandLowMm) > 0
+      ) {
+        size.y = Math.max(0, Number(z.tallBandLowMm));
+      } else if (
+        lrAfter === 'tall_band_mid' &&
+        Number.isFinite(Number(z.tallBandMidMm)) &&
+        Number(z.tallBandMidMm) > 0
+      ) {
+        size.y = Math.max(0, Number(z.tallBandMidMm));
+      } else if (
+        lrAfter === 'tall_band_high' &&
+        Number.isFinite(Number(z.tallBandHighMm)) &&
+        Number(z.tallBandHighMm) > 0
+      ) {
+        size.y = Math.max(0, Number(z.tallBandHighMm));
       } else if (
         lrAfter === 'wall_hung_body' &&
         Number.isFinite(Number(z.bodyMm)) &&
@@ -3538,8 +3696,11 @@ class ClodisBuilder {
       const { hb, techPrev, hTopShelf, carcassTotal, antH, mainH, flags } = __catalogRolePrev;
       const px = Number(parentSection.size.x);
       const pz = Number(parentSection.size.z);
+      const isFacadeRolePrev =
+        lrAfter === 'facades' || lrAfter === 'facades_main' || lrAfter === 'facades_top';
       if (Number.isFinite(px) && px > 0) size.x = px;
-      if (Number.isFinite(pz) && pz > 0) size.z = pz;
+      // Как layoutZones: фасаду НЕ раздувать size.z до глубины корпуса (иначе дверь «в полёте»).
+      if (Number.isFinite(pz) && pz > 0 && !isFacadeRolePrev) size.z = pz;
       if (lrAfter === 'plinth') {
         pos.y = 0;
       } else if (lrAfter === 'corpus' && carcassTotal > 0) {
@@ -3580,7 +3741,11 @@ class ClodisBuilder {
         lrAfter === 'service'
       ) {
         pos.x = 0;
-        pos.z = 0;
+        if (isFacadeRolePrev) {
+          this._applyFacadeShellDepthToParent(item, parentSection, size, pos);
+        } else {
+          pos.z = 0;
+        }
         pivot = {
           x: -Number(size.x) / 2,
           y: -Number(size.y) / 2,
@@ -3596,7 +3761,19 @@ class ClodisBuilder {
     //   top: при ненулевой зоне hTopMm — низ верхней полосы ниши (yCorpus); иначе стопка под антресолью
     //   внутри полосы корпуса: plinth + main + ant (без «фиктивного» main при одной corpus_antresol).
     //   service=после top (зона hTopMm + service).
-    if (z && lrAfter && parentSection && parentSection.size && !manualLayout) {
+    // corner_return / corner_g_return / corner_post — как в админке (свои size/pos), не растягивать на всю нишу.
+    const isCornerReturnRole =
+      lrAfter === 'corner_return' ||
+      lrAfter === 'corner_g_return' ||
+      lrAfter === 'corner_post';
+    if (
+      z &&
+      lrAfter &&
+      parentSection &&
+      parentSection.size &&
+      !manualLayout &&
+      !isCornerReturnRole
+    ) {
       const px = Number(parentSection.size.x);
       const pz = Number(parentSection.size.z);
       const isFacadeRole =
@@ -3614,8 +3791,19 @@ class ClodisBuilder {
       const planRoleFlags = this._roleFlagsFromPlanChildren(parentSection.sourceItem);
 
       const yBefore = pos && Number.isFinite(Number(pos.y)) ? Number(pos.y) : null;
+      const tallLow = Number(z.tallBandLowMm);
+      const tallMid = Number(z.tallBandMidMm);
       if (lrAfter === 'plinth') {
         pos.y = 0;
+      } else if (lrAfter === 'tall_band_low') {
+        pos.y = yPlinth;
+      } else if (lrAfter === 'tall_band_mid') {
+        pos.y = yPlinth + (Number.isFinite(tallLow) && tallLow > 0 ? tallLow : 0);
+      } else if (lrAfter === 'tall_band_high') {
+        pos.y =
+          yPlinth +
+          (Number.isFinite(tallLow) && tallLow > 0 ? tallLow : 0) +
+          (Number.isFinite(tallMid) && tallMid > 0 ? tallMid : 0);
       } else if (lrAfter === 'corpus') {
         pos.y = yPlinth;
       } else if (lrAfter === 'corpus_antresol') {
@@ -4244,6 +4432,11 @@ class ClodisBuilder {
 
   _applyDecorTextureToMaterial(material, textureUrl, setupTexture) {
     if (!textureUrl || !material) return;
+    // Кириллица в /files/decor/… — без encodeURI TextureLoader иногда молча не грузит.
+    const loadUrl =
+      /[^\x00-\x7F]/.test(textureUrl) && !/%[0-9A-Fa-f]{2}/.test(textureUrl)
+        ? encodeURI(textureUrl)
+        : textureUrl;
     const apply = (texture) => {
       const tex = texture && typeof texture.clone === 'function' ? texture.clone() : texture;
       if (!tex) return;
@@ -4264,16 +4457,16 @@ class ClodisBuilder {
       material.needsUpdate = true;
     };
     if (typeof window !== 'undefined' && typeof window.__cldLoadDecorTexture === 'function') {
-      window.__cldLoadDecorTexture(textureUrl, apply);
+      window.__cldLoadDecorTexture(loadUrl, apply);
       return;
     }
     const textureLoader = new THREE.TextureLoader();
     textureLoader.load(
-      textureUrl,
+      loadUrl,
       apply,
       undefined,
       (error) => {
-        console.warn('[CLD][wall] Ошибка загрузки текстуры материала:', textureUrl, error);
+        console.warn('[CLD][wall] Ошибка загрузки текстуры материала:', loadUrl, error);
       }
     );
   }
@@ -4299,6 +4492,183 @@ class ClodisBuilder {
       if (fromSpec) return fromSpec;
     }
     return '';
+  }
+
+  /** libs.tabletop / tabletop_items — кэш для комнаты (как админка). */
+  _getTabletopItemsLib() {
+    if (typeof window === 'undefined') return [];
+    if (Array.isArray(window.__cldTabletopItems) && window.__cldTabletopItems.length) {
+      return window.__cldTabletopItems;
+    }
+    if (Array.isArray(window.__cldCatalogCache?.tabletop_items)) {
+      return window.__cldCatalogCache.tabletop_items;
+    }
+    return [];
+  }
+
+  _findTabletopItemForBoard(item) {
+    const lib = this._getTabletopItemsLib();
+    if (!lib.length) return null;
+    const sm = item?.spec?.material;
+    const wantId = String(item?.material_id ?? item?.materialId ?? sm?.id ?? '').trim();
+    let it = null;
+    if (wantId && wantId !== '0' && wantId !== '__empty') {
+      it = lib.find((x) => String(x?.id) === wantId) || null;
+    }
+    if (!it) it = lib.find((x) => x && Number(x.active) !== 0) || lib[0];
+    return it || null;
+  }
+
+  /**
+   * Параметры модели столешки из админки (add_params) — как admin-material-3d-preview /
+   * constructor __cldTabletopItemToCatalogShape. Не брать rotated:false с детали корпуса.
+   */
+  _resolveTabletopAdminOpts(item) {
+    const it = this._findTabletopItemForBoard(item);
+    const p = it?.params?.mat_params?.params || {};
+    const add = it?.params?.mat_params?.add_params || {};
+    const wrap = String(add.wrapping || 'mirror').toLowerCase();
+    return {
+      mapUrl: String(p.map || it?.icon || item?.material_icon || '').trim(),
+      roughness: p.roughness,
+      metalness: p.metalness,
+      transparent: p.transparent,
+      opacity: p.opacity,
+      oneSided: !!(add.one_sided || add.oneSided),
+      stretchW: !!(add.stretch_width ?? add.stretchWidth),
+      stretchH: !!(add.stretch_height ?? add.stretchHeight),
+      realW: Math.max(1, Number(add.real_width || add.realWidth || 256) || 256),
+      realH: Math.max(1, Number(add.real_height || add.realHeight || 256) || 256),
+      rotated: String(add.rotation || '').toLowerCase() === 'rotated',
+      wrapping: wrap === 'repeat' ? 'repeat' : wrap === 'clamp' ? 'clamp' : 'mirror',
+      fromLib: !!it,
+    };
+  }
+
+  /** Модели столешницы (tabletop_items) — map/icon первой активной или по material_id. */
+  _resolveTabletopTextureUrl(item) {
+    if (typeof window === 'undefined') return '';
+    const opts = this._resolveTabletopAdminOpts(item);
+    if (opts.mapUrl && /files\/|decor|tabletop|\.jpg|\.png|\.webp/i.test(opts.mapUrl)) {
+      return opts.mapUrl;
+    }
+    const sm = item?.spec?.material;
+    const fromSpec = String(sm?.texture || sm?.map || item?.material_icon || '').trim();
+    if (fromSpec && /files\/|decor|tabletop|\.jpg|\.png|\.webp/i.test(fromSpec)) return fromSpec;
+    return '';
+  }
+
+  /**
+   * UV столешки = админ-превью (applyAdminPreviewMapRepeat):
+   * mirror/repeat, stretch, rotation=rotated → π/2 + swap осей.
+   */
+  _applyTabletopMapLikeAdmin(tex, sizeXMm, sizeZMm, opts) {
+    if (!tex || !opts) return;
+    const w = Math.max(0.1, Number(sizeXMm) || 600);
+    const h = Math.max(0.1, Number(sizeZMm) || 600);
+    const realW = Math.max(1, Number(opts.realW) || 256);
+    const realH = Math.max(1, Number(opts.realH) || 256);
+    const stretchW = !!opts.stretchW;
+    const stretchH = !!opts.stretchH;
+    const rotated = !!opts.rotated;
+    let wrap = THREE.MirroredRepeatWrapping;
+    if (opts.wrapping === 'repeat') wrap = THREE.RepeatWrapping;
+    else if (opts.wrapping === 'clamp' && THREE.ClampToEdgeWrapping) {
+      wrap = THREE.ClampToEdgeWrapping;
+    }
+    if (stretchW && stretchH && !rotated) {
+      tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping || wrap;
+      tex.repeat.set(1, 1);
+      tex.center.set(0, 0);
+      tex.rotation = 0;
+      tex.offset.set(0, 0);
+      tex.needsUpdate = true;
+      return;
+    }
+    tex.wrapS = tex.wrapT = wrap;
+    if (rotated) {
+      tex.center.set(0.5, 0.5);
+      tex.rotation = Math.PI / 2;
+      tex.repeat.set(
+        stretchW ? 1 : Math.max(0.01, h / realH),
+        stretchH ? 1 : Math.max(0.01, w / realW)
+      );
+    } else {
+      tex.center.set(0, 0);
+      tex.rotation = 0;
+      tex.repeat.set(
+        stretchW ? 1 : Math.max(0.01, w / realW),
+        stretchH ? 1 : Math.max(0.01, h / realH)
+      );
+    }
+    tex.offset.set(0, 0);
+    tex.needsUpdate = true;
+  }
+
+  /** Подтянуть tabletop_items, если кэш пуст (комната без админ-бандла). */
+  _ensureTabletopItemsLoaded(done) {
+    if (typeof done !== 'function') done = () => {};
+    if (this._getTabletopItemsLib().length) {
+      done(true);
+      return;
+    }
+    if (typeof window === 'undefined' || typeof fetch !== 'function') {
+      done(false);
+      return;
+    }
+    if (window.__cldTabletopItemsLoading) {
+      window.__cldTabletopItemsLoading.then(() => done(!!this._getTabletopItemsLib().length));
+      return;
+    }
+    window.__cldTabletopItemsLoading = fetch('/catalog_items/tabletop_items.json?t=' + Date.now(), {
+      cache: 'no-store',
+    })
+      .then((r) => (r.ok ? r.json() : []))
+      .then((data) => {
+        const arr = Array.isArray(data) ? data : data?.items || [];
+        window.__cldTabletopItems = arr;
+        if (!window.__cldCatalogCache) window.__cldCatalogCache = {};
+        window.__cldCatalogCache.tabletop_items = arr;
+        window.__cldTabletopItemsLoading = null;
+        return arr;
+      })
+      .catch(() => {
+        window.__cldTabletopItemsLoading = null;
+        return [];
+      });
+    window.__cldTabletopItemsLoading.then(() => done(!!this._getTabletopItemsLib().length));
+  }
+
+  /** Столешка: текстура + UV/wrap/rotate из модели админки. */
+  _loadTabletopBoardTexture(material, item, sizeXMm, sizeZMm) {
+    const applyNow = () => {
+      const opts = this._resolveTabletopAdminOpts(item);
+      const url = opts.mapUrl || this._resolveTabletopTextureUrl(item);
+      if (!url || !material) return;
+      this._applyDecorTextureToMaterial(material, url, (tex) => {
+        this._applyTabletopMapLikeAdmin(tex, sizeXMm, sizeZMm, opts);
+      });
+      if (material.isMeshStandardMaterial || material.isMeshPhysicalMaterial) {
+        const r = Number(opts.roughness);
+        const m = Number(opts.metalness);
+        if (Number.isFinite(r)) material.roughness = Math.max(0, Math.min(1, r));
+        if (Number.isFinite(m)) material.metalness = Math.max(0, Math.min(1, m));
+      }
+      if (opts.oneSided) material.side = THREE.FrontSide;
+      material.userData = material.userData || {};
+      material.userData.__cldTabletopAdmin = {
+        rotated: !!opts.rotated,
+        wrapping: opts.wrapping,
+        stretchW: !!opts.stretchW,
+        stretchH: !!opts.stretchH,
+        fromLib: !!opts.fromLib,
+      };
+    };
+    if (this._getTabletopItemsLib().length) {
+      applyNow();
+      return;
+    }
+    this._ensureTabletopItemsLoaded(() => applyNow());
   }
 
   /** Текстура из справочника материалов по material_id (дефолт каталога, не шаг 5). */
@@ -4419,8 +4789,11 @@ class ClodisBuilder {
     });
     
     const pos = this.evaluatePosition(item.pos || {}, parentSection, size);
+    // Тумба/pedestal: старый хак ширины horizontal_top.
+    // Кухня (kitchen_base): как в админке — только формулы JSON, без подмены size/pos.
     if (
       this._isPedestalLikeProduct() &&
+      !this._isKitchenBaseBuildContext() &&
       String(detailTypeId || '').trim().toLowerCase() === 'horizontal_top'
     ) {
       const parentW = Number(parentSection?.size?.x) || Number(size.x) || 0;
@@ -4431,34 +4804,106 @@ class ClodisBuilder {
         }
       }
     }
-    const thickness = this.getMaterialThickness(item.spec.material);
-    const orientation = item.spec.orientation; // 'v' vertical, 'h' horizontal, 'f' front
+    const itemTypeLower = String(item.type || '').toLowerCase();
+    const isPlinthBoard = itemTypeLower === 'plinth' || itemTypeLower === 'cokol';
+    const isCountertopBoard = itemTypeLower === 'countertop' || itemTypeLower === 'tabletop';
+    // Доска цоколя никогда не выше project/catalog h_bottom.
+    // Иначе при кривом parent s:y (весь шкаф / корпус) белая планка лезет вверх в нишу НМУ.
+    if (isPlinthBoard) {
+      const hb = Math.max(
+        0,
+        Number(this.variables?.h_bottom) ||
+          Number(this.variables?.vysota_cokolya) ||
+          0
+      );
+      const sy = Number(size.y);
+      if (hb > 0 && (!Number.isFinite(sy) || sy <= 0 || sy > hb + 0.5)) {
+        if (Number.isFinite(sy) && sy > hb + 0.5) {
+          console.warn('[CLD][plinth] clamp board size.y → h_bottom', {
+            name: item?.name || '',
+            wasMm: sy,
+            h_bottomMm: hb,
+            parent: parentSection?.name || '',
+            parentY: parentSection?.size?.y,
+          });
+        }
+        size.y = hb;
+      }
+      pos.y = 0;
+    }
+    // Цоколь: толщина = size.z (мм модели), не «толщина корпуса» из material.group.
+    // Столешница: реф — thickness из size.y / модели (~38–40), не g0=16.
+    const sizeZmm = Number(size.z);
+    const sizeYmm = Number(size.y);
+    const thickness = isPlinthBoard && Number.isFinite(sizeZmm) && sizeZmm > 0
+      ? sizeZmm
+      : isCountertopBoard && Number.isFinite(sizeYmm) && sizeYmm > 0
+        ? sizeYmm
+      : this.getMaterialThickness(item.spec.material);
+    const orientation =
+      item.spec.orientation ||
+      (isPlinthBoard ? 'f' : isCountertopBoard ? 'h' : undefined); // 'v' vertical, 'h' horizontal, 'f' front
     let geometry;
     this._invokeItemEvent(item, 'on_before_build', { parentSection, size, pos, thickness, orientation });
 
     // ⭐ Конструктор экспортирует size как @section.width/height/depth для ВСЕХ стен.
     // Для вертикальной/горизонтальной/фасадной стены тонкое измерение = thickness (16мм),
     // а не size из JSON. Как в EmbeddedClodisBuilder (конструктор).
-    if (orientation === 'v') {
-      // Вертикальная стена: thickness x height x depth (тонкое измерение по X)
-      geometry = new THREE.BoxGeometry(thickness, size.y, size.z);
-      this._dbg(`🔧🔧🔧 ВЕРТИКАЛЬНАЯ ДЕТАЛЬ: BoxGeometry(thickness=${thickness}, y=${size.y}, z=${size.z}) мм`);
-    } else if (orientation === 'h') {
-      // Горизонтальная стена: width x thickness x depth (тонкое измерение по Y)
-      geometry = new THREE.BoxGeometry(size.x, thickness, size.z);
-    } else if (orientation === 'f') {
-      // Фронтальная стена: width x height x thickness (тонкое измерение по Z)
-      geometry = new THREE.BoxGeometry(size.x, size.y, thickness);
-    } else {
-      // Default: use x, y, z as width, height, depth
-      geometry = new THREE.BoxGeometry(size.x, size.y, size.z);
+    // Реф Форма стенки: l_shape / c_l_shape → видимый контур (как PlanPlace / Базис).
+    const wallShapeType = String(item.spec?.type || item.shape || 'common').toLowerCase();
+    const useWallShape =
+      wallShapeType === 'l_shape' ||
+      wallShapeType === 'c_l_shape';
+    let wallContourMm = null;
+    if (useWallShape && typeof window !== 'undefined') {
+      try {
+        const mod = window.__cldWallShapeMod;
+        if (mod && typeof mod.cldWallBuildContourPoints === 'function') {
+          const sizeForGeom =
+            orientation === 'v'
+              ? { x: thickness, y: size.y, z: size.z }
+              : orientation === 'h'
+                ? { x: size.x, y: thickness, z: size.z }
+                : { x: size.x, y: size.y, z: thickness };
+          const realW = orientation === 'v' ? sizeForGeom.z : sizeForGeom.x;
+          const realH = orientation === 'h' ? sizeForGeom.z : sizeForGeom.y;
+          const built = mod.cldWallBuildContourPoints(
+            wallShapeType,
+            item.spec?.type_params || {},
+            realW,
+            realH
+          );
+          wallContourMm = built?.points || null;
+          if (wallContourMm && typeof mod.cldWallExtrudeGeometry === 'function') {
+            geometry = mod.cldWallExtrudeGeometry(wallContourMm, {
+              orientation,
+              sizeMm: sizeForGeom,
+              unitsMm: 1,
+            }, THREE);
+          }
+        }
+      } catch (eShape) {
+        console.warn('[ClodisBuilder] wall shape failed', eShape);
+      }
+    }
+    if (!geometry) {
+      if (orientation === 'v') {
+        geometry = new THREE.BoxGeometry(thickness, size.y, size.z);
+        this._dbg(`🔧🔧🔧 ВЕРТИКАЛЬНАЯ ДЕТАЛЬ: BoxGeometry(thickness=${thickness}, y=${size.y}, z=${size.z}) мм`);
+      } else if (orientation === 'h') {
+        geometry = new THREE.BoxGeometry(size.x, thickness, size.z);
+      } else if (orientation === 'f') {
+        geometry = new THREE.BoxGeometry(size.x, size.y, thickness);
+      } else {
+        geometry = new THREE.BoxGeometry(size.x, size.y, size.z);
+      }
     }
 
     // Pivot вычисляем по размерам ГЕОМЕТРИИ (как в EmbeddedClodisBuilder)
     const geometrySizeForPivot = {
-      x: geometry.parameters.width,
-      y: geometry.parameters.height,
-      z: geometry.parameters.depth
+      x: geometry.parameters?.width ?? (orientation === 'v' ? thickness : size.x),
+      y: geometry.parameters?.height ?? (orientation === 'h' ? thickness : size.y),
+      z: geometry.parameters?.depth ?? (orientation === 'f' ? thickness : size.z),
     };
     const pivot = this.evaluatePivot(item.pivot || {}, geometrySizeForPivot);
 
@@ -4504,23 +4949,44 @@ class ClodisBuilder {
       typeof window !== 'undefined' && typeof window.__cldIsTemplateMaterialPanel === 'function'
         ? window.__cldIsTemplateMaterialPanel(item)
         : matKey === 'material_3' || matKey === 'hdf' || matGroup === 'g1' || matGroup === 'hdf';
-    const isBody = true;
+    // Фасадные группы (декор «Снаружи», не корпус): g2=18, g3=16 (см. materials_groups.json).
+    const isFacadeGroup = matGroup === 'g2' || matGroup === 'g3';
+    // Фасадная деталь остаётся detail/wall, но не «корпус» для refresh шага 5.
+    const isBody = !isFacadeGroup;
     const roomMode = this._roomStep5Active();
     const roomInside = !templateMat && this._roomStep5InsideDecorActive();
-    const itemDecorUrl = templateMat
-      ? this._resolveWallItemExplicitDecorUrl(item) || this._resolveWallItemDecorUrlFromLib(item)
-      : roomMode
-        ? this._resolveWallItemExplicitDecorUrl(item)
-        : this._resolveWallItemDecorUrl(item);
-    const hasItemDecor = !!itemDecorUrl;
-    const decorForBody = roomInside
-      ? this.decorInside
-      : hasItemDecor
+    // Доска цоколя (plinth/cokol): как в админке — белый LDSP, не декор фасада/шага 5.
+    const itemDecorUrl = isPlinthBoard
+      ? null
+      : isFacadeGroup && this.decorOutside
         ? null
-        : this.decorInside;
+        : templateMat
+          ? this._resolveWallItemExplicitDecorUrl(item) || this._resolveWallItemDecorUrlFromLib(item)
+          : roomMode
+            ? this._resolveWallItemExplicitDecorUrl(item)
+            : this._resolveWallItemDecorUrl(item);
+    const hasItemDecor = !!itemDecorUrl;
+    const decorForBody = isPlinthBoard
+      ? null
+      : isFacadeGroup
+        ? this.decorOutside
+        : roomInside
+          ? this.decorInside
+          : hasItemDecor
+            ? null
+            : this.decorInside;
     const bodyTex = this._step5DecorTextureUrl(decorForBody);
 
-    if (hasItemDecor) {
+    // Реф type:tabletop — декор из models столешницы, не step5 ЛДСП.
+    const tabletopTexUrl = isCountertopBoard
+      ? this._resolveTabletopTextureUrl(item)
+      : '';
+
+    if (isPlinthBoard) {
+      baseColor = 0xffffff;
+    } else if (isCountertopBoard) {
+      baseColor = 0xffffff;
+    } else if (hasItemDecor) {
       baseColor = 0xffffff;
     } else if (bodyTex) {
       const previewHex = this._step5DecorPreviewColor(decorForBody);
@@ -4535,13 +5001,17 @@ class ClodisBuilder {
       baseColor = 0xffffff;
     }
 
-    const material = new THREE.MeshStandardMaterial({
-      color: baseColor,
-      metalness: 0.0,
-      roughness: 0.4,
-    });
+    // Столешка в комнате: IKEA Soft/Spot, без THREE.Light → MeshStandard = чёрная плита.
+    // Как в kitchen-run-overlays: MeshBasic + map из админки (tabletop / material_icon).
+    const material = isCountertopBoard
+      ? new THREE.MeshBasicMaterial({ color: baseColor })
+      : new THREE.MeshStandardMaterial({
+          color: baseColor,
+          metalness: 0.0,
+          roughness: 0.4,
+        });
     // ХДФ задней стенки: не z-fight с текстурой комнаты (z≈0.5 мм) при примыкании к стене
-    if (templateMat) {
+    if (templateMat && material.polygonOffset !== undefined) {
       material.polygonOffset = true;
       material.polygonOffsetFactor = 1;
       material.polygonOffsetUnits = 2;
@@ -4552,7 +5022,10 @@ class ClodisBuilder {
     const texRepeatY =
       orientation === 'h' ? size.z : orientation === 'v' ? size.y : size.y;
 
-    if (roomInside && bodyTex) {
+    if (isCountertopBoard && (tabletopTexUrl || item?.material_id || item?.spec?.material?.id)) {
+      // Админка → комната: wrap/stretch/rotated из tabletop_items, не грубый repeat/1000.
+      this._loadTabletopBoardTexture(material, item, texRepeatX, texRepeatY);
+    } else if (roomInside && bodyTex) {
       this._loadWallBodyTexture(material, bodyTex, texRepeatX, texRepeatY);
     } else if (hasItemDecor) {
       this._loadWallBodyTexture(material, itemDecorUrl, texRepeatX, texRepeatY);
@@ -4563,11 +5036,12 @@ class ClodisBuilder {
     }
 
     // ХДФ / g1: кромки и материал только из шаблона, без шага 5
+    // g2 (фасадный уголок приставки): кромки как у фасада снаружи
     const edges = templateMat
       ? item.edges && typeof item.edges === 'object'
         ? item.edges
         : {}
-      : this._mergeItemEdgesWithStep5(item, 'inside');
+      : this._mergeItemEdgesWithStep5(item, isFacadeGroup ? 'outside' : 'inside');
     const getEdgeData = (i) => edges[i] || edges[String(i)] || {};
     const hasSelectedDecor = (ed) => !!(ed?.decor_id || ed?.decor_name || ed?.edge_id || ed?.edge_name);
     const parseEdgeThicknessMm = (ed) => {
@@ -4586,9 +5060,17 @@ class ClodisBuilder {
       return parseInt(m[1], 16);
     };
 
-    const wOuter = geometry.parameters.width || 0;
-    const hOuter = geometry.parameters.height || 0;
-    const dOuter = geometry.parameters.depth || 0;
+    const sizeForOuter =
+      orientation === 'v'
+        ? { x: thickness, y: size.y, z: size.z }
+        : orientation === 'h'
+          ? { x: size.x, y: thickness, z: size.z }
+          : orientation === 'f'
+            ? { x: size.x, y: size.y, z: thickness }
+            : { x: size.x, y: size.y, z: size.z };
+    const wOuter = geometry.parameters?.width ?? sizeForOuter.x;
+    const hOuter = geometry.parameters?.height ?? sizeForOuter.y;
+    const dOuter = geometry.parameters?.depth ?? sizeForOuter.z;
 
     // Edge insets and core offsets (constructor-clodis.js)
     let inset1 = 0, inset2 = 0, inset3 = 0, inset4 = 0;
@@ -4641,7 +5123,23 @@ class ClodisBuilder {
     wallGroup.userData.detailName = wallName;
     wallGroup.userData.isBody = isBody;
     wallGroup.userData.cldUseTemplateMaterial = templateMat;
-    if (isBody && !templateMat) wallGroup.userData.step5DecorChannel = 'inside';
+    // Столешка: не канал шага 5 «внутри» (иначе белый ЛДСП поверх декорa из админки).
+    if (isCountertopBoard) {
+      wallGroup.userData.cldKitchenCountertop = true;
+      wallGroup.userData.cldSkipStep5BodyDecor = true;
+    }
+    // Цоколь: белый ЛДСП дефолт; выбор цвета цоколя — позже (не канал «внутри»).
+    if (isPlinthBoard) {
+      wallGroup.userData.isModulePlinthBoard = true;
+      wallGroup.userData.cldSkipStep5BodyDecor = true;
+      wallGroup.userData.itemType = itemTypeLower;
+    }
+    if (isFacadeGroup && !templateMat) {
+      wallGroup.userData.step5DecorChannel = 'outside';
+      wallGroup.userData.cldFacadeMaterialGroup = true;
+    } else if (isBody && !templateMat && !isCountertopBoard && !isPlinthBoard) {
+      wallGroup.userData.step5DecorChannel = 'inside';
+    }
     wallGroup.userData.originalSize = { ...size };
     wallGroup.userData.originalPosition = { ...pos };
     wallGroup.userData.originalPivot = { ...pivot };
@@ -4666,26 +5164,34 @@ class ClodisBuilder {
     wallGroup.config.spec = { ...(wallGroup.config.spec || {}), orientation };
     wallGroup.calculated = {
       u_size: {
-        x: geometry.parameters.width,
-        y: geometry.parameters.height,
-        z: geometry.parameters.depth,
+        x: wOuter,
+        y: hOuter,
+        z: dOuter,
         clone() {
           return new THREE.Vector3(this.x, this.y, this.z);
         },
       },
       size: {
-        x: geometry.parameters.width,
-        y: geometry.parameters.height,
-        z: geometry.parameters.depth,
+        x: wOuter,
+        y: hOuter,
+        z: dOuter,
       },
     };
+    if (wallContourMm) {
+      wallGroup.userData.__cldWallContourMm = wallContourMm;
+      wallGroup.calculated.points = wallContourMm;
+      wallGroup.calculated.original_points = wallContourMm.map((pt) => ({ ...pt }));
+    }
     // Схемы крепежа (Конфирмат и др.) для CFRN-экспорта
     if (Array.isArray(item.jointSchemes) && item.jointSchemes.length > 0) {
       wallGroup.userData.jointSchemes = item.jointSchemes;
     }
 
-    // Core: острые углы (пила); радиус только на полосках кромки
-    const coreGeometry = new THREE.BoxGeometry(coreW, coreH, coreD);
+    // Core: при Форме L/C — тот же Extrude; иначе бокс с inset кромок.
+    const coreGeometry =
+      useWallShape && wallContourMm && geometry
+        ? geometry
+        : new THREE.BoxGeometry(coreW, coreH, coreD);
     const coreMesh = new THREE.Mesh(coreGeometry, material);
     coreMesh.castShadow = true;
     coreMesh.receiveShadow = true;
@@ -4697,7 +5203,21 @@ class ClodisBuilder {
     coreMesh.userData.detailName = wallName;
     coreMesh.userData.isBody = isBody;
     coreMesh.userData.cldUseTemplateMaterial = templateMat;
-    if (isBody && !templateMat) coreMesh.userData.step5DecorChannel = 'inside';
+    if (isCountertopBoard) {
+      coreMesh.userData.cldKitchenCountertop = true;
+      coreMesh.userData.cldSkipStep5BodyDecor = true;
+    }
+    if (isPlinthBoard) {
+      coreMesh.userData.isModulePlinthBoard = true;
+      coreMesh.userData.cldSkipStep5BodyDecor = true;
+      coreMesh.userData.itemType = itemTypeLower;
+    }
+    if (isFacadeGroup && !templateMat) {
+      coreMesh.userData.step5DecorChannel = 'outside';
+      coreMesh.userData.cldFacadeMaterialGroup = true;
+    } else if (isBody && !templateMat && !isCountertopBoard && !isPlinthBoard) {
+      coreMesh.userData.step5DecorChannel = 'inside';
+    }
     if (Array.isArray(item.jointSchemes) && item.jointSchemes.length > 0) {
       coreMesh.userData.jointSchemes = item.jointSchemes;
     }
@@ -4897,7 +5417,10 @@ class ClodisBuilder {
         edgeMesh.renderOrder = 10;
         edgeMesh.userData.isEdge = true;
         edgeMesh.userData.edgeNumber = edgeNum;
-        if (roomInside) {
+        if (isFacadeGroup) {
+          edgeMesh.userData.step5DecorChannel = 'outside';
+          edgeMesh.userData.cldFacadeMaterialGroup = true;
+        } else if (roomInside) {
           edgeMesh.userData.cldCorpusBodyEdge = true;
           edgeMesh.userData.step5DecorChannel = 'inside';
         }
@@ -4926,6 +5449,7 @@ class ClodisBuilder {
     });
 
     // Build children (furniture / path attached to wall)
+    // Как в копии «1.9 крепеж ок»: parentSection + BLB-offset на всех детях.
     let furnitureCount = 0;
     if (item.children && Array.isArray(item.children)) {
       this._dbg(`  🔍 Wall "${wallName}": обработка ${item.children.length} children`);
@@ -4935,7 +5459,7 @@ class ClodisBuilder {
           return;
         }
         const childType = String(child?.type || '').toLowerCase();
-        if (childType === 'path' || childType === 'groove') {
+        if (childType === 'path' || childType === 'groove' || childType === 'notch') {
           this._applyPathGrooveToWall(wallGroup, coreMesh, child, parentSection);
           furnitureCount++;
           return;
@@ -4943,13 +5467,7 @@ class ClodisBuilder {
         const built = this.buildItem(child, parentSection);
         if (built) {
           this._applyStoredBlbContentOffsetToChild(wallGroup, built);
-          if (child?.fromJointScheme || Number(child?.spec?.joint_hardware) === 1) {
-            built.userData.fromJointScheme = 1;
-            built.userData.isAccessory = true;
-            built.traverse((o) => {
-              if (o?.userData) o.userData.isAccessory = true;
-            });
-          }
+          this._stampJointSchemeUserData(built, child);
           wallGroup.add(built);
           furnitureCount++;
         }
@@ -5157,7 +5675,7 @@ class ClodisBuilder {
       const group = (mat.group || '').toLowerCase();
       const key = (mat.key || '').toLowerCase();
 
-      if (group === 'g2') {
+      if (group === 'g2' || group === 'g3') {
         facadeColor = 0x5a3a1a;
       }
     }
@@ -5484,6 +6002,7 @@ class ClodisBuilder {
     }
 
     // Крепёж / модели на фасаде ящика (эксцентры fromJointScheme) — тот же BLB-offset, что у core.
+    // Как в копии «1.9 крепеж ок».
     if (item.children && Array.isArray(item.children)) {
       const facadeChildCtx = {
         ...(parentSection && typeof parentSection === 'object' ? parentSection : {}),
@@ -5502,17 +6021,11 @@ class ClodisBuilder {
       item.children.forEach((child) => {
         if (this._isPhantomJointFittingWallItem(child)) return;
         const childType = String(child?.type || '').toLowerCase();
-        if (childType === 'path' || childType === 'groove') return;
+        if (childType === 'path' || childType === 'groove' || childType === 'notch') return;
         const built = this.buildItem(child, facadeChildCtx);
         if (!built) return;
         this._applyStoredBlbContentOffsetToChild(facadeGroup, built);
-        if (child?.fromJointScheme || Number(child?.spec?.joint_hardware) === 1) {
-          built.userData.fromJointScheme = 1;
-          built.userData.isAccessory = true;
-          built.traverse((o) => {
-            if (o?.userData) o.userData.isAccessory = true;
-          });
-        }
+        this._stampJointSchemeUserData(built, child);
         facadeGroup.add(built);
       });
     }
@@ -6028,6 +6541,17 @@ class ClodisBuilder {
     const size = this.evaluateSize(item.size || {}, parentSection);
     const pos = this.evaluatePosition(item.pos || {}, parentSection, size);
     const pivot = this.evaluatePivot(item.pivot || {}, size);
+    // Кухня: высота опоры = project h_bottom (как v:h_bottom в админке). size.xz/pos — из JSON.
+    {
+      const isLegEarly =
+        item?.cldSupportLeg === true ||
+        /опора/i.test(modelName) ||
+        /опора/i.test(String(item?.spec?.key || ''));
+      const hbVar = Math.max(0, Number(this.variables?.h_bottom) || 0);
+      if (isLegEarly && hbVar > 0) {
+        size.y = hbVar;
+      }
+    }
     this._invokeItemEvent(item, 'on_before_build', { parentSection, size, pos, pivot });
 
     const group = new THREE.Group();
@@ -6035,6 +6559,20 @@ class ClodisBuilder {
     group.userData.isCabinetModel = true;
     group.userData.modelSpecId = item?.spec?.id != null ? String(item.spec.id) : '';
     group.userData.modelKey = item?.spec?.key || '';
+    // Стыковой крепёж: size 0 в JSON = нативный GLB (как админ). Math.max(1) сжимал до 1 мм → не видно.
+    const isJointHwModel =
+      !!item?.fromJointScheme ||
+      Number(item?.spec?.joint_template_model) === 1 ||
+      Number(item?.spec?.joint_hardware) === 1;
+    if (isJointHwModel) {
+      group.userData.fromJointScheme = 1;
+      group.userData.jointTemplateModel = 1;
+      group.userData.joint_hardware = 1;
+      group.userData.isAccessory = true;
+      if (item.spec && typeof item.spec === 'object') {
+        group.userData.spec = { ...(group.userData.spec || {}), ...item.spec };
+      }
+    }
     if (parentSection?.hingeModuleLocalBuild) {
       const fromDrillTpl = Number(item?.spec?.from_drill_template) === 1;
       if (!fromDrillTpl) {
@@ -6056,9 +6594,14 @@ class ClodisBuilder {
     this._modelLoadEpoch = (this._modelLoadEpoch || 0) + 1;
     group.userData._cldModelEpoch = this._modelLoadEpoch;
 
-    const w = Math.max(1, Number(size.x) || 1);
-    const h = Math.max(1, Number(size.y) || 1);
-    const d = Math.max(1, Number(size.z) || 1);
+    const rawSx = Number(size.x) || 0;
+    const rawSy = Number(size.y) || 0;
+    const rawSz = Number(size.z) || 0;
+    const useNativeJointGlb =
+      isJointHwModel && !(rawSx > 0.5 && rawSy > 0.5 && rawSz > 0.5);
+    const w = useNativeJointGlb ? 0 : Math.max(1, rawSx || 1);
+    const h = useNativeJointGlb ? 0 : Math.max(1, rawSy || 1);
+    const d = useNativeJointGlb ? 0 : Math.max(1, rawSz || 1);
 
     const content = new THREE.Group();
     content.name = `ModelContent_${modelName}`;
@@ -6072,17 +6615,24 @@ class ClodisBuilder {
       content.userData.rodHangStripKind = String(hangKind);
     }
 
-    const geometry = new THREE.BoxGeometry(w, h, d);
+    const phW = useNativeJointGlb ? 8 : w;
+    const phH = useNativeJointGlb ? 8 : h;
+    const phD = useNativeJointGlb ? 50 : d;
+    const geometry = new THREE.BoxGeometry(phW, phH, phD);
     const material = new THREE.MeshStandardMaterial({
-      color: 0x9ca3af,
+      color: isJointHwModel ? 0x64748b : 0x9ca3af,
       metalness: 0.2,
       roughness: 0.7,
       transparent: true,
-      opacity: 0.35,
+      opacity: isJointHwModel ? 0.85 : 0.35,
     });
     const placeholder = new THREE.Mesh(geometry, material);
     placeholder.name = `ModelPlaceholder_${modelName}`;
     placeholder.userData.isAccessory = true;
+    if (isJointHwModel) {
+      placeholder.userData.fromJointScheme = 1;
+      placeholder.userData.joint_hardware = 1;
+    }
     // isVisualOnly только у петель: иначе опоры выпадают из floor-contact bbox
     // (регрессия после крепежа/петель; в 1.321 placeholder опоры считался в bbox).
     if (parentSection?.hingeModuleLocalBuild) {
@@ -6092,34 +6642,107 @@ class ClodisBuilder {
     }
     content.add(placeholder);
 
-    // Как в рефе (conv_pivot на own_object + pos на узле).
     const pv = item.pivot || {};
-    const convX = (-(Number(pv.x) || 0) * w) / 2;
-    const convY = (-(Number(pv.y) || 0) * h) / 2;
-    const convZ = (-(Number(pv.z) || 0) * d) / 2;
+    const slotW = useNativeJointGlb ? phW : w;
+    const slotH = useNativeJointGlb ? phH : h;
+    const slotD = useNativeJointGlb ? phD : d;
+    const convX = (-(Number(pv.x) || 0) * slotW) / 2;
+    const convY = (-(Number(pv.y) || 0) * slotH) / 2;
+    const convZ = (-(Number(pv.z) || 0) * slotD) / 2;
+    const treeRot = item.rot || item.rotation || {};
+    const modelKeyEarly = String(item?.spec?.key || modelName || '');
+    const isSupportLegEarly =
+      item?.cldSupportLeg === true ||
+      /опора/i.test(modelName) ||
+      /опора/i.test(modelKeyEarly) ||
+      /support.?leg/i.test(modelKeyEarly);
+    // Контракт: опора → PlanPlace-seat; всё остальное (вкл. стык) → 1.9 conv_pivot+rot.
+    const usePlanPlaceOwn =
+      isSupportLegEarly &&
+      !isJointHwModel &&
+      typeof window !== 'undefined' &&
+      window.__cldPlanPlaceLoadModel &&
+      typeof window.__cldPlanPlaceLoadModel.buildPlanPlaceOwnObject === 'function';
+
     group.position.set(Number(pos.x) || 0, Number(pos.y) || 0, Number(pos.z) || 0);
-    content.position.set(convX, convY, convZ);
+    if (usePlanPlaceOwn) {
+      content.position.set(0, 0, 0);
+      placeholder.position.set(convX, convY, convZ);
+    } else {
+      content.position.set(convX, convY, convZ);
+    }
     group.add(content);
 
-    const rot = item.rot || {};
-    if (rot.x) group.rotation.x = this.parseRotation(rot.x);
-    if (rot.y) group.rotation.y = this.parseRotation(rot.y);
-    if (rot.z) group.rotation.z = this.parseRotation(rot.z);
-    const cRot = item.c_rot || {};
-    if (cRot.x) content.rotation.x = this.parseRotation(cRot.x);
-    if (cRot.y) content.rotation.y = this.parseRotation(cRot.y);
-    if (cRot.z) content.rotation.z = this.parseRotation(cRot.z);
+    if (!usePlanPlaceOwn) {
+      if (treeRot.x) group.rotation.x = this.parseRotation(treeRot.x);
+      if (treeRot.y) group.rotation.y = this.parseRotation(treeRot.y);
+      if (treeRot.z) group.rotation.z = this.parseRotation(treeRot.z);
+      const cRot = item.c_rot || {};
+      if (cRot.x) content.rotation.x = this.parseRotation(cRot.x);
+      if (cRot.y) content.rotation.y = this.parseRotation(cRot.y);
+      if (cRot.z) content.rotation.z = this.parseRotation(cRot.z);
+    }
+    if (isSupportLegEarly && typeof window !== 'undefined') {
+      window.__cldLastSupportLegSeat = {
+        name: modelName,
+        pos: { x: pos.x, y: pos.y, z: pos.z },
+        pivot: { x: pv.x, y: pv.y, z: pv.z },
+        rot: { x: treeRot.x, y: treeRot.y, z: treeRot.z },
+        treeRotSign: usePlanPlaceOwn ? -1 : 1,
+        slot: { x: slotW, y: slotH, z: slotD },
+        planPlace: !!usePlanPlaceOwn,
+      };
+    }
 
     if (typeof window !== 'undefined' && window.__cldRoomCabinetModels) {
-      window.__cldRoomCabinetModels.attachCabinetModelToGroup({
+      const modelKey = modelKeyEarly;
+      const isSupportLeg = isSupportLegEarly;
+      if (isSupportLeg) {
+        group.userData.cldSupportLeg = true;
+        group.userData.cldSupportLegTargetHeightMm = h;
+      }
+      let attachSpec = isSupportLeg
+        ? { ...(item.spec || {}), fitToSize: true, cldSupportLeg: true }
+        : useNativeJointGlb
+          ? { ...(item.spec || {}), fitToSize: false }
+          : {
+              ...(item.spec || {}),
+              // Реф gola/profile: width = модуль → неравномерный stretch в Size.
+              fitToSize: item?.spec?.fitToSize !== false,
+              stretchToSize: item?.spec?.stretchToSize !== false,
+            };
+      // Имя узла нужно prepare (эксцентрик vs конфирмат) — в spec часто нет.
+      attachSpec = { ...attachSpec, name: modelName, key: modelKey || modelName };
+      if (isJointHwModel) {
+        attachSpec = {
+          ...attachSpec,
+          fitToSize: false,
+          fromJointScheme: 1,
+          joint_hardware: 1,
+          joint_template_model:
+            Number(attachSpec.joint_template_model) === 1
+              ? 1
+              : Number(item?.spec?.joint_template_model) === 1
+                ? 1
+                : attachSpec.joint_template_model,
+        };
+      }
+      const attachOpts = {
         contentGroup: content,
         placeholderMesh: placeholder,
         parentGroup: group,
-        spec: item.spec || {},
-        sizeMm: { x: w, y: h, z: d },
+        spec: attachSpec,
+        sizeMm: useNativeJointGlb
+          ? { x: 0, y: 0, z: 0 }
+          : { x: w, y: h, z: d },
         pivot: item.pivot || {},
         buildEpoch: group.userData._cldModelEpoch,
-      });
+      };
+      // treeRot в prepare — только опорам (PlanPlace −tree). Стык: rot уже на group.
+      if (isSupportLeg) {
+        attachOpts.treeRot = treeRot;
+      }
+      window.__cldRoomCabinetModels.attachCabinetModelToGroup(attachOpts);
     }
 
     this._dbg(`🧊 buildModel "${modelName}"`, {
@@ -6202,12 +6825,12 @@ class ClodisBuilder {
     const drawerShellLayout = facadeShellLayout
       ? null
       : this._applyRoomDrawerModuleShellLayout(item, parentSection, outerPyramidRoleEarly);
-    const size = facadeShellLayout
+    let size = facadeShellLayout
       ? facadeShellLayout.size
       : drawerShellLayout
         ? drawerShellLayout.size
         : this.evaluateSize(item.size || {}, parentSection);
-    const pos = facadeShellLayout
+    let pos = facadeShellLayout
       ? facadeShellLayout.pos
       : drawerShellLayout
         ? drawerShellLayout.pos
@@ -6217,6 +6840,36 @@ class ClodisBuilder {
       : drawerShellLayout
         ? drawerShellLayout.pivot
         : this.evaluatePivot(item.pivot || {}, size);
+    // НМУ приставка: size/pos/pivot — только из конструктора (админка). Комната не перетирает.
+    // Г-рукав («Приставка Г» / corner_g_return): НЕ сжимать в планку 40 — это второе крыло 300×300.
+    const rawLayoutRoleEarly = String(
+      item?.layout_role ?? item?.sectionLayoutRole ?? outerPyramidRoleEarly ?? ''
+    )
+      .trim()
+      .toLowerCase();
+    const isUpperGReturnShell =
+      rawLayoutRoleEarly === 'corner_g_return' ||
+      /приставка\s*г/i.test(String(moduleName || ''));
+    const isCornerReturnShell =
+      !isUpperGReturnShell &&
+      (this._normalizeLayoutRoleKey(outerPyramidRoleEarly) === 'corner_return' ||
+        /приставка/i.test(String(moduleName || '')));
+    if (isCornerReturnShell) {
+      item.layout_role = 'corner_return';
+      outerPyramidRoleEarly = 'corner_return';
+      // Жёстко: X = corner_return_mm (D), Z = 40. Иначе live/карточка catalog_45
+      // залипает на depth 500 → «прист. 50» при D=460.
+      const retVar = Number(this.variables?.corner_return_mm);
+      if (Number.isFinite(retVar) && retVar >= 50) size.x = retVar;
+      const depthVar = Number(this.variables?.corner_return_depth_mm);
+      const depthMm =
+        Number.isFinite(depthVar) && depthVar >= 20 && depthVar <= 80 ? depthVar : 40;
+      size.z = depthMm;
+    } else if (isUpperGReturnShell) {
+      // Сохранить роль Г — иначе normalize роняет corner_g_return в '' и снова ловит /приставка/.
+      item.layout_role = 'corner_g_return';
+      outerPyramidRoleEarly = 'corner_g_return';
+    }
     if (
       !facadeShellLayout &&
       this._isFacadeLayoutRole(this._normalizeLayoutRoleKey(outerPyramidRoleEarly)) &&
@@ -6402,6 +7055,37 @@ class ClodisBuilder {
             : null) ||
           catalogTemplateTree ||
           null;
+
+    if (templateTree && (etLowerModule === 'catalog_32' || this._isKitchenBaseBuildContext())) {
+      try {
+        templateTree = JSON.parse(JSON.stringify(templateTree));
+      } catch (_) {}
+      if (etLowerModule === 'catalog_32') {
+        try {
+          const fix =
+            typeof window !== 'undefined' ? window.__cldFixPlinthLegDepthExprs : null;
+          if (typeof fix === 'function') fix(templateTree);
+        } catch (_) {}
+        this._normalizingCatalog32 = 'catalog_32';
+      }
+      try {
+        this._normalizeKitchenTemplateTree(templateTree);
+      } finally {
+        this._normalizingCatalog32 = '';
+      }
+    }
+
+    // Пенал: 2 горизонта на стыках датамов (панели в catalog_47), не wardrobe shelfStack.
+    if (templateTree && this._isKitchenTallBuildContext()) {
+      try {
+        templateTree = JSON.parse(JSON.stringify(templateTree));
+      } catch (_) {}
+      try {
+        this._applyKitchenTallDatumHorizons(templateTree);
+      } catch (eTallHz) {
+        console.warn('[KITCHEN-TALL] datum horizons apply failed', eTallHz);
+      }
+    }
 
     if (templateTree && etLowerModule === 'hinges') {
       templateTree = this._unwrapHingeModuleTemplateTree(templateTree, elementType);
@@ -6611,6 +7295,8 @@ class ClodisBuilder {
       templateTree = JSON.parse(JSON.stringify(templateTree));
       window.__cldNormalizeCatalogTemplateForPyramidShell(templateTree, outerPyramidRole);
     }
+    // Приставка: ориентацию панелей/уголка из карточки catalog_45 не переворачивать.
+    // (Раньше _fixCornerReturnFrontPanelsInTree ломал уже верный Уголок.)
 
     const hasTree = Array.isArray(templateTree) && templateTree.length > 0;
     let hasCatalogHinges = false;
@@ -6780,7 +7466,7 @@ class ClodisBuilder {
           'Y';
         this._applyHingeRoleLayoutModuleBLBFromCenter(item, pos, templateTree, layoutAxis);
       }
-      const shellPos =
+      let shellPos =
         etLowerModule === 'hinges'
           ? {
               x: Number(pos.x) || 0,
@@ -6793,8 +7479,10 @@ class ClodisBuilder {
       if (rot.x) group.rotation.x = this.parseRotation(rot.x);
       if (rot.y) group.rotation.y = this.parseRotation(rot.y);
       if (rot.z) group.rotation.z = this.parseRotation(rot.z);
+      // Как в админке: node.scale (Г-крыло scale.x=-1) — иначе комната теряет зеркало.
+      this.applyItemScale(group, item.scale);
     } else {
-      this.applyTransform(group, pos, pivot, item.rot || {});
+      this.applyTransform(group, pos, pivot, item.rot || {}, item.scale);
     }
 
     if (etLowerModule === 'hinges' && this._hingeVerifyDbg()) {
@@ -10050,6 +10738,7 @@ class ClodisBuilder {
   }
 
   // Build furniture (accessory item)
+  // Drill/joint — как в копии «1.9 крепеж ок» (без host-local / drill-exclude хаков).
   buildFurniture(item, parentSection) {
     this._invokeItemEvent(item, 'on_before_params', { parentSection });
     const resolvedFromCatalog = this._resolveFurnitureCatalogParams(item, parentSection);
@@ -10139,6 +10828,28 @@ class ClodisBuilder {
     let tplMetaForPlace = null;
     if (isAnyDrillFurni && Number(drillTidEarly) > 0) {
       tplMetaForPlace = this._getDrillTemplateHolesForBuilder(Number(drillTidEarly));
+    }
+
+    // Стыковой кадр: не оставлять baked ±300 с карточки 600 при ячейке 500.
+    const isJointTemplateFrame =
+      !!(effectiveItem?.fromJointScheme || item?.fromJointScheme) &&
+      Number(
+        effectiveItem?.spec?.joint_template_frame ?? item?.spec?.joint_template_frame,
+      ) === 1;
+    if (isJointTemplateFrame) {
+      const parentSz = parentSection?.size || {};
+      const jIdx = Number(effectiveItem?.jointIdx ?? item?.jointIdx);
+      const rawPos = effectiveItem.pos || item.pos || {};
+      const remapped = this._remapJointFramePosToParentSize(rawPos, jIdx, parentSz);
+      effectiveItem = {
+        ...effectiveItem,
+        pos: { ...rawPos, ...remapped },
+      };
+      if (Number.isFinite(jIdx)) {
+        this._dbg?.(
+          `[joint-frame] remap pos x ${Number(rawPos.x) || 0} → ${remapped.x} (parentW=${Number(parentSz.x) || 0}, jointIdx=${jIdx})`,
+        );
+      }
     }
 
     let pos = this.evaluatePosition(effectiveItem.pos || item.pos || {}, parentSection, size);
@@ -10363,8 +11074,40 @@ class ClodisBuilder {
     this._dbg(
       `✅ Фурнитура-контейнер "${furnitureName}" создана: children=${(effectiveItem.children || []).length}, позиция=(${pos.x}, ${pos.y}, ${pos.z})мм`,
     );
+    this._stampJointSchemeUserData(group, effectiveItem || item);
     this._invokeItemEvent(item, 'on_after_build', { parentSection, target: group, size, pos, pivot });
     return group;
+  }
+
+  /**
+   * catalog_45 «Приставка»: лобовая Деталь orientation=f + side=back → толщина 16мм у z=0
+   * (зад оболочки). На передней фаске: pos Z=s:z, якорь Z=+1, side=front.
+   */
+  _fixCornerReturnFrontPanelsInTree(nodes) {
+    const walk = (n) => {
+      if (!n || typeof n !== 'object') return;
+      if (Array.isArray(n)) {
+        n.forEach(walk);
+        return;
+      }
+      if (String(n.type || '').toLowerCase() === 'wall') {
+        const orient = String(n.spec?.orientation || '').toLowerCase();
+        const side = String(n.spec?.side || '').toLowerCase();
+        const dt = String(n.spec?.detailTypeId || n.spec?.detail_type_id || '').toLowerCase();
+        if (orient === 'f' && (side === 'back' || dt === 'back_front')) {
+          n.pos = n.pos && typeof n.pos === 'object' ? { ...n.pos } : {};
+          n.pivot = n.pivot && typeof n.pivot === 'object' ? { ...n.pivot } : {};
+          n.pos.z = 's:z';
+          n.pivot.z = 1;
+          n.spec = n.spec && typeof n.spec === 'object' ? { ...n.spec } : {};
+          n.spec.side = 'front';
+          n.spec.detailTypeId = 'front_front';
+        }
+      }
+      if (Array.isArray(n.children)) n.children.forEach(walk);
+      if (Array.isArray(n.spec?.template_tree)) n.spec.template_tree.forEach(walk);
+    };
+    walk(nodes);
   }
 
   /** Сырой pivot (−1/0/1): для BLB-родителя pos = точка pivot, origin модуля смещаем к заднему BLB. */
@@ -10403,6 +11146,81 @@ class ClodisBuilder {
       out.z = adjust(out.z, pv.z, size?.z);
     }
     return out;
+  }
+
+  /**
+   * Baked pos крепежа (±300 при карточке 600) → грань при текущем W панели.
+   * jointIdx 2/3 = лево/право (ось X у гориз. панели); 0/1 = торец по Z.
+   * Координаты — center-frame host local (как joint_host_local_mm в админке);
+   * BLB-offset родителя потом сдвинет к min-углу.
+   */
+  _remapJointFramePosToParentSize(posObj, jointIdx, parentSizeMm) {
+    const out = {
+      x: Number(posObj?.x) || 0,
+      y: Number(posObj?.y) || 0,
+      z: Number(posObj?.z) || 0,
+    };
+    const j = Number(jointIdx);
+    const sx = Number(parentSizeMm?.x) || 0;
+    const sz = Number(parentSizeMm?.z) || 0;
+    if (j === 2 || j === 3) {
+      if (sx > 50) {
+        const half = sx / 2;
+        out.x = j === 2 || out.x < 0 ? -half : half;
+      }
+    } else if (j === 0 || j === 1) {
+      if (sz > 50) {
+        const half = sz / 2;
+        // 0 = +face, 1 = −face (как joint-engine faceSign)
+        out.z = j === 0 || out.z > 0 ? half : -half;
+      }
+    } else if (Math.abs(out.x) > 50 && sx > 50) {
+      out.x = Math.sign(out.x) * (sx / 2);
+    }
+    return out;
+  }
+
+  /**
+   * Мета стыкового крепежа с JSON → userData (для live reposition в комнате = админ-iframe).
+   */
+  _stampJointSchemeUserData(built, item) {
+    if (!built?.userData || !item || typeof item !== 'object') return;
+    const isJoint =
+      !!item.fromJointScheme ||
+      Number(item.spec?.joint_hardware) === 1 ||
+      Number(item.spec?.joint_template_frame) === 1 ||
+      Number(item.spec?.joint_template_model) === 1;
+    if (!isJoint) return;
+    built.userData.fromJointScheme = 1;
+    built.userData.isAccessory = true;
+    if (item.spec && typeof item.spec === 'object') {
+      built.userData.spec = { ...(built.userData.spec || {}), ...item.spec };
+    }
+    if (Number(item.schemeId) > 0) built.userData.schemeId = Number(item.schemeId);
+    if (item.jointIdx != null && Number.isFinite(Number(item.jointIdx))) {
+      built.userData.jointIdx = Number(item.jointIdx);
+    }
+    if (Number(item.templateId) > 0) built.userData.templateId = Number(item.templateId);
+    if (item.contactId) built.userData.contactId = String(item.contactId);
+    if (item.neighborName) built.userData.neighborName = String(item.neighborName);
+    if (item.seamPosMm != null && Number.isFinite(Number(item.seamPosMm))) {
+      built.userData.seamPosMm = Number(item.seamPosMm);
+    }
+    if (item.frameIndex != null && Number.isFinite(Number(item.frameIndex))) {
+      built.userData.frameIndex = Number(item.frameIndex);
+    }
+    if (Number(item.spec?.joint_template_frame) === 1) {
+      built.userData.jointTemplateFrame = 1;
+    }
+    if (Number(item.spec?.joint_template_model) === 1) {
+      built.userData.jointTemplateModel = 1;
+    }
+    if (Number(item.spec?.joint_hardware) === 1) {
+      built.userData.joint_hardware = 1;
+    }
+    built.traverse((o) => {
+      if (o?.userData) o.userData.isAccessory = true;
+    });
   }
 
   /** Фантомные wall «Крепёж: …» из старого экспорта — не геометрия, только jointSchemes на родителе. */
@@ -10710,11 +11528,64 @@ class ClodisBuilder {
    * чтобы вложенные модули (ящик/фасад из соседнего каталога) корректно
    * разворачивались внутри корневого модуля даже без админского __CLD_CATALOGS_DATA.
    */
+  _ingestCatalogItemsArray(catalogKey, arr) {
+    if (typeof window === 'undefined') return null;
+    const key = String(catalogKey || '').trim();
+    if (!key || !Array.isArray(arr) || !arr.length) return null;
+    if (!window.__CLD_CATALOGS_DATA) window.__CLD_CATALOGS_DATA = {};
+    const map = {};
+    for (const it of arr) {
+      if (!it || typeof it !== 'object') continue;
+      const idKey =
+        it.id != null && it.id !== '' ? String(it.id) : it.name ? String(it.name) : null;
+      if (!idKey) continue;
+      map[idKey] = it;
+    }
+    window.__CLD_CATALOGS_DATA[key] = { items: map };
+    const alt = key.startsWith('catalog_') ? key : 'catalog_' + key;
+    if (alt !== key) window.__CLD_CATALOGS_DATA[alt] = { items: map };
+    return window.__CLD_CATALOGS_DATA[key];
+  }
+
+  /** Fallback: /catalog_items/<key>.json (sync) — иначе live_catalog catalog_45 остаётся children:[]. */
+  _ensureCatalogFromStaticJsonSync(catalogKey) {
+    if (typeof window === 'undefined' || typeof XMLHttpRequest === 'undefined') return null;
+    const key = String(catalogKey || '').trim();
+    if (!key || !/^catalog_\d+$/i.test(key)) return null;
+    try {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', '/catalog_items/' + encodeURIComponent(key) + '.json?t=' + Date.now(), false);
+      xhr.send(null);
+      if (xhr.status < 200 || xhr.status >= 300) return null;
+      const arr = JSON.parse(xhr.responseText);
+      const cat = this._ingestCatalogItemsArray(key, arr);
+      if (cat) {
+        console.warn('[CLD][PARITY] catalog loaded from /catalog_items/', key, {
+          items: Object.keys(cat.items || {}).length,
+        });
+      }
+      return cat;
+    } catch (e) {
+      console.error('[CLD][PARITY] static catalog load failed', key, e);
+      return null;
+    }
+  }
+
   _ensureCatalogFromLocalStorage(catalogKey) {
     if (typeof window === 'undefined' || typeof localStorage === 'undefined') return null;
     const key = String(catalogKey || '').trim();
     if (!key) return null;
     if (key === 'catalogs_keys' || key.startsWith('catalogCategories_')) return null;
+    // Кухня / НМ / 3D-модели: админка пишет в /catalog_items/*.json при «Сохранить».
+    // Старый localStorage после «Выгрузить» иначе перекрывает свежие правки (Gola C и т.п.).
+    const preferDisk =
+      /^catalog_[45]\d+$/i.test(key) ||
+      key === 'cabinet_model' ||
+      key === 'catalog_cabinet_model';
+    if (preferDisk) {
+      const fromDisk = this._ensureCatalogFromStaticJsonSync(key);
+      if (fromDisk) return fromDisk;
+    }
     // catalog_<id> или произвольный ключ (hinges, facades и т.д.) — пробуем оба варианта
     const storageKeys = [];
     if (/^catalog_/.test(key)) storageKeys.push(key);
@@ -10727,21 +11598,11 @@ class ClodisBuilder {
         if (v) { raw = v; break; }
       } catch (_) {}
     }
-    if (!raw) return null;
+    if (!raw) return this._ensureCatalogFromStaticJsonSync(key);
     let arr;
-    try { arr = JSON.parse(raw); } catch (_) { return null; }
-    if (!Array.isArray(arr) || !arr.length) return null;
-    if (!window.__CLD_CATALOGS_DATA) window.__CLD_CATALOGS_DATA = {};
-    // Сохраняем в map<id> — это тот формат, который _getCatalogItemById умеет читать.
-    const map = {};
-    for (const it of arr) {
-      if (!it || typeof it !== 'object') continue;
-      const idKey = it.id != null && it.id !== '' ? String(it.id) : (it.name ? String(it.name) : null);
-      if (!idKey) continue;
-      map[idKey] = it;
-    }
-    window.__CLD_CATALOGS_DATA[key] = { items: map };
-    return window.__CLD_CATALOGS_DATA[key];
+    try { arr = JSON.parse(raw); } catch (_) { return this._ensureCatalogFromStaticJsonSync(key); }
+    if (!Array.isArray(arr) || !arr.length) return this._ensureCatalogFromStaticJsonSync(key);
+    return this._ingestCatalogItemsArray(key, arr);
   }
 
   _catalogItemDataField(catalogItem, field) {
@@ -10785,25 +11646,35 @@ class ClodisBuilder {
   }
 
   /**
-   * Узел type:path (паз) — мета для CFRN на родительской детали.
-   * Меш не строим (выемка только в Bazis).
+   * Узел type:path (паз) / type:notch (выемка с торца) — мета для CFRN на родительской детали.
+   * Меш не строим (выборку считает Базис-ЧПУ).
    */
   buildPath(item, parentSection) {
-    const name = item?.name || 'Паз';
+    const isNotch =
+      String(item?.type || '').toLowerCase() === 'notch' ||
+      String(item?.spec?.mode || '').toLowerCase() === 'notch';
+    const name = item?.name || (isNotch ? 'Выемка' : 'Паз');
     const group = new THREE.Group();
     group.name = name;
     group.userData = group.userData || {};
-    group.userData.type = 'path';
+    group.userData.type = isNotch ? 'notch' : 'path';
     group.userData.isGroovePath = true;
+    group.userData.isNotch = isNotch;
     group.userData.cldPathParams = this._normalizePathGrooveParams(item, parentSection);
-    // Если path вызвали вне buildWall (редко) — группа-маркер без геометрии.
     return group;
+  }
+
+  buildNotch(item, parentSection) {
+    return this.buildPath({ ...(item || {}), type: 'notch' }, parentSection);
   }
 
   _normalizePathGrooveParams(item, parentSection) {
     const size = item?.size && typeof item.size === 'object' ? item.size : {};
     const pos = item?.pos && typeof item.pos === 'object' ? item.pos : {};
     const spec = item?.spec && typeof item.spec === 'object' ? item.spec : {};
+    const isNotch =
+      String(item?.type || '').toLowerCase() === 'notch' ||
+      String(spec.mode || '').toLowerCase() === 'notch';
     const evalNum = (v, fallback) => {
       if (v === undefined || v === null || v === '') return fallback;
       if (typeof v === 'number' && Number.isFinite(v)) return v;
@@ -10817,16 +11688,33 @@ class ClodisBuilder {
         return Number.isFinite(n) ? n : fallback;
       }
     };
-    // Реф CabinetPath: size.x = глубина в материал, size.y = ширина паза.
-    const depthMm = evalNum(size.x, 5);
-    const widthMm = evalNum(size.y, 4);
-    const trajOrient = String(spec.orientation || 'h').toLowerCase() === 'v' ? 'v' : 'h';
+    // Реф CabinetPath / Выемка: size.x = в материал, size.y = высота/ширина выборки.
+    const depthMm = evalNum(size.x, isNotch ? 16 : 5);
+    const widthMm = evalNum(size.y, isNotch ? 73.5 : 4);
+    const trajOrient = String(spec.orientation || (isNotch ? 'h' : 'h')).toLowerCase() === 'v' ? 'v' : 'h';
     const offsetAlongMm = trajOrient === 'v'
       ? evalNum(pos.x != null ? pos.x : pos.y, 10)
-      : evalNum(pos.y != null ? pos.y : pos.x, 10);
+      : evalNum(pos.y != null ? pos.y : pos.x, isNotch ? 360 : 10);
     const direction = String(spec.direction || '-z');
-    const dz = evalNum(spec.dz, 0);
+    let dz = evalNum(spec.dz, 0);
     const dz2 = evalNum(spec.dz_2 != null ? spec.dz_2 : spec.dz2, 0);
+    const millDiameterMm = evalNum(spec.millDiameterMm, isNotch ? 6 : 0);
+    const cornerRadiusMm = evalNum(
+      spec.cornerRadiusMm,
+      millDiameterMm > 0 ? Math.round((millDiameterMm / 2) * 10) / 10 : 0
+    );
+    const edgeDepthMm = evalNum(spec.edgeDepthMm, isNotch ? 27 : 0);
+    // Выемка: длина с торца = edgeDepthMm → dz = глубина панели − edgeDepth (если известна).
+    if (isNotch && edgeDepthMm > 0) {
+      let panelDepth = 0;
+      try {
+        const ps = parentSection?.size || parentSection?.userData?.originalSize;
+        panelDepth = Number(ps?.z || ps?.depth || 0) || 0;
+      } catch (_) {}
+      if (panelDepth > edgeDepthMm) {
+        dz = Math.max(0, panelDepth - edgeDepthMm);
+      }
+    }
     let trajectory = null;
     if (Array.isArray(spec.trajectory) && spec.trajectory.length >= 2) {
       trajectory = spec.trajectory.map((p) => ({
@@ -10835,8 +11723,8 @@ class ClodisBuilder {
       }));
     }
     return {
-      kind: 'path',
-      name: String(item?.name || 'Паз'),
+      kind: isNotch ? 'notch' : 'path',
+      name: String(item?.name || (isNotch ? 'Выемка' : 'Паз')),
       widthMm,
       depthMm,
       offsetAlongMm,
@@ -10846,6 +11734,9 @@ class ClodisBuilder {
       dz2,
       trajectory,
       frontSide: spec.frontSide === true,
+      millDiameterMm,
+      cornerRadiusMm,
+      edgeDepthMm: edgeDepthMm > 0 ? edgeDepthMm : undefined,
     };
   }
 
@@ -10866,24 +11757,48 @@ class ClodisBuilder {
   _getCatalogItemById(catalogKey, id) {
     let catalogs = this._getCatalogsData();
     if (!catalogKey || id == null) return null;
+    const keyStr = String(catalogKey || '').trim();
+    const preferDisk =
+      /^catalog_[45]\d+$/i.test(keyStr) ||
+      keyStr === 'cabinet_model' ||
+      keyStr === 'catalog_cabinet_model';
     let cat = catalogs && catalogs[catalogKey];
-    if (!cat || !cat.items) {
-      // Ленивая загрузка из localStorage (комната не выполняет prefetch каталогов).
-      cat = this._ensureCatalogFromLocalStorage(catalogKey) || null;
+    // Кухня: не оставлять снимок из localStorage в памяти на всю сессию.
+    if (preferDisk || !cat || !cat.items) {
+      cat = this._ensureCatalogFromLocalStorage(catalogKey) || cat || null;
       catalogs = this._getCatalogsData();
       if (!cat) return null;
     }
     const items = cat.items;
     if (!items) return null;
     const key = String(id);
+    let found = null;
     if (Array.isArray(items)) {
-      return items.find((it) => String(it?.id ?? '') === key) || null;
+      found = items.find((it) => String(it?.id ?? '') === key) || null;
+    } else {
+      found = items[key] || null;
     }
-    return items[key] || null;
+    if (
+      !found &&
+      /^catalog_\d+$/i.test(String(catalogKey || '')) &&
+      typeof window !== 'undefined'
+    ) {
+      const fromStatic = this._ensureCatalogFromStaticJsonSync(catalogKey);
+      if (fromStatic?.items) {
+        const it2 = fromStatic.items;
+        found = Array.isArray(it2)
+          ? it2.find((it) => String(it?.id ?? '') === key) || null
+          : it2[key] || null;
+      }
+    }
+    return found;
   }
 
   _moduleTemplateFromCatalogItem(catalogItem) {
     if (!catalogItem || typeof catalogItem !== 'object') return null;
+
+    // Как «1.9 крепеж ок»: сначала data.constructor_structure (там fromJointScheme),
+    // не ранний __cldReadClodisJSON/embedded — иначе можно взять дерево без крепежа.
 
     let params = catalogItem.params;
     if (typeof params === 'string') {
@@ -10898,32 +11813,310 @@ class ClodisBuilder {
     if (!data || typeof data !== 'object') data = {};
 
     const roots = [catalogItem, params, data, { ...data, ...params }];
+    const unwrapTree = (tryTree) => {
+      if (typeof tryTree === 'string') {
+        try {
+          tryTree = JSON.parse(tryTree);
+        } catch (_) {
+          return null;
+        }
+      }
+      if (Array.isArray(tryTree) && tryTree.length > 0) return tryTree;
+      if (tryTree && typeof tryTree === 'object' && Array.isArray(tryTree.children) && tryTree.children.length) {
+        return tryTree.children;
+      }
+      if (tryTree && typeof tryTree === 'object' && Array.isArray(tryTree.template?.structure)) {
+        return tryTree.template.structure;
+      }
+      return null;
+    };
+    /** Как в админке: children = живое дерево. Не брать устаревший clodisJSON/specTree раньше. */
+    const scoreTree = (tree) => {
+      if (!Array.isArray(tree) || !tree.length) return -1;
+      let shaped = 0;
+      let models = 0;
+      let nodes = 0;
+      const walk = (arr) => {
+        for (const n of arr) {
+          if (!n || typeof n !== 'object') continue;
+          nodes++;
+          const typ = String(n.type || '').toLowerCase();
+          const st = String(n.spec?.type || '').toLowerCase();
+          if (typ === 'wall' && (st === 'l_shape' || st === 'c_l_shape')) shaped++;
+          if (typ === 'model') models++;
+          if (Array.isArray(n.children) && n.children.length) walk(n.children);
+        }
+      };
+      walk(tree);
+      return shaped * 100 + models * 10 + nodes;
+    };
+    let best = null;
+    let bestScore = -1;
     for (const root of roots) {
       if (!root || typeof root !== 'object') continue;
-      const tryTree =
-        root?.template?.structure
-        || root?.spec?.template?.tree
-        || root?.params?.constructor_structure?.children
-        || root?.params?.constructor_structure
-        || root?.constructor_structure?.children
-        || root?.constructor_structure
-        || root?.clodisJSON
-        || root?.params?.template?.tree
-        || root?.params?.templates?.[0]?.template?.tree
-        || root?.template?.tree
-        || root?.template_tree
-        || null;
-      if (Array.isArray(tryTree) && tryTree.length > 0) return tryTree;
-      if (tryTree && typeof tryTree === 'object' && Array.isArray(tryTree.children)) return tryTree.children;
+      const cs = root.constructor_structure || root.params?.constructor_structure;
+      // Приоритет = админский Save: children → template.structure → spec.tree → clodisJSON
+      const candidates = [
+        cs && Array.isArray(cs.children) ? cs.children : null,
+        cs?.template?.structure,
+        root?.template?.structure,
+        cs?.spec?.template?.tree,
+        root?.spec?.template?.tree,
+        root?.clodisJSON,
+        root?.params?.template?.tree,
+        root?.params?.templates?.[0]?.template?.tree,
+        root?.template?.tree,
+        root?.template_tree,
+        cs,
+      ];
+      for (const cand of candidates) {
+        const tree = unwrapTree(cand);
+        if (!tree) continue;
+        const sc = scoreTree(tree);
+        if (sc > bestScore) {
+          bestScore = sc;
+          best = tree;
+        }
+      }
     }
-    return null;
+    return best;
   }
 
   _resolveModuleTemplateTreeFromCatalog(elementType, elementId) {
     if (!elementType || elementId == null || elementId === '') return null;
     const catalogItem = this._getCatalogItemById(elementType, elementId);
     if (!catalogItem) return null;
-    return this._moduleTemplateFromCatalogItem(catalogItem);
+    const tree = this._moduleTemplateFromCatalogItem(catalogItem);
+    if (!tree) return null;
+    const et = String(elementType || '').toLowerCase();
+    if (et === 'catalog_32') {
+      try {
+        const fix =
+          typeof window !== 'undefined' ? window.__cldFixPlinthLegDepthExprs : null;
+        if (typeof fix === 'function') fix(tree);
+      } catch (_) {}
+    }
+    return tree;
+  }
+
+  _isKitchenBaseBuildContext() {
+    const pk = String(this.placementKind || '').trim().toLowerCase();
+    const prod = String(this.productKind || '').trim().toLowerCase();
+    return (
+      pk === 'kitchen_base' ||
+      pk === 'kitchen_base_gola' ||
+      pk === 'kitchen_base_corner' ||
+      prod === 'kitchen_base' ||
+      prod === 'kitchen_base_gola' ||
+      prod === 'kitchen_base_corner'
+    );
+  }
+
+  _isKitchenTallBuildContext() {
+    const pk = String(this.placementKind || '').trim().toLowerCase();
+    const prod = String(this.productKind || '').trim().toLowerCase();
+    return pk === 'kitchen_tall' || prod === 'kitchen_tall';
+  }
+
+  /** Y двух горизонтов от низа корпуса: bandLow, bandLow+bandMid. */
+  _resolveKitchenTallHorizonYMm() {
+    const z = this.layoutZones && this.layoutZones.zones ? this.layoutZones.zones : null;
+    if (z && Number(z.tallBandLowMm) > 0) {
+      const low = Math.round(Number(z.tallBandLowMm));
+      const mid = Math.round(Number(z.tallBandMidMm) || 0);
+      if (low > 0 && mid > 0) return [low, low + mid];
+    }
+    const hs = Array.isArray(this.layoutZones?.horizons) ? this.layoutZones.horizons : [];
+    if (hs.length >= 2) {
+      const y0 = Math.round(Number(hs[0].yFromCarcassBottomMm ?? hs[0].yMm) || 0);
+      const y1 = Math.round(Number(hs[1].yFromCarcassBottomMm ?? hs[1].yMm) || 0);
+      if (y0 > 0 && y1 > y0) return [y0, y1];
+    }
+    return [720, 1318];
+  }
+
+  /**
+   * В дереве корпуса пенала: «Горизонтальная панель 1/2 ярус» → Y датамов;
+   * лишние панели выключить. Дно/крышу не трогаем.
+   */
+  _applyKitchenTallDatumHorizons(tree) {
+    const ys = this._resolveKitchenTallHorizonYMm();
+    if (!ys || !(ys[0] > 0) || !(ys[1] > ys[0])) return tree;
+    const panels = [];
+    const walk = (nodes) => {
+      if (!Array.isArray(nodes)) return;
+      for (let i = 0; i < nodes.length; i += 1) {
+        const n = nodes[i];
+        if (!n || typeof n !== 'object') continue;
+        const name = String(n.name || n.spec?.key || '');
+        if (/горизонтальная\s*панель/i.test(name)) {
+          panels.push({ n, parent: nodes });
+        }
+        if (Array.isArray(n.children)) walk(n.children);
+        if (Array.isArray(n.spec?.template_tree)) walk(n.spec.template_tree);
+      }
+    };
+    if (Array.isArray(tree)) walk(tree);
+    else if (tree && typeof tree === 'object') walk([tree]);
+
+    panels.sort((a, b) => {
+      const ay = Number(a.n?.pos?.y);
+      const by = Number(b.n?.pos?.y);
+      return (Number.isFinite(ay) ? ay : 0) - (Number.isFinite(by) ? by : 0);
+    });
+
+    for (let i = 0; i < panels.length; i += 1) {
+      const { n, parent } = panels[i];
+      if (i < 2) {
+        n.pos = n.pos && typeof n.pos === 'object' ? { ...n.pos } : {};
+        n.pos.y = ys[i];
+        n.active = 1;
+      } else {
+        const idx = parent.indexOf(n);
+        if (idx >= 0) parent.splice(idx, 1);
+        else n.active = 0;
+      }
+    }
+    if (typeof window !== 'undefined' && window.__CLD_DEBUG_KITCHEN_TALL === true) {
+      console.log('[KITCHEN-TALL] horizons', { ys, panels: panels.length });
+    }
+    return tree;
+  }
+
+  /**
+   * Кухня: высота опор → v:h_bottom; spec.id → cabinet_model из профиля/карточки.
+   * pos/size.xz/pivot — как в JSON конструктора (1:1 с админ-превью / PlanPlace).
+   */
+  _normalizeKitchenTemplateTree(tree) {
+    // catalog_32 внутри НМ тоже нормализуем (раньше early-return резал swap SKU).
+    if (!tree) return tree;
+    const kitchenCtx = this._isKitchenBaseBuildContext();
+    const isPlinthOnly =
+      !kitchenCtx &&
+      String(this._normalizingCatalog32 || '').toLowerCase() === 'catalog_32';
+    if (!kitchenCtx && !isPlinthOnly) return tree;
+    let bind = null;
+    try {
+      const km = typeof window !== 'undefined' ? window.__cldKitchenManufacturing : null;
+      const eng = typeof window !== 'undefined' ? window.__cldKitchenBaseEngine : null;
+      // Project plinth важнее catalog h_bottom=100 в карточке модуля — иначе при 120/150
+      // остаётся SKU #2 и щель под корпусом.
+      const projectPlinth =
+        km && typeof km.getProjectPlinthHeightMm === 'function'
+          ? Number(km.getProjectPlinthHeightMm())
+          : NaN;
+      const plinth =
+        Number.isFinite(projectPlinth) && projectPlinth > 0
+          ? projectPlinth
+          : Number(this.variables?.h_bottom) || 100;
+      const ks =
+        this._kitchenSupports ||
+        (typeof window !== 'undefined' ? window.catalogItemVueApp?.item?.kitchenSupports : null) ||
+        null;
+      if (km && typeof km.resolveSupportCabinetModelBinding === 'function') {
+        bind = km.resolveSupportCabinetModelBinding(plinth, ks);
+      } else if (eng && typeof eng.resolveKitchenSupportBinding === 'function') {
+        bind = eng.resolveKitchenSupportBinding(plinth, ks);
+      }
+      try {
+        if (typeof window !== 'undefined') {
+          window.__cldLastSupportBind = {
+            plinthMm: plinth,
+            heightMm: bind?.heightMm ?? null,
+            modelId: bind?.modelId != null ? String(bind.modelId) : null,
+            name: bind?.name || null,
+            source: bind?.source || 'builder',
+            map: bind?.modelsByHeightMm || null,
+          };
+        }
+      } catch (_) {}
+    } catch (_) {
+      bind = null;
+    }
+    const fixDoublePlinthY = (v) => {
+      if (typeof v !== 'string') return v;
+      // Устаревший constructor_structure: (v:h_bottom)+(v:h_bottom) → двойной цоколь в НМУ.
+      const fixed = v.replace(
+        /\(\s*v\s*:\s*h_bottom\s*\)\s*\+\s*\(\s*v\s*:\s*h_bottom\s*\)/gi,
+        '(v:h_bottom)'
+      );
+      return fixed !== v ? fixed : v;
+    };
+    const plinthOnFloor = (n) => {
+      const y = n?.pos?.y;
+      if (y == null || y === '') return true;
+      if (typeof y === 'number') return Math.abs(y) < 1;
+      return /^\s*[-+]?0*(?:\.0*)?\s*$/.test(String(y));
+    };
+    // Цоколь стоит на полу секции. Второй plinth-брат со сдвигом вверх (устаревший
+    // constructor_structure НМУ) давал доску на 100…200 мм — «цоколь внутри корпуса».
+    const dropFloatingPlinthSiblings = (nodes) => {
+      if (!Array.isArray(nodes) || nodes.length < 2) return;
+      const plinths = nodes.filter(
+        (n) =>
+          n &&
+          typeof n === 'object' &&
+          this._normalizeLayoutRoleKey(n.layout_role ?? n.sectionLayoutRole ?? '') === 'plinth'
+      );
+      if (plinths.length < 2 || !plinths.some(plinthOnFloor)) return;
+      for (const n of plinths) {
+        if (plinthOnFloor(n)) continue;
+        const idx = nodes.indexOf(n);
+        if (idx < 0) continue;
+        nodes.splice(idx, 1);
+        console.warn(
+          '[CLD][plinth] убран лишний цоколь со сдвигом вверх:',
+          n.name || n.spec?.key || n.id || '',
+          n.pos?.y
+        );
+      }
+    };
+    const walk = (n) => {
+      if (!n || typeof n !== 'object') return;
+      const name = String(n.name || n.spec?.key || '');
+      const isLeg =
+        n.cldSupportLeg === true || /опора/i.test(name) || /support.?leg/i.test(name);
+      if (isLeg) {
+        n.cldSupportLeg = true;
+        n.size = n.size && typeof n.size === 'object' ? { ...n.size } : {};
+        if (!/\bv\s*:\s*h_bottom\b/i.test(String(n.size.y || ''))) {
+          n.size.y = 'v:h_bottom';
+        }
+        if (String(n.type || '').toLowerCase() === 'detail') {
+          n.originalType = 'model';
+          n.type = 'model';
+        } else if (!n.type) {
+          n.type = 'model';
+        }
+        if (bind && bind.enabled !== false && bind.modelId) {
+          n.spec = n.spec && typeof n.spec === 'object' ? { ...n.spec } : {};
+          n.spec.id = String(bind.modelId);
+          n.spec.key = bind.key || bind.name || n.spec.key;
+          n.modelId = String(bind.modelId);
+          if (bind.name) n.name = bind.name;
+        }
+      }
+      if (n.pos && typeof n.pos === 'object' && n.pos.y != null) {
+        const nextY = fixDoublePlinthY(n.pos.y);
+        if (nextY !== n.pos.y) {
+          n.pos = { ...n.pos, y: nextY };
+          console.warn('[CLD][plinth] collapsed double h_bottom pos.y:', name || n.id || '');
+        }
+      }
+      if (Array.isArray(n.children)) {
+        dropFloatingPlinthSiblings(n.children);
+        n.children.forEach(walk);
+      }
+      if (Array.isArray(n.spec?.template_tree)) {
+        dropFloatingPlinthSiblings(n.spec.template_tree);
+        n.spec.template_tree.forEach(walk);
+      }
+    };
+    if (Array.isArray(tree)) {
+      dropFloatingPlinthSiblings(tree);
+      tree.forEach(walk);
+    } else walk(tree);
+    return tree;
   }
 
   /** Выражение ссылается на «слотовые» role-переменные шкафа (высоты зон). */
@@ -11498,11 +12691,33 @@ class ClodisBuilder {
     return found;
   }
 
+  /** Сколько fromJointScheme-кадров в дереве (паритет админ↔комната). */
+  _countJointSchemeFramesInTree(nodes) {
+    let n = 0;
+    const walk = (node) => {
+      if (!node || typeof node !== 'object') return;
+      if (Array.isArray(node)) {
+        node.forEach(walk);
+        return;
+      }
+      if (
+        node.fromJointScheme &&
+        Number(node.spec?.joint_template_frame) === 1
+      ) {
+        n += 1;
+      }
+      if (Array.isArray(node.children)) node.children.forEach(walk);
+      if (Array.isArray(node.spec?.template_tree)) node.spec.template_tree.forEach(walk);
+    };
+    walk(nodes);
+    return n;
+  }
+
   /**
-   * Комната получает module с пустыми children — без этого петли не разворачиваются в GLB.
+   * Комната получает module с пустыми children — без этого петли/крепеж не разворачиваются в GLB.
    */
   _hydrateCatalogModulesInPlanTree(root) {
-    const stats = { scanned: 0, hydrated: 0 };
+    const stats = { scanned: 0, hydrated: 0, failed: 0, jointFrames: 0 };
     const walk = (node) => {
       if (!node || typeof node !== 'object') return;
       const t = String(node.type || '').toLowerCase();
@@ -11513,6 +12728,10 @@ class ClodisBuilder {
         const et = String(node.spec?.element_type || '').trim();
         const id = String(node.spec?.id ?? '').trim();
         const etLower = et.toLowerCase();
+        const live =
+          node.spec?.live_catalog === true ||
+          node.spec?.live_catalog === 1 ||
+          node.spec?.live_catalog === '1';
         const hasTpl =
           (Array.isArray(node.spec?.template_tree) && node.spec.template_tree.length > 0) ||
           (Array.isArray(node.spec?.templates?.[0]?.template?.tree) &&
@@ -11522,11 +12741,56 @@ class ClodisBuilder {
         if (emptyCh && et && id && !hasTpl && etLower !== 'catalog_38' && etLower !== 'catalog_37') {
           const lookupKey =
             String(et).toLowerCase() === 'hinges' ? this._resolveHingeModuleCatalogKey(node.spec) : et;
-          const tpl = this._resolveModuleTemplateTreeFromCatalog(lookupKey, id);
+          // kitchen live_catalog: гарантировать catalog_* в map до resolve.
+          const needKitchenCat =
+            live || /^catalog_4[0-9]$/i.test(etLower) || etLower === 'catalog_45';
+          if (needKitchenCat) {
+            this._ensureCatalogFromLocalStorage(lookupKey);
+          }
+          let tpl = this._resolveModuleTemplateTreeFromCatalog(lookupKey, id);
+          let jf = Array.isArray(tpl) ? this._countJointSchemeFramesInTree(tpl) : 0;
+          // Stale localStorage без fromJointScheme — перечитать /catalog_items/.
+          if (
+            needKitchenCat &&
+            (!Array.isArray(tpl) || !tpl.length || jf === 0) &&
+            /^catalog_\d+$/i.test(String(lookupKey || ''))
+          ) {
+            if (typeof window !== 'undefined' && window.__CLD_CATALOGS_DATA) {
+              try {
+                delete window.__CLD_CATALOGS_DATA[lookupKey];
+                delete window.__CLD_CATALOGS_DATA[
+                  String(lookupKey).startsWith('catalog_')
+                    ? lookupKey
+                    : 'catalog_' + lookupKey
+                ];
+              } catch (_) {}
+            }
+            const fromStatic = this._ensureCatalogFromStaticJsonSync(lookupKey);
+            if (fromStatic) {
+              const retry = this._resolveModuleTemplateTreeFromCatalog(lookupKey, id);
+              if (Array.isArray(retry) && retry.length) {
+                tpl = retry;
+                jf = this._countJointSchemeFramesInTree(tpl);
+              }
+            }
+          }
           if (Array.isArray(tpl) && tpl.length) {
             node.spec = node.spec && typeof node.spec === 'object' ? { ...node.spec } : {};
             node.spec.template_tree = JSON.parse(JSON.stringify(tpl));
             stats.hydrated++;
+            stats.jointFrames += jf;
+            if ((live || etLower === 'catalog_45') && jf === 0) {
+              console.error(
+                '[CLD][PARITY] hydrate OK but fromJointScheme frames=0 — крепёж не в дереве каталога',
+                { element_type: et, id, name: node.name },
+              );
+            }
+          } else {
+            stats.failed++;
+            console.error(
+              '[CLD][PARITY] live_catalog module children=[] — дерево каталога НЕ найдено (админ≠комната)',
+              { element_type: et, id, name: node.name, live },
+            );
           }
         }
         if (
@@ -13357,6 +14621,8 @@ class ClodisBuilder {
 
     // Strip Clodis-style prefixes: "size.x = s:x - 3" → "s:x - 3", "pos.y = 25" → "25"
     expr = expr.replace(/^(?:size|pos|pivot|rot)\.[xyz]\s*=\s*/i, '');
+    // Админка: "z = s:z" → assignment eval → s:z. В комнате без strip → parseFloat → 0.
+    expr = expr.replace(/^[xyz]\s*=\s*/i, '');
     expr = String(expr).trim();
     if (!expr) return 0;
     if (/^[+\-*/]$/.test(expr)) return 0;
@@ -13656,14 +14922,47 @@ class ClodisBuilder {
     return 16;
   }
 
-  // Apply transform (position, pivot, rotation)
-  applyTransform(object, position, pivot, rotation) {
+  // Apply transform (position, pivot, rotation[, scale])
+  applyTransform(object, position, pivot, rotation, scale) {
     object.position.set(position.x - pivot.x, position.y - pivot.y, position.z - pivot.z);
 
     // Apply rotation
     if (rotation.x) object.rotation.x = this.parseRotation(rotation.x);
     if (rotation.y) object.rotation.y = this.parseRotation(rotation.y);
     if (rotation.z) object.rotation.z = this.parseRotation(rotation.z);
+
+    this.applyItemScale(object, scale);
+  }
+
+  /** node.scale из Clodis JSON (число или строка). По умолчанию 1. */
+  parseScaleComponent(v, fallback = 1) {
+    if (v == null || v === '') return fallback;
+    if (typeof v === 'number' && Number.isFinite(v)) return v;
+    if (typeof v === 'string') {
+      const t = v.trim();
+      if (!t) return fallback;
+      const num = parseFloat(t);
+      if (Number.isFinite(num) && !/[a-zA-Z:]/.test(t)) return num;
+      try {
+        if (typeof this.evaluateExpression === 'function') {
+          const ev = this.evaluateExpression(t);
+          if (typeof ev === 'number' && Number.isFinite(ev)) return ev;
+        }
+      } catch (_) {}
+      return Number.isFinite(num) ? num : fallback;
+    }
+    return fallback;
+  }
+
+  /** Применить item.scale к Object3D (зеркало Г-крыла и т.п.). */
+  applyItemScale(object, scale) {
+    if (!object || !scale || typeof scale !== 'object') return false;
+    const sx = this.parseScaleComponent(scale.x, 1);
+    const sy = this.parseScaleComponent(scale.y, 1);
+    const sz = this.parseScaleComponent(scale.z, 1);
+    if (sx === 1 && sy === 1 && sz === 1) return false;
+    object.scale.set(sx, sy, sz);
+    return true;
   }
 
   // Parse rotation (degrees to radians, or string expressions)

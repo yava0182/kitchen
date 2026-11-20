@@ -539,7 +539,7 @@ export function initColorWheel(hostElement) {
     });
   }
 
-  /** Клик по любому сегменту (внешнее или внутреннее кольцо) пишет выбранный декор в активный канал (кнопки снаружи/внутри). */
+  /** Клик по любому сегменту пишет декор в активный канал (кнопки снаружи/внутри). Цоколь — позже, не здесь. */
   const applyToActiveTarget = (color) => {
     const activeTarget =
       typeof window !== 'undefined' ? window.step5DecorTarget : null;

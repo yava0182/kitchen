@@ -1,0 +1,4 @@
+﻿FILE js\kitchen\kitchen-upper-g-cell.js
+onlyIn1.102 count=0
+----
+onlyInCurrent count=0

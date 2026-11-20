@@ -1,3 +1,6 @@
+// !!! OBSOLETE — НЕ ЗАПУСКАТЬ, НЕ ПРАВИТЬ !!!
+// Канон API кухни: server.js (порт 8101 через server-dev.js).
+// Этот файл — старый сервер на :3001, не используется в npm run dev:server.
 // Express сервер с сохранением в БД (как в Clodis)
 import { createRequire } from 'module';
 import express from 'express';

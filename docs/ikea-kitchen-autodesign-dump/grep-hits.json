@@ -1,0 +1,900 @@
+{
+  "count": 179,
+  "hits": [
+    {
+      "file": "app.js",
+      "match": "solutions:",
+      "ctx": "i),e.selects.length&&e.selects.forEach((function(e){i({target:e})})),{}}),slopedCeilingOverlay:Fr(),solutions:da,sublayerAnimated:ua(),sublayerMediaSelection:pa(),sublayerSelectableList:Ra,tips:ja(),togglableSections:Ha(),tool2dplan:Ga(),toolOverlays:Wa(),tool"
+    },
+    {
+      "file": "click-slope-01-boot.json",
+      "match": "WaterSuppl",
+      "ctx": ", \"y\": 102 }, { \"tag\": \"BUTTON\", \"cls\": \"bt-icon-label-alt\", \"id\": \"WaterSupply\", \"t\": \"Вывод воды\", \"x\": 580, \"y\": 102 }, { \"tag\": \"BUTTON\", \"cls\": \"cta-primary-alt-l\", \"id\": \"go-to-a"
+    },
+    {
+      "file": "click-slope-03-draw.json",
+      "match": "WaterSuppl",
+      "ctx": " \"cls\": \"bt-icon-label-alt\", \"t\": \"Поиск\" }, { \"tag\": \"BUTTON\", \"id\": \"WaterSupply\", \"cls\": \"bt-icon-label-alt\", \"t\": \"Вывод воды\" }, { \"tag\": \"BUTTON\", \"id\": \"go-to-auto-design\", \"cls\": \"cta-p"
+    },
+    {
+      "file": "click-slope-03-tool.json",
+      "match": "WaterSuppl",
+      "ctx": "9, \"y\": 89 }, { \"tag\": \"BUTTON\", \"cls\": \"bt-icon-label-alt\", \"id\": \"WaterSupply\", \"t\": \"Вывод воды\", \"x\": 467, \"y\": 89 }, { \"tag\": \"BUTTON\", \"cls\": \"cta-primary-alt-l\", \"id\": \"go-to-au"
+    },
+    {
+      "file": "click-slope-06-before-icon-click.json",
+      "match": "WaterSuppl",
+      "ctx": " \"y\": -181 }, { \"tag\": \"BUTTON\", \"cls\": \"bt-icon-label-alt\", \"id\": \"WaterSupply\", \"t\": \"Вывод воды\", \"x\": 280, \"y\": -181 }, { \"tag\": \"BUTTON\", \"cls\": \"cta-primary-alt-l\", \"id\": \"go-to-"
+    },
+    {
+      "file": "click-slope-wall-top.json",
+      "match": "WaterSuppl",
+      "ctx": "9, \"y\": 89 }, { \"tag\": \"BUTTON\", \"cls\": \"bt-icon-label-alt\", \"id\": \"WaterSupply\", \"t\": \"Вывод воды\", \"x\": 467, \"y\": 89 }, { \"tag\": \"BUTTON\", \"cls\": \"cta-primary-alt-l\", \"id\": \"go-to-au"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL.js",
+      "match": "linearManager",
+      "ctx": "use strict\";var o=i(11995);var n=i(92495);var a=i(35534);function s(e,t){n.LBT.call(this,e,t),this._linearManager=null,this._uiController.createCustomModule(n.X0Y,(0,o.$)(\"#canvas-wrap-1\"),\"AutoDesignSolutionInfo\")}s.prototype=Object.create(n.LBT.prototype),s."
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL.js",
+      "match": "AutoDesign",
+      "ctx": ",t),this._linearManager=null,this._uiController.createCustomModule(n.X0Y,(0,o.$)(\"#canvas-wrap-1\"),\"AutoDesignSolutionInfo\")}s.prototype=Object.create(n.LBT.prototype),s.prototype.constructor=s,s.prototype.enter=function(){this._showAppliances=this._app.distri"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL.js",
+      "match": "SolutionInfo",
+      "ctx": "linearManager=null,this._uiController.createCustomModule(n.X0Y,(0,o.$)(\"#canvas-wrap-1\"),\"AutoDesignSolutionInfo\")}s.prototype=Object.create(n.LBT.prototype),s.prototype.constructor=s,s.prototype.enter=function(){this._showAppliances=this._app.distribSettings."
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL.js",
+      "match": "templateFurniture",
+      "ctx": "e.enter=function(){this._showAppliances=this._app.distribSettings.feature.applianceInTemplate,this._templateFurnitureA=[],this.jCreatedElem.push((0,o.$)('<div class=\"canvas-layer\" id=\"solution-loading\" role=\"status\" tabindex=\"-1\">\\n\\t<div class=\"layer-content\""
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL.js",
+      "match": "popin_templatecomputing",
+      "ctx": "inet.svg\">\\n\\t\\t\\t</div>\\n\\t\\t</div>\\n\\t\\t<p class=\"title\">\\n\\t\\t\\t<strong data-i18n=\"kitchen.index.popin_templatecomputing_title;planner.index.popin_templatecomputing_title\">Designing the best solutions for your kitchen</strong>\\n\\t\\t</p>\\n\\t\\t<p data-i18n=\"k"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL.js",
+      "match": "popin_templatecomputing",
+      "ctx": " class=\"title\">\\n\\t\\t\\t<strong data-i18n=\"kitchen.index.popin_templatecomputing_title;planner.index.popin_templatecomputing_title\">Designing the best solutions for your kitchen</strong>\\n\\t\\t</p>\\n\\t\\t<p data-i18n=\"kitchen.index.popin_templatecomputing_desc;pl"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL.js",
+      "match": "popin_templatecomputing",
+      "ctx": "\">Designing the best solutions for your kitchen</strong>\\n\\t\\t</p>\\n\\t\\t<p data-i18n=\"kitchen.index.popin_templatecomputing_desc;planner.index.popin_templatecomputing_desc\">We are currently looking for kitchen layouts that fit your floorplan.</p>\\n\\t</div>\\n</"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL.js",
+      "match": "popin_templatecomputing",
+      "ctx": "chen</strong>\\n\\t\\t</p>\\n\\t\\t<p data-i18n=\"kitchen.index.popin_templatecomputing_desc;planner.index.popin_templatecomputing_desc\">We are currently looking for kitchen layouts that fit your floorplan.</p>\\n\\t</div>\\n</div>').i18n()),this.jCreatedElem[0].appendT"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL.js",
+      "match": "linearManager",
+      "ctx": "p.invalidatePriceUI(),this._currentlyUsedAppliances={fridge:[],oven:[],dishwasher:[],hood:[]},this._linearManager=new n.pfK({partFamilies:this._app.partFamilies,defaultWorktopOverhang:this._app.productSettings.defaultWorktopOverhang}),n.LBT.prototype.enter.cal"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL.js",
+      "match": "autoDesign",
+      "ctx": "\\t</div>\\n\\t<div class=\"mod-solutions\" data-ui-selector=\"template-solutions\">\\n\\t</div>\\n\\t<div id=\"autoDesign-project-detail\" class=\"next-step\">\\n\\t\\t<button class=\"cta-primary-alt-l\" data-step=\"3\" data-ui-action=\"customize-this-kitchen\" data-i18n=\"kitchen.in"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL.js",
+      "match": "solutionInfo",
+      "ctx": "ts=function(){n.LBT.prototype._bindEvents.call(this)},s.prototype._unbindEvents=function(){this.uim.solutionInfo&&o.Qev.RemoveMemberCallback(this.uim.solutionInfo,\"ShowApplianceClicked\",this,this.onShowApplianceClicked),this.dom.backToStep1&&this.dom.backToSte"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL.js",
+      "match": "solutionInfo",
+      "ctx": "s)},s.prototype._unbindEvents=function(){this.uim.solutionInfo&&o.Qev.RemoveMemberCallback(this.uim.solutionInfo,\"ShowApplianceClicked\",this,this.onShowApplianceClicked),this.dom.backToStep1&&this.dom.backToStep1.off(),n.LBT.prototype._unbindEvents.call(this)}"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL.js",
+      "match": "AutoDesign",
+      "ctx": "(n.WM8,\"TemplateValidated\",{state:this._app.getAppStates().DesignYourRoom})):this.parcours.overwriteAutoDesign?(this.parcours.overwriteAutoDesign=!1,o.Qev.SendEvent(n.WM8,\"TemplateValidated\",{state:null})):(this._closeTemplate(),o.Qev.SendEvent(n.WM8,\"Template"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL.js",
+      "match": "AutoDesign",
+      "ctx": "his._app.getAppStates().DesignYourRoom})):this.parcours.overwriteAutoDesign?(this.parcours.overwriteAutoDesign=!1,o.Qev.SendEvent(n.WM8,\"TemplateValidated\",{state:null})):(this._closeTemplate(),o.Qev.SendEvent(n.WM8,\"TemplateValidated\",{state:this._app.getAppS"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL.js",
+      "match": "templateFurniture",
+      "ctx": "etAppStates().Design}))},s.prototype._onChangeSolution=function(e,t,i){this._templateEngine&&(this._templateFurnitureA=i,this._linearManager=new n.pfK({partFamilies:this._app.partFamilies,defaultWorktopOverhang:this._app.productSettings.defaultWorktopOverhang}"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL.js",
+      "match": "linearManager",
+      "ctx": "prototype._onChangeSolution=function(e,t,i){this._templateEngine&&(this._templateFurnitureA=i,this._linearManager=new n.pfK({partFamilies:this._app.partFamilies,defaultWorktopOverhang:this._app.productSettings.defaultWorktopOverhang}),this.changeTemplatesConte"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL.js",
+      "match": "templateFurniture",
+      "ctx": "orktopOverhang:this._app.productSettings.defaultWorktopOverhang}),this.changeTemplatesContext(this._templateFurnitureA.concat(this._fixedFurnitureA),this._linearManager),n.LBT.prototype._onChangeSolution.call(this,e,t,i))},s.prototype._onNoSolution=function(e,"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL.js",
+      "match": "linearManager",
+      "ctx": "Overhang}),this.changeTemplatesContext(this._templateFurnitureA.concat(this._fixedFurnitureA),this._linearManager),n.LBT.prototype._onChangeSolution.call(this,e,t,i))},s.prototype._onNoSolution=function(e,t,i){this._app.invalidatePriceUI(),n.LBT.prototype._onN"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL.js",
+      "match": "AutoDesign",
+      "ctx": "is._app.startPopInModule(e,t),this.parcours.popinReassuranceHasShown=!0}else this.parcours.overwriteAutoDesign=!0,await this.validateTemplate(),await this._app.saveProject()},s.prototype._onPopInPrimaryButtonClicked=async function(e,t,i){n.LBT.prototype._onPop"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL.js",
+      "match": "AutoDesign",
+      "ctx": "PopInPrimaryButtonClicked.call(this,e,t,i),\"overwrite-changes-save\"===i.id&&(this.parcours.overwriteAutoDesign||(this.parcours.overwriteAutoDesign=!0),this.parcours.popinReassuranceChoice=!0,this.validateTemplate(),await this._app.saveProject())},s.prototype._"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL.js",
+      "match": "AutoDesign",
+      "ctx": "e,t,i),\"overwrite-changes-save\"===i.id&&(this.parcours.overwriteAutoDesign||(this.parcours.overwriteAutoDesign=!0),this.parcours.popinReassuranceChoice=!0,this.validateTemplate(),await this._app.saveProject())},s.prototype._onPopInSecondaryClicked=async functi"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL.js",
+      "match": "AutoDesign",
+      "ctx": "._onPopInSecondaryClicked.call(this,e,t,i),\"overwrite-changes-save\"===i.id&&(this.parcours.overwriteAutoDesign&&(this.parcours.overwriteAutoDesign=!1),this.parcours.popinReassuranceChoice=!1,await this._app._onRestoreChanges(),n.vZV.ComputeBOM(n.q0J,this._leve"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL.js",
+      "match": "AutoDesign",
+      "ctx": "e,t,i),\"overwrite-changes-save\"===i.id&&(this.parcours.overwriteAutoDesign&&(this.parcours.overwriteAutoDesign=!1),this.parcours.popinReassuranceChoice=!1,await this._app._onRestoreChanges(),n.vZV.ComputeBOM(n.q0J,this._level.getFurnitures(),this._linearManage"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL.js",
+      "match": "linearManager",
+      "ctx": "ice=!1,await this._app._onRestoreChanges(),n.vZV.ComputeBOM(n.q0J,this._level.getFurnitures(),this._linearManager.getLinears()).then((async()=>{await this._app.saveProject()})))},s.prototype.categorizeAppliances=function(e){this._currentlyUsedAppliances={fridg"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL.js",
+      "match": "templateFurniture",
+      "ctx": "].name,a=this._templateIdA[e][s].shortDescription,n=this._templateIdA[e][s].description;break}this._templateFurnitureA.forEach((i=>{if(i.productInfo&&i.productInfo.dbId){const o=e.filter((e=>e.productInfo&&e.productInfo.dbId&&e.productInfo.dbId===i.productInfo"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "]}i.prototype.check=function(e,t){let n=5;t&&t.minTolerance&&(n=t.minTolerance);const i=e.level,a=e.linearManager,l={involvedElements:[]};let u=!0,c=[];const d=[];if(null!=i&&(c=i.getFurnitures()),c.forEach((e=>{(!0===r._SE.IsProductInfoCornerCabinet(e.product"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "pOption.id),i=e.hasParameter(r.g$3.linears.corniceOption.id);return o||i||n}));const s=i.length,a=e.linearManager.getCornices(),l=e.linearManager.getDecostrips(),u=new Map;!function(e,t,n,o){e.forEach((e=>{o.set(e,r.NKG.getCabinetBBoxWithCornicesAndDecostrips("
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "$3.linears.corniceOption.id);return o||i||n}));const s=i.length,a=e.linearManager.getCornices(),l=e.linearManager.getDecostrips(),u=new Map;!function(e,t,n,o){e.forEach((e=>{o.set(e,r.NKG.getCabinetBBoxWithCornicesAndDecostrips(e,t,n))}))}(i,a,l,u);for(let e=0"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "Point.WALLPANELMODIFIED,r.CmZ.EntryPoint.PLAN2DWALLPANEL]}T.prototype.check=function(e,t){const n=e.linearManager,o=e.level;let i={result:!0};if(!n||!o)return i;this.setDecoLegIDA(t.decoLegIDA);const s=[this.getWrongFurnituresInParts(o,n),this.getWrongFurnitur"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "q;return new r.bVK(t,n,\"\",i,e.involvedElements)},Ce.prototype.check=function(e){const t=e.level,n=e.linearManager,i=t.getFurnitures(),s=[{edges:[]}];let a=!1;i.forEach((e=>{if(r._SE.IsProductCooktop(e)||r._SE.IsProductOven(e)||r._SE.IsProductWasher(e)||r._SE.I"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "},p={type:Le,involvedElements:[],involveEdges:[],currentValue:null,count:0,isInvalid:!1};if(null!=e.linearManager){e.linearManager.getWallPanels().filter((e=>!e.isDeleted())).forEach((e=>{if(null!=e){const t=e.getInnerAndOuterCutOuts().innerCutOuts,r=[],l=[];t"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "lvedElements:[],involveEdges:[],currentValue:null,count:0,isInvalid:!1};if(null!=e.linearManager){e.linearManager.getWallPanels().filter((e=>!e.isDeleted())).forEach((e=>{if(null!=e){const t=e.getInnerAndOuterCutOuts().innerCutOuts,r=[],l=[];t.forEach((e=>{!0="
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "r._SE.IsProductHood(e)||r._SE.IsProductWallCabinetFiller(e)))return e}function tt(e,t){let n=[];n=e.linearManager.computeAndGetLinearWallPartsForAllFurni(e.level,t);const r=[];for(let e=0;e<n.length;e++){const t=[];for(let r=0;r<n[e].furnitures.length;r++)t.pu"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "minDistanceOther:t.otherDistance);const s=e.level;if(void 0===s)return Promise.resolve();if(null!=e.linearManager){const t=e.level.getFurnitures().filter(et);if(t.length>0){const a=[],l=[];let u=[],c=[];t.forEach((e=>{(!0===e.hasParameter(r.$xn.worktopOptionNa"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "dius})}}}}})),n.push(t),a.push(e)}})),s.push({worktopSegments:n,arcSegments:i,furnitures:a}),s}(u,e.linearManager),F=function(e){const t=[];for(let n=0;n<e.length;n++){let o=!1,i=!0;const s=e[n].slice(0);for(let a=n+1;a<e.length;a++){const l=e[a].slice(0);for("
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "c.radius})}}}n.push(l),a.push(e)}}})),s.push({worktopSegments:n,arcSegments:i,furnitures:a}),s}(F,e.linearManager);let W=[],V=[],B=[];if(W=W.concat(x[0].worktopSegments),W=W.concat(k[0].worktopSegments),V=V.concat(x[0].arcSegments),V=V.concat(k[0].arcSegments)"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "ducts(),l=t.listSubProducts();let u,c,d=[];const p=[],m=[];let h=!1;if(null!=s&&null!=s.level&&(d=s.linearManager.computeAndGetLinearWallParts(s.level,[e,t])),d.length<2&&(h=!0),h){for(let t=0,n=a.length;t<n;t++)if(r._SE.IsProductCooktop(a[t])||r._SE.IsProduct"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "},h={type:it,involvedElements:[],involveEdges:[],currentValue:null,isInvalid:!1,count:0};if(null!=e.linearManager){const t=e.linearManager.getWorktops(),u=[],g=r.g$3.worktopExport.sinkMounting;t.forEach((t=>{const o=[],s=[];if(null!=t){const h=t._furnitures;h."
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "ents:[],involveEdges:[],currentValue:null,isInvalid:!1,count:0};if(null!=e.linearManager){const t=e.linearManager.getWorktops(),u=[],g=r.g$3.worktopExport.sinkMounting;t.forEach((t=>{const o=[],s=[];if(null!=t){const h=t._furnitures;h.forEach((e=>{(r._SE.IsPro"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "(e,t){let n=25;t&&(t.distance||t.minDistance)&&(n=t.minDistance?t.minDistance:t.distance);const i=e.linearManager;let s=!1,a=!1,l=!1,u=!1;const c=[];ct.forEach((e=>{e.involvedElements=[],e.currentValue=null}));const d=1,p=0;function m(e,t){if(e.length<1)return"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "LinearManager",
+      "ctx": "currentValue=null,St[e].count=0})),void 0!==n){for(let t=0;t<i;t++){const i={Furniture:o[t],Level:n,LinearManager:e.linearManager},a=r._VY.CalculateDistanceWithSlopping(i);a.result===xt&&(r._SE.IsProductBaseCabinet(o[t])&&void 0!==St.baseUnit?a.distance<Ot.bas"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "l,St[e].count=0})),void 0!==n){for(let t=0;t<i;t++){const i={Furniture:o[t],Level:n,LinearManager:e.linearManager},a=r._VY.CalculateDistanceWithSlopping(i);a.result===xt&&(r._SE.IsProductBaseCabinet(o[t])&&void 0!==St.baseUnit?a.distance<Ot.baseUnit&&(s=!0,St."
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "{product:o[t]}),St.halfHeightUnit.count++,St.halfHeightUnit.currentValue=a.distance))}if(void 0!==e.linearManager){const t=e.linearManager.getWallPanels(),o=t.length;for(let i=0;i<o;i++){const o={Furniture:t[i],Level:n,LinearManager:e.linearManager,IsWallPanel"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "ightUnit.count++,St.halfHeightUnit.currentValue=a.distance))}if(void 0!==e.linearManager){const t=e.linearManager.getWallPanels(),o=t.length;for(let i=0;i<o;i++){const o={Furniture:t[i],Level:n,LinearManager:e.linearManager,IsWallPanel:1},a=r._VY.CalculateDist"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "LinearManager",
+      "ctx": "t t=e.linearManager.getWallPanels(),o=t.length;for(let i=0;i<o;i++){const o={Furniture:t[i],Level:n,LinearManager:e.linearManager,IsWallPanel:1},a=r._VY.CalculateDistanceWithSlopping(o);if(a.result!==Ft&&void 0!==St.wallPanelUnit&&a.distance<Ot.wallPanelUnit){"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "ger.getWallPanels(),o=t.length;for(let i=0;i<o;i++){const o={Furniture:t[i],Level:n,LinearManager:e.linearManager,IsWallPanel:1},a=r._VY.CalculateDistanceWithSlopping(o);if(a.result!==Ft&&void 0!==St.wallPanelUnit&&a.distance<Ot.wallPanelUnit){s=!0;t[i].getWal"
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "TOP,r.CmZ.EntryPoint.TEMPLATEEDITORGLOBALCHECK]}kt.prototype.check=function(e,t){let n=50;const i=e.linearManager;let s=!1;const a=[];let l=null;let u;const c=-1!==e.entryPoint.indexOf(\"CustomWorktop\");function d(e,t,n){for(let r=0,i=e.length;r<i;r++){const s="
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "ECK,r.CmZ.EntryPoint.TEMPLATEEDITORGLOBALCHECK]}Vt.prototype.check=function(e,t){let n=50;const i=e.linearManager;let s=!1;const a=[];let l=null;let u;if(i){const e=i.getWorktops();for(let i=0,u=e.length;i<u;i++){const u=e[i],c=u._furnitures,d=[],p=[];for(let "
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "olvedElements,i)},Yt.prototype.check=async function(e,t){let n={result:!0},o=!1,i=!1;const s=[],a=e.linearManager,l=e.level;let u={front:[\"leftWidthOverHang\",\"rightWidthOverHang\"],sidePanel:[\"rightPanelThickness\",\"leftPanelThickness\"]};if(u=0===Object.keys(t)."
+    },
+    {
+      "file": "common_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "urnitures().filter($t&&r._SE.IsProductCabinet);if(t.length>0){let n=[];n=function(e,t){let n=[];n=e.linearManager.computeAndGetLinearWallPartsForAllFurni(e.level,t);const r=[];for(let e=0;e<n.length;e++){const t=[];for(let r=0;r<n[e].furnitures.length;r++)t.pu"
+    },
+    {
+      "file": "dump-20261006-213055.json",
+      "match": "linearManager",
+      "ctx": "se strict\\\";var o=i(11995);var n=i(92495);var a=i(35534);function s(e,t){n.LBT.call(this,e,t),this._linearManager=null,this._uiController.createCustomModule(n.X0Y,(…\" }, { \"url\": \"https://kitchen.ikea-prod.by.me/Kitchen/assets/js/app.js\", \""
+    },
+    {
+      "file": "dump-20261006-213055.json",
+      "match": "linearManager",
+      "ctx": "se strict\\\";var o=i(11995);var n=i(92495);var a=i(35534);function s(e,t){n.LBT.call(this,e,t),this._linearManager=null,this._uiController.createCustomModule(n.X0Y,(…\" } ] }, { \"url\": \"https://kitchen.ikea-prod.by.me/Kitchen/assets/j"
+    },
+    {
+      "file": "extra-vendors_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "st p=function(){this.entryPoint=[\"\"],this.currentState=null,this.hasState=null,this.level=null,this.linearManager=null,this.expiredProducts=null,this.draggedProduct=null,this.modifiedProduct=null,this.modifiedProperty=null,this.currentView=null};function h(e,t"
+    },
+    {
+      "file": "extra-vendors_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "entState=null===(r=this._app)||void 0===r||null===(r=r.currentState)||void 0===r?void 0:r.stateId,o.linearManager=this._app.linearManager,o.level=this._app.level);return\"TemplateEditorKitchen\"!==this._app.appName&&this._app.getExpiredProducts instanceof Functi"
+    },
+    {
+      "file": "extra-vendors_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "_app)||void 0===r||null===(r=r.currentState)||void 0===r?void 0:r.stateId,o.linearManager=this._app.linearManager,o.level=this._app.level);return\"TemplateEditorKitchen\"!==this._app.appName&&this._app.getExpiredProducts instanceof Function&&(o.expiredProducts=t"
+    },
+    {
+      "file": "extra-vendors_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": ":p,linearsMap:g}},g.GetWorktops=function(e,t){var n,o;const i=null!==(n=null===(o=(null==e?void 0:e.linearManager)||(null==e?void 0:e._linearManager))||void 0===o?void 0:o.getWorktops())&&void 0!==n?n:[];return t?i.filter((e=>r.Q6t.AreCompatible(t,e.getProduct"
+    },
+    {
+      "file": "extra-vendors_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "ction(e,t){var n,o;const i=null!==(n=null===(o=(null==e?void 0:e.linearManager)||(null==e?void 0:e._linearManager))||void 0===o?void 0:o.getWorktops())&&void 0!==n?n:[];return t?i.filter((e=>r.Q6t.AreCompatible(t,e.getProduct()))):i},g.GetWallPanels=function(e"
+    },
+    {
+      "file": "extra-vendors_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "Product()))):i},g.GetWallPanels=function(e,t){var n,o;const i=null!==(n=null===(o=(null==e?void 0:e.linearManager)||(null==e?void 0:e._linearManager))||void 0===o?void 0:o.getWallPanels())&&void 0!==n?n:[];return t?i.filter((e=>r.Q6t.AreCompatible(t,e.getProdu"
+    },
+    {
+      "file": "extra-vendors_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "ction(e,t){var n,o;const i=null!==(n=null===(o=(null==e?void 0:e.linearManager)||(null==e?void 0:e._linearManager))||void 0===o?void 0:o.getWallPanels())&&void 0!==n?n:[];return t?i.filter((e=>r.Q6t.AreCompatible(t,e.getProduct()))):i},g.GetAssociatedFillers=f"
+    },
+    {
+      "file": "extra-vendors_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "mpatible(t,e))):a},g.GetPlinths=function(e,t){var n,o;const i=null!==(n=null===(o=(null==e?void 0:e.linearManager)||(null==e?void 0:e._linearManager))||void 0===o?void 0:o.getPlinths())&&void 0!==n?n:[];return t?i.filter((e=>r.Q6t.AreCompatible(t,e.product))):"
+    },
+    {
+      "file": "extra-vendors_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "ction(e,t){var n,o;const i=null!==(n=null===(o=(null==e?void 0:e.linearManager)||(null==e?void 0:e._linearManager))||void 0===o?void 0:o.getPlinths())&&void 0!==n?n:[];return t?i.filter((e=>r.Q6t.AreCompatible(t,e.product))):i}},38678:(e,t,n)=>{\"use strict\";n."
+    },
+    {
+      "file": "extra-vendors_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": ";h.push({furniture:t,targetId:n}),i()(p).call(p,n)||p.push(n)}}}}}}var n,o}))})),l.q.ComputeParts(e.linearManager,t,null,3.5).then((()=>{const o=new Map;n.forEach((t=>{if(s._.IsProductFiller(t)&&!s._.IsProductAutomaticFiller(t)){const n=e.linearManager.findPar"
+    },
+    {
+      "file": "extra-vendors_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "nst o=new Map;n.forEach((t=>{if(s._.IsProductFiller(t)&&!s._.IsProductAutomaticFiller(t)){const n=e.linearManager.findParts(t);if(null!=n&&n.length){const e=n[0].furnitures.indexOf(t);if(-1!==e){const i=e!==n[0].furnitures.length-1?e+1:e-1;if(i>=0){const e=n[0"
+    },
+    {
+      "file": "extra-vendors_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "ontroller:e._viewController,furniturePresenter:e._viewController.getPresenter(\"FurniturePresenter\"),linearManager:e.linearManager,fillerManager:e.fillerManager,level:e.level,computeCoverFillers:!0,computeLinears:!0};e.currentState._applyStyleOnAdd=!1;const v=("
+    },
+    {
+      "file": "extra-vendors_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "wController,furniturePresenter:e._viewController.getPresenter(\"FurniturePresenter\"),linearManager:e.linearManager,fillerManager:e.fillerManager,level:e.level,computeCoverFillers:!0,computeLinears:!0};e.currentState._applyStyleOnAdd=!1;const v=()=>{e.currentSta"
+    },
+    {
+      "file": "extra-vendors_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "ength===p.length){var y;r.lbM.StartTransaction(\"ProductsReplacementRule\",v),r.lbM.SaveObjectState(e.linearManager),r.lbM.SaveObjectState(t),null===(y=l.getKeys())||void 0===y||y.forEach((e=>{r.lbM.SaveObjectState(e)})),r.mut.TrySetMultipleParameterValue(l),r.p"
+    },
+    {
+      "file": "extra-vendors_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "yPoint.CUSTOMWORKTOP,r.C.EntryPoint.TEMPLATEEDITORGLOBALCHECK]}check(e){let t={result:!0};const n=e.linearManager?u.W.GetWorktops(e,this._applicativeRuleInstance).filter((e=>e&&!e.isDeleted())):[],i=[],r=[],s=[],d=[];return n.forEach((e=>{let t=!0,n=[];const o"
+    },
+    {
+      "file": "extra-vendors_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "ALCHECK,i.C.EntryPoint.CUSTOMWALLPANEL,i.C.EntryPoint.TEMPLATEEDITORGLOBALCHECK]}check(e){const t=e.linearManager;if(t){const e=!1;return s.m.CheckBoardAvailability(t,e)}return null}getCheckErrorMessage(e){const t=o.wDx.Translate(\"business_rule.customWallPanel"
+    },
+    {
+      "file": "extra-vendors_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "OBALCHECK,i.C.EntryPoint.CUSTOMWORKTOP,i.C.EntryPoint.TEMPLATEEDITORGLOBALCHECK]}check(e){const t=e.linearManager;if(t){const e=!0;return s.m.CheckBoardAvailability(t,e)}}getCheckErrorMessage(e){const t=o.wDx.Translate(\"business_rule.customWT_product_availabil"
+    },
+    {
+      "file": "extra-vendors_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "dElements:[],involveEdges:[],currentValue:null,expectedValue:null,count:0,invalid:!1},b=e.level,w=e.linearManager,I=[];if(null!=w){this.ComputeInvolvedElementsCutOutToBOWAndEOW(e,v,this.minDistanceOverload,P),this.ComputeInvolvedElementsCutOutToBOWAndEOW(e,_,t"
+    },
+    {
+      "file": "extra-vendors_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": " 0!==s&&s.minDistance&&(this.minDistanceOverloadDefault=t.default.minDistance));const l=e.level,d=e.linearManager,g=[];let m=!1,f=!1;if(d){const n=l.getFurnitures(),s=[],_=[];let v=[];for(let a=0,l=n.length;a<l;a++){const l=n[a];let P=[];if(P=d.findFurnitureLi"
+    },
+    {
+      "file": "extra-vendors_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "OMWALLPANEL,r.C.EntryPoint.GLOBALCHECK,r.C.EntryPoint.TEMPLATEEDITORGLOBALCHECK]}check(e){const t=e.linearManager,n={isInvalid:!1,involvedElements:[],involveEdges:[]};if(t){u.W.GetWallPanels(e,this._applicativeRuleInstance).filter((e=>!e.isDeleted())).forEach("
+    },
+    {
+      "file": "extra-vendors_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "TEEDITORGLOBALCHECK]}check(e){const t={isInvalid:!1,involvedElements:[],involveEdges:[]};if(null!=e.linearManager){u.W.GetWorktops(e,this._applicativeRuleInstance).filter((e=>!e.isDeleted())).forEach((e=>{if(null!=e){const n=e.getInnerAndOuterCutOuts().outerCu"
+    },
+    {
+      "file": "extra-vendors_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "nvalid:!1,involvedElements:[],involveEdges:[],currentValue:0,count:0,expectedValue:null};if(null!=e.linearManager){p.W.GetWorktops(e,this._applicativeRuleInstance).filter((e=>!e.isDeleted())).forEach((e=>{let n=this.minDistanceOverloadDefault;if(i){const a=e.g"
+    },
+    {
+      "file": "extra-vendors_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "[r.C.EntryPoint.GLOBALCHECK,r.C.EntryPoint.CUSTOMWORKTOP]}check(e){let t={result:!0};const n=[],i=e.linearManager,r=e.viewController._sketcher;if(i){l.W.GetWorktops(e,this._applicativeRuleInstance).forEach((e=>{e.getWorktopInfos().forEach((e=>{if(!e.isWaterfal"
+    },
+    {
+      "file": "extra-vendors_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "tibility.arbitrary_grain_incompatibility\")}}}check(e){const t=this;let n={result:!0};const i=[],r=e.linearManager,s=e.level;if(r&&s){d.W.GetWorktops(e,this._applicativeRuleInstance).forEach((e=>{e.getWorktopInfos().forEach((n=>{if(!n.isWaterfall){const r=n.edg"
+    },
+    {
+      "file": "extra-vendors_Kitchen_KitchenRTL_TemplateEditor.js",
+      "match": "linearManager",
+      "ctx": "r(),this.entryPoints=[s.C.EntryPoint.GLOBALCHECK,s.C.EntryPoint.CUSTOMWORKTOP]}check(e,t){const n=e.linearManager,o=this.finishCompatibilityMapping(t.finishes);let r={result:!0};if(n){var a;const t=i()(a=d.W.GetWorktops(e,this._applicativeRuleInstance).map((e="
+    },
+    {
+      "file": "js-geometry-hits.json",
+      "match": "WaterSuppl",
+      "ctx": "or,n.oU4.WallEdgeStripEditor,n.oU4.SlopedCeilingState,n.oU4.AddBorderState,n.oU4.MultiReplace,n.oU4.WaterSupply,n.oU4.AdvancedDecoration],this.setOnProjectSavedAction(null),n.gVx.WaterfallInset=this.productSettings.waterfallInset,this._loadStylesAndFeatures(),"
+    },
+    {
+      "file": "js-geometry-hits.json",
+      "match": "linearManager",
+      "ctx": " ], \"getSlopeSingleFace\": [ { \"at\": 398833, \"ctx\": \"e:!0};this._linearManager.updateLinearsToLevel(this.getLevel(),h);const m=this.getPresenter(\\\"SlopeFacePresenter2D\\\"),_=e.getSlopeSingleFace2DA();m&&_.forEach((e=>{m.unRegi"
+    },
+    {
+      "file": "js-geometry-hits.json",
+      "match": "updateLinears",
+      "ctx": "etSlopeSingleFace\": [ { \"at\": 398833, \"ctx\": \"e:!0};this._linearManager.updateLinearsToLevel(this.getLevel(),h);const m=this.getPresenter(\\\"SlopeFacePresenter2D\\\"),_=e.getSlopeSingleFace2DA();m&&_.forEach((e=>{m.unRegisterModel(t,e)"
+    },
+    {
+      "file": "js-geometry-hits.json",
+      "match": "WaterSuppl",
+      "ctx": ": \"om-shape-open-3\\\":return\\\"openKitchen3\\\"}},y.prototype._updateSVGFeedback=function(){this._updateWaterSupplySymbol(),this._updateSlopedWallSVG()},y.prototype._updateWaterSupplySymbol=function(){\\\"function\\\"==typeof this._viewController2D.updateWaterSupplySV"
+    },
+    {
+      "file": "js-geometry-hits.json",
+      "match": "WaterSuppl",
+      "ctx": "Feedback=function(){this._updateWaterSupplySymbol(),this._updateSlopedWallSVG()},y.prototype._updateWaterSupplySymbol=function(){\\\"function\\\"==typeof this._viewController2D.updateWaterSupplySVG&&this._viewController2D.updateWaterSupplySVG()},y.prototype._updat"
+    },
+    {
+      "file": "js-geometry-hits.json",
+      "match": "WaterSuppl",
+      "ctx": "},y.prototype._updateWaterSupplySymbol=function(){\\\"function\\\"==typeof this._viewController2D.updateWaterSupplySVG&&this._viewController2D.updateWaterSupplySVG()},y.prototype._updateSlopedWallSVG=function(){\\\"function\\\"==ty\" }, { \"at\""
+    },
+    {
+      "file": "js-geometry-hits.json",
+      "match": "WaterSuppl",
+      "ctx": "on(){\\\"function\\\"==typeof this._viewController2D.updateWaterSupplySVG&&this._viewController2D.updateWaterSupplySVG()},y.prototype._updateSlopedWallSVG=function(){\\\"function\\\"==ty\" }, { \"at\": 108463, \"ctx\": \"ction\\\"==typeof t"
+    },
+    {
+      "file": "js-geometry-hits.json",
+      "match": "WaterSuppl",
+      "ctx": "}, { \"at\": 108463, \"ctx\": \"ction\\\"==typeof this._viewController2D.updateWaterSupplySVG&&this._viewController2D.updateWaterSupplySVG()},y.prototype._updateSlopedWallSVG=function(){\\\"function\\\"==typeof this._viewController2D.updateSlo"
+    },
+    {
+      "file": "js-geometry-hits.json",
+      "match": "WaterSuppl",
+      "ctx": " \"ctx\": \"ction\\\"==typeof this._viewController2D.updateWaterSupplySVG&&this._viewController2D.updateWaterSupplySVG()},y.prototype._updateSlopedWallSVG=function(){\\\"function\\\"==typeof this._viewController2D.updateSlopedWallSVG&&this._viewController2D.updateSlop"
+    },
+    {
+      "file": "js-geometry-hits.json",
+      "match": "water-suppl",
+      "ctx": "&&this._viewController2D.updateSlopedWallSVG()},y.prototype._createWaterPopin=function(e){const t=\\\"water-supply-popin\\\";this._app.createPopInModule(t\" }, { \"at\": 108536, \"ctx\": \"troller2D.updateWaterSupplySVG()},y.prototype"
+    },
+    {
+      "file": "js-geometry-hits.json",
+      "match": "WaterSuppl",
+      "ctx": "createPopInModule(t\" }, { \"at\": 108536, \"ctx\": \"troller2D.updateWaterSupplySVG()},y.prototype._updateSlopedWallSVG=function(){\\\"function\\\"==typeof this._viewController2D.updateSlopedWallSVG&&this._viewController2D.updateSlop"
+    },
+    {
+      "file": "js-geometry-hits.json",
+      "match": "water-suppl",
+      "ctx": "&&this._viewController2D.updateSlopedWallSVG()},y.prototype._createWaterPopin=function(e){const t=\\\"water-supply-popin\\\";this._app.createPopInModule(t);const i={id:\\\"water-supply\\\"};i.title=o.wDx.Translate(\\\"popin.water_supply\" }, { \""
+    },
+    {
+      "file": "js-geometry-hits.json",
+      "match": "water-suppl",
+      "ctx": "eWaterPopin=function(e){const t=\\\"water-supply-popin\\\";this._app.createPopInModule(t);const i={id:\\\"water-supply\\\"};i.title=o.wDx.Translate(\\\"popin.water_supply\" }, { \"at\": 108580, \"ctx\": \"e._updateSlopedWallSVG=function(){\\"
+    },
+    {
+      "file": "js-geometry-hits.json",
+      "match": "water_suppl",
+      "ctx": "opin\\\";this._app.createPopInModule(t);const i={id:\\\"water-supply\\\"};i.title=o.wDx.Translate(\\\"popin.water_supply\" }, { \"at\": 108580, \"ctx\": \"e._updateSlopedWallSVG=function(){\\\"function\\\"==typeof this._viewController2D.updat"
+    },
+    {
+      "file": "js-geometry-hits.json",
+      "match": "water-suppl",
+      "ctx": "&&this._viewController2D.updateSlopedWallSVG()},y.prototype._createWaterPopin=function(e){const t=\\\"water-supply-popin\\\";this._app.createPopInModule(t);const i={id:\\\"water-supply\\\"};i.title=o.wDx.Translate(\\\"popin.water_supply.title\\\"),i.message=o.wDx.Translat"
+    },
+    {
+      "file": "js-geometry-hits.json",
+      "match": "water-suppl",
+      "ctx": "eWaterPopin=function(e){const t=\\\"water-supply-popin\\\";this._app.createPopInModule(t);const i={id:\\\"water-supply\\\"};i.title=o.wDx.Translate(\\\"popin.water_supply.title\\\"),i.message=o.wDx.Translate(\\\"popin.wa\" } ], \"SlopedWall\": [ { "
+    },
+    {
+      "file": "js-geometry-hits.json",
+      "match": "water_suppl",
+      "ctx": "opin\\\";this._app.createPopInModule(t);const i={id:\\\"water-supply\\\"};i.title=o.wDx.Translate(\\\"popin.water_supply.title\\\"),i.message=o.wDx.Translate(\\\"popin.wa\" } ], \"SlopedWall\": [ { \"at\": 108274, \"ctx\": \"pe-open"
+    },
+    {
+      "file": "js-geometry-hits.json",
+      "match": "WaterSuppl",
+      "ctx": " \"ctx\": \"pe-open-3\\\":return\\\"openKitchen3\\\"}},y.prototype._updateSVGFeedback=function(){this._updateWaterSupplySymbol(),this._updateSlopedWallSVG()},y.prototype._updateWaterSupplySymbol=function(){\\\"function\\\"==typeof this._viewController2D.updateWaterSupplySV"
+    },
+    {
+      "file": "js-geometry-hits.json",
+      "match": "WaterSuppl",
+      "ctx": "Feedback=function(){this._updateWaterSupplySymbol(),this._updateSlopedWallSVG()},y.prototype._updateWaterSupplySymbol=function(){\\\"function\\\"==typeof this._viewController2D.updateWaterSupplySVG&&this._viewController2D.updateWaterSupplySVG()},y.prototype._updat"
+    },
+    {
+      "file": "js-geometry-hits.json",
+      "match": "WaterSuppl",
+      "ctx": "},y.prototype._updateWaterSupplySymbol=function(){\\\"function\\\"==typeof this._viewController2D.updateWaterSupplySVG&&this._viewController2D.updateWaterSupplySVG()},y.prototype._updateSlopedWallSVG=function(){\\\"function\\\"==typeof t\" }, { "
+    },
+    {
+      "file": "js-geometry-hits.json",
+      "match": "WaterSuppl",
+      "ctx": "on(){\\\"function\\\"==typeof this._viewController2D.updateWaterSupplySVG&&this._viewController2D.updateWaterSupplySVG()},y.prototype._updateSlopedWallSVG=function(){\\\"function\\\"==typeof t\" }, { \"at\": 108469, \"ctx\": \"==typeof th"
+    },
+    {
+      "file": "js-geometry-hits.json",
+      "match": "WaterSuppl",
+      "ctx": " }, { \"at\": 108469, \"ctx\": \"==typeof this._viewController2D.updateWaterSupplySVG&&this._viewController2D.updateWaterSupplySVG()},y.prototype._updateSlopedWallSVG=function(){\\\"function\\\"==typeof this._viewController2D.updateSlo"
+    },
+    {
+      "file": "js-geometry-hits.json",
+      "match": "WaterSuppl",
+      "ctx": " \"ctx\": \"==typeof this._viewController2D.updateWaterSupplySVG&&this._viewController2D.updateWaterSupplySVG()},y.prototype._updateSlopedWallSVG=function(){\\\"function\\\"==typeof this._viewController2D.updateSlopedWallSVG&&this._viewController2D.updateSlop"
+    },
+    {
+      "file": "js-geometry-hits.json",
+      "match": "water-suppl",
+      "ctx": "&&this._viewController2D.updateSlopedWallSVG()},y.prototype._createWaterPopin=function(e){const t=\\\"water-supply-popin\\\";this._app.createPopInModule(t);cons\" }, { \"at\": 108542, \"ctx\": \"r2D.updateWaterSupplySVG()},y.prototype"
+    },
+    {
+      "file": "js-geometry-hits.json",
+      "match": "WaterSuppl",
+      "ctx": "createPopInModule(t);cons\" }, { \"at\": 108542, \"ctx\": \"r2D.updateWaterSupplySVG()},y.prototype._updateSlopedWallSVG=function(){\\\"function\\\"==typeof this._viewController2D.updateSlopedWallSVG&&this._viewController2D.updateSlop"
+    },
+    {
+      "file": "latest.json",
+      "match": "linearManager",
+      "ctx": "se strict\\\";var o=i(11995);var n=i(92495);var a=i(35534);function s(e,t){n.LBT.call(this,e,t),this._linearManager=null,this._uiController.createCustomModule(n.X0Y,(…\" }, { \"url\": \"https://kitchen.ikea-prod.by.me/Kitchen/assets/js/app.js\", \""
+    },
+    {
+      "file": "latest.json",
+      "match": "linearManager",
+      "ctx": "se strict\\\";var o=i(11995);var n=i(92495);var a=i(35534);function s(e,t){n.LBT.call(this,e,t),this._linearManager=null,this._uiController.createCustomModule(n.X0Y,(…\" } ] }, { \"url\": \"https://kitchen.ikea-prod.by.me/Kitchen/assets/j"
+    },
+    {
+      "file": "slope-html-search.json",
+      "match": "linearManager",
+      "ctx": "{delay:0}),o.Qev.SendEvent(this.dom.jCreatedElem.get(0),\\\"ui.layer.close\\\"),this._viewer=null,this._linearManager=null,this._viewController2D=null,this._viewController3D=null,this._style=null,this._wallInEdition=null,this._initialTransaction=null,this._localUn"
+    },
+    {
+      "file": "slope-html-search.json",
+      "match": "linearManager",
+      "ctx": "{delay:0}),o.Qev.SendEvent(this.dom.jCreatedElem.get(0),\\\"ui.layer.close\\\"),this._viewer=null,this._linearManager=null,this._viewController2D=null,this._viewController3D=null,this._style=null,this._wallInEdition=null,this._initialTransaction=null,this._localUn"
+    },
+    {
+      "file": "slope-model.json",
+      "match": "solutions:",
+      "ctx": "i),e.selects.length&&e.selects.forEach((function(e){i({target:e})})),{}}),slopedCeilingOverlay:Fr(),solutions:da,sublayerAnimated:ua(),sublayerMediaSelection:pa(),sublayerSelectableList:Ra,tips:ja(),togglableSections:Ha(),tool2dplan:Ga(),toolOverlays:Wa(),tool"
+    },
+    {
+      "file": "slope-model.json",
+      "match": "WaterSuppl",
+      "ctx": "or,n.oU4.WallEdgeStripEditor,n.oU4.SlopedCeilingState,n.oU4.AddBorderState,n.oU4.MultiReplace,n.oU4.WaterSupply,n.oU4.AdvancedDecoration],this.setOnProjectSavedAction(null),n.gVx.WaterfallInset=this.productSettings.waterfallInse\", \"or:i=n.MHA,r=\\\"WallE"
+    },
+    {
+      "file": "slope-overlay.json",
+      "match": "updateLinears",
+      "ctx": "eMessageProjectInfoRequested=function(e,t\" ], \"SlopeFacePresenter2D\": [ \"inearManager.updateLinearsToLevel(this.getLevel(),h);const m=this.getPresenter(\\\"SlopeFacePresenter2D\\\"),_=e.getSlopeSingleFace2DA();m&&_.forEach((e=>{m.unRegisterModel(t,e)"
+    },
+    {
+      "file": "slope-overlay.json",
+      "match": "WaterSuppl",
+      "ctx": "or,n.oU4.WallEdgeStripEditor,n.oU4.SlopedCeilingState,n.oU4.AddBorderState,n.oU4.MultiReplace,n.oU4.WaterSupply,n.oU4.AdvancedDecoration],this.setOnProjectSavedAction(null),n.gVx.WaterfallInset=this.productSettings.waterfallInset,this._loadStylesAndFeatures(),"
+    },
+    {
+      "file": "slope-overlay.json",
+      "match": "WaterSuppl",
+      "ctx": "r=\\\"ItemNotesState\\\";break;case n.oU4.MultiReplace:i=n.HKJ,r=\\\"MultiReplaceState\\\";break;case n.oU4.WaterSupply:i=n.Enj,r\", \"ate:i=n.uVQ,r=\\\"MeasureToolState\\\";break;case n.oU4.SlopedCeilingState:i=n.seJ,r=\\\"SlopedCeilingState\\\";break;case n.oU4.AddBorde"
+    },
+    {
+      "file": "slope-overlay.json",
+      "match": "WaterSuppl",
+      "ctx": "r=\\\"ItemNotesState\\\";break;case n.oU4.MultiReplace:i=n.HKJ,r=\\\"MultiReplaceState\\\";break;case n.oU4.WaterSupply:i=n.Enj,r=\\\"WaterSupplyState\\\";break;case\", \"ew:\\\"ViewIn3D\\\",\\\"ViewIn2D\\\"==t&&(i=\\\"ViewInFE\\\")),o&&g.app.currentState.stateId!=m.o.SlopedCeili"
+    },
+    {
+      "file": "slope-overlay.json",
+      "match": "WaterSuppl",
+      "ctx": "ak;case n.oU4.MultiReplace:i=n.HKJ,r=\\\"MultiReplaceState\\\";break;case n.oU4.WaterSupply:i=n.Enj,r=\\\"WaterSupplyState\\\";break;case\", \"ew:\\\"ViewIn3D\\\",\\\"ViewIn2D\\\"==t&&(i=\\\"ViewInFE\\\")),o&&g.app.currentState.stateId!=m.o.SlopedCeilingState&&g.app.currentSt"
+    },
+    {
+      "file": "translation-master.json",
+      "match": "autodesign",
+      "ctx": "To apply the selected covering, click on wall, floor, ceiling, and/or a freeform shape\" }, \"autodesign_solution_info\": { \"show_less\": \"Show less\", \"show_more\": \"Show more\", \"show\": \"Show\", \"no_appliances_included\": \"No a"
+    },
+    {
+      "file": "translation-master.json",
+      "match": "water_suppl",
+      "ctx": "ll thickness\", \"title\": \"Trace the room's inner outline\" }, \"design_own_water_supply\": { \"info\": \"Select the wall where your water supply is located. We will use it to position the sink on kitchen layout suggestions.\", "
+    },
+    {
+      "file": "translation-master.json",
+      "match": "water suppl",
+      "ctx": "ne\" }, \"design_own_water_supply\": { \"info\": \"Select the wall where your water supply is located. We will use it to position the sink on kitchen layout suggestions.\", \"title\": \"Position your water supply\" }, "
+    },
+    {
+      "file": "translation-master.json",
+      "match": "water suppl",
+      "ctx": "ll use it to position the sink on kitchen layout suggestions.\", \"title\": \"Position your water supply\" }, \"design_room_state\": { \"button_drawplan\": \"Draw plan\", \"button_importplan\": \"Initiate plan\", "
+    },
+    {
+      "file": "translation-master.json",
+      "match": "watersuppl",
+      "ctx": "utton_drawplan\": \"Draw plan\", \"button_importplan\": \"Initiate plan\", \"button_watersupply\": \"Water supply\" }, \"detailed_design_state\": { \"search\": \"Search\", \"favorites\": \"Favorites\" }, "
+    },
+    {
+      "file": "translation-master.json",
+      "match": "Water suppl",
+      "ctx": ": \"Draw plan\", \"button_importplan\": \"Initiate plan\", \"button_watersupply\": \"Water supply\" }, \"detailed_design_state\": { \"search\": \"Search\", \"favorites\": \"Favorites\" }, \"finance_opt"
+    },
+    {
+      "file": "translation-master.json",
+      "match": "popin_templatecomputing",
+      "ctx": "ailable\", \"no_installation_date\": \"No installation information available\", \"popin_templatecomputing_desc\": \"We are currently designing kitchen layouts that fit your floorplan.\", \"popin_templatecomputing_title\": \"Designing th"
+    },
+    {
+      "file": "translation-master.json",
+      "match": "popin_templatecomputing",
+      "ctx": "omputing_desc\": \"We are currently designing kitchen layouts that fit your floorplan.\", \"popin_templatecomputing_title\": \"Designing the best solutions for your kitchen\", \"price_info\": \"Price information\", \"price_detail_button"
+    },
+    {
+      "file": "translation-master.json",
+      "match": "best_solutions",
+      "ctx": "ect\", \"secondary_button_label\": \"Open last saved\" } }, \"best_solutions\": { \"message_discover_all_layouts\": \"Make sure to look at all the kitchen layouts that you can choose from to find the best solution."
+    },
+    {
+      "file": "translation-master.json",
+      "match": "no_solution",
+      "ctx": " \"primary_button_label\": \"Ok\", \"title\": \"Your design is invalid\" }, \"no_solution_1\": { \"message_check_now\": \"Do you want to check now?\", \"message_delete_water_supply\": \"We have not found any solutions for "
+    },
+    {
+      "file": "translation-master.json",
+      "match": "water_suppl",
+      "ctx": "ion_1\": { \"message_check_now\": \"Do you want to check now?\", \"message_delete_water_supply\": \"We have not found any solutions for your kitchen. Deleting the water supply position may help.\", \"primary_button_label\": \"Yes\", "
+    },
+    {
+      "file": "translation-master.json",
+      "match": "water suppl",
+      "ctx": " \"message_delete_water_supply\": \"We have not found any solutions for your kitchen. Deleting the water supply position may help.\", \"primary_button_label\": \"Yes\", \"secondary_button_label\": \"No\", \"title\": \"Delete the water "
+    },
+    {
+      "file": "translation-master.json",
+      "match": "water suppl",
+      "ctx": "_button_label\": \"Yes\", \"secondary_button_label\": \"No\", \"title\": \"Delete the water supply\" }, \"no_solution_2\": { \"message\": \"Make sure your kitchen has enough available space on at least one wall.\", "
+    },
+    {
+      "file": "translation-master.json",
+      "match": "no_solution",
+      "ctx": " \"secondary_button_label\": \"No\", \"title\": \"Delete the water supply\" }, \"no_solution_2\": { \"message\": \"Make sure your kitchen has enough available space on at least one wall.\", \"primary_button_label\": \"Edit my"
+    },
+    {
+      "file": "translation-master.json",
+      "match": "water_inlet",
+      "ctx": " \"primary_button_label\": \"Ok\", \"title\": \"No space available\" }, \"water_inlet\": { \"message\": \"You have not selected a water inlet.\", \"question\": \"Would you like to continue designing your kitchen withou"
+    },
+    {
+      "file": "translation-master.json",
+      "match": "water_suppl",
+      "ctx": " \"secondary_button_label\": \"No\", \"title\": \"Edit wall panel\" }, \"water_supply\": { \"message_add_water_supply\": \"Do you want to add a water supply?\", \"message_sink_on_corresponding_wall\": \"We will use th"
+    },
+    {
+      "file": "translation-master.json",
+      "match": "water_suppl",
+      "ctx": " \"title\": \"Edit wall panel\" }, \"water_supply\": { \"message_add_water_supply\": \"Do you want to add a water supply?\", \"message_sink_on_corresponding_wall\": \"We will use this information to suggest kitchen layouts "
+    },
+    {
+      "file": "translation-master.json",
+      "match": "water suppl",
+      "ctx": " }, \"water_supply\": { \"message_add_water_supply\": \"Do you want to add a water supply?\", \"message_sink_on_corresponding_wall\": \"We will use this information to suggest kitchen layouts with a sink on the corresponding wall"
+    },
+    {
+      "file": "translation-master.json",
+      "match": "water suppl",
+      "ctx": "\"primary_button_label\": \"Yes\", \"secondary_button_label\": \"No\", \"title\": \"No water supply position\" }, \"worktop_editor\": { \"link_label\": \"Learn more about worktop types\", \"message_choose_desired_wo"
+    },
+    {
+      "file": "translation-master.json",
+      "match": "water_suppl",
+      "ctx": ". Have a great time!\", \"title\": \"Start with some tips!\" }, \"water_supply\": { \"description\": \"You can go here to select the wall where is your water supply.We will use this information to suggest kitchen l"
+    },
+    {
+      "file": "translation-master.json",
+      "match": "water suppl",
+      "ctx": " \"water_supply\": { \"description\": \"You can go here to select the wall where is your water supply.We will use this information to suggest kitchen layouts with a sink on the corresponding wall when possible.\", \"title\": \"Position w"
+    },
+    {
+      "file": "translation-master.json",
+      "match": "water suppl",
+      "ctx": "n layouts with a sink on the corresponding wall when possible.\", \"title\": \"Position water supply\" }, \"draw_plan\": { \"description\": \"Split the floor into several areas.\", \"title\": \"Design a"
+    },
+    {
+      "file": "translation-master.json",
+      "match": "no_solution",
+      "ctx": "right side\", \"samewall\": \"On the same wall\" }, \"popins\": { \"no_solution_2\": { \"message\": \"Make sure your template is valid and should fit in this room.\", \"primary_button_label\": \"EDIT YOUR"
+    },
+    {
+      "file": "translations-ru-LV.json",
+      "match": "autodesign",
+      "ctx": "равнивание текста\",\"textBox\":\"Текстовое поле\",\"thickness\":\"Толщина\",\"transparency\":\"Прозрачность\"},\"autodesign_solution_info\":{\"appliances_included\":\"Бытовая техника включена\",\"appliances\":{\"cooktop\":\"Варочные панели\",\"dishwasher\":\"Посудомоечные машины\",\"fridg"
+    },
+    {
+      "file": "translations-ru-LV.json",
+      "match": "water_suppl",
+      "ctx": "чтобы начать строить стену и нажмите снова, чтобы закончить.\",\"title\":\"Добавить стену\"},\"design_own_water_supply\":{\"info\":\"Выберите стену, на которой у вас расположен вывод воды, чтобы определить расположение раковины\",\"title\":\"Разместите вывод воды\"},\"design_"
+    },
+    {
+      "file": "translations-ru-LV.json",
+      "match": "watersuppl",
+      "ctx": "ать форму\",\"button_roomshape\":\"Форма помещения\",\"button_sloped_ceiling\":\"Скошенный потолок\",\"button_watersupply\":\"Вывод воды\"},\"detailed_design_state\":{\"favorites\":\"Избранное\",\"search\":\"Поиск\"},\"help_center\":{\"BRNotification_floorplan_message\":\"<b>Планируйте с"
+    },
+    {
+      "file": "translations-ru-LV.json",
+      "match": "popin_templatecomputing",
+      "ctx": "measure_desc\":\"Выберите два элемента, чтобы узнать расстояние между ними\",\"next_step\":\"Продолжить\",\"popin_templatecomputing_desc\":\"Мы создаём предложения, основанные на ваших предпочтениях и пространстве.\",\"popin_templatecomputing_title\":\"Предложения уже в пут"
+    },
+    {
+      "file": "translations-ru-LV.json",
+      "match": "popin_templatecomputing",
+      "ctx": "emplatecomputing_desc\":\"Мы создаём предложения, основанные на ваших предпочтениях и пространстве.\",\"popin_templatecomputing_title\":\"Предложения уже в пути!\",\"price_info\":\"Что включено в стоимость\",\"proceed\":\"Продолжить\",\"proceed_tip\":\"Продолжить\",\"project_defa"
+    },
+    {
+      "file": "translations-ru-LV.json",
+      "match": "best_solutions",
+      "ctx": "ановить проект\",\"secondary_button_label\":\"Начать планировать\"},\"title\":\"Восстановить ваш проект?\"},\"best_solutions\":{\"message_discover_all_layouts\":\"У нас есть ещё предпочтения, основанные на ваших предпочтениях\",\"message_want_to_see\":\"Хотите увидеть эти решен"
+    },
+    {
+      "file": "translations-ru-LV.json",
+      "match": "no_solution",
+      "ctx": "></div>\",\"primary_button_label\":\"ОК\",\"title\":\"Ваш вариант не работает. Давайте попробуем заново.\"},\"no_solution_1\":{\"message_check_now\":\"-----\",\"message_delete_water_supply\":\"Мы не нашли вариантов для вашей кухни. Если вы удалите вывод воды на время этого шага"
+    },
+    {
+      "file": "translations-ru-LV.json",
+      "match": "water_suppl",
+      "ctx": " работает. Давайте попробуем заново.\"},\"no_solution_1\":{\"message_check_now\":\"-----\",\"message_delete_water_supply\":\"Мы не нашли вариантов для вашей кухни. Если вы удалите вывод воды на время этого шага, это может помочь.\",\"primary_button_label\":\"Да\",\"secondary_"
+    },
+    {
+      "file": "translations-ru-LV.json",
+      "match": "no_solution",
+      "ctx": ".\",\"primary_button_label\":\"Да\",\"secondary_button_label\":\"Не удалять\",\"title\":\"Удалить вывод воды\"},\"no_solution_2\":{\"message\":\"<div><p>Чтобы увидеть предложения, убедитесь, что на вашей кухне достаточно места или выберите более широкий набор предпочтений</p></"
+    },
+    {
+      "file": "translations-ru-LV.json",
+      "match": "water_suppl",
+      "ctx": "_button_label\":\"Изменить\",\"secondary_button_label\":\"Отменить\",\"title\":\"Изменить настенную панель\"},\"water_supply\":{\"message_add_water_supply\":\"-----\",\"message_sink_on_corresponding_wall\":\"Мы используем эту информацию для предложения вариантов кухонь с мойкой н"
+    },
+    {
+      "file": "translations-ru-LV.json",
+      "match": "water_suppl",
+      "ctx": "econdary_button_label\":\"Отменить\",\"title\":\"Изменить настенную панель\"},\"water_supply\":{\"message_add_water_supply\":\"-----\",\"message_sink_on_corresponding_wall\":\"Мы используем эту информацию для предложения вариантов кухонь с мойкой на соответствующей стене, есл"
+    },
+    {
+      "file": "translations-ru-LV.json",
+      "match": "water_suppl",
+      "ctx": "оторые будут помогать вам на каждом шаге планирования\",\"title\":\"Давайте начнём с пары подсказок?\"},\"water_supply\":{\"description\":\"Укажите, где у вас находится вывод воды, чтобы мы могли предложить вам конфигурации кухонь с мойкой у этой стены.\",\"title\":\"Размес"
+    },
+    {
+      "file": "vendors-IntroKitchen-slope-ui.js",
+      "match": "linearManager",
+      "ctx": "leTags(),this._fillClosedTagsTranslation(),this._loadColorTagIds(),this._fillNonVisibleTags(),this._linearManager=null,this._fillerManager=null,this._uiManager=new V.o(this),this._startLinearInfoUpdate=null,this._applicativeRuleEngine=null,this._states={},this"
+    },
+    {
+      "file": "vendors-IntroKitchen-slope-ui.js",
+      "match": "linearManager",
+      "ctx": "merable:!0,configurable:!1},uiManager:{get(){return this._uiManager},enumerable:!0,configurable:!1},linearManager:{get(){return this._linearManager},set(e){this._linearManager=e,this._vcA.forEach((t=>{t.setLinearManager&&t.setLinearManager(e)}))},enumerable:!0"
+    },
+    {
+      "file": "vendors-IntroKitchen-slope-ui.js",
+      "match": "linearManager",
+      "ctx": "ger:{get(){return this._uiManager},enumerable:!0,configurable:!1},linearManager:{get(){return this._linearManager},set(e){this._linearManager=e,this._vcA.forEach((t=>{t.setLinearManager&&t.setLinearManager(e)}))},enumerable:!0,configurable:!1},fillerManager:{g"
+    },
+    {
+      "file": "vendors-IntroKitchen-slope-ui.js",
+      "match": "linearManager",
+      "ctx": "nager},enumerable:!0,configurable:!1},linearManager:{get(){return this._linearManager},set(e){this._linearManager=e,this._vcA.forEach((t=>{t.setLinearManager&&t.setLinearManager(e)}))},enumerable:!0,configurable:!1},fillerManager:{get(){return this._fillerMana"
+    },
+    {
+      "file": "vendors-IntroKitchen-slope-ui.js",
+      "match": "LinearManager",
+      "ctx": "Manager:{get(){return this._linearManager},set(e){this._linearManager=e,this._vcA.forEach((t=>{t.setLinearManager&&t.setLinearManager(e)}))},enumerable:!0,configurable:!1},fillerManager:{get(){return this._fillerManager},set(e){this._fillerManager=e},enumerabl"
+    },
+    {
+      "file": "vendors-IntroKitchen-slope-ui.js",
+      "match": "LinearManager",
+      "ctx": "n this._linearManager},set(e){this._linearManager=e,this._vcA.forEach((t=>{t.setLinearManager&&t.setLinearManager(e)}))},enumerable:!0,configurable:!1},fillerManager:{get(){return this._fillerManager},set(e){this._fillerManager=e},enumerable:!0,configurable:!1"
+    },
+    {
+      "file": "vendors-IntroKitchen-slope-ui.js",
+      "match": "LinearManager",
+      "ctx": "evel(),this._itemNoteManager&&(this._itemNoteManager.setLevel(this._level),this._itemNoteManager.setLinearManager(this._linearManager)),u.q.SetContext(this._buildingLevelContext),this._building=n.getBuilding();const i=[];return Object.keys(T.n).forEach((e=>{co"
+    },
+    {
+      "file": "vendors-IntroKitchen-slope-ui.js",
+      "match": "linearManager",
+      "ctx": "eManager&&(this._itemNoteManager.setLevel(this._level),this._itemNoteManager.setLinearManager(this._linearManager)),u.q.SetContext(this._buildingLevelContext),this._building=n.getBuilding();const i=[];return Object.keys(T.n).forEach((e=>{const t=T.n[e];void 0!"
+    },
+    {
+      "file": "vendors-IntroKitchen-slope-ui.js",
+      "match": "updateLinears",
+      "ctx": "n(e){this._currentState.setMaterialsDisplay&&this._currentState.setMaterialsDisplay(e)},$.prototype.updateLinearsDisplay=function(e,t){if(this._currentState.stateId!==M.o.WallPanelEditor){Object.keys(T.n).forEach((n=>{const i=T.n[n];this._vcA[i]&&z.O.SwitchLin"
+    },
+    {
+      "file": "vendors-IntroKitchen-slope-ui.js",
+      "match": "AutoDesign",
+      "ctx": "UI(e)}else i.setPriceUI();i.currentState.stateId!==M.o.DesignYourRoom&&i.currentState.stateId!==M.o.AutoDesign&&i.dom.productListButton&&i.dom.productListButton.prop(\"disabled\",!1),(0,s.$)('button[data-ui-action=\"priceInfo\"]').prop(\"disabled\",!1)}clearTimeout("
+    },
+    {
+      "file": "vendors-IntroKitchen-slope-ui.js",
+      "match": "linearManager",
+      "ctx": "s();f=t.map((n=>({index:d.length,name:e._name+(t.indexOf(n)+1),url:n,type:e._type})))}const n=this._linearManager._getProductTypeList(\"worktop\"),i=this._linearManager._getProductTypeList(\"wallpanel\"),a=this._linearManager._getEdgeFinishList(\"worktop\"),r=this._"
+    },
+    {
+      "file": "vendors-IntroKitchen-slope-ui.js",
+      "match": "linearManager",
+      "ctx": "xOf(n)+1),url:n,type:e._type})))}const n=this._linearManager._getProductTypeList(\"worktop\"),i=this._linearManager._getProductTypeList(\"wallpanel\"),a=this._linearManager._getEdgeFinishList(\"worktop\"),r=this._linearManager._getEdgeFinishList(\"wallpanel\"),o=[...n"
+    },
+    {
+      "file": "vendors-IntroKitchen-slope-ui.js",
+      "match": "linearManager",
+      "ctx": "nager._getProductTypeList(\"worktop\"),i=this._linearManager._getProductTypeList(\"wallpanel\"),a=this._linearManager._getEdgeFinishList(\"worktop\"),r=this._linearManager._getEdgeFinishList(\"wallpanel\"),o=[...n,...i],l=[...a,...r],c=Q.GetInstance(),u=await c.create"
+    },
+    {
+      "file": "vendors-IntroKitchen-slope-ui.js",
+      "match": "linearManager",
+      "ctx": "anager._getProductTypeList(\"wallpanel\"),a=this._linearManager._getEdgeFinishList(\"worktop\"),r=this._linearManager._getEdgeFinishList(\"wallpanel\"),o=[...n,...i],l=[...a,...r],c=Q.GetInstance(),u=await c.createLegends(t,o,l);A=u.map((e=>({index:d.length,name:c._"
+    },
+    {
+      "file": "vendors-IntroKitchen-slope-ui.js",
+      "match": "AutoDesign",
+      "ctx": "veButton),setTimeout((()=>{var e;(null===(e=this._currentState)||void 0===e?void 0:e.stateId)!==M.o.AutoDesign&&(this.enableSaveButton(!0),this._isSaving=!1)}),a)},$.prototype.setUser=function(e){this._user&&S.V.Error(\"Planner.setUser : Already have a user\"),t"
+    },
+    {
+      "file": "vendors-IntroKitchen-slope-ui.js",
+      "match": "linearManager",
+      "ctx": ":t}}))}))),l=this._level.getBays().filter((e=>!!e&&e.productInfo)),c=this.getProductData(l),d=this._linearManager.getLinears().filter((e=>!!e&&e.productInfo)),u=this.getLinearData(d);if(this.appName===b.T.AppNames.Kitchen){let e=null;0!==this._featuresArray.le"
+    },
+    {
+      "file": "vendors-IntroKitchen-slope-ui.js",
+      "match": "linearManager",
+      "ctx": "ler(n,t,this.fillerCabMap)}))}))},$.prototype.toJSON=function(){return{furnitureLinearTypeMap:this._linearManager?this._linearManager.furnitureLinearTypeMap:{}}},$.prototype.fromJSON=function(e){e.furnitureLinearTypeMap?this._linearManager&&(this._linearManage"
+    },
+    {
+      "file": "vendors-IntroKitchen-slope-ui.js",
+      "match": "linearManager",
+      "ctx": "abMap)}))}))},$.prototype.toJSON=function(){return{furnitureLinearTypeMap:this._linearManager?this._linearManager.furnitureLinearTypeMap:{}}},$.prototype.fromJSON=function(e){e.furnitureLinearTypeMap?this._linearManager&&(this._linearManager.furnitureLinearTyp"
+    },
+    {
+      "file": "vendors-IntroKitchen-slope-ui.js",
+      "match": "linearManager",
+      "ctx": "Manager.furnitureLinearTypeMap:{}}},$.prototype.fromJSON=function(e){e.furnitureLinearTypeMap?this._linearManager&&(this._linearManager.furnitureLinearTypeMap=e.furnitureLinearTypeMap):S.V.Error(\"BaseApp:fromJSON\",\"Ill-formed json\")},$.prototype.enableLinearIn"
+    },
+    {
+      "file": "vendors-IntroKitchen-slope-ui.js",
+      "match": "linearManager",
+      "ctx": "rTypeMap:{}}},$.prototype.fromJSON=function(e){e.furnitureLinearTypeMap?this._linearManager&&(this._linearManager.furnitureLinearTypeMap=e.furnitureLinearTypeMap):S.V.Error(\"BaseApp:fromJSON\",\"Ill-formed json\")},$.prototype.enableLinearInfoUpdate=function(){th"
+    },
+    {
+      "file": "vendors-IntroKitchen-slope-ui.js",
+      "match": "linearManager",
+      "ctx": "rTypeMap=function(){const e=this.getLinearTypeFurnitureListMap();this._startLinearInfoUpdate&&this._linearManager&&(this._linearManager.furnitureLinearTypeMap=this.getFurnitureLinearTypeMap(e))},$.prototype.getFurnitureLinearTypeMap=function(e){const t={};retu"
+    },
+    {
+      "file": "vendors-IntroKitchen-slope-ui.js",
+      "match": "linearManager",
+      "ctx": "nst e=this.getLinearTypeFurnitureListMap();this._startLinearInfoUpdate&&this._linearManager&&(this._linearManager.furnitureLinearTypeMap=this.getFurnitureLinearTypeMap(e))},$.prototype.getFurnitureLinearTypeMap=function(e){const t={};return Object.keys(e).forE"
+    },
+    {
+      "file": "vendors-IntroKitchen-slope-ui.js",
+      "match": "linearManager",
+      "ctx": "h((e=>{t[e.getUUID()]=n}))})),t},$.prototype.getLinearTypeFurnitureListMap=function(){const e=this._linearManager.getLinearTypeAndLinearMap(),t={};return Object.keys(e).forEach((n=>{const i=e[n];t[n]=i.map((e=>e._embeddedFurniture))})),t},$.prototype.updateLin"
+    },
+    {
+      "file": "vendors-IntroKitchen-slope-ui.js",
+      "match": "linearManager",
+      "ctx": "dedFurniture))})),t},$.prototype.updateLinearItemNotes=function(){if(!this._itemNoteManager||!this._linearManager||!this._startLinearInfoUpdate)return;const e=this._itemNoteManager.notes,t=this.getLinearTypeFurnitureListMap(),n=this._linearManager.furnitureLin"
+    },
+    {
+      "file": "vendors-IntroKitchen-slope-ui.js",
+      "match": "linearManager",
+      "ctx": "nfoUpdate)return;const e=this._itemNoteManager.notes,t=this.getLinearTypeFurnitureListMap(),n=this._linearManager.furnitureLinearTypeMap;e.forEach((e=>{const i=e.uuid;if(n.hasOwnProperty(i)){const a=n[i];if(t.hasOwnProperty(a)){const n=t[a][0].getUUID();e.setU"
+    }
+  ]
+}

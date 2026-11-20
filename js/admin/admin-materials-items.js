@@ -160,14 +160,10 @@
         const img = document.createElement('img');
         img.src = iconUrl;
         img.alt = '';
-        img.style.width = '70px';
-        img.style.height = '70px';
-        img.style.objectFit = 'cover';
-        img.style.borderRadius = '6px';
-        img.style.border = '1px solid #e5e7eb';
+        img.className = 'admin-list-thumb';
         tdIcon.appendChild(img);
       } else {
-        tdIcon.innerHTML = '<div style="width:70px; height:70px; border:1px solid #e5e7eb; border-radius:6px; background:#f8fafc;"></div>';
+        tdIcon.innerHTML = '<div class="admin-list-thumb-empty"></div>';
       }
 
       const tdName = document.createElement('td');

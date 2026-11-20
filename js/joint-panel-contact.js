@@ -6,7 +6,7 @@
  * допустимом диапазоне, плюс достаточное 2D-перекрытие в плоскости шва (s/e).
  * Стык (Базис) = общая часть торцов/пластей; без перекрытия кандидата нет.
  */
-import * as THREE from '/node_modules/three/build/three.module.js';
+import * as THREE from 'three';
 
 /** Макс. зазор между «соприкасающимися» панелями по нормали, мм. */
 export const JOINT_CONTACT_GAP_MAX_MM = 50;

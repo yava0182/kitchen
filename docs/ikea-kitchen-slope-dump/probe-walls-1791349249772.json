@@ -1,0 +1,91 @@
+{
+  "ok": false,
+  "err": "app_not_found",
+  "appDig": {
+    "label": "app",
+    "own": [],
+    "proto": [
+      "constructor",
+      "__defineGetter__",
+      "__defineSetter__",
+      "hasOwnProperty",
+      "__lookupGetter__",
+      "__lookupSetter__",
+      "isPrototypeOf",
+      "propertyIsEnumerable",
+      "toString",
+      "valueOf",
+      "__proto__",
+      "toLocaleString"
+    ],
+    "sample": {
+      "constructor": "function",
+      "__defineGetter__": "function",
+      "__defineSetter__": "function",
+      "hasOwnProperty": "function",
+      "__lookupGetter__": "function",
+      "__lookupSetter__": "function",
+      "isPrototypeOf": "function",
+      "propertyIsEnumerable": "function",
+      "toString": "function",
+      "valueOf": "function",
+      "toLocaleString": "function"
+    },
+    "tries": {
+      "level": null,
+      "viewer": null,
+      "_level": null,
+      "_viewer": null,
+      "getLevel": null,
+      "getViewer": null,
+      "core": null,
+      "_app": null,
+      "app": null
+    }
+  },
+  "byMeDig": {
+    "label": "ByMeAPI",
+    "own": [
+      "EventDispatcher"
+    ],
+    "proto": [
+      "constructor",
+      "__defineGetter__",
+      "__defineSetter__",
+      "hasOwnProperty",
+      "__lookupGetter__",
+      "__lookupSetter__",
+      "isPrototypeOf",
+      "propertyIsEnumerable",
+      "toString",
+      "valueOf",
+      "__proto__",
+      "toLocaleString"
+    ],
+    "sample": {
+      "EventDispatcher": "function",
+      "constructor": "function",
+      "__defineGetter__": "function",
+      "__defineSetter__": "function",
+      "hasOwnProperty": "function",
+      "__lookupGetter__": "function",
+      "__lookupSetter__": "function",
+      "isPrototypeOf": "function",
+      "propertyIsEnumerable": "function",
+      "toString": "function",
+      "valueOf": "function",
+      "toLocaleString": "function"
+    },
+    "tries": {
+      "level": null,
+      "viewer": null,
+      "_level": null,
+      "_viewer": null,
+      "getLevel": null,
+      "getViewer": null,
+      "core": null,
+      "_app": null,
+      "app": null
+    }
+  }
+}

@@ -1,20 +1,23 @@
-// Renderer — прямой canvas, без composer.
+// Renderer — IKEA_PORT only (Exp14). No v0 / no lab CURRENT.
 
 import { state } from '../utils/state.js';
-import { updateAllSceneIcons } from '../ui/scene-icons.js?v=20260921-whh1';
+import { updateAllSceneIcons } from '../ui/scene-icons.js?v=20261027-nmu142q';
 import { updateHingeRoleMarkerScreenPositions } from '../furniture/hinge-role-markers-room.js?v=20260613-hinge-cup-y-align';
-import { syncCameraNearClip, syncRoomEditPlanFrustum, updateCameraRigFrame } from './camera.js?v=20260923-cohabit42';
-import { getRoomLightingPreset } from './room-lighting-presets.js?v=20260829-room3';
-import { syncIkeaRoomLightV0, renderIkeaRoomLightV0, resizeIkeaHdrDisplayPipeline, isIkeaHdrDisplayActive } from '../furniture/ikea-room-light-v0.js?v=20260913-hang-lite';
-import { isIkeaRoomLightV0 } from '../furniture/ikea-light-gate.js?v=20260907-nospeed1';
+import {
+  syncCameraNearClip,
+  syncRoomEditPlanFrustum,
+  syncSceneViewOrthoFrustum,
+  updateCameraRigFrame,
+} from './camera.js?v=20261110-ikeaPort14';
+import { getRoomLightingPreset } from './room-lighting-presets.js?v=20261110-ikeaPort14';
+import {
+  isIkeaPortMode,
+  renderIkeaPortFrame,
+} from '../ikea-port/ikea-port-lifecycle.js?v=20261118-adminWt1';
 
 const ROOM_QUALITY_PROFILES = {
-  normal: { minPr: 1, maxPr: 1.5, maxMp: 6 },
-  /**
-   * IKEA HDR: several HalfFloat RTs + MSAA. High DPR caused GL_OUT_OF_MEMORY /
-   * "context loss and was blocked" on Windows Chrome. Cap pixels, not light SoT.
-   */
-  ikea: { minPr: 1, maxPr: 1.25, maxMp: 4 },
+  normal: { minPr: 1, maxPr: 2, maxMp: 8 },
+  ikea: { minPr: 1.5, maxPr: 2, maxMp: 8 },
   hq: { minPr: 1, maxPr: 2, maxMp: 8 },
   ultra: { minPr: 1.5, maxPr: 2, maxMp: 10 },
 };
@@ -25,7 +28,7 @@ function __num(value) {
 }
 
 export function getRoomRenderQuality() {
-  return isIkeaRoomLightV0() ? 'ikea' : 'normal';
+  return isIkeaPortMode() ? 'ikea' : 'normal';
 }
 
 function __roomRenderLimits() {
@@ -48,7 +51,6 @@ function __roomViewportSize() {
 export function getRoomRenderPixelRatio() {
   const dpr = window.devicePixelRatio || 1;
   const { width, height } = __roomViewportSize();
-  /** Placement only — IKEA does not drop DPR on orbit (caused look pop / perceived zasvet). */
   if (state.isPlacingFurniture || state.isDraggingFromCatalog) {
     return Math.min(dpr, 1);
   }
@@ -62,7 +64,7 @@ export function getRoomRenderPixelRatio() {
   return pr;
 }
 
-/** No-op: orbit keeps settled DPR (IKEA). Kept so animate() call stays valid. */
+/** No-op: orbit keeps settled DPR (IKEA). */
 export function syncOrbitCanvasPerf() {}
 
 export function getRoomRenderStats() {
@@ -94,7 +96,7 @@ export function initPostProcessing() {
   state.gtaoPass = null;
   state.n8aoPass = null;
   state.smaaPass = null;
-  console.warn('[RENDER] direct canvas · no composer · preset=', getRoomLightingPreset()?.id);
+  console.warn('[RENDER] IKEA_PORT · no composer · preset=', getRoomLightingPreset()?.id);
 }
 
 export function animate() {
@@ -119,7 +121,6 @@ export function animate() {
     syncCameraNearClip(state.camera.position.distanceTo(state.cameraRig.target));
   }
 
-  // Cutaway стен/потолка — каждый кадр (в т.ч. во время orbit/pan), как силуэт у IKEA.
   state.room?.updateWallVisibility?.(state.camera);
   if (!(state.isRotating || state.isPanning)) {
     state.furnitureAnimationMixer?.update(dt);
@@ -130,18 +131,24 @@ export function animate() {
     updateHingeRoleMarkerScreenPositions();
   }
   try {
-    if (isIkeaRoomLightV0()) syncIkeaRoomLightV0();
-    if (isIkeaRoomLightV0() && isIkeaHdrDisplayActive()) {
-      renderIkeaRoomLightV0(state.renderer, state.scene, state.camera);
+    if (isIkeaPortMode()) {
+      if (!renderIkeaPortFrame(state.renderer, state.scene, state.camera)) {
+        state.renderer.render(state.scene, state.camera);
+      }
     } else {
       state.renderer.render(state.scene, state.camera);
     }
   } catch (e) {
-    state._webglContextLost = true;
     if (!animate._abortLogged) {
       animate._abortLogged = true;
-      console.warn('[RENDER] frame aborted', e?.message || e);
+      console.warn('[RENDER] frame aborted', e?.message || e, e);
     }
+    try {
+      const gl = state.renderer?.getContext?.();
+      if (gl && typeof gl.isContextLost === 'function' && gl.isContextLost()) {
+        state._webglContextLost = true;
+      }
+    } catch (_) {}
   }
 }
 
@@ -150,17 +157,15 @@ export function onWindowResize() {
   if (!container || !state.renderer || !state.camera) return;
   const width = container.clientWidth;
   const height = container.clientHeight;
-  if (state.camera.isOrthographicCamera && window.__cldRoomEditOpen && window.__cldRoomEditView !== '3d') {
-    syncRoomEditPlanFrustum();
+  if (state.camera.isOrthographicCamera) {
+    if (typeof syncSceneViewOrthoFrustum === 'function') syncSceneViewOrthoFrustum();
+    else syncRoomEditPlanFrustum();
   } else {
     state.camera.aspect = width / height;
     state.camera.updateProjectionMatrix();
   }
   state.renderer.setPixelRatio(getRoomRenderPixelRatio());
   state.renderer.setSize(width, height, false);
-  if (isIkeaHdrDisplayActive()) {
-    resizeIkeaHdrDisplayPipeline(state.renderer.domElement.width, state.renderer.domElement.height);
-  }
   if (state.sceneIconsContainer) {
     state.sceneIconsContainer.style.width = `${width}px`;
     state.sceneIconsContainer.style.height = `${height}px`;

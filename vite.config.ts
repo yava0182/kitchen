@@ -20,6 +20,37 @@ export default defineConfig({
         }
       },
     },
+    // Канон каталога: catalog_items/ на диске через API :8101.
+    // Без этого Vite отдаёт public/catalog_items (зеркало) раньше proxy — комната видит устаревшее.
+    {
+      name: 'catalog-items-from-api',
+      configureServer(server) {
+        server.middlewares.use(async (req, res, next) => {
+          const raw = req.url || '';
+          if (!raw.startsWith('/catalog_items')) return next();
+          try {
+            const upstream = await fetch(`http://127.0.0.1:8101${raw}`);
+            const buf = Buffer.from(await upstream.arrayBuffer());
+            res.statusCode = upstream.status;
+            res.setHeader(
+              'Content-Type',
+              upstream.headers.get('content-type') || 'application/json; charset=utf-8'
+            );
+            res.setHeader('Cache-Control', 'no-store');
+            res.end(buf);
+          } catch (e) {
+            res.statusCode = 502;
+            res.setHeader('Content-Type', 'application/json; charset=utf-8');
+            res.end(
+              JSON.stringify({
+                error: 'catalog_items_proxy_failed',
+                message: e?.message || String(e),
+              })
+            );
+          }
+        });
+      },
+    },
   ],
   build: {
     outDir: 'dist',
@@ -33,51 +64,53 @@ export default defineConfig({
         'admin-room-management': resolve(__dirname, 'admin-room-management.html'),
         'admin-room-management-2': resolve(__dirname, 'admin-room-management-2.html'),
         'assembly-player': resolve(__dirname, 'assembly-player.html'),
-        // constructor: resolve(__dirname, 'constructor.html'), // Старый объединенный файл
       },
     },
   },
   server: {
-    port: 8100, // Теперь Vite слушает на 8000
-    host: '0.0.0.0', // Listen on all network interfaces (IPv4 and IPv6)
-    open: false, // Не открывать автоматически
-    strictPort: false,
-    cors: true, // allow loading modules from other local ports (e.g. :8001 API)
+    port: 8100,
+    host: '127.0.0.1',
+    open: false,
+    strictPort: true,
+    cors: true,
+    headers: {
+      'Cache-Control': 'no-store',
+    },
+    watch: {
+      ignored: [
+        '**/docs/ikea-kitchen-slope-dump/**',
+        '**/docs/**/*.js',
+        '**/node_modules/**',
+        '**/.rollback/**',
+        '**/_rollback/**',
+      ],
+    },
     proxy: {
-      // Проксируем API запросы к Express server (порт 8001)
       '/api': {
-        target: 'http://localhost:8101',
+        target: 'http://127.0.0.1:8101',
         changeOrigin: true,
       },
       '/catalog': {
-        target: 'http://localhost:8101',
+        target: 'http://127.0.0.1:8101',
         changeOrigin: true,
       },
-      // ⚠️ ИСПРАВЛЕНО: Убрали прокси для /data - Vite сам отдает файлы из public/data/
-      // Файлы из public/data/ доступны напрямую через /data/*.json
-      // Если нужен Express для записи данных, можно вернуть прокси, но для чтения Vite достаточно
-      // '/data': {
-      //   target: 'http://localhost:8000',
-      //   changeOrigin: true,
-      // },
-      // ⭐ УБРАНО: Прокси для /images - Vite сам отдает файлы из public/
-      // Если нужен Express для картинок, можно вернуть, но сейчас используем Vite
-      // '/images': {
-      //   target: 'http://localhost:8000',
-      //   changeOrigin: true,
-      // },
+      // Дубль на случай путей без middleware; чтение комнаты закрывает plugin выше.
+      '/catalog_items': {
+        target: 'http://127.0.0.1:8101',
+        changeOrigin: true,
+      },
     },
   },
+  // Запрет discovery/prebundle (Vite 5.1+): иначе 2× THREE → серый IKEA_PORT.
   optimizeDeps: {
-    include: ['three'],
+    noDiscovery: true,
+    include: [],
   },
   resolve: {
+    dedupe: ['three'],
     alias: {
       '@': resolve(__dirname, 'src'),
       '@js': resolve(__dirname, 'js'),
     },
   },
 });
-
-
-

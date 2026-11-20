@@ -1,0 +1,72 @@
+﻿Comparing files D:\����� ������������\����� CLODIS-KITCHEN\1.102������� ����\CLODIS-KITCHEN\JS\KITCHEN\kitchen-upper-g-place.js and D:\CLODIS-KITCHEN\JS\KITCHEN\KITCHEN-UPPER-G-PLACE.JS
+***** D:\����� ������������\����� CLODIS-KITCHEN\1.102������� ����\CLODIS-KITCHEN\JS\KITCHEN\kitchen-upper-g-place.js
+   16:    KITCHEN_UPPER_CORNER_CELL_DEPTH_MM,
+   17:  } from './kitchen-joint.js?v=20261115-upperGTop9';
+   18:  import {
+***** D:\CLODIS-KITCHEN\JS\KITCHEN\KITCHEN-UPPER-G-PLACE.JS
+   16:    KITCHEN_UPPER_CORNER_CELL_DEPTH_MM,
+   17:  } from './kitchen-joint.js?v=20261116-lCorner1050';
+   18:  import {
+*****
+
+***** D:\����� ������������\����� CLODIS-KITCHEN\1.102������� ����\CLODIS-KITCHEN\JS\KITCHEN\kitchen-upper-g-place.js
+   23:  import { isKitchenWallCornerGroup } from './kitchen-base-engine.js?v=20261115-upperGLeft27';
+   24:  import { buildKitchenCornerReturnVars } from './kitchen-section-layout.js?v=20261115-upperGLeft27';
+   25:  import {
+***** D:\CLODIS-KITCHEN\JS\KITCHEN\KITCHEN-UPPER-G-PLACE.JS
+   23:  import { isKitchenWallCornerGroup } from './kitchen-base-engine.js?v=20261115-upperGLeft27';
+   24:  import { buildKitchenCornerReturnVars } from './kitchen-section-layout.js?v=20261116-lCorner1050';
+   25:  import {
+*****
+
+***** D:\����� ������������\����� CLODIS-KITCHEN\1.102������� ����\CLODIS-KITCHEN\JS\KITCHEN\kitchen-upper-g-place.js
+   34:  
+   35:  const __BUILD = '20261115-upperGLeft27';
+   36:  /**
+***** D:\CLODIS-KITCHEN\JS\KITCHEN\KITCHEN-UPPER-G-PLACE.JS
+   34:  
+   35:  const __BUILD = '20261116-upperGHostArm1';
+   36:  /**
+*****
+
+***** D:\����� ������������\����� CLODIS-KITCHEN\1.102������� ����\CLODIS-KITCHEN\JS\KITCHEN\kitchen-upper-g-place.js
+  277:    const name = String(n.name || '');
+  278:    if (/??N???N?N??�?????�\s*??/i.test(name)) return false;
+  279:    if (String(n.layout_role || '') === 'corner_g_return') return false;
+  280:    if (/????N???N?N?/i.test(name)) return true;
+  281:    if (n.spec?.live_catalog && /????N???N?N?|N????�N?/i.test(String(n.spec.key || name))) {
+***** D:\CLODIS-KITCHEN\JS\KITCHEN\KITCHEN-UPPER-G-PLACE.JS
+  277:    const name = String(n.name || '');
+  278:    const role = String(n.layout_role || n.sectionLayoutRole || '').trim();
+  279:    if (/??N???N?N??�?????�\s*??/i.test(name)) return false;
+  280:    if (role === 'corner_g_return') return false;
+  281:    // ????N??�??N? N?N????�???� host: cabinet_root / A�?????�N?a?�A� / ????N???N?N? (???� N????�N????? live_catalog).
+  282:    if (role === 'cabinet_root') return true;
+  283:    if (/????N???N?N?/i.test(name)) return true;
+  284:    if (/N????�N?/i.test(name) && !/??N???N?N??�?????�/i.test(name)) return true;
+  285:    if (n.spec?.live_catalog && /????N???N?N?|N????�N?/i.test(String(n.spec.key || name))) {
+*****
+
+***** D:\����� ������������\����� CLODIS-KITCHEN\1.102������� ����\CLODIS-KITCHEN\JS\KITCHEN\kitchen-upper-g-place.js
+  326:      }
+  327:      if (_isHostArmNode(n)) hostN++;
+  328:      else if (_isOtherArmNode(n)) {
+  329:        otherN++;
+***** D:\CLODIS-KITCHEN\JS\KITCHEN\KITCHEN-UPPER-G-PLACE.JS
+  330:      }
+  331:      if (_isHostArmNode(n)) {
+  332:        hostN++;
+  333:        // ???????? armA?HA?depthA a?? ???� s:x: ?????�N??� ??N??? ??N??�?????? L s:x N?N??�????N????�?�N?N?N? (~N????�N??????�)
+  334:        // ?? ???�?� ?�?????� ??N?N??�N?N?N?N? N? N????�?�, ?� A�???�N??�?�N?A� N???N?N???N? ?????�?????? ?? ???�N?N????� N?N????
+  335:  �???�.
+  336:        n.size = {
+  337:          x: 'v:corner_g_arm_mm',
+  338:          y: 's:y',
+  339:          z: 'v:corner_g_depth_a_mm',
+  340:        };
+  341:        n.pos = n.pos && typeof n.pos === 'object' ? n.pos : { x: 0, y: 0, z: 0 };
+  342:        n.pivot = { x: -1, y: -1, z: -1 };
+  343:      } else if (_isOtherArmNode(n)) {
+  344:        otherN++;
+*****
+

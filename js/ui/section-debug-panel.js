@@ -2,9 +2,15 @@ import {
   setSectionNicheVisualsEnabled,
   setHorizontalRoleSectionsEnabled,
 } from '../sections/section-manager.js';
-import { reapplyDebugColorsToFurnitureParts } from '../furniture/furniture-manager.js?v=20260907-shelf-props8';
+import { reapplyDebugColorsToFurnitureParts } from '../furniture/furniture-manager.js?v=20261104-ikl-prod6';
 import { syncCabinetPivotDebugVisibility } from '../debug/cabinet-pivot-visibility.js';
 import { state } from '../utils/state.js';
+
+try {
+  if (typeof window !== 'undefined') {
+    window.__cldSyncCabinetPivotDebugVisibility = syncCabinetPivotDebugVisibility;
+  }
+} catch (_) {}
 
 /**
  * Панель для включения отладочных визуализаций:

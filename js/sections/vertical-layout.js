@@ -56,36 +56,87 @@ export const PLACEMENT_KIND = {
   WALL_HUNG_HIGH: 'wall_hung_high',
   CORPUS_ONLY: 'corpus_only',
   STANDALONE_FLOOR: 'standalone_floor',
+  /** Кухня: стол рабочий. В комнате садится как низ; опоры — параметр проекта кухни, не 3 SKU. */
+  KITCHEN_BASE: 'kitchen_base',
+  KITCHEN_BASE_GOLA: 'kitchen_base_gola',
+  /** Кухня: пенал — тянется по высоте секции, как шкаф в нише. */
+  KITCHEN_TALL: 'kitchen_tall',
 };
+
+export function isKitchenBasePlacementKind(pk) {
+  const s = String(pk || '').trim();
+  return (
+    s === PLACEMENT_KIND.KITCHEN_BASE ||
+    s === PLACEMENT_KIND.KITCHEN_BASE_GOLA ||
+    s === 'kitchen_base_corner'
+  );
+}
+
+/** Угловой НМУ — отдельный тип, не ветка внутри обычного kitchen_base. */
+export function isKitchenCornerPlacementKind(pk) {
+  return String(pk || '').trim() === 'kitchen_base_corner';
+}
+
+/** Прямой НМ (без угла). */
+export function isKitchenStraightBasePlacementKind(pk) {
+  const s = String(pk || '').trim();
+  return s === PLACEMENT_KIND.KITCHEN_BASE || s === PLACEMENT_KIND.KITCHEN_BASE_GOLA;
+}
+
+export function isKitchenTallPlacementKind(pk) {
+  return String(pk || '').trim() === PLACEMENT_KIND.KITCHEN_TALL;
+}
+
+export function isKitchenWallMidPlacementKind(pk) {
+  const s = String(pk || '').trim();
+  return s === 'kitchen_wall_mid' || s === 'kitchen_wall_corner';
+}
+
+export function isKitchenWallTopPlacementKind(pk) {
+  return String(pk || '').trim() === 'kitchen_wall_top';
+}
 
 export function isWallHungPlacementKind(pk) {
   const s = String(pk || '').trim();
   return (
     s === PLACEMENT_KIND.WALL_HUNG ||
     s === PLACEMENT_KIND.WALL_HUNG_LOW ||
-    s === PLACEMENT_KIND.WALL_HUNG_HIGH
+    s === PLACEMENT_KIND.WALL_HUNG_HIGH ||
+    isKitchenWallMidPlacementKind(s) ||
+    isKitchenWallTopPlacementKind(s)
   );
 }
 
-/** Нижний навес / тумба: низкий обклад, AutoTop на корпусе, без потолочной №1. */
+/** Нижний навес / тумба / кухонный стол: низкий обклад, AutoTop на корпусе, без потолочной №1. */
 export function isLowFurniturePlacementKind(pk) {
   const s = String(pk || '').trim();
-  return s === PLACEMENT_KIND.STANDALONE_FLOOR || s === PLACEMENT_KIND.WALL_HUNG_LOW;
+  return (
+    s === PLACEMENT_KIND.STANDALONE_FLOOR ||
+    s === PLACEMENT_KIND.WALL_HUNG_LOW ||
+    isKitchenBasePlacementKind(s) ||
+    isKitchenWallMidPlacementKind(s)
+  );
 }
 
 export function isWallHungLowPlacementKind(pk) {
-  return String(pk || '').trim() === PLACEMENT_KIND.WALL_HUNG_LOW;
+  const s = String(pk || '').trim();
+  return s === PLACEMENT_KIND.WALL_HUNG_LOW || isKitchenWallMidPlacementKind(s);
 }
 
 export function isWallHungHighPlacementKind(pk) {
   const s = String(pk || '').trim();
+  // kitchen_wall_top (НШ2) — НЕ сюда: низ от датамов (floorClearance), не от потолка.
   return s === PLACEMENT_KIND.WALL_HUNG || s === PLACEMENT_KIND.WALL_HUNG_HIGH;
 }
 
-/** Высокий для стыка SideCap/TopCap: ниша или верхний навес. */
+/** Высокий: пенал / антресоль — цельная верхняя планка и стыки как у высокого ряда. */
 export function isTallFurniturePlacementKind(pk) {
   const s = String(pk || '').trim() || PLACEMENT_KIND.FLOOR_IN_NICHE;
-  return s === PLACEMENT_KIND.FLOOR_IN_NICHE || isWallHungHighPlacementKind(s);
+  return (
+    s === PLACEMENT_KIND.FLOOR_IN_NICHE ||
+    isKitchenTallPlacementKind(s) ||
+    isWallHungHighPlacementKind(s)
+  );
 }
 
 /** Пара шкаф/верхний навес ↔ тумба/нижний навес — SideCap 16 мм + TopCap. */
@@ -109,7 +160,11 @@ export function needsFloorPlinthPlacementKind(pk) {
  */
 export function isCorpusDrawerStackPlacementKind(pk) {
   const s = String(pk || '').trim();
-  return s === PLACEMENT_KIND.STANDALONE_FLOOR || isWallHungPlacementKind(s);
+  return (
+    s === PLACEMENT_KIND.STANDALONE_FLOOR ||
+    isKitchenBasePlacementKind(s) ||
+    isWallHungPlacementKind(s)
+  );
 }
 
 export const DEFAULT_WALL_HUNG_FLOOR_CLEARANCE_MM = 300;
@@ -299,17 +354,15 @@ export function getCorpusAntresolSplitMmFromVariables(variables) {
 }
 
 /**
- * Для напольного шкафа в нише: высота цоколя в переменных = нижняя планка секции комнаты.
+ * LEGACY шкафная ниша — в Clodis-Kitchen отключена.
+ * Кухня: h_bottom = project plinth (kitchen-base-engine), не bottomPlank секции.
+ * Функция оставлена как no-op, чтобы старые call sites не падали.
  */
 export function mergeFloorNicheVariablesFromSection(sectionData, variables) {
   const base =
     variables && typeof variables === 'object' && !Array.isArray(variables)
       ? { ...variables }
       : {};
-  if (!sectionData) return base;
-  const bpRaw = Number(sectionData.bottomPlankHeightMm);
-  base.h_bottom =
-    Number.isFinite(bpRaw) && bpRaw >= 0 ? bpRaw : DEFAULT_BOTTOM_PLANK_MM;
   return base;
 }
 

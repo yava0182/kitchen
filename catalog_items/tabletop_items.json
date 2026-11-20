@@ -1,0 +1,124 @@
+[
+  {
+    "catalog_type": "tabletop_items",
+    "name": "Дуб барбара",
+    "code": "",
+    "has_trap": 0,
+    "category": "",
+    "order": 10000,
+    "active": 1,
+    "icon": "/files/decor/Декоры столешниц/Древесные/ldsp_dub_barbera_peschanyy_k543_sn_1792674053200.jpg",
+    "accessories": {
+      "conn": 0,
+      "end": 0
+    },
+    "params": {
+      "mat_mode": 0,
+      "material": 0,
+      "mat_params": {
+        "type": "Standard",
+        "params": {
+          "color": "#ffffff",
+          "roughness": 1,
+          "metalness": 0,
+          "transparent": 0,
+          "opacity": 1,
+          "map": "/files/decor/Декоры столешниц/Древесные/ldsp_dub_barbera_peschanyy_k543_sn_1792674053200.jpg",
+          "normalMap": "",
+          "roughnessMap": "",
+          "alphaMap": ""
+        },
+        "add_params": {
+          "wrapping": "mirror",
+          "normal_wrapping": "mirror",
+          "roughness_wrapping": "mirror",
+          "rotation": "rotated",
+          "stretch_width": 1,
+          "stretch_height": 0,
+          "real_width": 256,
+          "real_height": 256,
+          "one_sided": 1
+        }
+      },
+      "auto_variant": 0,
+      "butt": {
+        "id": 0,
+        "key": ""
+      },
+      "variants": [
+        {
+          "id": "tt-var-1792694112005-683706",
+          "name": "",
+          "code": "",
+          "width": 600,
+          "height": 3050,
+          "thickness": 38,
+          "price": 0,
+          "price_mode": "m",
+          "price_type": "p",
+          "price_acc_id": 0,
+          "params": {}
+        }
+      ],
+      "trap_variants": [],
+      "preview_w": 450,
+      "preview_h": 720,
+      "spec": {
+        "hide_sizes_catalog": 0
+      },
+      "sections": {
+        "types": {
+          "PROFILE_STRIP": {
+            "enabled": 0,
+            "price": 0,
+            "price_mode": "m",
+            "price_acc_id": 0,
+            "price_code": "",
+            "show_coupler": 0,
+            "plank_model_id": 0
+          },
+          "EURO_CUT": {
+            "enabled": 0,
+            "price": 0,
+            "price_mode": "m",
+            "price_acc_id": 0,
+            "price_code": "",
+            "show_coupler": 0
+          },
+          "ANGLE_CUT": {
+            "enabled": 0,
+            "price": 0,
+            "price_mode": "m",
+            "price_acc_id": 0,
+            "price_code": "",
+            "show_coupler": 0
+          },
+          "SEAMLESS": {
+            "enabled": 0,
+            "price": 0,
+            "price_mode": "m",
+            "price_acc_id": 0,
+            "price_code": "",
+            "show_coupler": 0
+          }
+        },
+        "offsets": {
+          "min": 0
+        },
+        "coupler": {
+          "model_id": 0,
+          "base_count": "",
+          "min_offset": "",
+          "gen_mode": "count",
+          "gen_value": "",
+          "end_hole_diameter": 8,
+          "bottom_hole_diameter": 35,
+          "bottom_hole_depth": 20,
+          "joint_to_center": 32,
+          "end_hole_depth": 20
+        }
+      }
+    },
+    "id": 1
+  }
+]

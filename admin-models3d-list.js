@@ -126,12 +126,12 @@
     const iconUrl = (item?.icon || item?.image || '').toString();
     const colorVal = (item?.color || '').toString().trim();
     if (iconUrl) {
-      return `<img src="${iconUrl}" alt="" style="width:70px;height:70px;object-fit:cover;border-radius:6px;border:1px solid #e5e7eb;" onerror="this.style.display='none'">`;
+      return `<img class="admin-list-thumb" src="${iconUrl}" alt="" onerror="this.style.display='none'">`;
     }
     if (colorVal && /^#([0-9A-Fa-f]{6})$/.test(colorVal)) {
-      return `<div style="width:70px;height:70px;background:${colorVal};border-radius:6px;border:1px solid #e5e7eb;"></div>`;
+      return `<div class="admin-list-thumb-empty" style="background:${colorVal};"></div>`;
     }
-    return '<div style="width:70px;height:70px;border:1px solid #e5e7eb;border-radius:6px;background:#f8fafc;"></div>';
+    return '<div class="admin-list-thumb-empty"></div>';
   }
 
   function applyModels3dFilters(state, searchInputId, categoryFilterId) {
@@ -200,6 +200,7 @@
     for (const item of pageData) {
       const active = (item?.active ?? 1) == 1 || item?.active === true || item?.active === '1';
       const eyeClass = active ? 'fa-eye' : 'fa-eye-slash';
+      const eyeColor = active ? 'btn-success' : 'btn-default';
       const eyeTitle = active ? 'Видим' : 'Скрыт';
       const tr = document.createElement('tr');
       const articleCode = getArticleCode(item);
@@ -208,20 +209,20 @@
       const itemName = (item?.name || '').replace(/"/g, '&quot;');
       tr.innerHTML = `
         <td style="width: 50px;">${item?.id ?? '-'}</td>
-        <td style="width: 100px;">${mkIconCellHtml(item)}</td>
+        <td class="col-icon">${mkIconCellHtml(item)}</td>
         <td>${(item?.name || '-').toString().replace(/</g, '&lt;')}</td>
         <td style="width: 100px;">${articleCode.replace(/</g, '&lt;')}</td>
         <td style="width: 250px;">${categoryText.replace(/</g, '&lt;')}</td>
-        <td style="width: 100px;">${String(item?.order ?? item?.sort ?? 10000)}</td>
-        <td style="width: 100px;">
-          <i class="fa ${eyeClass} btn btn-outline" style="cursor: pointer;" data-m3-action="toggle-visibility" data-m3-id="${itemId}" data-m3-active="${active ? '1' : '0'}" title="${eyeTitle}"></i>
+        <td class="col-order">${String(item?.order ?? item?.sort ?? 10000)}</td>
+        <td class="col-vis">
+          <i class="fa ${eyeClass} btn btn-outline ${eyeColor}" style="cursor: pointer;" data-m3-action="toggle-visibility" data-m3-id="${itemId}" data-m3-active="${active ? '1' : '0'}" title="${eyeTitle}"></i>
         </td>
-        <td style="width: 150px;">
-          <a href="#" data-m3-action="edit" data-m3-id="${itemId}" data-m3-name="${itemName}">
-            <i title="Редактировать" class="fa fa-edit btn btn-outline btn-success"></i>
-          </a>
-          <i title="Копировать" class="fa fa-copy btn btn-outline btn-info" style="margin: 0 6px; cursor: pointer;" data-m3-action="copy" data-m3-id="${itemId}" data-m3-name="${itemName}"></i>
-          <i title="Удалить" class="fa fa-trash btn btn-outline btn-danger" style="cursor: pointer;" data-m3-action="delete" data-m3-id="${itemId}" data-m3-name="${itemName}"></i>
+        <td class="col-actions">
+          <div class="cld-row-actions">
+            <i title="Редактировать" class="fa fa-edit btn btn-outline btn-success" style="cursor:pointer;" data-m3-action="edit" data-m3-id="${itemId}" data-m3-name="${itemName}"></i>
+            <i title="Копировать" class="fa fa-link btn btn-outline btn-info" style="cursor:pointer;" data-m3-action="copy" data-m3-id="${itemId}" data-m3-name="${itemName}"></i>
+            <i title="Удалить" class="fa fa-trash btn btn-outline btn-danger" style="cursor:pointer;" data-m3-action="delete" data-m3-id="${itemId}" data-m3-name="${itemName}"></i>
+          </div>
         </td>
       `;
       tbody.appendChild(tr);
@@ -379,6 +380,7 @@
     const modelCode = document.getElementById('models3d-model-code');
     const modelPriceType = document.getElementById('models3d-model-price-type');
     const modelPriceMode = document.getElementById('models3d-model-price-mode');
+    const modelPrice = document.getElementById('models3d-model-price');
     const modelCount = document.getElementById('models3d-model-count');
     const modelMinX = document.getElementById('models3d-model-min-x');
     const modelMinY = document.getElementById('models3d-model-min-y');
@@ -391,7 +393,9 @@
     if (modelCode) modelCode.value = firstModel.code || '';
     if (modelPriceType) modelPriceType.value = firstModel.price_type || 'p';
     if (modelPriceMode) modelPriceMode.value = firstModel.price_mode || 'c';
+    if (modelPrice) modelPrice.value = Number(firstModel.price) || 0;
     if (modelCount) modelCount.value = firstModel.count || 1;
+    refreshModels3dPriceModeUi();
     if (modelMinX) modelMinX.value = firstModel.min_x || 0;
     if (modelMinY) modelMinY.value = firstModel.min_y || 0;
     if (modelMinZ) modelMinZ.value = firstModel.min_z || 0;
@@ -610,7 +614,7 @@
       });
       if (!updateResp.ok) throw new Error(`HTTP ${updateResp.status}`);
       // Обновляем иконку без перезагрузки всей таблицы
-      iconElement.className = `fa ${newActive ? 'fa-eye' : 'fa-eye-slash'} btn btn-outline`;
+      iconElement.className = `fa ${newActive ? 'fa-eye' : 'fa-eye-slash'} btn btn-outline ${newActive ? 'btn-success' : 'btn-default'}`;
       iconElement.setAttribute('data-m3-active', newActive ? '1' : '0');
       iconElement.setAttribute('title', newActive ? 'Видим' : 'Скрыт');
       if (window.toastr) window.toastr.success(newActive ? 'Показано' : 'Скрыто');
@@ -801,6 +805,13 @@
           pickIcon();
         });
       }
+    }
+
+    const priceModeSel = document.getElementById('models3d-model-price-mode');
+    if (priceModeSel && !priceModeSel.dataset.cldPriceModeBound) {
+      priceModeSel.dataset.cldPriceModeBound = '1';
+      priceModeSel.addEventListener('change', () => refreshModels3dPriceModeUi());
+      refreshModels3dPriceModeUi();
     }
 
     // Обработчики вкладок формы редактирования
@@ -1085,6 +1096,21 @@
               syncModels3dPreviewMaterials();
             } catch (err) {
               console.warn('[Models3D] Не удалось сбросить материал меша:', err);
+            }
+            return;
+          } else if (action === 'remove') {
+            if (!jsonEditor) return;
+            try {
+              const raw = (jsonEditor.getValue() || '').toString().trim();
+              const parsed = raw ? JSON.parse(raw) : null;
+              if (!parsed?.models?.[0]?.params?.meshes) return;
+              if (!(meshName in parsed.models[0].params.meshes)) return;
+              delete parsed.models[0].params.meshes[meshName];
+              jsonEditor.setValue(JSON.stringify(parsed, null, 2), -1);
+              refreshModels3dMaterialsTab();
+              syncModels3dPreviewMaterials();
+            } catch (err) {
+              console.warn('[Models3D] Не удалось удалить строку меша:', err);
             }
             return;
           }
@@ -1443,29 +1469,62 @@
     };
   }
 
-  /** Блок «авто-вешалки» и slot_fit по X — только у штанги, не у вешалки #23. */
+  /** Показать/подсветить поле цены: «Вручную» — активно; «По ар.» — артикул главный. */
+  function refreshModels3dPriceModeUi() {
+    const mode = String(document.getElementById('models3d-model-price-mode')?.value || 'c');
+    const priceEl = document.getElementById('models3d-model-price');
+    const hint = document.getElementById('models3d-model-price-hint');
+    const manual = mode === 'manual';
+    if (priceEl) {
+      priceEl.readOnly = !manual;
+      priceEl.style.opacity = manual ? '1' : '0.65';
+      priceEl.title = manual
+        ? 'Цена за единицу (р/шт., р/м или р/м²)'
+        : 'Режим «По ар.»: цена из прайса по артикулу; поле можно оставить 0';
+    }
+    if (hint) {
+      hint.textContent = manual
+        ? 'Цена хранится на карточке (models[].price). Тип расчёта — р/шт. для опоры.'
+        : '«По ар.»: укажи артикул выше; цена подтянется из прайса (в комнате пока не подключено).';
+    }
+  }
+
+  /** Штанга (#22): блок авто-вешалок + slot_fit по длине. */
   function isModels3dRodBarItem(itemId, itemName, paramsObj) {
     const numId = Number(itemId) || 0;
     if (numId === 22) return true;
     const n = String(itemName || '').toLowerCase();
-    if (/штанг|shtang|rod|bar/i.test(n)) return true;
+    if (/штанг|shtang|\brod\b/i.test(n) && !/вешалк|hanger|плечик|опора|support|leg|ножк/i.test(n)) {
+      return true;
+    }
     const m0 = paramsObj?.models?.[0];
-    const p = m0?.params;
-    const sf = p?.slot_fit;
-    if (sf && sf.enabled && Number(sf.s?.x)) return true;
-    const comp = p?.companions;
+    const comp = m0?.params?.companions;
     if (comp && (comp.enabled === 1 || comp.enabled === true)) return true;
     return false;
   }
 
+  /** Вешалка/крючок (#23): только подсказка «настраивай на штанге», не на опоре/ручке. */
+  function isModels3dHangerCompanionItem(itemId, itemName, paramsObj) {
+    const numId = Number(itemId) || 0;
+    if (numId === 23) return true;
+    const n = String(itemName || '').toLowerCase();
+    if (/вешалк|hanger|плечик|крюч|hook/i.test(n)) return true;
+    if (paramsObj?.isRodCompanion === true || paramsObj?.rodHangFromTop === true) return true;
+    const m0 = paramsObj?.models?.[0];
+    if (m0?.params?.isRodCompanion === true || m0?.params?.rodHangFromTop === true) return true;
+    return false;
+  }
+
   function refreshModels3dRodCompanionsSectionVisibility(itemId, itemName, paramsObj) {
-    const show = isModels3dRodBarItem(itemId, itemName, paramsObj);
+    const isRod = isModels3dRodBarItem(itemId, itemName, paramsObj);
+    const isHanger = !isRod && isModels3dHangerCompanionItem(itemId, itemName, paramsObj);
     const section = document.getElementById('models3d-rod-companions-section');
     const slotSection = document.getElementById('models3d-slot-fit-section');
     const hint = document.getElementById('models3d-rod-companions-hint');
-    if (section) section.style.display = show ? '' : 'none';
-    if (slotSection) slotSection.style.display = show ? '' : 'none';
-    if (hint) hint.style.display = show ? 'none' : 'block';
+    // Штанга: companions + slot_fit. Вешалка: только hint. Остальное (опора и т.д.): обычный slot_fit, без штанги.
+    if (section) section.style.display = isRod ? '' : 'none';
+    if (slotSection) slotSection.style.display = isHanger ? 'none' : '';
+    if (hint) hint.style.display = isHanger ? 'block' : 'none';
     const hintLink = document.getElementById('models3d-rod-companions-hint-link');
     if (hintLink && !hintLink.dataset.cldBound) {
       hintLink.dataset.cldBound = '1';
@@ -1915,16 +1974,25 @@
 
       const clearBtn = document.createElement('button');
       clearBtn.type = 'button';
-      clearBtn.className = 'btn btn-xs btn-outline-danger';
+      clearBtn.className = 'btn btn-xs btn-outline-secondary';
       clearBtn.title = 'Сбросить материал';
       clearBtn.setAttribute('data-m3m-material-action', 'clear');
       clearBtn.setAttribute('data-mesh-name', meshName);
-      clearBtn.innerHTML = '<i class="fa fa-trash"></i>';
+      clearBtn.innerHTML = '<i class="fa fa-eraser"></i>';
+
+      const removeBtn = document.createElement('button');
+      removeBtn.type = 'button';
+      removeBtn.className = 'btn btn-xs btn-outline-danger';
+      removeBtn.title = 'Удалить строку меша из JSON';
+      removeBtn.setAttribute('data-m3m-material-action', 'remove');
+      removeBtn.setAttribute('data-mesh-name', meshName);
+      removeBtn.innerHTML = '<i class="fa fa-trash"></i>';
 
       wrap.appendChild(labelSpan);
       wrap.appendChild(pickBtn);
       wrap.appendChild(gotoBtn);
       wrap.appendChild(clearBtn);
+      wrap.appendChild(removeBtn);
 
       controlsCol.appendChild(wrap);
 
@@ -2097,6 +2165,7 @@
     const modelPath = (document.getElementById('models3d-model-path')?.value || '').toString();
     const modelPriceType = (document.getElementById('models3d-model-price-type')?.value || 'p').toString();
     const modelPriceMode = (document.getElementById('models3d-model-price-mode')?.value || 'c').toString();
+    const modelPrice = Number(document.getElementById('models3d-model-price')?.value || 0) || 0;
     const modelCount = Number(document.getElementById('models3d-model-count')?.value || 1) || 1;
     const modelMinX = Number(document.getElementById('models3d-model-min-x')?.value || 0) || 0;
     const modelMinY = Number(document.getElementById('models3d-model-min-y')?.value || 0) || 0;
@@ -2146,7 +2215,7 @@
         model: modelPath,
         price_type: modelPriceType,
         price_mode: modelPriceMode,
-        price: 0,
+        price: modelPrice,
         min_x: modelMinX,
         min_y: modelMinY,
         min_z: modelMinZ,
@@ -2222,6 +2291,13 @@
     return null;
   }
 
+  function __normMeshKey(name) {
+    return String(name || '')
+      .replace(/[_\s]+/g, ' ')
+      .trim()
+      .toLowerCase();
+  }
+
   function mergeMeshesIntoParams(paramsObj, meshNames) {
     if (!paramsObj || !Array.isArray(paramsObj.models) || !paramsObj.models[0]) return false;
     const m0 = paramsObj.models[0];
@@ -2229,13 +2305,40 @@
     if (!m0.params.meshes || typeof m0.params.meshes !== 'object') m0.params.meshes = {};
     const meshes = m0.params.meshes;
     let changed = false;
-    for (const name of (meshNames || [])) {
+    const live = new Set();
+    const liveNorm = new Map(); // norm -> canonical name from GLB
+    for (const name of meshNames || []) {
       const key = (name || '').toString();
       if (!key) continue;
+      live.add(key);
+      liveNorm.set(__normMeshKey(key), key);
       if (!meshes[key]) {
-        meshes[key] = defaultMeshParams();
-        changed = true;
+        // Перенести настройки с дубля «Профиль_Gola_C» → «Профиль Gola C», если есть.
+        const alias = Object.keys(meshes).find(
+          (k) => k !== key && __normMeshKey(k) === __normMeshKey(key)
+        );
+        if (alias) {
+          meshes[key] = { ...meshes[alias] };
+          delete meshes[alias];
+          changed = true;
+        } else {
+          meshes[key] = defaultMeshParams();
+          changed = true;
+        }
       }
+    }
+    // Только меши из текущего GLB; дубли с _ vs пробел тоже выкидываем.
+    for (const key of Object.keys(meshes)) {
+      if (live.has(key)) continue;
+      const canon = liveNorm.get(__normMeshKey(key));
+      if (canon && canon !== key) {
+        if (!meshes[canon]) meshes[canon] = { ...meshes[key] };
+        delete meshes[key];
+        changed = true;
+        continue;
+      }
+      delete meshes[key];
+      changed = true;
     }
     return changed;
   }
@@ -2294,7 +2397,7 @@
     const modelPath = (document.getElementById('models3d-model-path')?.value || '').trim();
     const previewRefMm = computeModels3dPreviewRefMm(paramsObj, modelPath);
 
-    // Масштаб X/Y/Z из формы — множитель после подгонки под рамку (см. _applyM3PreviewUserTransform в iframe).
+    // scale/pos/rot с формы → тот же prepareCabinetModelRoot, что цоколь/комната (реф _load_model).
     __models3dPreviewIframe.contentWindow.postMessage({
       type: 'cld:setModelTransform',
       transform: { ...transform, modelParams },
@@ -2621,7 +2724,7 @@
     iframe.style.borderRadius = '4px';
     // Та же страница, что и в каталоге элементов — наша сцена со стрелками и кубом
     // Контекст models3d: сцена подстраивается только для превью добавления/редактирования 3D модели (pivot и др.); каталог элементов в конструкторе — отдельно.
-    iframe.src = '/constructor-clodis.html?embedded=1&context=models3d&v=20260907-map-no-tint';
+    iframe.src = '/constructor-clodis.html?embedded=1&context=models3d&v=20261010-unify1';
 
     __models3dPreviewIframe = iframe;
     __models3dPreviewReady = false;

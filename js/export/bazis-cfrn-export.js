@@ -15,7 +15,7 @@ import { contactAllowsSchemeBySeamWidth } from '../joint-engine-v2.js?v=20260727
 import { resolveContactForJointSchemeEntry } from '../joint-toret-plast-detect.js?v=20260727-ecc-export';
 import { getBazisExportSettings } from './bazis-export-settings.js';
 import { createBazisMaterialResolver } from './bazis-material-resolve.js';
-import { setCatalogHorizontalTopVisible } from '../furniture/furniture-bbox.js?v=20260918-htop-catalog';
+import { setCatalogHorizontalTopVisible } from '../furniture/furniture-bbox.js?v=20261011-bbox-fix2';
 
 const BAZIS_API_KEY = 'e453ab6926db4fc3a7118f6306ecf586';
 /** Комната (state.scene): 1 юнит = 1 мм (см. state.js ROOM_*). Не путать с preview constructor-clodis (UNITS_MM=10). */
@@ -346,12 +346,29 @@ function buildPathGrooveCfrn(cw, ch, grooveMeta) {
     };
   }
 
+  const millD = Number(grooveMeta?.millDiameterMm) || 0;
+  const isNotch = String(grooveMeta?.kind || '') === 'notch' || /выемк/i.test(name);
+  const sign =
+    millD > 0
+      ? `${isNotch ? 'Выемка' : 'Паз'} Ø${millD}`
+      : isNotch
+        ? name || 'Выемка'
+        : /gola/i.test(name)
+          ? name
+          : 'Паз';
   return {
     name,
-    sign: 'Паз',
+    sign,
     frontSide: grooveMeta?.frontSide === true,
     contour: rectContour(widthMm, depthMm),
     trajectory,
+    millDiameterMm: millD > 0 ? millD : undefined,
+    cornerRadiusMm:
+      Number(grooveMeta?.cornerRadiusMm) > 0
+        ? Number(grooveMeta.cornerRadiusMm)
+        : millD > 0
+          ? millD / 2
+          : undefined,
   };
 }
 
@@ -361,7 +378,12 @@ function attachGroovesToTableObj(tableObj, mesh, cw, ch, panelMinY) {
   const grooves = [];
   for (const g of metaList) {
     if (!g) continue;
-    if (g.kind === 'path' || g.kind === 'groove' || g.kind === 'drawer_bottom') {
+    if (
+      g.kind === 'path' ||
+      g.kind === 'groove' ||
+      g.kind === 'notch' ||
+      g.kind === 'drawer_bottom'
+    ) {
       grooves.push(buildPathGrooveCfrn(cw, ch, g));
     }
   }
@@ -2118,12 +2140,18 @@ async function buildCFRNZip() {
     }
     return null;
   }
-  function createContainerNode(name) {
+  /**
+   * Контейнер CFRN: objType 7 = блок (как «Создать блок» в Базис-Мебельщик).
+   * isAssemblyUnit=true — сборочная единица (модуль: стол/шкаф) для спецификации и упаковки.
+   * @param {string} name
+   * @param {{ isAssemblyUnit?: boolean }} [opts]
+   */
+  function createContainerNode(name, opts) {
     const sectionTableIndex = tableIdx++;
     tableObjects.push({
       objType: 7,
       name: name || 'Секция',
-      isAssemblyUnit: false,
+      isAssemblyUnit: !!opts?.isAssemblyUnit,
     });
     return {
       tableIndex: sectionTableIndex,
@@ -2133,10 +2161,10 @@ async function buildCFRNZip() {
     };
   }
 
-  function getOrCreateChildNode(parentNode, key, name) {
+  function getOrCreateChildNode(parentNode, key, name, opts) {
     if (!parentNode.__childrenByKey) parentNode.__childrenByKey = new Map();
     if (parentNode.__childrenByKey.has(key)) return parentNode.__childrenByKey.get(key);
-    const child = createContainerNode(name);
+    const child = createContainerNode(name, opts);
     parentNode.__childrenByKey.set(key, child);
     parentNode.objs.push(child);
     return child;
@@ -2149,6 +2177,15 @@ async function buildCFRNZip() {
       p = p.parent;
     }
     return null;
+  }
+
+  /** Имя блока модуля = как в комнате / каталоге (Рабочий стол и т.п.). */
+  function getFurnitureBlockName(furnRoot) {
+    if (!furnRoot) return 'Модуль';
+    const ud = furnRoot.userData || {};
+    return (
+      String(ud.catalogName || ud.name || furnRoot.name || '').trim() || 'Модуль'
+    );
   }
 
   function getFurnitureSectionChain(mesh, furnitureRoot) {
@@ -2187,8 +2224,13 @@ async function buildCFRNZip() {
     }
     const furnRoot = findFurnitureRoot(obj);
     if (furnRoot) {
-      const furnName = furnRoot.name || furnRoot.userData?.name || 'Шкаф';
-      parentNode = getOrCreateChildNode(parentNode, `furniture:${furnRoot.uuid}`, furnName);
+      // Модуль комнаты → блок + сборочная единица (как «Создать блок» в Базисе).
+      parentNode = getOrCreateChildNode(
+        parentNode,
+        `furniture:${furnRoot.uuid}`,
+        getFurnitureBlockName(furnRoot),
+        { isAssemblyUnit: true }
+      );
       const chain = getFurnitureSectionChain(obj, furnRoot);
       for (const item of chain) {
         parentNode = getOrCreateChildNode(parentNode, item.key, item.name);
@@ -2325,11 +2367,15 @@ async function buildCFRNZip() {
       parentNode = getOrCreateChildNode(parentNode, `room:${secMeta.id}`, secMeta.name || `Секция ${secMeta.id}`);
     }
 
-    // 2) Иерархия шкафа из Clodis: мебель -> подсекции (cabinet_root/plinth/corpus/facade...)
+    // 2) Модуль (стол/шкаф) = блок-сборочная единица; внутри — панели, кромка, фурнитура, подсекции.
     const furnRoot = findFurnitureRoot(obj);
     if (furnRoot) {
-      const furnName = furnRoot.name || furnRoot.userData?.name || 'Шкаф';
-      parentNode = getOrCreateChildNode(parentNode, `furniture:${furnRoot.uuid}`, furnName);
+      parentNode = getOrCreateChildNode(
+        parentNode,
+        `furniture:${furnRoot.uuid}`,
+        getFurnitureBlockName(furnRoot),
+        { isAssemblyUnit: true }
+      );
       const chain = getFurnitureSectionChain(obj, furnRoot);
       for (const item of chain) {
         parentNode = getOrCreateChildNode(parentNode, item.key, item.name);
@@ -2459,7 +2505,16 @@ async function buildCFRNZip() {
   const panelCount = tableObjects.filter(o => o.objType === 2).length;
   const modelCount = tableObjects.filter(o => o.objType === 5).length;
   const sectionCount = tableObjects.filter(o => o.objType === 7).length;
-  console.log(`[CFRN] file.json: ${jsonStr.length} chars | sections(objType:7): ${sectionCount}, panels(objType:2): ${panelCount}, models(objType:5): ${modelCount}, triangles: ${tableTriangles.length}, materials: ${materialsArr.length}`);
+  const assemblyUnits = tableObjects.filter(o => o.objType === 7 && o.isAssemblyUnit);
+  console.log(
+    `[CFRN] file.json: ${jsonStr.length} chars | blocks(objType:7): ${sectionCount}, ` +
+      `assemblyUnits: ${assemblyUnits.length}` +
+      (assemblyUnits.length
+        ? ` [${assemblyUnits.map((o) => o.name).join(', ')}]`
+        : '') +
+      `, panels(objType:2): ${panelCount}, models(objType:5): ${modelCount}, ` +
+      `triangles: ${tableTriangles.length}, materials: ${materialsArr.length}`
+  );
 
   const byFurn = new Map();
   for (const p of cfrnPanelExportLog) {

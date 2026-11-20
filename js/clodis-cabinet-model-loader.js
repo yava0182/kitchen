@@ -99,9 +99,32 @@
           params = {};
         }
       }
-      const next = { params: params && typeof params === 'object' ? params : {} };
+      const modelsArr = Array.isArray(params?.models) ? params.models : [];
+      const m0 = modelsArr[0] || null;
+      const next = {
+        params: params && typeof params === 'object' ? params : {},
+        name: String(it.name || m0?.name || ''),
+        category: String(it.category || ''),
+        width: Number(it.width) || 0,
+        height: Number(it.height) || 0,
+        depth: Number(it.depth) || 0,
+        price: Number(m0?.price) || 0,
+        count: Math.max(1, Number(m0?.count) || 1),
+        price_type: String(m0?.price_type || params?.price_type || 'p'),
+        show_in_spec: Number(params?.show_in_spec ?? it.spec ?? 0) ? 1 : 0,
+      };
       if (mergeExisting && map[id]) {
-        map[id] = mergeCabinetModelLibraryEntry(map[id], next);
+        const merged = mergeCabinetModelLibraryEntry(map[id], next);
+        merged.name = next.name || map[id].name;
+        merged.category = next.category || map[id].category;
+        merged.width = next.width || map[id].width;
+        merged.height = next.height || map[id].height;
+        merged.depth = next.depth || map[id].depth;
+        merged.price = next.price;
+        merged.count = next.count;
+        merged.price_type = next.price_type;
+        merged.show_in_spec = next.show_in_spec;
+        map[id] = merged;
       } else {
         map[id] = next;
       }
@@ -539,6 +562,49 @@
     if (box2.isEmpty()) return;
     const c = box2.getCenter(new THREE.Vector3());
     root.position.set(-c.x, -c.y, -c.z);
+  }
+
+  /** Реф Handle/gola: длина и сечение независимо → неравномерный scale в слот Size. */
+  function scaleNonUniformToSizeMm(root, sizeMm) {
+    const THREE = getThree();
+    if (!root || !sizeMm || !THREE) return;
+    root.position.set(0, 0, 0);
+    root.updateMatrixWorld(true);
+    const box = new THREE.Box3().setFromObject(root);
+    if (box.isEmpty()) return;
+    const size = box.getSize(new THREE.Vector3());
+    const sx = Math.max(size.x, 1e-8);
+    const sy = Math.max(size.y, 1e-8);
+    const sz = Math.max(size.z, 1e-8);
+    const tx = Math.max(Number(sizeMm.x) || 0, 1e-6);
+    const ty = Math.max(Number(sizeMm.y) || 0, 1e-6);
+    const tz = Math.max(Number(sizeMm.z) || 0, 1e-6);
+    root.scale.multiply(new THREE.Vector3(tx / sx, ty / sy, tz / sz));
+    root.updateMatrixWorld(true);
+    const box2 = new THREE.Box3().setFromObject(root);
+    if (box2.isEmpty()) return;
+    const c = box2.getCenter(new THREE.Vector3());
+    root.position.set(-c.x, -c.y, -c.z);
+  }
+
+  function wantsNonUniformSlotFit(mergedSpec, sizeMm) {
+    if (!mergedSpec || !sizeMm) return false;
+    if (
+      mergedSpec.stretchToSize === true ||
+      mergedSpec.stretch_to_size === 1 ||
+      mergedSpec.nonUniformFit === true ||
+      mergedSpec.non_uniform_fit === 1
+    ) {
+      return true;
+    }
+    const label = `${mergedSpec.name || ''} ${mergedSpec.key || ''} ${mergedSpec.type || ''}`;
+    if (/gola|профиль|profile|facade_profile|overhead_profile/i.test(label)) return true;
+    const tx = Number(sizeMm.x) || 0;
+    const ty = Number(sizeMm.y) || 0;
+    const tz = Number(sizeMm.z) || 0;
+    // Длинный слот (пог. профиль): одна ось ≥150, две другие ≤120.
+    const dims = [tx, ty, tz].filter((n) => n > 0).sort((a, b) => b - a);
+    return dims.length === 3 && dims[0] >= 150 && dims[1] <= 120 && dims[2] <= 120;
   }
 
   function centerOnlyKeepScale(root) {
@@ -1463,8 +1529,10 @@
   function applyRoomCabinetModelMaterials(root, mergedSpec, entry) {
     const THREE = getThree();
     if (!root || !THREE) return Promise.resolve();
+    // Как constructor __cldApplyCabinetModelMeshMaterials: meshes на variant и на params.
     const meshMap =
       entry?.params?.meshes ||
+      entry?.meshes ||
       mergedSpec?.params?.meshes ||
       mergedSpec?.meshes ||
       null;
@@ -1483,13 +1551,26 @@
       mergedSpec.roomHandle === true ||
       mergedSpec.room_handle === true;
 
+    const supportLegLike =
+      mergedSpec?.cldSupportLeg === true ||
+      /опора|support.?leg|opora/i.test(String(mergedSpec?.key || mergedSpec?.name || '')) ||
+      modelId === '2' ||
+      modelId === '79' ||
+      modelId === '80';
+
     root.traverse((o) => {
       if (!o.isMesh) return;
       o.userData.isAccessory = true;
+      // Каталожный цвет — не затирать шагом 5 (Gola / фурнитура / опоры).
+      o.userData.cldSkipStep5FacadeDecor = true;
       if (mergedSpec?.isRodCompanion === true) o.userData.isRodCompanion = true;
       if (mergedSpec?.isShelfProp === true) o.userData.isShelfProp = true;
+      if (supportLegLike) {
+        o.userData.cldSupportLeg = true;
+        // IKEA_PORT: не whiteCorpus корпуса — цвет из model_key_material / GLB.
+        o.userData.ikeaPortMatRole = 'none';
+      }
       if (hingeLike) {
-        o.userData.cldSkipStep5FacadeDecor = true;
         o.userData.isHingeCabinetModelMetal = true;
         o.userData.isHingeBazisExport = true;
         o.userData.cldHingeCatalogModel = true;
@@ -1527,12 +1608,33 @@
 
       return resolveChrome().then((hingeChrome) => {
         const tasks = [];
+        const supportMatFallback = () => {
+          if (!supportLegLike) return { token: '', params: null };
+          if (catalog) {
+            const keys = ['2', 'Opora', 'opora', 'Опора', 'опора'];
+            for (let i = 0; i < keys.length; i++) {
+              const p = catalogParamsByToken(catalog, keys[i]);
+              if (p && (p.color || p.map)) return { token: keys[i], params: copyCatalogMaterialParams(p) };
+            }
+          }
+          // Кухонные ножки: чёрный металл (IKEA), если в каталоге нет карточки.
+          return {
+            token: 'opora-black',
+            params: { color: '#1a1a1a', metalness: 0.85, roughness: 0.38 },
+          };
+        };
+        const supportFb = supportMatFallback();
+        let effectiveFallback = fallbackToken;
+        if (!effectiveFallback && supportFb.token) effectiveFallback = supportFb.token;
         const rootParams = hingeLike && hingeChrome.params
           ? hingeChrome.params
-          : fallbackToken && catalog
-            ? catalogParamsByToken(catalog, fallbackToken)
-            : null;
-        const rootToken = hingeLike && hingeChrome.token ? hingeChrome.token : fallbackToken;
+          : effectiveFallback && catalog
+            ? catalogParamsByToken(catalog, effectiveFallback) || supportFb.params
+            : supportFb.params;
+        const rootToken =
+          hingeLike && hingeChrome.token
+            ? hingeChrome.token
+            : effectiveFallback || supportFb.token;
         if (rootParams) {
           stampCatalogMaterialOnNode(root, rootToken, rootParams);
           if (hingeLike) {
@@ -1547,10 +1649,14 @@
           if (!o.isMesh) return;
           const cfg = meshMap ? findMeshMaterialConfig(meshMap, o.name || '') : null;
           let token = meshMaterialTokenFromCfg(cfg);
-          if (!token && fallbackToken) token = fallbackToken;
+          if (!token && effectiveFallback) token = effectiveFallback;
           let params = token && catalog ? catalogParamsByToken(catalog, token) : null;
+          if (!params && supportFb.params) {
+            token = token || supportFb.token;
+            params = supportFb.params;
+          }
           if (hingeLike && hingeChrome.params) {
-            token = hingeChrome.token || token || fallbackToken;
+            token = hingeChrome.token || token || effectiveFallback;
             params = hingeChrome.params;
           }
           if (token) o.userData.cldCabinetMaterialToken = token;
@@ -1599,6 +1705,19 @@
               ).then(() => {
                 if (mergedSpec?.isShelfProp === true || mergedSpec?.isRodCompanion === true) {
                   finishShelfPropMeshMaterial(mat, THREE, o.name);
+                }
+                // Кухонные опоры: всегда тёмный металл (не белый корпус).
+                if (supportLegLike && mat?.color && THREE) {
+                  try {
+                    const c = mat.color;
+                    const lum = 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b;
+                    if (lum > 0.45 || !params?.color) {
+                      mat.color.set('#1a1a1a');
+                      if (mat.metalness != null) mat.metalness = Math.max(Number(mat.metalness) || 0, 0.75);
+                      if (mat.roughness != null) mat.roughness = Math.min(Number(mat.roughness) || 1, 0.4);
+                      mat.needsUpdate = true;
+                    }
+                  } catch (_) {}
                 }
               }),
             );
@@ -1667,6 +1786,152 @@
     root.updateMatrixWorld(true);
   }
 
+  function isKitchenSupportLegSpec(mergedSpec) {
+    const id = String(mergedSpec?.id || '').trim();
+    if (mergedSpec?.cldSupportLeg === true) return true;
+    if (id === '2' || id === '79' || id === '80') return true;
+    return /опора|support.?leg|opora/i.test(
+      String(mergedSpec?.key || mergedSpec?.name || ''),
+    );
+  }
+
+  /** Mesh/slot_fit s-флаги карточки (реф set_size). fitToSize у опоры НЕ форсим. */
+  function resolveSupportLegStretchFlags(entry) {
+    const p = entry?.params && typeof entry.params === 'object' ? entry.params : {};
+    const out = { x: 0, y: 0, z: 0 };
+    const axis = (v) => ({
+      x: Number(v?.x) ? 1 : 0,
+      y: Number(v?.y) ? 1 : 0,
+      z: Number(v?.z) ? 1 : 0,
+    });
+    const sf = p.slot_fit;
+    if (sf && typeof sf === 'object' && (sf.enabled === 1 || sf.enabled === true)) {
+      const s = axis(sf.s);
+      out.x |= s.x;
+      out.y |= s.y;
+      out.z |= s.z;
+    }
+    const meshes = p.meshes;
+    if (meshes && typeof meshes === 'object') {
+      Object.keys(meshes).forEach((k) => {
+        const s = axis(meshes[k] && meshes[k].s);
+        out.x |= s.x;
+        out.y |= s.y;
+        out.z |= s.z;
+      });
+    }
+    return out;
+  }
+
+  /**
+   * Реф _load_model: pos+rot с карточки после sizing.
+   * Опоры: не вызывается (prepare помечает _cldCatalogRotApplied, finish пропускает support).
+   */
+  function applyCatalogCardOrientAfterPrepare(root, entry, mergedSpec, opts) {
+    if (!root) return;
+    const force = !!(opts && opts.force);
+    if (!force && root.userData?._cldCatalogRotApplied) return;
+    root.userData = root.userData || {};
+    storeCatalogEntryRotation(root, entry);
+    applyStoredCatalogRotation(root);
+    const pos = entry?.params && typeof entry.params === 'object' ? entry.params.pos : null;
+    if (pos && typeof pos === 'object') {
+      const dx = Number(pos.x) || 0;
+      const dy = Number(pos.y) || 0;
+      const dz = Number(pos.z) || 0;
+      if (dx || dy || dz) {
+        root.position.x += dx;
+        root.position.y += dy;
+        root.position.z += dz;
+        root.updateMatrixWorld(true);
+      }
+    }
+    root.userData._cldCatalogRotApplied = true;
+  }
+
+  /**
+   * Fallback опоры, если PlanPlace API нет.
+   * Основной путь: buildPlanPlaceOwnObject (−tree + pivot + card).
+   */
+  function prepareKitchenSupportLegRoot(root, mergedSpec, entry, sizeMm) {
+    const THREE = getThree();
+    if (!root || !THREE) return root;
+    root.scale.set(1, 1, 1);
+    root.position.set(0, 0, 0);
+    root.rotation.set(0, 0, 0);
+    root.updateMatrixWorld(true);
+
+    const imp = inferFileToMmScale(root, mergedSpec);
+    if (imp !== 1) {
+      root.scale.setScalar(imp);
+      root.updateMatrixWorld(true);
+    }
+    const catSc = catalogScaleVec(entry);
+    if (catSc && (catSc.x !== 1 || catSc.y !== 1 || catSc.z !== 1)) {
+      root.scale.multiply(new THREE.Vector3(catSc.x, catSc.y, catSc.z));
+      root.updateMatrixWorld(true);
+    }
+
+    const params = entry?.params && typeof entry.params === 'object' ? entry.params : {};
+    const pos = params.pos && typeof params.pos === 'object' ? params.pos : {};
+    const px = Number(pos.x) || 0;
+    const py = Number(pos.y) || 0;
+    const pz = Number(pos.z) || 0;
+    if (px || py || pz) {
+      root.position.x += px;
+      root.position.y += py;
+      root.position.z += pz;
+    }
+
+    const rot = params.rot && typeof params.rot === 'object' ? params.rot : {};
+    const rx = Number(rot.x) || 0;
+    const ry = Number(rot.y) || 0;
+    const rz = Number(rot.z) || 0;
+    if (rx) root.rotateX(THREE.MathUtils.degToRad(rx));
+    if (ry) root.rotateY(THREE.MathUtils.degToRad(ry));
+    if (rz) root.rotateZ(THREE.MathUtils.degToRad(rz));
+    root.updateMatrixWorld(true);
+
+    // Низ на низ слота после card rot (AABB уезжает).
+    const box = new THREE.Box3().setFromObject(root);
+    if (!box.isEmpty()) {
+      const slotH = Math.max(Number(sizeMm?.y) || 0, 1);
+      const c = box.getCenter(new THREE.Vector3());
+      root.position.x -= c.x;
+      root.position.z -= c.z;
+      root.position.y += -slotH / 2 - box.min.y;
+      root.updateMatrixWorld(true);
+    }
+
+    const mid = String(mergedSpec?.id ?? '').trim();
+    root.userData = root.userData || {};
+    root.userData.cldSupportLeg = true;
+    root.userData.modelSpecId = mid;
+    root.userData._cldCatalogRotApplied = true;
+    root.userData._cldSupportLegPrepared = true;
+    root.userData._cldSupportLegDebug = {
+      id: mid,
+      imp,
+      cat: catSc,
+      cardPos: { x: px, y: py, z: pz },
+      cardRot: { x: rx, y: ry, z: rz },
+      url: entry?.model || null,
+    };
+    if (typeof global !== 'undefined') {
+      try {
+        global.__cldLastSupportLegPrepare = root.userData._cldSupportLegDebug;
+      } catch (_) {}
+    }
+    return root;
+  }
+
+  function finishPrepareWithCatalogCardTransform(root, entry, mergedSpec, flags) {
+    const f = flags || {};
+    if (f.jointHardware || f.jointTemplateModel || f.roomHandle) return;
+    if (f.supportLegLike) return;
+    applyCatalogCardOrientAfterPrepare(root, entry, mergedSpec, { force: true });
+  }
+
   /** Реф CabinetModel._load_model: variant.params задаёт transform самой модели. */
   function applyCatalogEntryTransform(root, entry) {
     const THREE = getThree();
@@ -1694,7 +1959,11 @@
   }
 
   function isEccentricJointTemplateModel(modelId, entry, mergedSpec) {
-    const name = String(mergedSpec?.name || entry?.name || mergedSpec?.title || '').toLowerCase();
+    const mid = String(modelId || mergedSpec?.id || '').trim();
+    if (mid === '26') return true;
+    const name = String(
+      mergedSpec?.name || entry?.name || mergedSpec?.title || mergedSpec?.key || '',
+    ).toLowerCase();
     const url = String(entry?.model || mergedSpec?.model || mergedSpec?.modelUrl || '').toLowerCase();
     if (name.includes('эксцентр') || name.includes('eccentric') || name.includes('eks')) return true;
     if (url.includes('excenric') || url.includes('excenter') || url.includes('eccentric')) return true;
@@ -1797,7 +2066,6 @@
     if (!THREE) return tpl;
     const root = tpl.clone(true);
     const modelId = String(mergedSpec?.id ?? mergedSpec?.key ?? '').trim();
-    // #7 — корпусные направляющие, не петля; hingeLike только 5/6 (чашка/корпус петли).
     const hingeLike = modelId === '5' || modelId === '6';
     const guideLike =
       modelId === '7' ||
@@ -1808,18 +2076,41 @@
         String(mergedSpec?.key || mergedSpec?.name || ''),
       );
     const handleLike = modelId === '3';
+    const supportLegLike =
+      mergedSpec?.cldSupportLeg === true ||
+      /опора|support.?leg|opora/i.test(String(mergedSpec?.key || mergedSpec?.name || '')) ||
+      modelId === '2' ||
+      modelId === '79' ||
+      modelId === '80';
     const jointHardware =
       Number(mergedSpec?.joint_hardware) === 1 ||
       mergedSpec?.jointHardware === true ||
-      mergedSpec?.skipCatalogRotation === true;
+      mergedSpec?.skipCatalogRotation === true ||
+      Number(mergedSpec?.fromJointScheme) === 1 ||
+      mergedSpec?.fromJointScheme === true;
     const jointTemplateModel =
       Number(mergedSpec?.joint_template_model) === 1 ||
       mergedSpec?.jointTemplateModel === true;
+    const sizeMmLooksEmpty =
+      !(Number(sizeMm?.x) > 0.5) &&
+      !(Number(sizeMm?.y) > 0.5) &&
+      !(Number(sizeMm?.z) > 0.5);
+    const keepNativeJointScale =
+      jointTemplateModel || jointHardware || (mergedSpec?.fitToSize === false && sizeMmLooksEmpty);
     root.traverse((o) => {
       if (o.isMesh) {
         o.castShadow = true;
         o.receiveShadow = true;
         o.userData.isAccessory = true;
+        if (jointTemplateModel || jointHardware) {
+          o.userData.fromJointScheme = 1;
+          o.userData.jointHardwareMesh = true;
+          o.userData.joint_hardware = 1;
+          // IKEA_PORT: не whiteCorpus — цвет из GLB / model_key_material.
+          o.userData.ikeaPortMatRole = 'none';
+          o.userData.cldSkipStep5FacadeDecor = true;
+          if (jointTemplateModel) o.userData.jointTemplateModel = 1;
+        }
         if (hingeLike) {
           o.userData.cldSkipStep5FacadeDecor = true;
           o.userData.isHingeCabinetModelMetal = true;
@@ -1834,6 +2125,11 @@
     });
     root.userData = root.userData || {};
     if (modelId) root.userData.modelSpecId = modelId;
+    if (jointTemplateModel || jointHardware) {
+      root.userData.fromJointScheme = 1;
+      root.userData.jointHardwareMesh = true;
+      root.userData.isAccessory = true;
+    }
     if (hingeLike) root.userData.cldSkipStep5FacadeDecor = true;
     if (guideLike) root.userData.cldGuideCabinetModel = true;
     const refMm =
@@ -1853,12 +2149,36 @@
     root.rotation.set(0, 0, 0);
     root.updateMatrixWorld(true);
 
+    // Контракт: опора XOR стык. Опора — PlanPlace/fallback. Стык не входит сюда.
+    if (supportLegLike && !jointHardware && !jointTemplateModel) {
+      const ppApi = global.__cldPlanPlaceLoadModel;
+      if (ppApi && typeof ppApi.buildPlanPlaceOwnObject === 'function') {
+        const own = ppApi.buildPlanPlaceOwnObject({
+          tpl,
+          entry,
+          spec: mergedSpec,
+          sizeMm,
+          treeRotDeg: prepOpts?.treeRotDeg || prepOpts?.treeRot || {},
+          pivot: prepOpts?.pivot || {},
+          supportLeg: true,
+        });
+        if (own) {
+          own.userData = own.userData || {};
+          own.userData.cldSupportLeg = true;
+          if (modelId) own.userData.modelSpecId = modelId;
+          own.userData._cldSupportLegPrepared = true;
+          return own;
+        }
+      }
+      return prepareKitchenSupportLegRoot(root, mergedSpec, entry, sizeMm);
+    }
+
+    // Тело «1.9 крепеж ок» — порядок scale → jointTemplate → keepNative обязателен.
     if (handleLike && fitToSize && !roomHandle) {
       const impH = inferFileToMmScaleFromMeshes(root, mergedSpec);
       root.scale.setScalar(impH);
       root.updateMatrixWorld(true);
       storeCatalogEntryRotation(root, entry);
-      // sizeMm = width/height/depth из cabinet_model (как у опоры в buildModel).
       scaleHandleVolnaToPrepMm(root, cardSizeMmForHandlePrep(entry, sizeMm));
       root.userData._cldHandleScalePrepared = true;
       root.userData._cldCatalogRotApplied = true;
@@ -1867,7 +2187,6 @@
 
     const entryParams = entry?.params && typeof entry.params === 'object' ? entry.params : {};
     const meshMap = entryParams.meshes || null;
-    // slot_fit из админки (модель целиком) — приоритет над дефолтным t.y=1 у меша в JSON
     const useWholeSlotFit = slotFitHasRules(readSlotFit(entryParams));
     const useMeshVertexSizing = !useWholeSlotFit && meshMapHasSizeRules(meshMap);
 
@@ -1876,12 +2195,7 @@
     root.updateMatrixWorld(true);
 
     if (jointTemplateModel) {
-      // Базис / шаблон присадки: ориентация и scale — только из карточки 3D
-      // (params.rot / pos / scale). Не центрируем и не подгоняем по size.
       applyCatalogEntryTransform(root, entry);
-      // Петли-половины #5/#6: без auto minX / rotateY(180) (СК карточки 3D).
-      // Корпус L-пакета (#27 и др.) — тот же prepare, что drill-preview админки
-      // (align minX), иначе origin по X расходится между шаблоном и карточкой.
       const isHingeHalf = modelId === '5' || modelId === '6';
       if (!isHingeHalf) {
         alignJointTemplateModelOriginToMinX(root, {
@@ -1894,12 +2208,28 @@
       return root;
     }
 
+    if (keepNativeJointScale) {
+      centerOnlyKeepScale(root);
+      return root;
+    }
+
     if (useMeshVertexSizing) {
       bakeMeshesToRootLocal(root);
       root.scale.set(1, 1, 1);
       root.position.set(0, 0, 0);
       root.updateMatrixWorld(true);
-      applyCabinetModelMeshVertexSizing(root, entryParams, resolveSlotTargetSizeMm(sizeMm, refMm));
+      const slotMm = resolveSlotTargetSizeMm(sizeMm, refMm);
+      applyCabinetModelMeshVertexSizing(root, entryParams, slotMm);
+      // Как админка (CabinetModelNode): после mesh s/t — ещё NonUniformFit в слот Size.
+      // Иначе Gola (s.x=1, y/z=0) остаётся с нативным Z ≈ 0 и в комнате не видна.
+      if (
+        fitToSize &&
+        !roomHandle &&
+        !jointHardware &&
+        wantsNonUniformSlotFit(mergedSpec, slotMm || sizeMm)
+      ) {
+        scaleNonUniformToSizeMm(root, slotMm || sizeMm);
+      }
       if (!roomHandle && !jointHardware) {
         storeCatalogEntryRotation(root, entry);
       }
@@ -1922,7 +2252,6 @@
     }
 
     if (jointHardware) {
-      // Крепёж стыка: без catalog rot.y=90; ось задаёт furniture rot.z в дереве.
       centerOnlyKeepScale(root);
       return root;
     }
@@ -1934,17 +2263,17 @@
       if (hangFromTop) scaleAndHangFromTopMm(root, refMm);
       else scaleAndCenterToRefMm(root, refMm);
     } else if (fitToSize && roomHandle) {
-      const imp = inferFileToMmScale(root, mergedSpec);
-      if (imp !== 1) {
-        root.scale.multiplyScalar(imp);
+      const imp2 = inferFileToMmScale(root, mergedSpec);
+      if (imp2 !== 1) {
+        root.scale.multiplyScalar(imp2);
         root.updateMatrixWorld(true);
       }
       centerOnlyKeepScale(root);
     } else if (fitToSize) {
       if (hangFromTop) scaleAndHangFromTopMm(root, sizeMm);
+      else if (wantsNonUniformSlotFit(mergedSpec, sizeMm)) scaleNonUniformToSizeMm(root, sizeMm);
       else scaleAndCenterToRefMm(root, sizeMm);
     } else if (hangFromTop) {
-      // Без ref: только сдвиг — верх крючка в y=0.
       root.updateMatrixWorld(true);
       const boxHang = new THREE.Box3().setFromObject(root);
       if (!boxHang.isEmpty()) {
@@ -1968,9 +2297,9 @@
       }
       storeCatalogEntryRotation(root, entry);
     }
-    // guideLike + alignRootToSizePivotFaceX убраны: ломали CAD-посадку направляющих.
     return root;
   }
+
 
   /**
    * Универсальный мост: для любого узла type:'model' с spec.id из каталога cabinet_model
@@ -2309,127 +2638,212 @@
         mergedSpec = shallowMergeParams(map[id].params, nodeSpec);
         mergedSpec.id = id;
       }
+      if (!mergedSpec.name && nodeSpec.name) mergedSpec.name = nodeSpec.name;
+      if (!mergedSpec.name && parentGroup?.name) {
+        const pn = String(parentGroup.name || '').replace(/^Model_/i, '');
+        if (pn) mergedSpec.name = pn;
+      }
       const entry = pickCabinetModelVariant(mergedSpec, sizeMm);
       const urlRaw = entry?.model || mergedSpec.modelUrl || mergedSpec.model || '';
       const url = resolveAssetUrl(String(urlRaw || '').trim());
-      if (!url) {
+      const supportLegLike =
+        isKitchenSupportLegSpec(mergedSpec) ||
+        !!parentGroup?.userData?.cldSupportLeg ||
+        mergedSpec?.cldSupportLeg === true;
+      const hidePlaceholder = () => {
         hideHingeCatalogPlaceholder(placeholderMesh, parentGroup);
+        if (placeholderMesh && supportLegLike) {
+          try {
+            placeholderMesh.visible = false;
+            if (placeholderMesh.parent) placeholderMesh.parent.remove(placeholderMesh);
+          } catch (_) {}
+        }
+      };
+      if (!url) {
+        hidePlaceholder();
         return;
       }
 
       loadAssetRootOnce(url).then((tpl) => {
         if (isStale()) return;
         if (!tpl) {
-          hideHingeCatalogPlaceholder(placeholderMesh, parentGroup);
+          hidePlaceholder();
+          try {
+            console.warn('[CLD] cabinet model GLB failed', url, mergedSpec?.id);
+          } catch (_) {}
           return;
         }
+
+        // Один вход. PlanPlace только внутри prepare для опор.
+        // Стык = тело 1.9. Без applyCatalogCardOrientAfterPrepare снаружи.
         const root = prepareCabinetModelRoot(tpl, mergedSpec, entry, sizeMm, {
           pivot: opts?.pivot || null,
+          treeRot: opts?.treeRot || null,
         });
-        return applyRoomCabinetModelMaterials(root, mergedSpec, entry).catch((err) => {
-          try {
-            console.warn('[CLD] cabinet model materials failed', err);
-          } catch (_) {}
-        }).then(() => {
-          if (isStale()) return;
-          if (parentGroup && root.userData?.cldCabinetMaterialParams) {
-            stampCatalogMaterialOnNode(
-              parentGroup,
-              root.userData.cldCabinetMaterialToken,
-              root.userData.cldCabinetMaterialParams,
-            );
-            const mid = String(mergedSpec?.id ?? parentGroup.userData?.modelSpecId ?? '').trim();
-            if (mid === '5' || mid === '6') {
-              parentGroup.userData.cldHingeCatalogModel = true;
-              parentGroup.userData.isHingeCabinetModelMetal = true;
-              try {
+        if (!root) {
+          hidePlaceholder();
+          return;
+        }
+        return applyRoomCabinetModelMaterials(root, mergedSpec, entry)
+          .catch((err) => {
+            try {
+              console.warn('[CLD] cabinet model materials failed', err);
+            } catch (_) {}
+          })
+          .then(() => {
+            if (isStale()) return;
+            if (parentGroup && root.userData?.cldCabinetMaterialParams) {
+              stampCatalogMaterialOnNode(
+                parentGroup,
+                root.userData.cldCabinetMaterialToken,
+                root.userData.cldCabinetMaterialParams,
+              );
+              const mid = String(mergedSpec?.id ?? parentGroup.userData?.modelSpecId ?? '').trim();
+              if (mid === '5' || mid === '6') {
+                parentGroup.userData.cldHingeCatalogModel = true;
+                parentGroup.userData.isHingeCabinetModelMetal = true;
+                try {
+                  root.traverse((o) => {
+                    if (!o) return;
+                    o.userData = o.userData || {};
+                    o.userData.cldHingeCatalogModel = true;
+                    o.userData.isHingeCabinetModelMetal = true;
+                    if (mid) o.userData.modelSpecId = mid;
+                  });
+                } catch (_) {}
+              }
+            }
+            if (placeholderMesh && placeholderMesh.parent) {
+              placeholderMesh.parent.remove(placeholderMesh);
+              if (placeholderMesh.geometry) placeholderMesh.geometry.dispose();
+              if (placeholderMesh.material) placeholderMesh.material.dispose();
+            }
+            contentGroup.add(root);
+            try {
+              if (supportLegLike || root.userData?.cldSupportLeg) {
+                root.userData = root.userData || {};
+                root.userData.cldSupportLeg = true;
+                if (parentGroup) parentGroup.userData.cldSupportLeg = true;
                 root.traverse((o) => {
                   if (!o) return;
                   o.userData = o.userData || {};
-                  o.userData.cldHingeCatalogModel = true;
-                  o.userData.isHingeCabinetModelMetal = true;
-                  if (mid) o.userData.modelSpecId = mid;
+                  o.userData.cldSupportLeg = true;
+                  o.userData.cldSkipStep5FacadeDecor = true;
+                  if (parentGroup?.userData?.modelSpecId) {
+                    o.userData.modelSpecId = String(parentGroup.userData.modelSpecId);
+                  }
                 });
+              }
+            } catch (_) {}
+            try {
+              const pud = parentGroup?.userData || {};
+              if (
+                pud.fromJointScheme ||
+                Number(pud.jointTemplateModel) === 1 ||
+                Number(pud.joint_hardware) === 1 ||
+                Number(mergedSpec?.joint_template_model) === 1 ||
+                Number(mergedSpec?.joint_hardware) === 1
+              ) {
+                root.userData = root.userData || {};
+                root.userData.fromJointScheme = 1;
+                root.userData.jointHardwareMesh = true;
+                root.userData.isAccessory = true;
+                root.traverse((o) => {
+                  if (!o?.userData) return;
+                  o.userData.fromJointScheme = 1;
+                  o.userData.jointHardwareMesh = true;
+                  o.userData.isAccessory = true;
+                  o.userData.ikeaPortMatRole = 'none';
+                  o.userData.cldSkipStep5FacadeDecor = true;
+                });
+                if (
+                  typeof window !== 'undefined' &&
+                  typeof window.__cldRefreshRoomFurnitureXray === 'function'
+                ) {
+                  window.__cldRefreshRoomFurnitureXray();
+                }
+              }
+            } catch (_) {}
+            return spawnRodCompanionsForRoomAttach({
+              contentGroup,
+              root,
+              mergedSpec,
+              entry,
+              sizeMm,
+              buildEpoch,
+              isStale,
+            }).then((spawned) => {
+              if (isStale()) return;
+              if (spawned > 0 && typeof window !== 'undefined' && window.__CLD_DEBUG_PLACE === true) {
+                console.warn('[CLD][ROD] плечики в комнате', { modelId: id, spawned });
+              }
+              const rebindRoot = (function findFurnitureRoot() {
+                let p = parentGroup || contentGroup;
+                for (let i = 0; i < 32 && p; i++) {
+                  if (p.isGroup && p.userData?.isFurniture) return p;
+                  p = p.parent;
+                }
+                return parentGroup || contentGroup;
+              })();
+              try {
+                if (typeof window.__cldSnapNicheFurnitureRoot === 'function') {
+                  window.__cldSnapNicheFurnitureRoot(rebindRoot);
+                }
               } catch (_) {}
-            }
-          }
-          if (placeholderMesh && placeholderMesh.parent) {
-            placeholderMesh.parent.remove(placeholderMesh);
-            if (placeholderMesh.geometry) placeholderMesh.geometry.dispose();
-            if (placeholderMesh.material) placeholderMesh.material.dispose();
-          }
-          contentGroup.add(root);
-          return spawnRodCompanionsForRoomAttach({
-            contentGroup,
-            root,
-            mergedSpec,
-            entry,
-            sizeMm,
-            buildEpoch,
-            isStale,
-          }).then((spawned) => {
-            if (isStale()) return;
-            if (spawned > 0 && typeof window !== 'undefined' && window.__CLD_DEBUG_PLACE === true) {
-              console.warn('[CLD][ROD] плечики в комнате', { modelId: id, spawned });
-            }
-            const rebindRoot = (function findFurnitureRoot(obj) {
-              let p = parentGroup || contentGroup;
-              for (let i = 0; i < 32 && p; i++) {
-                if (p.isGroup && p.userData?.isFurniture) return p;
-                p = p.parent;
-              }
-              return parentGroup || contentGroup;
-            })();
-            try {
-              if (typeof window.__cldSnapNicheFurnitureRoot === 'function') {
-                window.__cldSnapNicheFurnitureRoot(rebindRoot);
-              }
-            } catch (_) {}
-            try {
-              // Только coalesce на этот шкаф — не SyncAll по всей комнате
-              if (typeof window.__cldScheduleCabinetStudioRebind === 'function') {
-                window.__cldScheduleCabinetStudioRebind(rebindRoot);
-              } else if (typeof window.__cldApplyRoomCabinetStudioLook === 'function') {
-                window.__cldApplyRoomCabinetStudioLook(rebindRoot);
-              }
-            } catch (_) {}
-            if (
-              parentGroup?.userData?.cldHingeCatalogModel &&
-              (String(parentGroup.userData.modelSpecId || '').trim() === '5' ||
-                String(parentGroup.userData.modelSpecId || '').trim() === '6') &&
-              typeof global.ClodisBuilder?.refinalizeHingeAfterCatalogModelLoaded === 'function'
-            ) {
-              const pg = parentGroup;
-              requestAnimationFrame(() => {
-                if (!pg.parent) return;
-                global.ClodisBuilder.refinalizeHingeAfterCatalogModelLoaded(pg);
+              if (
+                supportLegLike ||
+                root.userData?.cldSupportLeg ||
+                rebindRoot?.userData?.cldSupportLeg
+              ) {
                 try {
-                  if (typeof window.__cldSnapNicheFurnitureRoot === 'function') {
-                    window.__cldSnapNicheFurnitureRoot(pg);
+                  if (typeof window.__cldSnapFurnitureFloorY === 'function') {
+                    window.__cldSnapFurnitureFloorY(rebindRoot);
+                  } else if (typeof window.__cldSnapFurniturePlacementY === 'function') {
+                    const secId = rebindRoot?.userData?.sectionId;
+                    const sec = (window.state?.customSections || []).find(
+                      (s) => s && s.id === secId,
+                    );
+                    window.__cldSnapFurniturePlacementY(rebindRoot, sec || null);
                   }
                 } catch (_) {}
-                try {
-                  if (typeof window.__cldScheduleCabinetStudioRebind === 'function') {
-                    window.__cldScheduleCabinetStudioRebind(pg);
-                  } else if (typeof window.__cldApplyRoomCabinetStudioLook === 'function') {
-                    const furnitureRoot = (function findFurnitureRoot(obj) {
-                      let p = obj;
-                      for (let i = 0; i < 32 && p; i++) {
-                        if (p.isGroup && p.userData?.isFurniture) return p;
-                        p = p.parent;
-                      }
-                      return obj;
-                    })(pg);
-                    window.__cldApplyRoomCabinetStudioLook(furnitureRoot);
-                  }
-                } catch (_) {}
-              });
-            }
+              }
+              try {
+                if (typeof window.__cldScheduleCabinetStudioRebind === 'function') {
+                  window.__cldScheduleCabinetStudioRebind(rebindRoot);
+                } else if (typeof window.__cldApplyRoomCabinetStudioLook === 'function') {
+                  window.__cldApplyRoomCabinetStudioLook(rebindRoot);
+                }
+              } catch (_) {}
+              if (
+                parentGroup?.userData?.cldHingeCatalogModel &&
+                (String(parentGroup.userData.modelSpecId || '').trim() === '5' ||
+                  String(parentGroup.userData.modelSpecId || '').trim() === '6') &&
+                typeof global.ClodisBuilder?.refinalizeHingeAfterCatalogModelLoaded === 'function'
+              ) {
+                const pg = parentGroup;
+                requestAnimationFrame(() => {
+                  if (!pg.parent) return;
+                  global.ClodisBuilder.refinalizeHingeAfterCatalogModelLoaded(pg);
+                  try {
+                    if (typeof window.__cldSnapNicheFurnitureRoot === 'function') {
+                      window.__cldSnapNicheFurnitureRoot(pg);
+                    }
+                  } catch (_) {}
+                  try {
+                    if (typeof window.__cldScheduleCabinetStudioRebind === 'function') {
+                      window.__cldScheduleCabinetStudioRebind(pg);
+                    } else if (typeof window.__cldApplyRoomCabinetStudioLook === 'function') {
+                      window.__cldApplyRoomCabinetStudioLook(pg);
+                    }
+                  } catch (_) {}
+                });
+              }
+            });
           });
-        });
       });
     });
   }
+
 
   /**
    * Высокоуровневый API для произвольной фурнитуры (петли, направляющие, ручки):
@@ -2487,10 +2901,146 @@
     });
   }
 
+  function getCabinetModelPriceMeta(modelId) {
+    const id = String(modelId ?? '').trim();
+    if (!id || !__libCache) return null;
+    const e = __libCache[id];
+    if (!e) return null;
+    return {
+      id,
+      name: e.name || '',
+      price: Number(e.price) || 0,
+      count: Math.max(1, Number(e.count) || 1),
+      show_in_spec: Number(e.show_in_spec) ? 1 : 0,
+      price_type: e.price_type || 'p',
+      category: e.category || '',
+    };
+  }
+
+  function invalidateLibraryCache() {
+    __libCache = null;
+    __libPromise = null;
+    try {
+      clearAssetRootCache();
+    } catch (_) {}
+  }
+
+  // Админка после save зовёт __cldInvalidateCabinetModelLibraryCache.
+  global.__cldInvalidateCabinetModelLibraryCache = invalidateLibraryCache;
+
+  /**
+   * Админ-форма models3d: scale в UI = 1 → в каталоге 100 (%).
+   * Собирает entry.params как для реф _load_model / prepareCabinetModelRoot.
+   */
+  function buildCatalogEntryFromAdminTransform(userTransform, modelParams) {
+    const tr = userTransform && typeof userTransform === 'object' ? userTransform : {};
+    const mp = modelParams && typeof modelParams === 'object' ? { ...modelParams } : {};
+    const sc = tr.scale && typeof tr.scale === 'object' ? tr.scale : {};
+    const pos = tr.position && typeof tr.position === 'object' ? tr.position : {};
+    const rot = tr.rotation && typeof tr.rotation === 'object' ? tr.rotation : {};
+    const sx = Number(sc.x);
+    const sy = Number(sc.y);
+    const sz = Number(sc.z);
+    mp.scale = {
+      x: (Number.isFinite(sx) && sx > 0 ? sx : 1) * 100,
+      y: (Number.isFinite(sy) && sy > 0 ? sy : 1) * 100,
+      z: (Number.isFinite(sz) && sz > 0 ? sz : 1) * 100,
+    };
+    mp.pos = {
+      x: Number(pos.x) || 0,
+      y: Number(pos.y) || 0,
+      z: Number(pos.z) || 0,
+    };
+    mp.rot = {
+      x: Number(rot.x) || 0,
+      y: Number(rot.y) || 0,
+      z: Number(rot.z) || 0,
+      order: String(rot.order || mp.rot?.order || 'XYZ'),
+    };
+    return { params: mp, model: mp.model || null };
+  }
+
+  /**
+   * Стыковой крепёж: если после place остался ModelPlaceholder — GLB не доехал (stale epoch).
+   * Перезапускаем attach. Возвращает число перезапусков.
+   */
+  function ensureJointHardwareGlbsAttached(furnitureRoot) {
+    if (!furnitureRoot || typeof furnitureRoot.traverse !== 'function') return 0;
+    let n = 0;
+    const groups = [];
+    furnitureRoot.traverse((o) => {
+      if (!o?.isGroup || !o.userData) return;
+      const ud = o.userData;
+      if (!ud.isCabinetModel) return;
+      if (
+        !(
+          ud.fromJointScheme ||
+          Number(ud.jointTemplateModel) === 1 ||
+          Number(ud.joint_hardware) === 1
+        )
+      ) {
+        return;
+      }
+      groups.push(o);
+    });
+    for (const group of groups) {
+      let placeholder = null;
+      let hasGlb = false;
+      for (let i = 0; i < (group.children || []).length; i++) {
+        const ch = group.children[i];
+        if (!ch) continue;
+        if (/^ModelContent_/i.test(String(ch.name || ''))) {
+          ch.traverse((m) => {
+            if (!m?.isMesh) return;
+            if (/^ModelPlaceholder_/i.test(String(m.name || ''))) placeholder = m;
+            else if (m.userData?.jointHardwareMesh || m.userData?.fromJointScheme) {
+              if (!/^ModelPlaceholder_/i.test(String(m.name || ''))) hasGlb = true;
+            }
+          });
+        }
+      }
+      if (hasGlb || !placeholder) continue;
+      const content =
+        placeholder.parent ||
+        group.children.find((c) => /^ModelContent_/i.test(String(c?.name || '')));
+      if (!content) continue;
+      const specId = String(group.userData.modelSpecId || group.userData.spec?.id || '').trim();
+      if (!specId) continue;
+      group.userData._cldModelEpoch = (Number(group.userData._cldModelEpoch) || 0) + 1;
+      const epoch = group.userData._cldModelEpoch;
+      console.warn('[CLD][PARITY] re-attach joint GLB', {
+        name: group.name,
+        id: specId,
+        epoch,
+      });
+      attachCabinetModelToGroup({
+        contentGroup: content,
+        placeholderMesh: placeholder,
+        parentGroup: group,
+        spec: {
+          id: specId,
+          fitToSize: false,
+          fromJointScheme: 1,
+          joint_hardware: 1,
+          joint_template_model: 1,
+        },
+        sizeMm: { x: 0, y: 0, z: 0 },
+        pivot: {},
+        treeRot: {},
+        usePlanPlace: false,
+        buildEpoch: epoch,
+      });
+      n += 1;
+    }
+    return n;
+  }
+
   global.__cldRoomCabinetModels = {
     attachCabinetModelToGroup,
     ensureCabinetModelLibraryMap,
+    ensureJointHardwareGlbsAttached,
     prepareCabinetModelRoot,
+    buildCatalogEntryFromAdminTransform,
     resolveCabinetModel,
     resolveAccessoryModel,
     applyStoredCatalogRotation,
@@ -2501,9 +3051,15 @@
     spawnRodCompanionsForRoomAttach,
     resyncAllRoomRodCompanions,
     clearRodCompanionsUnder,
-    invalidateLibraryCache() {
-      __libCache = null;
-      __libPromise = null;
-    },
+    getCabinetModelPriceMeta,
+    invalidateLibraryCache,
   };
+  if (typeof window !== 'undefined') {
+    window.__cldEnsureJointHardwareGlbs = (root) => {
+      const api = global.__cldRoomCabinetModels;
+      return api && typeof api.ensureJointHardwareGlbsAttached === 'function'
+        ? api.ensureJointHardwareGlbsAttached(root)
+        : 0;
+    };
+  }
 })(typeof window !== 'undefined' ? window : global);

@@ -1,0 +1,22 @@
+# STEP 6A — накладки пенала (nearest neighbor)
+
+## Канон
+
+- Накладка **снаружи** корпуса: ячейка = `carcassW + pad`, корпус = `carcassW`.
+- Pad: 0 / 16 / 32 мм (одна или две накладки).
+- Компенсация **только ближайший сосед** (пенал справа → zi−1; слева → zi+1).
+- **Запрещено**: `setZoneCustomWidthMm` / пропорциональный balancer под накладку.
+- Запись ширин: `writeKitchenBandZoneWidthsMm` (обмен tall↔neighbor, сумма секции та же).
+- MID/TOP: sync только changed zi; при `parts` MID/TOP ≠ BASE — отказ `band_grid_mismatch`.
+- Pin tall + neighbor на новые ширины.
+- Rebuild параметрический (`rebuildForCellWidthMm` / `sync*`), не `scale`.
+- Не возвращать 5B (section bounds).
+
+## Код
+
+- `kitchenTallOverlayPadMm` + `rebuildForCellWidthMm` (buildX = cell − pad)
+- `_assessTallOverlayNearestNeighbor` / `_reserveTallOverlayFootprint`
+- `assessKitchenTallOverlayFootprintLive` → `window.__cldAssessKitchenTallOverlayFootprint`
+- Bust: `20261101-side6a4` (`index.html`)
+- Откат по U-overlap снят (был ложный отказ + сброс цифр ячеек).
+- Откат: `.rollback/side-panels-step6a-nearest-neighbor-20261101/`

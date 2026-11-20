@@ -1,0 +1,28 @@
+---
+description: Слои A/B/C/D Clodis Kitchen — не смешивать; карта в docs/ARCHITECTURE.md
+alwaysApply: true
+---
+
+# Слои архитектуры (агент)
+
+Полная карта: `docs/ARCHITECTURE.md`. Smoke: `docs/SMOKE-ROOM-CHECK.md`.
+
+## Слои
+
+| Код | Имя | Трогать в режиме |
+|-----|-----|------------------|
+| A | Канон (`docs/*RULES*`, `*CANON*`, manufacturing profile) | только `canon` |
+| B | Мозг (`js/kitchen/*`, `js/kitchen-brain/*`) | `geometry` / `canon` |
+| C | Картинка (сцена, dims, UI, render) | `perf` / UI; тонко при `geometry` |
+| D | Память (draft/autosave/projects) | отдельная задача сейва |
+
+## Запреты
+
+- В одном диффе не смешивать A+C «заодно» и B+perf без просьбы.
+- Новые кухонные правила — в A, расчёт — в B; не раздувать `furniture-manager` / `section-manager` без нужды.
+- `_checkpoint_*`, `.bak`, зеркала `public/js` — не второй источник правды.
+- После правок — smoke «комната целая». Провал → откат.
+
+## Шкафы
+
+Другой продукт/репо. Сюда их логику не тащить.

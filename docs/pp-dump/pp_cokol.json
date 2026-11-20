@@ -1,0 +1,52 @@
+[
+  {
+    "id": "1",
+    "name": "Цоколь ЛДСП",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"\\u0426\\u043e\\u043a\\u043e\\u043b\\u044c \\u041b\\u0414\\u0421\\u041f\",\"code\":\"\",\"icon\":\"\",\"category\":[\"1\"],\"active\":1,\"order\":10000,\"params\":{\"mat_mode\":\"3\",\"material\":0,\"p_mat_key\":\"ldsp\",\"p_mat\":\"3\",\"p_variant\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":null,\"metalness\":0,\"normalMap\":null,\"roughness\":1,\"roughnessMap\":null,\"transparent\":0,\"opacity\":1},\"add_params\":{\"real_width\":256,\"real_height\":256,\"rotation\":\"normal\",\"stretch_width\":0,\"stretch_height\":0,\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\",\"roughness_wrapping\":\"mirror\"}},\"models\":{\"common\":{\"enabled\":true,\"model\":\"\",\"code\":\"\",\"price_type\":\"p\",\"price_mode\":\"c\",\"price\":0,\"acc_id\":0},\"radius\":{\"enabled\":false,\"model\":\"\",\"code\":\"\",\"price_type\":\"p\",\"price_mode\":\"c\",\"price\":0,\"acc_id\":0}},\"accs\":[],\"conns\":{\"a0\":{\"enabled\":false,\"model\":\"\",\"code\":\"\",\"price_type\":\"c\",\"price_mode\":\"m\",\"price\":0,\"acc_id\":0},\"a180\":{\"enabled\":false,\"model\":\"\",\"code\":\"\",\"price_type\":\"c\",\"price_mode\":\"m\",\"price\":0,\"acc_id\":0},\"a90\":{\"enabled\":false,\"model\":\"\",\"code\":\"\",\"price_type\":\"c\",\"price_mode\":\"m\",\"price\":0,\"acc_id\":0},\"a135\":{\"enabled\":false,\"model\":\"\",\"code\":\"\",\"price_type\":\"c\",\"price_mode\":\"m\",\"price\":0,\"acc_id\":0}},\"height\":\"100\",\"thickness\":\"16\",\"width\":\"3000\"},\"id\":\"1\",\"mat_categories\":[]}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "2",
+    "name": "Цоколь пластик белый 100",
+    "code": "",
+    "category": "[\"2\"]",
+    "icon": "",
+    "data": "{\"name\":\"\\u0426\\u043e\\u043a\\u043e\\u043b\\u044c \\u043f\\u043b\\u0430\\u0441\\u0442\\u0438\\u043a \\u0431\\u0435\\u043b\\u044b\\u0439 100\",\"code\":\"\\u0426\\u041f\\u0411100\",\"icon\":\"\",\"category\":[\"2\"],\"active\":1,\"order\":10000,\"params\":{\"mat_mode\":0,\"material\":0,\"p_mat_key\":\"\",\"p_mat\":0,\"p_variant\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":null,\"metalness\":0,\"normalMap\":null,\"roughness\":1,\"roughnessMap\":null,\"transparent\":0,\"opacity\":1},\"add_params\":{\"real_width\":256,\"real_height\":256,\"rotation\":\"normal\",\"stretch_width\":0,\"stretch_height\":0,\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\",\"roughness_wrapping\":\"mirror\"}},\"models\":{\"common\":{\"enabled\":true,\"model\":\"files\\/cokol.fbx\",\"code\":\"\\u0426\\u041f\\u0411100\",\"price_type\":\"p\",\"price_mode\":\"c\",\"price\":0,\"acc_id\":0},\"radius\":{\"enabled\":false,\"model\":\"\",\"code\":\"\",\"price_type\":\"p\",\"price_mode\":\"c\",\"price\":0,\"acc_id\":0}},\"accs\":[],\"conns\":{\"a0\":{\"enabled\":false,\"model\":\"\",\"code\":\"\",\"price_type\":\"c\",\"price_mode\":\"m\",\"price\":0,\"acc_id\":0},\"a180\":{\"enabled\":false,\"model\":\"\",\"code\":\"\",\"price_type\":\"c\",\"price_mode\":\"m\",\"price\":0,\"acc_id\":0},\"a90\":{\"enabled\":false,\"model\":\"\",\"code\":\"\",\"price_type\":\"c\",\"price_mode\":\"m\",\"price\":0,\"acc_id\":0},\"a135\":{\"enabled\":false,\"model\":\"\",\"code\":\"\",\"price_type\":\"c\",\"price_mode\":\"m\",\"price\":0,\"acc_id\":0}},\"height\":\"100\",\"thickness\":\"13\",\"width\":\"4000\"},\"id\":\"2\",\"mat_categories\":[]}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "3",
+    "name": "Цоколь пластик серый 100",
+    "code": "",
+    "category": "[\"2\"]",
+    "icon": "",
+    "data": "{\"name\":\"\\u0426\\u043e\\u043a\\u043e\\u043b\\u044c \\u043f\\u043b\\u0430\\u0441\\u0442\\u0438\\u043a \\u0441\\u0435\\u0440\\u044b\\u0439 100\",\"code\":\"\\u0426\\u041f\\u0421100\",\"icon\":\"\",\"category\":[\"2\"],\"active\":1,\"order\":\"10000\",\"params\":{\"mat_mode\":0,\"material\":0,\"p_mat_key\":\"\",\"p_mat\":0,\"p_variant\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#c4c4c4\",\"map\":null,\"metalness\":0,\"normalMap\":null,\"roughness\":1,\"roughnessMap\":null,\"transparent\":0,\"opacity\":1},\"add_params\":{\"real_width\":256,\"real_height\":256,\"rotation\":\"normal\",\"stretch_width\":0,\"stretch_height\":0,\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\",\"roughness_wrapping\":\"mirror\"}},\"models\":{\"common\":{\"enabled\":true,\"model\":\"files\\/cokol.fbx\",\"code\":\"\\u0426\\u041f\\u0421100\",\"price_type\":\"p\",\"price_mode\":\"c\",\"price\":0,\"acc_id\":0},\"radius\":{\"enabled\":false,\"model\":\"\",\"code\":\"\",\"price_type\":\"p\",\"price_mode\":\"c\",\"price\":0,\"acc_id\":0}},\"accs\":[],\"conns\":{\"a0\":{\"enabled\":false,\"model\":\"\",\"code\":\"\",\"price_type\":\"c\",\"price_mode\":\"m\",\"price\":0,\"acc_id\":0},\"a180\":{\"enabled\":false,\"model\":\"\",\"code\":\"\",\"price_type\":\"c\",\"price_mode\":\"m\",\"price\":0,\"acc_id\":0},\"a90\":{\"enabled\":false,\"model\":\"\",\"code\":\"\",\"price_type\":\"c\",\"price_mode\":\"m\",\"price\":0,\"acc_id\":0},\"a135\":{\"enabled\":false,\"model\":\"\",\"code\":\"\",\"price_type\":\"c\",\"price_mode\":\"m\",\"price\":0,\"acc_id\":0}},\"height\":\"100\",\"thickness\":\"13\",\"width\":\"4000\"},\"id\":\"3\",\"mat_categories\":[]}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "4",
+    "name": "Цоколь пластик белый 150",
+    "code": "",
+    "category": "[\"2\"]",
+    "icon": "",
+    "data": "{\"name\":\"\\u0426\\u043e\\u043a\\u043e\\u043b\\u044c \\u043f\\u043b\\u0430\\u0441\\u0442\\u0438\\u043a \\u0431\\u0435\\u043b\\u044b\\u0439 150\",\"code\":\"\\u0426\\u041f\\u0411150\",\"icon\":\"\",\"category\":[\"2\"],\"active\":1,\"order\":\"10000\",\"params\":{\"mat_mode\":0,\"material\":0,\"p_mat_key\":\"\",\"p_mat\":0,\"p_variant\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":null,\"metalness\":0,\"normalMap\":null,\"roughness\":1,\"roughnessMap\":null,\"transparent\":0,\"opacity\":1},\"add_params\":{\"real_width\":256,\"real_height\":256,\"rotation\":\"normal\",\"stretch_width\":0,\"stretch_height\":0,\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\",\"roughness_wrapping\":\"mirror\"}},\"models\":{\"common\":{\"enabled\":true,\"model\":\"files\\/cokol.fbx\",\"code\":\"\\u0426\\u041f\\u0411150\",\"price_type\":\"p\",\"price_mode\":\"c\",\"price\":0,\"acc_id\":0},\"radius\":{\"enabled\":false,\"model\":\"\",\"code\":\"\",\"price_type\":\"p\",\"price_mode\":\"c\",\"price\":0,\"acc_id\":0}},\"accs\":[],\"conns\":{\"a0\":{\"enabled\":false,\"model\":\"\",\"code\":\"\",\"price_type\":\"c\",\"price_mode\":\"m\",\"price\":0,\"acc_id\":0},\"a180\":{\"enabled\":false,\"model\":\"\",\"code\":\"\",\"price_type\":\"c\",\"price_mode\":\"m\",\"price\":0,\"acc_id\":0},\"a90\":{\"enabled\":false,\"model\":\"\",\"code\":\"\",\"price_type\":\"c\",\"price_mode\":\"m\",\"price\":0,\"acc_id\":0},\"a135\":{\"enabled\":false,\"model\":\"\",\"code\":\"\",\"price_type\":\"c\",\"price_mode\":\"m\",\"price\":0,\"acc_id\":0}},\"height\":\"150\",\"thickness\":\"13\",\"width\":\"4000\"},\"id\":\"4\",\"mat_categories\":[]}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "5",
+    "name": "Цоколь пластик серый 150",
+    "code": "",
+    "category": "[\"2\"]",
+    "icon": "",
+    "data": "{\"name\":\"\\u0426\\u043e\\u043a\\u043e\\u043b\\u044c \\u043f\\u043b\\u0430\\u0441\\u0442\\u0438\\u043a \\u0441\\u0435\\u0440\\u044b\\u0439 150\",\"code\":\"\\u0426\\u041f\\u0421150\",\"icon\":\"\",\"category\":[\"2\"],\"active\":1,\"order\":\"10000\",\"params\":{\"mat_mode\":0,\"material\":0,\"p_mat_key\":\"\",\"p_mat\":0,\"p_variant\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#c4c4c4\",\"map\":null,\"metalness\":0,\"normalMap\":null,\"roughness\":1,\"roughnessMap\":null,\"transparent\":0,\"opacity\":1},\"add_params\":{\"real_width\":256,\"real_height\":256,\"rotation\":\"normal\",\"stretch_width\":0,\"stretch_height\":0,\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\",\"roughness_wrapping\":\"mirror\"}},\"models\":{\"common\":{\"enabled\":true,\"model\":\"files\\/cokol.fbx\",\"code\":\"\\u0426\\u041f\\u0421150\",\"price_type\":\"p\",\"price_mode\":\"c\",\"price\":0,\"acc_id\":0},\"radius\":{\"enabled\":false,\"model\":\"\",\"code\":\"\",\"price_type\":\"p\",\"price_mode\":\"c\",\"price\":0,\"acc_id\":0}},\"accs\":[],\"conns\":{\"a0\":{\"enabled\":false,\"model\":\"\",\"code\":\"\",\"price_type\":\"c\",\"price_mode\":\"m\",\"price\":0,\"acc_id\":0},\"a180\":{\"enabled\":false,\"model\":\"\",\"code\":\"\",\"price_type\":\"c\",\"price_mode\":\"m\",\"price\":0,\"acc_id\":0},\"a90\":{\"enabled\":false,\"model\":\"\",\"code\":\"\",\"price_type\":\"c\",\"price_mode\":\"m\",\"price\":0,\"acc_id\":0},\"a135\":{\"enabled\":false,\"model\":\"\",\"code\":\"\",\"price_type\":\"c\",\"price_mode\":\"m\",\"price\":0,\"acc_id\":0}},\"height\":\"150\",\"thickness\":\"13\",\"width\":\"4000\"},\"id\":\"5\",\"mat_categories\":[]}",
+    "active": "1",
+    "order": "10000"
+  }
+]

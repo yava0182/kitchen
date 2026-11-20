@@ -5,7 +5,7 @@
  *   eZ — вдоль шва; eY — вдоль кромки торца (16 мм); eX — от наружной пласти face к торцу edge.
  * O — наружная пласть face на линии шва (пивот шаблона).
  */
-import * as THREE from '/node_modules/three/build/three.module.js';
+import * as THREE from 'three';
 import { panelThinAxisWorld, panelThicknessMm } from '/js/joint-engine-v2.js?v=20260715-joint-flush-active';
 import { getJointStripeFrameWorld } from '/js/panel-edge-frame.js';
 

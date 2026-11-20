@@ -1,4 +1,4 @@
-import { computeFurnitureWorldBBoxNoAo } from '../furniture/furniture-bbox.js';
+import { computeFurnitureWorldBBoxNoAo } from '../furniture/furniture-bbox.js?v=20261011-bbox-fix2';
 
 /** Глобальный THREE (как в furniture-bbox.js) */
 function __getTHREE() {

@@ -1,0 +1,10 @@
+﻿FILE js\sections\section-manager.js
+onlyIn1.102 cornerish=0
+----
+onlyInCurrent cornerish=6
+    } else if (kitchenCorner) {
+      // L кухня: free = span − W спец (~1050 / карандаш), не span−D (550).
+        typeof division.kitchenCornerHostAtStart === 'boolean'
+          ? division.kitchenCornerHostAtStart === true
+          : cfg?.cornerAtStart === true
+      const specialW = resolveKitchenCornerSpecialCellWidthMm(

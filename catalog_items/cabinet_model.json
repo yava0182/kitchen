@@ -1,13 +1,13 @@
 [
   {
-    "id": 2,
     "catalog_type": "cabinet_model",
+    "id": 2,
     "name": "Опора кухонная 100",
     "category": "опора 100",
     "order": 10000,
     "active": 1,
     "spec": 1,
-    "icon": "",
+    "icon": "/files/Иконки фурнитуры/opora_100_mm_1791536552045.jpg",
     "width": 60,
     "height": 100,
     "depth": 79,
@@ -18,11 +18,11 @@
         "variants": [],
         "models": [
           {
-            "name": "",
+            "name": "Опора кухонная 100",
             "code": "",
-            "model": "/models/opora101m_1770230643059.fbx",
+            "model": "/models/opora_100_mm_1791569369133.glb",
             "price_type": "p",
-            "price_mode": "c",
+            "price_mode": "manual",
             "price": 0,
             "min_x": 0,
             "min_y": 0,
@@ -32,8 +32,8 @@
             "max_z": 0,
             "params": {
               "rot": {
-                "x": 0,
-                "y": 180,
+                "x": 180,
+                "y": -90,
                 "z": 0,
                 "order": "XYZ"
               },
@@ -43,13 +43,71 @@
                 "z": 0
               },
               "scale": {
-                "x": 1000,
-                "y": 1000,
-                "z": 1000
+                "x": 100,
+                "y": 100,
+                "z": 100
               },
               "set_uv": 1,
               "process": 1,
-              "meshes": {}
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {
+                "Mesh1": {
+                  "v": 1,
+                  "material_id": "2",
+                  "m": "Opora",
+                  "material_key": "Opora",
+                  "material": "Opora",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "2"
+                },
+                "Опора_100_мм": {
+                  "v": 1,
+                  "material_id": "2",
+                  "m": "Opora",
+                  "material_key": "Opora",
+                  "material": "Opora",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "2"
+                }
+              }
             },
             "v": 2,
             "count": 1,
@@ -58,7 +116,9 @@
           }
         ],
         "price_type": "p",
-        "show_in_spec": 1
+        "show_in_spec": 1,
+        "fitToSize": true,
+        "stretchToSize": true
       }
     }
   },
@@ -6476,5 +6536,409 @@
         "show_in_spec": 0
       }
     }
+  },
+  {
+    "catalog_type": "cabinet_model",
+    "name": "Опора 120 мм",
+    "category": "опора",
+    "order": 10000,
+    "active": 1,
+    "spec": 1,
+    "icon": "/files/Иконки фурнитуры/opora_100_mm_1791536552045.jpg",
+    "width": 60,
+    "height": 120,
+    "depth": 79,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Опора 120 мм",
+            "code": "",
+            "model": "/models/opory_120_1791534981791.glb",
+            "price_type": "p",
+            "price_mode": "manual",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 180,
+                "y": -90,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {
+                "Опора_120_мм": {
+                  "v": 1,
+                  "material_id": "2",
+                  "m": "Opora",
+                  "material_key": "Opora",
+                  "material": "Opora",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "2"
+                }
+              }
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 1,
+        "fitToSize": false,
+        "stretchToSize": false
+      }
+    },
+    "id": 79
+  },
+  {
+    "catalog_type": "cabinet_model",
+    "name": "Опора 150 мм",
+    "category": "опора",
+    "order": 10000,
+    "active": 1,
+    "spec": 1,
+    "icon": "/files/Иконки фурнитуры/opora_100_mm_1791536552045.jpg",
+    "width": 60,
+    "height": 150,
+    "depth": 79,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Опора 150 мм",
+            "code": "",
+            "model": "/models/opory_150_1791536190765.glb",
+            "price_type": "p",
+            "price_mode": "manual",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 180,
+                "y": -90,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {
+                "Опора_150": {
+                  "v": 1,
+                  "material_id": "2",
+                  "m": "Opora",
+                  "material_key": "Opora",
+                  "material": "Opora",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "2"
+                }
+              }
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 1,
+        "fitToSize": false,
+        "stretchToSize": false
+      }
+    },
+    "id": 80
+  },
+  {
+    "catalog_type": "cabinet_model",
+    "name": "Gola L",
+    "category": "",
+    "order": 10000,
+    "active": 1,
+    "spec": 1,
+    "icon": "",
+    "width": 600,
+    "height": 57.5,
+    "depth": 27,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Gola L",
+            "code": "",
+            "model": "/models/Gola/gola_l_1791743618336.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {
+                "Gola_L": {
+                  "v": 1,
+                  "material_id": "2",
+                  "m": "Opora",
+                  "material_key": "Opora",
+                  "material": "Opora",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 1,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "2"
+                }
+              }
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 1,
+        "fitToSize": true,
+        "stretchToSize": true
+      }
+    },
+    "id": 81
+  },
+  {
+    "catalog_type": "cabinet_model",
+    "name": "Gola C",
+    "category": "",
+    "order": 10000,
+    "active": 1,
+    "spec": 1,
+    "icon": "",
+    "width": 600,
+    "height": 73.5,
+    "depth": 27,
+    "data": {
+      "params": {
+        "version": 2,
+        "group": "",
+        "variants": [],
+        "models": [
+          {
+            "name": "Gola C",
+            "code": "",
+            "model": "/models/Gola/gola_c_1791786819905.glb",
+            "price_type": "p",
+            "price_mode": "c",
+            "price": 0,
+            "min_x": 0,
+            "min_y": 0,
+            "min_z": 0,
+            "max_x": 0,
+            "max_y": 0,
+            "max_z": 0,
+            "params": {
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "order": "XYZ"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "scale": {
+                "x": 100,
+                "y": 100,
+                "z": 100
+              },
+              "set_uv": 1,
+              "process": 1,
+              "slot_fit": {
+                "enabled": 0,
+                "s": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "t": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              "meshes": {
+                "Профиль Gola C": {
+                  "v": 1,
+                  "material_id": "2",
+                  "m": "Opora",
+                  "material_key": "Opora",
+                  "material": "Opora",
+                  "t": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "s": {
+                    "x": 1,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "tax": {
+                    "x": "x",
+                    "y": "y"
+                  },
+                  "selected": "2"
+                }
+              }
+            },
+            "v": 2,
+            "count": 1,
+            "hl_size": 0,
+            "hl_axis": "x"
+          }
+        ],
+        "price_type": "p",
+        "show_in_spec": 1,
+        "fitToSize": true,
+        "stretchToSize": true
+      }
+    },
+    "id": 82
   }
 ]

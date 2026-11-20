@@ -1,0 +1,2246 @@
+{
+  "schema": "ikea-kitchen-slope-dump-20261006",
+  "agent": "playwright scripts/ikea-dump-kitchen-slope.mjs",
+  "url": "https://kitchen.planner.ikea.com/lv/ru/planner/",
+  "headed": false,
+  "at": "2026-10-06T18:31:28.780Z",
+  "plannerFrame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV",
+  "clickLog": [
+    {
+      "step": "draw_plan",
+      "tried": [
+        {
+          "label": "Нарисовать план",
+          "ok": false,
+          "how": null,
+          "err": "locator.click: Timeout 5000ms exceeded.\nCall log:\n  - waiting for getByText('Нарисовать план').first()\n    - locator resolved to <span>Нарисовать план</span>\n  - attempting click action\n    2 × waitin | locator.click: Timeout 5000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'Нарисовать план' }).first()\n    - locator resolved to <button id=",
+          "count": 1,
+          "countRole": 1
+        },
+        {
+          "label": "Draw plan",
+          "ok": false,
+          "how": null,
+          "err": null,
+          "count": 0,
+          "countRole": 0
+        },
+        {
+          "label": "Draw Plan",
+          "ok": false,
+          "how": null,
+          "err": null,
+          "count": 0,
+          "countRole": 0
+        }
+      ]
+    },
+    {
+      "step": "add_slope",
+      "tried": [
+        {
+          "label": "Добавить скошенный потолок",
+          "ok": false,
+          "how": null,
+          "err": null,
+          "count": 0,
+          "countRole": 0
+        },
+        {
+          "label": "Add sloped ceiling",
+          "ok": false,
+          "how": null,
+          "err": null,
+          "count": 0,
+          "countRole": 0
+        },
+        {
+          "label": "sloped ceiling",
+          "ok": false,
+          "how": null,
+          "err": null,
+          "count": 0,
+          "countRole": 0
+        },
+        {
+          "label": "скошенный потолок",
+          "ok": false,
+          "how": null,
+          "err": null,
+          "count": 0,
+          "countRole": 0
+        }
+      ]
+    }
+  ],
+  "globals": {
+    "keys": [
+      "ByMeAPI"
+    ]
+  },
+  "networkCount": 146,
+  "networkSample": [
+    {
+      "url": "https://kitchen.planner.ikea.com/lv/ru/planner/",
+      "status": 200,
+      "ct": "text/html"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/loading.min.css",
+      "status": 200,
+      "ct": "text/css"
+    },
+    {
+      "url": "https://www.ikea.com/lv/ru/ingka-isx-billie-widget/assets/index-CPPVqCwG.css",
+      "status": 200,
+      "ct": "text/css; charset=utf-8"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/index-D5zaLuKC.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://www.ikea.com/lv/ru/ingka-isx-billie-widget/assets/index-vM72s7yi.js",
+      "status": 200,
+      "ct": "text/javascript; charset=utf-8"
+    },
+    {
+      "url": "https://www.ikea.com/lv/ru/ingka-isx-billie-widget/assets/rolldown-runtime-BMeI84Mc.js",
+      "status": 200,
+      "ct": "text/javascript; charset=utf-8"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/ServiceException-lnsttbeK.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/redskapDexfConfig-B5Bb0feq.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/metadata-BsdLuog7.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/chevron-down-small-BcxswvSv.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/getServices-DbLLtJfO.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/FormFieldContext-B7Hi0L_4.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/EasingAnimation-DyPg_ZN7.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/removeUserCookies-DMZ4NGGZ.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/ServiceFetch-6UipmGw7.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/index-DvKY1AXU.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/context-DImzBlZt.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/getPkce-DtTz0anG.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/chevron-right-small-BsKBBhdF.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/Application-CHWXZ44X.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/index-XZezY_cH.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/Hero.styled-OYV7aCNi.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/Grid-Czg2_gLB.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/index-C2Y3Y2jO.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/CookieContext-DQlcdxHF.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/Theatre-7Z4isNRJ.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/index-DYVksUAR.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/PrimaryLayoutSkeleton-BQ5ZpB5c.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/Divider-BVhNwZq5.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/BodySkeleton-AeL8WihP.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/index-QyiBs4Yf.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/getDesignThumbnails-xGNyWvzI.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/cross-small-BPkMpGiX.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/FocusHistoryProvider-Dvef52ip.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/PrimaryLayout.styled-CmzKezMW.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/index-Qja2JMQf.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://www.ikea.com/global/assets/fonts/ru/fonts.css",
+      "status": 200,
+      "ct": "text/css; charset=utf-8"
+    },
+    {
+      "url": "https://web-api.ikea.com/cschatbot/gcs/widget/817bb76ad3a78bc079119533ba7d2d26/LV.json",
+      "status": 404,
+      "ct": "application/xml; charset=utf-8"
+    },
+    {
+      "url": "https://web-api.ikea.com/cschatbot/gcs/widget/7310b71ae7b9a3f603d87dbba73fcd4b/widget-message-data/ru-LV.json",
+      "status": 404,
+      "ct": "application/xml; charset=utf-8"
+    },
+    {
+      "url": "https://api.kitchen.planner.ikea.com/services/blue/csrf-token",
+      "status": 200,
+      "ct": "application/json"
+    },
+    {
+      "url": "https://api.kitchen.planner.ikea.com/discovery/blue/discover",
+      "status": 200,
+      "ct": "application/json"
+    },
+    {
+      "url": "https://api.kitchen.planner.ikea.com/localization/dist_ihp/latest/lv/ru",
+      "status": 200,
+      "ct": "application/octet-stream"
+    },
+    {
+      "url": "https://api.dexf.ikea.com/setting/v1/data/apps/nkp/retail-units/LV/locales/ru-LV?filter.segment=production",
+      "status": 200,
+      "ct": "application/json"
+    },
+    {
+      "url": "https://www.ikea.com/addon-app/translations/kompis/en-XZ.json",
+      "status": 200,
+      "ct": "application/json"
+    },
+    {
+      "url": "https://www.ikea.com/addon-app/translations/kompis/ru-LV.json",
+      "status": 200,
+      "ct": "application/json"
+    },
+    {
+      "url": "https://api.kitchen.planner.ikea.com/services/blue/environments-retail-units?retailUnit=lv",
+      "status": 200,
+      "ct": "application/json"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/checkmark-circle-B4QwF3mg.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/checkmark-circle-CVjM0TLM.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/Planner-CU0kyEvH.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/SummaryComponent-DRUHagnp.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/index-Bv0e7L0i.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/copy-BC2h9qtf.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/DesignListPriceBreakdown.styled-C2euMha_.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/arrow-right-D5dHBys7.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/printer-Cny4O2wh.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/useInitPlanningSessionInsight-BqLCxuoj.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/link-out-DYiHVcph.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/people-D3ovTago.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/arrow-right-C4jnlPug.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/QrCode-M-49axfy.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/Edit.styled-Cyc-Wfa0.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/index-lmnw_wLx.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/Badge-BoxAwF3E.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/QrCode-DhRJ-DGd.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/index-D43JzK1n.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/MaintenanceSplash-LecxkN0f.js",
+      "status": 200,
+      "ct": "text/javascript"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV",
+      "status": 200,
+      "ct": "text/html"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/css/splash-core.css",
+      "status": 200,
+      "ct": "text/css"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/css/dummyInput.css",
+      "status": 200,
+      "ct": "text/css"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/css/kitchen_c.css",
+      "status": 200,
+      "ct": "text/css"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/js/loader.js",
+      "status": 200,
+      "ct": "application/javascript"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/images/HBM-logo-text-black.svg",
+      "status": 200,
+      "ct": "image/svg+xml"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/vendors~IntroKitchen~IntroTemplateEditor~Kitchen~Kitchen/vendors~IntroKitchen~IntroTemplateEditor~Kitchen~KitchenRTL.js",
+      "status": 200,
+      "ct": "application/javascript"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/vendors~IntroTemplateEditor~Kitchen~KitchenRTL~TemplateEditor/vendors~IntroTemplateEditor~Kitchen~KitchenRTL~TemplateEditor.js",
+      "status": 200,
+      "ct": "application/javascript"
+    },
+    {
+      "url": "https://api.dexf.ikea.com/setting/v1/data/apps/insights/retail-units/LV/locales/ru-LV",
+      "status": 200,
+      "ct": "application/json"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/vendors~IntroKitchen~Kitchen~KitchenRTL~TemplateEditor/vendors~IntroKitchen~Kitchen~KitchenRTL~TemplateEditor.js",
+      "status": 200,
+      "ct": "application/javascript"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/vendors~Kitchen~KitchenRTL~TemplateEditor/vendors~Kitchen~KitchenRTL~TemplateEditor.js",
+      "status": 200,
+      "ct": "application/javascript"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/Kitchen.js",
+      "status": 200,
+      "ct": "application/javascript"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/vendors~IntroKitchen~Kitchen~Kitchen/vendors~IntroKitchen~Kitchen~KitchenRTL.js",
+      "status": 200,
+      "ct": "application/javascript"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/vendors~IntroKitchen~IntroTemplateEditor~Kitchen~KitchenRTL~TemplateEditor/vendors~IntroKitchen~IntroTemplateEditor~Kitchen~KitchenRTL~TemplateEditor.js",
+      "status": 200,
+      "ct": "application/javascript"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/common~Kitchen~KitchenRTL~TemplateEditor/common~Kitchen~KitchenRTL~TemplateEditor.js",
+      "status": 200,
+      "ct": "application/javascript"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/common~Kitchen~Kitchen/common~Kitchen~KitchenRTL.js",
+      "status": 200,
+      "ct": "application/javascript"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/js/app.js",
+      "status": 200,
+      "ct": "application/javascript"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/icons/icons.svg",
+      "status": 200,
+      "ct": "image/svg+xml"
+    },
+    {
+      "url": "https://dpc.ipex-insights.com/event/submit",
+      "status": 200,
+      "ct": "application/json"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Environment/environment.json",
+      "status": 200,
+      "ct": "application/json"
+    },
+    {
+      "url": "https://dpc.ipex-insights.com/event/submit",
+      "status": 200,
+      "ct": "application/json"
+    },
+    {
+      "url": "https://platform.ikea-prod.by.me/developer/api/assets/config.json",
+      "status": 200,
+      "ct": "application/json"
+    },
+    {
+      "url": "https://api.kitchen.planner.ikea.com/services/blue/legal-entity-token",
+      "status": 200,
+      "ct": "application/json"
+    },
+    {
+      "url": "https://platform.ikea-prod.by.me/api/3/applications/2/distributions/LV",
+      "status": 200,
+      "ct": "application/json; charset=utf-8"
+    },
+    {
+      "url": "https://platform.ikea-prod.by.me/api/3/languages/",
+      "status": 200,
+      "ct": "application/json; charset=utf-8"
+    },
+    {
+      "url": "https://platform.ikea-prod.by.me/api/3/applicationdistributions/LV/translations/ru-LV",
+      "status": 200,
+      "ct": "application/json; charset=utf-8"
+    },
+    {
+      "url": "https://byme-ikea-prod.s3.eu-west-1.amazonaws.com/data/api/currencies/ru-LV.json?x-id=GetObject",
+      "status": 403,
+      "ct": "application/xml"
+    },
+    {
+      "url": "https://byme-ikea-prod.s3.eu-west-1.amazonaws.com/data/applications/2/2/currencies/ru-LV.json?x-id=GetObject",
+      "status": 200,
+      "ct": "application/octet-stream"
+    },
+    {
+      "url": "https://byme-ikea-prod.s3.eu-west-1.amazonaws.com/data/distributions/2/LV/currencies/ru-LV.json?x-id=GetObject",
+      "status": 200,
+      "ct": "application/octet-stream"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "status": 200,
+      "ct": "application/json"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-ru.json",
+      "status": 404,
+      "ct": "text/html"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-ru-LV.json",
+      "status": 404,
+      "ct": "text/html"
+    },
+    {
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=MSC-42460958-LV&ids[]=MSC-42460954-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "status": 200,
+      "ct": "application/json; charset=utf-8"
+    },
+    {
+      "url": "https://byme-ikea-prod.s3.eu-west-1.amazonaws.com/data/distributions/LV/branding/logo.png?x-id=GetObject",
+      "status": 403,
+      "ct": "application/xml"
+    },
+    {
+      "url": "https://byme-ikea-prod.s3.eu-west-1.amazonaws.com/data/distributions/LV/branding/style.jsonc?x-id=GetObject",
+      "status": 403,
+      "ct": "application/xml"
+    },
+    {
+      "url": "https://byme-ikea-prod.s3.eu-west-1.amazonaws.com/data/applications/2-2/branding/logo.png?x-id=GetObject",
+      "status": 200,
+      "ct": "binary/octet-stream"
+    },
+    {
+      "url": "https://byme-ikea-prod.s3.eu-west-1.amazonaws.com/data/applications/2-2/branding/style.jsonc?x-id=GetObject",
+      "status": 200,
+      "ct": "binary/octet-stream"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/styles/Kitchen.css",
+      "status": 200,
+      "ct": "text/css"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Environment/ping.json",
+      "status": 200,
+      "ct": "application/json"
+    },
+    {
+      "url": "https://byme-ikea-prod.s3.eu-west-1.amazonaws.com/data/distributions/LV/default-projects/closedKitchen1?x-id=GetObject",
+      "status": 200,
+      "ct": "application/octet-stream"
+    },
+    {
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=MSC-42460833-LV&ids[]=MSC-42460836-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "status": 200,
+      "ct": "application/json; charset=utf-8"
+    },
+    {
+      "url": "https://platform.ikea-prod.by.me/api/3/parameters",
+      "status": 200,
+      "ct": "application/json; charset=utf-8"
+    },
+    {
+      "url": "https://platform.ikea-prod.by.me/api/3/tags?languageID=62",
+      "status": 200,
+      "ct": "application/json; charset=utf-8"
+    },
+    {
+      "url": "https://platform.ikea-prod.by.me/3/search?languageID=62&expand[]=true&expand[]=parameterTranslations",
+      "status": 200,
+      "ct": "application/json; charset=utf-8"
+    },
+    {
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=SCP-65743.bm3mat-28.0-26113-width-depth-LV&ids[]=ART-40475256-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "status": 200,
+      "ct": "application/json; charset=utf-8"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/images/cursors/SVG_40px/cursor-drag-wall-40px.svg",
+      "status": 200,
+      "ct": "image/svg+xml"
+    },
+    {
+      "url": "https://platform.ikea-prod.by.me/api/3/tags?languageID=62",
+      "status": 200,
+      "ct": "application/json; charset=utf-8"
+    },
+    {
+      "url": "https://byme-ikea-prod.s3.eu-west-1.amazonaws.com/data/distributions/LV/branding/icons.svg?x-id=GetObject",
+      "status": 403,
+      "ct": "application/xml"
+    },
+    {
+      "url": "https://d1rnl1hhzmmov0.cloudfront.net/8DA81FE6-0FF7-4D44-B752-1C7C79236193/Symbols/0001.svg",
+      "status": 200,
+      "ct": "binary/octet-stream"
+    },
+    {
+      "url": "https://d1rnl1hhzmmov0.cloudfront.net/8EA154F0-D34C-4216-A8BC-57201854D99F/Symbols/0001.svg",
+      "status": 200,
+      "ct": "binary/octet-stream"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/images/cursors/SVG_40px/cursor-drag-vertex-white.svg",
+      "status": 200,
+      "ct": "image/svg+xml"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/images/vertex/vertex-hover.svg",
+      "status": 200,
+      "ct": "image/svg+xml"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/images/vertex/vertex-selected.svg",
+      "status": 200,
+      "ct": "image/svg+xml"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/GeometricModellerWasm.wasm",
+      "status": 200,
+      "ct": "application/wasm"
+    }
+  ],
+  "slopeHits": [
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/index-D5zaLuKC.js",
+      "line": 26,
+      "text": " */var ABSOLUTE_URL_REGEX=/^(?:[a-z][a-z0-9+.-]*:|[\\\\/]{2})/i,PROTOCOL_RELATIVE_URL_REGEX=/^[\\\\/]{2}/;function normalizeProtocolRelativeUrl(e,t){return t+e.replace(/\\\\/g,\"/\")}var PopStateEventType=\"popstate\";function isLocation(e){return\"ob…"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/index-D43JzK1n.js",
+      "line": 1,
+      "text": "import{c as e,dR as t,g as n,z as r,ai as o,aj as i,K as a}from\"./index-D5zaLuKC.js\";import{F as l,l as s}from\"./FormFieldContext-B7Hi0L_4.js\";var c,u,d,p={},f={},h={},m={},y={},g={};c=g,Object.defineProperty(c,\"__esModule\",{value:!0}),c.Do…"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/vendors~IntroKitchen~Kitchen~KitchenRTL~TemplateEditor/vendors~IntroKitchen~Kitchen~KitchenRTL~TemplateEditor.js",
+      "line": 1,
+      "text": "(self.webpackChunk=self.webpackChunk||[]).push([[889],{92477:(e,t,n)=>{\"use strict\";n.d(t,{E:()=>Aa,Y:()=>va});var i={d:(e,t)=>{for(var n in t)i.o(t,n)&&!i.o(e,n)&&Object.defineProperty(e,n,{enumerable:!0,get:t[n]})},o:(e,t)=>Object.prototy…"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/vendors~Kitchen~KitchenRTL~TemplateEditor/vendors~Kitchen~KitchenRTL~TemplateEditor.js",
+      "line": 1,
+      "text": "(self.webpackChunk=self.webpackChunk||[]).push([[885],{5157:(e,t,n)=>{var o=\"__lodash_hash_undefined__\",i=1/0,r=\"[object Function]\",a=\"[object GeneratorFunction]\",s=\"[object Symbol]\",l=/\\.|\\[(?:[^[\\]]*|([\"'])(?:(?!\\1)[^\\\\]|\\\\.)*?\\1)\\]/,c=/^…"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/vendors~IntroKitchen~Kitchen~Kitchen/vendors~IntroKitchen~Kitchen~KitchenRTL.js",
+      "line": 1,
+      "text": "\"use strict\";(self.webpackChunk=self.webpackChunk||[]).push([[882],{25857:(e,t,n)=>{n.d(t,{H:()=>i});var i,o=n(54681),r=n(43144);i=o.w.createRoot=r.createRoot,o.w.hydrateRoot=r.hydrateRoot},10215:(e,t,n)=>{n.d(t,{t:()=>u});var i=n(11995),o=…"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/vendors~IntroKitchen~IntroTemplateEditor~Kitchen~KitchenRTL~TemplateEditor/vendors~IntroKitchen~IntroTemplateEditor~Kitchen~KitchenRTL~TemplateEditor.js",
+      "line": 1,
+      "text": "(self.webpackChunk=self.webpackChunk||[]).push([[636],{87826:(e,t,n)=>{\"use strict\";n.d(t,{w:()=>i});class i{constructor(){this.domElement=null,this.domain=null}init(e,t,n){return this.domElement=document.getElementById(e),this.domain=t,thi…"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/common~Kitchen~KitchenRTL~TemplateEditor/common~Kitchen~KitchenRTL~TemplateEditor.js",
+      "line": 1,
+      "text": "(self.webpackChunk=self.webpackChunk||[]).push([[537],{43500:e=>{function t(e){var t=new Error(\"Cannot find module '\"+e+\"'\");throw t.code=\"MODULE_NOT_FOUND\",t}t.keys=()=>[],t.resolve=t,t.id=43500,e.exports=t},8389:e=>{function t(e){var t=ne…"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/common~Kitchen~Kitchen/common~Kitchen~KitchenRTL.js",
+      "line": 1,
+      "text": "(self.webpackChunk=self.webpackChunk||[]).push([[434,351],{14596:(e,t,i)=>{\"use strict\";var o=i(11995);var n=i(92495);var a=i(35534);function s(e,t){n.LBT.call(this,e,t),this._linearManager=null,this._uiController.createCustomModule(n.X0Y,(…"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/js/app.js",
+      "line": 1,
+      "text": "var app=function(){\"use strict\";var e=\"undefined\"!=typeof globalThis?globalThis:\"undefined\"!=typeof window?window:\"undefined\"!=typeof global?global:\"undefined\"!=typeof self?self:{};function t(e){return e&&e.__esModule&&Object.prototype.hasO…"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/icons/icons.svg",
+      "line": 410,
+      "text": "</symbol><symbol id=\"icon-tags-attic\" viewBox=\"0 0 30 30\">"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/icons/icons.svg",
+      "line": 570,
+      "text": "</symbol><symbol id=\"icon-tools-sloped-ceiling\" viewBox=\"0 0 30 30\">"
+    },
+    {
+      "url": "https://platform.ikea-prod.by.me/api/3/applications/2/distributions/LV",
+      "line": 1,
+      "text": "{\"id\":9,\"name\":\"LV\",\"parameter\":{\"locale\":\"lv-LV\",\"search\":{\"aggregationParameters\":[\"range_param-common-filters_width\",\"range_param-common-filters_depth\",\"range_param-common-filters_height\",\"range_param-common-filters_worktop_type\",\"range_…"
+    },
+    {
+      "url": "https://platform.ikea-prod.by.me/api/3/applicationdistributions/LV/translations/ru-LV",
+      "line": 1,
+      "text": "{\"advanced_decoration\":{\"description\":\"Вырежьте поверхность, чтобы нанести несколько покрытий\",\"info\":\"Вырезать поверхности или использовать предустановку для размещения нескольких покрытий на поверхности.\",\"overlay\":{\"add_horizonal_split_b…"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 162,
+      "text": "            \"message\": \"Minimum distance between the floor and ceiling, or bottom of sloped ceiling is {{x}}.\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 411,
+      "text": "        \"sloping_rule_base_cabinet_error_message\": \"Minimum distance between a base cabinet and sloped ceiling is {{x}}.\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 412,
+      "text": "        \"sloping_rule_base_cabinet_title\": \"Base cabinet position\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 413,
+      "text": "        \"sloping_rule_cooktop_cabinet_error_message\": \"Minimum distance between a cooktop cabinet and sloped ceiling is {{x}}.\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 414,
+      "text": "        \"sloping_rule_cooktop_cabinet_title\": \"Cooktop cabinet position\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 415,
+      "text": "        \"sloping_rule_dishwasher_cabinet_error_message\": \"Minimum distance between a dishwasher cabinet and sloped ceiling is {{x}}.\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 416,
+      "text": "        \"sloping_rule_dishwasher_cabinet_title\": \"Dishwasher cabinet position\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 417,
+      "text": "        \"sloping_rule_fridge_cabinet_error_message\": \"Minimum distance between a freestanding fridge or freezer and sloped ceiling is {{x}}.\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 418,
+      "text": "        \"sloping_rule_fridge_cabinet_title\": \"Freestanding fridge cabinet position\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 419,
+      "text": "        \"sloping_rule_half_height_cabinet_error_message\": \"Minimum distance between a half height cabinet and sloped ceiling is {{x}}.\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 420,
+      "text": "        \"sloping_rule_half_height_cabinet_title\": \"Half Height cabinet position\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 421,
+      "text": "        \"sloping_rule_high_cabinet_error_message\": \"Minimum distance between a high cabinet and sloped ceiling is {{x}}.\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 422,
+      "text": "        \"sloping_rule_high_cabinet_title\": \"High cabinet position\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 423,
+      "text": "        \"sloping_rule_high_cabinet_top_light_error_message\": \"Minimum distance between a high cabinet with top light and sloped ceiling is {{x}}.\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 424,
+      "text": "        \"sloping_rule_high_cabinet_top_light_title\": \"High cabinet with top light\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 425,
+      "text": "        \"sloping_rule_horizontal_cabinet_error_message\": \"Minimum distance between a horizontal wall cabinet and sloped ceiling is {{x}}.\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 426,
+      "text": "        \"sloping_rule_horizontal_cabinet_title\": \"Horizontal wall cabinet position\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 427,
+      "text": "        \"sloping_rule_horizontal_cabinet_top_light_error_message\": \"Minimum distance between a horizontal cabinet with top light and sloped ceiling is {{x}}.\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 428,
+      "text": "        \"sloping_rule_horizontal_cabinet_top_light_title\": \"Horizontal cabinet with top light\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 429,
+      "text": "        \"sloping_rule_intersection_message\": \"Cabinets are colliding with sloped ceiling\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 430,
+      "text": "        \"sloping_rule_intersection_title\": \"Cabinet colliding with sloped ceiling\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 431,
+      "text": "        \"sloping_rule_oven_cabinet_error_message\": \"Minimum distance between an oven cabinet and sloped ceiling is {{x}}.\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 432,
+      "text": "        \"sloping_rule_oven_cabinet_title\": \"Oven cabinet position\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 433,
+      "text": "        \"sloping_rule_sink_cabinet_error_message\": \"Minimum distance between a sink cabinet and sloped ceiling is {{x}}.\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 434,
+      "text": "        \"sloping_rule_sink_cabinet_title\": \"Sink cabinet position\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 435,
+      "text": "        \"sloping_rule_wall_cabinet_error_message\": \"Minimum distance between a wall cabinet and sloped ceiling is {{x}}.\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 436,
+      "text": "        \"sloping_rule_wall_cabinet_title\": \"Wall cabinet position\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 437,
+      "text": "        \"sloping_rule_wall_cabinet_top_light_error_message\": \"Minimum distance between a wall cabinet with top light and sloped ceiling is {{x}}.\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 438,
+      "text": "        \"sloping_rule_wall_cabinet_top_light_title\": \"Wall cabinet with top light\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 439,
+      "text": "        \"sloping_rule_wall_panel_error_message\": \"Minimum distance between a wall panel and sloped ceiling is {{x}}.\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 440,
+      "text": "        \"sloping_rule_wall_panel_intersection_message\": \"Wall panels are colliding with sloped ceiling\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 441,
+      "text": "        \"sloping_rule_wall_panel_intersection_title\": \"Wall panel colliding with sloped ceiling\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 442,
+      "text": "        \"sloping_rule_wall_panel_title\": \"Wall panel\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 443,
+      "text": "        \"sloping_rule_washer_cabinet_error_message\": \"Minimum distance between a washing machine cabinet and sloped ceiling is {{x}}.\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 444,
+      "text": "        \"sloping_rule_washer_cabinet_title\": \"Washing machine position\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 665,
+      "text": "        \"add_sloped_walls\": \"Manage sloped ceilings\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 684,
+      "text": "        \"sloped_ceiling\": \"Sloped ceiling\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 1823,
+      "text": "        \"info_no_sloped_ceiling\": \"No roof window without sloped ceiling.\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 1824,
+      "text": "        \"info_no_sloped_ceiling_link\": \"Add sloped ceiling\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "line": 2598,
+      "text": "            \"attic\": \"Attic\","
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/styles/Kitchen.css",
+      "line": 1,
+      "text": "@font-face{font-family:Montserrat;font-style:normal;font-weight:400;src:url(/Kitchen/assets/fonts/Montserrat/medium.eot);src:local(\"Montserrat Medium\"),local(\"Montserrat-Medium\"),url(/Kitchen/assets/fonts/Montserrat/medium.eot?#iefix) forma…"
+    }
+  ],
+  "bodiesWithHits": [
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/index-D5zaLuKC.js",
+      "size": 1342912,
+      "sampleHits": [
+        {
+          "url": "https://kitchen.planner.ikea.com/assets/index-D5zaLuKC.js",
+          "line": 26,
+          "text": " */var ABSOLUTE_URL_REGEX=/^(?:[a-z][a-z0-9+.-]*:|[\\\\/]{2})/i,PROTOCOL_RELATIVE_URL_REGEX=/^[\\\\/]{2}/;function normalizeProtocolRelativeUrl(e,t){return t+e.replace(/\\\\/g,\"/\")}var PopStateEventType=\"popstate\";function isLocation(e){return\"ob…"
+        }
+      ]
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/index-D43JzK1n.js",
+      "size": 33727,
+      "sampleHits": [
+        {
+          "url": "https://kitchen.planner.ikea.com/assets/index-D43JzK1n.js",
+          "line": 1,
+          "text": "import{c as e,dR as t,g as n,z as r,ai as o,aj as i,K as a}from\"./index-D5zaLuKC.js\";import{F as l,l as s}from\"./FormFieldContext-B7Hi0L_4.js\";var c,u,d,p={},f={},h={},m={},y={},g={};c=g,Object.defineProperty(c,\"__esModule\",{value:!0}),c.Do…"
+        }
+      ]
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/vendors~IntroKitchen~Kitchen~KitchenRTL~TemplateEditor/vendors~IntroKitchen~Kitchen~KitchenRTL~TemplateEditor.js",
+      "size": 7168720,
+      "sampleHits": [
+        {
+          "url": "https://kitchen.ikea-prod.by.me/vendors~IntroKitchen~Kitchen~KitchenRTL~TemplateEditor/vendors~IntroKitchen~Kitchen~KitchenRTL~TemplateEditor.js",
+          "line": 1,
+          "text": "(self.webpackChunk=self.webpackChunk||[]).push([[889],{92477:(e,t,n)=>{\"use strict\";n.d(t,{E:()=>Aa,Y:()=>va});var i={d:(e,t)=>{for(var n in t)i.o(t,n)&&!i.o(e,n)&&Object.defineProperty(e,n,{enumerable:!0,get:t[n]})},o:(e,t)=>Object.prototy…"
+        }
+      ]
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/vendors~Kitchen~KitchenRTL~TemplateEditor/vendors~Kitchen~KitchenRTL~TemplateEditor.js",
+      "size": 1321354,
+      "sampleHits": [
+        {
+          "url": "https://kitchen.ikea-prod.by.me/vendors~Kitchen~KitchenRTL~TemplateEditor/vendors~Kitchen~KitchenRTL~TemplateEditor.js",
+          "line": 1,
+          "text": "(self.webpackChunk=self.webpackChunk||[]).push([[885],{5157:(e,t,n)=>{var o=\"__lodash_hash_undefined__\",i=1/0,r=\"[object Function]\",a=\"[object GeneratorFunction]\",s=\"[object Symbol]\",l=/\\.|\\[(?:[^[\\]]*|([\"'])(?:(?!\\1)[^\\\\]|\\\\.)*?\\1)\\]/,c=/^…"
+        }
+      ]
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/vendors~IntroKitchen~Kitchen~Kitchen/vendors~IntroKitchen~Kitchen~KitchenRTL.js",
+      "size": 145388,
+      "sampleHits": [
+        {
+          "url": "https://kitchen.ikea-prod.by.me/vendors~IntroKitchen~Kitchen~Kitchen/vendors~IntroKitchen~Kitchen~KitchenRTL.js",
+          "line": 1,
+          "text": "\"use strict\";(self.webpackChunk=self.webpackChunk||[]).push([[882],{25857:(e,t,n)=>{n.d(t,{H:()=>i});var i,o=n(54681),r=n(43144);i=o.w.createRoot=r.createRoot,o.w.hydrateRoot=r.hydrateRoot},10215:(e,t,n)=>{n.d(t,{t:()=>u});var i=n(11995),o=…"
+        }
+      ]
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/vendors~IntroKitchen~IntroTemplateEditor~Kitchen~KitchenRTL~TemplateEditor/vendors~IntroKitchen~IntroTemplateEditor~Kitchen~KitchenRTL~TemplateEditor.js",
+      "size": 8000000,
+      "sampleHits": [
+        {
+          "url": "https://kitchen.ikea-prod.by.me/vendors~IntroKitchen~IntroTemplateEditor~Kitchen~KitchenRTL~TemplateEditor/vendors~IntroKitchen~IntroTemplateEditor~Kitchen~KitchenRTL~TemplateEditor.js",
+          "line": 1,
+          "text": "(self.webpackChunk=self.webpackChunk||[]).push([[636],{87826:(e,t,n)=>{\"use strict\";n.d(t,{w:()=>i});class i{constructor(){this.domElement=null,this.domain=null}init(e,t,n){return this.domElement=document.getElementById(e),this.domain=t,thi…"
+        }
+      ]
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/common~Kitchen~KitchenRTL~TemplateEditor/common~Kitchen~KitchenRTL~TemplateEditor.js",
+      "size": 204496,
+      "sampleHits": [
+        {
+          "url": "https://kitchen.ikea-prod.by.me/common~Kitchen~KitchenRTL~TemplateEditor/common~Kitchen~KitchenRTL~TemplateEditor.js",
+          "line": 1,
+          "text": "(self.webpackChunk=self.webpackChunk||[]).push([[537],{43500:e=>{function t(e){var t=new Error(\"Cannot find module '\"+e+\"'\");throw t.code=\"MODULE_NOT_FOUND\",t}t.keys=()=>[],t.resolve=t,t.id=43500,e.exports=t},8389:e=>{function t(e){var t=ne…"
+        }
+      ]
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/common~Kitchen~Kitchen/common~Kitchen~KitchenRTL.js",
+      "size": 1074370,
+      "sampleHits": [
+        {
+          "url": "https://kitchen.ikea-prod.by.me/common~Kitchen~Kitchen/common~Kitchen~KitchenRTL.js",
+          "line": 1,
+          "text": "(self.webpackChunk=self.webpackChunk||[]).push([[434,351],{14596:(e,t,i)=>{\"use strict\";var o=i(11995);var n=i(92495);var a=i(35534);function s(e,t){n.LBT.call(this,e,t),this._linearManager=null,this._uiController.createCustomModule(n.X0Y,(…"
+        }
+      ]
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/js/app.js",
+      "size": 363423,
+      "sampleHits": [
+        {
+          "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/js/app.js",
+          "line": 1,
+          "text": "var app=function(){\"use strict\";var e=\"undefined\"!=typeof globalThis?globalThis:\"undefined\"!=typeof window?window:\"undefined\"!=typeof global?global:\"undefined\"!=typeof self?self:{};function t(e){return e&&e.__esModule&&Object.prototype.hasO…"
+        }
+      ]
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/icons/icons.svg",
+      "size": 331052,
+      "sampleHits": [
+        {
+          "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/icons/icons.svg",
+          "line": 410,
+          "text": "</symbol><symbol id=\"icon-tags-attic\" viewBox=\"0 0 30 30\">"
+        },
+        {
+          "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/icons/icons.svg",
+          "line": 570,
+          "text": "</symbol><symbol id=\"icon-tools-sloped-ceiling\" viewBox=\"0 0 30 30\">"
+        }
+      ]
+    },
+    {
+      "url": "https://platform.ikea-prod.by.me/api/3/applications/2/distributions/LV",
+      "size": 1169661,
+      "sampleHits": [
+        {
+          "url": "https://platform.ikea-prod.by.me/api/3/applications/2/distributions/LV",
+          "line": 1,
+          "text": "{\"id\":9,\"name\":\"LV\",\"parameter\":{\"locale\":\"lv-LV\",\"search\":{\"aggregationParameters\":[\"range_param-common-filters_width\",\"range_param-common-filters_depth\",\"range_param-common-filters_height\",\"range_param-common-filters_worktop_type\",\"range_…"
+        }
+      ]
+    },
+    {
+      "url": "https://platform.ikea-prod.by.me/api/3/applicationdistributions/LV/translations/ru-LV",
+      "size": 98861,
+      "sampleHits": [
+        {
+          "url": "https://platform.ikea-prod.by.me/api/3/applicationdistributions/LV/translations/ru-LV",
+          "line": 1,
+          "text": "{\"advanced_decoration\":{\"description\":\"Вырежьте поверхность, чтобы нанести несколько покрытий\",\"info\":\"Вырезать поверхности или использовать предустановку для размещения нескольких покрытий на поверхности.\",\"overlay\":{\"add_horizonal_split_b…"
+        }
+      ]
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+      "size": 171133,
+      "sampleHits": [
+        {
+          "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+          "line": 162,
+          "text": "            \"message\": \"Minimum distance between the floor and ceiling, or bottom of sloped ceiling is {{x}}.\","
+        },
+        {
+          "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+          "line": 411,
+          "text": "        \"sloping_rule_base_cabinet_error_message\": \"Minimum distance between a base cabinet and sloped ceiling is {{x}}.\","
+        },
+        {
+          "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+          "line": 412,
+          "text": "        \"sloping_rule_base_cabinet_title\": \"Base cabinet position\","
+        },
+        {
+          "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+          "line": 413,
+          "text": "        \"sloping_rule_cooktop_cabinet_error_message\": \"Minimum distance between a cooktop cabinet and sloped ceiling is {{x}}.\","
+        },
+        {
+          "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+          "line": 414,
+          "text": "        \"sloping_rule_cooktop_cabinet_title\": \"Cooktop cabinet position\","
+        },
+        {
+          "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+          "line": 415,
+          "text": "        \"sloping_rule_dishwasher_cabinet_error_message\": \"Minimum distance between a dishwasher cabinet and sloped ceiling is {{x}}.\","
+        },
+        {
+          "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+          "line": 416,
+          "text": "        \"sloping_rule_dishwasher_cabinet_title\": \"Dishwasher cabinet position\","
+        },
+        {
+          "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/translation-master.json",
+          "line": 417,
+          "text": "        \"sloping_rule_fridge_cabinet_error_message\": \"Minimum distance between a freestanding fridge or freezer and sloped ceiling is {{x}}.\","
+        }
+      ]
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/styles/Kitchen.css",
+      "size": 719482,
+      "sampleHits": [
+        {
+          "url": "https://kitchen.ikea-prod.by.me/Kitchen/styles/Kitchen.css",
+          "line": 1,
+          "text": "@font-face{font-family:Montserrat;font-style:normal;font-weight:400;src:url(/Kitchen/assets/fonts/Montserrat/medium.eot);src:local(\"Montserrat Medium\"),local(\"Montserrat-Medium\"),url(/Kitchen/assets/fonts/Montserrat/medium.eot?#iefix) forma…"
+        }
+      ]
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/icons/icons.svg",
+      "size": 331052,
+      "sampleHits": [
+        {
+          "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/icons/icons.svg",
+          "line": 410,
+          "text": "</symbol><symbol id=\"icon-tags-attic\" viewBox=\"0 0 30 30\">"
+        },
+        {
+          "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/icons/icons.svg",
+          "line": 570,
+          "text": "</symbol><symbol id=\"icon-tools-sloped-ceiling\" viewBox=\"0 0 30 30\">"
+        }
+      ]
+    }
+  ],
+  "framesBefore": [
+    {
+      "name": "",
+      "url": "https://kitchen.planner.ikea.com/lv/ru/planner/",
+      "a11y": {
+        "title": "IKEA Kitchen Planner",
+        "bodyText": "Убрать уведомление",
+        "canvas": [],
+        "buttons": [
+          {
+            "text": "Убрать уведомление",
+            "aria": null
+          }
+        ],
+        "nodes": [
+          {
+            "role": "body",
+            "name": "Убрать уведомление",
+            "tag": "BODY"
+          },
+          {
+            "role": "div",
+            "name": "Убрать уведомление",
+            "tag": "DIV"
+          },
+          {
+            "role": "iframe",
+            "name": "planner-iframe",
+            "tag": "IFRAME"
+          },
+          {
+            "role": "div",
+            "name": "Убрать уведомление",
+            "tag": "DIV"
+          },
+          {
+            "role": "div",
+            "name": "Убрать уведомление",
+            "tag": "DIV"
+          },
+          {
+            "role": "button",
+            "name": "Убрать уведомление",
+            "tag": "BUTTON"
+          },
+          {
+            "role": "span",
+            "name": "Убрать уведомление",
+            "tag": "SPAN"
+          },
+          {
+            "role": "span",
+            "name": "Убрать уведомление",
+            "tag": "SPAN"
+          }
+        ]
+      }
+    },
+    {
+      "name": "3dvia_frame",
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV",
+      "a11y": {
+        "title": "Планировщик Кухонь IKEA",
+        "bodyText": "Error\nWe've encountered an error. Refresh the application\nGo back\nЗадайте форму и размер комнаты\nВыбрать готовый вариант\nДобавьте индивидуальности\nИтог\nItem notes\nSee product list\nИзмерить\nОтменить\nПовторить\nСохранить\nЗакрыть\nНарисовать форму\nНарисовать план\nОбъекты\nПроёмы\nПоиск\nВывод воды\nВысота потолка\n\nМоя кухня IKEA\n0,00 € \n\nTotal price updated0,00 €\nПродолжить\nДругие варианты\nПоказать все товары\t\nВид на этаж\n16 m²\nНовые уведомления\nПомощь\nПодсказки по инструментам\nСоветы по проекту\n\nНачать с формы\n\nПоказать\n\nСоздать кухню открытого типа\n\nПоказать\n\nДобавить недвижимый объект\n\nПоказать\n\nРазместите вывод воды\n\nПоказать\n\nИзменить высоту потолка\n\nПоказать\n\nИзменить стену или угол\n\nПоказать\n\nИзменить размеры вашего пространства\n\nПоказать\n\nРазместите ваши двери и окна\n\nПоказать\nОбновить обзор проекта.\n\nПланируйте с умом!\nОбновляйте обзор проекта чаще, чтобы получить советы о том, как спланировать лучшую кухню.\n\nВыбрать форму комнаты\nВыберите форму, чтобы изменить план этажа на эту новую форму. Вы можете изменить его позже\nClose\nЗамкнутое кухонное пространство\nОткрытое кухонное пространство\n2500 mm",
+        "canvas": [
+          {
+            "w": 1400,
+            "h": 754,
+            "id": "canvas",
+            "cls": ""
+          }
+        ],
+        "buttons": [
+          {
+            "text": "Go back",
+            "aria": null
+          },
+          {
+            "text": "Задайте форму и размер комнаты",
+            "aria": null
+          },
+          {
+            "text": "Выбрать готовый вариант",
+            "aria": null
+          },
+          {
+            "text": "Добавьте индивидуальности",
+            "aria": null
+          },
+          {
+            "text": "Итог",
+            "aria": null
+          },
+          {
+            "text": "Item notes",
+            "aria": "Заметки"
+          },
+          {
+            "text": "See product list",
+            "aria": "Посмотреть список товаров"
+          },
+          {
+            "text": "Измерить",
+            "aria": "Линейка"
+          },
+          {
+            "text": "Отменить",
+            "aria": "Отменить"
+          },
+          {
+            "text": "Повторить",
+            "aria": "Повторить"
+          },
+          {
+            "text": "Сохранить",
+            "aria": "Сохранить проект"
+          },
+          {
+            "text": "Закрыть",
+            "aria": "Закрыть"
+          },
+          {
+            "text": "",
+            "aria": "Scroll left"
+          },
+          {
+            "text": "Нарисовать форму",
+            "aria": null
+          },
+          {
+            "text": "Нарисовать план",
+            "aria": null
+          },
+          {
+            "text": "Объекты",
+            "aria": null
+          },
+          {
+            "text": "Проёмы",
+            "aria": null
+          },
+          {
+            "text": "Поиск",
+            "aria": null
+          },
+          {
+            "text": "Вывод воды",
+            "aria": null
+          },
+          {
+            "text": "",
+            "aria": "Scroll right"
+          },
+          {
+            "text": "",
+            "aria": null
+          },
+          {
+            "text": "Продолжить",
+            "aria": null
+          },
+          {
+            "text": "",
+            "aria": null
+          },
+          {
+            "text": "",
+            "aria": null
+          },
+          {
+            "text": "",
+            "aria": null
+          },
+          {
+            "text": "",
+            "aria": "Другие варианты"
+          },
+          {
+            "text": "Вид на этаж",
+            "aria": "Вид на этаж"
+          },
+          {
+            "text": "",
+            "aria": "Вид спереди"
+          },
+          {
+            "text": "",
+            "aria": "Трехмерный вид"
+          },
+          {
+            "text": "",
+            "aria": "Виртуальный визит"
+          },
+          {
+            "text": "Новые уведомления",
+            "aria": "Помощь"
+          },
+          {
+            "text": "",
+            "aria": null
+          },
+          {
+            "text": "Подсказки по инструментам",
+            "aria": null
+          },
+          {
+            "text": "Советы по проекту",
+            "aria": null
+          },
+          {
+            "text": "Показать",
+            "aria": "Показать Начать с формы tooltip"
+          },
+          {
+            "text": "Показать",
+            "aria": "Показать Создать кухню открытого типа tooltip"
+          },
+          {
+            "text": "Показать",
+            "aria": "Показать Добавить недвижимый объект tooltip"
+          },
+          {
+            "text": "Показать",
+            "aria": "Показать Разместите вывод воды tooltip"
+          },
+          {
+            "text": "Показать",
+            "aria": "Показать Изменить высоту потолка tooltip"
+          },
+          {
+            "text": "Показать",
+            "aria": "Показать Изменить стену или угол tooltip"
+          },
+          {
+            "text": "Показать",
+            "aria": "Показать Изменить размеры вашего пространства tooltip"
+          },
+          {
+            "text": "Показать",
+            "aria": "Показать Разместите ваши двери и окна tooltip"
+          },
+          {
+            "text": "Вы внесли изменения в ваш проект. Ознакомьтесь с обновлённым обзором проекта.",
+            "aria": "Обновить обзор проекта."
+          },
+          {
+            "text": "Обновить обзор проекта.",
+            "aria": null
+          },
+          {
+            "text": "Close",
+            "aria": "Закрыть"
+          }
+        ],
+        "nodes": [
+          {
+            "role": "body",
+            "name": "Error\nWe've encountered an error. Refresh the application\nGo back\nЗадайте форму ",
+            "tag": "BODY"
+          },
+          {
+            "role": "div",
+            "name": "Error\nWe've encountered an error. Refresh the application\nGo back",
+            "tag": "DIV"
+          },
+          {
+            "role": "group",
+            "name": "Error\nWe've encountered an error. Refresh the application\nGo back",
+            "tag": "FIGURE"
+          },
+          {
+            "role": "figcaption",
+            "name": "Error\nWe've encountered an error. Refresh the application\nGo back",
+            "tag": "FIGCAPTION"
+          },
+          {
+            "role": "h1",
+            "name": "Error",
+            "tag": "H1"
+          },
+          {
+            "role": "span",
+            "name": "We've encountered an error. Refresh the application",
+            "tag": "SPAN"
+          },
+          {
+            "role": "button",
+            "name": "Go back",
+            "tag": "BUTTON"
+          },
+          {
+            "role": "span",
+            "name": "Go back",
+            "tag": "SPAN"
+          },
+          {
+            "role": "status",
+            "name": "loading application",
+            "tag": "DIV"
+          },
+          {
+            "role": "div",
+            "name": "Задайте форму и размер комнаты\nВыбрать готовый вариант\nДобавьте индивидуальности",
+            "tag": "DIV"
+          },
+          {
+            "role": "banner",
+            "name": "Задайте форму и размер комнаты\nВыбрать готовый вариант\nДобавьте индивидуальности",
+            "tag": "HEADER"
+          },
+          {
+            "role": "div",
+            "name": "Задайте форму и размер комнаты\nВыбрать готовый вариант\nДобавьте индивидуальности",
+            "tag": "DIV"
+          },
+          {
+            "role": "div",
+            "name": "Задайте форму и размер комнаты\nВыбрать готовый вариант\nДобавьте индивидуальности",
+            "tag": "DIV"
+          },
+          {
+            "role": "navigation",
+            "name": "Задайте форму и размер комнаты\nВыбрать готовый вариант\nДобавьте индивидуальности",
+            "tag": "NAV"
+          },
+          {
+            "role": "ul",
+            "name": "Задайте форму и размер комнаты\nВыбрать готовый вариант\nДобавьте индивидуальности",
+            "tag": "UL"
+          },
+          {
+            "role": "div",
+            "name": "Item notes\nSee product list\nИзмерить\nОтменить\nПовторить\nСохранить\nЗакрыть",
+            "tag": "DIV"
+          },
+          {
+            "role": "ul",
+            "name": "Item notes\nSee product list\nИзмерить",
+            "tag": "UL"
+          },
+          {
+            "role": "li",
+            "name": "Item notes",
+            "tag": "LI"
+          },
+          {
+            "role": "li",
+            "name": "See product list",
+            "tag": "LI"
+          },
+          {
+            "role": "li",
+            "name": "Измерить",
+            "tag": "LI"
+          },
+          {
+            "role": "ul",
+            "name": "Отменить\nПовторить\nСохранить",
+            "tag": "UL"
+          },
+          {
+            "role": "li",
+            "name": "Отменить",
+            "tag": "LI"
+          },
+          {
+            "role": "li",
+            "name": "Повторить",
+            "tag": "LI"
+          },
+          {
+            "role": "li",
+            "name": "Сохранить",
+            "tag": "LI"
+          },
+          {
+            "role": "button",
+            "name": "Закрыть",
+            "tag": "BUTTON"
+          },
+          {
+            "role": "span",
+            "name": "Закрыть",
+            "tag": "SPAN"
+          },
+          {
+            "role": "main",
+            "name": "Нарисовать форму\nНарисовать план\nОбъекты\nПроёмы\nПоиск\nВывод воды\nВысота потолка\n",
+            "tag": "MAIN"
+          },
+          {
+            "role": "div",
+            "name": "Нарисовать форму\nНарисовать план\nОбъекты\nПроёмы\nПоиск\nВывод воды\nВысота потолка\n",
+            "tag": "DIV"
+          },
+          {
+            "role": "div",
+            "name": "Нарисовать форму\nНарисовать план\nОбъекты\nПроёмы\nПоиск\nВывод воды\nВысота потолка\n",
+            "tag": "DIV"
+          },
+          {
+            "role": "div",
+            "name": "Нарисовать форму\nНарисовать план\nОбъекты\nПроёмы\nПоиск\nВывод воды\nВысота потолка\n",
+            "tag": "DIV"
+          },
+          {
+            "role": "div",
+            "name": "Нарисовать форму\nНарисовать план\nОбъекты\nПроёмы\nПоиск\nВывод воды\nВысота потолка",
+            "tag": "DIV"
+          },
+          {
+            "role": "div",
+            "name": "Моя кухня IKEA\n0,00 € \n\nTotal price updated0,00 €\nПродолжить",
+            "tag": "DIV"
+          },
+          {
+            "role": "div",
+            "name": "Другие варианты\nПоказать все товары\t\nВид на этаж\n16 m²\nНовые уведомления\nПомощь\n",
+            "tag": "DIV"
+          },
+          {
+            "role": "div",
+            "name": "Другие варианты\nПоказать все товары\t\nВид на этаж\n16 m²",
+            "tag": "DIV"
+          },
+          {
+            "role": "div",
+            "name": "Другие варианты\nПоказать все товары\t\nВид на этаж",
+            "tag": "DIV"
+          },
+          {
+            "role": "input",
+            "name": "",
+            "tag": "INPUT"
+          },
+          {
+            "role": "input",
+            "name": "",
+            "tag": "INPUT"
+          },
+          {
+            "role": "div",
+            "name": "16 m²",
+            "tag": "DIV"
+          },
+          {
+            "role": "input",
+            "name": "",
+            "tag": "INPUT"
+          },
+          {
+            "role": "input",
+            "name": "",
+            "tag": "INPUT"
+          },
+          {
+            "role": "input",
+            "name": "",
+            "tag": "INPUT"
+          },
+          {
+            "role": "input",
+            "name": "",
+            "tag": "INPUT"
+          },
+          {
+            "role": "article",
+            "name": "Новые уведомления\nПомощь\nПодсказки по инструментам\nСоветы по проекту\n\nНачать с ф",
+            "tag": "ARTICLE"
+          },
+          {
+            "role": "button",
+            "name": "Помощь",
+            "tag": "BUTTON"
+          },
+          {
+            "role": "div",
+            "name": "Помощь\nПодсказки по инструментам\nСоветы по проекту\n\nНачать с формы\n\nПоказать\n\nСо",
+            "tag": "DIV"
+          },
+          {
+            "role": "article",
+            "name": "Выбрать форму комнаты\nВыберите форму, чтобы изменить план этажа на эту новую фор",
+            "tag": "ARTICLE"
+          },
+          {
+            "role": "div",
+            "name": "Выбрать форму комнаты\nВыберите форму, чтобы изменить план этажа на эту новую фор",
+            "tag": "DIV"
+          },
+          {
+            "role": "header",
+            "name": "Выбрать форму комнаты\nВыберите форму, чтобы изменить план этажа на эту новую фор",
+            "tag": "HEADER"
+          },
+          {
+            "role": "div",
+            "name": "Выбрать форму комнаты\nВыберите форму, чтобы изменить план этажа на эту новую фор",
+            "tag": "DIV"
+          },
+          {
+            "role": "div",
+            "name": "Выбрать форму комнаты\nВыберите форму, чтобы изменить план этажа на эту новую фор",
+            "tag": "DIV"
+          },
+          {
+            "role": "div",
+            "name": "Close",
+            "tag": "DIV"
+          },
+          {
+            "role": "div",
+            "name": "Замкнутое кухонное пространство\nОткрытое кухонное пространство",
+            "tag": "DIV"
+          },
+          {
+            "role": "div",
+            "name": "Замкнутое кухонное пространство\nОткрытое кухонное пространство",
+            "tag": "DIV"
+          },
+          {
+            "role": "div",
+            "name": "Замкнутое кухонное пространство\nОткрытое кухонное пространство",
+            "tag": "DIV"
+          },
+          {
+            "role": "script",
+            "name": "window.config = { urls: { icons: \"./assets/icons/icons.svg\" } }",
+            "tag": "SCRIPT"
+          },
+          {
+            "role": "div",
+            "name": "2500 mm",
+            "tag": "DIV"
+          }
+        ]
+      }
+    }
+  ],
+  "framesAfter": [
+    {
+      "name": "",
+      "url": "https://kitchen.planner.ikea.com/lv/ru/planner/",
+      "a11y": {
+        "title": "IKEA Kitchen Planner",
+        "bodyText": "Убрать уведомление",
+        "canvas": [],
+        "buttons": [
+          {
+            "text": "Убрать уведомление",
+            "aria": null
+          }
+        ],
+        "nodes": [
+          {
+            "role": "body",
+            "name": "Убрать уведомление",
+            "tag": "BODY"
+          },
+          {
+            "role": "div",
+            "name": "Убрать уведомление",
+            "tag": "DIV"
+          },
+          {
+            "role": "iframe",
+            "name": "planner-iframe",
+            "tag": "IFRAME"
+          },
+          {
+            "role": "div",
+            "name": "Убрать уведомление",
+            "tag": "DIV"
+          },
+          {
+            "role": "div",
+            "name": "Убрать уведомление",
+            "tag": "DIV"
+          },
+          {
+            "role": "button",
+            "name": "Убрать уведомление",
+            "tag": "BUTTON"
+          },
+          {
+            "role": "span",
+            "name": "Убрать уведомление",
+            "tag": "SPAN"
+          },
+          {
+            "role": "span",
+            "name": "Убрать уведомление",
+            "tag": "SPAN"
+          }
+        ]
+      }
+    },
+    {
+      "name": "3dvia_frame",
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV",
+      "a11y": {
+        "title": "Планировщик Кухонь IKEA",
+        "bodyText": "Error\nWe've encountered an error. Refresh the application\nGo back\nЗадайте форму и размер комнаты\nВыбрать готовый вариант\nДобавьте индивидуальности\nИтог\nItem notes\nSee product list\nИзмерить\nОтменить\nПовторить\nСохранить\nЗакрыть\nНарисовать форму\nНарисовать план\nОбъекты\nПроёмы\nПоиск\nВывод воды\nВысота потолка\n\nМоя кухня IKEA\n0,00 € \n\nTotal price updated0,00 €\nПродолжить\nДругие варианты\nПоказать все товары\t\nВид на этаж\n16 m²\nНовые уведомления\nПомощь\nПодсказки по инструментам\nСоветы по проекту\n\nНачать с формы\n\nПоказать\n\nСоздать кухню открытого типа\n\nПоказать\n\nДобавить недвижимый объект\n\nПоказать\n\nРазместите вывод воды\n\nПоказать\n\nИзменить высоту потолка\n\nПоказать\n\nИзменить стену или угол\n\nПоказать\n\nИзменить размеры вашего пространства\n\nПоказать\n\nРазместите ваши двери и окна\n\nПоказать\nОбновить обзор проекта.\n\nПланируйте с умом!\nОбновляйте обзор проекта чаще, чтобы получить советы о том, как спланировать лучшую кухню.\n\nВыбрать форму комнаты\nВыберите форму, чтобы изменить план этажа на эту новую форму. Вы можете изменить его позже\nClose\nЗамкнутое кухонное пространство\nОткрытое кухонное пространство\n2500 mm",
+        "canvas": [
+          {
+            "w": 1400,
+            "h": 754,
+            "id": "canvas",
+            "cls": ""
+          }
+        ],
+        "buttons": [
+          {
+            "text": "Go back",
+            "aria": null
+          },
+          {
+            "text": "Задайте форму и размер комнаты",
+            "aria": null
+          },
+          {
+            "text": "Выбрать готовый вариант",
+            "aria": null
+          },
+          {
+            "text": "Добавьте индивидуальности",
+            "aria": null
+          },
+          {
+            "text": "Итог",
+            "aria": null
+          },
+          {
+            "text": "Item notes",
+            "aria": "Заметки"
+          },
+          {
+            "text": "See product list",
+            "aria": "Посмотреть список товаров"
+          },
+          {
+            "text": "Измерить",
+            "aria": "Линейка"
+          },
+          {
+            "text": "Отменить",
+            "aria": "Отменить"
+          },
+          {
+            "text": "Повторить",
+            "aria": "Повторить"
+          },
+          {
+            "text": "Сохранить",
+            "aria": "Сохранить проект"
+          },
+          {
+            "text": "Закрыть",
+            "aria": "Закрыть"
+          },
+          {
+            "text": "",
+            "aria": "Scroll left"
+          },
+          {
+            "text": "Нарисовать форму",
+            "aria": null
+          },
+          {
+            "text": "Нарисовать план",
+            "aria": null
+          },
+          {
+            "text": "Объекты",
+            "aria": null
+          },
+          {
+            "text": "Проёмы",
+            "aria": null
+          },
+          {
+            "text": "Поиск",
+            "aria": null
+          },
+          {
+            "text": "Вывод воды",
+            "aria": null
+          },
+          {
+            "text": "",
+            "aria": "Scroll right"
+          },
+          {
+            "text": "",
+            "aria": null
+          },
+          {
+            "text": "Продолжить",
+            "aria": null
+          },
+          {
+            "text": "",
+            "aria": null
+          },
+          {
+            "text": "",
+            "aria": null
+          },
+          {
+            "text": "",
+            "aria": null
+          },
+          {
+            "text": "",
+            "aria": "Другие варианты"
+          },
+          {
+            "text": "Вид на этаж",
+            "aria": "Вид на этаж"
+          },
+          {
+            "text": "",
+            "aria": "Вид спереди"
+          },
+          {
+            "text": "",
+            "aria": "Трехмерный вид"
+          },
+          {
+            "text": "",
+            "aria": "Виртуальный визит"
+          },
+          {
+            "text": "Новые уведомления",
+            "aria": "Помощь"
+          },
+          {
+            "text": "",
+            "aria": null
+          },
+          {
+            "text": "Подсказки по инструментам",
+            "aria": null
+          },
+          {
+            "text": "Советы по проекту",
+            "aria": null
+          },
+          {
+            "text": "Показать",
+            "aria": "Показать Начать с формы tooltip"
+          },
+          {
+            "text": "Показать",
+            "aria": "Показать Создать кухню открытого типа tooltip"
+          },
+          {
+            "text": "Показать",
+            "aria": "Показать Добавить недвижимый объект tooltip"
+          },
+          {
+            "text": "Показать",
+            "aria": "Показать Разместите вывод воды tooltip"
+          },
+          {
+            "text": "Показать",
+            "aria": "Показать Изменить высоту потолка tooltip"
+          },
+          {
+            "text": "Показать",
+            "aria": "Показать Изменить стену или угол tooltip"
+          },
+          {
+            "text": "Показать",
+            "aria": "Показать Изменить размеры вашего пространства tooltip"
+          },
+          {
+            "text": "Показать",
+            "aria": "Показать Разместите ваши двери и окна tooltip"
+          },
+          {
+            "text": "Вы внесли изменения в ваш проект. Ознакомьтесь с обновлённым обзором проекта.",
+            "aria": "Обновить обзор проекта."
+          },
+          {
+            "text": "Обновить обзор проекта.",
+            "aria": null
+          },
+          {
+            "text": "Close",
+            "aria": "Закрыть"
+          }
+        ],
+        "nodes": [
+          {
+            "role": "body",
+            "name": "Error\nWe've encountered an error. Refresh the application\nGo back\nЗадайте форму ",
+            "tag": "BODY"
+          },
+          {
+            "role": "div",
+            "name": "Error\nWe've encountered an error. Refresh the application\nGo back",
+            "tag": "DIV"
+          },
+          {
+            "role": "group",
+            "name": "Error\nWe've encountered an error. Refresh the application\nGo back",
+            "tag": "FIGURE"
+          },
+          {
+            "role": "figcaption",
+            "name": "Error\nWe've encountered an error. Refresh the application\nGo back",
+            "tag": "FIGCAPTION"
+          },
+          {
+            "role": "h1",
+            "name": "Error",
+            "tag": "H1"
+          },
+          {
+            "role": "span",
+            "name": "We've encountered an error. Refresh the application",
+            "tag": "SPAN"
+          },
+          {
+            "role": "button",
+            "name": "Go back",
+            "tag": "BUTTON"
+          },
+          {
+            "role": "span",
+            "name": "Go back",
+            "tag": "SPAN"
+          },
+          {
+            "role": "status",
+            "name": "loading application",
+            "tag": "DIV"
+          },
+          {
+            "role": "div",
+            "name": "Задайте форму и размер комнаты\nВыбрать готовый вариант\nДобавьте индивидуальности",
+            "tag": "DIV"
+          },
+          {
+            "role": "banner",
+            "name": "Задайте форму и размер комнаты\nВыбрать готовый вариант\nДобавьте индивидуальности",
+            "tag": "HEADER"
+          },
+          {
+            "role": "div",
+            "name": "Задайте форму и размер комнаты\nВыбрать готовый вариант\nДобавьте индивидуальности",
+            "tag": "DIV"
+          },
+          {
+            "role": "div",
+            "name": "Задайте форму и размер комнаты\nВыбрать готовый вариант\nДобавьте индивидуальности",
+            "tag": "DIV"
+          },
+          {
+            "role": "navigation",
+            "name": "Задайте форму и размер комнаты\nВыбрать готовый вариант\nДобавьте индивидуальности",
+            "tag": "NAV"
+          },
+          {
+            "role": "ul",
+            "name": "Задайте форму и размер комнаты\nВыбрать готовый вариант\nДобавьте индивидуальности",
+            "tag": "UL"
+          },
+          {
+            "role": "div",
+            "name": "Item notes\nSee product list\nИзмерить\nОтменить\nПовторить\nСохранить\nЗакрыть",
+            "tag": "DIV"
+          },
+          {
+            "role": "ul",
+            "name": "Item notes\nSee product list\nИзмерить",
+            "tag": "UL"
+          },
+          {
+            "role": "li",
+            "name": "Item notes",
+            "tag": "LI"
+          },
+          {
+            "role": "li",
+            "name": "See product list",
+            "tag": "LI"
+          },
+          {
+            "role": "li",
+            "name": "Измерить",
+            "tag": "LI"
+          },
+          {
+            "role": "ul",
+            "name": "Отменить\nПовторить\nСохранить",
+            "tag": "UL"
+          },
+          {
+            "role": "li",
+            "name": "Отменить",
+            "tag": "LI"
+          },
+          {
+            "role": "li",
+            "name": "Повторить",
+            "tag": "LI"
+          },
+          {
+            "role": "li",
+            "name": "Сохранить",
+            "tag": "LI"
+          },
+          {
+            "role": "button",
+            "name": "Закрыть",
+            "tag": "BUTTON"
+          },
+          {
+            "role": "span",
+            "name": "Закрыть",
+            "tag": "SPAN"
+          },
+          {
+            "role": "main",
+            "name": "Нарисовать форму\nНарисовать план\nОбъекты\nПроёмы\nПоиск\nВывод воды\nВысота потолка\n",
+            "tag": "MAIN"
+          },
+          {
+            "role": "div",
+            "name": "Нарисовать форму\nНарисовать план\nОбъекты\nПроёмы\nПоиск\nВывод воды\nВысота потолка\n",
+            "tag": "DIV"
+          },
+          {
+            "role": "div",
+            "name": "Нарисовать форму\nНарисовать план\nОбъекты\nПроёмы\nПоиск\nВывод воды\nВысота потолка\n",
+            "tag": "DIV"
+          },
+          {
+            "role": "div",
+            "name": "Нарисовать форму\nНарисовать план\nОбъекты\nПроёмы\nПоиск\nВывод воды\nВысота потолка\n",
+            "tag": "DIV"
+          },
+          {
+            "role": "div",
+            "name": "Нарисовать форму\nНарисовать план\nОбъекты\nПроёмы\nПоиск\nВывод воды\nВысота потолка",
+            "tag": "DIV"
+          },
+          {
+            "role": "div",
+            "name": "Моя кухня IKEA\n0,00 € \n\nTotal price updated0,00 €\nПродолжить",
+            "tag": "DIV"
+          },
+          {
+            "role": "div",
+            "name": "Другие варианты\nПоказать все товары\t\nВид на этаж\n16 m²\nНовые уведомления\nПомощь\n",
+            "tag": "DIV"
+          },
+          {
+            "role": "div",
+            "name": "Другие варианты\nПоказать все товары\t\nВид на этаж\n16 m²",
+            "tag": "DIV"
+          },
+          {
+            "role": "div",
+            "name": "Другие варианты\nПоказать все товары\t\nВид на этаж",
+            "tag": "DIV"
+          },
+          {
+            "role": "input",
+            "name": "",
+            "tag": "INPUT"
+          },
+          {
+            "role": "input",
+            "name": "",
+            "tag": "INPUT"
+          },
+          {
+            "role": "div",
+            "name": "16 m²",
+            "tag": "DIV"
+          },
+          {
+            "role": "input",
+            "name": "",
+            "tag": "INPUT"
+          },
+          {
+            "role": "input",
+            "name": "",
+            "tag": "INPUT"
+          },
+          {
+            "role": "input",
+            "name": "",
+            "tag": "INPUT"
+          },
+          {
+            "role": "input",
+            "name": "",
+            "tag": "INPUT"
+          },
+          {
+            "role": "article",
+            "name": "Новые уведомления\nПомощь\nПодсказки по инструментам\nСоветы по проекту\n\nНачать с ф",
+            "tag": "ARTICLE"
+          },
+          {
+            "role": "button",
+            "name": "Помощь",
+            "tag": "BUTTON"
+          },
+          {
+            "role": "div",
+            "name": "Помощь\nПодсказки по инструментам\nСоветы по проекту\n\nНачать с формы\n\nПоказать\n\nСо",
+            "tag": "DIV"
+          },
+          {
+            "role": "article",
+            "name": "Выбрать форму комнаты\nВыберите форму, чтобы изменить план этажа на эту новую фор",
+            "tag": "ARTICLE"
+          },
+          {
+            "role": "div",
+            "name": "Выбрать форму комнаты\nВыберите форму, чтобы изменить план этажа на эту новую фор",
+            "tag": "DIV"
+          },
+          {
+            "role": "header",
+            "name": "Выбрать форму комнаты\nВыберите форму, чтобы изменить план этажа на эту новую фор",
+            "tag": "HEADER"
+          },
+          {
+            "role": "div",
+            "name": "Выбрать форму комнаты\nВыберите форму, чтобы изменить план этажа на эту новую фор",
+            "tag": "DIV"
+          },
+          {
+            "role": "div",
+            "name": "Выбрать форму комнаты\nВыберите форму, чтобы изменить план этажа на эту новую фор",
+            "tag": "DIV"
+          },
+          {
+            "role": "div",
+            "name": "Close",
+            "tag": "DIV"
+          },
+          {
+            "role": "div",
+            "name": "Замкнутое кухонное пространство\nОткрытое кухонное пространство",
+            "tag": "DIV"
+          },
+          {
+            "role": "div",
+            "name": "Замкнутое кухонное пространство\nОткрытое кухонное пространство",
+            "tag": "DIV"
+          },
+          {
+            "role": "div",
+            "name": "Замкнутое кухонное пространство\nОткрытое кухонное пространство",
+            "tag": "DIV"
+          },
+          {
+            "role": "script",
+            "name": "window.config = { urls: { icons: \"./assets/icons/icons.svg\" } }",
+            "tag": "SCRIPT"
+          },
+          {
+            "role": "div",
+            "name": "2500 mm",
+            "tag": "DIV"
+          }
+        ]
+      }
+    }
+  ]
+}

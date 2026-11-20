@@ -1,0 +1,12 @@
+[
+  {
+    "id": "1",
+    "name": "Плинтус",
+    "code": "",
+    "category": "0",
+    "icon": "",
+    "data": "{\"name\":\"\\u041f\\u043b\\u0438\\u043d\\u0442\\u0443\\u0441\",\"code\":\"\",\"icon\":\"\",\"category\":\"0\",\"active\":1,\"order\":10000,\"models\":{\"common\":\"files\\/plfbx.fbx\"},\"accs\":[],\"params\":{\"height\":\"27\",\"depth\":\"14\",\"item_width\":\"3000\",\"material\":\"7736\"},\"price\":\"1990\",\"price_acc\":0,\"id\":\"1\",\"mat_categories\":[],\"price_mode\":\"m\",\"price_type\":\"m2\"}",
+    "active": "1",
+    "order": "10000"
+  }
+]

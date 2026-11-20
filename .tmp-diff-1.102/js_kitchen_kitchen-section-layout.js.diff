@@ -1,0 +1,69 @@
+﻿Comparing files D:\����� ������������\����� CLODIS-KITCHEN\1.102������� ����\CLODIS-KITCHEN\JS\KITCHEN\kitchen-section-layout.js and D:\CLODIS-KITCHEN\JS\KITCHEN\KITCHEN-SECTION-LAYOUT.JS
+***** D:\����� ������������\����� CLODIS-KITCHEN\1.102������� ����\CLODIS-KITCHEN\JS\KITCHEN\kitchen-section-layout.js
+   14:    resolveKitchenUpperCornerDepthMm,
+   15:  } from './kitchen-joint.js?v=20261109-seatb1';
+   16:  
+***** D:\CLODIS-KITCHEN\JS\KITCHEN\KITCHEN-SECTION-LAYOUT.JS
+   14:    resolveKitchenUpperCornerDepthMm,
+   15:  } from './kitchen-joint.js?v=20261116-lCorner1050';
+   16:  
+*****
+
+***** D:\����� ������������\����� CLODIS-KITCHEN\1.102������� ����\CLODIS-KITCHEN\JS\KITCHEN\kitchen-section-layout.js
+  312:  /**
+  313:   * ???�??N?N??�N? N???N??????� N????�N?-N?N??�?????? ?????? ???� N??�??N????? (???�N??�?????�N? / layout / ???�N????�N? 1050).
+  314:   */
+***** D:\CLODIS-KITCHEN\JS\KITCHEN\KITCHEN-SECTION-LAYOUT.JS
+  312:  /**
+  313:   * ????N???-N??�N????�?�?? free-arm ????N??�N? 600 ???? ??N??� N??�??N?N? ???? Joint.
+  314:   * 600 ?�?�?� user-source a?? ???� ???�N??�?????�N? N????�N? ?????? (???�?????? 1050).
+  315:   */
+  316:  function _isAutoFreeCellWidthMm(w, sectionData) {
+  317:    if (Math.round(Number(w) || 0) !== KITCHEN_STRAIGHT_INITIAL_CELL_MAX_MM) {
+  318:      return false;
+  319:    }
+  320:    return !sectionHasUserEditedCustomZoneWidths(sectionData);
+  321:  }
+  322:  
+  323:  /** ???�??N?N??�N? N???N??????� N????�N?-N?N??�?????? ?????? ???� N??�??N????? (???�N??�?????�N? / layout / ???�N????�N? 1050).
+  324:   */
+*****
+
+***** D:\����� ������������\����� CLODIS-KITCHEN\1.102������� ����\CLODIS-KITCHEN\JS\KITCHEN\kitchen-section-layout.js
+  335:    );
+  336:    if (fromCustom >= 300 && fromCustom <= 1200) return fromCustom;
+  337:    const fromLc = Math.round(Number(sectionData._layoutCache?.moduleWidthsMm?.[zi]) || 0);
+  338:    if (fromLc >= 300 && fromLc <= 1200) return fromLc;
+  339:    try {
+***** D:\CLODIS-KITCHEN\JS\KITCHEN\KITCHEN-SECTION-LAYOUT.JS
+  345:    );
+  346:    if (
+  347:      fromCustom >= 300 &&
+  348:      fromCustom <= 1200 &&
+  349:      !_isAutoFreeCellWidthMm(fromCustom, sectionData)
+  350:    ) {
+  351:      return fromCustom;
+  352:    }
+  353:    const fromLc = Math.round(Number(sectionData._layoutCache?.moduleWidthsMm?.[zi]) || 0);
+  354:    if (
+  355:      fromLc >= 300 &&
+  356:      fromLc <= 1200 &&
+  357:      !_isAutoFreeCellWidthMm(fromLc, sectionData)
+  358:    ) {
+  359:      return fromLc;
+  360:    }
+  361:    try {
+*****
+
+***** D:\����� ������������\����� CLODIS-KITCHEN\1.102������� ����\CLODIS-KITCHEN\JS\KITCHEN\kitchen-section-layout.js
+  349:          const w = Math.round(Number(j.cornerCell.widthMm) || 0);
+  350:          if (w >= 300 && w <= 1200) return w;
+  351:        }
+***** D:\CLODIS-KITCHEN\JS\KITCHEN\KITCHEN-SECTION-LAYOUT.JS
+  371:          const w = Math.round(Number(j.cornerCell.widthMm) || 0);
+  372:          if (w >= 300 && w <= 1200 && !_isAutoFreeCellWidthMm(w, sectionData)) {
+  373:            return w;
+  374:          }
+  375:        }
+*****
+

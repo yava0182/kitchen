@@ -7,9 +7,9 @@
  *
  * mmPerWorldUnit: в конструкторе UNITS_MM (10), в комнате CFRN — 1 мм на юнит сцены.
  */
-import * as THREE from '/node_modules/three/build/three.module.js';
+import * as THREE from 'three';
 import { panelThicknessMm } from '/js/joint-engine-v2.js?v=20260727-ecc-export';
-import { getJointStripeFrameWorld } from '/js/panel-edge-frame.js?v=20260727-blb-seam';
+import { getJointStripeFrameWorld } from '/js/panel-edge-frame.js?v=20261115-jointNegScale1';
 import {
   buildSetup3CanonicalFrameWorld,
   jointTemplateDirWorldFromFrame,

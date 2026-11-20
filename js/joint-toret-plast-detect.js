@@ -9,7 +9,7 @@
  *
  * Частные изделия (ящик/шкаф/фасад) — только следствия правила, не ветки if(name).
  */
-import * as THREE from '/node_modules/three/build/three.module.js';
+import * as THREE from 'three';
 import {
   listPanelFaces,
   panelBBoxWorld,

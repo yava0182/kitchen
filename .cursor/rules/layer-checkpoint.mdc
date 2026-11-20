@@ -1,0 +1,23 @@
+# Checkpoint слоя (откат)
+
+Гид: `docs/LAYER-CHECKPOINT.md`. Скрипт: `npm run layer:checkpoint` / `layer:restore`.
+
+## Перед риском
+
+Перед правкой `kitchen-side-panels*` / footprint / L-накладок / sacrifice:
+
+```bash
+npm run layer:checkpoint -- before-<коротко>
+```
+
+Цоколь-only: `--preset=plinth`.
+
+## Если сломалось
+
+`npm run layer:restore -- <tag>` → новый bust → hard reload.  
+Не наслаивать патч на красный bust (`overlayL2` и т.п.).
+
+## L «торец занят»
+
+Чинить через `isKitchenSidePanelFootprintSection` (рукав parts≥2), **без** align MID→BASE.  
+Перед правкой: `npm run layer:checkpoint -- before-…`. Откат: `before-l-overlay-fix` / `plinthSafe1-baseline`.

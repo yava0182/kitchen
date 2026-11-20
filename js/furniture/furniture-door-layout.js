@@ -45,8 +45,22 @@ export function resolveDoorLayoutFromFurnitureData(furnitureData) {
   const raw =
     furnitureData.doorLayout ??
     furnitureData.catalogItem?.doorLayout ??
+    furnitureData.catalogItem?.data?.doorLayout ??
+    furnitureData.data?.doorLayout ??
     furnitureData.params?.doorLayout;
-  return normalizeDoorLayout(raw);
+  const fromField = normalizeDoorLayout(raw);
+  if (fromField) return fromField;
+  // Карточки «… без дв» без явного doorLayout — не тянуть фасады из live catalog_45.
+  const name = String(
+    furnitureData.name ||
+      furnitureData.catalogName ||
+      furnitureData.catalogItem?.name ||
+      furnitureData.catalogItem?.data?.name ||
+      furnitureData.data?.name ||
+      ''
+  );
+  if (/без\s*дв/i.test(name)) return 'none';
+  return null;
 }
 
 export function resolveDoorKindFromFurnitureData(furnitureData) {
@@ -101,14 +115,28 @@ function resolveModuleProductKindHint(furnitureData, ctx = {}) {
   return String(raw || '').trim().toLowerCase();
 }
 
-/** Цельная дверь — только шкаф (ниша / wardrobe), не standalone_floor. */
+/** Цельная дверь — только шкаф (ниша / wardrobe), не standalone_floor / кухня НМ. */
 export function isWardrobeModuleForUnifiedFacade(furnitureData, ctx = {}) {
   const placement = resolveModulePlacementKindHint(furnitureData, ctx);
   if (placement === 'standalone_floor') return false;
+  if (
+    placement === 'kitchen_base' ||
+    placement === 'kitchen_base_gola' ||
+    placement === 'kitchen_base_corner'
+  ) {
+    return false;
+  }
   if (placement === 'floor_in_niche') return true;
   const pk = resolveModuleProductKindHint(furnitureData, ctx);
   if (pk === 'wardrobe') return true;
-  if (pk === 'pedestal' || pk === 'dresser' || pk === 'locker') return false;
+  if (
+    pk === 'pedestal' ||
+    pk === 'dresser' ||
+    pk === 'locker' ||
+    pk === 'kitchen_base'
+  ) {
+    return false;
+  }
   const roots =
     ctx.clodisRoots ??
     furnitureData?.clodisJSON ??
@@ -380,18 +408,44 @@ function isFacadeRoleVisibleForLayout(role, doorLayout, siblingFacadeRoles) {
   return true;
 }
 
+function filterFacadeListByDoorLayout(list, doorLayout) {
+  if (!Array.isArray(list) || !list.length) return list;
+  const facadeRoles = collectFacadeRolesInChildren(list);
+  if (facadeRoles.size === 0) return list;
+  return list.filter((child) => {
+    const role = getNodeLayoutRole(child);
+    if (!FACADE_LAYOUT_ROLES.has(role)) return true;
+    return isFacadeRoleVisibleForLayout(role, doorLayout, facadeRoles);
+  });
+}
+
 function filterChildrenByDoorLayout(node, doorLayout) {
-  if (!node || typeof node !== 'object' || !Array.isArray(node.children)) return;
-  const facadeRoles = collectFacadeRolesInChildren(node.children);
-  if (facadeRoles.size > 0) {
-    node.children = node.children.filter((child) => {
-      const role = getNodeLayoutRole(child);
-      if (!FACADE_LAYOUT_ROLES.has(role)) return true;
-      return isFacadeRoleVisibleForLayout(role, doorLayout, facadeRoles);
-    });
+  if (!node || typeof node !== 'object') return;
+  if (Array.isArray(node.children)) {
+    node.children = filterFacadeListByDoorLayout(node.children, doorLayout);
+    for (const child of node.children) {
+      filterChildrenByDoorLayout(child, doorLayout);
+    }
   }
-  for (const child of node.children) {
-    filterChildrenByDoorLayout(child, doorLayout);
+  // live_catalog → template_tree после hydrate: фасады catalog_45 тоже режем.
+  if (Array.isArray(node.spec?.template_tree)) {
+    node.spec.template_tree = filterFacadeListByDoorLayout(
+      node.spec.template_tree,
+      doorLayout
+    );
+    for (const child of node.spec.template_tree) {
+      filterChildrenByDoorLayout(child, doorLayout);
+    }
+  }
+  if (Array.isArray(node.spec?.templates)) {
+    for (const wrap of node.spec.templates) {
+      const arr = wrap?.template?.tree;
+      if (!Array.isArray(arr)) continue;
+      wrap.template.tree = filterFacadeListByDoorLayout(arr, doorLayout);
+      for (const child of wrap.template.tree) {
+        filterChildrenByDoorLayout(child, doorLayout);
+      }
+    }
   }
 }
 

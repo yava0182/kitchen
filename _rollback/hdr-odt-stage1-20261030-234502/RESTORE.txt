@@ -1,0 +1,6 @@
+﻿Rollback HDR/ODT stage1
+Created: 20261030-234502
+Restore:
+  copy D:\Clodis-Kitchen\_rollback\hdr-odt-stage1-20261030-234502\js\core\renderer.js -> js\core\renderer.js
+  copy D:\Clodis-Kitchen\_rollback\hdr-odt-stage1-20261030-234502\js\furniture\ikea-room-light-v0.js -> js\furniture\ikea-room-light-v0.js
+  copy D:\Clodis-Kitchen\_rollback\hdr-odt-stage1-20261030-234502\js\core\room-lowmem.js -> js\core\room-lowmem.js

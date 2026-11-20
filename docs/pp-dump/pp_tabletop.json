@@ -1,0 +1,522 @@
+[
+  {
+    "id": "1",
+    "name": "Белый Альпийский W1101",
+    "code": null,
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"id\":\"1\",\"name\":\"\\u0411\\u0435\\u043b\\u044b\\u0439 \\u0410\\u043b\\u044c\\u043f\\u0438\\u0439\\u0441\\u043a\\u0438\\u0439 W1101\",\"code\":null,\"has_trap\":0,\"icon\":\"\",\"category\":[\"1\"],\"active\":\"1\",\"order\":\"10000\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"\\/common_assets\\/images\\/materials\\/1983.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":null,\"opacity\":1},\"add_params\":{\"real_width\":\"128.0\",\"real_height\":\"128.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":\"5000\",\"price_mode\":\"m\",\"price_type\":\"p\",\"price_acc_id\":0,\"params\":[]}],\"trap_variants\":[]},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "2",
+    "name": "Белый премиум W1000",
+    "code": null,
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Белый премиум W1000\",\"code\":null,\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/1985.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":null,\"opacity\":1},\"add_params\":{\"real_width\":\"128.0\",\"real_height\":\"128.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "3",
+    "name": "Кашемир серый U702",
+    "code": null,
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Кашемир серый U702\",\"code\":null,\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/1986.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":null,\"opacity\":1},\"add_params\":{\"real_width\":\"128.0\",\"real_height\":\"128.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "4",
+    "name": "Светло-серый сплошной U7081",
+    "code": null,
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Светло-серый сплошной U7081\",\"code\":null,\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/1987.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":null,\"opacity\":1},\"add_params\":{\"real_width\":\"128.0\",\"real_height\":\"128.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "5",
+    "name": "Серый перламутровый U763",
+    "code": null,
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Серый перламутровый U763\",\"code\":null,\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/1988.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":null,\"opacity\":1},\"add_params\":{\"real_width\":\"128.0\",\"real_height\":\"128.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "6",
+    "name": "Чёрный U999",
+    "code": null,
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Чёрный U999\",\"code\":null,\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/1989.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":null,\"opacity\":1},\"add_params\":{\"real_width\":\"128.0\",\"real_height\":\"128.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "7",
+    "name": "Алюминий мелкоматированный F502",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Алюминий мелкоматированный F502\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/1990.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "8",
+    "name": "Бетон Чикаго светло-серый F186",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Бетон Чикаго светло-серый F186\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/1991.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "9",
+    "name": "Бетон Чикаго тёмно-серый F187",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Бетон Чикаго тёмно-серый F187\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/1992.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "10",
+    "name": "Бетон орнаментальный серый F333",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Бетон орнаментальный серый F333\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/1993.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "11",
+    "name": "Гикори натуральный H3730",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"id\":\"11\",\"name\":\"\\u0413\\u0438\\u043a\\u043e\\u0440\\u0438 \\u043d\\u0430\\u0442\\u0443\\u0440\\u0430\\u043b\\u044c\\u043d\\u044b\\u0439 H3730\",\"code\":\"\",\"has_trap\":0,\"icon\":\"\",\"category\":[\"1\"],\"active\":\"1\",\"order\":\"10000\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"\\/common_assets\\/images\\/materials\\/1994.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"p\",\"price_acc_id\":0,\"params\":[]}],\"trap_variants\":[]},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "12",
+    "name": "Гранит Верчелли антрацит F028",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Гранит Верчелли антрацит F028\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/1995.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "13",
+    "name": "Гранит Галиция серо-бежевый F371",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Гранит Галиция серо-бежевый F371\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/1996.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "14",
+    "name": "Гранит Магма красный F012",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Гранит Магма красный F012\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/1997.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "15",
+    "name": "Гранит Магма серый F011",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Гранит Магма серый F011\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/1998.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "16",
+    "name": "Деревянные блоки натуральные H050",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"id\":\"16\",\"name\":\"\\u0414\\u0435\\u0440\\u0435\\u0432\\u044f\\u043d\\u043d\\u044b\\u0435 \\u0431\\u043b\\u043e\\u043a\\u0438 \\u043d\\u0430\\u0442\\u0443\\u0440\\u0430\\u043b\\u044c\\u043d\\u044b\\u0435 H050\",\"code\":\"\",\"has_trap\":0,\"icon\":\"\",\"category\":[\"1\"],\"active\":\"1\",\"order\":\"10000\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"\\/common_assets\\/images\\/materials\\/1999.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"p\",\"price_acc_id\":0,\"params\":[]}],\"trap_variants\":[]},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "17",
+    "name": "Дикий дуб натуральный H1318",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Дикий дуб натуральный H1318\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2000.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "18",
+    "name": "Древесина винтаж натуральная H197",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Древесина винтаж натуральная H197\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2001.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "19",
+    "name": "Древесина винтаж серая H198",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Древесина винтаж серая H198\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2002.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "20",
+    "name": "Дуб Антор натуральный H3330",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Дуб Антор натуральный H3330\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2003.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "21",
+    "name": "Дуб Бардолино натуральный H1145",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Дуб Бардолино натуральный H1145\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2004.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "22",
+    "name": "Дуб Галифакс белый H1176",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Дуб Галифакс белый H1176\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2005.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "23",
+    "name": "Дуб Галифакс натуральный H1180",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Дуб Галифакс натуральный H1180\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2006.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "24",
+    "name": "Дуб Галифакс олово H3176",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Дуб Галифакс олово H3176\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2007.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "25",
+    "name": "Дуб Галифакс табак H1181",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Дуб Галифакс табак H1181\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2008.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "26",
+    "name": "Дуб Гамильтон натуральный H3303",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Дуб Гамильтон натуральный H3303\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2009.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "27",
+    "name": "Дуб Давос трюфель H3133",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Дуб Давос трюфель H3133\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2010.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "28",
+    "name": "Дуб Касл H195",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Дуб Касл H195\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2011.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "29",
+    "name": "Дуб Небраска натуральный H3331",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Дуб Небраска натуральный H3331\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2012.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "30",
+    "name": "Дуб Уайт-Ривер серо-коричневый H1313",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Дуб Уайт-Ривер серо-коричневый H1313\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2013.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "31",
+    "name": "Дуб Хантон тёмный H2033",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Дуб Хантон тёмный H2033\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2014.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "32",
+    "name": "Дуб Хэлфорд чёрный H2031",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Дуб Хэлфорд чёрный H2031\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2015.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "33",
+    "name": "Дуб Шерман коньяк коричневый H1344",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Дуб Шерман коньяк коричневый H1344\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2016.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "34",
+    "name": "Дуб наборный H193",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Дуб наборный H193\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2017.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "35",
+    "name": "Камень Вентура чёрный F117",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Камень Вентура чёрный F117\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2018.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "36",
+    "name": "Мрамор Леванто белый F812",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Мрамор Леванто белый F812\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2019.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "37",
+    "name": "Мрамор Сиена серый F095",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Мрамор Сиена серый F095\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2020.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "38",
+    "name": "Мрамор Флоренция серый F112",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Мрамор Флоренция серый F112\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2021.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "39",
+    "name": "Мрамор Чиполлино серый F093",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Мрамор Чиполлино серый F093\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2022.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "40",
+    "name": "Мрамор Чиполлино чёрная медь F094",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Мрамор Чиполлино чёрная медь F094\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2023.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "41",
+    "name": "Мрамор Энгельсберг F014",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Мрамор Энгельсберг F014\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2024.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "42",
+    "name": "Орех наборный H194",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Орех наборный H194\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2025.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "43",
+    "name": "Сланец Юрский антрацит F242",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Сланец Юрский антрацит F242\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2026.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "44",
+    "name": "Сосна Касцина H1401",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Сосна Касцина H1401\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2027.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "45",
+    "name": "Сосна Пасадена H1486",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Сосна Пасадена H1486\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2028.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "46",
+    "name": "Сосна Силэнд H110",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Сосна Силэнд H110\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2029.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "47",
+    "name": "Спаркл Грэйн рустикальный F484",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Спаркл Грэйн рустикальный F484\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2030.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "48",
+    "name": "Сталь тёмная F627",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Сталь тёмная F627\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2031.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "49",
+    "name": "Терраццо Триест серый F021",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Терраццо Триест серый F021\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2032.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "50",
+    "name": "Ферро бронза F302",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Ферро бронза F302\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2033.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "51",
+    "name": "Хромикс белый F637",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Хромикс белый F637\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2034.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  },
+  {
+    "id": "52",
+    "name": "Цемент F385",
+    "code": "",
+    "category": "[\"1\"]",
+    "icon": "",
+    "data": "{\"name\":\"Цемент F385\",\"code\":\"\",\"order\":\"10000\",\"category\":[\"1\"],\"active\":\"1\",\"params\":{\"mat_mode\":0,\"material\":0,\"mat_params\":{\"type\":\"Standard\",\"params\":{\"icon\":null,\"alphaMap\":null,\"color\":\"#ffffff\",\"map\":\"/common_assets/images/materials/2035.jpeg\",\"metalness\":\"0.0\",\"normalMap\":null,\"roughness\":\"0.8\",\"roughnessMap\":null,\"transparent\":\"0\",\"opacity\":1},\"add_params\":{\"real_width\":\"2800.0\",\"real_height\":\"1300.0\",\"rotation\":\"normal\",\"stretch_width\":\"0\",\"stretch_height\":\"0\",\"normal_scale\":false,\"wrapping\":\"mirror\",\"normal_wrapping\":\"mirror\"}},\"variants\":[{\"name\":\"\",\"code\":\"\",\"width\":\"4100\",\"height\":\"600\",\"thickness\":\"38\",\"price\":0,\"price_mode\":\"c\",\"price_type\":\"m2\",\"price_acc_id\":0,\"params\":{}}],\"trap_variants\":[]},\"prices\":{\"common\":0,\"trap\":0},\"accessories\":{\"conn\":0,\"end\":0}}",
+    "active": "1",
+    "order": "10000"
+  }
+]

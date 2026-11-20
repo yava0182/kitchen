@@ -2,7 +2,7 @@
 // Main module for GLB file operations
 
 import { state } from '../utils/state.js';
-import { createFurnitureGhost, removeFurnitureGhost } from './furniture-ghost.js?v=20260925-corner44y';
+import { createFurnitureGhost, removeFurnitureGhost } from './furniture-ghost.js?v=20261027-nmu142g';
 
 /**
  * Load and place a saved model at the specified position
@@ -19,15 +19,15 @@ export function loadSavedModelForPlacement(url, modelData, position, rotationY, 
     return;
   }
   
-  console.log('рџ“¦ Р—Р°РіСЂСѓР·РєР° СЃРѕС…СЂР°РЅРµРЅРЅРѕР№ РјРѕРґРµР»Рё РґР»СЏ СЂР°Р·РјРµС‰РµРЅРёСЏ:', modelData.metadata.name);
-  console.log('  РџРѕР·РёС†РёСЏ:', position);
-  console.log('  РџРѕРІРѕСЂРѕС‚:', rotationY);
-  console.log('  РЎС‚РµРЅР°:', wall);
+  console.log('📦 Загрузка сохраненной модели для размещения:', modelData.metadata.name);
+  console.log('  Позиция:', position);
+  console.log('  Поворот:', rotationY);
+  console.log('  Стена:', wall);
   
   const loader = new GLTFLoaderClass();
   
   loader.load(url, (gltf) => {
-    console.log('рџ“¦ РЎРѕС…СЂР°РЅРµРЅРЅР°СЏ РјРѕРґРµР»СЊ Р·Р°РіСЂСѓР¶РµРЅР°:', modelData.metadata.name);
+    console.log('📦 Сохраненная модель загружена:', modelData.metadata.name);
     
     // Remove existing furniture
     if (state.furniture && state.furniture.group) {
@@ -89,7 +89,7 @@ export function loadSavedModelForPlacement(url, modelData, position, rotationY, 
       console.log('вљ пёЏ bbox.min.y != 0, adjusting Y position by:', localBbox.min.y);
     } else {
       adjustedPosition.y = roomWorldPos.y; // Floor level
-      console.log('вњ… bbox.min.y is 0, pivot is at floor level');
+      console.log('✅ bbox.min.y is 0, pivot is at floor level');
     }
     
     state.furniture.group.position.copy(adjustedPosition);
@@ -112,9 +112,9 @@ export function loadSavedModelForPlacement(url, modelData, position, rotationY, 
       state.room.resetWallHighlight();
     }
     
-    console.log('вњ… РЎРѕС…СЂР°РЅРµРЅРЅР°СЏ РјРѕРґРµР»СЊ СЂР°Р·РјРµС‰РµРЅР°:', modelData.metadata.name);
-    console.log('  РџРѕР·РёС†РёСЏ:', state.furniture.group.position);
-    console.log('  РџРѕРІРѕСЂРѕС‚:', state.furniture.group.rotation.y);
+    console.log('✅ Сохраненная модель размещена:', modelData.metadata.name);
+    console.log('  Позиция:', state.furniture.group.position);
+    console.log('  Поворот:', state.furniture.group.rotation.y);
   }, undefined, (error) => {
     console.error('❌ Ошибка загрузки сохраненной модели:', error);
     alert('Ошибка загрузки модели: ' + error.message);
@@ -136,15 +136,15 @@ export function loadGLBFileForPlacement(glbPath, position, rotationY, wall) {
     return;
   }
   
-  console.log('рџ“¦ Р—Р°РіСЂСѓР·РєР° GLB РґР»СЏ СЂР°Р·РјРµС‰РµРЅРёСЏ:', glbPath);
-  console.log('  РџРѕР·РёС†РёСЏ:', position);
-  console.log('  РџРѕРІРѕСЂРѕС‚:', rotationY);
-  console.log('  РЎС‚РµРЅР°:', wall);
+  console.log('📦 Загрузка GLB для размещения:', glbPath);
+  console.log('  Позиция:', position);
+  console.log('  Поворот:', rotationY);
+  console.log('  Стена:', wall);
   
   const loader = new GLTFLoaderClass();
   
   loader.load(glbPath, (gltf) => {
-    console.log('рџ“¦ GLB Р·Р°РіСЂСѓР¶РµРЅ:', glbPath);
+    console.log('рџ“¦ GLB загружен:', glbPath);
     
     // Remove existing furniture
     if (state.furniture && state.furniture.group) {
@@ -189,7 +189,7 @@ export function loadGLBFileForPlacement(glbPath, position, rotationY, wall) {
       console.log('вљ пёЏ bbox.min.y != 0, adjusting Y position by:', localBbox.min.y);
     } else {
       adjustedPosition.y = roomWorldPos.y; // Floor level
-      console.log('вњ… bbox.min.y is 0, pivot is at floor level');
+      console.log('✅ bbox.min.y is 0, pivot is at floor level');
     }
     
     state.furniture.group.position.copy(adjustedPosition);
@@ -206,12 +206,12 @@ export function loadGLBFileForPlacement(glbPath, position, rotationY, wall) {
       state.room.resetWallHighlight();
     }
     
-    console.log('вњ… GLB СЂР°Р·РјРµС‰РµРЅ:', glbPath);
-    console.log('  РџРѕР·РёС†РёСЏ:', state.furniture.group.position);
-    console.log('  РџРѕРІРѕСЂРѕС‚:', state.furniture.group.rotation.y);
+    console.log('✅ GLB размещен:', glbPath);
+    console.log('  Позиция:', state.furniture.group.position);
+    console.log('  Поворот:', state.furniture.group.rotation.y);
   }, undefined, (error) => {
-    console.error('вќЊ РћС€РёР±РєР° Р·Р°РіСЂСѓР·РєРё GLB:', error);
-    alert('РћС€РёР±РєР° Р·Р°РіСЂСѓР·РєРё GLB С„Р°Р№Р»Р°: ' + error.message);
+    console.error('❌ Ошибка загрузки GLB:', error);
+    alert('Ошибка загрузки GLB файла: ' + error.message);
   });
 }
 
@@ -243,7 +243,7 @@ function loadGLBFromPathInternal(glbPath) {
     return;
   }
 
-  console.log('рџ“¦ Р—Р°РіСЂСѓР·РєР° GLB РёР· РєР°С‚Р°Р»РѕРіР° РґР»СЏ СЂР°Р·РјРµС‰РµРЅРёСЏ:', glbPath);
+  console.log('📦 Загрузка GLB из каталога для размещения:', glbPath);
 
   const loader = new GLTFLoaderClass();
 
@@ -251,9 +251,9 @@ function loadGLBFromPathInternal(glbPath) {
   loader.load(
     glbPath,
     (gltf) => {
-      console.log('рџ“¦ GLB Р·Р°РіСЂСѓР¶РµРЅ РґР»СЏ СЃРѕР·РґР°РЅРёСЏ РїСЂРёР·СЂР°РєР°:', glbPath);
+      console.log('рџ“¦ GLB загружен для создания призрака:', glbPath);
 
-      // РЎРѕР·РґР°РµРј РІСЂРµРјРµРЅРЅСѓСЋ РјРµР±РµР»СЊ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ bbox (skip placeholder)
+      // Создаем временную мебель для получения bbox (skip placeholder)
       const gltfScene = gltf.scene.clone();
       // eslint-disable-next-line no-undef
       const tempFurniture = new window.Furniture(null, {
@@ -263,15 +263,15 @@ function loadGLBFromPathInternal(glbPath) {
       tempFurniture.group.add(gltfScene);
       tempFurniture.setupPivot();
 
-      // РџРѕР»СѓС‡Р°РµРј bbox Рё СЂР°Р·РјРµСЂС‹
+      // Получаем bbox и размеры
       const bbox = tempFurniture.bbox.clone();
       const size = bbox.max.clone().sub(bbox.min);
 
-      console.log('рџ“ђ Р Р°Р·РјРµСЂС‹ GLB:', size);
+      console.log('📐 Размеры GLB:', size);
       console.log('  BBox min:', bbox.min);
       console.log('  BBox max:', bbox.max);
 
-      // РћС‡РёС‰Р°РµРј РІСЂРµРјРµРЅРЅСѓСЋ РјРµР±РµР»СЊ
+      // Очищаем временную мебель
       tempFurniture.group.traverse((child) => {
         if (child.geometry) child.geometry.dispose();
         if (child.material) {
@@ -283,15 +283,15 @@ function loadGLBFromPathInternal(glbPath) {
         }
       });
 
-      // РЎРѕР·РґР°РµРј ghost РґР»СЏ GLB С‡РµСЂРµР· РјРѕРґСѓР»СЊ furniture-ghost
+      // Создаем ghost для GLB через модуль furniture-ghost
       if (state.furnitureGhost) {
         removeFurnitureGhost();
       }
 
       const sectionSize = { x: size.x, y: size.y, z: size.z };
 
-      // РЎРѕС…СЂР°РЅСЏРµРј РґР°РЅРЅС‹Рµ GLB РІ pendingFurnitureData,
-      // С‡С‚РѕР±С‹ placePendingFurniture СЃРјРѕРі РІС‹Р·РІР°С‚СЊ loadGLBFileForPlacement
+      // Сохраняем данные GLB в pendingFurnitureData,
+      // чтобы placePendingFurniture смог вызвать loadGLBFileForPlacement
       state.pendingFurnitureData = {
         type: 'glb',
         path: glbPath,
@@ -314,7 +314,7 @@ function loadGLBFromPathInternal(glbPath) {
     undefined,
     (error) => {
       console.error('❌ Ошибка загрузки GLB из каталога:', error);
-      alert('РћС€РёР±РєР° Р·Р°РіСЂСѓР·РєРё GLB С„Р°Р№Р»Р°: ' + error.message);
+      alert('Ошибка загрузки GLB файла: ' + error.message);
     }
   );
 }
@@ -348,9 +348,9 @@ function loadGLBFileInternal(file) {
   }
 
   console.log(
-    'рџ“¦ Р—Р°РіСЂСѓР·РєР° GLB С„Р°Р№Р»Р°:',
+    '📦 Загрузка GLB файла:',
     file.name,
-    'СЂР°Р·РјРµСЂ:',
+    'размер:',
     (file.size / 1024).toFixed(2),
     'KB'
   );
@@ -368,7 +368,7 @@ function loadGLBFileInternal(file) {
       (gltf) => {
         URL.revokeObjectURL(url);
 
-        console.log('рџ“¦ GLB СЂР°СЃРїР°СЂСЃРµРЅ:', {
+        console.log('рџ“¦ GLB распарсен:', {
           scene: gltf.scene,
           scenes: gltf.scenes,
           animations: gltf.animations?.length || 0,
@@ -398,11 +398,11 @@ function loadGLBFileInternal(file) {
           skipPlaceholder: true,
           skipDebugHelpers: true,
         });
-        console.log('рџ“ђ Р Р°Р·РјРµСЂС‹ GLB СЃС†РµРЅС‹ РґРѕ РѕР±СЂР°Р±РѕС‚РєРё:');
+        console.log('📐 Размеры GLB сцены до обработки:');
         const tempBox = new window.THREE.Box3().setFromObject(gltfScene);
         console.log('  BBox min:', tempBox.min);
         console.log('  BBox max:', tempBox.max);
-        console.log('  Р Р°Р·РјРµСЂ:', tempBox.max.clone().sub(tempBox.min));
+        console.log('  Размер:', tempBox.max.clone().sub(tempBox.min));
 
         state.furniture.group.add(gltfScene);
         state.furniture.group.userData.isFurniture = true;
@@ -419,11 +419,11 @@ function loadGLBFileInternal(file) {
             const action = state.furnitureAnimationMixer.clipAction(clip);
             state.furnitureAnimations[clip.name || `animation_${index}`] = action;
             console.log(
-              'рџЋ¬ РќР°Р№РґРµРЅР° Р°РЅРёРјР°С†РёСЏ:',
+              '🎬 Найдена анимация:',
               clip.name || `animation_${index}`,
-              'РґР»РёС‚РµР»СЊРЅРѕСЃС‚СЊ:',
+              'длительность:',
               clip.duration,
-              'СЃРµРє'
+              'сек'
             );
           });
 
@@ -435,7 +435,7 @@ function loadGLBFileInternal(file) {
           console.log('ℹ️ Анимации в GLB не найдены');
         }
 
-        // РќР°СЃС‚СЂРѕР№РєР° pivot (back-left-bottom)
+        // Настройка pivot (back-left-bottom)
         state.furniture.setupPivot();
         state.furniture.bbox.setFromObject(state.furniture.group);
 
@@ -445,12 +445,12 @@ function loadGLBFileInternal(file) {
           .sub(state.furniture.bbox.min);
 
         state.scene.add(state.furniture.group);
-        console.log('вњ… GLB Р·Р°РіСЂСѓР¶РµРЅ Рё СЂР°Р·РјРµС‰РµРЅ:', file.name);
+        console.log('✅ GLB загружен и размещен:', file.name);
       },
       undefined,
       (error) => {
-        console.error('вќЊ РћС€РёР±РєР° Р·Р°РіСЂСѓР·РєРё GLB:', error);
-        alert('РћС€РёР±РєР° Р·Р°РіСЂСѓР·РєРё GLB С„Р°Р№Р»Р°: ' + error.message);
+        console.error('❌ Ошибка загрузки GLB:', error);
+        alert('Ошибка загрузки GLB файла: ' + error.message);
       }
     );
   };

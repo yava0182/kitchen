@@ -2,43 +2,41 @@
 // Handles Three.js scene, camera, renderer setup
 
 import { state, ROOM_WIDTH, ROOM_DEPTH, ROOM_HEIGHT, WALL_THICKNESS } from '../utils/state.js';
-import { addSceneIcons } from '../ui/scene-icons.js?v=20260921-whh1';
+import { addSceneIcons } from '../ui/scene-icons.js?v=20261117-from179';
 import { patchSectionNicheDepthWrite } from '../sections/section-depth-patch.js';
-import { setupCameraControls, CAMERA_FAR_MM, CAMERA_NEAR_MAX_MM, syncCameraNearClip, applyIkeaEmptyRoomCamera, syncRoomEditPlanFrustum } from './camera.js?v=20260923-cohabit42';
+import { clearAllCustomSections } from '../sections/section-manager.js?v=20261106-u600g4';
+import '../kitchen/kitchen-joint.js?v=20261116-lCorner1050';
+import '../kitchen/kitchen-upper-g-cell.js?v=20261115-upperGTop15';
+import '../kitchen/kitchen-upper-g-place.js?v=20261117-upperGCorpusSpan1';
+import '../kitchen/kitchen-corner-cell.js?v=20261116-lCorner1050';
+import '../kitchen/kitchen-base-engine.js?v=20261117-from179';
+import { setupCameraControls, CAMERA_FAR_MM, CAMERA_NEAR_MAX_MM, syncCameraNearClip, applyIkeaEmptyRoomCamera, syncRoomEditPlanFrustum } from './camera.js?v=20261109-orbitsmooth1';
 import { setupEventListeners } from '../events/mouse-handler.js';
 import {
   animate,
   initPostProcessing,
   getRoomRenderPixelRatio,
   safeComposerSetSize,
-} from './renderer.js?v=20260923-cohabit43';
+} from './renderer.js?v=20261110-ikeaPort14';
 import {
   getRoomLightingPreset,
   applyRoomLightingRendererSettings,
   applyRoomLightingSceneBackground,
-  applyRoomLightingPreset,
   initRoomLightingPresetGlobals,
-} from './room-lighting-presets.js?v=20260829-room3';
-import {
-  isIkeaLightFrozen,
-  isIkeaRoomLightV0,
-  auditIkeaLightBlocked,
-} from '../furniture/ikea-light-gate.js?v=20260907-nospeed1';
-import {
-  loadIkeaRoomEnvV0,
-  installIkeaRoomLightV0,
-  auditIkeaV0MaterialState,
-  auditIkeaV0Light,
-} from '../furniture/ikea-room-light-v0.js?v=20260913-hang-lite';
-import { auditIkeaV0Manifest } from '../furniture/ikea-v0-manifest.js?v=20260904-ikea-r3j86';
+} from './room-lighting-presets.js?v=20261110-ikeaPort14';
 import { SOT } from '../furniture/betrakta-sot.js?v=20260913-tile-per-floor';
+import {
+  getClodisRenderMode,
+  bootIkeaPortPipeline,
+} from '../ikea-port/ikea-port-lifecycle.js?v=20261118-adminWt1';
 
 export async function init() {
   initRoomLightingPresetGlobals();
   const lightingPreset = getRoomLightingPreset();
   state.roomLightingPreset = lightingPreset.id;
-  state.roomEnvIntensity = Number(lightingPreset.envIntensity) || 0;
+  state.roomEnvIntensity = 0;
   console.log('🚀 Инициализация приложения...', `[свет: ${lightingPreset.label}]`);
+  console.log('  CLODIS_RENDER_MODE:', getClodisRenderMode());
   console.log('  THREE:', typeof THREE);
   console.log('  Room:', typeof Room);
   console.log('  Furniture:', typeof Furniture);
@@ -50,19 +48,9 @@ export async function init() {
   initLightsLegacy();
   initRaycaster();
   initRoom();
-  if (isIkeaRoomLightV0()) {
-    const installed = installIkeaRoomLightV0();
-    console.warn('[IKEA v0] install', installed);
-    try {
-      const { syncAllRoomCabinetStudio } = await import(
-        '../furniture/room-cabinet-studio.js?v=20260913-hang-lite'
-      );
-      const cabBound = syncAllRoomCabinetStudio(state.scene);
-      if (cabBound > 0) console.warn('[IKEA v0] cabinet re-bind on init · meshes=', cabBound);
-    } catch (e) {
-      console.warn('[IKEA v0] cabinet re-bind on init failed', e);
-    }
-  }
+  // Единственный свет комнаты: IKEA_PORT (Exp14). Без v0 / без lab CURRENT.
+  const portBoot = bootIkeaPortPipeline();
+  console.warn('[IKEA_PORT] only path · boot', portBoot);
   initPostProcessing();
   setupCameraControls();
   setupEventListeners();
@@ -226,7 +214,7 @@ function showWebGLBlockedOverlay(message) {
         window.__CLD_REFACTORED_INIT__ = false;
       }
       // Чистый вход с актуальным build-id (не Date.now — иначе снова сбивается с badge).
-      window.location.href = window.location.pathname + '?v=20260913-hang-lite';
+      window.location.href = window.location.pathname + '?v=20261005-kitchen-plan2d';
     };
   }
 }
@@ -310,6 +298,7 @@ function initRenderer() {
   );
 
   applyRoomLightingRendererSettings(state.renderer, getRoomLightingPreset());
+  state.renderer.shadowMap.enabled = false;
 
   updateRendererSize();
   state._rendererResizeHandler = updateRendererSize;
@@ -332,15 +321,23 @@ function initRenderer() {
   canvas.addEventListener(
     'webglcontextrestored',
     () => {
-      // НЕ location.reload() — после OOM Chrome даёт ERR_INSUFFICIENT_RESOURCES
-      // и «context loss and was blocked» на массовой перезагрузке модулей.
+      console.warn('⚠️ WebGL: context restored — re-boot IKEA_PORT');
+      try {
+        const r = bootIkeaPortPipeline();
+        if (r?.ok) {
+          state._webglContextLost = false;
+          try {
+            document.getElementById('cld-webgl-blocked')?.remove?.();
+          } catch (_) {}
+          console.warn('[IKEA_PORT] reinit after restore OK', r);
+          return;
+        }
+      } catch (e) {
+        console.warn('[IKEA_PORT] reinit after restore failed', e?.message || e);
+      }
       state._webglContextLost = true;
-      console.warn(
-        '⚠️ WebGL: контекст восстановлен, но сцена повреждена — нужен чистый перезапуск Chrome (без F5).'
-      );
       showWebGLBlockedOverlay(
-        'WebGL восстановился после сбоя, но материалы/HDR уже невалидны. ' +
-          'Закройте весь Chrome → 5 сек → откройте только комнату. F5 на этой вкладке усугубит ошибку.'
+        'WebGL восстановился, но IKEA_PORT не поднялся. Закройте вкладку и откройте комнату снова.'
       );
     },
     false
@@ -370,15 +367,7 @@ function initRenderer() {
 
 async function initEnvironment() {
   if (!state.scene) return;
-  if (isIkeaRoomLightV0()) {
-    try {
-      await loadIkeaRoomEnvV0();
-      console.warn('[IKEA v0] env OK · phase', auditIkeaV0Manifest().activePhase);
-    } catch (e) {
-      console.error('[IKEA v0] env failed', e);
-    }
-    return;
-  }
+  // Свет OFF: без env / IBL / SH.
   state.roomEnvIntensity = 0;
   state.betraktaEnvShCoeffs = null;
   if (state.scene.environment) {
@@ -411,8 +400,12 @@ function updateRendererSize() {
     state.sceneIconsContainer.style.height = height + 'px';
   }
   if (state.camera) {
-    if (state.camera.isOrthographicCamera && window.__cldRoomEditOpen && window.__cldRoomEditView !== '3d') {
-      syncRoomEditPlanFrustum();
+    if (state.camera.isOrthographicCamera) {
+      if (typeof window.__cldSyncSceneViewOrthoFrustum === 'function') {
+        window.__cldSyncSceneViewOrthoFrustum();
+      } else {
+        syncRoomEditPlanFrustum();
+      }
     } else {
       state.camera.aspect = width / height;
       state.camera.updateProjectionMatrix();
@@ -421,24 +414,19 @@ function updateRendererSize() {
 }
 
 function initLightsLegacy() {
-  if (!state.scene || !state.camera) return;
-  const preset = getRoomLightingPreset();
-  applyRoomLightingPreset(preset, { sceneBackground: false, renderer: false });
-  if (isIkeaLightFrozen()) {
-    if (typeof window !== 'undefined') {
-      window.__cldIkeaLightFrozenAudit = () =>
-        auditIkeaLightBlocked(state.scene, {
-          composer: state.composer,
-          sceneEnvironment: state.scene?.environment,
-        });
-      window.__cldIkeaV0ManifestAudit = auditIkeaV0Manifest;
-      window.__cldIkeaV0AuditLight = auditIkeaV0Light;
-      window.__cldIkeaV0MaterialAudit = auditIkeaV0MaterialState;
-    }
-    console.warn('[IKEA] v0 room light · legacy Three lights off · preset=', preset.id);
-    return;
+  if (!state.scene) return;
+  // Снести любые Three.Light, если уже висели.
+  const doomed = [];
+  state.scene.traverse((o) => {
+    if (o.isLight) doomed.push(o);
+  });
+  for (const L of doomed) {
+    L.parent?.remove(L);
+    L.dispose?.();
   }
-  console.log(`✅ Комната: пресет «${preset.label}»`);
+  state.lights = {};
+  state.cameraFillLight = null;
+  console.warn('[LIGHT] OFF · no Three lights · no IKEA v0/lab');
 }
 
 function initRaycaster() {
@@ -490,6 +478,15 @@ function initRoom() {
 
   // Добавляем иконки на сцену (как на скриншоте)
   addSceneIcons();
+
+  // Секции спят: пустая комната (код секций сохранён).
+  if (state.kitchenSectionsEnabled === false) {
+    try {
+      clearAllCustomSections('init_sections_off');
+    } catch (e) {
+      console.warn('[SECTIONS] clear on init failed', e);
+    }
+  }
 
   // Update room bounds to account for wall thickness
   state.roomBounds = {

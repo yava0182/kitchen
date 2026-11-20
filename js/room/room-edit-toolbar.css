@@ -319,6 +319,849 @@
   display: inline-flex;
 }
 
+/* —— Кухня: toolbar «Форма / План» + overlay draw-mode (скелет IKEA) —— */
+.cld-kitchen-plan-toolbar {
+  display: none;
+  position: fixed;
+  left: 50%;
+  top: 72px;
+  transform: translateX(-50%);
+  z-index: 10020;
+  align-items: center;
+  gap: 0;
+  padding: 4px;
+  background: #fff;
+  border: 1px solid rgba(34, 34, 34, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+.cld-kitchen-plan-toolbar.is-open {
+  display: inline-flex;
+}
+/* Шаг кухни: Форма/План/Вывод воды только в правой панели */
+body.cld-kitchen-shape-step .cld-kitchen-plan-toolbar {
+  display: none !important;
+}
+.cld-kitchen-plan-toolbar__group {
+  display: inline-flex;
+  gap: 2px;
+  position: relative;
+}
+.cld-kitchen-plan-toolbar__btn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 9px;
+  font-family: "Cera Pro", Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+}
+.cld-kitchen-plan-toolbar__btn:hover,
+.cld-kitchen-plan-toolbar__btn[aria-expanded="true"] {
+  background: #f0f0f0;
+}
+.cld-kitchen-plan-toolbar__menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 240px;
+  padding: 6px;
+  background: #fff;
+  border: 1px solid rgba(34, 34, 34, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  z-index: 10021;
+}
+.cld-kitchen-plan-toolbar__menu[hidden] {
+  display: none !important;
+}
+.cld-kitchen-plan-toolbar__menu-item {
+  appearance: none;
+  border: none;
+  background: transparent;
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-family: "Cera Pro", Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #222;
+  cursor: pointer;
+}
+.cld-kitchen-plan-toolbar__menu-item:hover {
+  background: #f3f3f3;
+}
+
+.cld-kitchen-draw-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10030;
+  pointer-events: none;
+  box-sizing: border-box;
+}
+.cld-kitchen-draw-overlay[hidden] {
+  display: none !important;
+}
+.cld-kitchen-draw-overlay__bar {
+  pointer-events: auto;
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  top: 12px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(34, 34, 34, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+.cld-kitchen-draw-overlay__title {
+  font-family: "Cera Pro", Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 4px;
+}
+.cld-kitchen-draw-overlay__hint {
+  margin: 0;
+  max-width: 520px;
+  font-size: 13px;
+  line-height: 1.35;
+  color: #555;
+}
+.cld-kitchen-draw-overlay__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.cld-kitchen-draw-overlay__icon-btn {
+  appearance: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+  font-size: 16px;
+}
+.cld-kitchen-draw-overlay__btn {
+  appearance: none;
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 8px;
+  font-family: "Cera Pro", Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.cld-kitchen-draw-overlay__btn--ghost {
+  background: #fff;
+  border: 1px solid #ccc;
+  color: #222;
+}
+.cld-kitchen-draw-overlay__btn--primary {
+  background: var(--clodis-orange, #FF9F1C);
+  border: 1px solid var(--clodis-orange, #FF9F1C);
+  color: #222;
+}
+.cld-kitchen-draw-overlay__btn--primary:hover {
+  background: var(--clodis-orange-hover, #F39100);
+  border-color: var(--clodis-orange-hover, #F39100);
+}
+.cld-kitchen-draw-overlay__side {
+  pointer-events: auto;
+  position: absolute;
+  left: 16px;
+  top: 96px;
+  width: 280px;
+  padding: 16px 16px 14px;
+  background: #fff;
+  border: 1px solid rgba(34, 34, 34, 0.08);
+  border-radius: 4px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+.cld-kitchen-draw-overlay__side[hidden] {
+  display: none !important;
+}
+.cld-kitchen-draw-slope__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.cld-kitchen-draw-slope__title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #111;
+}
+.cld-kitchen-draw-slope__retarget {
+  margin: 0 0 10px;
+  padding: 8px 10px;
+  font-size: 12px;
+  line-height: 1.35;
+  color: #0058a3;
+  background: rgba(0, 120, 200, 0.08);
+  border-radius: 4px;
+}
+.cld-kitchen-draw-slope__retarget[hidden] {
+  display: none !important;
+}
+.cld-kitchen-draw-slope__schema-toggle {
+  border: 0;
+  background: transparent;
+  color: #0058a3;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  white-space: nowrap;
+}
+.cld-kitchen-draw-slope__schema-toggle:hover {
+  text-decoration: underline;
+}
+.cld-kitchen-draw-slope__diagram {
+  height: auto;
+  min-height: 120px;
+  margin: 0 0 14px;
+  border-radius: 0;
+  background: #f7f7f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 8px 6px;
+}
+.cld-kitchen-draw-slope__diagram[hidden] {
+  display: none !important;
+}
+.cld-kitchen-draw-slope__diagram img {
+  display: block;
+  width: 100%;
+  max-width: 260px;
+  height: auto;
+}
+.cld-kitchen-draw-slope__diagram svg {
+  display: block;
+  max-width: 100%;
+  height: 72px;
+}
+.cld-kitchen-draw-slope__field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.cld-kitchen-draw-slope__field input[type='number'] {
+  width: 88px;
+  height: 32px;
+  padding: 0 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+.cld-kitchen-draw-slope__field input[type='number'][readonly],
+.cld-kitchen-draw-slope__field input[type='number'][aria-disabled='true'] {
+  background: #f0f0f0;
+  color: #666;
+}
+.cld-kitchen-draw-slope__lab {
+  min-width: 14px;
+}
+.cld-kitchen-draw-slope__unit {
+  font-weight: 500;
+  color: #555;
+  font-size: 12px;
+}
+.cld-kitchen-draw-slope__linked {
+  position: relative;
+  padding-left: 18px;
+  margin: 4px 0 8px;
+}
+.cld-kitchen-draw-slope__chain {
+  position: absolute;
+  left: 4px;
+  top: 18px;
+  bottom: 18px;
+  width: 2px;
+  background: #0058a3;
+  border-radius: 1px;
+}
+.cld-kitchen-draw-slope__chain::before,
+.cld-kitchen-draw-slope__chain::after {
+  content: '';
+  position: absolute;
+  left: -3px;
+  width: 8px;
+  height: 8px;
+  border: 2px solid #0058a3;
+  border-radius: 50%;
+  background: #fff;
+}
+.cld-kitchen-draw-slope__chain::before {
+  top: -2px;
+}
+.cld-kitchen-draw-slope__chain::after {
+  bottom: -2px;
+}
+.cld-kitchen-draw-slope__field--radio input[type='radio'] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: #0058a3;
+}
+.cld-kitchen-draw-slope__note {
+  margin: 8px 0 0;
+  font-size: 11px;
+  line-height: 1.35;
+  font-weight: 400;
+  color: #666;
+}
+.cld-kitchen-draw-slope__actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #eee;
+}
+.cld-kitchen-draw-slope__btn {
+  appearance: none;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 2px;
+  font-family: "Cera Pro", Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.cld-kitchen-draw-slope__btn--ghost {
+  background: #fff;
+  border: 1px solid #222;
+  color: #111;
+}
+.cld-kitchen-draw-slope__btn--primary {
+  background: var(--clodis-orange, #FF9F1C);
+  border: 1px solid var(--clodis-orange, #FF9F1C);
+  color: #111;
+}
+.cld-kitchen-draw-slope__btn--primary:hover:not(:disabled) {
+  background: var(--clodis-orange-hover, #F39100);
+  border-color: var(--clodis-orange-hover, #F39100);
+}
+.cld-kitchen-draw-slope__btn:disabled,
+.cld-kitchen-draw-slope__btn[aria-disabled='true'] {
+  opacity: 0.45;
+  cursor: default;
+}
+body.cld-kitchen-draw-mode .cld-kitchen-plan-toolbar {
+  opacity: 0.35;
+  pointer-events: none;
+}
+body.cld-kitchen-draw-mode .kitchen-room-step__modes {
+  pointer-events: none;
+  opacity: 0.45;
+}
+body.cld-kitchen-draw-mode[data-kitchen-draw-tool="wall"] #canvas-container,
+body.cld-kitchen-draw-mode[data-kitchen-draw-tool="wall"] #canvas-container canvas,
+body.cld-kitchen-draw-mode[data-kitchen-draw-tool="wall"],
+body.cld-kitchen-draw-mode[data-kitchen-draw-tool="zone"] #canvas-container,
+body.cld-kitchen-draw-mode[data-kitchen-draw-tool="zone"] #canvas-container canvas,
+body.cld-kitchen-draw-mode[data-kitchen-draw-tool="zone"] {
+  cursor: none !important;
+}
+
+.cld-kitchen-draw-html-handle {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  margin: 0;
+  transform: translate(-50%, -50%);
+  background: #FF9F1C;
+  border: 1px solid rgba(0, 0, 0, 0.28);
+  box-sizing: border-box;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.85);
+  z-index: 4;
+  pointer-events: none;
+}
+.cld-kitchen-draw-html-node {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  margin: 0;
+  transform: translate(-50%, -50%);
+  background: #333;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-sizing: border-box;
+  z-index: 4;
+  pointer-events: none;
+}
+.cld-kitchen-draw-html-guide {
+  position: absolute;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  transform-origin: 0 50%;
+  background: repeating-linear-gradient(
+    90deg,
+    #FF9F1C 0 8px,
+    transparent 8px 14px
+  );
+  opacity: 0.95;
+  box-sizing: border-box;
+  z-index: 5;
+  pointer-events: none;
+}
+.cld-kitchen-draw-svg-walls {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none !important;
+  overflow: visible !important;
+  z-index: 1 !important;
+}
+.cld-kitchen-draw-html-edge-dim {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  padding: 4px 8px;
+  background: #fff;
+  border: 1px solid rgba(34, 34, 34, 0.16);
+  border-radius: 2px;
+  font-family: "Cera Pro", Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #222;
+  white-space: nowrap;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  z-index: 3;
+  pointer-events: none;
+}
+.cld-kitchen-draw-html-outer-dim {
+  position: absolute;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  transform-origin: 0 50%;
+  background: #222;
+  box-sizing: border-box;
+  z-index: 1;
+  pointer-events: none;
+}
+.cld-kitchen-draw-html-outer-tick {
+  position: absolute;
+  width: 1px;
+  height: 12px;
+  background: #222;
+  z-index: 1;
+  pointer-events: none;
+}
+.cld-kitchen-draw-html-outer-label {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-family: "Cera Pro", Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #222;
+  white-space: nowrap;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.cld-kitchen-draw-dim {
+  position: fixed;
+  z-index: 10040;
+  transform: translate(-50%, -120%);
+  padding: 4px 10px;
+  background: #fff;
+  border: 1px solid rgba(34, 34, 34, 0.18);
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  font-family: "Cera Pro", Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #111;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.cld-kitchen-draw-dim[hidden] {
+  display: none !important;
+}
+
+.cld-kitchen-draw-html-preview {
+  position: fixed;
+  inset: 0;
+  z-index: 10035;
+  pointer-events: none;
+  overflow: visible;
+}
+
+/* IKEA 2D: скошенный потолок после Создать — голубая зона + значок */
+.cld-kitchen-slope-markers {
+  position: fixed;
+  inset: 0;
+  z-index: 10036;
+  pointer-events: none;
+  overflow: visible;
+}
+.cld-kitchen-slope-markers[hidden] {
+  display: none !important;
+}
+.cld-kitchen-slope-wall-strip {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  transform-origin: 0 50%;
+  background: rgba(126, 200, 240, 0.92);
+  border: 1px solid rgba(0, 88, 163, 0.4);
+  box-sizing: border-box;
+  border-radius: 1px;
+  pointer-events: none;
+}
+.cld-kitchen-slope-icon {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.22);
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cld-kitchen-slope-icon:hover {
+  box-shadow: 0 2px 8px rgba(0, 88, 163, 0.35);
+}
+.cld-kitchen-slope-icon img {
+  display: block;
+  width: 28px;
+  height: 28px;
+  pointer-events: none;
+}
+.cld-kitchen-slope-pop {
+  position: fixed;
+  z-index: 10040;
+  transform: translate(-50%, calc(-100% - 10px));
+  display: flex;
+  flex-direction: column;
+  min-width: 220px;
+  padding: 8px 0 4px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+}
+.cld-kitchen-slope-pop__title {
+  padding: 4px 14px 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #111;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 4px;
+}
+.cld-kitchen-slope-pop button {
+  appearance: none;
+  border: none;
+  background: transparent;
+  text-align: left;
+  padding: 10px 14px;
+  font: inherit;
+  font-size: 14px;
+  color: #111;
+  cursor: pointer;
+}
+.cld-kitchen-slope-pop button:hover {
+  background: #f2f2f2;
+}
+.cld-kitchen-draw-slope__btn--danger {
+  width: 100%;
+  margin-top: 8px;
+  border: 1px solid #c62828;
+  background: #fff;
+  color: #c62828;
+  border-radius: 4px;
+  padding: 10px 12px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.cld-kitchen-draw-slope__btn--danger:hover {
+  background: #ffebee;
+}
+.cld-kitchen-draw-html-wall {
+  position: absolute;
+  height: 18px;
+  margin: 0;
+  padding: 0;
+  transform-origin: 0 50%;
+  background: rgba(110, 176, 224, 0.92);
+  border: 1px solid rgba(0, 88, 163, 0.35);
+  box-sizing: border-box;
+  border-radius: 1px;
+}
+.cld-kitchen-draw-html-wall--live {
+  background: rgba(158, 201, 239, 0.95);
+  border-color: rgba(0, 88, 163, 0.45);
+}
+/* Карандаш: ОДИН оранжевый квадрат в якоре; корпус — только тонкий штрих, без второго квадрата */
+.cld-kitchen-draw-pencil {
+  position: fixed;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+  z-index: 10050;
+}
+.cld-kitchen-draw-pencil[hidden] {
+  display: none !important;
+}
+.cld-kitchen-draw-pencil__tip {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 12px;
+  height: 12px;
+  margin: 0;
+  transform: translate(-50%, -50%);
+  background: #FF9F1C;
+  border: 1.5px solid rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+  z-index: 2;
+}
+/* тонкий карандаш без оранжевого прямоугольника у острия */
+.cld-kitchen-draw-pencil__body {
+  position: absolute;
+  left: 6px;
+  top: -34px;
+  width: 5px;
+  height: 22px;
+  background: #f0c94a;
+  border: 1px solid rgba(0, 0, 0, 0.28);
+  border-radius: 1px 1px 0 0;
+  box-sizing: border-box;
+  transform: rotate(-40deg);
+  transform-origin: 2px 22px;
+  z-index: 1;
+  pointer-events: none;
+  /* обрезаем низ — не доходит до оранжевого квадрата */
+  clip-path: inset(0 0 6px 0);
+}
+.cld-kitchen-draw-pencil__body::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: -4px;
+  width: 5px;
+  height: 4px;
+  background: #4a2f14;
+  border-radius: 1px 1px 0 0;
+}
+.cld-kitchen-draw-pencil__body::after {
+  display: none;
+}
+/* IKEA зоны: тёмный карандаш + жёлтый квадрат на острие */
+.cld-kitchen-draw-pencil--zone .cld-kitchen-draw-pencil__tip {
+  width: 10px;
+  height: 10px;
+  background: #ffc800;
+  border: 1px solid #1a1a1a;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.35);
+  z-index: 3;
+}
+.cld-kitchen-draw-pencil--zone .cld-kitchen-draw-pencil__body {
+  display: block;
+  left: 4px;
+  top: -31px;
+  width: 4px;
+  height: 27px;
+  margin: 0;
+  background: linear-gradient(
+    to bottom,
+    #2a2a2a 0 4px,
+    #555 4px 18px,
+    #c9a227 18px 22px,
+    #666 22px 100%
+  );
+  border: none;
+  border-radius: 0 0 1px 1px;
+  transform: rotate(-33deg);
+  transform-origin: 2px 27px;
+  clip-path: none;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.22);
+  z-index: 2;
+}
+.cld-kitchen-draw-pencil--zone .cld-kitchen-draw-pencil__body::before {
+  left: 0;
+  top: -6px;
+  width: 4px;
+  height: 6px;
+  background: #1a1a1a;
+  border-radius: 0;
+  clip-path: polygon(0 100%, 50% 0, 100% 100%);
+}
+.cld-kitchen-draw-overlay__icon-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* готовый разделитель — тонкая тёмная (IKEA) */
+.cld-kitchen-draw-html-zone {
+  position: absolute;
+  height: 1.25px;
+  margin: 0;
+  padding: 0;
+  transform-origin: 0 50%;
+  background: #4a4a4a;
+  box-sizing: border-box;
+  z-index: 2;
+  pointer-events: none;
+}
+/* пока тянем — сплошная тёмная; рядом — размерная линия с засечками */
+.cld-kitchen-draw-html-zone--live {
+  background: #3d3d3d;
+  height: 1.5px;
+}
+/* после OK: выбранный разделитель — вся линия голубая (как IKEA), не «вторая» рядом */
+.cld-kitchen-draw-html-zone--selected {
+  background: #5eb3f0;
+  height: 2px;
+  z-index: 3;
+}
+/* после OK: внешние размеры комнаты ВИДНЫ (как IKEA за контуром) —
+   раньше ошибочно прятали */
+/* размерная цепочка IKEA: линия + засечки + окошко */
+.cld-kitchen-draw-html-dim-line {
+  position: absolute;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  transform-origin: 0 50%;
+  background: #222;
+  box-sizing: border-box;
+  z-index: 2;
+  pointer-events: none;
+}
+.cld-kitchen-draw-html-dim-ext {
+  position: absolute;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  transform-origin: 0 50%;
+  background: #222;
+  box-sizing: border-box;
+  z-index: 2;
+  pointer-events: none;
+}
+.cld-kitchen-draw-html-dim-tick {
+  position: absolute;
+  width: 11px;
+  height: 2px;
+  margin: 0;
+  padding: 0;
+  background: #111;
+  box-sizing: border-box;
+  z-index: 5;
+  pointer-events: none;
+}
+.cld-kitchen-draw-html-dim-tick--on-sel {
+  width: 16px;
+  height: 3px;
+  background: #111;
+  box-shadow: 0 0 0 1px #fff;
+  z-index: 10020;
+}
+/* зоны: гайды тоньше и желтее, как IKEA */
+body.cld-kitchen-draw-mode[data-kitchen-draw-tool="zone"] .cld-kitchen-draw-html-guide {
+  height: 1px;
+  background: repeating-linear-gradient(
+    90deg,
+    #ffcc00 0 4px,
+    transparent 4px 10px
+  );
+  opacity: 0.9;
+}
+.cld-kitchen-draw-html-zone-label {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+  color: #1a1a1a;
+  text-shadow: 0 0 3px #fff, 0 0 6px #fff, 0 1px 0 #fff;
+  font-family: "Cera Pro", Arial, sans-serif;
+  z-index: 3;
+}
+.cld-kitchen-draw-html-zone-label__name {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.15;
+}
+.cld-kitchen-draw-html-zone-label__area {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  opacity: 0.95;
+}
+.cld-kitchen-draw-html-zone-dim {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  padding: 3px 7px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.22);
+  border-radius: 1px;
+  font-family: "Cera Pro", Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #111;
+  white-space: nowrap;
+  z-index: 4;
+  pointer-events: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+/* во время рисования зон — убрать внешние см-размеры (как IKEA) */
+body.cld-kitchen-draw-mode[data-kitchen-draw-tool="zone"] .dimension-label,
+body.cld-kitchen-draw-mode[data-kitchen-draw-tool="zone"] #cld-room-outer-dim-lines {
+  visibility: hidden !important;
+}
+.cld-kitchen-zones-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 10012;
+  pointer-events: none;
+  overflow: visible;
+}
+.cld-kitchen-zones-layer[hidden] {
+  display: none !important;
+}
+body.cld-kitchen-draw-mode .cld-kitchen-zones-layer {
+  opacity: 0.35;
+}
+/* после OK размеры зон не прячем — слой поверх плана */
+body:not(.cld-kitchen-draw-mode) .cld-kitchen-zones-layer:not([hidden]) {
+  opacity: 1;
+}
+
 body.cld-room-edit-open .scene-icon-undo,
 body.cld-room-edit-open .scene-icon-redo {
   bottom: 88px;
@@ -406,6 +1249,409 @@ body.cld-room-edit-dragging-door canvas {
 
 .cld-opening-panel .cld-opening-catalog {
   margin-top: 20px;
+}
+
+.cld-object-action-card {
+  margin: 8px 0 0;
+  padding: 16px 14px 14px;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+}
+
+.cld-object-action-card__title {
+  margin: 0;
+  font: 700 16px/1.3 "Cera Pro", Arial, sans-serif;
+  color: #111;
+}
+
+.cld-object-action-card__desc {
+  margin: 4px 0 0;
+  font: 400 13px/1.35 "Cera Pro", Arial, sans-serif;
+  color: #666;
+}
+
+.cld-object-actions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  margin: 16px 0 0;
+}
+
+.cld-object-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 4px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  color: #111;
+  font: 500 11px/1.2 "Cera Pro", Arial, sans-serif;
+}
+
+.cld-object-action:hover,
+.cld-object-action.is-active {
+  background: #f0f7ff;
+}
+
+.cld-object-action__icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.cld-object-size-fields {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #eee;
+}
+
+.cld-electric-plan-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 34;
+  pointer-events: none;
+}
+
+.cld-electric-plan-mark {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  margin: -11px 0 0 -11px;
+  padding: 0;
+  border: 1.5px solid #aaa;
+  border-radius: 2px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.cld-electric-plan-mark.is-selected {
+  border-color: #4a90d9;
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(74, 144, 217, 0.3);
+}
+
+.cld-electric-dim {
+  position: absolute;
+  z-index: 38;
+  display: none;
+  padding: 3px 7px;
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.18);
+  font: 600 12px/1 "Cera Pro", Arial, sans-serif;
+  color: #222;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.cld-wall-pos-labels {
+  position: absolute;
+  inset: 0;
+  z-index: 37;
+  pointer-events: none;
+}
+
+.cld-wall-pos-labels .cld-object-gizmo__dim {
+  pointer-events: auto;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.cld-electric-gizmo {
+  position: absolute;
+  z-index: 36;
+  display: none;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  pointer-events: auto;
+}
+
+.cld-electric-gizmo__btn {
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cld-electric-gizmo__btn--move {
+  width: 40px;
+  height: 40px;
+}
+
+.cld-electric-gizmo__btn:hover {
+  background: #f7f7f7;
+}
+
+.cld-electric-arrows {
+  display: none !important;
+}
+
+.cld-object-position-tip {
+  position: absolute;
+  right: 24px;
+  top: 80px;
+  z-index: 40;
+  width: 260px;
+  padding: 14px 16px;
+  background: #ececec;
+  border-radius: 8px;
+  font: 400 13px/1.4 "Cera Pro", Arial, sans-serif;
+  color: #222;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  pointer-events: auto;
+}
+
+.cld-object-position-tip strong {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.cld-object-position-tip p {
+  margin: 0 0 10px;
+}
+
+.cld-object-position-tip__hide {
+  border: none;
+  background: none;
+  color: #0058a3;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+}
+
+.cld-object-panel .cld-object-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 16px 0 0;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.cld-object-cat {
+  display: block;
+  width: 100%;
+  padding: 12px 14px;
+  text-align: left;
+  font: 14px/1.35 "Cera Pro", Arial, sans-serif;
+  color: #111;
+  background: #fff;
+  border: none;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.cld-object-cat:last-child {
+  border-bottom: none;
+}
+
+.cld-object-cat.is-active {
+  background: #f0f7ff;
+  font-weight: 600;
+}
+
+.cld-object-cat.is-disabled,
+.cld-object-cat:disabled {
+  color: #999;
+  cursor: default;
+  background: #fafafa;
+}
+
+.cld-object-catalog .cld-object-card {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  text-align: left;
+  margin-bottom: 8px;
+  padding: 10px 8px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.cld-object-catalog .cld-object-card:hover,
+.cld-object-catalog .cld-object-card.is-selected {
+  border-color: #cfe0f5;
+  background: #f5f9ff;
+}
+
+.cld-object-card__thumb {
+  flex: 0 0 56px;
+  width: 56px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f3f3;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.cld-object-card__thumb img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.cld-object-card__ph {
+  display: block;
+  width: 40px;
+  height: 56px;
+  background: #ddd;
+  border-radius: 4px;
+}
+
+.cld-object-card__text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  padding-top: 4px;
+}
+
+.cld-object-card__name {
+  display: block;
+  font: 600 14px/1.3 "Cera Pro", Arial, sans-serif;
+  color: #111;
+}
+
+.cld-object-card__desc {
+  display: block;
+  font: 400 12px/1.35 "Cera Pro", Arial, sans-serif;
+  color: #666;
+}
+
+.cld-object-gizmo {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  z-index: 32;
+  pointer-events: none;
+  display: none;
+}
+
+.cld-object-gizmo__frame {
+  position: absolute;
+  box-sizing: border-box;
+  border: 2px solid #4a90d9;
+  background: rgba(74, 144, 217, 0.08);
+  pointer-events: none;
+}
+
+.cld-object-gizmo__move {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #d0d0d0;
+  border-radius: 50%;
+  background: #fff;
+  cursor: grab;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
+  padding: 0;
+}
+
+.cld-object-gizmo__corner {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #4a90d9;
+  border-radius: 2px;
+  background: #fff;
+  cursor: nwse-resize;
+  padding: 0;
+}
+
+.cld-object-gizmo__corner[data-corner='ne'],
+.cld-object-gizmo__corner[data-corner='sw'] {
+  cursor: nesw-resize;
+}
+
+.cld-object-gizmo__dim {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  cursor: text;
+  font: 600 12px/1.2 "Cera Pro", Arial, sans-serif;
+  color: #111;
+  background: #fff;
+  border: 1px solid #111;
+  border-radius: 3px;
+  padding: 2px 6px;
+  white-space: nowrap;
+  box-shadow: 0 0 0 1px #fff;
+  z-index: 34;
+}
+
+.cld-object-gizmo__dim.is-vertical {
+  transform: translate(-50%, -50%) rotate(-90deg);
+}
+
+.cld-object-gizmo__dim.is-edit-flat,
+.cld-object-gizmo__dim.is-editing {
+  transform: translate(-50%, -50%) rotate(0deg);
+}
+
+.cld-object-gizmo__dim.is-active,
+.cld-object-gizmo__dim.is-editing {
+  background: #4a90d9;
+  border-color: #4a90d9;
+  color: #fff;
+  padding: 0;
+  box-shadow: 0 0 0 2px #fff;
+}
+
+.cld-object-gizmo__dim-input {
+  width: 4.2em;
+  margin: 0;
+  padding: 3px 6px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font: inherit;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+}
+
+body.cld-room-edit-placing-object {
+  cursor: crosshair;
+}
+
+body.cld-room-edit-dragging-object {
+  cursor: grabbing;
+}
+
+body.cld-room-edit-dragging-object .cld-object-gizmo__move {
+  cursor: grabbing;
 }
 
 .cld-room-edit-door-editor {
@@ -771,6 +2017,55 @@ body.cld-room-edit-dragging-door canvas {
   box-shadow: 0 0 0 2px #111;
 }
 
+/* Кухня 2D: стрелки сдвига выбранной стены (IKEA) */
+.cld-kitchen-wall-arrows {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 22;
+  overflow: hidden;
+}
+
+.cld-kitchen-wall-arrow {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-radius: 4px;
+  background: #f3f3f3;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.28);
+  cursor: grab;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cld-kitchen-wall-arrow:active {
+  cursor: grabbing;
+  background: #e8e8e8;
+}
+
+body.cld-kitchen-wall-dragging,
+body.cld-kitchen-wall-dragging * {
+  cursor: grabbing !important;
+  user-select: none !important;
+}
+
+.cld-kitchen-wall-arrow__tri {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 6px 0 6px 10px;
+  border-color: transparent transparent transparent #4a4a4a;
+  margin-left: 2px;
+}
+
 .cld-opening-dim {
   position: absolute;
   transform: translate(-50%, -50%);
@@ -857,12 +2152,18 @@ body.cld-room-edit-dragging-door canvas {
   transform: translate(-50%, -50%);
   pointer-events: auto;
   display: none;
+  flex-direction: row;
   align-items: center;
   gap: 2px;
   padding: 4px;
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.16);
+}
+
+/* Вертикальная стена: панель вдоль стены, не перекрывает наружный размер */
+.cld-door-gizmo-bar.is-vertical {
+  flex-direction: column;
 }
 
 .cld-door-gizmo-bar button {
@@ -954,7 +2255,8 @@ body.cld-room-edit-dragging-door .cld-door-gizmo-handle {
   box-shadow: 0 0 0 3px rgba(255, 159, 28, 0.12);
 }
 
-#cld-room-edit-panel-shape .cld-dim-control input[type='number'] {
+#cld-room-edit-panel-shape .cld-dim-control input[type='number'],
+#cld-room-edit-panel-shape .cld-dim-control input[type='text'] {
   flex: 1 1 auto;
   min-width: 0;
   width: auto;
@@ -980,10 +2282,16 @@ body.cld-room-edit-dragging-door .cld-door-gizmo-handle {
   margin: 0;
 }
 
-#cld-room-edit-panel-shape .cld-dim-control input[type='number']:focus {
+#cld-room-edit-panel-shape .cld-dim-control input[type='number']:focus,
+#cld-room-edit-panel-shape .cld-dim-control input[type='text']:focus {
   outline: none;
   box-shadow: none;
   border-color: transparent;
+}
+
+#cld-room-edit-panel-shape .cld-dim-control.is-over-max {
+  border-color: #e53935;
+  box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.14);
 }
 
 #cld-room-edit-panel-shape .cld-dim-control__unit {
@@ -995,6 +2303,28 @@ body.cld-room-edit-dragging-door .cld-door-gizmo-handle {
   color: var(--clodis-text-secondary);
   pointer-events: none;
   user-select: none;
+}
+
+#cld-room-edit-panel-shape .cld-dim-control__max {
+  flex: 0 0 auto;
+  margin-left: 10px;
+  font-family: "Cera Pro", Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  color: #999;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+
+#cld-room-edit-panel-shape .cld-dim-control.is-over-max .cld-dim-control__max {
+  color: #e53935;
+  font-weight: 600;
+}
+
+.cld-room-outer-dim-input.is-over-max {
+  outline: 2px solid #e53935;
+  color: #c62828;
 }
 
 #cld-room-edit-panel-shape .cld-dim-control--compact {
@@ -1630,5 +2960,249 @@ body.cld-room-edit-dragging-door .cld-door-gizmo-handle {
 
 .cld-room-edit-sidebar::-webkit-scrollbar-track {
   background: transparent;
+}
+
+/* —— Вывод воды (IKEA) —— */
+.cld-kitchen-plan-toolbar__btn--water {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #222;
+}
+.cld-kitchen-plan-toolbar__btn--water.is-active {
+  background: #e8f1fb;
+  color: #1a5fb4;
+}
+.cld-kitchen-plan-toolbar__water-ico {
+  display: inline-flex;
+  width: 18px;
+  height: 18px;
+  color: currentColor;
+}
+.cld-kitchen-plan-toolbar__water-ico svg {
+  width: 18px;
+  height: 18px;
+}
+.cld-kitchen-plan-toolbar__water-label {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.cld-water-outlet-banner {
+  position: fixed;
+  left: 24px;
+  right: 360px;
+  top: 64px;
+  z-index: 10030;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  pointer-events: none;
+}
+.cld-water-outlet-banner[hidden] {
+  display: none !important;
+}
+.cld-water-outlet-banner__text {
+  max-width: 520px;
+  pointer-events: none;
+}
+.cld-water-outlet-banner__text strong {
+  display: block;
+  font-family: "Cera Pro", Arial, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 6px;
+}
+.cld-water-outlet-banner__text p {
+  margin: 0;
+  font-family: "Cera Pro", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #444;
+}
+.cld-water-outlet-banner__actions {
+  display: inline-flex;
+  gap: 8px;
+  pointer-events: auto;
+  flex-shrink: 0;
+}
+.cld-water-outlet-banner__cancel,
+.cld-water-outlet-banner__ok {
+  appearance: none;
+  border-radius: 20px;
+  height: 40px;
+  padding: 0 18px;
+  font-family: "Cera Pro", Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.cld-water-outlet-banner__cancel {
+  border: 1px solid #ccc;
+  background: #fff;
+  color: #222;
+}
+.cld-water-outlet-banner__ok {
+  border: none;
+  background: #0058a3;
+  color: #fff;
+}
+.cld-water-outlet-banner__ok:hover {
+  background: #004f93;
+}
+
+.cld-water-outlet-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 40;
+  overflow: hidden;
+}
+.cld-water-outlet-svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+.cld-water-outlet-marks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.cld-water-outlet-mark {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 2px solid #c8c8c8;
+  border-radius: 50%;
+  background: #fff;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #222;
+}
+.cld-water-outlet-mark.is-hover {
+  border-color: #9a9a9a;
+  background: #5a5a5a;
+  color: #fff;
+  width: 52px;
+  height: 52px;
+  border-width: 0;
+}
+.cld-water-outlet-mark.is-selected {
+  border: none;
+  background: #4a90d9;
+  color: #fff;
+  width: 48px;
+  height: 48px;
+  box-shadow: 0 2px 8px rgba(74, 144, 217, 0.45);
+}
+.cld-water-outlet-faucet {
+  display: inline-flex;
+  line-height: 0;
+}
+.cld-water-outlet-faucet svg {
+  display: block;
+}
+.cld-water-outlet-perm {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #4a90d9;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(74, 144, 217, 0.4);
+  pointer-events: none;
+  z-index: 41;
+}
+.cld-water-outlet-perm[hidden] {
+  display: none !important;
+}
+
+body.cld-water-outlet-mode {
+  cursor: default;
+}
+body.cld-water-outlet-mode .cld-kitchen-wall-arrows,
+body.cld-water-outlet-mode .cld-object-gizmo,
+body.cld-water-outlet-mode .cld-electric-gizmo {
+  pointer-events: none !important;
+  opacity: 0.35;
+}
+
+/* Правая панель: План / Вывод воды */
+.kitchen-room-step__pane-title {
+  margin: 0 0 8px;
+  font-family: "Cera Pro", Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #111;
+}
+.kitchen-room-step__pane-hint {
+  margin: 0 0 16px;
+  font-family: "Cera Pro", Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #555;
+}
+.kitchen-room-step__plan-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.kitchen-room-step__plan-card {
+  appearance: none;
+  width: 100%;
+  text-align: left;
+  border: 1px solid rgba(34, 34, 34, 0.12);
+  border-radius: 10px;
+  background: #fff;
+  padding: 12px 14px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-sizing: border-box;
+}
+.kitchen-room-step__plan-card:hover {
+  border-color: #4a90d9;
+  background: #f7fbff;
+}
+.kitchen-room-step__plan-card-title {
+  font-family: "Cera Pro", Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+}
+.kitchen-room-step__plan-card-desc {
+  font-family: "Cera Pro", Arial, sans-serif;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #666;
+}
+.kitchen-room-step__water-steps {
+  margin: 0;
+  padding-left: 18px;
+  font-family: "Cera Pro", Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #333;
+}
+.kitchen-room-step__water-steps li {
+  margin-bottom: 8px;
 }
 

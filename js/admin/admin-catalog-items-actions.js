@@ -118,20 +118,8 @@
   }
 
   function initClearListButton() {
-    let btn = document.getElementById('catalog-items-clear-btn');
-    if (!btn) {
-      const resetBtn = document.getElementById('catalog-items-reset-materials-btn');
-      if (resetBtn && resetBtn.parentNode) {
-        btn = document.createElement('button');
-        btn.type = 'button';
-        btn.id = 'catalog-items-clear-btn';
-        btn.className = 'btn btn-sm btn-danger btn-outline';
-        btn.textContent = 'Очистить список';
-        btn.title = 'Удалить все элементы из текущего каталога';
-        btn.style.marginRight = '10px';
-        resetBtn.parentNode.insertBefore(btn, resetBtn);
-      } else return;
-    }
+    const btn = document.getElementById('catalog-items-clear-btn');
+    if (!btn) return;
     btn.addEventListener('click', async (e) => {
       e.preventDefault();
       const catalogType = getCurrentCatalogType();

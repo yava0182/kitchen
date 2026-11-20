@@ -1,0 +1,13 @@
+{
+  "hasApp": true,
+  "hasByMe": true,
+  "appType": "object",
+  "appKeys": [],
+  "byKeys": [
+    "EventDispatcher"
+  ],
+  "appLevel": false,
+  "byLevel": false,
+  "stateName": "undefined",
+  "stateKeys": []
+}

@@ -1,0 +1,45 @@
+---
+description: Канон НМУ — ячейка, слот приставки, рецепт Деталь/Уголок в catalog_45. Не уходить без «сменить канон НМУ».
+alwaysApply: true
+---
+
+# Канон НМУ
+
+Копия для человека: `docs/NMU-CANON.md`.
+
+## Ячейка = столешка
+
+Сверху: синяя ячейка и столешка — **одно** (W × Dwt). Ничего не торчит наружу.
+Отступ — щель **под** столешкой внутри ячейки, не сдвиг столешки.
+Посадка в зону — bbox **со столешкой**, не corpus-only.
+
+W ≈ нога + `corner_return_mm` + clear (всё под столешкой).
+Уголок 40 **не** слагаемое W.
+
+## Vars
+
+- `corner_return_mm` на **отступе** = worktop−40−clear (канон **1.42**, нога стоит)
+- `corner_return_depth_mm` = **40** (оболочка слота)
+- Place: clear 10 → return ≈ 550 при worktop 600
+- Карандаш глубины: Z; return X не затирать carcassZ. См. `nmu-pencil-independent.mdc`
+
+## Слот catalog_44 (`corner_return`) — ЗАМОРОЖЕН
+
+```
+size: v:corner_return_mm / (s:y-v:h_bottom) / v:corner_return_depth_mm
+pos:  v:corner_return_pos_x / v:h_bottom / s:z
+pivot: -1,-1,-1
+```
+
+`corner_return_pos_x` = W − rear − D (зад вровень с НМ; при 550 rear=10).  
+Запрещено: `pos.z=s:z-depth`, `pivot.z=+1` на слоте, depth=`s:z`/50, `pos.x=s:x-return`.
+
+## Карточка catalog_45
+
+**Деталь** = отражение бока соседа: `size.x=s:x`, на фасаде `pos.z=s:z` `pivot.z=+1`, `front_front`.
+
+**Уголок** 40×40: не разворачивать. Канон как вручную: `pos.z=0` `pivot=-1,-1,-1`, `pos.x=s:x`|−40. Смещение — через слот, не через flip уголка.
+
+## Сессия
+
+Один критерий. Не ломать карточку 45 ради слота и наоборот.

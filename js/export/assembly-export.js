@@ -3,7 +3,7 @@
  * Не меняет логику комнаты — только читает state и сохраняет JSON.
  */
 import { state } from '../utils/state.js';
-import { computeFurnitureWorldBBoxNoAo } from '../furniture/furniture-bbox.js';
+import { computeFurnitureWorldBBoxNoAo } from '../furniture/furniture-bbox.js?v=20261011-bbox-fix2';
 import { serializeFurnitureVisualMeshes } from './assembly-mesh-export.js';
 import {
   buildAntresolScenarioFromGroup,

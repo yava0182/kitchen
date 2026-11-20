@@ -1,0 +1,11 @@
+﻿FILE js\room\room-manager.js
+onlyIn1.102 cornerish=2
+  // 1) BASE: 600+жертва + спец 1050 (низ).
+  // 3) Joint + CornerCell + upper 600 — потом пересчитать MID/TOP спец 600.
+----
+onlyInCurrent cornerish=5
+  // 1) Joint + CornerCell сначала: host flags + спец 1050.
+  //    Иначе sacrifice до Joint пишет auto-600 во все слоты и отравляет спец.
+    console.warn('[compose-preview-l] joint/corner first', e);
+  // 2) BASE: 600+жертва + спец 1050 (низ) — уже видит host/specialW.
+  // 4) Joint/Corner ещё раз + MID/TOP спец 600.

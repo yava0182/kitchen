@@ -4,12 +4,6 @@
  */
 import * as THREE from 'three';
 import { state } from '../utils/state.js';
-import { isIkeaRoomLightV0 } from '../furniture/ikea-light-gate.js?v=20260907-nospeed1';
-import {
-  bindMeshToIkeaV0,
-  resyncIkeaRoomFloorMap,
-} from '../furniture/ikea-room-light-v0.js?v=20260913-hang-lite';
-
 const WALL_NAMES = ['front', 'back', 'left', 'right'];
 /** Default tile if material has no tileMm (IKEA dump / light herringbone). */
 const FLOOR_TILE_MM_DEFAULT = 640;
@@ -485,10 +479,6 @@ function loadTexture(url) {
 
 function bindVisual(mesh, kind, opts) {
   if (!mesh?.isMesh) return;
-  if (isIkeaRoomLightV0()) {
-    bindMeshToIkeaV0(mesh, kind, { ...opts, forceVisual: true });
-    return;
-  }
   const mat = mesh.material;
   if (!mat) return;
   if (opts.map) {
@@ -514,7 +504,6 @@ async function applyThumb(mesh, kind, thumb, room, repeatX, repeatY) {
   bindVisual(mesh, kind, { map: src });
   if (kind === 'floor' && room) {
     room.floorTexture = src;
-    if (isIkeaRoomLightV0()) resyncIkeaRoomFloorMap(room, src);
   }
   return true;
 }
@@ -1163,6 +1152,12 @@ export async function reapplyRoomEditMaterials() {
   if (mats.floors) jobs.push(applyFloor(mats.floors));
   if (mats.ceilings) jobs.push(applyCeiling(mats.ceilings));
   await Promise.all(jobs);
+  // объекты (колонны) — та же штукатурка, что у стен
+  try {
+    if (typeof window.__cldReapplyRoomEditObjects === 'function') {
+      window.__cldReapplyRoomEditObjects();
+    }
+  } catch (_) {}
   syncStyleCardSelection();
 }
 

@@ -1,0 +1,117 @@
+goto https://kitchen.planner.ikea.com/lv/ru/planner/
+frame https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV
+ERROR BANNER present — dismiss
+app0 {"hasApp":true,"hasByMe":true,"appType":"object","appKeys":[],"byKeys":["EventDispatcher"],"appLevel":false,"byLevel":false,"stateName":"undefined","stateKeys":[]}
+reload planner iframe
+ERROR BANNER present — dismiss
+text Назад
+app1 {"hasApp":true,"hasByMe":true,"appType":"object","appKeys":[],"byKeys":["EventDispatcher"],"appLevel":false,"byLevel":false,"stateName":"undefined","stateKeys":[]}
+ERR TimeoutError: locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator('#draw-plan')
+    - locator resolved to <button id="draw-plan" aria-expanded="false" class="bt-icon-label-alt" aria-controls="nav-overlay-draw-plan">…</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class="wrap">…</div> from <article tabindex="-1" id="room-shape-title" class="mod-layer-room-shape mod-open">…</article> subtree intercepts pointer events
+    - retrying click action
+    - waiting 20ms
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <div class="wrap">…</div> from <article tabindex="-1" id="room-shape-title" class="mod-layer-room-shape mod-open">…</article> subtree intercepts pointer events
+  2 × retrying click action
+      - waiting 100ms
+      - waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <article tabindex="-1" id="room-shape-title" class="mod-layer-room-shape mod-open">…</article> intercepts pointer events
+  4 × retrying click action
+      - waiting 500ms
+      - waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class="wrap">…</div> from <article tabindex="-1" id="room-shape-title" class="mod-layer-room-shape mod-open">…</article> subtree intercepts pointer events
+    - retrying click action
+      - waiting 500ms
+      - waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class="wrap">…</div> from <article tabindex="-1" id="room-shape-title" class="mod-layer-room-shape mod-open">…</article> subtree intercepts pointer events
+    - retrying click action
+      - waiting 500ms
+      - waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <article tabindex="-1" id="room-shape-title" class="mod-layer-room-shape mod-open">…</article> intercepts pointer events
+    - retrying click action
+      - waiting 500ms
+      - waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <article tabindex="-1" id="room-shape-title" class="mod-layer-room-shape mod-open">…</article> intercepts pointer events
+  - retrying click action
+    - waiting 500ms
+
+TimeoutError: locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator('#draw-plan')
+    - locator resolved to <button id="draw-plan" aria-expanded="false" class="bt-icon-label-alt" aria-controls="nav-overlay-draw-plan">…</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class="wrap">…</div> from <article tabindex="-1" id="room-shape-title" class="mod-layer-room-shape mod-open">…</article> subtree intercepts pointer events
+    - retrying click action
+    - waiting 20ms
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - <div class="wrap">…</div> from <article tabindex="-1" id="room-shape-title" class="mod-layer-room-shape mod-open">…</article> subtree intercepts pointer events
+  2 × retrying click action
+      - waiting 100ms
+      - waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <article tabindex="-1" id="room-shape-title" class="mod-layer-room-shape mod-open">…</article> intercepts pointer events
+  4 × retrying click action
+      - waiting 500ms
+      - waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class="wrap">…</div> from <article tabindex="-1" id="room-shape-title" class="mod-layer-room-shape mod-open">…</article> subtree intercepts pointer events
+    - retrying click action
+      - waiting 500ms
+      - waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div class="wrap">…</div> from <article tabindex="-1" id="room-shape-title" class="mod-layer-room-shape mod-open">…</article> subtree intercepts pointer events
+    - retrying click action
+      - waiting 500ms
+      - waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <article tabindex="-1" id="room-shape-title" class="mod-layer-room-shape mod-open">…</article> intercepts pointer events
+    - retrying click action
+      - waiting 500ms
+      - waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <article tabindex="-1" id="room-shape-title" class="mod-layer-room-shape mod-open">…</article> intercepts pointer events
+  - retrying click action
+    - waiting 500ms

@@ -1,0 +1,55 @@
+{
+  "tag": "before-overlay-midtop-sync",
+  "savedAt": "2026-11-18T13:36:27.926Z",
+  "preset": "overlays",
+  "files": [
+    {
+      "rel": "js/kitchen/kitchen-side-panels-overlay-api.js",
+      "flat": "js__kitchen__kitchen-side-panels-overlay-api.js"
+    },
+    {
+      "rel": "js/kitchen/kitchen-side-panels-scene-adapter.js",
+      "flat": "js__kitchen__kitchen-side-panels-scene-adapter.js"
+    },
+    {
+      "rel": "js/kitchen/kitchen-side-panels-clearance.js",
+      "flat": "js__kitchen__kitchen-side-panels-clearance.js"
+    },
+    {
+      "rel": "js/kitchen/kitchen-section-layout.js",
+      "flat": "js__kitchen__kitchen-section-layout.js"
+    },
+    {
+      "rel": "js/kitchen/kitchen-base-engine.js",
+      "flat": "js__kitchen__kitchen-base-engine.js"
+    },
+    {
+      "rel": "js/kitchen/kitchen-run-overlays.js",
+      "flat": "js__kitchen__kitchen-run-overlays.js"
+    },
+    {
+      "rel": "js/main-refactored.js",
+      "flat": "js__main-refactored.js"
+    },
+    {
+      "rel": "js/kitchen/kitchen-section-engine.js",
+      "flat": "js__kitchen__kitchen-section-engine.js"
+    },
+    {
+      "rel": "js/ui/scene-icons.js",
+      "flat": "js__ui__scene-icons.js"
+    },
+    {
+      "rel": "index.html",
+      "flat": "index.html"
+    },
+    {
+      "rel": "docs/KITCHEN-RULES.md",
+      "flat": "docs__KITCHEN-RULES.md"
+    },
+    {
+      "rel": ".cursor/rules/side-panels-column-pad.mdc",
+      "flat": ".cursor__rules__side-panels-column-pad.mdc"
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+﻿FILE js\kitchen\kitchen-side-panels-overlay-api.js
+onlyIn1.79 count=529
+ * STEP 3A/3E/3З/3И/4A/4B/6A/column — live API for kitchen side-panels
+ * 6A: пенал + nearest neighbor. Column: MID/TOP в той же zi —
+ * накладка на уже оплаченную сторону без повторной компенсации (корпус = ячейка − pad).
+  getKitchenColumnOverlayPadSidesMm,
+  syncKitchenBaseInZoneToWidthMm,
+  syncKitchenTallInZoneToWidthMm,
+  findKitchenTallInSectionZone,
+  findKitchenBaseInSectionZone,
+  validateKitchenBaseCellWidthMm,
+  pinKitchenBandZoneWidthMm,
+  ensureKitchenBandZoneGrids,
+  getKitchenBandPartsForEdit,
+  getKitchenBandSacrificeZoneIndex,
+  setKitchenBandSacrificeZoneIndex,
+  buildKitchenBandCellLayoutForSection,
+  KITCHEN_BAND_CELL_MIN_MM,
+/** Пенал / MID / TOP / НМ в прямой секции — footprint (ячейка±pad, жертва). */
+function _isColumnOverlayParticipant(group) {
+    isKitchenTallGroup(group) ||
+    isKitchenNmCarcassGroup(group)
+ * Смена overlay у участника footprint (плательщик или наследник — по delta pad).
+function _columnOverlayCase(group, section, nextMode, prevMode) {
+  if (!section || !isKitchenStraightBaseBandSection(section)) return false;
+  if (!_isColumnOverlayParticipant(group)) return false;
+    String(nextMode || '').toLowerCase() === 'overlay' ||
+    String(prevMode || '').toLowerCase() === 'overlay'
+function _overlayPadSidesFromPanels(sidePanels) {
+  let left = 0;
+  let right = 0;
+  if (String(sidePanels?.left?.mode || '').toLowerCase() === 'overlay') left = t;
+  if (String(sidePanels?.right?.mode || '').toLowerCase() === 'overlay') right = t;
+  return { left, right, sum: left + right };
+  return _overlayPadSidesFromPanels(sidePanels).sum;
+  const pad = kitchenTallOverlayPadMm(ud);
+  // Footprint-модуль с overlay: rebuild ждёт габарит ячейки (корпус+pad).
+    pad > 0 &&
+    (isKitchenTallGroup(group) ||
+      isKitchenWallMidGroup(group) ||
+      isKitchenWallTopGroup(group) ||
+      isKitchenNmCarcassGroup(group))
+    console.warn('[SIDE-PANEL 6A] restore band widths failed', e);
+  if (!section || !baseWidths) return;
+  // Полная копия ширин BASE → MID/TOP (не только changed), иначе свободные ячейки
+  // пересчитываются «по остатку» и вертикальная граница пенала плывёт.
+    getKitchenBandPartsForEdit(section, 'base') ||
+      Math.floor(Number(section.division?.parts) || 0)
+  const full = Object.create(null);
+    const w = Math.round(Number(baseWidths[z] ?? baseWidths[String(z)]) || 0);
+    if (w > 0) {
+      full[z] = w;
+      full[String(z)] = w;
+  if (!Object.keys(full).length) return;
+      writeKitchenBandZoneWidthsMm(section, band, full);
+      const zis = Array.isArray(changedZis) && changedZis.length
+        ? changedZis
+        : Object.keys(full)
+            .map((k) => Math.floor(Number(k)))
+            .filter((z) => Number.isFinite(z) && z >= 0);
+      for (const z of zis) {
+        const w = Math.round(Number(full[z] ?? full[String(z)]) || 0);
+----
+onlyInCurrent count=275
+ * STEP 3A/3E/3З/3И/4A/4B/5A — live API for kitchen side-panels
+ * STEP 5A: пенал в прямой секции — габарит корпуса+накладки через
+ * существующий setZoneCustomWidthMm / _balanceCustomZoneWidthsAfterEdit.
+  kitchenModuleOverlayPadMm,
+  getKitchenBaseWidthLimitsMm,
+  if (!sidePanels || typeof sidePanels !== 'object') return 0;
+  let pad = 0;
+  if (String(sidePanels.left?.mode || '').toLowerCase() === 'overlay') pad += t;
+  if (String(sidePanels.right?.mode || '').toLowerCase() === 'overlay') pad += t;
+  return pad;
+  // 5A/5B: при overlay customWidthMm = корпус; rebuild ждёт ширину ячейки.
+  const pad = kitchenModuleOverlayPadMm(ud);
+  if (pad > 0) {
+/** 5B: НМ/НШ — накладка внутри ячейки (корпус жмётся), секцию не расширяем. */
+function _nmOrWallWithinCellOverlayCase(group) {
+  if (isKitchenTallGroup(group)) return false;
+    isKitchenNmCarcassGroup(group) ||
+    isKitchenWallTopGroup(group)
+function _cellWidthForWithinCellOverlay(group) {
+  const pad = kitchenModuleOverlayPadMm(ud);
+  if (cell > 0) return cell;
+  if (custom > 0) return pad > 0 ? custom + pad : custom;
+  return _currentWidthMm(group);
+ * Проверка: ячейка вмещает корпус−pad (мин. ширина профиля).
+ * @returns {{ ok: boolean, reason?: string, message?: string, carcassMm?: number, cellMm?: number }}
+function _validateWithinCellOverlayFit(group, nextSidePanels) {
+  const cellMm = _cellWidthForWithinCellOverlay(group);
+  const nextPad = _overlayPadFromPanels(nextSidePanels);
+  if (!(nextPad > 0)) return { ok: true, cellMm, carcassMm: cellMm };
+  const carcassMm = cellMm - nextPad;
+  const lim = getKitchenBaseWidthLimitsMm(group);
+  if (carcassMm < lim.minMm) {
+      reason: 'overlay_carcass_too_narrow',
+      message: `Накладка не помещается в ячейку ${cellMm} мм: корпус стал бы ${carcassMm} мм (мин. ${lim.minMm} мм). Секцию не удлиняем.`,
+      cellMm,
+      carcassMm,
+      minMm: lim.minMm,
+  return { ok: true, cellMm, carcassMm, nextPad };
+/** Bbox мебельных мешей (без PivotMarker / debug), ось U секции. */
+function _moduleFurnitureBoxU(group, uAxis) {

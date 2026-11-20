@@ -1,0 +1,23 @@
+---
+description: ЗАМОРОЗКА НМУ отступ = канон 1.42 (приставка от clear, нога стоит).
+alwaysApply: true
+---
+
+# НМУ / отступы — ЗАМОРОЗКА 1.42
+
+Эталон: копия `1.42 нму` + текущий `rebuildForCellWidthMm` с `_cornerReturnDFromClearMm`.
+
+## Модель
+
+- Отступ → приставка (не нога)
+- W модуля → нога
+- Глубина → Z, return X сохранить
+
+## Запрещено без «сменить канон НМУ»
+
+- `retX = _cornerReturnDMm` / `retX = carcassZ` в width/depth вместо 1.42
+- Трогать слой заодно с нобилией / фасадами
+
+## Проверка
+
+`npm run freeze:nmu` → PASS.

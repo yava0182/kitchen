@@ -73,11 +73,11 @@
       const colorVal = (item?.color || '').toString().trim();
       let iconHtml = '';
       if (iconUrl) {
-        iconHtml = `<img src="${accUrl}${iconUrl.startsWith('/') ? '' : '/'}${iconUrl}" style="width:60px;height:60px;object-fit:cover;border-radius:4px;border:1px solid #e5e7eb;" onerror="this.style.display='none'">`;
+        iconHtml = `<img class="admin-list-thumb" src="${accUrl}${iconUrl.startsWith('/') ? '' : '/'}${iconUrl}" alt="" onerror="this.style.display='none'">`;
       } else if (colorVal && /^#([0-9A-Fa-f]{6})$/.test(colorVal)) {
-        iconHtml = `<div style="width:60px;height:60px;background-color:${colorVal};border-radius:4px;border:1px solid #e5e7eb;"></div>`;
+        iconHtml = `<div class="admin-list-thumb-empty" style="background-color:${colorVal};"></div>`;
       } else {
-        iconHtml = '<div style="width:60px;height:60px;border:1px solid #e5e7eb;border-radius:4px;background:#f8fafc;"></div>';
+        iconHtml = '<div class="admin-list-thumb-empty"></div>';
       }
       const active = (item?.active ?? 1) == 1 || item?.active === true;
       const visHtml = active
@@ -86,15 +86,15 @@
       tr.innerHTML = `
         <td><input type="checkbox" class="facade-item-checkbox" value="${item?.id ?? ''}"></td>
         <td>${item?.id ?? '-'}</td>
-        <td>${iconHtml}</td>
+        <td class="col-icon">${iconHtml}</td>
         <td>${(item?.name || '-').replace(/</g, '&lt;')}</td>
         <td>${(item?.article || item?.code || '-').replace(/</g, '&lt;')}</td>
         <td>${(getFacadeCategory(item) || '-').replace(/</g, '&lt;')}</td>
-        <td>${visHtml}</td>
-        <td class="col-actions" style="width:194px; white-space:nowrap;">
-          <div style="display:flex; gap:8px; justify-content:center;">
+        <td class="col-vis">${visHtml}</td>
+        <td class="col-actions">
+          <div class="cld-row-actions">
             <button type="button" class="btn btn-xs btn-outline btn-primary" title="Редактировать" data-facade-action="edit" data-facade-id="${item?.id ?? 0}"><i class="fa fa-pencil"></i></button>
-            <button type="button" class="btn btn-xs btn-outline btn-info" title="Копировать" data-facade-action="copy" data-facade-id="${item?.id ?? 0}"><i class="fa fa-copy"></i></button>
+            <button type="button" class="btn btn-xs btn-outline btn-info" title="Копировать" data-facade-action="copy" data-facade-id="${item?.id ?? 0}"><i class="fa fa-link"></i></button>
             <button type="button" class="btn btn-xs btn-outline btn-danger" title="Удалить" data-facade-action="delete" data-facade-id="${item?.id ?? 0}"><i class="fa fa-trash"></i></button>
           </div>
         </td>

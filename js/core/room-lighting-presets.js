@@ -1,4 +1,4 @@
-/** Пресеты комнаты — IKEA v0 (комната) / neutral (диагностика). */
+/** Пресеты комнаты — clearColor / output для IKEA_PORT. Без Three.Light / v0. */
 import { state } from '../utils/state.js';
 
 const THREE = window.THREE;
@@ -6,24 +6,8 @@ const THREE = window.THREE;
 export const ROOM_LIGHTING_PRESETS = {
   ikea: {
     id: 'ikea',
-    label: 'IKEA v0 phase 6c (exposure×2 + screenCal)',
+    label: 'IKEA_PORT (Exp14)',
     sceneBackground: 0xf2f2f0,
-    envEnabled: false,
-    envIntensity: 0.6,
-    renderer: {
-      colorManagementEnabled: true,
-      outputColorSpace: 'srgb',
-      useLegacyLights: false,
-      toneMapping: 'none',
-      toneMappingExposure: 1,
-      shadowMapType: 'pcfsoft',
-    },
-    lights: {},
-  },
-  neutral: {
-    id: 'neutral',
-    label: 'Neutral (geometry only)',
-    sceneBackground: 0xf0f0f0,
     envEnabled: false,
     envIntensity: 0,
     renderer: {
@@ -43,8 +27,7 @@ export function getRoomLightingPresetName() {
 }
 
 export function getRoomLightingPreset(name) {
-  const id = name || getRoomLightingPresetName();
-  return ROOM_LIGHTING_PRESETS[id] || ROOM_LIGHTING_PRESETS.ikea;
+  return ROOM_LIGHTING_PRESETS[name] || ROOM_LIGHTING_PRESETS.ikea;
 }
 
 export function applyRoomLightingRendererSettings(renderer, preset) {
@@ -54,11 +37,12 @@ export function applyRoomLightingRendererSettings(renderer, preset) {
   if ('outputColorSpace' in renderer && THREE.SRGBColorSpace !== undefined) {
     renderer.outputColorSpace = THREE.SRGBColorSpace;
   }
-  renderer._useLegacyLights = !!r.useLegacyLights;
+  renderer._useLegacyLights = false;
   if ('toneMapping' in renderer) {
     renderer.toneMapping = THREE.NoToneMapping ?? 0;
     renderer.toneMappingExposure = 1;
   }
+  // Shadow map for IKEA_PORT depth pass is owned by ikea-port-shadow-pass.
   renderer.shadowMap.enabled = false;
   renderer.setClearColor(preset.sceneBackground ?? 0xf2f2f0, 1);
   renderer.setClearAlpha(1);
@@ -66,12 +50,8 @@ export function applyRoomLightingRendererSettings(renderer, preset) {
 
 export function applyRoomLightingSceneBackground(scene, preset) {
   if (!scene || !preset) return;
-  /** IKEA dump: background null — surround from renderer clear, not scene.background. */
-  if (preset.id === 'ikea') {
-    scene.background = null;
-    return;
-  }
-  scene.background = new THREE.Color(preset.sceneBackground ?? 0xf2f2f0);
+  /** IKEA dump: background null — surround from renderer clear. */
+  scene.background = null;
 }
 
 function __removeOldRoomLights() {
@@ -96,7 +76,7 @@ export function applyRoomLightingPreset(preset, opts = {}) {
   if (opts.sceneBackground !== false) applyRoomLightingSceneBackground(state.scene, p);
   if (opts.renderer !== false && state.renderer) applyRoomLightingRendererSettings(state.renderer, p);
   buildRoomLightsFromPreset(p);
-  state.roomEnvIntensity = Number(p.envIntensity) || 0;
+  state.roomEnvIntensity = 0;
   if (state.scene.environment) {
     state.scene.environment.dispose?.();
     state.scene.environment = null;
@@ -106,10 +86,7 @@ export function applyRoomLightingPreset(preset, opts = {}) {
 
 export function initRoomLightingPresetGlobals() {
   if (typeof window !== 'undefined') {
-    window.__cldSetRoomLightingPreset = (name) => {
-      const id = name === 'neutral' ? 'neutral' : 'ikea';
-      return id;
-    };
+    window.__cldSetRoomLightingPreset = () => 'ikea';
     window.__cldGetRoomLightingPreset = getRoomLightingPreset;
   }
 }

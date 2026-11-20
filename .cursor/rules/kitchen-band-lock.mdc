@@ -1,0 +1,33 @@
+# Замок ярусов кухни (BASE / MID / TOP)
+
+Один активный **ярус**. Чужой ярус в том же диффе = нарушение (даже «заодно» / через Joint / compose).
+
+## Как пользователь пишет (достаточно)
+
+| Фраза | Ярус |
+|-------|------|
+| «низ / столы / НМУ / цоколь / ячейка низа / 1050» | `base` |
+| «середина / навес 1 ярус / ВМУ / Г / upper» | `mid` |
+| «антресоль / 2 ярус / top» | `top` |
+| без яруса при геометрии угла | спросить **одной** фразой: низ / середина / верх? Не править |
+
+Можно в том же чате. Новый чат не обязателен — обязателен **явный ярус** в сообщении.
+
+## Что трогать
+
+| Ярус | Можно | Нельзя |
+|------|--------|--------|
+| `base` | `cornerCell`, NMU, catalog_44, BASE sacrifice/special 1050, base band mesh | `seatKitchenJointUpperCorner`, upper G, catalog_54, mid/top widths, `kitchen-upper-*` |
+| `mid` | `upperCornerCell`, ВМУ/Г, catalog_54, mid band / upper-g | BASE W спец, NMU pencil, catalog_44, top «заодно» |
+| `top` | top band / антресоль | base и mid «заодно» |
+
+## Опасные «общие» входы
+
+`ensureJointsForLPair`, `applyLComposePreview`, `applyKitchenLFreeArm600SacrificeWidths` трогают **несколько** ярусов.
+
+- Задача `base` → не вызывать полный ensure/compose «с нуля», если он пересаживает upper; узкий путь только низа (resolve/seat **cornerCell** / BASE widths).
+- Нужен полный compose → **стоп**, сказать пользователю: «compose заденет mid/top — подтверждаешь?» Без «да» — не вызывать.
+
+## После правки
+
+В ответе явно: **ярус = base|mid|top**. Если в диффе файл чужого яруса — откатить до ответа.

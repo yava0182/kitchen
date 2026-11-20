@@ -436,7 +436,7 @@
     { id: '6', name: 'Балкон', icon: 'fa-home', image: '', key: 'balcony', categoryId: null, order: 5 }
   ];
   const DEFAULT_STEP_TITLES = {
-    1: 'Тип комнаты',
+    1: 'Форма кухни',
     2: 'Конфигурация мебели',
     3: 'С чего начнём?',
     4: 'Модули',
@@ -444,13 +444,224 @@
     6: 'Ручки',
     7: 'Наполнение',
   };
+  const DEFAULT_KITCHEN_STEP1_ITEMS = [
+    { id: 'ks-enclosed-rect', name: 'Прямоугольник', icon: 'shape:enclosed_rect', image: '', key: 'enclosed_rect', group: 'enclosed', groupLabel: 'Закрытая кухня', desc: 'Четыре стены', categoryId: null, order: 0 },
+    { id: 'ks-enclosed-notch', name: 'С вырезом', icon: 'shape:enclosed_notch', image: '', key: 'enclosed_notch', group: 'enclosed', groupLabel: 'Закрытая кухня', desc: 'Ниша в углу (пока прямоугольник)', categoryId: null, order: 1 },
+    { id: 'ks-enclosed-chamfer', name: 'Со срезом угла', icon: 'shape:enclosed_chamfer', image: '', key: 'enclosed_chamfer', group: 'enclosed', groupLabel: 'Закрытая кухня', desc: 'Срезанный угол (пока прямоугольник)', categoryId: null, order: 2 },
+    { id: 'ks-open-one', name: 'Открытая стена', icon: 'shape:open_one_wall', image: '', key: 'open_one_wall', group: 'open', groupLabel: 'Открытая кухня', desc: 'Одна сторона без стены', categoryId: null, order: 3 },
+    { id: 'ks-open-corner', name: 'Открытый угол', icon: 'shape:open_corner', image: '', key: 'open_corner', group: 'open', groupLabel: 'Открытая кухня', desc: 'Две соседние стороны открыты', categoryId: null, order: 4 },
+    { id: 'ks-open-protrusion', name: 'Выступ', icon: 'shape:open_protrusion', image: '', key: 'open_protrusion', group: 'open', groupLabel: 'Открытая кухня', desc: 'Частично открытая стена', categoryId: null, order: 5 }
+  ];
+  // Варианты прямой / L (дети layout-ключа). Геометрия — у родителя; без новых layout-ключей.
+  const DEFAULT_STRAIGHT_VARIANTS = [
+    { id: 'straight-no-tall', name: 'Без пеналов', order: 0, image: '' },
+    { id: 'straight-tall-left', name: 'Пенал слева', order: 1, image: '' },
+    { id: 'straight-tall-right', name: 'Пенал справа', order: 2, image: '' },
+    { id: 'straight-tall-both', name: 'Два пенала', order: 3, image: '' },
+  ];
+  const DEFAULT_L_RIGHT_VARIANTS = [
+    { id: 'l-right-no-tall', name: 'Без пеналов', order: 0, image: '/files/room_icons/clodis_L_right_no_tall.png' },
+    { id: 'l-right-tall-left', name: 'Пенал слева', order: 1, image: '/files/room_icons/clodis_L_right_tall_left.png' },
+    { id: 'l-right-tall-right', name: 'Пенал справа', order: 2, image: '/files/room_icons/clodis_L_right_tall_right.png' },
+    { id: 'l-right-tall-both', name: 'Два пенала', order: 3, image: '/files/room_icons/clodis_L_right_two_tall.png' },
+  ];
+  const DEFAULT_L_LEFT_VARIANTS = [
+    { id: 'l-left-no-tall', name: 'Без пеналов', order: 0, image: '/files/room_icons/clodis_L_left_no_tall.png' },
+    { id: 'l-left-tall-left', name: 'Пенал слева', order: 1, image: '/files/room_icons/clodis_L_left_tall_left.png' },
+    { id: 'l-left-tall-right', name: 'Пенал справа', order: 2, image: '/files/room_icons/clodis_L_left_tall_right.png' },
+    { id: 'l-left-tall-both', name: 'Два пенала', order: 3, image: '/files/room_icons/clodis_L_left_two_tall.png' },
+  ];
+  function isStraightLayoutItem(it) {
+    if (!it) return false;
+    var k = String(it.key || '').trim();
+    var icon = String(it.icon || '').trim();
+    return k === 'top-wall' || icon === 'shape:top-wall';
+  }
+  function isCornerComposeLayoutItem(it) {
+    if (!it) return false;
+    var k = String(it.key || '').trim();
+    var icon = String(it.icon || '').trim();
+    return (
+      k === 'corner-wardrobe' ||
+      k === 'top-right' ||
+      k === 'corner-wardrobe-left' ||
+      k === 'top-left' ||
+      icon === 'shape:top-right' ||
+      icon === 'shape:top-left'
+    );
+  }
+  function isComposeVariantsLayoutItem(it) {
+    return isStraightLayoutItem(it) || isCornerComposeLayoutItem(it);
+  }
+  function composeLayoutKeyOfItem(it) {
+    var k = String((it && it.key) || '').trim();
+    if (k === 'top-right') return 'corner-wardrobe';
+    if (k === 'top-left') return 'corner-wardrobe-left';
+    if (k) return k;
+    var icon = String((it && it.icon) || '').trim();
+    if (icon === 'shape:top-wall') return 'top-wall';
+    if (icon === 'shape:top-right') return 'corner-wardrobe';
+    if (icon === 'shape:top-left') return 'corner-wardrobe-left';
+    return 'top-wall';
+  }
+  function getDefaultStraightVariants() {
+    return DEFAULT_STRAIGHT_VARIANTS.map(function (v) {
+      return { id: v.id, name: v.name, order: v.order, image: v.image || '' };
+    });
+  }
+  function getDefaultComposeVariants(layoutKey) {
+    var key = String(layoutKey || 'top-wall').trim();
+    var src =
+      key === 'corner-wardrobe' || key === 'top-right'
+        ? DEFAULT_L_RIGHT_VARIANTS
+        : key === 'corner-wardrobe-left' || key === 'top-left'
+          ? DEFAULT_L_LEFT_VARIANTS
+          : DEFAULT_STRAIGHT_VARIANTS;
+    return src.map(function (v) {
+      return { id: v.id, name: v.name, order: v.order, image: v.image || '' };
+    });
+  }
+  /** Старый конфиг без variants → 4 слота; сохранённые id/name/image сохраняем. */
+  function normalizeStraightVariants(variants) {
+    return normalizeComposeVariants('top-wall', variants);
+  }
+  function normalizeComposeVariants(layoutKey, variants) {
+    var byId = {};
+    if (Array.isArray(variants)) {
+      variants.forEach(function (v) {
+        if (!v) return;
+        var id = String(v.id || '').trim();
+        if (!id) return;
+        byId[id] = {
+          id: id,
+          name: String(v.name || '').trim(),
+          order: parseInt(v.order, 10) || 0,
+          image: String(v.image || v.icon || '').trim(),
+        };
+      });
+    }
+    return getDefaultComposeVariants(layoutKey)
+      .map(function (def) {
+        var prev = byId[def.id];
+        if (!prev) return def;
+        return {
+          id: def.id,
+          name: prev.name || def.name,
+          order: Number.isFinite(prev.order) ? prev.order : def.order,
+          image: prev.image || def.image || '',
+        };
+      })
+      .sort(function (a, b) {
+        return (a.order || 0) - (b.order || 0);
+      });
+  }
+  function buildStraightVariantsHtml(variants, layoutKey) {
+    var key = composeLayoutKeyOfItem({ key: layoutKey }) || 'top-wall';
+    var list = normalizeComposeVariants(key, variants);
+    var title =
+      key === 'corner-wardrobe'
+        ? 'Варианты L справа'
+        : key === 'corner-wardrobe-left'
+          ? 'Варианты L слева'
+          : 'Варианты прямой';
+    var hint =
+      key === 'top-wall'
+        ? '(геометрия родителя top-wall)'
+        : '(геометрия родителя ' + key + ')';
+    var rows = list
+      .map(function (v) {
+        var img = String(v.image || '').trim();
+        var preview = img
+          ? '<img src="' +
+            img.replace(/"/g, '&quot;') +
+            '" alt="" style="width:100%;height:100%;object-fit:contain;border-radius:6px;" onerror="this.style.display=\'none\'">'
+          : '<span class="text-muted" style="font-size:10px;">нет фото</span>';
+        return (
+          '<div class="room-step-variant d-flex align-items-center flex-wrap gap-2 mb-2" data-variant-id="' +
+          String(v.id).replace(/"/g, '&quot;') +
+          '">' +
+          '<div class="room-step-variant-preview" style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #ddd;border-radius:8px;flex-shrink:0;">' +
+          preview +
+          '</div>' +
+          '<input type="text" class="form-control form-control-sm room-step-variant-name" placeholder="Название варианта" value="' +
+          String(v.name || '').replace(/"/g, '&quot;').replace(/</g, '&lt;') +
+          '" style="width:160px;">' +
+          '<input type="text" class="form-control form-control-sm room-step-variant-image" placeholder="/files/room_icons/…" value="' +
+          img.replace(/"/g, '&quot;').replace(/</g, '&lt;') +
+          '" style="width:220px;" title="Изображение варианта">' +
+          '<button type="button" class="btn btn-sm btn-outline-secondary room-step-variant-upload-btn" title="Выбрать в room_icons"><i class="fa fa-upload"></i> Фото</button>' +
+          '<input type="number" class="form-control form-control-sm room-step-variant-order" value="' +
+          (v.order ?? 0) +
+          '" style="width:56px;" title="Порядок">' +
+          '</div>'
+        );
+      })
+      .join('');
+    return (
+      '<div class="room-step-straight-variants mt-2" style="margin-left:8px;padding:10px 12px;border-left:3px solid #7aa2d6;background:#f3f7fb;border-radius:0 8px 8px 0;">' +
+      '<div class="small mb-2"><strong>' +
+      title +
+      '</strong> <span class="text-muted">' +
+      hint +
+      '</span></div>' +
+      '<div class="room-step-variants-list">' +
+      rows +
+      '</div></div>'
+    );
+  }
+  function collectStraightVariantsFromRow(row, layoutKey) {
+    var key = layoutKey || 'top-wall';
+    if (!row) return getDefaultComposeVariants(key);
+    var out = [];
+    row.querySelectorAll('.room-step-variant').forEach(function (vrow, idx) {
+      var id = (vrow.getAttribute('data-variant-id') || '').trim() || 'v' + idx;
+      var nameEl = vrow.querySelector('.room-step-variant-name');
+      var imageEl = vrow.querySelector('.room-step-variant-image');
+      var orderEl = vrow.querySelector('.room-step-variant-order');
+      out.push({
+        id: id,
+        name: (nameEl && nameEl.value ? nameEl.value.trim() : '') || id,
+        image: imageEl && imageEl.value ? imageEl.value.trim() : '',
+        order: parseInt(orderEl && orderEl.value, 10) || idx,
+      });
+    });
+    return normalizeComposeVariants(key, out);
+  }
   // Шаблон раскладок для шага 2 (как в конструкторе: shape = ключ для createLayoutIcon)
   const DEFAULT_LAYOUT_ITEMS = [
-    { id: 'layout-1', name: 'Верхняя стена', icon: 'shape:top-wall', key: 'top-wall', categoryId: null, order: 0 },
-    { id: 'layout-2', name: 'Угловой шкаф (задняя+правая)', icon: 'shape:top-right', key: 'corner-wardrobe', categoryId: null, order: 1 },
-    { id: 'layout-2b', name: 'Угловой шкаф (задняя+левая)', icon: 'shape:top-left', key: 'corner-wardrobe-left', categoryId: null, order: 2 },
+    {
+      id: 'layout-1',
+      name: 'Прямая',
+      icon: 'shape:top-wall',
+      key: 'top-wall',
+      categoryId: null,
+      order: 0,
+      variants: getDefaultStraightVariants(),
+    },
+    {
+      id: 'layout-2',
+      name: 'Угловой шкаф (задняя+правая)',
+      icon: 'shape:top-right',
+      key: 'corner-wardrobe',
+      categoryId: null,
+      order: 1,
+      variants: getDefaultComposeVariants('corner-wardrobe'),
+    },
+    {
+      id: 'layout-2b',
+      name: 'Угловой шкаф (задняя+левая)',
+      icon: 'shape:top-left',
+      key: 'corner-wardrobe-left',
+      categoryId: null,
+      order: 2,
+      variants: getDefaultComposeVariants('corner-wardrobe-left'),
+    },
     { id: 'layout-6', name: 'П-образная', icon: 'shape:top-right-bottom-partition', key: 'top-right-bottom-partition', categoryId: null, order: 3 }
   ];
+  /** Кухня: roomKey один; папки шага 3 = типы из «Типы элементов», которые юзер отметил в room-2. */
+  const DEFAULT_KITCHEN_ROOM_LINKS = {
+    kitchen: { layoutKeys: [], catalogFolderKeys: [] },
+  };
   function getRoomStepsConfig() {
     try {
       const raw = localStorage.getItem(ROOM_STEPS_CONFIG_KEY);
@@ -460,8 +671,9 @@
       }
     } catch (e) {}
     var fallback = {
+      productLine: 'kitchen',
       steps: [
-        { stepId: 1, title: 'Тип комнаты', items: DEFAULT_STEP1_ITEMS.map((it, i) => ({ ...it, order: i })), columnsPerRow: 2 },
+        { stepId: 1, title: 'Форма кухни', items: DEFAULT_KITCHEN_STEP1_ITEMS.map((it, i) => ({ ...it, order: i })), columnsPerRow: 3 },
         { stepId: 2, title: 'Конфигурация мебели', items: [], columnsPerRow: 2 },
         { stepId: 3, title: 'С чего начнём?', items: [], columnsPerRow: 2 }
       ]
@@ -664,7 +876,13 @@
         '<button type="button" class="btn btn-sm btn-outline-secondary room-step-image-upload-btn" title="Загрузить фото карточки"><i class="fa fa-image"></i> Фото карточки</button>' +
         '</div>'
       : '';
-    return '<div class="room-step-item border-bottom pb-2 mb-2" data-id="' + (it.id || idx).toString().replace(/"/g, '&quot;') + '">' +
+    var variantsRow =
+      opts.includeStraightVariants && isComposeVariantsLayoutItem(it)
+        ? buildStraightVariantsHtml(it.variants, composeLayoutKeyOfItem(it))
+        : '';
+    return '<div class="room-step-item border-bottom pb-2 mb-2" data-id="' + (it.id || idx).toString().replace(/"/g, '&quot;') + '"' +
+      (isStraightLayoutItem(it) ? ' data-straight="1"' : '') +
+      (isCornerComposeLayoutItem(it) ? ' data-l-compose="1"' : '') + '>' +
       '<div class="d-flex align-items-center flex-wrap gap-2">' +
       '<div class="room-step-preview" style="width:56px;height:56px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #ddd;border-radius:8px;flex-shrink:0;">' + preview + '</div>' +
       '<input type="text" class="form-control form-control-sm room-step-name" placeholder="Название" value="' + (it.name || '').replace(/"/g, '&quot;').replace(/</g, '&lt;') + '" style="width:130px;">' +
@@ -674,7 +892,7 @@
       '<select class="form-control form-control-sm room-step-category" style="width:130px;"><option value="">— Категория —</option></select>' +
       '<input type="number" class="form-control form-control-sm room-step-order" placeholder="0" value="' + (it.order ?? idx) + '" style="width:50px;">' +
       '<button type="button" class="btn btn-sm btn-outline-danger room-step-del" title="Удалить"><i class="fa fa-trash"></i></button>' +
-      '</div>' + imageRow + '</div>';
+      '</div>' + imageRow + variantsRow + '</div>';
   }
   function updateRoomStepItemsCount() {
     var container = document.getElementById('room-step-items');
@@ -719,6 +937,60 @@
                 if (prev) prev.innerHTML = '<img src="' + (r.url || '').replace(/"/g, '&quot;') + '" style="width:100%;height:100%;object-fit:contain;border-radius:6px;">';
               }
             }
+          });
+        } else if (window.toastr) {
+          window.toastr.warning('Файловый менеджер не загружен. Обновите страницу.');
+        } else {
+          alert('Файловый менеджер недоступен. Обновите страницу.');
+        }
+      });
+    });
+    bindStraightVariantEvents(container);
+  }
+  function bindStraightVariantEvents(container) {
+    if (!container) return;
+    container.querySelectorAll('.room-step-variant-image').forEach(function (input) {
+      if (input._straightVariantBound) return;
+      input._straightVariantBound = true;
+      input.addEventListener('input', function () {
+        var vrow = this.closest('.room-step-variant');
+        var prev = vrow && vrow.querySelector('.room-step-variant-preview');
+        if (!prev) return;
+        var v = this.value.trim();
+        if (v && (v.charAt(0) === '/' || /^https?:\/\//i.test(v))) {
+          prev.innerHTML =
+            '<img src="' +
+            v.replace(/"/g, '&quot;') +
+            '" alt="" style="width:100%;height:100%;object-fit:contain;border-radius:6px;" onerror="this.style.display=\'none\'">';
+        } else {
+          prev.innerHTML = '<span class="text-muted" style="font-size:10px;">нет фото</span>';
+        }
+      });
+    });
+    container.querySelectorAll('.room-step-variant-upload-btn').forEach(function (btn) {
+      if (btn._straightVariantBound) return;
+      btn._straightVariantBound = true;
+      btn.addEventListener('click', function () {
+        var vrow = this.closest('.room-step-variant');
+        var imageInput = vrow && vrow.querySelector('.room-step-variant-image');
+        var prev = vrow && vrow.querySelector('.room-step-variant-preview');
+        if (!imageInput) return;
+        if (typeof window.openFileManager === 'function') {
+          window.openFileManager({
+            allowedExt: ['.jpg', '.jpeg', '.png', '.webp', '.gif'],
+            initialPath: 'room_icons',
+            onSelect: function (r) {
+              if (r && r.url && imageInput) {
+                imageInput.value = r.url;
+                imageInput.dispatchEvent(new Event('input', { bubbles: true }));
+                if (prev) {
+                  prev.innerHTML =
+                    '<img src="' +
+                    String(r.url).replace(/"/g, '&quot;') +
+                    '" alt="" style="width:100%;height:100%;object-fit:contain;border-radius:6px;">';
+                }
+              }
+            },
           });
         } else if (window.toastr) {
           window.toastr.warning('Файловый менеджер не загружен. Обновите страницу.');
@@ -989,7 +1261,7 @@
         var imageEl = row.querySelector('.room-step-image');
         var rowId = row.getAttribute('data-id') || 'i' + idx;
         var prev = prevItems.find(function (p) { return p && String(p.id) === String(rowId); });
-        step.items.push({
+        var item = {
           id: rowId,
           name: name || 'Пункт ' + (idx + 1),
           icon: icon || 'fa-circle',
@@ -997,7 +1269,14 @@
           key: key || 'item-' + idx,
           categoryId: cat && /^\d+$/.test(String(cat)) ? parseInt(cat, 10) : null,
           order: order,
-        });
+        };
+        if (isComposeVariantsLayoutItem(item)) {
+          item.variants = collectStraightVariantsFromRow(
+            row,
+            composeLayoutKeyOfItem(item)
+          );
+        }
+        step.items.push(item);
       });
     }
     return config;
@@ -1015,7 +1294,9 @@
     var items = Array.isArray(step.items) ? step.items : [];
     container.innerHTML = items.length === 0
       ? '<div class="text-muted p-2">Нет иконок. Нажмите «Добавить иконку».</div>'
-      : items.sort(function(a, b) { return (a.order || 0) - (b.order || 0); }).map(function(it, idx) { return buildStepItemHtml(it, idx); }).join('');
+      : items.sort(function(a, b) { return (a.order || 0) - (b.order || 0); }).map(function(it, idx) {
+          return buildStepItemHtml(it, idx, { includeStraightVariants: stepId === 2 });
+        }).join('');
     bindStepItemEvents(container);
     var countEl = document.getElementById('room-step-items-count');
     if (countEl) countEl.textContent = items.length;
@@ -1034,13 +1315,27 @@
         fillBtn.id = 'room-step-fill-layouts-btn';
         fillBtn.className = 'btn btn-outline-secondary btn-sm mr-2';
         fillBtn.innerHTML = '<i class="fa fa-th-large"></i> Заполнить из шаблона раскладок';
-        fillBtn.title = 'Добавить в шаг 2 список раскладок как в конструкторе (Верхняя стена, Верхняя и правая и т.д.)';
+        fillBtn.title = 'Добавить в шаг 2 список раскладок как в конструкторе (Прямая + варианты, углы, П)';
         addBtn.parentNode.insertBefore(fillBtn, addBtn);
         fillBtn.addEventListener('click', function() {
           var cfg = saveCurrentStepToConfig(2);
           var step2 = cfg.steps.find(function(s) { return s.stepId === 2; });
           if (step2) {
-            step2.items = DEFAULT_LAYOUT_ITEMS.map(function(it, i) { return { id: it.id, name: it.name, icon: it.icon, key: it.key, categoryId: null, order: i }; });
+            step2.items = DEFAULT_LAYOUT_ITEMS.map(function(it, i) {
+              var copy = {
+                id: it.id,
+                name: it.name,
+                icon: it.icon,
+                key: it.key,
+                categoryId: null,
+                order: i,
+              };
+              if (isComposeVariantsLayoutItem(copy)) {
+                var lk = composeLayoutKeyOfItem(copy);
+                copy.variants = normalizeComposeVariants(lk, it.variants);
+              }
+              return copy;
+            });
             saveRoomStepsConfig(cfg);
             renderStepPanel(2).then(renderRoomStepsSummary);
             renderRoomStepsSummary();
@@ -1220,7 +1515,7 @@
     bindRoomStepsSaveBtn();
     bindRoomSettingsSaveBtn();
   }
-  var ROOM2_PAGES = ['room2-right-panel-page', 'room2-obklad', 'room2-placement-kinds', 'room2-furniture-tags', 'room2-room-edit', 'room2-step-1', 'room2-step-2', 'room2-step-3', 'room2-step-4', 'room2-step-5', 'room2-step-6', 'room2-step-7', 'room2-step-8', 'room2-step-9'];
+  var ROOM2_PAGES = ['room2-right-panel-page', 'room2-obklad', 'room2-placement-kinds', 'room2-kitchen-rhythm', 'room2-furniture-tags', 'room2-room-edit', 'room2-step-1', 'room2-step-2', 'room2-step-3', 'room2-step-4', 'room2-step-5', 'room2-step-6', 'room2-step-7', 'room2-step-8', 'room2-step-9'];
 
   var room2PkProfilesState = [];
   var room2PkActiveIdx = -1;
@@ -1238,30 +1533,124 @@
   function getDefaultPlacementKindProfiles() {
     var api = pkApi();
     if (api && typeof api.getDefaultPlacementKindProfiles === 'function') {
-      return JSON.parse(JSON.stringify(api.getDefaultPlacementKindProfiles()));
+      return JSON.parse(JSON.stringify(api.getDefaultPlacementKindProfiles({ productLine: 'kitchen' })));
     }
     return [
-      { id: 'floor_in_niche', label: 'Шкаф в нише', baseKind: 'floor_in_niche', settings: {} },
-      { id: 'standalone_floor', label: 'Тумба напольная', baseKind: 'standalone_floor', settings: {} },
-      { id: 'wall_hung', label: 'Навесной модуль', baseKind: 'wall_hung', settings: {} },
-      { id: 'corpus_only', label: 'Только корпус', baseKind: 'corpus_only', settings: {} },
+      {
+        id: 'kitchen_base',
+        label: 'Стол рабочий напольный',
+        baseKind: 'standalone_floor',
+        settings: {
+          frontMode: 'non_gola',
+          behavior: { kitchenFrontMode: 'non_gola', kitchenCarcassOnlyHeight: true },
+        },
+      },
+      {
+        id: 'kitchen_base_gola',
+        label: 'Стол рабочий напольный (Gola)',
+        baseKind: 'standalone_floor',
+        settings: {
+          frontMode: 'gola',
+          behavior: { kitchenFrontMode: 'gola', kitchenCarcassOnlyHeight: true },
+        },
+      },
+      {
+        id: 'kitchen_tall',
+        label: 'Пенал (к потолку)',
+        baseKind: 'floor_in_niche',
+        settings: {
+          frontMode: 'non_gola',
+          behavior: { kitchenFrontMode: 'non_gola' },
+          hinges: { productKind: 'kitchen_tall' },
+        },
+      },
+      {
+        id: 'kitchen_wall_mid',
+        label: 'Навесной средний ярус',
+        baseKind: 'wall_hung_low',
+        settings: { behavior: { kitchenFrontMode: 'non_gola' } },
+      },
+      {
+        id: 'kitchen_wall_top',
+        label: 'Навесной антресоль',
+        baseKind: 'wall_hung_high',
+        settings: { behavior: { kitchenFrontMode: 'non_gola' } },
+      },
     ];
   }
 
   function ensurePlacementKindProfilesInConfig(config) {
-    config.placementKindProfiles = Array.isArray(config.placementKindProfiles)
-      ? config.placementKindProfiles
-      : null;
-    if (!Array.isArray(config.placementKindProfiles) || config.placementKindProfiles.length === 0) {
-      config.placementKindProfiles = getDefaultPlacementKindProfiles();
+    if (!config || typeof config !== 'object') return config;
+    config.productLine = 'kitchen';
+    var api = pkApi();
+    var prev = Array.isArray(config.placementKindProfiles) ? config.placementKindProfiles : [];
+    if (api && typeof api.ensureSystemPlacementKindProfiles === 'function') {
+      config.placementKindProfiles = api.ensureSystemPlacementKindProfiles(prev, config);
     } else {
-      var api = pkApi();
-      if (api && typeof api.ensureSystemPlacementKindProfiles === 'function') {
-        config.placementKindProfiles = api.ensureSystemPlacementKindProfiles(
-          config.placementKindProfiles
-        );
-      }
+      config.placementKindProfiles = getDefaultPlacementKindProfiles();
     }
+    // Кухня: шаг 1 = формы, не типы комнат
+    try {
+      var step1 = (config.steps || []).find(function (s) { return Number(s && s.stepId) === 1; });
+      if (step1) {
+        var items = Array.isArray(step1.items) ? step1.items : [];
+        var hasWardrobe = items.some(function (it) {
+          return /^(living-room|bedroom|nursery|hallway|laundry|balcony)$/.test(String(it && it.key || ''));
+        });
+        var hasShapes = items.some(function (it) {
+          return /^(enclosed_|open_)/.test(String(it && it.key || ''));
+        });
+        if (!hasShapes || hasWardrobe) {
+          step1.items = DEFAULT_KITCHEN_STEP1_ITEMS.map(function (it, i) {
+            return Object.assign({}, it, { order: i });
+          });
+          step1.title = 'Форма кухни';
+          step1.columnsPerRow = 3;
+        } else if (!step1.title || step1.title === 'Тип комнаты' || step1.title === 'ТИП КОМНАТЫ') {
+          step1.title = 'Форма кухни';
+        }
+      }
+      // Кухня: только roomKey=kitchen. Папки = то, что уже в шаге 3 (из Типов элементов).
+      // Не затираем step3 своими названиями — каталоги создаёт пользователь.
+      var prevLinks =
+        config.roomFurnitureByRoom && typeof config.roomFurnitureByRoom === 'object'
+          ? config.roomFurnitureByRoom
+          : {};
+      var prevKitchen = prevLinks.kitchen || {};
+      var step3 = (config.steps || []).find(function (s) {
+        return Number(s && s.stepId) === 3;
+      });
+      var fromStep3 = Array.isArray(step3 && step3.items)
+        ? step3.items
+            .map(function (it) {
+              return String(it && (it.key != null ? it.key : it.id) || '')
+                .replace(/^catalog_/, '')
+                .trim();
+            })
+            .filter(Boolean)
+        : [];
+      var folderKeys = Array.isArray(prevKitchen.catalogFolderKeys)
+        ? prevKitchen.catalogFolderKeys.map(String).filter(Boolean)
+        : [];
+      if (!folderKeys.length) folderKeys = fromStep3.slice();
+      // Убрать шкафные roomKey, оставить kitchen
+      config.roomFurnitureByRoom = {
+        kitchen: {
+          layoutKeys: Array.isArray(prevKitchen.layoutKeys) ? prevKitchen.layoutKeys.slice() : [],
+          catalogFolderKeys: folderKeys,
+        },
+      };
+      writeRoomFurnitureByRoomStorage(config.roomFurnitureByRoom, { skipServer: false });
+      if (step3) {
+        if (!step3.title || step3.title === 'Каталог' || step3.title === 'КАТАЛОГ') {
+          step3.title = 'С чего начнём?';
+        }
+      }
+    } catch (_) {}
+    // Сразу переписать localStorage — иначе админка снова покажет шкафные типы из старого кэша.
+    try {
+      localStorage.setItem(ROOM_STEPS_CONFIG_KEY, JSON.stringify(config));
+    } catch (_) {}
     return config;
   }
 
@@ -1429,6 +1818,22 @@
     var pk = prodEl ? (prodEl.value || '').trim() : '';
     if (pk) settings.hinges.productKind = pk;
 
+    if (
+      id === 'kitchen_base' ||
+      id === 'kitchen_base_gola' ||
+      id === 'kitchen_base_corner'
+    ) {
+      var chEl = document.getElementById('room2-pk-carcassHeightMm');
+      var ch = chEl ? parseFloat(String(chEl.value || '').replace(',', '.')) : NaN;
+      if (isFinite(ch) && ch >= 500 && ch <= 1000) {
+        settings.carcassHeightMm = Math.round(ch);
+      } else if (id === 'kitchen_base_gola') {
+        settings.carcassHeightMm = 780;
+      } else {
+        settings.carcassHeightMm = 720;
+      }
+    }
+
     return { id: id, label: label || id, baseKind: baseKind, settings: settings };
   }
 
@@ -1504,6 +1909,22 @@
     if (ht) ht.value = ep.heightLimitText || '';
     if (dt) dt.value = ep.depthLimitText || '';
     if (prodEl) prodEl.value = (hk.productKind != null ? String(hk.productKind) : '');
+
+    var pid = String((p && p.id) || '').trim();
+    var isNm =
+      pid === 'kitchen_base' ||
+      pid === 'kitchen_base_gola' ||
+      pid === 'kitchen_base_corner';
+    var carcassSec = document.getElementById('room2-pk-carcass-section');
+    if (carcassSec) carcassSec.style.display = isNm ? '' : 'none';
+    var chEl = document.getElementById('room2-pk-carcassHeightMm');
+    if (chEl) {
+      var ch =
+        (resolved && resolved.carcassHeightMm) ||
+        (p && p.settings && p.settings.carcassHeightMm) ||
+        (pid === 'kitchen_base_gola' ? 780 : 720);
+      chEl.value = isNm ? String(ch) : '';
+    }
   }
 
   function pkStripSettingsToDiff(profile) {
@@ -1535,7 +1956,168 @@
     diffSection('behavior', ['fixedHeight', 'fixedHeightCm', 'syncHeightInSection', 'anchorFrontOnDepthChange', 'useLayoutZones', 'allowNicheTransition', 'zoneSlotRole', 'cohabitGroup', 'wallHungAnchor']);
     diffSection('editPopup', ['showHeight', 'showDepth', 'showWidth', 'heightMinCm', 'heightMaxCm', 'depthMinCm', 'depthMaxCm', 'heightLimitText', 'depthLimitText']);
     diffSection('hinges', ['productKind']);
+    // Вертикальный ритм: корпус НМ/Gola всегда сохраняем явно.
+    if (s.carcassHeightMm != null && Number(s.carcassHeightMm) >= 500) {
+      out.carcassHeightMm = Math.round(Number(s.carcassHeightMm));
+    }
+    if (s.frontMode === 'gola' || s.frontMode === 'non_gola') {
+      out.frontMode = s.frontMode;
+    }
     return out;
+  }
+
+  function defaultKitchenRhythm() {
+    return {
+      version: 1,
+      bandMidMm: {
+        default: 600,
+        min: 560,
+        max: 650,
+        label: 'Верх корпуса НМ → низ НШ1',
+      },
+      bandLowFromPlacementKind: {
+        non_gola: 'kitchen_base',
+        gola: 'kitchen_base_gola',
+      },
+    };
+  }
+
+  function ensureKitchenRhythmInConfig(cfg) {
+    if (!cfg || typeof cfg !== 'object') cfg = {};
+    if (!cfg.kitchenRhythm || typeof cfg.kitchenRhythm !== 'object') {
+      cfg.kitchenRhythm = defaultKitchenRhythm();
+    }
+    var kr = cfg.kitchenRhythm;
+    if (!kr.bandMidMm || typeof kr.bandMidMm !== 'object') {
+      kr.bandMidMm = defaultKitchenRhythm().bandMidMm;
+    }
+    if (!kr.bandLowFromPlacementKind) {
+      kr.bandLowFromPlacementKind = defaultKitchenRhythm().bandLowFromPlacementKind;
+    }
+    return cfg;
+  }
+
+  function findPkCarcassInState(pkId, fallback) {
+    var id = String(pkId || '').trim();
+    for (var i = 0; i < room2PkProfilesState.length; i++) {
+      var p = room2PkProfilesState[i];
+      if (String((p && p.id) || '') !== id) continue;
+      var h = Number(p && p.settings && p.settings.carcassHeightMm);
+      if (h >= 500 && h <= 1000) return Math.round(h);
+    }
+    var cfg = getRoomStepsConfig();
+    var list = (cfg && cfg.placementKindProfiles) || [];
+    for (var j = 0; j < list.length; j++) {
+      var q = list[j];
+      if (String((q && q.id) || '') !== id) continue;
+      var h2 = Number(q && q.settings && q.settings.carcassHeightMm);
+      if (h2 >= 500 && h2 <= 1000) return Math.round(h2);
+    }
+    return fallback;
+  }
+
+  function setPkCarcassInConfig(cfg, pkId, mmVal) {
+    var id = String(pkId || '').trim();
+    var h = Math.round(Number(mmVal) || 0);
+    if (!(h >= 500 && h <= 1000)) return;
+    if (!Array.isArray(cfg.placementKindProfiles)) cfg.placementKindProfiles = [];
+    var found = false;
+    for (var i = 0; i < cfg.placementKindProfiles.length; i++) {
+      var p = cfg.placementKindProfiles[i];
+      if (String((p && p.id) || '') !== id) continue;
+      if (!p.settings || typeof p.settings !== 'object') p.settings = {};
+      p.settings.carcassHeightMm = h;
+      found = true;
+      break;
+    }
+    if (!found) {
+      cfg.placementKindProfiles.push({
+        id: id,
+        label: id,
+        baseKind: 'standalone_floor',
+        settings: { carcassHeightMm: h },
+      });
+    }
+    for (var j = 0; j < room2PkProfilesState.length; j++) {
+      if (String(room2PkProfilesState[j].id) !== id) continue;
+      if (!room2PkProfilesState[j].settings) room2PkProfilesState[j].settings = {};
+      room2PkProfilesState[j].settings.carcassHeightMm = h;
+    }
+  }
+
+  function loadRoom2KitchenRhythmUi() {
+    var cfg = ensureKitchenRhythmInConfig(ensureStepsInConfig(getRoomStepsConfig()));
+    var kr = cfg.kitchenRhythm;
+    var mid = kr.bandMidMm || {};
+    var set = function (id, v) {
+      var el = document.getElementById(id);
+      if (el) el.value = v != null ? String(v) : '';
+    };
+    set('room2-kr-nm', findPkCarcassInState('kitchen_base', 720));
+    set('room2-kr-gola', findPkCarcassInState('kitchen_base_gola', 780));
+    set('room2-kr-mid-default', mid.default != null ? mid.default : 600);
+    set('room2-kr-mid-min', mid.min != null ? mid.min : 560);
+    set('room2-kr-mid-max', mid.max != null ? mid.max : 650);
+    var st = document.getElementById('room2-kr-status');
+    if (st) {
+      st.textContent =
+        'Источник: placementKindProfiles.settings.carcassHeightMm + kitchenRhythm.bandMidMm';
+    }
+  }
+
+  function saveRoom2KitchenRhythmUi() {
+    var cfg = ensureKitchenRhythmInConfig(ensureStepsInConfig(getRoomStepsConfig()));
+    function num(id, fb) {
+      var el = document.getElementById(id);
+      var n = el ? parseFloat(String(el.value || '').replace(',', '.')) : NaN;
+      return isFinite(n) ? Math.round(n) : fb;
+    }
+    var nm = num('room2-kr-nm', 720);
+    var gola = num('room2-kr-gola', 780);
+    var def = num('room2-kr-mid-default', 600);
+    var min = num('room2-kr-mid-min', 560);
+    var max = num('room2-kr-mid-max', 650);
+    if (min > max) {
+      var t = min;
+      min = max;
+      max = t;
+    }
+    if (def < min) def = min;
+    if (def > max) def = max;
+    setPkCarcassInConfig(cfg, 'kitchen_base', nm);
+    setPkCarcassInConfig(cfg, 'kitchen_base_gola', gola);
+    setPkCarcassInConfig(cfg, 'kitchen_base_corner', nm);
+    cfg.kitchenRhythm = {
+      version: 1,
+      bandMidMm: {
+        default: def,
+        min: min,
+        max: max,
+        label: 'Верх корпуса НМ → низ НШ1',
+      },
+      bandLowFromPlacementKind: {
+        non_gola: 'kitchen_base',
+        gola: 'kitchen_base_gola',
+      },
+      note:
+        'Корпус НМ/Gola читается из placementKindProfiles.settings.carcassHeightMm. Mid — здесь, с вилкой допуска.',
+    };
+    saveRoomStepsConfig(cfg);
+    var st = document.getElementById('room2-kr-status');
+    if (st) {
+      st.textContent =
+        'Сохранено: НМ ' + nm + ' · Gola ' + gola + ' · mid default ' + def + ' (вилка ' + min + '–' + max + ')';
+    }
+    if (typeof toastr !== 'undefined') toastr.success('Вертикальный ритм сохранён');
+  }
+
+  function initRoom2KitchenRhythm() {
+    loadRoom2KitchenRhythmUi();
+    var saveBtn = document.getElementById('room2-kr-save-btn');
+    if (saveBtn && !saveBtn._room2KrBound) {
+      saveBtn._room2KrBound = true;
+      saveBtn.addEventListener('click', saveRoom2KitchenRhythmUi);
+    }
   }
 
   function pkSyncFixedHeightFieldVisibility() {
@@ -2746,6 +3328,7 @@
     var container = document.getElementById('room2-step2-items');
     step.title = (titleEl && titleEl.value) ? titleEl.value.trim() : (step.title || 'Конфигурация мебели');
     step.columnsPerRow = colsEl && colsEl.value ? Math.max(1, Math.min(3, parseInt(colsEl.value, 10) || 2)) : 2;
+    var prevItems = Array.isArray(step.items) ? step.items.slice() : [];
     step.items = [];
     if (container) {
       container.querySelectorAll('.room-step-item').forEach(function(row, idx) {
@@ -2754,14 +3337,24 @@
         var key = (row.querySelector('.room-step-key') && row.querySelector('.room-step-key').value || '').trim();
         var cat = row.querySelector('.room-step-category') ? row.querySelector('.room-step-category').value : '';
         var order = parseInt((row.querySelector('.room-step-order') && row.querySelector('.room-step-order').value) || '0', 10);
-        step.items.push({
-          id: row.getAttribute('data-id') || 'i' + idx,
+        var rowId = row.getAttribute('data-id') || 'i' + idx;
+        var prev = prevItems.find(function (p) { return p && String(p.id) === String(rowId); });
+        var item = {
+          id: rowId,
           name: name || 'Пункт ' + (idx + 1),
           icon: icon || 'fa-circle',
           key: key || 'item-' + idx,
           categoryId: cat && /^\d+$/.test(String(cat)) ? parseInt(cat, 10) : null,
           order: order,
-        });
+        };
+        if (prev && prev.image) item.image = prev.image;
+        if (isComposeVariantsLayoutItem(item)) {
+          item.variants = collectStraightVariantsFromRow(
+            row,
+            composeLayoutKeyOfItem(item)
+          );
+        }
+        step.items.push(item);
       });
     }
     return config;
@@ -2773,7 +3366,6 @@
   }
   function bindRoom2Step2ItemEvents(container) {
     if (!container) return;
-    var uploadInput = document.getElementById('room2-step2-icon-upload');
     container.querySelectorAll('.room-step-del').forEach(function(btn) {
       btn.addEventListener('click', function() {
         this.closest('.room-step-item')?.remove();
@@ -2815,6 +3407,7 @@
         else alert('Файловый менеджер недоступен.');
       });
     });
+    bindStraightVariantEvents(container);
   }
   async function renderRoom2Step2Panel() {
     await hydrateRoomStepsConfigFromServer();
@@ -2828,9 +3421,19 @@
     if (titleEl) titleEl.value = step.title || 'Конфигурация мебели';
     if (colsEl) colsEl.value = String(step.columnsPerRow && step.columnsPerRow >= 1 && step.columnsPerRow <= 3 ? step.columnsPerRow : 2);
     var items = Array.isArray(step.items) ? step.items : [];
+    // Совместимость: top-wall / L без variants → 4 слота (сохранятся при Save).
+    items = items.map(function (it) {
+      if (!isComposeVariantsLayoutItem(it)) return it;
+      var lk = composeLayoutKeyOfItem(it);
+      return Object.assign({}, it, {
+        variants: normalizeComposeVariants(lk, it.variants),
+      });
+    });
     container.innerHTML = items.length === 0
       ? '<div class="text-muted p-2">Нет иконок. Нажмите «Добавить иконку» или «Заполнить из шаблона раскладок».</div>'
-      : items.sort(function(a, b) { return (a.order || 0) - (b.order || 0); }).map(function(it, idx) { return buildStepItemHtml(it, idx); }).join('');
+      : items.sort(function(a, b) { return (a.order || 0) - (b.order || 0); }).map(function(it, idx) {
+          return buildStepItemHtml(it, idx, { includeStraightVariants: true });
+        }).join('');
     bindRoom2Step2ItemEvents(container);
     updateRoom2Step2Count();
     if (items.length > 0) await loadCategoriesIntoStepItems(container, items, 2);
@@ -2846,7 +3449,21 @@
         var cfg = saveRoom2Step2ToConfig();
         var step2 = cfg.steps.find(function(s) { return s.stepId === 2; });
         if (step2) {
-          step2.items = DEFAULT_LAYOUT_ITEMS.map(function(it, i) { return { id: it.id, name: it.name, icon: it.icon, key: it.key, categoryId: null, order: i }; });
+          step2.items = DEFAULT_LAYOUT_ITEMS.map(function(it, i) {
+            var copy = {
+              id: it.id,
+              name: it.name,
+              icon: it.icon,
+              key: it.key,
+              categoryId: null,
+              order: i,
+            };
+            if (isComposeVariantsLayoutItem(copy)) {
+              var lk = composeLayoutKeyOfItem(copy);
+              copy.variants = normalizeComposeVariants(lk, it.variants);
+            }
+            return copy;
+          });
           saveRoomStepsConfig(cfg);
           renderRoom2Step2Panel();
           if (typeof toastr !== 'undefined') toastr.success('Шаг 2 заполнен шаблоном раскладок');
@@ -4098,6 +4715,8 @@
       renderRoom2Step6Panel();
     } else if (pageId === 'room2-placement-kinds') {
       initRoom2PlacementKinds();
+    } else if (pageId === 'room2-kitchen-rhythm') {
+      initRoom2KitchenRhythm();
     } else if (pageId === 'room2-furniture-tags') {
       initRoom2FurnitureTags();
     } else if (pageId === 'room2-obklad') {
@@ -4176,6 +4795,16 @@
     return raw && typeof raw === 'object' ? raw : {};
   }
 
+  function rfrIsKitchenProductLine(cfg) {
+    var c = cfg || getRoomStepsConfig();
+    if (c && String(c.productLine || '').trim().toLowerCase() === 'kitchen') return true;
+    var api = rfrApi();
+    if (api && typeof api.isKitchenProductLine === 'function') {
+      return !!api.isKitchenProductLine(c);
+    }
+    return true;
+  }
+
   function rfrPruneLinksToStep1Rooms(links) {
     links = rfrEnsureLinks(links);
     var rooms = getRfcStepSourceItems('room');
@@ -4191,12 +4820,61 @@
     return out;
   }
 
+  /**
+   * Кухня: в storage один ключ kitchen, в UI слева — формы шага 1.
+   * Раздаём один и тот же объект-ссылку на каждую форму, чтобы галочки не терялись.
+   */
+  function rfrExpandKitchenLinksForUi(links) {
+    var shaped = rfrEnsureLinks(links || {});
+    var kitchen = shaped.kitchen || { layoutKeys: [], catalogFolderKeys: [] };
+    if (!Array.isArray(kitchen.layoutKeys)) kitchen.layoutKeys = [];
+    if (!Array.isArray(kitchen.catalogFolderKeys)) kitchen.catalogFolderKeys = [];
+    var out = { kitchen: kitchen };
+    getRfcStepSourceItems('room').forEach(function (r) {
+      var k = String(r.key || '').trim();
+      if (k) out[k] = kitchen;
+    });
+    return out;
+  }
+
+  function rfrCollapseLinksForKitchenSave(links) {
+    var shaped = rfrEnsureLinks(links || {});
+    var shared =
+      shaped.kitchen ||
+      (room2RfrActiveRoomKey && shaped[room2RfrActiveRoomKey]) ||
+      { layoutKeys: [], catalogFolderKeys: [] };
+    // Если kitchen пуст — взять любую форму с галочками.
+    if (!(shared.catalogFolderKeys && shared.catalogFolderKeys.length)) {
+      Object.keys(shaped).forEach(function (rk) {
+        if (rk === 'kitchen') return;
+        var row = shaped[rk];
+        if (row && Array.isArray(row.catalogFolderKeys) && row.catalogFolderKeys.length) {
+          shared = row;
+        }
+      });
+    }
+    return {
+      kitchen: {
+        layoutKeys: Array.isArray(shared.layoutKeys) ? shared.layoutKeys.slice() : [],
+        catalogFolderKeys: Array.isArray(shared.catalogFolderKeys)
+          ? shared.catalogFolderKeys.map(rfrNormFolderKey).filter(Boolean)
+          : [],
+      },
+    };
+  }
+
   function rfrLoadFromConfig() {
     var cfg = getRoomStepsConfig();
     var api = rfrApi();
-    room2RfrLinksState = rfrPruneLinksToStep1Rooms(
-      api && typeof api.getRoomLinks === 'function' ? api.getRoomLinks(cfg) : cfg.roomFurnitureByRoom || {}
-    );
+    var raw =
+      api && typeof api.getRoomLinks === 'function'
+        ? api.getRoomLinks(cfg)
+        : cfg.roomFurnitureByRoom || {};
+    if (rfrIsKitchenProductLine(cfg)) {
+      room2RfrLinksState = rfrExpandKitchenLinksForUi(raw);
+    } else {
+      room2RfrLinksState = rfrPruneLinksToStep1Rooms(raw);
+    }
     return room2RfrLinksState;
   }
 
@@ -4359,7 +5037,11 @@
   function rfrSaveToConfig() {
     if (room2RfrActiveRoomKey) rfrReadEditorToState(room2RfrActiveRoomKey);
     var cfg = ensureStepsInConfig(getRoomStepsConfig());
-    cfg.roomFurnitureByRoom = JSON.parse(JSON.stringify(rfrEnsureLinks(room2RfrLinksState)));
+    if (rfrIsKitchenProductLine(cfg)) {
+      cfg.roomFurnitureByRoom = rfrCollapseLinksForKitchenSave(room2RfrLinksState);
+    } else {
+      cfg.roomFurnitureByRoom = JSON.parse(JSON.stringify(rfrEnsureLinks(room2RfrLinksState)));
+    }
     delete cfg.roomFurnitureCategories;
     if (!saveRoomStepsConfig(cfg)) {
       if (typeof toastr !== 'undefined') {
@@ -4457,8 +5139,14 @@
         var api = rfrApi();
         var cfg = getRoomStepsConfig();
         if (!api || typeof api.buildDefaultRoomLinksFromSteps !== 'function') return;
-        room2RfrLinksState = rfrEnsureLinks(api.buildDefaultRoomLinksFromSteps(cfg));
-        refreshPanel();
+        var defaults = rfrEnsureLinks(api.buildDefaultRoomLinksFromSteps(cfg));
+        if (rfrIsKitchenProductLine(cfg)) {
+          room2RfrLinksState = rfrExpandKitchenLinksForUi(rfrCollapseLinksForKitchenSave(defaults));
+        } else {
+          room2RfrLinksState = defaults;
+        }
+        rfrRenderRoomList();
+        if (room2RfrActiveRoomKey) rfrRenderRoomEditor(room2RfrActiveRoomKey);
         if (typeof toastr !== 'undefined') toastr.success('Для всех комнат включены все раскладки и разделы');
         else alert('Для всех комнат включены все раскладки и разделы');
       });
@@ -4469,11 +5157,8 @@
       saveBtn.addEventListener('click', function () {
         var saved = rfrSaveToConfig();
         if (!saved) return;
-        room2RfrLinksState = rfrPruneLinksToStep1Rooms(
-          rfrApi() && typeof rfrApi().getRoomLinks === 'function'
-            ? rfrApi().getRoomLinks(saved)
-            : saved.roomFurnitureByRoom || {}
-        );
+        // Перечитать так же, как при открытии — для кухни expand kitchen → формы.
+        rfrLoadFromConfig();
         rfrRenderRoomList();
         if (room2RfrActiveRoomKey) rfrRenderRoomEditor(room2RfrActiveRoomKey);
         if (typeof toastr !== 'undefined') toastr.success('Сохранено');
@@ -4518,6 +5203,8 @@
         renderRoom2Step6Panel();
       } else if (hash === 'room2-placement-kinds') {
         initRoom2PlacementKinds();
+      } else if (hash === 'room2-kitchen-rhythm') {
+        initRoom2KitchenRhythm();
       } else if (hash === 'room2-furniture-tags') {
         initRoom2FurnitureTags();
       } else if (hash === 'room2-obklad') {
@@ -4559,6 +5246,13 @@
       pkBtn._room2Bound = true;
       pkBtn.addEventListener('click', function() {
         switchToRoom2Page('room2-placement-kinds');
+      });
+    }
+    var krBtn = document.getElementById('room2-manage-kitchen-rhythm-btn');
+    if (krBtn && !krBtn._room2Bound) {
+      krBtn._room2Bound = true;
+      krBtn.addEventListener('click', function () {
+        switchToRoom2Page('room2-kitchen-rhythm');
       });
     }
     var rftBtn = document.getElementById('room2-manage-furniture-tags-btn');
@@ -4657,6 +5351,16 @@
               } catch (e) { console.error('localStorage.setItem categories', key, e); }
             });
           }
+
+          try {
+            var rev = Date.now();
+            localStorage.setItem('cld_catalog_rev', String(rev));
+            window.__cldCatalogFreshBump = rev;
+            if (typeof window.__cldInvalidateConstructorCatalogCache === 'function') {
+              window.__cldInvalidateConstructorCatalogCache();
+            }
+            window.__CLD_CATALOGS_DATA = {};
+          } catch (e) {}
 
           // ─── 3. Библиотека присадки (шаблоны+схемы) → сервер, как .config в БМ ──
           var drillExport = Promise.resolve(null);

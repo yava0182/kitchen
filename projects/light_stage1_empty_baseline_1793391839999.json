@@ -1,0 +1,432 @@
+{
+  "stage": "1-empty-room-baseline",
+  "build": "20261030-bootfix2",
+  "capturedAt": "2026-10-30T20:23:59.691Z",
+  "emptyProject": "projects/light_empty_room_stage1_stage1_empty_v1.json",
+  "kitchenBackupKey": "clodis_room_draft_stage1_kitchen_backup_v2",
+  "kitchenDraftUntouched": true,
+  "controlKitchenFile": "projects/light_control_kitchen_v1_light_control_v1.json",
+  "renderSettings": {
+    "toneMapping": 0,
+    "toneMappingExposure": 1,
+    "outputColorSpace": "srgb",
+    "shadowMapEnabled": false,
+    "clearHex": "#f2f2f0",
+    "pixelRatio": 1.25,
+    "punctual": "pax-spot",
+    "sh": "pax",
+    "softAo": "off"
+  },
+  "threeJsLights": [],
+  "ikeaPunctual": {
+    "type": "custom Spot/Dir in IKEA shader",
+    "mode": "pax-spot",
+    "intensity": 3.144638
+  },
+  "ikeaSH": {
+    "source": "pax",
+    "l00": [
+      0.519988,
+      0.517323,
+      0.518659
+    ]
+  },
+  "targets": {
+    "wallMidLum": 209,
+    "floorMidLum": 185,
+    "ceilingMidLum": 179
+  },
+  "measured": {
+    "ok": true,
+    "cacheBust": "20261030-kdir1",
+    "phase": 7,
+    "hdrActive": false,
+    "verdict": {
+      "engineCanMatchIkea": false,
+      "spotShaderOk": true,
+      "eyeLevelFloorOk": false,
+      "topDownDiskHdrDelta": 35,
+      "topDownDiskLdrDelta": 35,
+      "floorMapReady": true,
+      "ikeaTopDownTarget": 26.2,
+      "ikeaEyeDeltaTarget": 20,
+      "summary": "Spot OK; eye-level пол вне допуска — калибровка exposure/ODT eye picks.",
+      "notPlanPlace": "PlanPlace: PointLight 190 + Ambient 0.6 — яркое пятно. IKEA dump: одна Spot + IBL, eye-level без белого пятна."
+    },
+    "linear": {
+      "linearSpotShareCenter": 0.8659,
+      "linearSpotShareCorner": 0.3954,
+      "spotLumDelta": 0.1322,
+      "spotShaderOk": true,
+      "albedoLumCenter": 0.2791,
+      "albedoLumCorner": 0.441,
+      "albedoInvertsTotal": false,
+      "centerMinusCornerLumLinear": 0.0655,
+      "centerMinusCornerLumDisplay": 24,
+      "screenLumCenter": null,
+      "screenLumCorner": null,
+      "screenDisplayDelta": null,
+      "odtClipSuspect": false,
+      "ikeaTargetCenterMinusCorner": 26.2,
+      "note": "spotLumDelta = cone (OK if >0). corner = min total lum among 4 corners (IKEA disk). screenΔ needs lum <245."
+    },
+    "linearEye": {
+      "linearSpotShareCenter": 0.8704,
+      "linearSpotShareCorner": 0.4024,
+      "spotLumDelta": 0.1338,
+      "spotShaderOk": true,
+      "albedoLumCenter": 0.2791,
+      "albedoLumCorner": 0.441,
+      "albedoInvertsTotal": false,
+      "centerMinusCornerLumLinear": 0.0668,
+      "centerMinusCornerLumDisplay": 24,
+      "screenLumCenter": null,
+      "screenLumCorner": null,
+      "screenDisplayDelta": null,
+      "odtClipSuspect": false,
+      "ikeaTargetCenterMinusCorner": 26.2,
+      "note": "spotLumDelta = cone (OK if >0). corner = min total lum among 4 corners (IKEA disk). screenΔ needs lum <245."
+    },
+    "linearLevelAudit": {
+      "ikeaScreenTarget": {
+        "center": 187.6,
+        "corner": 161.4,
+        "delta": 26.19999999999999
+      },
+      "inverseOdtLinearTarget": {
+        "center": 0.3627,
+        "corner": 0.2442,
+        "delta": 0.1184
+      },
+      "jsLinearAtPicks": {
+        "center": 0.2259,
+        "corner": 0.1604,
+        "delta": 0.0655
+      },
+      "pipetteDisplay": {
+        "center": 165,
+        "corner": 130,
+        "delta": 35
+      },
+      "excessLinearCenterPct": -37.7,
+      "excessDisplayCenterPct": -12,
+      "odtShoulder": false,
+      "verdict": "Linear Δ меньше IKEA inverse-target — упор в Spot cone / IBL fill, не blit.",
+      "note": "inverseOdtLinearTarget = серый linear total до exposure; jsLinearAtPicks = top-down picks; rrtMedian optional.",
+      "rrtMedianCenter": null
+    },
+    "floorTexture": {
+      "ready": true,
+      "hasMapUniform": true,
+      "hasMapValue": 1,
+      "hasAlbedoMap": 1,
+      "mapBound": true,
+      "mapGpuReady": true,
+      "url": "/images/textures/ikea/floor/diffuse.jpg",
+      "size": [
+        1024,
+        1024
+      ],
+      "probeAlbedoWithoutMap": [
+        1,
+        1,
+        1
+      ],
+      "ikeaNote": "Dump Floor_Herringbone: base (1,1,1) × herringbone albedo map — без JPG пол белый → ODT clip"
+    },
+    "odtCompression": {
+      "linearDelta": 0.0655,
+      "jsMirrorDisplayDelta": 24,
+      "compressionNote": "HDR blit p8z31: ODT→sRGB без pow(1/2.2). LDR bypass = linear×exposure (не ODT) — сравнивать только с jsMirrorDisplayDelta."
+    },
+    "eyeLevel": {
+      "floorMidLum": 226,
+      "floorCornerLum": 156,
+      "delta": 70,
+      "ikeaTarget": 20,
+      "soTNote": "IKEA eye: ровная пластина, без белого пятна (floorMid/floorCorner)"
+    },
+    "topDown": {
+      "camera": [
+        0,
+        11702,
+        0
+      ],
+      "hdr": {
+        "mode": "ldr",
+        "floorDisk": {
+          "topDownCamera": true,
+          "spotPosWorldMm": [
+            -2600,
+            4200,
+            600
+          ],
+          "ikeaTargetDelta": 26.2,
+          "displayDelta": 35,
+          "linearDisplayDelta": 24,
+          "displayOk": true,
+          "linear": {
+            "linearSpotShareCenter": 0.8659,
+            "linearSpotShareCorner": 0.3954,
+            "spotLumDelta": 0.1322,
+            "spotShaderOk": true,
+            "albedoLumCenter": 0.2791,
+            "albedoLumCorner": 0.441,
+            "albedoInvertsTotal": false,
+            "centerMinusCornerLumLinear": 0.0655,
+            "centerMinusCornerLumDisplay": 24,
+            "screenLumCenter": null,
+            "screenLumCorner": null,
+            "screenDisplayDelta": null,
+            "odtClipSuspect": false,
+            "ikeaTargetCenterMinusCorner": 26.2,
+            "note": "spotLumDelta = cone (OK if >0). corner = min total lum among 4 corners (IKEA disk). screenΔ needs lum <245."
+          },
+          "screen": {
+            "centerUnderSpot": {
+              "ok": true,
+              "screenUv": {
+                "pxn": 0.035674606939501974,
+                "pyn": 0.5606409748333451
+              },
+              "readUv": {
+                "pxn": 0.035674606939501974,
+                "pyn": 0.5606409748333451
+              },
+              "worldMm": {
+                "x": -2600,
+                "y": 1,
+                "z": 600
+              },
+              "hit": {
+                "kind": "floor",
+                "posM": {
+                  "x": -2.6,
+                  "y": 0.001,
+                  "z": 0.6
+                },
+                "normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "seedUv": {
+                  "pxn": 0.035674606939501974,
+                  "pyn": 0.5606409748333451
+                }
+              },
+              "planViewDirect": true,
+              "r": 167,
+              "g": 166,
+              "b": 148,
+              "lum": 165,
+              "hex": "#a7a694",
+              "pxn": 0.0357,
+              "pyn": 0.5606,
+              "readSource": "canvas",
+              "bufferW": 412,
+              "bufferH": 728
+            },
+            "roomCorner": {
+              "ok": true,
+              "screenUv": {
+                "pxn": 0.9464667240966327,
+                "pyn": 0.7021365827778163
+              },
+              "readUv": {
+                "pxn": 0.9464667240966327,
+                "pyn": 0.7021365827778163
+              },
+              "worldMm": {
+                "x": 2500,
+                "y": 1,
+                "z": 2000
+              },
+              "hit": {
+                "kind": "floor",
+                "posM": {
+                  "x": 2.5,
+                  "y": 0.001,
+                  "z": 2
+                },
+                "normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "seedUv": {
+                  "pxn": 0.9464667240966327,
+                  "pyn": 0.7021365827778163
+                }
+              },
+              "planViewDirect": true,
+              "r": 199,
+              "g": 118,
+              "b": 52,
+              "lum": 130,
+              "hex": "#c77634",
+              "pxn": 0.9465,
+              "pyn": 0.7021,
+              "readSource": "canvas",
+              "bufferW": 412,
+              "bufferH": 728
+            }
+          },
+          "note": "topDown: max lum grid under Spot vs darkest corner (IKEA radial peak)"
+        }
+      },
+      "ldrBypass": {
+        "floorDisk": {
+          "topDownCamera": true,
+          "spotPosWorldMm": [
+            -2600,
+            4200,
+            600
+          ],
+          "ikeaTargetDelta": 26.2,
+          "displayDelta": 35,
+          "linearDisplayDelta": 24,
+          "displayOk": true,
+          "linear": {
+            "linearSpotShareCenter": 0.8659,
+            "linearSpotShareCorner": 0.3954,
+            "spotLumDelta": 0.1322,
+            "spotShaderOk": true,
+            "albedoLumCenter": 0.2791,
+            "albedoLumCorner": 0.441,
+            "albedoInvertsTotal": false,
+            "centerMinusCornerLumLinear": 0.0655,
+            "centerMinusCornerLumDisplay": 24,
+            "screenLumCenter": null,
+            "screenLumCorner": null,
+            "screenDisplayDelta": null,
+            "odtClipSuspect": false,
+            "ikeaTargetCenterMinusCorner": 26.2,
+            "note": "spotLumDelta = cone (OK if >0). corner = min total lum among 4 corners (IKEA disk). screenΔ needs lum <245."
+          },
+          "screen": {
+            "centerUnderSpot": {
+              "ok": true,
+              "screenUv": {
+                "pxn": 0.035674606939501974,
+                "pyn": 0.5606409748333451
+              },
+              "readUv": {
+                "pxn": 0.035674606939501974,
+                "pyn": 0.5606409748333451
+              },
+              "worldMm": {
+                "x": -2600,
+                "y": 1,
+                "z": 600
+              },
+              "hit": {
+                "kind": "floor",
+                "posM": {
+                  "x": -2.6,
+                  "y": 0.001,
+                  "z": 0.6
+                },
+                "normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "seedUv": {
+                  "pxn": 0.035674606939501974,
+                  "pyn": 0.5606409748333451
+                }
+              },
+              "planViewDirect": true,
+              "r": 167,
+              "g": 166,
+              "b": 148,
+              "lum": 165,
+              "hex": "#a7a694",
+              "pxn": 0.0357,
+              "pyn": 0.5606,
+              "readSource": "canvas",
+              "bufferW": 412,
+              "bufferH": 728
+            },
+            "roomCorner": {
+              "ok": true,
+              "screenUv": {
+                "pxn": 0.9464667240966327,
+                "pyn": 0.7021365827778163
+              },
+              "readUv": {
+                "pxn": 0.9464667240966327,
+                "pyn": 0.7021365827778163
+              },
+              "worldMm": {
+                "x": 2500,
+                "y": 1,
+                "z": 2000
+              },
+              "hit": {
+                "kind": "floor",
+                "posM": {
+                  "x": 2.5,
+                  "y": 0.001,
+                  "z": 2
+                },
+                "normal": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                },
+                "seedUv": {
+                  "pxn": 0.9464667240966327,
+                  "pyn": 0.7021365827778163
+                }
+              },
+              "planViewDirect": true,
+              "r": 199,
+              "g": 118,
+              "b": 52,
+              "lum": 130,
+              "hex": "#c77634",
+              "pxn": 0.9465,
+              "pyn": 0.7021,
+              "readSource": "canvas",
+              "bufferW": 412,
+              "bufferH": 728
+            }
+          },
+          "note": "topDown: max lum grid under Spot vs darkest corner (IKEA radial peak)"
+        }
+      }
+    },
+    "usage": "applyIkeaFloorDiskAuditCamera() + Ctrl+F5; __cldVerifyIkeaEmptyRoom() eye; top-down judge displayDelta"
+  },
+  "problem": {
+    "id": "eye-level-floor-overbright",
+    "title": "Пол на eye-level пересвечен относительно IKEA empty room",
+    "evidence": {
+      "floorMidLum": 226,
+      "floorTarget": 185,
+      "delta": 41,
+      "floorR": 255,
+      "floorHex": "#ffe668",
+      "verdict": "Spot OK; eye-level пол вне допуска — калибровка exposure/ODT eye picks.",
+      "eyeLevelFloorOk": false,
+      "spotShaderOk": true
+    },
+    "proposedFix": {
+      "what": "Снизить eye-level яркость пола к IKEA ~185 без добавления Ambient/PointLight",
+      "where": "Слой комнаты IKEA V0: вклад Spot/exposure на kind=floor (roomDim floor / empty-room floor spot atten), не геометрия и не кухня",
+      "successCriteria": "pipette floorMidLum в 185±15; R канала пола <250 (без клипа); Spot shader disk Δ ~26 сохраняется; стены/потолок не ломаем за один шаг",
+      "doNot": [
+        "PointLight+Ambient как в PlanPlace",
+        "менять контрольную кухню/draft",
+        "трогать материалы модулей"
+      ]
+    }
+  },
+  "project_settings": {
+    "project_id": 1793391839999
+  },
+  "date_updated": "2026-10-30T20:23:59.999Z",
+  "date_created": "2026-10-30T20:23:59.999Z"
+}

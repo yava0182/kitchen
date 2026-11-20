@@ -419,11 +419,237 @@ function vertDimOffset(bounds, track = 1) {
   return bounds.vertAxis.clone().multiplyScalar(d);
 }
 
+function isKitchenWallProduct(ud) {
+  const pk = String(ud?.productKind || '').trim();
+  const profile = String(ud?.__placementKindProfileId || ud?.placementKind || '').trim();
+  return (
+    pk === 'kitchen_wall_mid' ||
+    pk === 'kitchen_wall_top' ||
+    profile === 'kitchen_wall_mid' ||
+    profile === 'kitchen_wall_top'
+  );
+}
+
+function isKitchenBaseProduct(ud) {
+  const pk = String(ud?.productKind || '').trim();
+  const profile = String(ud?.__placementKindProfileId || ud?.placementKind || '').trim();
+  return (
+    pk === 'kitchen_base' ||
+    pk === 'kitchen_base_gola' ||
+    pk === 'kitchen_base_corner' ||
+    pk === 'kitchen_tall' ||
+    /^kitchen_base/.test(profile) ||
+    profile === 'kitchen_tall'
+  );
+}
+
+function isKitchenCornerFurniture(ud) {
+  const pk = String(ud?.productKind || '').trim();
+  const profile = String(ud?.__placementKindProfileId || ud?.placementKind || '').trim();
+  return (
+    pk === 'kitchen_base_corner' ||
+    profile === 'kitchen_base_corner' ||
+    /corner/i.test(profile)
+  );
+}
+
+/** Bbox роли corner_return внутри модуле (если есть). */
+function findCornerReturnBBox(group) {
+  if (!group) return null;
+  let hit = null;
+  group.traverse((obj) => {
+    if (hit || !obj?.isGroup) return;
+    if (String(obj.userData?.layoutRole || '').toLowerCase() === 'corner_return') {
+      hit = obj;
+    }
+  });
+  if (!hit) return null;
+  const b = computeGroupBBoxNoAo(hit);
+  return b && !b.isEmpty() ? b : null;
+}
+
+/**
+ * НМУ: отдельные размеры — фасадная нога + приставка (+ уголок 40).
+ * Чтобы было видно, что реально в vars, а не только общая ячейка 105.
+ */
+function rebuildKitchenCornerPartDims(furniture, bounds, floorY) {
+  const wall = bounds?.wallName || 'back';
+  const alongX = wall === 'back' || wall === 'front';
+  const offLeg = floorDimOffset(bounds, 1.55);
+  const offRet = floorDimOffset(bounds, 1.95);
+  const offUgol = floorDimOffset(bounds, 2.35);
+
+  for (const item of furniture || []) {
+    const ud = item?.group?.userData || {};
+    if (!isKitchenCornerFurniture(ud)) continue;
+    let vars = {};
+    try {
+      const read =
+        typeof window !== 'undefined' ? window.__cldReadUserDataClodisVariables : null;
+      const v = typeof read === 'function' ? read(ud) : ud.__clodisVariables || ud.clodisVariables;
+      if (v && typeof v === 'object') vars = v;
+    } catch (_) {}
+    // Канон проверки: ячейка W, отступ clear, приставка return, уголок 40, фасад = (W−clear−return)−40.
+    const clearRaw = Math.round(Number(ud.__kitchenSideWallClearanceMm));
+    const clearMm =
+      Number.isFinite(clearRaw) && clearRaw >= 0
+        ? clearRaw
+        : Math.max(0, Math.round(Number(vars.side_wall_clearance_mm) || 10));
+    let cellW = Math.round(
+      Number(ud.__kitchenCellWidthMm) ||
+        Number(ud.customWidthMm) ||
+        Number(vars.W) ||
+        0
+    );
+    const returnMm = Math.round(
+      Number(ud.__kitchenCornerReturnMm) ||
+        Number(vars.corner_return_mm) ||
+        Number(ud.__kitchenCarcassDepthMm) ||
+        0
+    );
+    const ugolMm = Math.round(
+      Number(vars.corner_return_depth_mm) || Number(ud.__kitchenCornerReturnDepthMm) || 40
+    );
+    const legMm = Math.round(
+      Number(vars.corner_leg_mm) ||
+        (cellW > 0 && returnMm > 0 ? Math.max(0, cellW - clearMm - returnMm) : 0)
+    );
+    // Чистый фасад = нога − уголок (1040−550=490 → 490−40=450).
+    const fasMm = Math.max(0, legMm - (ugolMm >= 20 && ugolMm <= 80 ? ugolMm : 0));
+    const b = item.bbox;
+    if (!b || b.isEmpty?.()) continue;
+
+    const modMin = alongX ? b.min.x : b.min.z;
+    const modMax = alongX ? b.max.x : b.max.z;
+    const modW = Math.abs(modMax - modMin);
+    if (!(modW > 10)) continue;
+
+    // Геометрия линий: приставка = returnMm от края модуля (не mesh-bbox D+уголок).
+    const atMin = ud.__kitchenCornerSideAtMinU === true;
+    let retMin = null;
+    let retMax = null;
+    if (returnMm > 0) {
+      if (atMin) {
+        retMin = modMin;
+        retMax = modMin + returnMm;
+      } else {
+        retMax = modMax;
+        retMin = modMax - returnMm;
+      }
+    } else {
+      const retB = findCornerReturnBBox(item.group);
+      if (retB && !retB.isEmpty()) {
+        retMin = alongX ? retB.min.x : retB.min.z;
+        retMax = alongX ? retB.max.x : retB.max.z;
+        const span = Math.abs(retMax - retMin);
+        if (ugolMm >= 20 && ugolMm <= 80 && span > ugolMm + 100) {
+          if (atMin) retMax = retMin + (span - ugolMm);
+          else retMin = retMax - (span - ugolMm);
+        }
+      }
+    }
+    if (!(retMax > retMin + 1)) continue;
+
+    const retW = returnMm > 0 ? returnMm : Math.round(Math.abs(retMax - retMin));
+    const legMin = retMin <= modMin + 1 ? retMax : modMin;
+    const legMax = retMin <= modMin + 1 ? modMax : retMin;
+
+    // Отступ (для проверки place 460→100 / карандаш).
+    if (clearMm >= 0 && cellW > 0) {
+      addDimensionSpec({
+        p1: uAtFacade(modMin, bounds, floorY),
+        p2: uAtFacade(modMax, bounds, floorY),
+        offset: floorDimOffset(bounds, 3.1),
+        label: `яч. ${formatMaat(cellW)} / отст. ${formatMaat(clearMm)}`,
+        scope: 'furniture',
+        small: true,
+      });
+    }
+    if (fasMm > 5) {
+      addDimensionSpec({
+        p1: uAtFacade(legMin, bounds, floorY),
+        p2: uAtFacade(legMax, bounds, floorY),
+        offset: offLeg,
+        label: `фас. ${formatMaat(fasMm)}`,
+        scope: 'furniture',
+        bold: true,
+      });
+    }
+    if (retW > 5) {
+      addDimensionSpec({
+        p1: uAtFacade(retMin, bounds, floorY),
+        p2: uAtFacade(retMax, bounds, floorY),
+        offset: offRet,
+        label: `прист. ${formatMaat(retW)}`,
+        scope: 'furniture',
+        bold: true,
+      });
+    }
+    if (ugolMm >= 20 && ugolMm <= 80) {
+      const atReturnStart = retMin <= modMin + 1;
+      const u0 = atReturnStart ? retMin : retMax - ugolMm;
+      const u1 = atReturnStart ? retMin + ugolMm : retMax;
+      addDimensionSpec({
+        p1: uAtFacade(u0, bounds, floorY),
+        p2: uAtFacade(u1, bounds, floorY),
+        offset: offUgol,
+        label: `угол. ${formatMaat(ugolMm)}`,
+        scope: 'furniture',
+        small: true,
+      });
+    }
+  }
+}
+
 function getVerticalBands(grp, floorY) {
   const bbox = new THREE.Box3().setFromObject(grp);
   const bboxTotalMm = Math.max(0, bbox.max.y - floorY);
   const customH = mm(grp.userData?.customHeightMm);
-  const z = grp.userData?.__layoutZones?.zones;
+  const ud = grp.userData || {};
+
+  // Кухня НШ: высота корпуса от низа модуля (не от пола комнаты).
+  if (isKitchenWallProduct(ud)) {
+    const carcassMm =
+      mm(ud.__kitchenCarcassHeightMm) ||
+      customH ||
+      Math.max(0, bbox.max.y - bbox.min.y);
+    const yBase =
+      mm(ud.customFloorClearanceMm) > 0
+        ? floorY + mm(ud.customFloorClearanceMm)
+        : bbox.min.y;
+    return {
+      plinthMm: 0,
+      carcassMm,
+      hTopMm: 0,
+      totalMm: carcassMm,
+      yBase,
+    };
+  }
+
+  // Кухня НМ / пенал: цоколь + корпус из stampKitchenUserData.
+  if (isKitchenBaseProduct(ud)) {
+    const plinthMm =
+      mm(ud.__kitchenPlinthHeightMm) || mm(ud.hBottomMm) || 0;
+    const carcassMm =
+      mm(ud.__kitchenCarcassHeightMm) ||
+      (customH > plinthMm ? customH - plinthMm : 0) ||
+      Math.max(0, bbox.max.y - bbox.min.y - plinthMm);
+    const totalMm =
+      plinthMm + carcassMm > 0
+        ? plinthMm + carcassMm
+        : customH > 0
+          ? customH
+          : bboxTotalMm;
+    return {
+      plinthMm,
+      carcassMm,
+      hTopMm: 0,
+      totalMm,
+      yBase: floorY,
+    };
+  }
+
+  const z = ud.__layoutZones?.zones;
   if (z) {
     const plinthMm = mm(z.plinthMm);
     const carcassMm = mm(z.carcassMm);
@@ -445,8 +671,8 @@ function getVerticalBands(grp, floorY) {
       };
     }
   }
-  const plinthMm = mm(grp.userData?.hBottomMm) || 100;
-  const hTopMm = mm(grp.userData?.hTopCatalogMm) || 16;
+  const plinthMm = mm(ud.hBottomMm) || 100;
+  const hTopMm = mm(ud.hTopCatalogMm) || 16;
   const totalMm = customH > 0 ? customH : bboxTotalMm;
   const carcassMm = Math.max(0, totalMm - plinthMm - hTopMm);
   return { plinthMm, carcassMm, hTopMm, totalMm, yBase: floorY };
@@ -456,10 +682,11 @@ function collectFurnitureInSection(sectionId) {
   const items = [];
   if (!state.scene) return items;
   const wallName = getSectionWall(sectionId);
+  const sidWant = sectionId != null ? String(sectionId) : '';
   state.scene.traverse((obj) => {
     if (!obj?.isGroup || !obj.userData?.isFurniture) return;
-    if (sectionId && obj.userData.sectionId !== sectionId) return;
-    const bbox = new THREE.Box3().setFromObject(obj);
+    if (sidWant && String(obj.userData.sectionId ?? '') !== sidWant) return;
+    const bbox = computeGroupBBoxNoAo(obj);
     if (bbox.isEmpty()) return;
     items.push({ group: obj, bbox, wallName, sectionId: obj.userData.sectionId });
   });
@@ -468,6 +695,29 @@ function collectFurnitureInSection(sectionId) {
   } else {
     items.sort((a, b) => a.bbox.min.x - b.bbox.min.x);
   }
+  return items;
+}
+
+/** Все модули сцены (если sectionId не совпал — всё равно рисуем высоты). */
+function collectAllFurnitureModules() {
+  const items = [];
+  if (!state.scene) return items;
+  state.scene.traverse((obj) => {
+    if (!obj?.isGroup || !obj.userData?.isFurniture) return;
+    const bbox = computeGroupBBoxNoAo(obj);
+    if (bbox.isEmpty()) return;
+    items.push({
+      group: obj,
+      bbox,
+      wallName: obj.userData.wallName || 'back',
+      sectionId: obj.userData.sectionId,
+    });
+  });
+  items.sort((a, b) => {
+    const dx = a.bbox.min.x - b.bbox.min.x;
+    if (Math.abs(dx) > 1) return dx;
+    return a.bbox.min.y - b.bbox.min.y;
+  });
   return items;
 }
 
@@ -589,9 +839,10 @@ function collectDrawerFacadeBandsWorldY(furnitureGroup) {
   return collectDrawerFacadeBandsFromPolicy(furnitureGroup, worldBaseY);
 }
 
-function rebuildTumbaVerticalDims(firstItem, bounds, floorY) {
-  const anchor = leftVertAnchor(firstItem.bbox, bounds);
-  const bands = getVerticalBands(firstItem.group, floorY);
+function rebuildTumbaVerticalDims(item, bounds, floorY) {
+  if (!item?.group || !item?.bbox) return;
+  const anchor = leftVertAnchor(item.bbox, bounds);
+  const bands = getVerticalBands(item.group, floorY);
   const y0 = bands.yBase;
   const segmentOffset = vertDimOffset(bounds, VERT_SEGMENT_TRACK);
   let y = y0;
@@ -602,7 +853,7 @@ function rebuildTumbaVerticalDims(firstItem, bounds, floorY) {
   }
 
   const carcassTopY = y + bands.carcassMm;
-  const drawerBands = collectDrawerFacadeBandsWorldY(firstItem.group);
+  const drawerBands = collectDrawerFacadeBandsWorldY(item.group);
 
   if (drawerBands.length > 0 && bands.carcassMm > 0) {
     for (const db of drawerBands) {
@@ -623,9 +874,15 @@ function rebuildTumbaVerticalDims(firstItem, bounds, floorY) {
     y += bands.hTopMm;
   }
 
-  const customH = mm(firstItem.group?.userData?.customHeightMm);
+  const ud = item.group?.userData || {};
+  const customH = mm(ud.customHeightMm);
+  const kitchenTotal = mm(bands.totalMm);
   const topY =
-    customH > 0 ? y0 + customH : firstItem.bbox.max.y;
+    kitchenTotal > 0 && (isKitchenWallProduct(ud) || isKitchenBaseProduct(ud))
+      ? y0 + kitchenTotal
+      : customH > 0
+        ? y0 + customH
+        : item.bbox.max.y;
   addDimensionSpec({
     p1: anchor.clone().setY(y0),
     p2: anchor.clone().setY(topY),
@@ -638,10 +895,85 @@ function rebuildTumbaVerticalDims(firstItem, bounds, floorY) {
   });
 }
 
-function rebuildHorizontalChain(sectionData, bounds, floorY) {
+/** Высота у каждого модуля секции (НМ, НШ, тумбы) — не только у первого. */
+function rebuildAllModuleVerticalDims(furniture, bounds, floorY) {
+  for (const item of furniture) {
+    rebuildTumbaVerticalDims(item, bounds, floorY);
+  }
+}
+
+/**
+ * Зазоры секции до стен ряда вдоль U (мм): before = к min-концу, after = к max-концу.
+ * Боковой 10 мм у углового НМ — здесь, снаружи ячейки 1050.
+ */
+function measureSectionAlongWallGapsMm(sectionData, bounds) {
+  const wallName = bounds?.wallName || sectionData?.wallName || 'back';
+  if (!sectionData?.group || !state.room?.group) return { before: 0, after: 0 };
+  const roomWorldPos = new THREE.Vector3();
+  state.room.group.getWorldPosition(roomWorldPos);
+  const local = sectionData.group.position.clone().sub(roomWorldPos);
+  const size = sectionData.size || {};
+  const hasSpan =
+    Number.isFinite(Number(sectionData.spanAlongA)) &&
+    Number.isFinite(Number(sectionData.spanAlongB));
+  const spanA = hasSpan ? Number(sectionData.spanAlongA) : 0;
+  const spanB = hasSpan
+    ? Number(sectionData.spanAlongB)
+    : wallName === 'left' || wallName === 'right'
+      ? Number(state.room.depth) || 0
+      : Number(state.room.width) || 0;
+
+  if (wallName === 'back') {
+    return {
+      before: Math.max(0, local.x - spanA),
+      after: Math.max(0, spanB - local.x - Number(size.x || 0)),
+    };
+  }
+  if (wallName === 'front') {
+    return {
+      before: Math.max(0, local.x - Number(size.x || 0) - spanA),
+      after: Math.max(0, spanB - local.x),
+    };
+  }
+  if (wallName === 'left') {
+    return {
+      before: Math.max(0, local.z - Number(size.z || 0) - spanA),
+      after: Math.max(0, spanB - local.z),
+    };
+  }
+  return {
+    before: Math.max(0, local.z - spanA),
+    after: Math.max(0, spanB - local.z - Number(size.z || 0)),
+  };
+}
+
+/** Мин/макс U мебели в секции (по bbox), мм. */
+function measureFurnitureSpanU(furniture, bounds) {
+  let minU = Infinity;
+  let maxU = -Infinity;
+  const wall = bounds.wallName || 'back';
+  for (const item of furniture || []) {
+    const b = item?.bbox;
+    if (!b || b.isEmpty?.()) continue;
+    if (wall === 'back' || wall === 'front') {
+      minU = Math.min(minU, b.min.x);
+      maxU = Math.max(maxU, b.max.x);
+    } else {
+      minU = Math.min(minU, b.min.z);
+      maxU = Math.max(maxU, b.max.z);
+    }
+  }
+  if (!Number.isFinite(minU) || !Number.isFinite(maxU) || maxU - minU < 1) {
+    return null;
+  }
+  return { minU, maxU };
+}
+
+function rebuildHorizontalChain(sectionData, bounds, floorY, furniture = []) {
   const cache = sectionData._layoutCache;
   const off1 = floorDimOffset(bounds, 1);
   const off2 = floorDimOffset(bounds, 2.2);
+  const offWall = floorDimOffset(bounds, 0.55);
 
   const addHoriz = (u1, u2, offset, label, opts = {}) => {
     if (Math.abs(u2 - u1) < 1) return;
@@ -655,22 +987,71 @@ function rebuildHorizontalChain(sectionData, bounds, floorY) {
     });
   };
 
+  const wallGaps = measureSectionAlongWallGapsMm(sectionData, bounds);
+  // Отступ секции до стены слева/сзади по U (часто 0 у угла L).
+  if (wallGaps.before > 0.5) {
+    addHoriz(
+      bounds.outerMinU - wallGaps.before,
+      bounds.outerMinU,
+      offWall,
+      formatMaat(wallGaps.before)
+    );
+  }
+
   if (bounds.insetMin > 0) {
     addHoriz(bounds.outerMinU, bounds.innerStartU, off1, formatMaat(bounds.insetMin));
   }
 
   const segments = cache?.segments || [];
-  for (const seg of segments) {
-    const w = seg.endU - seg.startU;
-    if (w < 1) continue;
-    addHoriz(seg.startU, seg.endU, off1, formatMaat(w));
+  if (segments.length) {
+    // Пустой зазор до первой ячейки (если layout не от самого края).
+    const lead = segments[0].startU - bounds.innerStartU;
+    if (lead > 1) addHoriz(bounds.innerStartU, segments[0].startU, off1, formatMaat(lead));
+
+    for (const seg of segments) {
+      const w = seg.endU - seg.startU;
+      if (w < 1) continue;
+      addHoriz(seg.startU, seg.endU, off1, formatMaat(w));
+    }
+
+    const trail = bounds.innerEndU - segments[segments.length - 1].endU;
+    if (trail > 1) {
+      addHoriz(
+        segments[segments.length - 1].endU,
+        bounds.innerEndU,
+        off1,
+        formatMaat(trail)
+      );
+    }
+  } else {
+    // Нет ячеек — размеры по фактическому bbox мебели + пустые края секции.
+    const span = measureFurnitureSpanU(furniture, bounds);
+    if (span) {
+      const leftGap = span.minU - bounds.innerStartU;
+      if (leftGap > 1) addHoriz(bounds.innerStartU, span.minU, off1, formatMaat(leftGap));
+      addHoriz(span.minU, span.maxU, off1, formatMaat(span.maxU - span.minU));
+      const rightGap = bounds.innerEndU - span.maxU;
+      if (rightGap > 1) addHoriz(span.maxU, bounds.innerEndU, off1, formatMaat(rightGap));
+    }
   }
 
   if (bounds.insetMax > 0) {
     addHoriz(bounds.innerEndU, bounds.outerMaxU, off1, formatMaat(bounds.insetMax));
   }
 
-  addHoriz(bounds.outerMinU, bounds.outerMaxU, off2, formatMaat(bounds.outerMaxU - bounds.outerMinU), {
+  // Отступ секции до стены справа/спереди по U — боковой 1 см у НМУ.
+  if (wallGaps.after > 0.5) {
+    addHoriz(
+      bounds.outerMaxU,
+      bounds.outerMaxU + wallGaps.after,
+      offWall,
+      formatMaat(wallGaps.after)
+    );
+  }
+
+  const totalMin = bounds.outerMinU - (wallGaps.before > 0.5 ? wallGaps.before : 0);
+  const totalMax = bounds.outerMaxU + (wallGaps.after > 0.5 ? wallGaps.after : 0);
+  addHoriz(totalMin, totalMax, off2, formatMaat(totalMax - totalMin), {
     bold: true,
   });
 }
@@ -711,6 +1092,86 @@ function resolveModuleDepthDisplayMm(group, sectionDepthMm, isSideWall) {
   bbox.getSize(size);
   const bboxDepth = isSideWall ? size.x : size.z;
   return bboxDepth > 0 ? bboxDepth : 0;
+}
+
+/**
+ * Отступы по глубине: сзади до стены ряда, спереди до фасада секции.
+ * У НМ сзади норма ≈ 10 мм (W+10).
+ */
+function rebuildModuleDepthClearanceDims(furniture, bounds, sectionData, floorY) {
+  if (!sectionData?.group || !furniture?.length) return;
+  const wall = bounds.wallName || 'back';
+  const size = sectionData.size || {};
+  const secPos = sectionData.group.position;
+  const secDepth =
+    wall === 'left' || wall === 'right' ? mm(size.x) : mm(size.z);
+  if (!(secDepth > 1)) return;
+
+  let wallBack = 0;
+  let wallFront = 0;
+  if (wall === 'back') {
+    wallBack = secPos.z;
+    wallFront = secPos.z + secDepth;
+  } else if (wall === 'front') {
+    wallFront = secPos.z;
+    wallBack = secPos.z - secDepth;
+  } else if (wall === 'left') {
+    wallBack = secPos.x;
+    wallFront = secPos.x + secDepth;
+  } else {
+    wallFront = secPos.x;
+    wallBack = secPos.x - secDepth;
+  }
+
+  const sign = wall === 'back' || wall === 'left' ? 1 : -1;
+  const off = floorDimOffset(bounds, 3.2);
+
+  for (const item of furniture) {
+    const b = item?.bbox;
+    if (!b || b.isEmpty?.()) continue;
+    const carcassBack = wall === 'left' || wall === 'right' ? b.min.x : b.min.z;
+    const carcassFront = wall === 'left' || wall === 'right' ? b.max.x : b.max.z;
+    // Для front/right стены min/max зеркальны относительно «зад/перед».
+    let backEdge = carcassBack;
+    let frontEdge = carcassFront;
+    if (wall === 'front' || wall === 'right') {
+      backEdge = carcassFront;
+      frontEdge = carcassBack;
+    }
+
+    const rearGap = Math.round((backEdge - wallBack) * sign);
+    const frontGap = Math.round((wallFront - frontEdge) * sign);
+
+    const midU =
+      wall === 'left' || wall === 'right'
+        ? (b.min.z + b.max.z) / 2
+        : (b.min.x + b.max.x) / 2;
+    const y = floorY;
+
+    const addDepth = (c1, c2) => {
+      if (!(Math.abs(c2 - c1) >= 1)) return;
+      let p1;
+      let p2;
+      if (wall === 'back' || wall === 'front') {
+        p1 = new THREE.Vector3(midU, y, c1);
+        p2 = new THREE.Vector3(midU, y, c2);
+      } else {
+        p1 = new THREE.Vector3(c1, y, midU);
+        p2 = new THREE.Vector3(c2, y, midU);
+      }
+      addDimensionSpec({
+        p1,
+        p2,
+        offset: off,
+        label: formatMaat(Math.abs(c2 - c1)),
+        scope: 'furniture',
+        small: true,
+      });
+    };
+
+    if (rearGap > 0.5) addDepth(wallBack, backEdge);
+    if (frontGap > 0.5) addDepth(frontEdge, wallFront);
+  }
 }
 
 /** Глубина модуля (см) — подпись над тумбой, как в рефе, без префикса «D:». */
@@ -782,6 +1243,7 @@ function rebuildMaatDimensionSpecs() {
     return;
   }
 
+  const seenFurniture = new Set();
   for (const sectionData of sections) {
     if (typeof window.__clodisComputeSectionLayout === 'function') {
       try {
@@ -792,9 +1254,43 @@ function rebuildMaatDimensionSpecs() {
     if (!furniture.length) continue;
 
     const bounds = getSectionLayoutBounds(sectionData);
-    rebuildTumbaVerticalDims(furniture[0], bounds, floorY);
-    rebuildHorizontalChain(sectionData, bounds, floorY);
+    for (const item of furniture) {
+      if (item?.group?.uuid) seenFurniture.add(item.group.uuid);
+    }
+    rebuildAllModuleVerticalDims(furniture, bounds, floorY);
+    rebuildHorizontalChain(sectionData, bounds, floorY, furniture);
+    rebuildKitchenCornerPartDims(furniture, bounds, floorY);
     rebuildModuleDepthLabels(furniture, bounds, sectionData);
+    rebuildModuleDepthClearanceDims(furniture, bounds, sectionData, floorY);
+  }
+
+  // Модули без совпавшего sectionId (кухня cohabit / старый stamp) — высоты всё равно.
+  const orphans = collectAllFurnitureModules().filter(
+    (item) => item?.group?.uuid && !seenFurniture.has(item.group.uuid)
+  );
+  if (orphans.length) {
+    const byWall = new Map();
+    for (const item of orphans) {
+      const w = item.wallName || 'back';
+      if (!byWall.has(w)) byWall.set(w, []);
+      byWall.get(w).push(item);
+    }
+    for (const [wallName, list] of byWall) {
+      const bounds = {
+        wallName,
+        vertAxis:
+          wallName === 'left'
+            ? new THREE.Vector3(1, 0, 0)
+            : wallName === 'right'
+              ? new THREE.Vector3(-1, 0, 0)
+              : wallName === 'front'
+                ? new THREE.Vector3(0, 0, -1)
+                : new THREE.Vector3(0, 0, 1),
+        facadeCoord: { x: 0, z: 0 },
+      };
+      rebuildAllModuleVerticalDims(list, bounds, floorY);
+      rebuildModuleDepthLabels(list, bounds, null);
+    }
   }
 }
 

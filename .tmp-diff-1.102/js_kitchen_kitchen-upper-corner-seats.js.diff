@@ -1,0 +1,13 @@
+﻿Comparing files D:\����� ������������\����� CLODIS-KITCHEN\1.102������� ����\CLODIS-KITCHEN\JS\KITCHEN\kitchen-upper-corner-seats.js and D:\CLODIS-KITCHEN\JS\KITCHEN\KITCHEN-UPPER-CORNER-SEATS.JS
+***** D:\����� ������������\����� CLODIS-KITCHEN\1.102������� ����\CLODIS-KITCHEN\JS\KITCHEN\kitchen-upper-corner-seats.js
+   15:    resolveKitchenUpperCornerDepthMm,
+   16:  } from './kitchen-joint.js?v=20261109-pocket1';
+   17:  import { buildKitchenBandCellLayoutForSection } from './kitchen-section-layout.js?v=20261115-upperGLeft27';
+   18:  
+***** D:\CLODIS-KITCHEN\JS\KITCHEN\KITCHEN-UPPER-CORNER-SEATS.JS
+   15:    resolveKitchenUpperCornerDepthMm,
+   16:  } from './kitchen-joint.js?v=20261116-lCorner1050';
+   17:  import { buildKitchenBandCellLayoutForSection } from './kitchen-section-layout.js?v=20261116-lCorner1050';
+   18:  
+*****
+

@@ -1,0 +1,65 @@
+{
+  "id": "clodis_draft",
+  "version": 3,
+  "status": "project_default",
+  "requiresApproval": true,
+  "label": "CLODIS kitchen draft (nobilia-like, не лицензия)",
+  "etalonDoc": "docs/kitchen_configurator_research_cursor.md",
+  "referenceFamily": {
+    "id": "nobilia_like",
+    "status": "source_example",
+    "note": "Только ориентир сетки; не каталог nobilia и не финальные размеры CLODIS.",
+    "sources": ["S1"]
+  },
+  "units": "mm",
+  "base": {
+    "carcassHeightsMm": [
+      { "value": 720, "status": "project_default", "frontMode": "non_gola" },
+      { "value": 792, "status": "project_default", "frontMode": "any" },
+      {
+        "value": 780,
+        "status": "project_default",
+        "frontMode": "gola",
+        "note": "CLODIS Gola: корпус 780 + опоры. Не 864 nobilia."
+      }
+    ],
+    "carcassDepthsMm": [
+      { "value": 550, "status": "project_default", "note": "Дефолт при столешнице 600 (600−40−10)." },
+      { "value": 510, "status": "project_default" },
+      { "value": 460, "status": "project_default" }
+    ],
+    "carcassDepthMm": { "value": 550, "status": "project_default" }
+  },
+  "wall": {
+    "carcassDepthMm": { "value": 350, "status": "project_default" }
+  },
+  "plinth": {
+    "heightsMm": [
+      { "value": 100, "status": "project_default" },
+      { "value": 120, "status": "project_default" },
+      { "value": 150, "status": "project_default" }
+    ],
+    "supportModelsByHeightMm": {
+      "100": { "cabinetModelId": "2", "status": "project_default" },
+      "120": { "cabinetModelId": "79", "status": "project_default" },
+      "150": { "cabinetModelId": "80", "status": "project_default" }
+    },
+    "note": "SKU ножки = cabinet_model. catalog_32 = сборка цоколя, не артикул опоры."
+  },
+  "worktop": {
+    "thicknessesMm": [{ "value": 38, "status": "manufacturer_required" }],
+    "depthMm": { "value": 600, "status": "project_default" },
+    "frontSetbackToCarcassMm": { "value": 40, "status": "project_default" },
+    "rearOverhangMinMm": { "value": 10, "status": "project_default" },
+    "frontOverhangMm": { "value": 40, "status": "project_default" },
+    "backOverhangMm": { "value": 10, "status": "project_default" }
+  },
+  "frontModes": {
+    "non_gola": { "id": "non_gola" },
+    "gola": { "id": "gola", "system": { "sku": null, "status": "manufacturer_required" } }
+  },
+  "placementRoles": {
+    "kitchen_base": { "id": "kitchen_base", "baseKind": "standalone_floor", "defaultFrontMode": "non_gola" },
+    "kitchen_base_gola": { "id": "kitchen_base_gola", "baseKind": "standalone_floor", "defaultFrontMode": "gola" }
+  }
+}

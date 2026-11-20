@@ -1,6 +1,16 @@
 import { state } from '../utils/state.js';
+import { resolveCornerGapCm } from './corner-joint.js?v=20261028-ugrid1';
 
 let isLegacyBackCornerSyncInProgress = false;
+
+/** Шкаф 5 см / кухня 0 — один источник (corner-joint). */
+function wardrobeOrKitchenCornerGapCm() {
+  try {
+    return resolveCornerGapCm();
+  } catch (_) {
+    return 0;
+  }
+}
 
 /**
  * Соседняя стена для углового шкафа.
@@ -660,7 +670,7 @@ export function createLinkedRightSectionForBack(backSectionData, deps) {
   const rightLength = W_room - D_back;
   if (!Number.isFinite(rightLength) || rightLength <= 0) return;
 
-  // Как у левого: сначала фиксированный зазор 5 см на стыке (right), потом приставка.
+  // Сначала зазор на стыке (right): шкаф 5 см / кухня 0, потом приставка.
   backSectionData.lShape = {
     type: 'corner-wardrobe',
     role: 'back',
@@ -671,7 +681,7 @@ export function createLinkedRightSectionForBack(backSectionData, deps) {
       const backOffsetsMm = getSectionOffsetsMm(backSectionData);
       const backOffsetsCm = {
         left: (backOffsetsMm.leftMm || 0) / 10,
-        right: 5,
+        right: wardrobeOrKitchenCornerGapCm(),
         bottom: (backOffsetsMm.bottomMm || 0) / 10,
         top: (backOffsetsMm.topMm || 0) / 10,
       };
@@ -784,7 +794,7 @@ export function createLinkedLeftSectionForBack(backSectionData, deps) {
   };
   try {
     const backOffsetsMm = getSectionOffsetsMm(backSectionData);
-    const FIXED_LEFT_GAP_CM = 5;
+    const FIXED_LEFT_GAP_CM = wardrobeOrKitchenCornerGapCm();
     const backOffsetsCm = {
       left: FIXED_LEFT_GAP_CM,
       right: (backOffsetsMm.rightMm || 0) / 10,
@@ -900,7 +910,7 @@ export function createUShapeArmsForBack(backSectionData, deps) {
   const armLength = W_room - D_back;
   if (!Number.isFinite(armLength) || armLength <= 0) return null;
 
-  const FIXED_GAP_CM = 5;
+  const FIXED_GAP_CM = wardrobeOrKitchenCornerGapCm();
   backSectionData.lShape = {
     type: 'u-wardrobe',
     role: 'back',
@@ -972,6 +982,10 @@ export function createUShapeArmsForBack(backSectionData, deps) {
     pairIdLeft: leftSection?.id || null,
     pairIdRight: rightSection?.id || null,
   };
+  if (backSectionData.division) {
+    backSectionData.division.uShape = true;
+    backSectionData.division.isLShapeBack = true;
+  }
 
   const depthCm = D_back / 10;
   try {
@@ -1135,7 +1149,7 @@ export function createLinkedRightSectionForRight(rightSectionData, deps) {
   try {
     const primOffsMm = getSectionOffsetsMm(rightSectionData);
     const primDepthCm = D_right / 10;
-    const CORNER_GAP_CM = 5;
+    const CORNER_GAP_CM = wardrobeOrKitchenCornerGapCm();
     const bot = (primOffsMm.bottomMm || 0) / 10;
     const top = (primOffsMm.topMm || 0) / 10;
 
@@ -1243,11 +1257,11 @@ export function createLinkedRightSectionForLeft(leftSectionData, deps) {
   try {
     const primOffsMm = getSectionOffsetsMm(leftSectionData);
     const primDepthCm = D_left / 10;
-    const CORNER_GAP_CM = 5;
+    const CORNER_GAP_CM = wardrobeOrKitchenCornerGapCm();
     const bot = (primOffsMm.bottomMm || 0) / 10;
     const top = (primOffsMm.topMm || 0) / 10;
     const primOffsets = {
-      // Зазор 5 см на стыке с задней стеной (= задний торец левой секции).
+      // Шкаф 5 см / кухня 0 на стыке с задней стеной.
       back: CORNER_GAP_CM,
       front: (primOffsMm.frontMm || 0) / 10,
       bottom: bot,
@@ -1346,11 +1360,11 @@ export function createLinkedRightSectionForFront(frontSectionData, deps) {
   try {
     const primOffsMm = getSectionOffsetsMm(frontSectionData);
     const primDepthCm = D_front / 10;
-    const CORNER_GAP_CM = 5;
+    const CORNER_GAP_CM = wardrobeOrKitchenCornerGapCm();
     const bot = (primOffsMm.bottomMm || 0) / 10;
     const top = (primOffsMm.topMm || 0) / 10;
     const primOffsets = {
-      // Угол на левом торце фронтальной секции → зазор 5 см слева.
+      // Угол на левом торце фронтальной → шкаф 5 см / кухня 0 слева.
       left: CORNER_GAP_CM,
       right: (primOffsMm.rightMm || 0) / 10,
       bottom: bot,

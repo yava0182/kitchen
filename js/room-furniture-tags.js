@@ -1,14 +1,34 @@
 /**
- * Категории для комнаты:
- * - roomFurnitureByRoom — связь шагов для каждой комнаты (раскладки шаг 2, разделы шаг 3)
- * - getCategories() — автоматически «Комната — Тумбы» для галочек в карточке модуля
- * - roomTags.categories на модуле — какие предметы в какой категории на шаге 4
+ * Категории для комнаты / кухни:
+ * - roomFurnitureByRoom — связь шагов (для кухни: только kitchen + папки модулей)
+ * - getCategories() — галочки в карточке; для кухни без «Гостиная — Тумбы»
+ * - roomTags.categories на модуле — фильтр шага 4
  */
 (function (global) {
   var WILDCARD = '*';
+  var WARDROBE_ROOM_KEYS = {
+    'living-room': 1,
+    bedroom: 1,
+    nursery: 1,
+    hallway: 1,
+    laundry: 1,
+    balcony: 1,
+  };
 
   function normKey(v) {
     return String(v || '').trim();
+  }
+
+  function isKitchenProductLine(config) {
+    var cfg = config || getConfig();
+    if (cfg && String(cfg.productLine || '').trim().toLowerCase() === 'kitchen') return true;
+    try {
+      var api = global.__cldPlacementKindProfiles;
+      if (api && typeof api.isKitchenProductLine === 'function') {
+        return !!api.isKitchenProductLine(cfg);
+      }
+    } catch (_) {}
+    return true;
   }
 
   function normFolderKey(v) {
@@ -110,21 +130,85 @@
     }
   }
 
-  function getRoomLinks(config) {
-    var fromKey = readRoomFurnitureByRoomStorage();
-    if (fromKey) return fromKey;
-    var cfg = config || getConfig();
-    if (!cfg) return {};
-    if (cfg.roomFurnitureByRoom && typeof cfg.roomFurnitureByRoom === 'object') {
-      var shaped = ensureRoomLinksShape(cfg.roomFurnitureByRoom);
-      if (Object.keys(shaped).length) return shaped;
+  function isKitchenShapeRoomKey(roomKey) {
+    var k = normKey(roomKey);
+    if (!k) return false;
+    if (k === 'kitchen') return true;
+    return /^(enclosed_|open_)/.test(k);
+  }
+
+  function sanitizeKitchenRoomLinks(links) {
+    var shaped = ensureRoomLinksShape(links || {});
+    var kitchen = (shaped && shaped.kitchen) || { layoutKeys: [], catalogFolderKeys: [] };
+    var folders = [];
+    var layouts = [];
+    var pushUnique = function (arr, v) {
+      var n = normKey(v);
+      if (!n) return;
+      if (arr.indexOf(n) < 0) arr.push(n);
+    };
+    var pushFolder = function (v) {
+      var n = normFolderKey(v);
+      if (!n) return;
+      if (folders.indexOf(n) < 0) folders.push(n);
+    };
+    (Array.isArray(kitchen.catalogFolderKeys) ? kitchen.catalogFolderKeys : []).forEach(pushFolder);
+    (Array.isArray(kitchen.layoutKeys) ? kitchen.layoutKeys : []).forEach(function (lk) {
+      pushUnique(layouts, lk);
+    });
+    // Админка сохраняла галочки под формой (enclosed_rect…), а не под kitchen — собрать.
+    Object.keys(shaped).forEach(function (rk) {
+      if (rk === 'kitchen') return;
+      var row = shaped[rk];
+      if (!row) return;
+      (row.catalogFolderKeys || []).forEach(pushFolder);
+      (row.layoutKeys || []).forEach(function (lk) {
+        pushUnique(layouts, lk);
+      });
+    });
+    // Если пусто — берём ключи из шага 3 (то, что юзер набрал из Типов элементов).
+    if (!folders.length) {
+      var cfg = getConfig();
+      folders = getStepItems(cfg, 3)
+        .map(function (it) {
+          return normFolderKey(it.key != null ? it.key : it.id);
+        })
+        .filter(Boolean);
     }
-    return ensureRoomLinksShape(migrateCategoriesToRoomLinks(cfg));
+    // Угол кухни: 44 НМУ + 54 ВМУ всегда в связях (LS room_furniture_by_room часто без 54).
+    ['44', '54'].forEach(pushFolder);
+    return {
+      kitchen: {
+        layoutKeys: layouts,
+        catalogFolderKeys: folders,
+      },
+    };
+  }
+
+  function getRoomLinks(config) {
+    var cfg = config || getConfig();
+    var fromKey = readRoomFurnitureByRoomStorage();
+    var raw = fromKey;
+    if (!raw) {
+      if (cfg && cfg.roomFurnitureByRoom && typeof cfg.roomFurnitureByRoom === 'object') {
+        var shaped = ensureRoomLinksShape(cfg.roomFurnitureByRoom);
+        if (Object.keys(shaped).length) raw = shaped;
+      }
+    }
+    if (!raw) raw = ensureRoomLinksShape(migrateCategoriesToRoomLinks(cfg));
+    if (isKitchenProductLine(cfg)) return sanitizeKitchenRoomLinks(raw);
+    return ensureRoomLinksShape(raw);
   }
 
   function getRoomLink(config, roomKey) {
     var links = getRoomLinks(config);
-    return links[normKey(roomKey)] || null;
+    var k = normKey(roomKey);
+    if (links[k]) return links[k];
+    // Кухня: шаг 1 = форма (enclosed_rect…), связи всегда под ключом kitchen.
+    if (isKitchenProductLine(config) && isKitchenShapeRoomKey(k) && links.kitchen) {
+      return links.kitchen;
+    }
+    return null;
   }
 
   function findStepLabel(items, key, fallback) {
@@ -135,23 +219,26 @@
     return hit ? String(hit.name || hit.key || k).trim() : fallback || k;
   }
 
-  /** Категории для галочек в карточке модуля (из настроек комнат). */
+  /** Категории для галочек в карточке модуля (из настроек комнат / шага 3). */
   function buildCategoriesFromRoomLinks(config) {
     var cfg = config || getConfig();
+    var kitchen = isKitchenProductLine(cfg);
     var links = getRoomLinks(cfg);
     var rooms = getStepItems(cfg, 1);
     var folders = getStepItems(cfg, 3);
     var out = [];
     var order = 0;
     Object.keys(links).forEach(function (rk) {
+      if (kitchen && rk !== 'kitchen') return;
       var link = links[rk];
-      var roomLabel = findStepLabel(rooms, rk, rk);
+      var roomLabel = kitchen ? '' : findStepLabel(rooms, rk, rk);
       (link.catalogFolderKeys || []).forEach(function (fk) {
         var folderLabel = findStepLabel(folders, fk, fk);
+        var label = kitchen ? folderLabel : roomLabel + ' — ' + folderLabel;
         out.push({
           id: 'rfc-' + rk + '-' + fk,
           key: categoryKey(rk, fk),
-          label: roomLabel + ' — ' + folderLabel,
+          label: label,
           roomKey: rk,
           layoutKeys: (link.layoutKeys || []).slice(),
           catalogFolderKey: normFolderKey(fk),
@@ -160,7 +247,51 @@
         order += 1;
       });
     });
+    // Кухня и шаг 3 пуст — категории из самих пунктов шага 3
+    if (kitchen && !out.length && folders.length) {
+      folders.forEach(function (f, i) {
+        var fk = normFolderKey(f.key != null ? f.key : f.id);
+        if (!fk) return;
+        out.push({
+          id: 'rfc-kitchen-' + fk,
+          key: categoryKey('kitchen', fk),
+          label: String(f.name || f.label || fk),
+          roomKey: 'kitchen',
+          layoutKeys: [],
+          catalogFolderKey: fk,
+          order: i,
+        });
+      });
+    }
     return out;
+  }
+
+  /** Папка = админ-каталог, который редактируем (не выдуманные id). */
+  function kitchenFolderKeyForPlacement(placementKind, adminCatalogType) {
+    var admin = normFolderKey(adminCatalogType);
+    if (admin) return admin;
+    return '';
+  }
+
+  function kitchenFolderLabel(folderKey) {
+    var fk = normFolderKey(folderKey);
+    var cfg = getConfig();
+    var fromStep = findStepLabel(getStepItems(cfg, 3), fk, '');
+    return fromStep || fk;
+  }
+
+  /** Авто roomTags: каталог = текущий тип из Типов элементов. */
+  function buildKitchenModuleRoomTags(placementKind, adminCatalogType) {
+    var section = kitchenFolderKeyForPlacement(placementKind, adminCatalogType);
+    if (!section) {
+      return { rooms: ['kitchen'], layouts: [], catalogFolders: [], categories: [] };
+    }
+    return {
+      rooms: ['kitchen'],
+      layouts: [],
+      catalogFolders: [section],
+      categories: ['kitchen-' + section],
+    };
   }
 
   function getCategories(config) {
@@ -423,13 +554,30 @@
     var categories = getCategories(cfg);
     var catKeys = getModuleCategoryKeys(item);
     var showAll = isShowAllCategoriesMode(opts);
+    // Кухня: selectedRoomType.key всегда 'kitchen' (форма — shapeKey).
+    // Не режем модули, если ctx.roomKey вдруг пуст/старый.
+    var kitchenLine = isKitchenProductLine(cfg);
 
     if (hasRoomLinksConfig(cfg) && categories.length && catKeys.length) {
       var folderKey = opts.catalogFolderKey ? normFolderKey(opts.catalogFolderKey) : '';
       return catKeys.some(function (ck) {
         var cat = findCategory(categories, ck);
-        if (!cat) return false;
-        if (!showAll && !categoryMatchesContext(cat, ctx)) return false;
+        if (!cat) {
+          // Категория kitchen-46 есть на модуле, но ещё не в taxonomy — для кухни не прячем.
+          if (kitchenLine && folderKey && ck.indexOf(folderKey) >= 0) return true;
+          return false;
+        }
+        if (!showAll && !categoryMatchesContext(cat, ctx)) {
+          if (
+            kitchenLine &&
+            normKey(cat.roomKey) === 'kitchen' &&
+            (!ctx || !ctx.roomKey || normKey(ctx.roomKey) === 'kitchen')
+          ) {
+            // ok — кухня
+          } else {
+            return false;
+          }
+        }
         if (folderKey && cat.catalogFolderKey) {
           return normFolderKey(cat.catalogFolderKey) === folderKey;
         }
@@ -536,6 +684,12 @@
     filterStep3Folders: filterStep3Folders,
     normFolderKey: normFolderKey,
     categoryKey: categoryKey,
+    isKitchenProductLine: isKitchenProductLine,
+    kitchenFolderKeyForPlacement: kitchenFolderKeyForPlacement,
+    kitchenFolderLabel: kitchenFolderLabel,
+    buildKitchenModuleRoomTags: buildKitchenModuleRoomTags,
+    sanitizeKitchenRoomLinks: sanitizeKitchenRoomLinks,
+    isKitchenShapeRoomKey: isKitchenShapeRoomKey,
   };
 
   global.__cldRoomFurnitureTags = api;

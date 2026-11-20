@@ -94,12 +94,12 @@
     const iconUrl = (item?.icon || item?.image || '').toString();
     const colorVal = (item?.color || '').toString().trim();
     if (iconUrl) {
-      return `<img src="${iconUrl}" alt="" style="width:70px;height:70px;object-fit:cover;border-radius:6px;border:1px solid #e5e7eb;" onerror="this.style.display='none'">`;
+      return `<img class="admin-list-thumb" src="${iconUrl}" alt="" onerror="this.style.display='none'">`;
     }
     if (colorVal && /^#([0-9A-Fa-f]{6})$/.test(colorVal)) {
-      return `<div style="width:70px;height:70px;background:${colorVal};border-radius:6px;border:1px solid #e5e7eb;"></div>`;
+      return `<div class="admin-list-thumb-empty" style="background:${colorVal};"></div>`;
     }
-    return '<div style="width:70px;height:70px;border:1px solid #e5e7eb;border-radius:6px;background:#f8fafc;"></div>';
+    return '<div class="admin-list-thumb-empty"></div>';
   }
 
   function parseMaybeJson(v, fallback) {
@@ -426,15 +426,15 @@
       tr.innerHTML = `
         <td><input type="checkbox" class="models3d-materials-checkbox" value="${item?.id ?? ''}"></td>
         <td>${item?.id ?? '-'}</td>
-        <td>${mkIconCellHtml(item)}</td>
+        <td class="col-icon">${mkIconCellHtml(item)}</td>
         <td>${(item?.name || '-').toString().replace(/</g, '&lt;')}</td>
         <td>${(getModels3dCategoryLabel(item) || 'Нет').toString().replace(/</g, '&lt;')}</td>
-        <td>${String(item?.order ?? item?.sort ?? 10000)}</td>
-        <td>${visHtml}</td>
-        <td class="col-actions" style="width:160px; white-space:nowrap;">
-          <div style="display:flex; gap:8px; justify-content:center;">
+        <td class="col-order">${String(item?.order ?? item?.sort ?? 10000)}</td>
+        <td class="col-vis">${visHtml}</td>
+        <td class="col-actions">
+          <div class="cld-row-actions">
             <button type="button" class="btn btn-xs btn-outline btn-primary" title="Редактировать" data-m3m-action="edit" data-m3m-id="${item?.id ?? 0}" data-m3m-name="${(item?.name || '').replace(/"/g, '&quot;')}"><i class="fa fa-pencil"></i></button>
-            <button type="button" class="btn btn-xs btn-outline btn-info" title="Копировать" data-m3m-action="copy" data-m3m-id="${item?.id ?? 0}" data-m3m-name="${(item?.name || '').replace(/"/g, '&quot;')}"><i class="fa fa-copy"></i></button>
+            <button type="button" class="btn btn-xs btn-outline btn-info" title="Копировать" data-m3m-action="copy" data-m3m-id="${item?.id ?? 0}" data-m3m-name="${(item?.name || '').replace(/"/g, '&quot;')}"><i class="fa fa-link"></i></button>
             <button type="button" class="btn btn-xs btn-outline btn-danger" title="Удалить" data-m3m-action="delete" data-m3m-id="${item?.id ?? 0}" data-m3m-name="${(item?.name || '').replace(/"/g, '&quot;')}"><i class="fa fa-trash"></i></button>
           </div>
         </td>

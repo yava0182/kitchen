@@ -5,7 +5,7 @@
  * Соответствие jointIdx (превью/Базис) ↔ номеру кромки v/h/f согласовано с
  * _jointFaceInfo + _jointOutwardNormal для осях мира, когда панель ортогональна осям.
  */
-import * as THREE from '/node_modules/three/build/three.module.js';
+import * as THREE from 'three';
 
 let __carcassBbox3 = null;
 export function setJointCarcassContext(bbox) {
@@ -211,11 +211,10 @@ export function getJointSeamOutwardAndFaceWorld(panelRoot, jointIdx) {
     panelRoot
   );
   own.updateWorldMatrix(true, true);
-  const p = new THREE.Vector3();
-  const q = new THREE.Quaternion();
-  const s = new THREE.Vector3();
-  own.matrixWorld.decompose(p, q, s);
-  const ow = outward.clone().applyQuaternion(q);
+  // Не decompose→quaternion: при scale.x<0 отражение теряется и нормаль стыка
+  // смотрит внутрь (Г-крыло). Направления — через 3×3 matrixWorld + normalize.
+  const m3 = new THREE.Matrix3().setFromMatrix4(own.matrixWorld);
+  const ow = outward.clone().applyMatrix3(m3);
   if (ow.lengthSq() < 1e-18) return null;
   ow.normalize();
   const fc = faceCenter.clone().applyMatrix4(own.matrixWorld);
@@ -246,18 +245,14 @@ export function getJointStripeFrameWorld(panelRoot, jointIdx) {
   const worldSpan = (vLoc, len) => vLoc.clone().multiplyScalar(len).applyMatrix3(m3).length();
   const seamLenWorld = worldSpan(seamLocal, seamLen);
   const edgeLenWorld = worldSpan(edgeLocal, edgeLen);
-  // Только вращение (decompose), без per-axis нормали от неравномерного scale — иначе шов/кромка
-  // уезжают из плоскости торца (полоса «вверх» / перпендикулярно пласти).
-  const pW = new THREE.Vector3();
-  const quatW = new THREE.Quaternion();
-  const scW = new THREE.Vector3();
-  own.matrixWorld.decompose(pW, quatW, scW);
-  const sw = seamLocal.clone().applyQuaternion(quatW);
-  const ow = outward.clone().applyQuaternion(quatW);
+  // Направления через matrix3 + normalize (не quaternion): сохраняет отражение scale.x<0.
+  const sw = seamLocal.clone().applyMatrix3(m3);
+  const ow = outward.clone().applyMatrix3(m3);
   if (sw.lengthSq() < 1e-18 || ow.lengthSq() < 1e-18) return null;
   sw.normalize();
   ow.normalize();
   // В локали edge = seam×out; в мире: sw×ow. Для makeBasis(s,e,o) нужно s×e = o → e = o×s (а не s×o).
+  // При det<0 базис левый — ew из ow×sw всё ещё ортогонален паре (sw, ow).
   const ew = new THREE.Vector3().crossVectors(ow, sw);
   if (ew.lengthSq() < 1e-16) return null;
   ew.normalize();

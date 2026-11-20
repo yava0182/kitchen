@@ -2,14 +2,14 @@
 // Main module for furniture user actions (delete, resize, animate)
 
 import { state } from '../utils/state.js';
-import { deleteSelectedFurniture } from './furniture-manager.js?v=20260925-corner44y';
+import { deleteSelectedFurniture } from './furniture-manager.js?v=20261106-u600g4';
 
 // Появляется сразу при загрузке модуля — проверка фильтра консоли `[DELETE]`
 console.log('[DELETE] module furniture-actions.js loaded');
 
 function _onDeleteClick(ev) {
   console.log('[DELETE] click', ev?.type || '?');
-  // deleteSelectedFurniture РІРЅСѓС‚СЂРё РІС‹Р·С‹РІР°РµС‚ rebuildAllTransitions()
+  // deleteSelectedFurniture внутри вызывает rebuildAllTransitions()
   deleteSelectedFurniture();
 }
 
@@ -23,7 +23,7 @@ export function initFurnitureActions() {
     deleteBtn.addEventListener('click', _onDeleteClick);
   }
   console.log('[DELETE] initFurnitureActions bound=', !!deleteBtn);
-  console.log('вњ… Furniture actions initialized');
+  console.log('✅ Furniture actions initialized');
 }
 
 // ========== GLB Parametric Control and Animation ==========
@@ -36,13 +36,13 @@ export function initFurnitureActions() {
  */
 export function setGLBSize(width, height, depth) {
   if (!state.furniture || !state.furniture.group || !state.furniture.group.userData.isGLB) {
-    console.warn('вљ пёЏ РњРµР±РµР»СЊ РЅРµ СЏРІР»СЏРµС‚СЃСЏ GLB РёР»Рё РЅРµ РІС‹Р±СЂР°РЅР°');
+    console.warn('⚠️ Мебель не является GLB или не выбрана');
     return;
   }
   
   const originalSize = state.furniture.group.userData.originalSize;
   if (!originalSize) {
-    console.warn('вљ пёЏ РћСЂРёРіРёРЅР°Р»СЊРЅС‹Рµ СЂР°Р·РјРµСЂС‹ РЅРµ РЅР°Р№РґРµРЅС‹');
+    console.warn('⚠️ Оригинальные размеры не найдены');
     return;
   }
   
@@ -60,8 +60,8 @@ export function setGLBSize(width, height, depth) {
     // Update bbox
     state.furniture.bbox.setFromObject(state.furniture.group);
     
-    console.log('рџ“ђ Р Р°Р·РјРµСЂС‹ GLB РёР·РјРµРЅРµРЅС‹:', { width, height, depth });
-    console.log('  РњР°СЃС€С‚Р°Р±:', { scaleX, scaleY, scaleZ });
+    console.log('📐 Размеры GLB изменены:', { width, height, depth });
+    console.log('  Масштаб:', { scaleX, scaleY, scaleZ });
   }
 }
 
@@ -77,7 +77,7 @@ export function playGLBAnimation(animationName) {
   
   const action = state.furnitureAnimations[animationName];
   if (!action) {
-    console.warn('вљ пёЏ РђРЅРёРјР°С†РёСЏ РЅРµ РЅР°Р№РґРµРЅР°:', animationName);
+    console.warn('⚠️ Анимация не найдена:', animationName);
     console.log('Доступные анимации:', Object.keys(state.furnitureAnimations));
     return;
   }
@@ -113,10 +113,10 @@ export function pauseGLBAnimation(animationName, pause = true) {
   
   if (pause) {
     action.paused = true;
-    console.log('вЏёпёЏ РђРЅРёРјР°С†РёСЏ РЅР° РїР°СѓР·Рµ:', animationName);
+    console.log('⏸️ Анимация на паузе:', animationName);
   } else {
     action.paused = false;
-    console.log('в–¶пёЏ РђРЅРёРјР°С†РёСЏ РІРѕР·РѕР±РЅРѕРІР»РµРЅР°:', animationName);
+    console.log('▶️ Анимация возобновлена:', animationName);
   }
 }
 

@@ -1,31 +1,135 @@
 [
   {
-    "key": "catalog_module",
-    "name": "Кухни",
-    "description": "Кухонные модули",
-    "icon": "fa-kitchen-set",
-    "order": 1
+    "id": 28,
+    "key": "catalog_28",
+    "name": "Фасады",
+    "order": 0,
+    "active": 1
   },
   {
-    "key": "catalog_cabinet",
-    "name": "Шкафы",
-    "description": "Корпусная мебель - шкафы",
-    "icon": "fa-cabinet-filing",
-    "order": 2
+    "id": 29,
+    "key": "catalog_29",
+    "name": "Элементы",
+    "order": 0,
+    "active": 1
   },
   {
-    "key": "catalog_door",
-    "name": "Двери",
-    "description": "Дверцы для модулей",
-    "icon": "fa-door-closed",
-    "order": 3
+    "id": 31,
+    "key": "catalog_31",
+    "name": "Петли",
+    "order": 0,
+    "active": 1
   },
   {
-    "key": "catalog_shelves",
-    "name": "Полки",
-    "description": "Полки и перегородки",
-    "icon": "fa-layer-group",
-    "order": 4
+    "id": 32,
+    "key": "catalog_32",
+    "name": "Цоколь",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 33,
+    "key": "catalog_33",
+    "name": "Ящики",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 34,
+    "key": "catalog_34",
+    "name": "Направляющие",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 41,
+    "key": "catalog_41",
+    "name": "Торцевые шкафы",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 44,
+    "key": "catalog_44",
+    "name": "Угловые модули",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 45,
+    "key": "catalog_45",
+    "name": "Шаблон нижние базы",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 46,
+    "key": "catalog_46",
+    "name": "Рабочие столы",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 47,
+    "key": "catalog_47",
+    "name": "Шаблоны пеналов",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 48,
+    "key": "catalog_48",
+    "name": "Пеналы",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 49,
+    "key": "catalog_49",
+    "name": "Шаблон верхних баз",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 50,
+    "key": "catalog_50",
+    "name": "Навесные шкафы 1 ярус",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 51,
+    "key": "catalog_51",
+    "name": "Навесные шкафы 2 яруса",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 52,
+    "key": "catalog_52",
+    "name": "Нижние модули Gola",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 53,
+    "key": "catalog_53",
+    "name": "Столешница (модули)",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 54,
+    "key": "catalog_54",
+    "name": "Навесные угловые",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 55,
+    "key": "catalog_55",
+    "name": "Приставки угловые верхние",
+    "order": 0,
+    "active": 0
   }
 ]
-

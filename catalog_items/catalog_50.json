@@ -1,0 +1,1474 @@
+[
+  {
+    "catalog_type": "catalog_50",
+    "name": "Шкаф 1 яруса 1 дв",
+    "data": {
+      "name": "Шкаф 1 яруса 1 дв",
+      "category": [],
+      "show_in_spec": "1",
+      "include_nested": "1",
+      "show_in_constructor": "1",
+      "order": 0,
+      "icon": "/files/catalog_icons/catalog_icon_1_1791635368339_1791635368359.png",
+      "iconAspect": "tall",
+      "module_group": "top",
+      "drag_type": "top",
+      "stick_type": "common",
+      "is_fill": "0",
+      "no_intersections": "0",
+      "catalog_type": "catalog_50",
+      "width": "600",
+      "height": "720",
+      "depth": "315",
+      "placementKind": "kitchen_wall_mid",
+      "roomTags": {
+        "rooms": [
+          "kitchen"
+        ],
+        "layouts": [],
+        "catalogFolders": [
+          "50"
+        ],
+        "categories": [
+          "kitchen-50"
+        ]
+      },
+      "hingeLayoutId": null,
+      "clodisVariables": {
+        "h_bottom": 0,
+        "h_top": 0,
+        "tech_zone_mm": 0,
+        "facade_thickness_mm": 16
+      },
+      "clodisJSON": [
+        {
+          "type": "section",
+          "id": "node_1794048209167_nhennjvko",
+          "name": "Шкаф 1 дв 1 яруса",
+          "active": 1,
+          "helpers_visible": 1,
+          "size": {
+            "x": "s:x",
+            "y": "s:y",
+            "z": "s:z"
+          },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pivot": {
+            "x": -1,
+            "y": -1,
+            "z": -1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "spec": {
+            "orientation": "f"
+          },
+          "section_key": "",
+          "children": [
+            {
+              "type": "module",
+              "id": "node_1794048209168_gttudunj9",
+              "name": "Корпус шкафа навесного",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "1",
+                "element_type": "catalog_49",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "key": "Корпус шкафа навесного"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": ""
+            },
+            {
+              "type": "wall",
+              "id": "node_1794048226727_b33t6tai1",
+              "name": "Деталь",
+              "active": 1,
+              "size": {
+                "x": "s:x-33",
+                "y": "s:y",
+                "z": "s:z-5"
+              },
+              "pos": {
+                "x": 16.5,
+                "y": "s:y / 2",
+                "z": 3
+              },
+              "pivot": {
+                "x": -1,
+                "y": 0,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "h",
+                "direction": "z",
+                "side": "center",
+                "material": {
+                  "group": "g0",
+                  "key": "material_2",
+                  "rotated": false,
+                  "fixed": false
+                },
+                "detailTypeId": "horizontal_middle",
+                "show_index": false
+              },
+              "material_key": "material_2",
+              "material_group": "g0",
+              "edges": {},
+              "edge_numbering": false,
+              "children": []
+            }
+          ]
+        }
+      ],
+      "pairedCatalogItemIds": {
+        "single": 0,
+        "double": 0
+      },
+      "interiorLayout": {
+        "zones": [
+          {
+            "name": "Вся высота",
+            "position": "",
+            "heightPercent": 100,
+            "content": "shelves",
+            "rodRules": {
+              "anchor": "top",
+              "offsetMm": 80,
+              "companionMode": "none",
+              "topShelfGapMm": 80,
+              "bottomShelvesCount": 1,
+              "bottomShelvesTopGapMm": 80,
+              "gridShiftDownSteps": 0
+            },
+            "drawerRules": {
+              "anchor": "bottom",
+              "offsetMm": 19,
+              "count": 0,
+              "gapMm": 3,
+              "topShelfGapMm": 26,
+              "forceShelfAboveDrawers": true
+            },
+            "id": "zone_mw6a0qhj_wura"
+          }
+        ]
+      },
+      "interiorTemplates": {
+        "shelf": null,
+        "drawer": null,
+        "rod": {
+          "modelId": "22",
+          "label": "Штанга"
+        },
+        "shelfProps": {
+          "enabled": 0,
+          "slots": [
+            {
+              "model_id": "",
+              "label": "",
+              "x_mm": -20,
+              "y_mm": 0,
+              "z_mm": 0,
+              "rot_y": 0
+            },
+            {
+              "model_id": "",
+              "label": "",
+              "x_mm": 90,
+              "y_mm": 0,
+              "z_mm": 0,
+              "rot_y": 0
+            }
+          ]
+        }
+      },
+      "shelfStack": {
+        "enabled": false,
+        "distribution": "step",
+        "stepMm": 400,
+        "shelfThicknessMm": 16,
+        "bottomOffsetMm": 0,
+        "topOffsetMm": 0,
+        "mode": "max_count",
+        "maxCount": 12,
+        "minGapMm": 50,
+        "fixedPositionsFromBottomMm": []
+      },
+      "constructor_structure": {
+        "type": "module",
+        "name": "Шкаф 1 яруса 1 дв",
+        "children": [
+          {
+            "type": "section",
+            "id": "node_1794048209167_nhennjvko",
+            "name": "Шкаф 1 дв 1 яруса",
+            "active": 1,
+            "helpers_visible": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "orientation": "f"
+            },
+            "section_key": "",
+            "children": [
+              {
+                "type": "module",
+                "id": "node_1794048209168_gttudunj9",
+                "name": "Корпус шкафа навесного",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "1",
+                  "element_type": "catalog_49",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "key": "Корпус шкафа навесного"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": ""
+              },
+              {
+                "type": "wall",
+                "id": "node_1794048226727_b33t6tai1",
+                "name": "Деталь",
+                "active": 1,
+                "size": {
+                  "x": "s:x-33",
+                  "y": "s:y",
+                  "z": "s:z-5"
+                },
+                "pos": {
+                  "x": 16.5,
+                  "y": "s:y / 2",
+                  "z": 3
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": 0,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "h",
+                  "direction": "z",
+                  "side": "center",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "horizontal_middle",
+                  "show_index": false
+                },
+                "material_key": "material_2",
+                "material_group": "g0",
+                "edges": {},
+                "edge_numbering": false,
+                "children": []
+              }
+            ]
+          }
+        ],
+        "variables": {
+          "main": {
+            "h_bottom": 100,
+            "h_top": 0,
+            "tech_zone_mm": 0,
+            "facade_thickness_mm": 16
+          },
+          "groups": []
+        },
+        "template": {
+          "structure": [
+            {
+              "type": "section",
+              "id": "node_1794048209167_nhennjvko",
+              "name": "Шкаф 1 дв 1 яруса",
+              "active": 1,
+              "helpers_visible": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "f"
+              },
+              "section_key": "",
+              "children": [
+                {
+                  "type": "module",
+                  "id": "node_1794048209168_gttudunj9",
+                  "name": "Корпус шкафа навесного",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "1",
+                    "element_type": "catalog_49",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "key": "Корпус шкафа навесного"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": ""
+                },
+                {
+                  "type": "wall",
+                  "id": "node_1794048226727_b33t6tai1",
+                  "name": "Деталь",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x-33",
+                    "y": "s:y",
+                    "z": "s:z-5"
+                  },
+                  "pos": {
+                    "x": 16.5,
+                    "y": "s:y / 2",
+                    "z": 3
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": 0,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "orientation": "h",
+                    "direction": "z",
+                    "side": "center",
+                    "material": {
+                      "group": "g0",
+                      "key": "material_2",
+                      "rotated": false,
+                      "fixed": false
+                    },
+                    "detailTypeId": "horizontal_middle",
+                    "show_index": false
+                  },
+                  "material_key": "material_2",
+                  "material_group": "g0",
+                  "edges": {},
+                  "edge_numbering": false,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        "materials_overrides": {
+          "g1": {
+            "material_key": "material_3"
+          }
+        },
+        "spec": {
+          "template": {
+            "tree": [
+              {
+                "type": "section",
+                "id": "node_1794048209167_nhennjvko",
+                "name": "Шкаф 1 дв 1 яруса",
+                "active": 1,
+                "helpers_visible": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "f"
+                },
+                "section_key": "",
+                "children": [
+                  {
+                    "type": "module",
+                    "id": "node_1794048209168_gttudunj9",
+                    "name": "Корпус шкафа навесного",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x",
+                      "y": "s:y",
+                      "z": "s:z"
+                    },
+                    "pos": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": -1,
+                      "z": -1
+                    },
+                    "scale": {
+                      "x": 1,
+                      "y": 1,
+                      "z": 1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "id": "1",
+                      "element_type": "catalog_49",
+                      "fill_content": {},
+                      "linked_item_id": 0,
+                      "live_catalog": true,
+                      "key": "Корпус шкафа навесного"
+                    },
+                    "children": [],
+                    "lib": "",
+                    "tags": "",
+                    "interactive": 0,
+                    "custom": {},
+                    "condition": null,
+                    "visible": 1,
+                    "helpers_visible": 1,
+                    "variables": {
+                      "visible": 1,
+                      "main": {}
+                    },
+                    "interaction": {
+                      "auto_rotation": 1,
+                      "check_intersection": 0,
+                      "raycast": 1,
+                      "rotate_free": 0
+                    },
+                    "resizable": {
+                      "enabled": 0,
+                      "locks": {},
+                      "minmax": {
+                        "min": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "max": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        }
+                      }
+                    },
+                    "events": {
+                      "on_before_params": "",
+                      "on_before_build": "",
+                      "on_after_build": "",
+                      "on_drag_end": ""
+                    },
+                    "comments": "",
+                    "section_key": "",
+                    "params_key": ""
+                  },
+                  {
+                    "type": "wall",
+                    "id": "node_1794048226727_b33t6tai1",
+                    "name": "Деталь",
+                    "active": 1,
+                    "size": {
+                      "x": "s:x-33",
+                      "y": "s:y",
+                      "z": "s:z-5"
+                    },
+                    "pos": {
+                      "x": 16.5,
+                      "y": "s:y / 2",
+                      "z": 3
+                    },
+                    "pivot": {
+                      "x": -1,
+                      "y": 0,
+                      "z": -1
+                    },
+                    "rot": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "spec": {
+                      "orientation": "h",
+                      "direction": "z",
+                      "side": "center",
+                      "material": {
+                        "group": "g0",
+                        "key": "material_2",
+                        "rotated": false,
+                        "fixed": false
+                      },
+                      "detailTypeId": "horizontal_middle",
+                      "show_index": false
+                    },
+                    "material_key": "material_2",
+                    "material_group": "g0",
+                    "edges": {},
+                    "edge_numbering": false,
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "short_name": "",
+      "no_intersections_main": "0",
+      "free_rotate": "0",
+      "quick_replace": "0",
+      "hide_sizes_menu": "0",
+      "hide_sizes_catalog": "0",
+      "hide_sizes_scene": "0",
+      "fix_materials": "0",
+      "fit_width": "0",
+      "fit_height": "0",
+      "fit_depth": "0",
+      "intersections_nested_only": "0",
+      "fill_origin_x": "0",
+      "fill_origin_y": "0",
+      "fill_origin_z": "0",
+      "computedValues": {},
+      "priceListPositions": []
+    },
+    "constructor_structure": {
+      "type": "module",
+      "name": "Шкаф 1 яруса 1 дв",
+      "children": [
+        {
+          "type": "section",
+          "id": "node_1794048209167_nhennjvko",
+          "name": "Шкаф 1 дв 1 яруса",
+          "active": 1,
+          "helpers_visible": 1,
+          "size": {
+            "x": "s:x",
+            "y": "s:y",
+            "z": "s:z"
+          },
+          "pos": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "pivot": {
+            "x": -1,
+            "y": -1,
+            "z": -1
+          },
+          "rot": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "spec": {
+            "orientation": "f"
+          },
+          "section_key": "",
+          "children": [
+            {
+              "type": "module",
+              "id": "node_1794048209168_gttudunj9",
+              "name": "Корпус шкафа навесного",
+              "active": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "id": "1",
+                "element_type": "catalog_49",
+                "fill_content": {},
+                "linked_item_id": 0,
+                "live_catalog": true,
+                "key": "Корпус шкафа навесного"
+              },
+              "children": [],
+              "lib": "",
+              "tags": "",
+              "interactive": 0,
+              "custom": {},
+              "condition": null,
+              "visible": 1,
+              "helpers_visible": 1,
+              "variables": {
+                "visible": 1,
+                "main": {}
+              },
+              "interaction": {
+                "auto_rotation": 1,
+                "check_intersection": 0,
+                "raycast": 1,
+                "rotate_free": 0
+              },
+              "resizable": {
+                "enabled": 0,
+                "locks": {},
+                "minmax": {
+                  "min": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "max": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  }
+                }
+              },
+              "events": {
+                "on_before_params": "",
+                "on_before_build": "",
+                "on_after_build": "",
+                "on_drag_end": ""
+              },
+              "comments": "",
+              "section_key": "",
+              "params_key": ""
+            },
+            {
+              "type": "wall",
+              "id": "node_1794048226727_b33t6tai1",
+              "name": "Деталь",
+              "active": 1,
+              "size": {
+                "x": "s:x-33",
+                "y": "s:y",
+                "z": "s:z-5"
+              },
+              "pos": {
+                "x": 16.5,
+                "y": "s:y / 2",
+                "z": 3
+              },
+              "pivot": {
+                "x": -1,
+                "y": 0,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "h",
+                "direction": "z",
+                "side": "center",
+                "material": {
+                  "group": "g0",
+                  "key": "material_2",
+                  "rotated": false,
+                  "fixed": false
+                },
+                "detailTypeId": "horizontal_middle",
+                "show_index": false
+              },
+              "material_key": "material_2",
+              "material_group": "g0",
+              "edges": {},
+              "edge_numbering": false,
+              "children": []
+            }
+          ]
+        }
+      ],
+      "variables": {
+        "main": {
+          "h_bottom": 100,
+          "h_top": 0,
+          "tech_zone_mm": 0,
+          "facade_thickness_mm": 16
+        },
+        "groups": []
+      },
+      "template": {
+        "structure": [
+          {
+            "type": "section",
+            "id": "node_1794048209167_nhennjvko",
+            "name": "Шкаф 1 дв 1 яруса",
+            "active": 1,
+            "helpers_visible": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "orientation": "f"
+            },
+            "section_key": "",
+            "children": [
+              {
+                "type": "module",
+                "id": "node_1794048209168_gttudunj9",
+                "name": "Корпус шкафа навесного",
+                "active": 1,
+                "size": {
+                  "x": "s:x",
+                  "y": "s:y",
+                  "z": "s:z"
+                },
+                "pos": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": -1,
+                  "z": -1
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "id": "1",
+                  "element_type": "catalog_49",
+                  "fill_content": {},
+                  "linked_item_id": 0,
+                  "live_catalog": true,
+                  "key": "Корпус шкафа навесного"
+                },
+                "children": [],
+                "lib": "",
+                "tags": "",
+                "interactive": 0,
+                "custom": {},
+                "condition": null,
+                "visible": 1,
+                "helpers_visible": 1,
+                "variables": {
+                  "visible": 1,
+                  "main": {}
+                },
+                "interaction": {
+                  "auto_rotation": 1,
+                  "check_intersection": 0,
+                  "raycast": 1,
+                  "rotate_free": 0
+                },
+                "resizable": {
+                  "enabled": 0,
+                  "locks": {},
+                  "minmax": {
+                    "min": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "max": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    }
+                  }
+                },
+                "events": {
+                  "on_before_params": "",
+                  "on_before_build": "",
+                  "on_after_build": "",
+                  "on_drag_end": ""
+                },
+                "comments": "",
+                "section_key": "",
+                "params_key": ""
+              },
+              {
+                "type": "wall",
+                "id": "node_1794048226727_b33t6tai1",
+                "name": "Деталь",
+                "active": 1,
+                "size": {
+                  "x": "s:x-33",
+                  "y": "s:y",
+                  "z": "s:z-5"
+                },
+                "pos": {
+                  "x": 16.5,
+                  "y": "s:y / 2",
+                  "z": 3
+                },
+                "pivot": {
+                  "x": -1,
+                  "y": 0,
+                  "z": -1
+                },
+                "rot": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "spec": {
+                  "orientation": "h",
+                  "direction": "z",
+                  "side": "center",
+                  "material": {
+                    "group": "g0",
+                    "key": "material_2",
+                    "rotated": false,
+                    "fixed": false
+                  },
+                  "detailTypeId": "horizontal_middle",
+                  "show_index": false
+                },
+                "material_key": "material_2",
+                "material_group": "g0",
+                "edges": {},
+                "edge_numbering": false,
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      "materials_overrides": {
+        "g1": {
+          "material_key": "material_3"
+        }
+      },
+      "spec": {
+        "template": {
+          "tree": [
+            {
+              "type": "section",
+              "id": "node_1794048209167_nhennjvko",
+              "name": "Шкаф 1 дв 1 яруса",
+              "active": 1,
+              "helpers_visible": 1,
+              "size": {
+                "x": "s:x",
+                "y": "s:y",
+                "z": "s:z"
+              },
+              "pos": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "pivot": {
+                "x": -1,
+                "y": -1,
+                "z": -1
+              },
+              "rot": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "spec": {
+                "orientation": "f"
+              },
+              "section_key": "",
+              "children": [
+                {
+                  "type": "module",
+                  "id": "node_1794048209168_gttudunj9",
+                  "name": "Корпус шкафа навесного",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x",
+                    "y": "s:y",
+                    "z": "s:z"
+                  },
+                  "pos": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": -1,
+                    "z": -1
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "id": "1",
+                    "element_type": "catalog_49",
+                    "fill_content": {},
+                    "linked_item_id": 0,
+                    "live_catalog": true,
+                    "key": "Корпус шкафа навесного"
+                  },
+                  "children": [],
+                  "lib": "",
+                  "tags": "",
+                  "interactive": 0,
+                  "custom": {},
+                  "condition": null,
+                  "visible": 1,
+                  "helpers_visible": 1,
+                  "variables": {
+                    "visible": 1,
+                    "main": {}
+                  },
+                  "interaction": {
+                    "auto_rotation": 1,
+                    "check_intersection": 0,
+                    "raycast": 1,
+                    "rotate_free": 0
+                  },
+                  "resizable": {
+                    "enabled": 0,
+                    "locks": {},
+                    "minmax": {
+                      "min": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "max": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      }
+                    }
+                  },
+                  "events": {
+                    "on_before_params": "",
+                    "on_before_build": "",
+                    "on_after_build": "",
+                    "on_drag_end": ""
+                  },
+                  "comments": "",
+                  "section_key": "",
+                  "params_key": ""
+                },
+                {
+                  "type": "wall",
+                  "id": "node_1794048226727_b33t6tai1",
+                  "name": "Деталь",
+                  "active": 1,
+                  "size": {
+                    "x": "s:x-33",
+                    "y": "s:y",
+                    "z": "s:z-5"
+                  },
+                  "pos": {
+                    "x": 16.5,
+                    "y": "s:y / 2",
+                    "z": 3
+                  },
+                  "pivot": {
+                    "x": -1,
+                    "y": 0,
+                    "z": -1
+                  },
+                  "rot": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "spec": {
+                    "orientation": "h",
+                    "direction": "z",
+                    "side": "center",
+                    "material": {
+                      "group": "g0",
+                      "key": "material_2",
+                      "rotated": false,
+                      "fixed": false
+                    },
+                    "detailTypeId": "horizontal_middle",
+                    "show_index": false
+                  },
+                  "material_key": "material_2",
+                  "material_group": "g0",
+                  "edges": {},
+                  "edge_numbering": false,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "clodisJSON": [
+      {
+        "type": "section",
+        "id": "node_1794048209167_nhennjvko",
+        "name": "Шкаф 1 дв 1 яруса",
+        "active": 1,
+        "helpers_visible": 1,
+        "size": {
+          "x": "s:x",
+          "y": "s:y",
+          "z": "s:z"
+        },
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "pivot": {
+          "x": -1,
+          "y": -1,
+          "z": -1
+        },
+        "rot": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "spec": {
+          "orientation": "f"
+        },
+        "section_key": "",
+        "children": [
+          {
+            "type": "module",
+            "id": "node_1794048209168_gttudunj9",
+            "name": "Корпус шкафа навесного",
+            "active": 1,
+            "size": {
+              "x": "s:x",
+              "y": "s:y",
+              "z": "s:z"
+            },
+            "pos": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "pivot": {
+              "x": -1,
+              "y": -1,
+              "z": -1
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "id": "1",
+              "element_type": "catalog_49",
+              "fill_content": {},
+              "linked_item_id": 0,
+              "live_catalog": true,
+              "key": "Корпус шкафа навесного"
+            },
+            "children": [],
+            "lib": "",
+            "tags": "",
+            "interactive": 0,
+            "custom": {},
+            "condition": null,
+            "visible": 1,
+            "helpers_visible": 1,
+            "variables": {
+              "visible": 1,
+              "main": {}
+            },
+            "interaction": {
+              "auto_rotation": 1,
+              "check_intersection": 0,
+              "raycast": 1,
+              "rotate_free": 0
+            },
+            "resizable": {
+              "enabled": 0,
+              "locks": {},
+              "minmax": {
+                "min": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "max": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              }
+            },
+            "events": {
+              "on_before_params": "",
+              "on_before_build": "",
+              "on_after_build": "",
+              "on_drag_end": ""
+            },
+            "comments": "",
+            "section_key": "",
+            "params_key": ""
+          },
+          {
+            "type": "wall",
+            "id": "node_1794048226727_b33t6tai1",
+            "name": "Деталь",
+            "active": 1,
+            "size": {
+              "x": "s:x-33",
+              "y": "s:y",
+              "z": "s:z-5"
+            },
+            "pos": {
+              "x": 16.5,
+              "y": "s:y / 2",
+              "z": 3
+            },
+            "pivot": {
+              "x": -1,
+              "y": 0,
+              "z": -1
+            },
+            "rot": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "spec": {
+              "orientation": "h",
+              "direction": "z",
+              "side": "center",
+              "material": {
+                "group": "g0",
+                "key": "material_2",
+                "rotated": false,
+                "fixed": false
+              },
+              "detailTypeId": "horizontal_middle",
+              "show_index": false
+            },
+            "material_key": "material_2",
+            "material_group": "g0",
+            "edges": {},
+            "edge_numbering": false,
+            "children": []
+          }
+        ]
+      }
+    ],
+    "id": 1,
+    "icon": "/files/catalog_icons/catalog_icon_1_1791635368339_1791635368359.png",
+    "iconAspect": "tall"
+  }
+]

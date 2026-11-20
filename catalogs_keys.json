@@ -1,26 +1,5 @@
 [
   {
-    "id": 25,
-    "key": "catalog_25",
-    "name": "Тумбы",
-    "order": 0,
-    "active": 1
-  },
-  {
-    "id": 26,
-    "key": "catalog_26",
-    "name": "Шкафы",
-    "order": 0,
-    "active": 1
-  },
-  {
-    "id": 27,
-    "key": "catalog_27",
-    "name": "Шаблоны корпусов шкафов.",
-    "order": 0,
-    "active": 1
-  },
-  {
     "id": 28,
     "key": "catalog_28",
     "name": "Фасады",
@@ -31,13 +10,6 @@
     "id": 29,
     "key": "catalog_29",
     "name": "Элементы",
-    "order": 0,
-    "active": 1
-  },
-  {
-    "id": 30,
-    "key": "catalog_30",
-    "name": "Антресоль",
     "order": 0,
     "active": 1
   },
@@ -70,65 +42,9 @@
     "active": 1
   },
   {
-    "id": 35,
-    "key": "catalog_35",
-    "name": "Шаблоны тумб",
-    "order": 0,
-    "active": 1
-  },
-  {
-    "id": 36,
-    "key": "catalog_36",
-    "name": "Шаблон комодов",
-    "order": 0,
-    "active": 1
-  },
-  {
-    "id": 37,
-    "key": "catalog_37",
-    "name": "Комоды",
-    "order": 0,
-    "active": 1
-  },
-  {
-    "id": 38,
-    "key": "catalog_38",
-    "name": "Наполнения для шкафов",
-    "order": 0,
-    "active": 1
-  },
-  {
-    "id": 39,
-    "key": "catalog_39",
-    "name": "Наполнение антресоли",
-    "order": 0,
-    "active": 1
-  },
-  {
-    "id": 40,
-    "key": "catalog_40",
-    "name": "Корпуса шкафов с наполнением",
-    "order": 0,
-    "active": 1
-  },
-  {
     "id": 41,
     "key": "catalog_41",
     "name": "Торцевые шкафы",
-    "order": 0,
-    "active": 1
-  },
-  {
-    "id": 42,
-    "key": "catalog_42",
-    "name": "Навесные модули нижние",
-    "order": 0,
-    "active": 1
-  },
-  {
-    "id": 43,
-    "key": "catalog_43",
-    "name": "Навесные модули верхние",
     "order": 0,
     "active": 1
   },
@@ -140,10 +56,80 @@
     "active": 1
   },
   {
-    "id": 1,
-    "key": "catalog_1",
-    "name": "Кухни",
-    "order": 1,
+    "id": 45,
+    "key": "catalog_45",
+    "name": "Шаблон нижние базы",
+    "order": 0,
     "active": 1
+  },
+  {
+    "id": 46,
+    "key": "catalog_46",
+    "name": "Рабочие столы",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 47,
+    "key": "catalog_47",
+    "name": "Шаблоны пеналов",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 48,
+    "key": "catalog_48",
+    "name": "Пеналы",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 49,
+    "key": "catalog_49",
+    "name": "Шаблон верхних баз",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 50,
+    "key": "catalog_50",
+    "name": "Навесные шкафы 1 ярус",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 51,
+    "key": "catalog_51",
+    "name": "Навесные шкафы 2 яруса",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 52,
+    "key": "catalog_52",
+    "name": "Нижние модули Gola",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 53,
+    "key": "catalog_53",
+    "name": "Столешница (модули)",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 54,
+    "key": "catalog_54",
+    "name": "Навесные угловые",
+    "order": 0,
+    "active": 1
+  },
+  {
+    "id": 55,
+    "key": "catalog_55",
+    "name": "Приставки угловые верхние",
+    "order": 0,
+    "active": 0
   }
 ]

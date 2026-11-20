@@ -4,9 +4,6 @@
  */
 import { state } from '../utils/state.js';
 import { updateMousePosition } from '../events/mouse-handler.js';
-import { isIkeaRoomLightV0 } from '../furniture/ikea-light-gate.js?v=20260907-nospeed1';
-import { installIkeaRoomLightV0 } from '../furniture/ikea-room-light-v0.js?v=20260913-hang-lite';
-
 const CORNER_MARGIN_MM = 80;
 const DEFAULT_DOOR_W_MM = 900;
 const DEFAULT_DOOR_H_MM = 2100;
@@ -14,14 +11,15 @@ const DEFAULT_WINDOW_W_MM = 1200;
 const DEFAULT_WINDOW_H_MM = 1200;
 const DEFAULT_WINDOW_SILL_MM = 900;
 /**
- * Смещение размерной линии от внутренней грани комнаты (мм).
- * Совпадает с наружным размером комнаты в scene-icons (IKEA: сегменты
- * заменяют «500 см» на той же линии). Ближе к стене ×2 vs 100+560.
+ * Смещение размерной линии проёма от стены (мм).
+ * Ближе, чем размер ребра комнаты в scene-icons (100+280), чтобы не накладывались.
  */
-const DIM_OUT_MM = 100 + 280;
+const DIM_OUT_MM = 100 + 140;
 /** Длина засечки на концах сегмента (px экрана). */
 const DIM_TICK_PX = 9;
 const SVG_NS = 'http://www.w3.org/2000/svg';
+/** Порядок стен для авто-постановки как у IKEA (вид сверху). */
+const WALL_PLACE_ORDER = ['back', 'right', 'front', 'left'];
 
 let canvasBound = false;
 let dimRaf = 0;
@@ -67,13 +65,162 @@ function mmToCmNumber(mm) {
 
 function wallLength(room, wallName) {
   if (!room) return 0;
-  if (typeof room.wallLengthOf === 'function') return room.wallLengthOf(wallName);
-  return wallName === 'left' || wallName === 'right' ? room.depth : room.width;
+  const span = wallSolidSpan(room, wallName);
+  return Math.max(0, span.end - span.start);
 }
 
-function alongFromLocal(wallName, local) {
-  if (wallName === 'front' || wallName === 'back') return local.x;
-  return local.z;
+function roomSegments(room) {
+  return (
+    (room && Array.isArray(room.wallSegments) && room.wallSegments) ||
+    (room &&
+      room.footprintSpec &&
+      Array.isArray(room.footprintSpec.segments) &&
+      room.footprintSpec.segments) ||
+    []
+  );
+}
+
+function findSegment(room, wallName) {
+  if (room && typeof room.findWallSegment === 'function') {
+    return room.findWallSegment(wallName);
+  }
+  const segs = roomSegments(room);
+  return segs.find((s) => s && !s.open && (s.wallName === wallName || s.id === wallName)) || null;
+}
+
+function wallAlongAxis(room, wallName) {
+  if (room && typeof room.wallAlongAxis === 'function') return room.wallAlongAxis(wallName);
+  if (wallName === 'front' || wallName === 'back') return 'x';
+  if (wallName === 'left' || wallName === 'right') return 'z';
+  const s = findSegment(room, wallName);
+  if (!s) return 'x';
+  return Math.abs(s.x2 - s.x1) >= Math.abs(s.z2 - s.z1) ? 'x' : 'z';
+}
+
+function wallCardinalSide(room, wallName) {
+  if (room && typeof room.wallCardinalSide === 'function') return room.wallCardinalSide(wallName);
+  if (
+    wallName === 'front' ||
+    wallName === 'back' ||
+    wallName === 'left' ||
+    wallName === 'right'
+  ) {
+    return wallName;
+  }
+  const s = findSegment(room, wallName);
+  if (!s) return 'back';
+  const dx = s.x2 - s.x1;
+  const dz = s.z2 - s.z1;
+  const len = Math.hypot(dx, dz) || 1;
+  const inx = -dz / len;
+  const inz = dx / len;
+  if (Math.abs(inx) >= Math.abs(inz)) return inx > 0 ? 'left' : 'right';
+  return inz > 0 ? 'back' : 'front';
+}
+
+function distPointToSeg(px, pz, x1, z1, x2, z2) {
+  const dx = x2 - x1;
+  const dz = z2 - z1;
+  const len2 = dx * dx + dz * dz;
+  if (len2 < 1e-6) return Math.hypot(px - x1, pz - z1);
+  let t = ((px - x1) * dx + (pz - z1) * dz) / len2;
+  t = Math.max(0, Math.min(1, t));
+  return Math.hypot(px - (x1 + t * dx), pz - (z1 + t * dz));
+}
+
+/**
+ * Участок реальной (сплошной) стены в абсолютных along.
+ * Открытое ребро (open_corner / open_one_wall) → пустой span — проёмы туда нельзя.
+ */
+function wallSolidSpan(room, wallName) {
+  const axis = wallAlongAxis(room, wallName);
+  const full =
+    axis === 'z' ? Number(room && room.depth) || 0 : Number(room && room.width) || 0;
+  const segs = roomSegments(room);
+  if (!segs.length) {
+    // Нет footprint — классический прямоугольник
+    return { start: 0, end: full };
+  }
+  let start = Infinity;
+  let end = -Infinity;
+  let matchedSolid = false;
+  let matchedOpen = false;
+  for (let i = 0; i < segs.length; i++) {
+    const s = segs[i];
+    if (!s) continue;
+    if (s.wallName !== wallName && s.id !== wallName) continue;
+    if (s.open) {
+      matchedOpen = true;
+      continue;
+    }
+    matchedSolid = true;
+    if (axis === 'x') {
+      start = Math.min(start, s.x1, s.x2);
+      end = Math.max(end, s.x1, s.x2);
+    } else {
+      start = Math.min(start, s.z1, s.z2);
+      end = Math.max(end, s.z1, s.z2);
+    }
+  }
+  if (matchedSolid && end > start) return { start, end };
+  // Сторона есть, но она открытая (нет стены) — проёмы не ставим
+  if (matchedOpen) return { start: 0, end: 0 };
+  return { start: 0, end: 0 };
+}
+
+function alongInSolidSpan(room, wallName, along, padMm) {
+  const span = wallSolidSpan(room, wallName);
+  const pad = Number.isFinite(padMm) ? padMm : 40;
+  return along >= span.start - pad && along <= span.end + pad;
+}
+
+function alongFromLocal(wallName, local, room) {
+  const r = room || state.room;
+  return wallAlongAxis(r, wallName) === 'x' ? local.x : local.z;
+}
+
+/** Проём ширины widthMm влезает на стену с учётом отступов от углов. */
+function openingFitsWall(room, wallName, widthMm) {
+  if (!room || !wallName) return false;
+  const w = Number(widthMm);
+  if (!Number.isFinite(w) || w < 40) return false;
+  const span = wallSolidSpan(room, wallName);
+  const need = w + 2 * CORNER_MARGIN_MM;
+  return span.end - span.start >= need - 0.5;
+}
+
+/** Можно поставить в точку along без пересечения с другими проёмами. */
+function canPlaceOpening(room, wallName, along, widthMm, ignoreId) {
+  if (!openingFitsWall(room, wallName, widthMm)) return false;
+  if (!Number.isFinite(along)) return false;
+  const span = wallSolidSpan(room, wallName);
+  const half = widthMm / 2;
+  if (along - half < span.start + CORNER_MARGIN_MM - 0.5) return false;
+  if (along + half > span.end - CORNER_MARGIN_MM + 0.5) return false;
+  if (overlaps(wallName, along, widthMm, ignoreId)) return false;
+  return true;
+}
+
+function listSolidWallKeys(room) {
+  const segs = roomSegments(room);
+  const seen = new Set();
+  const keys = [];
+  for (let i = 0; i < segs.length; i++) {
+    const s = segs[i];
+    if (!s || s.open) continue;
+    const k = s.wallName || s.id;
+    if (!k || seen.has(k)) continue;
+    seen.add(k);
+    keys.push(k);
+  }
+  const ordered = [];
+  WALL_PLACE_ORDER.forEach((w) => {
+    if (seen.has(w)) ordered.push(w);
+  });
+  keys.forEach((k) => {
+    if (WALL_PLACE_ORDER.indexOf(k) < 0) ordered.push(k);
+  });
+  return ordered.length ? ordered : WALL_PLACE_ORDER.slice();
 }
 
 function openingSpan(op) {
@@ -84,9 +231,13 @@ function openingSpan(op) {
 }
 
 function overlaps(wallName, along, width, ignoreId) {
+  return overlapsList(openings(), wallName, along, width, ignoreId);
+}
+
+function overlapsList(list, wallName, along, width, ignoreId) {
   const a0 = along - width / 2;
   const b0 = along + width / 2;
-  return openings().some((op) => {
+  return (list || []).some((op) => {
     if (!op || op.wallName !== wallName) return false;
     if (ignoreId && op.id === ignoreId) return false;
     const s = openingSpan(op);
@@ -94,12 +245,146 @@ function overlaps(wallName, along, width, ignoreId) {
   });
 }
 
+function findFreeAlongInList(room, wallName, widthMm, excludeId, occupied) {
+  if (!openingFitsWall(room, wallName, widthMm)) return null;
+  const span = wallSolidSpan(room, wallName);
+  const preferred = (span.start + span.end) / 2;
+  const along0 = clampAlong(room, wallName, preferred, widthMm);
+  if (
+    along0 != null &&
+    !overlapsList(occupied, wallName, along0, widthMm, excludeId)
+  ) {
+    const half = widthMm / 2;
+    if (
+      along0 - half >= span.start + CORNER_MARGIN_MM - 0.5 &&
+      along0 + half <= span.end - CORNER_MARGIN_MM + 0.5
+    ) {
+      return along0;
+    }
+  }
+  const half = widthMm / 2;
+  const minA = span.start + half + CORNER_MARGIN_MM;
+  const maxA = span.end - half - CORNER_MARGIN_MM;
+  if (maxA < minA) return null;
+  let best = null;
+  let bestDist = Infinity;
+  const step = 10;
+  for (let a = minA; a <= maxA + 0.01; a += step) {
+    const c = Math.min(maxA, a);
+    if (overlapsList(occupied, wallName, c, widthMm, excludeId)) continue;
+    const d = Math.abs(c - preferred);
+    if (d < bestDist) {
+      bestDist = d;
+      best = c;
+    }
+  }
+  return best;
+}
+
+/**
+ * Снимок проёмов до пересборки комнаты (сторона/ось для rematch).
+ */
+export function snapshotOpeningsForReconcile() {
+  const room = state.room;
+  return openings().map((op) => {
+    if (!op) return null;
+    return {
+      ...op,
+      _side: room && typeof room.wallCardinalSide === 'function' ? room.wallCardinalSide(op.wallName) : null,
+      _axis: room && typeof room.wallAlongAxis === 'function' ? room.wallAlongAxis(op.wallName) : null,
+    };
+  }).filter(Boolean);
+}
+
+/**
+ * После смены формы/ориента/размера:
+ * — если проём влазит на ту же / ту же сторону стены → переносим;
+ * — иначе удаляем.
+ * Убирает «сиротские» размеры без двери/окна.
+ */
+export function reconcileOpeningsAfterRoomChange(snapshot) {
+  const room = state.room;
+  const prev = Array.isArray(snapshot) ? snapshot : snapshotOpeningsForReconcile();
+  if (!room) {
+    state.roomEditOpenings = [];
+    selectedOpeningId = null;
+    try {
+      refreshOpeningDims();
+    } catch (_) {}
+    return;
+  }
+
+  const kept = [];
+  for (let i = 0; i < prev.length; i++) {
+    const op = prev[i];
+    if (!op || !op.widthMm) continue;
+
+    const tryWall = (wallName) => {
+      if (!wallName || !openingFitsWall(room, wallName, op.widthMm)) return null;
+      let along = clampAlong(room, wallName, op.alongMm, op.widthMm);
+      if (along == null || overlapsList(kept, wallName, along, op.widthMm, op.id)) {
+        along = findFreeAlongInList(room, wallName, op.widthMm, op.id, kept);
+      }
+      if (along == null) return null;
+      if (overlapsList(kept, wallName, along, op.widthMm, op.id)) return null;
+      return along;
+    };
+
+    let wallName = op.wallName;
+    let along = tryWall(wallName);
+
+    // Та же кардинальная сторона (внутренняя → внутренняя после поворота варианта)
+    if (along == null && op._side) {
+      const keys = listSolidWallKeys(room).filter(
+        (k) => wallCardinalSide(room, k) === op._side
+      );
+      for (let k = 0; k < keys.length; k++) {
+        along = tryWall(keys[k]);
+        if (along != null) {
+          wallName = keys[k];
+          break;
+        }
+      }
+    }
+
+    // Та же ось (горизонталь/вертикаль) — запасной вариант
+    if (along == null && op._axis) {
+      const keys = listSolidWallKeys(room).filter(
+        (k) => wallAlongAxis(room, k) === op._axis
+      );
+      for (let k = 0; k < keys.length; k++) {
+        along = tryWall(keys[k]);
+        if (along != null) {
+          wallName = keys[k];
+          break;
+        }
+      }
+    }
+
+    if (along == null) continue; // не влезает — удаляем
+
+    const next = { ...op };
+    delete next._side;
+    delete next._axis;
+    next.wallName = wallName;
+    next.alongMm = along;
+    kept.push(next);
+  }
+
+  state.roomEditOpenings = kept;
+  if (selectedOpeningId && !kept.some((o) => o.id === selectedOpeningId)) {
+    selectedOpeningId = null;
+  }
+  applyToRoom();
+}
+
+/** along — абсолютная координата на оси стены; clamp только в реальный сегмент. */
 function clampAlong(room, wallName, along, width) {
-  const len = wallLength(room, wallName);
+  const span = wallSolidSpan(room, wallName);
   const half = width / 2;
-  const min = CORNER_MARGIN_MM + half;
-  const max = len - CORNER_MARGIN_MM - half;
-  if (max <= min) return len / 2;
+  const min = span.start + CORNER_MARGIN_MM + half;
+  const max = span.end - CORNER_MARGIN_MM - half;
+  if (max < min) return null;
   return Math.max(min, Math.min(max, along));
 }
 
@@ -113,9 +398,28 @@ function hitWall(event) {
 
   const localOf = (point) => point.clone().sub(roomWorld);
 
-  const frames = ['front', 'back', 'left', 'right']
-    .map((n) => room.walls && room.walls[n])
-    .filter((m) => m && m.visible !== false);
+  // Все сегменты footprint (включая внутренние eN), не только 4 legacy
+  const frames = [];
+  if (room.walls) {
+    Object.keys(room.walls).forEach((k) => {
+      if (k === 'ceiling') return;
+      const m = room.walls[k];
+      if (m && m.visible !== false) frames.push(m);
+    });
+  }
+  if (room.group) {
+    room.group.traverse((o) => {
+      if (
+        o.isMesh &&
+        o.userData &&
+        o.userData.isPolygonWallStrip &&
+        o.visible !== false &&
+        frames.indexOf(o) < 0
+      ) {
+        frames.push(o);
+      }
+    });
+  }
   if (frames.length) {
     const frameHits = state.raycaster.intersectObjects(frames, false);
     if (frameHits.length) {
@@ -161,16 +465,23 @@ function hitWall(event) {
     const floorHits = state.raycaster.intersectObject(floor, false);
     if (floorHits.length) {
       const local = localOf(floorHits[0].point);
-      const cand = [
-        { wallName: 'back', d: local.z, along: local.x },
-        { wallName: 'front', d: room.depth - local.z, along: local.x },
-        { wallName: 'left', d: local.x, along: local.z },
-        { wallName: 'right', d: room.width - local.x, along: local.z },
-      ].sort((a, b) => a.d - b.d);
-      const best = cand[0];
-      if (best && best.d < 400) {
-        return { wallName: best.wallName, local, point: floorHits[0].point };
+      const segs = roomSegments(room);
+      let best = null;
+      let bestD = 420;
+      for (let i = 0; i < segs.length; i++) {
+        const s = segs[i];
+        if (!s || s.open) continue;
+        const key = s.wallName || s.id;
+        if (!key) continue;
+        const d = distPointToSeg(local.x, local.z, s.x1, s.z1, s.x2, s.z2);
+        if (d >= bestD) continue;
+        const along =
+          wallAlongAxis(room, key) === 'x' ? local.x : local.z;
+        if (!alongInSolidSpan(room, key, along, 80)) continue;
+        bestD = d;
+        best = { wallName: key, local, point: floorHits[0].point };
       }
+      if (best) return best;
     }
   }
   return null;
@@ -196,10 +507,15 @@ function hitOpening(event) {
 function applyToRoom() {
   const room = state.room;
   if (!room || typeof room.applyOpenings !== 'function') return;
+  // Подтянуть along в реальный сегмент; проёмы шире стены не трогаем (не «втискиваем»)
+  openings().forEach((op) => {
+    if (!op) return;
+    if (!openingFitsWall(room, op.wallName, op.widthMm)) return;
+    const along = clampAlong(room, op.wallName, op.alongMm, op.widthMm);
+    if (along != null) op.alongMm = along;
+  });
   room.applyOpenings(openings(), { selectedId: selectedOpeningId });
-  if (isIkeaRoomLightV0() && openings().length) {
-    installIkeaRoomLightV0();
-  }
+  // Свет OFF: openings не поднимают v0.
   if (typeof room.syncOpeningExtraMaterials === 'function') {
     room.syncOpeningExtraMaterials();
   }
@@ -255,45 +571,60 @@ function catalogDefaults(item, type) {
 }
 
 /** Порядок стен как у IKEA (вид сверху): дальняя → правая → ближняя → левая. */
-const WALL_PLACE_ORDER = ['back', 'right', 'front', 'left'];
-
 function placeCenteredOnFarWall(item, type) {
   if (!item || !state.room || !isTopView2d()) return false;
   const room = state.room;
   const def = catalogDefaults(item, type);
-  // IKEA: центр стены без проёмов; если на дальней уже есть дверь/окно — соседняя стена
-  const wallName = pickWallForNewOpening();
-  const along = findFreeAlong(room, wallName, def.widthMm, null);
-  if (along == null) return false;
-  selectedCatalog = item;
-  return pushOpening(wallName, along, def);
+  const keys = listSolidWallKeys(room);
+  // Сначала стены без проёмов, куда влезает ширина; потом любая свободная щель
+  const emptyFirst = keys.filter(
+    (w) =>
+      openingFitsWall(room, w, def.widthMm) && !openings().some((o) => o && o.wallName === w)
+  );
+  const rest = keys.filter((w) => emptyFirst.indexOf(w) < 0);
+  const tryOrder = emptyFirst.concat(rest);
+  for (let i = 0; i < tryOrder.length; i++) {
+    const wallName = tryOrder[i];
+    if (!openingFitsWall(room, wallName, def.widthMm)) continue;
+    const along = findFreeAlong(room, wallName, def.widthMm, null);
+    if (along == null) continue;
+    selectedCatalog = item;
+    if (pushOpening(wallName, along, def)) return true;
+  }
+  return false;
 }
 
 /**
  * IKEA: новый проём на первой стене без дверей/окон (старт — дальняя).
- * Если на всех стенах уже есть проёмы — дальняя, ищем свободное ближе к центру.
  */
 function pickWallForNewOpening() {
-  for (let i = 0; i < WALL_PLACE_ORDER.length; i++) {
-    const wallName = WALL_PLACE_ORDER[i];
+  const room = state.room;
+  const keys = listSolidWallKeys(room);
+  for (let i = 0; i < keys.length; i++) {
+    const wallName = keys[i];
+    if (!openingFitsWall(room, wallName, DEFAULT_DOOR_W_MM)) continue;
     const busy = openings().some((o) => o && o.wallName === wallName);
     if (!busy) return wallName;
   }
-  return 'back';
+  return keys[0] || 'back';
 }
 
 /**
- * Центр выбранной стены; если участок занят — ближайшая свободная точка к центру.
+ * Центр реального сегмента стены; если участок занят — ближайшая свободная точка.
+ * null — на стене нет места под такую ширину (или всё занято).
  */
 function findFreeAlong(room, wallName, widthMm, excludeId) {
-  const len = wallLength(room, wallName);
-  const preferred = len / 2;
+  if (!openingFitsWall(room, wallName, widthMm)) return null;
+  const span = wallSolidSpan(room, wallName);
+  const preferred = (span.start + span.end) / 2;
   const along0 = clampAlong(room, wallName, preferred, widthMm);
-  if (!overlaps(wallName, along0, widthMm, excludeId)) return along0;
+  if (along0 != null && canPlaceOpening(room, wallName, along0, widthMm, excludeId)) {
+    return along0;
+  }
 
   const half = widthMm / 2;
-  const minA = half + CORNER_MARGIN_MM;
-  const maxA = len - half - CORNER_MARGIN_MM;
+  const minA = span.start + half + CORNER_MARGIN_MM;
+  const maxA = span.end - half - CORNER_MARGIN_MM;
   if (maxA < minA) return null;
 
   let best = null;
@@ -301,7 +632,7 @@ function findFreeAlong(room, wallName, widthMm, excludeId) {
   const step = 10;
   for (let a = minA; a <= maxA + 0.01; a += step) {
     const c = Math.min(maxA, a);
-    if (overlaps(wallName, c, widthMm, excludeId)) continue;
+    if (!canPlaceOpening(room, wallName, c, widthMm, excludeId)) continue;
     const d = Math.abs(c - preferred);
     if (d < bestDist) {
       bestDist = d;
@@ -314,6 +645,7 @@ function findFreeAlong(room, wallName, widthMm, excludeId) {
 function pushOpening(wallName, along, def) {
   const room = state.room;
   if (!room || !def) return false;
+  if (!canPlaceOpening(room, wallName, along, def.widthMm, null)) return false;
   const isWindow = def.type === 'window';
   let sillMm = isWindow ? def.sillMm || 0 : 0;
   let heightMm = def.heightMm;
@@ -353,6 +685,11 @@ function pushOpening(wallName, along, def) {
     window.__cldRoomEditSetPanel('doors');
   }
   applyToRoom();
+  try {
+    if (typeof window !== 'undefined' && typeof window.__cldMarkRoomDraftDirty === 'function') {
+      window.__cldMarkRoomDraftDirty(isWindow ? 'opening_window' : 'opening_door');
+    }
+  } catch (_) {}
   return true;
 }
 
@@ -385,8 +722,11 @@ function flushDragAlong() {
   const op = openings().find((o) => o.id === dragOpeningId);
   if (!op || !state.room) return;
   const wallName = pendingDragWall || op.wallName;
+  // Не переносим на стену, куда проём не влезает (шире стены / нет щели)
+  if (!openingFitsWall(state.room, wallName, op.widthMm)) return;
   const along = clampAlong(state.room, wallName, pendingDragAlong, op.widthMm);
-  if (overlaps(wallName, along, op.widthMm, op.id)) return;
+  if (along == null) return;
+  if (!canPlaceOpening(state.room, wallName, along, op.widthMm, op.id)) return;
   if (wallName === op.wallName && Math.abs(along - op.alongMm) < 0.5) return;
   op.wallName = wallName;
   op.alongMm = along;
@@ -432,7 +772,7 @@ function onCanvasMouseMove(e) {
   if (!hit) return;
   // IKEA: тянуть на любую стену
   pendingDragWall = hit.wallName;
-  pendingDragAlong = alongFromLocal(hit.wallName, hit.local);
+  pendingDragAlong = alongFromLocal(hit.wallName, hit.local, state.room);
   if (!dragRaf) dragRaf = requestAnimationFrame(flushDragAlong);
 }
 
@@ -443,11 +783,20 @@ function onCanvasMouseUp(e) {
     e.preventDefault();
   }
   flushDragAlong();
+  const moved = dragMoved === true;
   dragOpeningId = null;
   pendingDragAlong = null;
   pendingDragWall = null;
   document.body.classList.remove('cld-room-edit-dragging-door');
   setControlsEnabled(controlsWasEnabled);
+  // Stage5: dirty только после отпускания (не в flushDragAlong / mousemove).
+  if (moved) {
+    try {
+      if (typeof window !== 'undefined' && typeof window.__cldMarkRoomDraftDirty === 'function') {
+        window.__cldMarkRoomDraftDirty('opening_move');
+      }
+    } catch (_) {}
+  }
 }
 
 function onCanvasClick(e) {
@@ -548,7 +897,7 @@ function dimKey(openingId, kind) {
 /** Три сегмента выбранной двери: до неё / ширина / после неё (соседи учитываются). */
 function selectedDoorDimSegments(room, op) {
   if (!room || !op) return [];
-  const len = wallLength(room, op.wallName);
+  const span = wallSolidSpan(room, op.wallName);
   const onWall = openings()
     .filter((o) => o && o.wallName === op.wallName)
     .sort((a, b) => a.alongMm - b.alongMm);
@@ -558,8 +907,8 @@ function selectedDoorDimSegments(room, op) {
   const next = onWall[idx + 1];
   const a = op.alongMm - op.widthMm / 2;
   const b = op.alongMm + op.widthMm / 2;
-  const leftStart = prev ? prev.alongMm + prev.widthMm / 2 : 0;
-  const rightEnd = next ? next.alongMm - next.widthMm / 2 : len;
+  const leftStart = prev ? prev.alongMm + prev.widthMm / 2 : span.start;
+  const rightEnd = next ? next.alongMm - next.widthMm / 2 : span.end;
   const segs = [];
   if (a - leftStart > 8) {
     segs.push({
@@ -614,6 +963,7 @@ function applyDimSegmentEdit(meta, cmVal) {
   if (meta.kind === 'door') {
     width = Math.max(minDoor, Math.min(maxDoor, valMm));
     along = clampAlong(room, op.wallName, op.alongMm, width);
+    if (along == null) return false;
     const half = width / 2;
     along = Math.max(leftStart + half, Math.min(rightEnd - half, along));
   } else if (meta.kind === 'left') {
@@ -621,6 +971,7 @@ function applyDimSegmentEdit(meta, cmVal) {
     const a = leftStart + leftMm;
     along = a + width / 2;
     along = clampAlong(room, op.wallName, along, width);
+    if (along == null) return false;
     const half = width / 2;
     along = Math.max(leftStart + half, Math.min(rightEnd - half, along));
   } else if (meta.kind === 'right') {
@@ -628,19 +979,25 @@ function applyDimSegmentEdit(meta, cmVal) {
     const b = rightEnd - rightMm;
     along = b - width / 2;
     along = clampAlong(room, op.wallName, along, width);
+    if (along == null) return false;
     const half = width / 2;
     along = Math.max(leftStart + half, Math.min(rightEnd - half, along));
   } else {
     return false;
   }
 
-  if (overlaps(op.wallName, along, width, op.id)) return false;
+  if (!canPlaceOpening(room, op.wallName, along, width, op.id)) return false;
   op.widthMm = width;
   op.alongMm = along;
   selectedOpeningId = op.id;
   selectedCatalog = null;
   applyToRoom();
   syncDoorEditor();
+  try {
+    if (typeof window !== 'undefined' && typeof window.__cldMarkRoomDraftDirty === 'function') {
+      window.__cldMarkRoomDraftDirty('opening_dim');
+    }
+  } catch (_) {}
   return true;
 }
 
@@ -656,19 +1013,28 @@ function stopDimEditing(commitEl) {
   }
 }
 
-function addDimLabel(text, pos, extraClass, meta) {
+function addDimLabel(text, pos, extraClass, meta, wallName) {
   const box = window.sceneIconsContainer;
   if (!box || !pos) return;
   const key = meta ? dimKey(meta.openingId, meta.kind) : '';
   const editing = !!(meta && dimEditing && dimEditing.key === key);
+  const vertical = wallAlongAxis(state.room, wallName) === 'z';
+  const rotDeg = vertical ? -90 : 0;
 
   const el = document.createElement('div');
   el.className =
     'cld-opening-dim' +
     (extraClass ? ' ' + extraClass : '') +
     (meta ? ' is-editable' : '') +
-    (editing ? ' is-editing' : '');
-  el.userData = { position3D: pos.clone(), meta: meta || null, key };
+    (editing ? ' is-editing' : '') +
+    (vertical ? ' is-wall-vertical' : '');
+  el.userData = {
+    position3D: pos.clone(),
+    meta: meta || null,
+    key,
+    wallName: wallName || null,
+    rotDeg,
+  };
 
   if (editing) {
     const input = document.createElement('input');
@@ -731,16 +1097,19 @@ function addDimLabel(text, pos, extraClass, meta) {
   window.__cldOpeningDimLabels.push(el);
 }
 
-/** Сегмент стены: линия + засечки снаружи + подпись в середине. */
+/** Сегмент стены: линия + засечки снаружи + подпись в середине (параллельно стене). */
 function addDimSegment(room, wallName, alongA, alongB, text, extraClass, meta) {
   const y = 40;
   const mid = (alongA + alongB) / 2;
-  addDimLabel(text, worldAlongPoint(room, wallName, mid, y), extraClass, meta);
+  // Чуть дальше наружу на вертикальных — подпись не садится на обводку стены
+  const out =
+    wallAlongAxis(room, wallName) === 'z' ? DIM_OUT_MM + 60 : DIM_OUT_MM;
+  addDimLabel(text, worldAlongPoint(room, wallName, mid, y, out), extraClass, meta, wallName);
   if (!window.__cldOpeningDimSegs) window.__cldOpeningDimSegs = [];
   window.__cldOpeningDimSegs.push({
     wallName,
-    p1: worldAlongPoint(room, wallName, alongA, y),
-    p2: worldAlongPoint(room, wallName, alongB, y),
+    p1: worldAlongPoint(room, wallName, alongA, y, out),
+    p2: worldAlongPoint(room, wallName, alongB, y, out),
     active: !!(extraClass && String(extraClass).includes('is-active')),
   });
 }
@@ -748,21 +1117,47 @@ function addDimSegment(room, wallName, alongA, alongB, text, extraClass, meta) {
 function worldAlongPoint(room, wallName, along, y, outMm) {
   const cx = -room.width / 2;
   const cz = -room.depth / 2;
-  // IKEA: размеры снаружи контура комнаты
   const out = outMm != null ? outMm : DIM_OUT_MM;
+  const side = wallCardinalSide(room, wallName);
+  const axis = wallAlongAxis(room, wallName);
+  const seg = findSegment(room, wallName);
+  if (seg) {
+    if (axis === 'x') {
+      const mz = (seg.z1 + seg.z2) / 2;
+      const sign = side === 'back' ? -1 : 1;
+      return new THREE.Vector3(cx + along, y, cz + mz + sign * out);
+    }
+    const mx = (seg.x1 + seg.x2) / 2;
+    const sign = side === 'left' ? -1 : 1;
+    return new THREE.Vector3(cx + mx + sign * out, y, cz + along);
+  }
   if (wallName === 'back') return new THREE.Vector3(cx + along, y, cz - out);
   if (wallName === 'front') return new THREE.Vector3(cx + along, y, cz + room.depth + out);
   if (wallName === 'left') return new THREE.Vector3(cx - out, y, cz + along);
   return new THREE.Vector3(cx + room.width + out, y, cz + along);
 }
 
-function worldInsidePoint(room, wallName, along, y) {
+function worldInsidePoint(room, wallName, along, y, insetMm) {
   const cx = -room.width / 2;
   const cz = -room.depth / 2;
-  if (wallName === 'back') return new THREE.Vector3(cx + along, y, cz + 180);
-  if (wallName === 'front') return new THREE.Vector3(cx + along, y, cz + room.depth - 180);
-  if (wallName === 'left') return new THREE.Vector3(cx + 180, y, cz + along);
-  return new THREE.Vector3(cx + room.width - 180, y, cz + along);
+  const inset = Number.isFinite(insetMm) ? insetMm : 180;
+  const side = wallCardinalSide(room, wallName);
+  const axis = wallAlongAxis(room, wallName);
+  const seg = findSegment(room, wallName);
+  if (seg) {
+    if (axis === 'x') {
+      const mz = (seg.z1 + seg.z2) / 2;
+      const sign = side === 'back' ? 1 : -1;
+      return new THREE.Vector3(cx + along, y, cz + mz + sign * inset);
+    }
+    const mx = (seg.x1 + seg.x2) / 2;
+    const sign = side === 'left' ? 1 : -1;
+    return new THREE.Vector3(cx + mx + sign * inset, y, cz + along);
+  }
+  if (wallName === 'back') return new THREE.Vector3(cx + along, y, cz + inset);
+  if (wallName === 'front') return new THREE.Vector3(cx + along, y, cz + room.depth - inset);
+  if (wallName === 'left') return new THREE.Vector3(cx + inset, y, cz + along);
+  return new THREE.Vector3(cx + room.width - inset, y, cz + along);
 }
 
 function clearDoorGizmo() {
@@ -820,10 +1215,12 @@ function duplicateSelectedDoor() {
   const copy = Object.assign({}, op, { id: makeId() });
   const step = copy.widthMm + 40;
   let along = clampAlong(state.room, copy.wallName, copy.alongMm + step, copy.widthMm);
-  if (overlaps(copy.wallName, along, copy.widthMm)) {
+  if (along == null || !canPlaceOpening(state.room, copy.wallName, along, copy.widthMm, null)) {
     along = clampAlong(state.room, copy.wallName, copy.alongMm - step, copy.widthMm);
   }
-  if (overlaps(copy.wallName, along, copy.widthMm)) return;
+  if (along == null || !canPlaceOpening(state.room, copy.wallName, along, copy.widthMm, null)) {
+    return;
+  }
   copy.alongMm = along;
   openings().push(copy);
   selectedOpeningId = copy.id;
@@ -851,27 +1248,39 @@ function refreshDoorGizmo() {
   }
   const g = ensureDoorGizmo();
   if (!g) return;
-  const barPos = worldInsidePoint(room, op.wallName, op.alongMm, 40);
+  const vertical = wallAlongAxis(room, op.wallName) === 'z';
+  // На вертикальной стене панель вдоль стены; глубже внутрь — не пересекает размеры снаружи
+  const inset = vertical ? 320 : 220;
+  const barPos = worldInsidePoint(room, op.wallName, op.alongMm, 40, inset);
   const bp = projectToScreen(barPos);
   const bar = g.querySelector('.cld-door-gizmo-bar');
   if (bar && bp) {
+    bar.classList.toggle('is-vertical', vertical);
     bar.style.left = bp.x + 'px';
     bar.style.top = bp.y + 'px';
     bar.style.display = 'flex';
-  } else if (bar) bar.style.display = 'none';
+  } else if (bar) {
+    bar.classList.remove('is-vertical');
+    bar.style.display = 'none';
+  }
   g.style.display = 'block';
 }
 
 /** Стены, на которых сейчас рисуются сегменты проёма — полный размер комнаты там скрываем. */
 function syncHideRoomDimSides(wallNames) {
   const hide = { top: false, bottom: false, left: false, right: false };
+  const keys = new Set();
   (wallNames || []).forEach((w) => {
+    if (!w) return;
+    keys.add(w);
+    // AABB-подписи — только для legacy внешних имён
     if (w === 'back') hide.top = true;
     else if (w === 'front') hide.bottom = true;
     else if (w === 'left') hide.left = true;
     else if (w === 'right') hide.right = true;
   });
   window.__cldHideRoomDimSides = hide;
+  window.__cldHideRoomDimWallKeys = keys;
   if (typeof window.__cldUpdateRoomDimensionLabels === 'function') {
     window.__cldUpdateRoomDimensionLabels();
   }
@@ -910,11 +1319,11 @@ function refreshOpeningDims() {
       if (!op || wallsDone[op.wallName]) return;
       wallsDone[op.wallName] = true;
       wallsWithSegs.push(op.wallName);
-      const len = wallLength(room, op.wallName);
+      const span = wallSolidSpan(room, op.wallName);
       const onWall = openings()
         .filter((o) => o.wallName === op.wallName)
         .sort((a, b) => a.alongMm - b.alongMm);
-      let cursor = 0;
+      let cursor = span.start;
       onWall.forEach((o) => {
         const a = o.alongMm - o.widthMm / 2;
         const b = o.alongMm + o.widthMm / 2;
@@ -924,9 +1333,9 @@ function refreshOpeningDims() {
         addDimSegment(room, o.wallName, a, b, formatDimCm(o.widthMm));
         cursor = b;
       });
-      if (len - cursor > 8) {
+      if (span.end - cursor > 8) {
         const last = onWall[onWall.length - 1];
-        addDimSegment(room, last.wallName, cursor, len, formatDimCm(len - cursor));
+        addDimSegment(room, last.wallName, cursor, span.end, formatDimCm(span.end - cursor));
       }
     });
   }
@@ -994,6 +1403,11 @@ function projectDimLabels() {
     label.style.left = v.x * widthHalf + widthHalf + 'px';
     label.style.top = -v.y * heightHalf + heightHalf + 'px';
     label.style.display = v.z > 1 ? 'none' : 'block';
+    const rot = Number(label.userData && label.userData.rotDeg) || 0;
+    label.style.transform =
+      rot !== 0
+        ? 'translate(-50%, -50%) rotate(' + rot + 'deg)'
+        : 'translate(-50%, -50%)';
   });
   redrawOpeningDimLines();
 }
@@ -1092,6 +1506,17 @@ function syncDoorEditor() {
   if (!op.handleSide) op.handleSide = 'LEFT';
   setSegPressed('data-door-open', op.openingDirection);
   setSegPressed('data-door-handle', op.handleSide);
+  // Проход (opening) — без полотна: скрыть открывание/ручку
+  const isPassage = op.kind === 'opening';
+  document.querySelectorAll('.cld-room-edit-door-swing').forEach((el) => {
+    el.hidden = isPassage;
+  });
+  const delLabel = document.querySelector('#cld-room-edit-door-del span');
+  if (delLabel) delLabel.textContent = isPassage ? 'Удалить проём' : 'Удалить дверь';
+  if (hint && showSettings && isPassage) {
+    hint.textContent =
+      'Перетащите проход вдоль стены или на другую стену. Ширину и высоту меняйте ниже.';
+  }
   syncWindowEditor();
 }
 
@@ -1177,12 +1602,24 @@ function onEditorInput() {
   const hEl = document.getElementById('cld-room-edit-door-h');
   let w = Math.max(40, Math.min(300, parseFloat(wEl && wEl.value) || 90)) * 10;
   let h = Math.max(80, Math.min(state.room.height / 10 - 4, parseFloat(hEl && hEl.value) || 210)) * 10;
+  if (!openingFitsWall(state.room, op.wallName, w)) {
+    syncDoorEditor();
+    return;
+  }
   const along = clampAlong(state.room, op.wallName, op.alongMm, w);
-  if (overlaps(op.wallName, along, w, op.id)) return;
+  if (along == null || !canPlaceOpening(state.room, op.wallName, along, w, op.id)) {
+    syncDoorEditor();
+    return;
+  }
   op.widthMm = w;
   op.heightMm = h;
   op.alongMm = along;
   applyToRoom();
+  try {
+    if (typeof window !== 'undefined' && typeof window.__cldMarkRoomDraftDirty === 'function') {
+      window.__cldMarkRoomDraftDirty('opening_door_edit');
+    }
+  } catch (_) {}
 }
 
 function onWindowFinishClick(e) {
@@ -1194,6 +1631,11 @@ function onWindowFinishClick(e) {
   op.finishId = finish;
   applyToRoom();
   syncWindowEditor();
+  try {
+    if (typeof window !== 'undefined' && typeof window.__cldMarkRoomDraftDirty === 'function') {
+      window.__cldMarkRoomDraftDirty('opening_window_finish');
+    }
+  } catch (_) {}
 }
 
 function onWindowEditorInput() {
@@ -1209,14 +1651,26 @@ function onWindowEditorInput() {
   const maxTop = state.room.height - 40;
   if (sill + h > maxTop) h = Math.max(400, maxTop - sill);
   if (sill + h > maxTop) sill = Math.max(0, maxTop - h);
+  if (!openingFitsWall(state.room, op.wallName, w)) {
+    syncWindowEditor();
+    return;
+  }
   const along = clampAlong(state.room, op.wallName, op.alongMm, w);
-  if (overlaps(op.wallName, along, w, op.id)) return;
+  if (along == null || !canPlaceOpening(state.room, op.wallName, along, w, op.id)) {
+    syncWindowEditor();
+    return;
+  }
   op.widthMm = w;
   op.heightMm = h;
   op.sillMm = sill;
   op.hasWindowsill = !!(board && board.checked);
   op.alongMm = along;
   applyToRoom();
+  try {
+    if (typeof window !== 'undefined' && typeof window.__cldMarkRoomDraftDirty === 'function') {
+      window.__cldMarkRoomDraftDirty('opening_window_edit');
+    }
+  } catch (_) {}
 }
 
 function onEditorDelete() {
@@ -1227,6 +1681,11 @@ function onEditorDelete() {
   doorCatalogBrowse = false;
   windowCatalogBrowse = false;
   applyToRoom();
+  try {
+    if (typeof window !== 'undefined' && typeof window.__cldMarkRoomDraftDirty === 'function') {
+      window.__cldMarkRoomDraftDirty('opening_delete');
+    }
+  } catch (_) {}
 }
 
 function onChangeDoorModel() {
@@ -1328,8 +1787,11 @@ function bindEditorOnce() {
 
 function applyCatalogVariantToOpening(op, item, type) {
   const def = catalogDefaults(item, type);
+  if (!openingFitsWall(state.room, op.wallName, def.widthMm)) return false;
   const along = clampAlong(state.room, op.wallName, op.alongMm, def.widthMm);
-  if (overlaps(op.wallName, along, def.widthMm, op.id)) return false;
+  if (along == null || !canPlaceOpening(state.room, op.wallName, along, def.widthMm, op.id)) {
+    return false;
+  }
   op.catalogId = def.catalogId;
   op.name = def.name;
   op.thumb = def.thumb;

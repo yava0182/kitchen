@@ -1,0 +1,117 @@
+{
+  "at": "2026-10-29T15:25:41.589Z",
+  "url": "https://kitchen.planner.ikea.com/lv/ru/planner/",
+  "headed": false,
+  "steps": [
+    {
+      "step": "shell-modals",
+      "log": [
+        {
+          "label": "Убрать уведомление",
+          "ok": false,
+          "err": "locator.click: Timeout 3000ms exceeded.\nCall log:\n  - waiting for getByText('Убрать уведомление').first()\n    - locator resolved to <span class=\"btn__label\">Убр"
+        },
+        {
+          "label": "Принять",
+          "ok": true,
+          "how": "role"
+        },
+        {
+          "label": "Accept",
+          "ok": false
+        },
+        {
+          "label": "OK",
+          "ok": false
+        },
+        {
+          "label": "Agree",
+          "ok": false
+        }
+      ]
+    },
+    {
+      "step": "enter-3d",
+      "log": [
+        {
+          "label": "Продолжить",
+          "ok": false,
+          "err": "locator.click: Timeout 3000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'Продолжить' }).first()\n    - locator resolved to <button data-ste"
+        },
+        {
+          "label": "Начать",
+          "ok": false,
+          "err": "locator.click: Timeout 3000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'Начать' }).first()\n    - locator resolved to <button aria-control"
+        },
+        {
+          "label": "Выбрать готовый вариант",
+          "ok": false,
+          "err": "locator.click: Timeout 3000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'Выбрать готовый вариант' }).first()\n    - locator resolved to <bu"
+        },
+        {
+          "label": "Нарисовать план",
+          "ok": false,
+          "err": "locator.click: Timeout 3000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'Нарисовать план' }).first()\n    - locator resolved to <button id="
+        },
+        {
+          "label": "3D",
+          "ok": false
+        },
+        {
+          "label": "Continue",
+          "ok": false
+        },
+        {
+          "label": "Start",
+          "ok": false
+        }
+      ]
+    }
+  ],
+  "plannerFrameUrl": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV",
+  "probeBeforeClicks": {
+    "when": "2026-10-29T15:26:06.923Z",
+    "url": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV",
+    "hasBetraktaViewer": false,
+    "engines": {
+      "BABYLON": false,
+      "babylonVersion": null,
+      "THREE": false,
+      "unityInstance": false,
+      "hasUnitySendMessage": false,
+      "Module": false
+    },
+    "canvases": [
+      {
+        "w": 1400,
+        "h": 754,
+        "id": "canvas",
+        "cls": null
+      }
+    ],
+    "windowKeys": []
+  },
+  "probeAfterClicks": {
+    "when": "2026-10-29T15:26:31.068Z",
+    "url": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV",
+    "hasBetraktaViewer": false,
+    "engines": {
+      "BABYLON": false,
+      "babylonVersion": null,
+      "THREE": false,
+      "unityInstance": false,
+      "hasUnitySendMessage": false,
+      "Module": false
+    },
+    "canvases": [
+      {
+        "w": 1400,
+        "h": 754,
+        "id": "canvas",
+        "cls": null
+      }
+    ],
+    "windowKeys": []
+  },
+  "screenshot": "D:\\Clodis-Kitchen\\docs\\ikea-kitchen-shadow-dump\\shadow-20261029-182631.png"
+}

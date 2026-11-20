@@ -4,7 +4,7 @@ import { state } from '../utils/state.js';
 import { onWindowResize } from '../core/renderer.js';
 import { hideAllSectionMarkers, showSectionPerimeterMarker, hideDeleteButton } from '../ui/markers.js';
 import { showDeleteButton } from '../ui/ui-helpers.js';
-import { showEditSectionModal } from '../sections/section-manager.js?v=20260917-seamfix';
+import { showEditSectionModal } from '../sections/section-manager.js?v=20261103-wdepth5';
 
 function hasAnyFurnitureInScene() {
   if (!state.scene) return false;

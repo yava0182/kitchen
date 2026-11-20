@@ -42,10 +42,23 @@ process.on('unhandledRejection', (reason, promise) => {
 });
 
 const app = express();
-// Порт: 8001 для dev:all (Vite на 8000 проксирует /api сюда), 8000 для npm start (единый сервер)
-const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 8000;
+app.disable('x-powered-by');
+// Порт кухни: 8101 для dev:all (Vite на 8100 проксирует /api сюда).
+// Без PORT — тоже 8101, чтобы npm start не занял 8000 шкафов.
+const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 8101;
+// Локально по умолчанию только этот ПК. В сеть — явно HOST=0.0.0.0 (пока не делаем).
+const HOST = process.env.HOST || '127.0.0.1';
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const IS_PRODUCTION = NODE_ENV === 'production';
+
+// Мусорные HTTP-методы — сразу 405 (локально тоже).
+app.use((req, res, next) => {
+  const m = String(req.method || '').toUpperCase();
+  if (m === 'TRACE' || m === 'TRACK') {
+    return res.status(405).setHeader('Allow', 'GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS').end();
+  }
+  next();
+});
 
 // Пути к директориям и файлам
 const MODULES_DIR = path.join(__dirname, 'modules');
@@ -94,7 +107,30 @@ function getPreviewSettings() {
 // ============================================
 
 // CORS для разрешения кросс-доменных запросов
-app.use(cors());
+// Локально: только Vite/API с этой машины (не «любой сайт» через CORS).
+const CORS_ORIGINS = new Set([
+  'http://127.0.0.1:8100',
+  'http://localhost:8100',
+  'http://127.0.0.1:8101',
+  'http://localhost:8101',
+]);
+app.use(
+  cors({
+    origin(origin, cb) {
+      if (!origin) return cb(null, true); // same-origin / curl / инструменты без Origin
+      if (CORS_ORIGINS.has(origin)) return cb(null, true);
+      return cb(null, false);
+    },
+  })
+);
+
+// Базовые security headers (локально тоже; комнату не ломают).
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  next();
+});
 
 // Парсинг JSON и URL-encoded данных
 app.use((req, res, next) => {
@@ -106,36 +142,83 @@ app.use((req, res, next) => {
   express.urlencoded({ extended: true, limit: '50mb' })(req, res, next);
 });
 
-// Настройка Multer для обработки FormData (как в Clodis)
-// fileFilter: пересобираем originalname из latin1→utf8, т.к. busboy по умолчанию
-// декодирует filename как latin1, а браузеры отправляют UTF-8.
+// Загрузки: лимиты + allowlist (локально тоже — меньше шансов испортить диск/проект).
+const UPLOAD_MAX_FILE_BYTES = 50 * 1024 * 1024; // 50 MB
+const UPLOAD_MAX_FILES = 20;
+const UPLOAD_IMAGE_EXT = ['.png', '.jpg', '.jpeg', '.webp', '.gif'];
+const UPLOAD_MODEL_EXT = ['.glb', '.gltf', '.obj', '.fbx', '.stl'];
+const UPLOAD_MISC_EXT = ['.json', '.zip', '.pdf', '.woff', '.woff2', '.ttf', '.otf', '.mp4', '.webm'];
+const UPLOAD_ALLOWED_EXT = new Set([...UPLOAD_IMAGE_EXT, ...UPLOAD_MODEL_EXT, ...UPLOAD_MISC_EXT]);
+const UPLOAD_BLOCKED_EXT = new Set([
+  '.exe', '.bat', '.cmd', '.ps1', '.js', '.mjs', '.cjs', '.html', '.htm',
+  '.svg', '.php', '.sh', '.env', '.dll', '.scr', '.vbs', '.com',
+]);
+
+function uploadExtAllowed(ext) {
+  const e = String(ext || '').toLowerCase();
+  if (!e || UPLOAD_BLOCKED_EXT.has(e)) return false;
+  return UPLOAD_ALLOWED_EXT.has(e);
+}
+
 const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: UPLOAD_MAX_FILE_BYTES,
+    files: UPLOAD_MAX_FILES,
+  },
   fileFilter(req, file, cb) {
     try {
+      // busboy декодирует filename как latin1; браузеры шлют UTF-8.
       file.originalname = Buffer.from(file.originalname, 'latin1').toString('utf8');
     } catch (_) { /* оставляем как есть */ }
+    const ext = path.extname(file.originalname || '').toLowerCase();
+    if (!uploadExtAllowed(ext)) {
+      return cb(new Error(`Тип файла не разрешён: ${ext || '(нет расширения)'}`));
+    }
     cb(null, true);
-  }
+  },
 });
 app.use((req, res, next) => {
   if (req.path.startsWith('/config/index.php/')) return next();
   const ct = String(req.headers['content-type'] || '').toLowerCase();
   if (!ct.includes('multipart/form-data')) return next();
-  upload.any()(req, res, next);
+  upload.any()(req, res, (err) => {
+    if (!err) return next();
+    const code = err.code === 'LIMIT_FILE_SIZE' || err.code === 'LIMIT_FILE_COUNT' ? 413 : 400;
+    const msg =
+      err.code === 'LIMIT_FILE_SIZE'
+        ? `Файл слишком большой (макс. ${Math.round(UPLOAD_MAX_FILE_BYTES / (1024 * 1024))} MB)`
+        : err.code === 'LIMIT_FILE_COUNT'
+          ? `Слишком много файлов (макс. ${UPLOAD_MAX_FILES})`
+          : err.message || 'Upload rejected';
+    return res.status(code).json({ result: 'error', error: msg });
+  });
 });
 
 // Middleware для правильных MIME типов для статических файлов
 app.use((req, res, next) => {
   if (req.path.endsWith('.js')) {
     res.type('application/javascript');
+    // Dev: JS модули кухни/конструктора не кэшировать (иначе Ctrl+F5 на HTML не помогает).
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate');
   } else if (req.path.endsWith('.json')) {
     res.type('application/json');
   } else if (req.path.endsWith('.css')) {
     res.type('text/css');
   } else if (req.path.endsWith('.html')) {
     res.set('Content-Type', 'text/html; charset=utf-8');
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate');
   }
   next();
+});
+
+// Корень / и index.html — без кэша (bust внутри HTML иначе не подхватывается)
+app.get(['/', '/index.html'], (req, res, next) => {
+  const filePath = path.join(__dirname, 'index.html');
+  if (!fs.existsSync(filePath)) return next();
+  res.set('Content-Type', 'text/html; charset=utf-8');
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate');
+  return res.sendFile(filePath);
 });
 
 // ============================================
@@ -179,6 +262,27 @@ app.get('/js/admin/admin-new-bundle.js', (req, res) => {
 // ============================================
 const DB_FILE = path.join(__dirname, 'db.json');
 
+/** JSON на диск: tmp → replace (на Windows rename поверх файла не всегда проходит). */
+function atomicWriteJsonFile(filePath, dataOrString) {
+  const payload =
+    typeof dataOrString === 'string'
+      ? dataOrString
+      : JSON.stringify(dataOrString, null, 2);
+  const dir = path.dirname(filePath);
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+  const tmp = `${filePath}.${process.pid}.${Date.now()}.tmp`;
+  fs.writeFileSync(tmp, payload, 'utf8');
+  try {
+    fs.renameSync(tmp, filePath);
+  } catch (_) {
+    // Win: целевой файл уже есть — копируем поверх, tmp удаляем.
+    fs.copyFileSync(tmp, filePath);
+    try {
+      fs.unlinkSync(tmp);
+    } catch (_) {}
+  }
+}
+
 function initDB() {
   if (!fs.existsSync(DB_FILE)) {
     const initialData = {
@@ -190,7 +294,7 @@ function initDB() {
       default_settings: [],
       modules_groups: []
     };
-    fs.writeFileSync(DB_FILE, JSON.stringify(initialData, null, 2), 'utf8');
+    atomicWriteJsonFile(DB_FILE, initialData);
     console.log('✅ Создана БД для админки:', DB_FILE);
   }
 }
@@ -208,12 +312,18 @@ function readDB() {
 
 function writeDB(data) {
   try {
-    fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), 'utf8');
+    atomicWriteJsonFile(DB_FILE, data);
     return true;
   } catch (error) {
     console.error('❌ Ошибка записи в БД:', error);
     return false;
   }
+}
+
+/** Единый JSON-ответ об ошибке API (не маскировать под HTTP 200). */
+function apiError(res, status, error, extra = {}) {
+  const code = Number(status) || 500;
+  return res.status(code).json({ result: 'error', error: String(error || 'error'), ...extra });
 }
 
 // API для админки (admin-new.html)
@@ -271,7 +381,7 @@ app.get('/catalog/get_all_data_for_catalog_item/:materials_from_json?', (req, re
 app.post('/catalog/items_save/:id?', (req, res) => {
   try {
     const db = readDB();
-    if (!db) return res.json({ result: 'error', error: 'Database read error' });
+    if (!db) return apiError(res, 500, 'Database read error');
     const elementId = (req.params.id !== undefined ? req.params.id : '0');
     const isNew = elementId === '0';
     let itemData = {};
@@ -308,17 +418,15 @@ app.post('/catalog/items_save/:id?', (req, res) => {
         db.catalog_items.push(catalogItem);
       }
     }
-    if (!writeDB(db)) return res.json({ result: 'error', error: 'Database write error' });
-    
-    // ⭐ ВАЖНО: Синхронизируем с файловым хранилищем catalog_items/{catalog_type}.json
-    // чтобы элемент был виден в админке через /api/catalog/items_get/:type
+    if (!writeDB(db)) return apiError(res, 500, 'Database write error');
+
+    // Синхронизация с catalog_items/{catalog_type}.json (канон для комнаты/API).
     if (catalogItem.catalog_type) {
       try {
         const catalogType = catalogItem.catalog_type;
         const items = loadCatalogItems(catalogType);
         const existingIndex = items.findIndex(it => Number(it?.id) === Number(newId));
-        
-        // Преобразуем формат из db.json в формат catalog_items (убираем catalog_type из верхнего уровня)
+
         const syncItem = {
           id: catalogItem.id,
           name: catalogItem.name,
@@ -331,7 +439,7 @@ app.post('/catalog/items_save/:id?', (req, res) => {
           ...(catalogItem.show_in_constructor !== undefined ? { show_in_constructor: catalogItem.show_in_constructor } : {}),
           ...(catalogItem.order !== undefined ? { order: catalogItem.order } : {})
         };
-        
+
         if (existingIndex >= 0) {
           items[existingIndex] = { ...items[existingIndex], ...syncItem };
           console.log(`🔄 Синхронизирован элемент в catalog_items/${catalogType}.json (обновлен):`, newId);
@@ -339,19 +447,21 @@ app.post('/catalog/items_save/:id?', (req, res) => {
           items.push(syncItem);
           console.log(`🔄 Синхронизирован элемент в catalog_items/${catalogType}.json (добавлен):`, newId);
         }
-        
-        saveCatalogItems(catalogType, items);
+
+        if (!saveCatalogItems(catalogType, items)) {
+          return apiError(res, 500, `catalog_items sync failed for ${catalogType}`, { id: newId });
+        }
         console.log(`✅ Элемент "${catalogItem.name}" синхронизирован в catalog_items/${catalogType}.json`);
       } catch (syncError) {
-        console.warn('⚠️ Не удалось синхронизировать элемент в catalog_items:', syncError?.message || syncError);
-        // Не прерываем сохранение, т.к. элемент уже сохранён в db.json
+        console.error('⚠️ Не удалось синхронизировать элемент в catalog_items:', syncError?.message || syncError);
+        return apiError(res, 500, syncError?.message || 'catalog_items sync failed', { id: newId });
       }
     }
-    
+
     res.json({ result: 'success', id: newId, message: 'Элемент сохранен' });
   } catch (error) {
     console.error('❌ Ошибка сохранения:', error);
-    res.json({ result: 'error', error: error.message });
+    return apiError(res, 500, error.message);
   }
 });
 
@@ -403,16 +513,16 @@ app.get('/catalog/items_get/:id', (req, res) => {
 app.delete('/catalog/items_delete/:id', (req, res) => {
   try {
     const db = readDB();
-    if (!db) return res.json({ result: 'error', error: 'Database read error' });
+    if (!db) return apiError(res, 500, 'Database read error');
     const index = db.catalog_items?.findIndex(item => item.id === req.params.id);
-    if (index === undefined || index < 0) return res.status(404).json({ result: 'error', error: 'Item not found' });
+    if (index === undefined || index < 0) return apiError(res, 404, 'Item not found');
     db.catalog_items.splice(index, 1);
-    if (!writeDB(db)) return res.json({ result: 'error', error: 'Database write error' });
+    if (!writeDB(db)) return apiError(res, 500, 'Database write error');
     console.log('✅ Удален элемент:', req.params.id);
     res.json({ result: 'success', message: 'Элемент удален' });
   } catch (error) {
     console.error('❌ Ошибка удаления:', error);
-    res.json({ result: 'error', error: error.message });
+    return apiError(res, 500, error.message);
   }
 });
 
@@ -804,8 +914,7 @@ app.post('/api/drill/registry', (req, res) => {
       _note: body._note || body._cadSingleChainNote || 'Выгружено из админки (библиотека присадки, как схемы крепежа в БМ)',
     };
     const filePath = drillRegistryFilePath();
-    fs.mkdirSync(path.dirname(filePath), { recursive: true });
-    fs.writeFileSync(filePath, JSON.stringify(payload, null, 2), 'utf8');
+    atomicWriteJsonFile(filePath, payload);
     console.log(
       `✅ [api/drill/registry] сохранено templates=${templates.length} schemes=${schemes.length} version=${payload.version}`,
     );
@@ -833,6 +942,68 @@ app.get('/data/*.json', (req, res) => {
 // ============================================
 // Раздача статических файлов
 // ============================================
+
+// Секреты / данные / исходники сервера — никогда не через static (express.static(__dirname)).
+app.use((req, res, next) => {
+  const p = String(req.path || '').replace(/\\/g, '/').toLowerCase();
+  const alwaysBlockedPrefix = [
+    '/ai_pilot.env',
+    '/.env',
+    '/db.json',
+    '/.git/',
+    '/.git',
+    '/_checkpoint',
+    '/.rollback',
+    '/_rollback',
+    '/node_modules/',
+    '/scripts/',
+    '/.cursor/',
+    '/docs/',
+    '/projects/',
+    '/modules/',
+    '/ai-pilot/', // UI: /ai-pilot.html; логика только через /api/ai-pilot/*
+  ];
+  const alwaysBlockedExact = new Set([
+    '/server.js',
+    '/server-dev.js',
+    '/server-db.js',
+    '/server-clodis-json-fields.cjs',
+    '/package.json',
+    '/package-lock.json',
+    '/vite.config.ts',
+    '/vite.config.js',
+    '/tsconfig.json',
+    '/jsconfig.json',
+    '/.gitignore',
+    '/catalogs_keys.json',
+    '/room_steps_config.json',
+    '/constructor_ui_settings.json',
+    '/room_furniture_by_room.json',
+    '/ai-pilot/ai_pilot_config.json',
+    '/ai-pilot/config.default.json',
+  ]);
+  if (
+    alwaysBlockedExact.has(p) ||
+    alwaysBlockedPrefix.some((b) => p === b || p.startsWith(b)) ||
+    /(^|\/)\.env($|\.)/i.test(p) ||
+    /(^|\/)ai_pilot\.env$/i.test(p) ||
+    /\.log$/i.test(p) ||
+    /\.mdc$/i.test(p) ||
+    /\.cjs$/i.test(p) ||
+    /\.bak$/i.test(p) ||
+    /\.rollback$/i.test(p) ||
+    /\.orig$/i.test(p) ||
+    /~$/.test(p) ||
+    // бэкапы очистки каталога — не через static
+    /\/catalog_items\/_backups(\/|$)/i.test(p) ||
+    // отладочные дампы в корне репо
+    /(^|\/)(\.|_)?tmp[-_]/i.test(p) ||
+    /-dump\.json$/i.test(p)
+  ) {
+    return res.status(404).end();
+  }
+  next();
+});
 
 // На проде не отдаём dev-реф (папки остаются в репозитории для разработки).
 app.use((req, res, next) => {
@@ -935,13 +1106,14 @@ const COMMON_ASSETS_DIR = path.join(__dirname, 'public', 'common_assets');
 
 function safeFilesPath(rawPath, useCommonAssets = false) {
   const rel = (rawPath || '').replace(/\\/g, '/').replace(/^\/+/, '').trim();
-  const baseDir = useCommonAssets ? COMMON_ASSETS_DIR : FILES_ROOT_DIR;
-  const full = path.normalize(path.join(baseDir, rel));
-  if (!full.startsWith(baseDir)) {
+  const baseDir = path.resolve(useCommonAssets ? COMMON_ASSETS_DIR : FILES_ROOT_DIR);
+  const full = path.resolve(baseDir, rel);
+  const relToBase = path.relative(baseDir, full);
+  if (relToBase.startsWith('..') || path.isAbsolute(relToBase)) {
     throw new Error('Недопустимый путь');
   }
   const urlPrefix = useCommonAssets ? '/common_assets' : '/files';
-  return { rel, full, urlPrefix };
+  return { rel: relToBase.replace(/\\/g, '/'), full, urlPrefix };
 }
 
 /** Единое разрешение пути файлового менеджера (list / upload / delete / mkdir). */
@@ -1097,19 +1269,37 @@ app.post('/api/files/upload', (req, res) => {
       fs.mkdirSync(full, { recursive: true });
     }
 
-    const saved = files.map((file) => {
+    const saved = [];
+    for (const file of files) {
       const originalName = file.originalname || file.fieldname || 'file.bin';
-      const ext = path.extname(originalName);
+      const ext = path.extname(originalName).toLowerCase();
+      if (!uploadExtAllowed(ext)) {
+        return res.status(400).json({
+          result: 'error',
+          error: `Тип файла не разрешён: ${ext || '(нет)'}`,
+        });
+      }
+      if (file.buffer && file.buffer.length > UPLOAD_MAX_FILE_BYTES) {
+        return res.status(413).json({
+          result: 'error',
+          error: `Файл слишком большой (макс. ${Math.round(UPLOAD_MAX_FILE_BYTES / (1024 * 1024))} MB)`,
+        });
+      }
       const rawBase = path.basename(originalName, ext);
       const safeBase = sanitizeUploadBaseName(rawBase, 'file', 160);
       console.log(`📁 Upload: original="${originalName}" rawBase="${rawBase}" → safe="${safeBase}"`);
       const fileName = `${safeBase}_${Date.now()}${ext}`;
       const destPath = path.join(full, fileName);
+      // destPath уже внутри full после resolveFilesManagerTarget; повторная проверка.
+      const destResolved = path.resolve(destPath);
+      if (path.relative(full, destResolved).startsWith('..') || path.isAbsolute(path.relative(full, destResolved))) {
+        return res.status(400).json({ result: 'error', error: 'Недопустимый путь назначения' });
+      }
       fs.writeFileSync(destPath, file.buffer);
       const webPath = `${urlPrefix}/${[rel, fileName].filter(Boolean).join('/')}`.replace(/\\/g, '/');
       console.log(`📁 Upload saved: ${destPath} → ${webPath}`);
-      return { name: fileName, url: webPath };
-    });
+      saved.push({ name: fileName, url: webPath });
+    }
 
     return res.json({ ok: true, files: saved });
   } catch (e) {
@@ -1393,7 +1583,7 @@ app.post('/api/upload/room_icon', (req, res) => {
 // ============================================
 // Загрузка 3D моделей
 // ============================================
-const MODELS_3D_EXT = ['.glb', '.gltf', '.obj', '.fbx', '.stl'];
+const MODELS_3D_EXT = UPLOAD_MODEL_EXT;
 
 // GET — чтобы проверить, что endpoint доступен (ответ 405 = нужен POST)
 app.get('/api/upload/model_3d', (req, res) => {
@@ -1545,8 +1735,7 @@ function saveCatalogsKeys(data) {
       console.error('❌ Данные для сохранения не являются массивом:', typeof data);
       return false;
     }
-    const jsonData = JSON.stringify(data, null, 2);
-    fs.writeFileSync(CATALOGS_KEYS_FILE, jsonData, 'utf8');
+    atomicWriteJsonFile(CATALOGS_KEYS_FILE, data);
     console.log('💾 Типы элементов сохранены в файл:', data.length, 'элементов');
     return true;
   } catch (error) {
@@ -1691,8 +1880,10 @@ function pickIconAspectFromCatalogRecord(it) {
 function saveCatalogItems(type, items) {
   ensureCatalogItemsDir();
   const file = catalogItemsFilePath(type);
+  const payload = JSON.stringify(Array.isArray(items) ? items : [], null, 2);
   try {
-    fs.writeFileSync(file, JSON.stringify(Array.isArray(items) ? items : [], null, 2), 'utf8');
+    // Единственный канон: catalog_items/*.json (комната :8100 → Vite plugin → API).
+    atomicWriteJsonFile(file, payload);
     return true;
   } catch (e) {
     console.error(`❌ Ошибка сохранения catalog_items для "${type}":`, e?.message || e);
@@ -1790,7 +1981,7 @@ function saveHandlesCatalog(data) {
       categories: Array.isArray(data?.categories) ? data.categories : [],
       series: Array.isArray(data?.series) ? data.series : [],
     };
-    fs.writeFileSync(file, JSON.stringify(payload, null, 2), 'utf8');
+    atomicWriteJsonFile(file, payload);
     return true;
   } catch (e) {
     console.error('❌ Ошибка сохранения handles.json:', e?.message || e);
@@ -1979,87 +2170,73 @@ function ensureCatalogItemsIds(type, items) {
 // ============================================
 
 /**
- * POST /catalog/items_save/:id? - Сохранение JSON модуля (как в Clodis через FormData)
- * 
- * Поддерживает два формата:
- * - FormData (как в Clodis): поля name, id, data (JSON строка с params)
- * - JSON (для обратной совместимости): {name, json, elementId}
+ * Сохранение JSON-модуля в modules/ (НЕ карточка каталога).
+ * Раньше второй POST /catalog/items_save был мёртвым (Express брал первый хендлер).
  */
-app.post('/catalog/items_save/:id?', (req, res) => {
+function saveModuleJsonFile(req, res) {
   try {
-    let name, json, elementId, metadata;
-    
-    // Проверяем формат данных: FormData или JSON
-    const isFormData = req.headers['content-type']?.includes('multipart/form-data') || 
+    let name, json, elementId;
+
+    const isFormData = req.headers['content-type']?.includes('multipart/form-data') ||
                        (req.body && req.body.data && typeof req.body.data === 'string');
-    
+
     if (isFormData) {
-      // FormData (как в Clodis)
       name = req.body.name;
-      elementId = req.params.id || req.body.id || '0';
-      
-      // В Clodis данные приходят в поле 'data' как JSON строка
+      elementId = req.params?.id || req.body.id || '0';
       if (req.body.data) {
-        const dataObj = typeof req.body.data === 'string' 
-          ? JSON.parse(req.body.data) 
+        const dataObj = typeof req.body.data === 'string'
+          ? JSON.parse(req.body.data)
           : req.body.data;
-        json = dataObj.params || dataObj; // params содержит Clodis JSON
-        metadata = dataObj;
+        json = dataObj.params || dataObj;
       } else {
-        // Если нет data, пробуем получить json напрямую
-        json = req.body.json ? (typeof req.body.json === 'string' ? JSON.parse(req.body.json) : req.body.json) : null;
+        json = req.body.json
+          ? (typeof req.body.json === 'string' ? JSON.parse(req.body.json) : req.body.json)
+          : null;
       }
     } else {
-      // JSON (для обратной совместимости)
-      ({ name, json, elementId } = req.body);
-      elementId = req.params.id || elementId || '0';
+      ({ name, json, elementId } = req.body || {});
+      elementId = req.params?.id || elementId || '0';
     }
 
     if (!name || !json) {
-      return res.json({ 
-        result: 'error', 
-        error: 'Требуются поля: name, data (с params) или json' 
+      return res.status(400).json({
+        result: 'error',
+        error: 'Требуются поля: name, data (с params) или json',
       });
     }
 
-    // Создаем безопасное имя файла
+    if (!fs.existsSync(MODULES_DIR)) {
+      fs.mkdirSync(MODULES_DIR, { recursive: true });
+    }
+
     const safeName = name.replace(/[^a-zа-яё0-9]/gi, '_').toLowerCase();
     const fileName = elementId && elementId !== '0'
       ? `${safeName}_${elementId}.json`
       : `${safeName}_${Date.now()}.json`;
     const filePath = path.join(MODULES_DIR, fileName);
 
-    // Сохраняем JSON файл (только Clodis JSON из params, как в референсе)
     const clodisJSON = Array.isArray(json) ? json : (json.children || [json]);
-    fs.writeFileSync(filePath, JSON.stringify(clodisJSON, null, 2), 'utf8');
+    atomicWriteJsonFile(filePath, clodisJSON);
 
-    console.log('✅ Модуль сохранен (как в Clodis):', filePath);
-    console.log('  📦 name:', name);
-    console.log('  📦 elementId:', elementId);
-    console.log('  📦 JSON элементов:', clodisJSON.length);
-
-    // Возвращаем ответ в формате Clodis
-    res.json({
+    console.log('✅ Модуль сохранен в modules/:', filePath);
+    return res.json({
       result: 'success',
       id: elementId !== '0' ? elementId : Date.now().toString(),
       message: 'Модуль успешно сохранен',
-      filePath: filePath,
-      fileName: fileName
+      filePath,
+      fileName,
     });
   } catch (error) {
     console.error('❌ Ошибка сохранения модуля:', error);
-    res.json({ 
-      result: 'error', 
-      error: error.message 
+    return res.status(500).json({
+      result: 'error',
+      error: error.message,
     });
   }
-});
+}
 
-// Старый endpoint для обратной совместимости
-app.post('/api/modules/save', (req, res) => {
-  req.url = '/catalog/items_save/0';
-  return app._router.handle(req, res);
-});
+app.post('/api/modules/save', saveModuleJsonFile);
+app.post('/api/modules/save/:id', saveModuleJsonFile);
 
 // ============================================
 // API Endpoints для работы с проектами (полными, не модулями)
@@ -2115,9 +2292,8 @@ app.post('/api/projects/save', (req, res) => {
       projectData.date_created = projectData.date_updated;
     }
 
-    // Сохраняем проект
-    fs.writeFileSync(filePath, JSON.stringify(projectData, null, 2), 'utf8');
-    
+    atomicWriteJsonFile(filePath, projectData);
+
     console.log(`✅ [POST /api/projects/save] Проект сохранён: ${fileName}`);
     
     res.json({ 
@@ -2500,7 +2676,7 @@ function readConstructorUiSettings() {
 }
 
 function writeConstructorUiSettings(data) {
-  fs.writeFileSync(CONSTRUCTOR_UI_SETTINGS_FILE, JSON.stringify(data, null, 2), 'utf8');
+  atomicWriteJsonFile(CONSTRUCTOR_UI_SETTINGS_FILE, data);
 }
 
 app.get('/api/constructor_ui_settings', (req, res) => {
@@ -2545,7 +2721,7 @@ function readRoomFurnitureByRoomFile() {
 
 function writeRoomFurnitureByRoomFile(data) {
   const payload = data && typeof data === 'object' && !Array.isArray(data) ? data : {};
-  fs.writeFileSync(ROOM_FURNITURE_BY_ROOM_FILE, JSON.stringify(payload, null, 2), 'utf8');
+  atomicWriteJsonFile(ROOM_FURNITURE_BY_ROOM_FILE, payload);
 }
 
 app.get('/api/room_furniture_by_room', (req, res) => {
@@ -2586,7 +2762,7 @@ function readRoomStepsConfigFile() {
 
 function writeRoomStepsConfigFile(data) {
   const payload = data && typeof data === 'object' && !Array.isArray(data) ? data : { steps: [] };
-  fs.writeFileSync(ROOM_STEPS_CONFIG_FILE, JSON.stringify(payload, null, 2), 'utf8');
+  atomicWriteJsonFile(ROOM_STEPS_CONFIG_FILE, payload);
 }
 
 /** Конфиг шагов комнаты (pillSets, section_division, price_subline…) — «Управление комнатой 2». */
@@ -2892,44 +3068,68 @@ app.get('/api/catalog/items_get/:type', (req, res) => {
     // 1) Сначала пробуем отдать сохранённые в нашем файловом хранилище элементы этого типа
     let stored = loadCatalogItems(type);
     
-    // ⭐ ВАЖНО: Для catalog_* синхронизируем с db.json, если файл пуст или элементы отсутствуют
-    // Это нужно, чтобы элементы, сохранённые через конструктор (/catalog/items_save), были видны в админке
-    if (/^catalog_/i.test(type)) {
+    // Для catalog_*: sync из db.json ТОЛЬКО если локальный файл пуст (или ?force_db_sync=1).
+    // Раньше merge шёл на КАЖДЫЙ items_get + JSON.stringify всего дерева clodisJSON и
+    // частая перезапись *.json — из‑за этого список в админке висел 10–15с («Загрузка...»).
+    const forceDbSync = String(req.query.force_db_sync || '') === '1';
+    if (/^catalog_/i.test(type) && (forceDbSync || !Array.isArray(stored) || stored.length === 0)) {
       try {
         const db = readDB();
         if (db && db.catalog_items && Array.isArray(db.catalog_items)) {
-          // Находим элементы с нужным catalog_type
           const dbItems = db.catalog_items.filter(item => {
             const itemCatalogType = item.catalog_type || item.data?.catalog_type || '';
             return itemCatalogType === type;
           });
           
           if (dbItems.length > 0) {
-            console.log(`🔄 Найдено ${dbItems.length} элементов в db.json для типа "${type}", синхронизируем...`);
-            
-            // Преобразуем формат из db.json в формат catalog_items
-            const syncedItems = dbItems.map(dbItem => {
-              const existing = stored.find(s => Number(s?.id) === Number(dbItem.id));
+            console.log(`🔄 db sync для "${type}" (force=${forceDbSync ? 1 : 0}, fileEmpty=${!(stored && stored.length)}), db=${dbItems.length}`);
+
+            // Файл — источник истины для админки. db.json только ДОБАВЛЯЕТ/обновляет по id.
+            const byId = new Map();
+            for (const s of Array.isArray(stored) ? stored : []) {
+              const sid = Number(s?.id);
+              if (Number.isFinite(sid) && sid > 0) byId.set(sid, s);
+            }
+            let changed = false;
+            for (const dbItem of dbItems) {
+              const id = Number(dbItem.id);
+              if (!(Number.isFinite(id) && id > 0)) continue;
+              const existing = byId.get(id);
               if (existing) {
-                // Обновляем существующий элемент
-                return {
+                const nextClodis = readClodisJSONFromRecord(dbItem);
+                const merged = {
                   ...existing,
+                  catalog_type: type,
                   name: dbItem.name || existing.name,
                   ...(dbItem.element_type ? { element_type: dbItem.element_type } : {}),
                   ...(dbItem.cabinet_tag ? { cabinet_tag: dbItem.cabinet_tag } : {}),
                   ...(dbItem.category && dbItem.category.length > 0 ? { category: dbItem.category } : {}),
                   ...(dbItem.icon ? { icon: dbItem.icon } : {}),
                   data: dbItem.data || existing.data || {},
-                  ...(readClodisJSONFromRecord(dbItem)
-                    ? { clodisJSON: readClodisJSONFromRecord(dbItem) }
+                  ...(nextClodis ? { clodisJSON: nextClodis } : {}),
+                  ...(dbItem.show_in_constructor !== undefined
+                    ? { show_in_constructor: dbItem.show_in_constructor }
                     : {}),
-                  ...(dbItem.show_in_constructor !== undefined ? { show_in_constructor: dbItem.show_in_constructor } : {}),
-                  ...(dbItem.order !== undefined ? { order: dbItem.order } : {})
+                  ...(dbItem.order !== undefined ? { order: dbItem.order } : {}),
                 };
+                // Лёгкое сравнение — без JSON.stringify всего модуля (clodisJSON может быть МБ).
+                const touched =
+                  merged.name !== existing.name ||
+                  merged.icon !== existing.icon ||
+                  merged.order !== existing.order ||
+                  merged.show_in_constructor !== existing.show_in_constructor ||
+                  merged.element_type !== existing.element_type ||
+                  merged.cabinet_tag !== existing.cabinet_tag ||
+                  (nextClodis && nextClodis !== existing.clodisJSON &&
+                    JSON.stringify(nextClodis) !== JSON.stringify(existing.clodisJSON));
+                if (touched) {
+                  byId.set(id, merged);
+                  changed = true;
+                }
               } else {
-                // Добавляем новый элемент
-                return {
-                  id: dbItem.id,
+                byId.set(id, {
+                  id,
+                  catalog_type: type,
                   name: dbItem.name || 'Элемент',
                   ...(dbItem.element_type ? { element_type: dbItem.element_type } : {}),
                   ...(dbItem.cabinet_tag ? { cabinet_tag: dbItem.cabinet_tag } : {}),
@@ -2939,27 +3139,28 @@ app.get('/api/catalog/items_get/:type', (req, res) => {
                   ...(readClodisJSONFromRecord(dbItem)
                     ? { clodisJSON: readClodisJSONFromRecord(dbItem) }
                     : {}),
-                  ...(dbItem.show_in_constructor !== undefined ? { show_in_constructor: dbItem.show_in_constructor } : {}),
-                  ...(dbItem.order !== undefined ? { order: dbItem.order } : {})
-                };
+                  ...(dbItem.show_in_constructor !== undefined
+                    ? { show_in_constructor: dbItem.show_in_constructor }
+                    : {}),
+                  ...(dbItem.order !== undefined ? { order: dbItem.order } : {}),
+                });
+                changed = true;
               }
-            });
-            
-            // Сохраняем синхронизированные элементы в файл
-            if (syncedItems.length > stored.length || syncedItems.some((item, idx) => {
-              const existing = stored[idx];
-              return !existing || JSON.stringify(existing) !== JSON.stringify(item);
-            })) {
-              saveCatalogItems(type, syncedItems);
-              console.log(`✅ Синхронизировано ${syncedItems.length} элементов из db.json в catalog_items/${type}.json`);
             }
-            
-            stored = syncedItems;
+            const mergedList = Array.from(byId.values()).sort(
+              (a, b) => Number(a.id) - Number(b.id)
+            );
+            if (changed) {
+              saveCatalogItems(type, mergedList);
+              console.log(
+                `✅ Merge db.json→файл для "${type}": было ${(stored && stored.length) || 0}, стало ${mergedList.length}`
+              );
+            }
+            stored = mergedList;
           }
         }
       } catch (syncError) {
         console.warn(`⚠️ Ошибка синхронизации db.json для типа "${type}":`, syncError?.message || syncError);
-        // Продолжаем работу с тем, что есть в файле
       }
     }
     
@@ -3035,6 +3236,11 @@ app.get('/api/catalog/items_get/:type', (req, res) => {
     if (/^catalog_/i.test(type)) {
       console.log(`ℹ️ Тип "${type}" (каталог) не имеет локальных элементов, возвращаем пустой список`);
       return res.json({ items: [], count: 0 });
+    }
+    // Модели цоколя: пустой список, без mock из items_get_pagination_multi.json
+    if (type === 'cokol_items' || type === 'cokol_categories') {
+      const list = Array.isArray(stored) ? stored : [];
+      return res.json({ items: list, count: list.length });
     }
 
     // Для других типов - проверяем, не это ли список элементов каталога
@@ -3123,7 +3329,7 @@ function saveCategories(type, data) {
   const file = path.join(CATALOG_ITEMS_DIR, `categories_${type}.json`);
   try {
     if (!fs.existsSync(CATALOG_ITEMS_DIR)) fs.mkdirSync(CATALOG_ITEMS_DIR, { recursive: true });
-    fs.writeFileSync(file, JSON.stringify(Array.isArray(data) ? data : [], null, 2), 'utf8');
+    atomicWriteJsonFile(file, Array.isArray(data) ? data : []);
     return true;
   } catch (e) {
     console.error('❌ Ошибка сохранения категорий:', e);
@@ -3183,11 +3389,19 @@ app.get('/api/catalog/export_all_for_constructor', (req, res) => {
         const data = unwrapCatalogItemData(it);
         const cs = data.constructor_structure || it.constructor_structure;
         let clodisJSON = [];
+        // Как админка: children = канон. template/spec/clodisJSON могут отставать.
         if (cs) {
-          if (cs.template && Array.isArray(cs.template.structure)) clodisJSON = cs.template.structure;
-          else if (cs.spec && cs.spec.template && Array.isArray(cs.spec.template.tree)) clodisJSON = cs.spec.template.tree;
-          else if (cs.type === 'module' && Array.isArray(cs.children)) clodisJSON = cs.children;
-          else if (Array.isArray(cs)) clodisJSON = cs;
+          if (cs.type === 'module' && Array.isArray(cs.children) && cs.children.length) {
+            clodisJSON = cs.children;
+          } else if (Array.isArray(cs.children) && cs.children.length) {
+            clodisJSON = cs.children;
+          } else if (cs.template && Array.isArray(cs.template.structure) && cs.template.structure.length) {
+            clodisJSON = cs.template.structure;
+          } else if (cs.spec && cs.spec.template && Array.isArray(cs.spec.template.tree)) {
+            clodisJSON = cs.spec.template.tree;
+          } else if (Array.isArray(cs)) {
+            clodisJSON = cs;
+          }
         }
         // JSON сохраняется в разных форматах: clodisJSON, data.params, или data как массив (вкладка JSON)
         if (clodisJSON.length === 0) {
@@ -3232,6 +3446,7 @@ app.get('/api/catalog/export_all_for_constructor', (req, res) => {
           null;
         const roomTags = data.roomTags ?? it.roomTags;
         const doorKind = data.doorKind ?? it.doorKind;
+        const doorLayout = data.doorLayout ?? it.doorLayout ?? data.door_layout;
         const placementKind = data.placementKind ?? it.placementKind;
         const clodisVariables = pickClodisVariablesFromRecord(data, it);
         const pairedCatalogItemIds =
@@ -3253,6 +3468,7 @@ app.get('/api/catalog/export_all_for_constructor', (req, res) => {
         };
         if (roomTags && typeof roomTags === 'object') out.roomTags = roomTags;
         if (doorKind === 'single' || doorKind === 'double') out.doorKind = doorKind;
+        if (doorLayout) out.doorLayout = doorLayout;
         if (placementKind) out.placementKind = placementKind;
         if (clodisVariables && typeof clodisVariables === 'object') {
           out.clodisVariables = clodisVariables;
@@ -3414,13 +3630,18 @@ app.post('/api/catalog/category_delete/:type', (req, res) => {
     if (!id || isNaN(id)) return res.status(400).json({ error: 'id обязателен' });
     const categories = loadCategories(type);
     const children = categories.filter(c => (c.parent || null) === id);
-    const moveTo = body.move_children_to !== undefined ? parseInt(body.move_children_to, 10) : null;
-    if (children.length > 0 && moveTo === undefined) {
-      return res.json({ error: 'has_children', count: children.length });
+    const hasMoveTarget = Object.prototype.hasOwnProperty.call(body, 'move_children_to');
+    const moveTo = hasMoveTarget ? parseInt(body.move_children_to, 10) : null;
+    if (children.length > 0 && !hasMoveTarget) {
+      return res.status(409).json({
+        result: 'error',
+        error: 'has_children',
+        count: children.length,
+      });
     }
     const next = categories.filter(c => (c.id || 0) !== id);
     if (children.length > 0) {
-      const newParent = (moveTo === null || moveTo === undefined) ? null : moveTo;
+      const newParent = Number.isFinite(moveTo) ? moveTo : null;
       next.forEach(c => { if ((c.parent || null) === id) c.parent = newParent; });
     }
     if (saveCategories(type, next)) res.json({ result: 'success' });
@@ -3656,7 +3877,7 @@ function saveEdgesKeys(data) {
   try {
     const dataDir = path.dirname(EDGES_KEYS_FILE);
     if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
-    fs.writeFileSync(EDGES_KEYS_FILE, JSON.stringify(Array.isArray(data) ? data : [], null, 2), 'utf8');
+    atomicWriteJsonFile(EDGES_KEYS_FILE, Array.isArray(data) ? data : []);
     return true;
   } catch (error) {
     console.error('❌ Ошибка сохранения edges_keys:', error);
@@ -3720,8 +3941,7 @@ function saveMaterialsKeys(data) {
       fs.mkdirSync(dataDir, { recursive: true });
     }
     
-    const jsonData = JSON.stringify(Array.isArray(data) ? data : [], null, 2);
-    fs.writeFileSync(MATERIALS_KEYS_FILE, jsonData, 'utf8');
+    atomicWriteJsonFile(MATERIALS_KEYS_FILE, Array.isArray(data) ? data : []);
     console.log('💾 Материалы сохранены в файл:', MATERIALS_KEYS_FILE);
     return true;
   } catch (error) {
@@ -4124,9 +4344,8 @@ function saveModulesGroups(data) {
     if (!fs.existsSync(dataDir)) {
       fs.mkdirSync(dataDir, { recursive: true });
     }
-    const jsonData = JSON.stringify(data, null, 2);
-    fs.writeFileSync(MODULES_GROUPS_FILE, jsonData, 'utf8');
-    
+    atomicWriteJsonFile(MODULES_GROUPS_FILE, data);
+
     // Синхронная проверка, что файл действительно записался
     const verifyData = fs.readFileSync(MODULES_GROUPS_FILE, 'utf8');
     const parsed = JSON.parse(verifyData);
@@ -4760,17 +4979,31 @@ app.post('/api/catalog/item_edit/:type/:id', (req, res) => {
       }
     }
     const prevCs = idx >= 0 ? items[idx]?.constructor_structure : null;
+    const prevData =
+      idx >= 0 && items[idx]?.data && typeof items[idx].data === 'object' && !Array.isArray(items[idx].data)
+        ? items[idx].data
+        : {};
     const nextCs =
       (dataField && dataField.constructor_structure && typeof dataField.constructor_structure === 'object')
         ? dataField.constructor_structure
         : (body && body.constructor_structure && typeof body.constructor_structure === 'object')
           ? body.constructor_structure
           : (prevCs && typeof prevCs === 'object' ? prevCs : null);
+    // Админка — источник: whitelist из формы НЕ должен затирать остальные ключи data.*
+    // (материалы, vars, наши плюшки). Новые поля из payload перекрывают старые.
+    const mergedData =
+      dataField != null && typeof dataField === 'object' && !Array.isArray(dataField)
+        ? { ...prevData, ...dataField }
+        : dataField != null
+          ? dataField
+          : Object.keys(prevData).length
+            ? prevData
+            : undefined;
     const updatedItem = {
       catalog_type: catalogType,
       ...(items[idx] || {}),
       ...body,
-      ...(dataField != null ? { data: dataField } : {}),
+      ...(mergedData !== undefined ? { data: mergedData } : {}),
       ...(nextCs ? { constructor_structure: nextCs } : {}),
       ...(clodisJSON != null ? { clodisJSON: clodisJSON } : {}),
       id: itemId,
@@ -4944,7 +5177,7 @@ app.post('/api/catalog/items_clear/:type', (req, res) => {
         const safeType = safeCatalogTypeKey(catalogType);
         const stamp = new Date().toISOString().replace(/[:.]/g, '-');
         const backupPath = path.join(backupsDir, `${safeType}.${stamp}.json`);
-        fs.writeFileSync(backupPath, JSON.stringify(existing, null, 2), 'utf8');
+        atomicWriteJsonFile(backupPath, existing);
         console.log(`🗄️ Бэкап "${catalogType}" перед очисткой: ${backupPath}`);
       }
     } catch (backupErr) {
@@ -5283,14 +5516,13 @@ function saveGlobalVars(data) {
     if (!fs.existsSync(dataDir)) {
       fs.mkdirSync(dataDir, { recursive: true });
     }
-    const jsonData = JSON.stringify(data, null, 2);
-    fs.writeFileSync(GLOBAL_VARS_FILE, jsonData, 'utf8');
-    
+    atomicWriteJsonFile(GLOBAL_VARS_FILE, data);
+
     // Синхронная проверка, что файл действительно записался
     const verifyData = fs.readFileSync(GLOBAL_VARS_FILE, 'utf8');
-    const parsed = JSON.parse(verifyData);
+    JSON.parse(verifyData);
     console.log('💾 Файл global_vars.json сохранен');
-    
+
     return true;
   } catch (error) {
     console.error('❌ Ошибка сохранения глобальных переменных:', error);
@@ -5600,10 +5832,10 @@ registerAiPilotRoutes(app);
 const _beforeListenMs = Date.now() - _startMs;
 console.log(`⏱️ Загрузка модуля и регистрация маршрутов: ${_beforeListenMs} мс`);
 
-app.listen(PORT, '0.0.0.0', () => {
+app.listen(PORT, HOST, () => {
   const _totalMs = Date.now() - _startMs;
   console.log('═══════════════════════════════════════════════════════════');
-  console.log(`🚀 ЕДИНЫЙ СЕРВЕР запущен на http://localhost:${PORT} (всего ${_totalMs} мс)`);
+  console.log(`🚀 ЕДИНЫЙ СЕРВЕР запущен на http://${HOST}:${PORT} (всего ${_totalMs} мс)`);
   console.log('═══════════════════════════════════════════════════════════');
   console.log('📦 КОМНАТА (для пользователей):');
   console.log(`   http://localhost:${PORT}/`);

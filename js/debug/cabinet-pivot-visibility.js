@@ -18,3 +18,9 @@ export function syncCabinetPivotDebugVisibility() {
     obj.visible = kind === 'root' ? showRoot : showRole;
   });
 }
+
+try {
+  if (typeof window !== 'undefined') {
+    window.__cldSyncCabinetPivotDebugVisibility = syncCabinetPivotDebugVisibility;
+  }
+} catch (_) {}

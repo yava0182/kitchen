@@ -1,0 +1,24 @@
+﻿FILE js\kitchen\kitchen-section-layout.js
+onlyIn1.102 count=4
+ * Текущая ширина спец-ячейки НМУ на секции (карандаш / layout / дефолт 1050).
+  if (fromCustom >= 300 && fromCustom <= 1200) return fromCustom;
+  if (fromLc >= 300 && fromLc <= 1200) return fromLc;
+        if (w >= 300 && w <= 1200) return w;
+----
+onlyInCurrent count=16
+ * Авто-расклад free-arm пишет 600 во все слоты до Joint.
+ * 600 без user-source — не карандаш спец НМУ (канон 1050).
+function _isAutoFreeCellWidthMm(w, sectionData) {
+  if (Math.round(Number(w) || 0) !== KITCHEN_STRAIGHT_INITIAL_CELL_MAX_MM) {
+  return !sectionHasUserEditedCustomZoneWidths(sectionData);
+/** Текущая ширина спец-ячейки НМУ на секции (карандаш / layout / дефолт 1050). */
+    fromCustom >= 300 &&
+    fromCustom <= 1200 &&
+    !_isAutoFreeCellWidthMm(fromCustom, sectionData)
+    return fromCustom;
+    fromLc >= 300 &&
+    fromLc <= 1200 &&
+    !_isAutoFreeCellWidthMm(fromLc, sectionData)
+    return fromLc;
+        if (w >= 300 && w <= 1200 && !_isAutoFreeCellWidthMm(w, sectionData)) {
+          return w;

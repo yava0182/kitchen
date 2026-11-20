@@ -1,0 +1,16 @@
+{
+  "ok": false,
+  "err": "app_not_found",
+  "globals": [
+    "onappinstalled",
+    "XRViewerPose",
+    "ByMeAPI",
+    "app"
+  ],
+  "appShape": {},
+  "byMeApiShape": {
+    "EventDispatcher": "function"
+  },
+  "appType": "object",
+  "byMeApiType": "object"
+}

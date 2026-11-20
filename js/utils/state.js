@@ -1,118 +1,129 @@
 // Global application state
-// All shared variables between modules
+// All shared variables between modules.
+//
+// ВАЖНО: Vite + разные ?v= на импортах могут выполнить этот файл дважды.
+// Без singleton получаются два state → canvas/room в одном, place/клики в пустом.
+const __cldStateRoot =
+  typeof globalThis !== 'undefined'
+    ? globalThis
+    : typeof window !== 'undefined'
+      ? window
+      : {};
 
-export const state = {
-  // Three.js core objects
-  scene: null,
-  camera: null,
-  renderer: null,
-  composer: null,
-  cameraFillLight: null,
-  composer: null,
-  room: null,
-  furniture: null,
-  raycaster: null,
-  mouse: null,
-  controls: null,
-  clock: null,
+function createInitialState() {
+  return {
+    // Three.js core objects
+    scene: null,
+    camera: null,
+    renderer: null,
+    composer: null,
+    cameraFillLight: null,
+    room: null,
+    furniture: null,
+    raycaster: null,
+    mouse: null,
+    controls: null,
+    clock: null,
 
-  // Room data
-  wallPlanes: [],
-  roomBounds: null,
+    // Room data
+    wallPlanes: [],
+    roomBounds: null,
 
-  // Drag and drop state
-  isDraggingFromCatalog: false, // ЛКМ зажата на шкафе, тянем в секцию
-  isPlacingFurniture: false,
-  furnitureGhost: null,
-  pendingFurnitureData: null,
-  ghostWall: null,
-  ghostPosition: null,
-  lastValidGhostPosition: null, // при drag — последняя валидная позиция
-  lastValidGhostWall: null,
+    // Drag and drop state
+    isDraggingFromCatalog: false,
+    isPlacingFurniture: false,
+    furnitureGhost: null,
+    pendingFurnitureData: null,
+    ghostWall: null,
+    ghostPosition: null,
+    lastValidGhostPosition: null,
+    lastValidGhostWall: null,
 
-  // Section placement state
-  isPlacingSection: false,
-  pendingSectionData: null, // { width, height, depth, span? }
-  sectionGhost: null, // Призрак секции при размещении
-  sectionGhostWall: null, // Стена, на которую наведен призрак
-  sectionGhostPosition: null, // Позиция призрака
-  /** Пролёты текущей стены при постановке секции (см. wall-solid-spans). */
-  sectionPlacementSpans: null,
-  sectionPlacementWall: null,
-  sectionPlacementSelectedIds: [],
-  /** true = выбор с пилюли/«оба», курсор не перебивает. */
-  sectionPlacementSelectionLocked: false,
-  /** true = на confirm создать все placeable-пролёты. */
-  sectionPlacementPlaceAll: false,
-  /** Разрешить пилюлю «Оба пролёта». */
-  sectionPlacementAllowBoth: true,
-  /** Кандидат «вдоль стены с окном» (U: полный | ≤sill | полный). */
-  sectionPlacementBridgeSpan: null,
-  /** Выбран вариант window-bridge вместо отдельных пролётов. */
-  sectionPlacementPlaceBridge: false,
-  // Какой пресет раскладки (layout) сейчас создаёт секцию (например, 'top-wall', 'corner-wardrobe')
-  pendingLayoutKey: null,
+    // Section placement state
+    isPlacingSection: false,
+    pendingSectionData: null,
+    sectionGhost: null,
+    sectionGhostWall: null,
+    sectionGhostPosition: null,
+    sectionPlacementSpans: null,
+    sectionPlacementWall: null,
+    sectionPlacementSelectedIds: [],
+    sectionPlacementSelectionLocked: false,
+    sectionPlacementPlaceAll: false,
+    sectionPlacementAllowBoth: true,
+    sectionPlacementBridgeSpan: null,
+    sectionPlacementPlaceBridge: false,
+    pendingLayoutKey: null,
 
-  // Furniture dragging state
-  isDraggingFurniture: false,
-  draggedFurniture: null,
-  dragStartMousePos: null,
-  dragStartFurniturePos: null,
-  dragWall: null,
-  /** После drag мебели подавить следующий synthetic click на canvas (открытие модалки секции и т.п.) */
-  suppressNextCanvasClick: false,
+    // Furniture dragging state
+    isDraggingFurniture: false,
+    draggedFurniture: null,
+    dragStartMousePos: null,
+    dragStartFurniturePos: null,
+    dragWall: null,
+    suppressNextCanvasClick: false,
 
-  // Furniture selection state
-  selectedFurniture: null,
-  furniturePerimeterMarker: null,
-  selectedSections: [], // Array of selected sections with their markers
-  sectionMarkers: {}, // Map: sectionGroup -> marker object
+    // Furniture selection state
+    selectedFurniture: null,
+    furniturePerimeterMarker: null,
+    selectedSections: [],
+    sectionMarkers: {},
 
-  // Custom sections array - хранит созданные пользователем секции
-  customSections: [], // Array of { id, name, size: {x,y,z}, position: {x,y,z}, group: THREE.Group }
-  
-  // Хранилище меток размеров для секций
-  sectionDimensionLabels: {}, // Map: sectionId -> Array of label elements
-  // Хранилище вспомогательных "зон" внутри секций (мелкие под‑секции между сплошными линиями)
-  sectionZones: {}, // Map: sectionId -> Array of THREE.Group zone helpers
-  // Отладка: включить/выключить видимость зон по отдельности
-  showDoubleZones: false,
-  showSingleZones: false,
-  
-  // Хранилище меток отступов для редактируемой секции
-  sectionOffsetLabels: [], // Array of label elements for offset dimensions
-  
-  // Хранилище линий и меток отступов на стене (Three.js объекты)
-  sectionOffsetLines: [], // Array of THREE.Line objects for offset lines on walls
-  sectionOffsetSprites: [], // Array of THREE.Sprite objects for offset labels on walls
-  
-  // Хранилище маркеров расстановки шкафов для секций
-  sectionCabinetMarkers: {}, // Map: sectionId -> Array of marker lines
+    customSections: [],
 
-  // Cap-секции (накладки 16мм): граница между шкафом и тумбой.
-  // Ключ = wallName, значение = массив { sectionId, capStartU, capEndU, wallName }
-  // capStartU/capEndU — мировые координаты вдоль оси U стены.
-  // Используется section-manager и cabinet-markers для рендера cap как отдельной зоны.
-  capBoundaries: new Map(),
-  // Разбиение призрака секции (для привязки модулей к зонам)
-  sectionGhostDivision: null, // { partSize, sectionStart, sectionEnd, wallName, parts }
+    /** Кухня: система (ordinary/gola) + высота опор проекта. */
+    kitchenProject: null,
 
-  // GLB animation and parameters
-  furnitureAnimationMixer: null, // AnimationMixer for GLB animations
-  furnitureAnimations: {}, // Map: animationName -> AnimationAction
+    sectionDimensionLabels: {},
+    sectionZones: {},
+    /** Legacy SectionZone* — выкл. Канон ячеек: kitchenBandGridsView после компоновки шага 2. */
+    showDoubleZones: false,
+    showSingleZones: false,
 
-  // UI containers
-  sceneIconsContainer: null,
+    /**
+     * Legacy UI ячеек. Банд-сетки BASE/MID/TOP — kitchenBandGridsView
+     * (включает apply*ComposePreview, не форма комнаты).
+     */
+    kitchenCellsUiEnabled: false,
 
-  // Camera state
-  initialCameraPosition: null,
-  initialCameraTarget: null,
+    /** Просмотр сеток BASE/MID/TOP. Вкл. только после карточки компоновки шага 2. */
+    kitchenBandGridsView: { enabled: false, band: 'base', labels: false },
 
-  // Mouse control state
-  isRotating: false,
-  isPanning: false,
-  previousMousePosition: { x: 0, y: 0 }
-};
+    /**
+     * Построение секций (прямая / позже угол).
+     * true = можно ставить секцию и править сетку. Выкл: __cldSetKitchenSectionsEnabled(false).
+     */
+    kitchenSectionsEnabled: true,
+
+    sectionOffsetLabels: [],
+
+    sectionOffsetLines: [],
+    sectionOffsetSprites: [],
+
+    sectionCabinetMarkers: {},
+
+    capBoundaries: new Map(),
+    sectionGhostDivision: null,
+
+    furnitureAnimationMixer: null,
+    furnitureAnimations: {},
+
+    sceneIconsContainer: null,
+
+    initialCameraPosition: null,
+    initialCameraTarget: null,
+
+    isRotating: false,
+    isPanning: false,
+    previousMousePosition: { x: 0, y: 0 },
+  };
+}
+
+if (!__cldStateRoot.__CLD_STATE_SINGLETON__) {
+  __cldStateRoot.__CLD_STATE_SINGLETON__ = createInitialState();
+}
+
+export const state = __cldStateRoot.__CLD_STATE_SINGLETON__;
 
 // Room dimensions in millimeters (no conversion needed)
 export const ROOM_WIDTH = 5000; // 5000mm = 5m

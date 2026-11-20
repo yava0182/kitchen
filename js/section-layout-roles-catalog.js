@@ -21,6 +21,21 @@
     { key: 'top', label: 'Верх / антресоль' },
     { key: 'wall_hung_body', label: 'Навесной корпус' },
     { key: 'drawer', label: 'Ящик / выдвижной блок' },
+    { key: 'tall_band_low', label: 'Пенал — датам низ (как НМ)' },
+    { key: 'tall_band_mid', label: 'Пенал — датам середина (столешка+зазор)' },
+    { key: 'tall_band_high', label: 'Пенал — датам верх (НШ1)' },
+    {
+      key: 'corner_return',
+      label: 'Приставка углового (панель корпуса + уголок фасада, d≈50)',
+    },
+    {
+      key: 'corner_g_return',
+      label: 'Г-рукав навеса (второе крыло Угловой Г, не NMU-планка 40)',
+    },
+    {
+      key: 'corner_post',
+      label: 'Угловая планка / нащельник (legacy; уголок уже в Приставном)',
+    },
   ];
 
   const keys = new Set(ROLES.map((r) => r.key).filter(Boolean));
@@ -143,7 +158,7 @@
     }
   }
 
-  /** catalog_32: только legacy-мусор (396, s:x в pos.z). Pos из карточки не перезаписываем. */
+  /** catalog_32: legacy pos + высота опоры = v:h_bottom (не литерал 100). */
   function fixPlinthLegDepthExprs(rootNode) {
     const models = [];
     const walk = (n) => {
@@ -156,16 +171,37 @@
 
     for (const m of models) {
       m.pos = m.pos && typeof m.pos === 'object' ? { ...m.pos } : {};
-      const px = m.pos.x;
       const pz = m.pos.z;
 
       if (pz === 396 || String(pz).trim() === '396') {
         m.pos.z = '0+s:z-20';
-        continue;
+      } else if (
+        typeof pz === 'string' &&
+        /\bs\.?x\b/i.test(String(pz)) &&
+        !/\bs\.?z\b/i.test(String(pz))
+      ) {
+        m.pos.z = String(pz).replace(/\bs\.x\b/gi, 's:z').replace(/\bs:x\b/gi, 's:z');
       }
 
-      if (typeof pz === 'string' && /\bs\.?x\b/i.test(String(pz)) && !/\bs\.?z\b/i.test(String(pz))) {
-        m.pos.z = String(pz).replace(/\bs\.x\b/gi, 's:z').replace(/\bs:x\b/gi, 's:z');
+      // Кухня: одна GLB-опора на 100/120/150 — высота только из v:h_bottom.
+      // pos/size.xz/pivot — как в JSON (1:1 админ ↔ комната).
+      const name = String(m.name || m.spec?.key || '');
+      const isLeg =
+        m.cldSupportLeg === true || /опора/i.test(name) || /support.?leg/i.test(name);
+      if (!isLeg) continue;
+      m.size = m.size && typeof m.size === 'object' ? { ...m.size } : {};
+      const sy = m.size.y;
+      const num = Number(sy);
+      const litFixed =
+        sy === 100 ||
+        sy === '100' ||
+        sy === 120 ||
+        sy === '120' ||
+        sy === 150 ||
+        sy === '150' ||
+        (Number.isFinite(num) && num >= 80 && num <= 200);
+      if (litFixed || !/\bv\s*:\s*h_bottom\b/i.test(String(sy || ''))) {
+        m.size.y = 'v:h_bottom';
       }
     }
   }

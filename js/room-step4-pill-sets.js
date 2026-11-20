@@ -79,46 +79,142 @@
    * Типовой набор овальных кнопок для catalog_25 (тумбы).
    * Категории из categories_catalog_25.json: 4 без дверей, 7 с дверями, 5/6 одно-/двустворчатые.
    */
+  var WARDROBE_PILL_TEMPLATE = [
+    {
+      id: 'p-doors',
+      name: 'С дверями',
+      categoryId: 7,
+      orCategoryId: null,
+      cabinetDoorFilter: null,
+      facadeFilter: 'with',
+      pillGroup: 0,
+      order: 0,
+    },
+    {
+      id: 'p-no-doors',
+      name: 'Без дверей',
+      categoryId: 4,
+      orCategoryId: null,
+      cabinetDoorFilter: null,
+      facadeFilter: 'without',
+      pillGroup: 0,
+      order: 1,
+    },
+    {
+      id: 'p-single',
+      name: 'Однодверные',
+      categoryId: 5,
+      orCategoryId: null,
+      cabinetDoorFilter: 'single',
+      facadeFilter: null,
+      pillGroup: 1,
+      order: 2,
+    },
+    {
+      id: 'p-double',
+      name: 'Двустворчатые',
+      categoryId: 6,
+      orCategoryId: null,
+      cabinetDoorFilter: 'double',
+      facadeFilter: null,
+      pillGroup: 1,
+      order: 3,
+    },
+  ];
+
+  /**
+   * Кухня: тех же подписи, но без categoryId шкафов (4/5/6/7).
+   * Иначе сетка пустая — у kitchen-модулей category часто [].
+   */
+  var KITCHEN_PILL_TEMPLATE = [
+    {
+      id: 'pk-doors',
+      name: 'С дверями',
+      categoryId: null,
+      orCategoryId: null,
+      cabinetDoorFilter: null,
+      facadeFilter: 'with',
+      pillGroup: 0,
+      order: 0,
+    },
+    {
+      id: 'pk-no-doors',
+      name: 'Без дверей',
+      categoryId: null,
+      orCategoryId: null,
+      cabinetDoorFilter: null,
+      facadeFilter: 'without',
+      pillGroup: 0,
+      order: 1,
+    },
+    {
+      id: 'pk-single',
+      name: 'Однодверные',
+      categoryId: null,
+      orCategoryId: null,
+      cabinetDoorFilter: 'single',
+      facadeFilter: null,
+      pillGroup: 1,
+      order: 2,
+    },
+    {
+      id: 'pk-double',
+      name: 'Двустворчатые',
+      categoryId: null,
+      orCategoryId: null,
+      cabinetDoorFilter: 'double',
+      facadeFilter: null,
+      pillGroup: 1,
+      order: 3,
+    },
+  ];
+
+  var KITCHEN_PILL_FOLDERS = ['46', '52', '50', '51', '44', '48', '54'];
+
+  function clonePillTemplate(template, prefix) {
+    return (template || []).map(function (p, idx) {
+      var copy = Object.assign({}, p);
+      copy.id = (prefix || 'p') + '-' + idx + '-' + String(p.id || idx);
+      return copy;
+    });
+  }
+
   var DEFAULT_PILL_SETS_BY_FOLDER = {
-    '25': [
-      {
-        id: 'p25-doors',
-        name: 'С дверями',
-        categoryId: 7,
-        orCategoryId: null,
-        cabinetDoorFilter: null,
-        pillGroup: 0,
-        order: 0,
-      },
-      {
-        id: 'p25-no-doors',
-        name: 'Без дверей',
-        categoryId: 4,
-        orCategoryId: null,
-        cabinetDoorFilter: null,
-        pillGroup: 0,
-        order: 1,
-      },
-      {
-        id: 'p25-single',
-        name: 'Однодверные',
-        categoryId: 5,
-        orCategoryId: null,
-        cabinetDoorFilter: 'single',
-        pillGroup: 1,
-        order: 2,
-      },
-      {
-        id: 'p25-double',
-        name: 'Двустворчатые',
-        categoryId: 6,
-        orCategoryId: null,
-        cabinetDoorFilter: 'double',
-        pillGroup: 1,
-        order: 3,
-      },
-    ],
+    '25': clonePillTemplate(WARDROBE_PILL_TEMPLATE, 'p25'),
   };
+  KITCHEN_PILL_FOLDERS.forEach(function (fk) {
+    DEFAULT_PILL_SETS_BY_FOLDER[fk] = clonePillTemplate(
+      KITCHEN_PILL_TEMPLATE,
+      'pk' + fk
+    );
+  });
+
+  function looksLikeWardrobeCategoryPills(pills) {
+    if (!Array.isArray(pills) || pills.length === 0) return false;
+    var wardrobeIds = { 4: 1, 5: 1, 6: 1, 7: 1 };
+    var withCat = pills.filter(function (p) {
+      return p && p.categoryId != null && String(p.categoryId).trim() !== '';
+    });
+    if (withCat.length === 0) return false;
+    return withCat.every(function (p) {
+      return !!wardrobeIds[Number(p.categoryId)];
+    });
+  }
+
+  /** Убрать «утекшие» пилюли тумб (4/5/6/7) с кухонных папок. */
+  function repairKitchenPillSetsLeakedFromWardrobe(step4) {
+    if (!step4 || !step4.pillSets || typeof step4.pillSets !== 'object') {
+      return false;
+    }
+    var changed = false;
+    KITCHEN_PILL_FOLDERS.forEach(function (fk) {
+      var arr = step4.pillSets[fk];
+      if (!looksLikeWardrobeCategoryPills(arr)) return;
+      step4.pillSets[fk] = clonePillTemplate(KITCHEN_PILL_TEMPLATE, 'pk' + fk);
+      changed = true;
+    });
+    return changed;
+  }
 
   function folderPillSetStoredLength(step4, folderKey, config) {
     if (!step4 || !step4.pillSets) return 0;
@@ -140,7 +236,7 @@
     if (!step4.pillSets || typeof step4.pillSets !== 'object') {
       step4.pillSets = {};
     }
-    var changed = false;
+    var changed = repairKitchenPillSetsLeakedFromWardrobe(step4);
     Object.keys(DEFAULT_PILL_SETS_BY_FOLDER).forEach(function (folderKey) {
       if (folderPillSetStoredLength(step4, folderKey, config) > 0) return;
       var template = DEFAULT_PILL_SETS_BY_FOLDER[folderKey];
@@ -258,14 +354,8 @@
         break;
       }
     }
-    if (raw.length === 0 && step4.pillSets && typeof step4.pillSets === 'object') {
-      var nonEmpty = Object.keys(step4.pillSets).filter(function (k) {
-        return Array.isArray(step4.pillSets[k]) && step4.pillSets[k].length > 0;
-      });
-      if (nonEmpty.length === 1) {
-        raw = step4.pillSets[nonEmpty[0]].slice();
-      }
-    }
+    // Не подставляем пилюли другой папки (раньше: единственный pillSet 25
+    // «тумбы» применялся к кухне 46 → фильтр по category 4/5/6/7 → пустая сетка).
     if (raw.length === 0 && Array.isArray(step4.items) && step4.items.length > 0) {
       raw = step4.items.filter(isLegacyPillEntry).slice();
     }
@@ -384,6 +474,11 @@
         : '0';
       var pillGroup = parseInt(groupRaw, 10);
       if (!Number.isFinite(pillGroup) || pillGroup < 0) pillGroup = 0;
+      var facadeVal = (
+        (row.querySelector('.room-step-pill-facade-filter') &&
+          row.querySelector('.room-step-pill-facade-filter').value) ||
+        ''
+      ).trim();
       list.push({
         id: row.getAttribute('data-id') || 'p' + idx,
         name: name || 'Кнопка ' + (idx + 1),
@@ -391,6 +486,8 @@
         orCategoryId: orCatVal ? parseInt(orCatVal, 10) : null,
         cabinetDoorFilter:
           doorVal === 'single' || doorVal === 'double' ? doorVal : null,
+        facadeFilter:
+          facadeVal === 'with' || facadeVal === 'without' ? facadeVal : null,
         pillGroup: pillGroup,
         order: order,
       });
@@ -403,6 +500,8 @@
     getStep3CatalogFolders: getStep3CatalogFolders,
     ensureStep4PillSets: ensureStep4PillSets,
     seedDefaultStep4PillSetsIfEmpty: seedDefaultStep4PillSetsIfEmpty,
+    repairKitchenPillSetsLeakedFromWardrobe:
+      repairKitchenPillSetsLeakedFromWardrobe,
     folderPillSetStoredLength: folderPillSetStoredLength,
     getStep4PillsForFolder: getStep4PillsForFolder,
     getStep4PillsRawForFolder: getStep4PillsRawForFolder,

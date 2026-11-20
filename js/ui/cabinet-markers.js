@@ -6,8 +6,8 @@ import { getWallAxes, getAxisCoord, makeWorldPointFromWallAxes } from '../utils/
 import {
   computeFurnitureWorldBBoxNoAo,
   withFurnitureDoorSwingsClosedForMeasure,
-} from '../furniture/furniture-bbox.js?v=20260907-shelf-props';
-import { getLShapeMeta, getBackAttachedCornerBase } from '../sections/section-manager.js?v=20260925-corner44y';
+} from '../furniture/furniture-bbox.js?v=20261011-bbox-fix2';
+import { getLShapeMeta, getBackAttachedCornerBase } from '../sections/section-manager.js?v=20261103-wdepth5';
 import {
   getPhysicalSideTrimInsetMm,
   SIDE_OVERLAY_INSET_MM,
@@ -16,7 +16,7 @@ import {
 import {
   getSectionZoneTransitionGaps,
   cumulativeTransitionGapMm,
-} from '../sections/section-transition-manager.js?v=20260925-corner44y';
+} from '../sections/section-transition-manager.js?v=20261027-nmu142g';
 
 // Cabinet size constants (in mm)
 const TWO_DOOR_CABINET_MIN = 800; // 80 cm minimum
@@ -148,8 +148,18 @@ function addClippedCabinetMarkerLine({
   }
 }
 
-// Фиксированный правый зазор для задней секции в L‑углу (совпадает с логикой section-manager)
-const FIXED_L_SHAPE_RIGHT_GAP_MM = 50;
+/** Шкаф 50 / кухня 0 — тот же источник, что corner-joint.resolveCornerGapMm. */
+function resolveFixedLShapeCornerGapMm() {
+  try {
+    if (
+      typeof window !== 'undefined' &&
+      typeof window.__cldResolveCornerGapMm === 'function'
+    ) {
+      return Math.round(Number(window.__cldResolveCornerGapMm()) || 0);
+    }
+  } catch (_) {}
+  return 0;
+}
 
 // Section facade elements (дублируем значения из section-manager, чтобы избежать циклического импорта)
 const SIDE_PLANK_WIDTH_MM = SIDE_PLANK_INSET_MM;
@@ -207,55 +217,19 @@ function buildMarkerLineEndpointsAlongWall(
  * @param {number} size - Section size in mm
  * @returns {{ parts: number, partSize: number, type: string }} Division data
  */
+/**
+ * Первичное деление прямой кухни: count = ceil(size / 600), cell ≤ 600.
+ * (Раньше ideal 500/1000 давал узкие/широкие ячейки не по канону.)
+ */
 function findOptimalDivision(size) {
-  let bestDivision = null;
-  let bestScore = -Infinity;
-
-  // Пробуем деления от 2 до 20 частей
-  for (let parts = 2; parts <= 20; parts++) {
-    const partSize = size / parts;
-
-    // Диапазон для двухдверных шкафов
-    if (partSize >= TWO_DOOR_CABINET_MIN && partSize <= TWO_DOOR_CABINET_MAX) {
-      const score = 1000 - Math.abs(partSize - 1000); // идеал 1000 мм
-      if (score > bestScore) {
-        bestScore = score;
-        bestDivision = { parts, partSize, type: 'twoDoor' };
-      }
-    } else if (partSize >= ONE_DOOR_CABINET_MIN && partSize <= ONE_DOOR_CABINET_MAX) {
-      // Диапазон для однодверных шкафов
-      const score = 500 - Math.abs(partSize - 500); // идеал 500 мм
-      if (score > bestScore) {
-        bestScore = score;
-        bestDivision = { parts, partSize, type: 'oneDoor' };
-      }
-    }
+  const w = Number(size);
+  if (!Number.isFinite(w) || w <= 0) {
+    return { parts: 1, partSize: 0, type: 'oneDoor' };
   }
-
-  // Fallback: деление по ~1000мм или 500мм
-  if (!bestDivision) {
-    const twoDoorParts = Math.floor(size / 1000);
-    if (twoDoorParts > 0) {
-      bestDivision = {
-        parts: twoDoorParts,
-        partSize: size / twoDoorParts,
-        type: 'twoDoor'
-      };
-    } else {
-      const oneDoorParts = Math.floor(size / 500);
-      if (oneDoorParts > 0) {
-        bestDivision = {
-          parts: oneDoorParts,
-          partSize: size / oneDoorParts,
-          type: 'oneDoor'
-        };
-      } else {
-        bestDivision = { parts: 2, partSize: size / 2, type: 'oneDoor' };
-      }
-    }
-  }
-
-  return bestDivision;
+  const maxCell = ONE_DOOR_CABINET_MAX; // 600
+  const parts = Math.max(1, Math.ceil(w / maxCell));
+  const partSize = w / parts;
+  return { parts, partSize, type: 'oneDoor' };
 }
 
 /**
@@ -835,13 +809,21 @@ export function addCabinetMarkers(sectionId, sectionGroup, width, height, depth,
   // Store markers and division info
   state.sectionCabinetMarkers[sectionId] = markers;
 
-  // После place/resize: на шаге 5+ гасим; на 1–4 оставляем видимыми.
+  // Видимость маркеров = кнопка «Ячейки» (default выкл.); шаг 5+ всегда гасим.
   try {
     const step = typeof window !== 'undefined' ? Number(window.currentRoomStep) : 0;
-    if (step >= 5) {
+    const cellsOff = state.kitchenCellsUiEnabled === false;
+    const layerOn =
+      !cellsOff && !!(state.showSingleZones || state.showDoubleZones);
+    if (!layerOn || step >= 5) {
       for (const m of markers) {
         if (m) m.visible = false;
       }
+    }
+    if (!layerOn && typeof window.__cldSyncCellVolumeMeshes === 'function') {
+      try {
+        window.__cldSyncCellVolumeMeshes();
+      } catch (_) {}
     }
   } catch (_) {}
 
@@ -867,7 +849,7 @@ export function addCabinetMarkers(sectionId, sectionGroup, width, height, depth,
     divisionData.isLShapePrimary = true;
     if (meta.primary === 'back') {
       divisionData.isLShapeBack = true;
-      divisionData.fixedRightGapMm = FIXED_L_SHAPE_RIGHT_GAP_MM;
+      divisionData.fixedRightGapMm = resolveFixedLShapeCornerGapMm();
       if (segmentsLShapeBack != null) divisionData.segmentsLShapeBack = segmentsLShapeBack;
     }
     if (meta.primary === 'right') divisionData.isLShapeRightFront = true;

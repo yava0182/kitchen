@@ -1,0 +1,14 @@
+const fs = require('fs');
+const c = fs.readFileSync('js/constructor/constructor-clodis.js', 'utf8');
+console.log('isCountertopBoard', c.includes('isCountertopBoard'));
+const b = fs.readFileSync('js/ClodisBuilder.js', 'utf8');
+console.log('builder countertop case', /case 'countertop'/.test(b));
+const html = fs.readFileSync('constructor-clodis.html', 'utf8');
+const m = html.match(/constructor-clodis\.js\?v=[^"']+/);
+console.log('html', m && m[0]);
+const adm = fs.readFileSync('admin-new.html', 'utf8');
+const m2 = adm.match(/admin-new-bundle\.js\?v=[^"']+/);
+console.log('admin', m2 && m2[0]);
+const it = JSON.parse(fs.readFileSync('catalog_items/catalog_53.json', 'utf8'))[0];
+const leaf = it.constructor_structure.children[0].children[0];
+console.log('leaf', leaf.type, leaf.size, 'moduleH', it.data && it.data.height);

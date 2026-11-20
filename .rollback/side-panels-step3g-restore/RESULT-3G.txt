@@ -1,0 +1,4 @@
+﻿STEP 3G restore overlay from sidePanels contract
+bust: 20261031-side3g5
+FM bust: 20261031-side3g-fm1
+Files: ikea-room-fixture.js (prepare before FurnitureCtor), FM import busts, index/main/autosave/room-steps

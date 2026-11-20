@@ -1,0 +1,181 @@
+{
+  "id": "clodis_draft",
+  "version": 2,
+  "status": "project_default",
+  "requiresApproval": true,
+  "label": "CLODIS kitchen draft (nobilia-like, не лицензия)",
+  "etalonDoc": "docs/kitchen_configurator_research_cursor.md",
+  "referenceFamily": {
+    "id": "nobilia_like",
+    "status": "source_example",
+    "note": "Только ориентир сетки; не каталог nobilia и не финальные размеры CLODIS.",
+    "sources": ["S1", "S15"]
+  },
+  "units": "mm",
+  "base": {
+    "carcassHeightsMm": [
+      { "value": 720, "status": "project_default", "frontMode": "non_gola" },
+      { "value": 792, "status": "project_default", "frontMode": "any" },
+      {
+        "value": 780,
+        "status": "project_default",
+        "frontMode": "gola",
+        "note": "CLODIS Gola: корпус 780 + опоры. Не 864 nobilia."
+      }
+    ],
+    "carcassDepthMm": { "value": 560, "status": "project_default" },
+    "note": "Высоты — семейство-образец; пару non_gola/gola утверждает производство."
+  },
+  "wall": {
+    "carcassDepthMm": { "value": 350, "status": "project_default" },
+    "carcassHeightsMm": [
+      { "value": 360, "status": "source_example" },
+      { "value": 576, "status": "source_example" },
+      { "value": 720, "status": "project_default" },
+      { "value": 792, "status": "source_example" },
+      { "value": 864, "status": "source_example" }
+    ]
+  },
+  "tall": {
+    "carcassDepthMm": {
+      "value": 560,
+      "status": "project_default",
+      "note": "Flush to wall; front aligns NM carcass front (Dwt-40); worktop +40 beyond."
+    },
+    "carcassHeightsMm": [
+      { "value": 2016, "status": "source_example", "note": "nobilia-like ориентир; не норматив CLODIS" },
+      { "value": 2088, "status": "source_example" },
+      { "value": 2160, "status": "project_default" },
+      { "value": 2232, "status": "source_example" }
+    ],
+    "note": "Сочетания H×тип проверять по каталогу производства; не смешивать сетки брендов."
+  },
+  "plinth": {
+    "heightsMm": [
+      { "value": 100, "status": "project_default", "note": "Черновик. Три высоты опор стола." },
+      { "value": 120, "status": "project_default" },
+      { "value": 150, "status": "project_default" }
+    ],
+    "supportModelsByHeightMm": {
+      "100": { "cabinetModelId": "2", "status": "project_default" },
+      "120": { "cabinetModelId": "79", "status": "project_default" },
+      "150": { "cabinetModelId": "80", "status": "project_default" }
+    },
+    "setbackMm": { "value": null, "status": "manufacturer_required" },
+    "note": "SKU ножки = cabinet_model. catalog_32 = сборка цоколя, не артикул опоры. Высота = v:h_bottom."
+  },
+  "worktop": {
+    "thicknessesMm": [{ "value": 38, "status": "manufacturer_required" }],
+    "depthMm": { "value": null, "status": "manufacturer_required" },
+    "frontOverhangMm": { "value": null, "status": "manufacturer_required" },
+    "backOverhangMm": { "value": null, "status": "manufacturer_required" }
+  },
+  "clearances": {
+    "backsplashClearanceMm": { "value": null, "status": "manufacturer_required" },
+    "rearServiceVoidMm": { "value": null, "status": "manufacturer_required" },
+    "installationAllowanceMm": {
+      "value": null,
+      "status": "manufacturer_required",
+      "note": "Монтажный зазор к потолку; не резать корпус под потолок автоматически."
+    }
+  },
+  "fillers": {
+    "ceiling": {
+      "defaultPlane": "flushWithFront",
+      "planeNote": "Ориентир Schüller frontbündige Deckenblenden [S16]; технология подрезки — manufacturer_required.",
+      "materialSources": ["carcass", "front"],
+      "blankHeightExamplesMm": {
+        "status": "manufacturer_required",
+        "note": "Высота заготовки утверждает производство после замера; не копировать чужой каталог."
+      }
+    },
+    "wall": {
+      "defaultPlane": "flushWithFront",
+      "materialSources": ["carcass", "front"],
+      "blankWidthExamplesMm": [
+        {
+          "value": 100,
+          "status": "source_example",
+          "source": "S15",
+          "note": "nobilia base/wall filler blank — не видимая ширина после подгонки CLODIS."
+        },
+        {
+          "value": 200,
+          "status": "source_example",
+          "source": "S15",
+          "note": "nobilia base/wall filler blank — не норматив CLODIS."
+        },
+        {
+          "value": 230,
+          "status": "source_example",
+          "source": "S15",
+          "note": "nobilia tall filler blank — не норматив CLODIS."
+        }
+      ],
+      "sealNote": "U-образный уплотнитель nobilia не переносить в BOM CLODIS автоматически."
+    }
+  },
+  "frontModes": {
+    "non_gola": {
+      "id": "non_gola",
+      "label": "С ручками / без Gola",
+      "variants": ["handle", "edge_pull", "integrated_front_pull", "push_to_open", "finger_overhang"],
+      "facadeHeightRule": "full_carcass_minus_gaps",
+      "note": "Высоты фасадов не уменьшаются на ширину профиля Gola."
+    },
+    "gola": {
+      "id": "gola",
+      "label": "Профиль Gola",
+      "system": {
+        "supplier": null,
+        "series": null,
+        "sku": null,
+        "status": "manufacturer_required",
+        "note": "Сечение и выборка — только из PDF артикула (Scilm/Volpato и т.п.)."
+      },
+      "carcassHeightDeltaExampleMm": {
+        "value": 72,
+        "status": "source_example",
+        "note": "Пример рынка: корпус Gola выше стандартного ~72 мм. Не константа CLODIS."
+      },
+      "roles": {
+        "topUnderWorktop": "L_or_equivalent",
+        "betweenFacadeRows": "C_or_equivalent",
+        "verticalTall": "vertical_edge_or_between"
+      }
+    }
+  },
+  "placementRoles": {
+    "kitchen_base": {
+      "id": "kitchen_base",
+      "label": "Стол рабочий напольный",
+      "baseKind": "standalone_floor",
+      "defaultFrontMode": "non_gola"
+    },
+    "kitchen_base_gola": {
+      "id": "kitchen_base_gola",
+      "label": "Стол рабочий напольный (Gola)",
+      "baseKind": "standalone_floor",
+      "defaultFrontMode": "gola"
+    },
+    "kitchen_tall": {
+      "id": "kitchen_tall",
+      "label": "Пенал",
+      "baseKind": "floor_in_niche",
+      "defaultFrontMode": "non_gola",
+      "phase": "fillers_slice"
+    },
+    "kitchen_wall_mid": {
+      "id": "kitchen_wall_mid",
+      "label": "Навесной средний ярус",
+      "baseKind": "wall_hung_low",
+      "phase": "later"
+    },
+    "kitchen_wall_top": {
+      "id": "kitchen_wall_top",
+      "label": "Навесной антресоль",
+      "baseKind": "wall_hung_high",
+      "phase": "later"
+    }
+  }
+}

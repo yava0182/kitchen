@@ -1,0 +1,47 @@
+# Секция: отступы → ячейки (parts + pin)
+
+Слой: сетка ячеек BASE/MID/TOP при смене отступов / длины прямой секции.
+
+## Канон parts
+
+- Число ячеек **может** расти/сжиматься при смене длины: `parts = ceil(availMm / 600)`  
+  (`kitchenStraightInitialPartsCount` — то же правило, что первоначальное деление пустой секции).
+- Пустая секция без ручных ширин: как раньше — `reapplySectionDivisionAfterWidthChange` (allSingles).
+- С мебелью: pack + pin-rescale (не полный wipe variant).
+
+## Канон пенала (край)
+
+- Пенал всегда на краю (слева / справа / оба).
+- Его ячейка **pin** (ширина держится); пенал остаётся крайней зоной.
+- Пенал справа → при росте пустые ячейки **слева**, пенал уезжает в `parts-1`.
+- Пенал слева → пустые **справа**, пенал остаётся в `0`.
+- Два пенала → пустые **между** ними; края 0 и `parts-1`.
+- Remap: `buildKitchenTallEdgeOccupiedZoneRemap` + `adjustKitchenBandPartsWithZoneRemap` + сдвиг `zoneIndex` мебели.
+- Уменьшение: если занятых модулей больше нового parts — **отклонить** (не удалять мебель).
+- Порядок модулей сохраняется; parametric rebuild под ширину ячейки.
+
+## Канон pin (ширины)
+
+- **Pinned** (карандаш / пенал): ширина **держится**.
+- **Свободные** ячейки **забирают delta** (пропорция между свободными).
+- Без pin — пропорция по всем.
+- После rescale: rebuild+fit BASE / tall / MID / TOP в зоны.
+
+## Хранение
+
+- `kitchenBandGrids[band].parts` + `customZoneWidthsMm` + `pinnedZoneWidthsMm`
+- Карандаш → pin edited zi; сброс → unpin
+- Пенал без карандаша: extra pin на rescale
+- Save/restore: pin в `kitchenBandGrids`
+
+## Код
+
+- `kitchenStraightInitialPartsCount` / `adjustKitchenBandPartsToTargetCount`
+- `assessKitchenPartsFitForSectionLength` (gate до Apply / до мутации size)
+- `_relayoutKitchenBandsAndFurnitureAfterAlongChange` — **и live-preview отступов, и Apply**
+  (запрещено: менять size/оверлей ячеек без fit мебели)
+- `rescaleKitchenBandGridToAvailMm` + `_syncKitchenModulesAfterBandRescale`
+
+## Не трогать заодно
+
+Balancer карандаша, боковины/доборы, столешку, фасады/цены, алгоритм первоначального деления MCP, WallRun целиком.

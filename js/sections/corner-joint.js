@@ -5,6 +5,8 @@
  * П = одна прямая + два joint (left и right hand).
  */
 
+import { isKitchenSectionLayoutActive } from '../kitchen/kitchen-section-layout.js?v=20261118-overlayL6';
+
 const CLOCKWISE = { back: 'right', right: 'front', front: 'left', left: 'back' };
 const CCW = { back: 'left', left: 'front', front: 'right', right: 'back' };
 
@@ -13,7 +15,46 @@ function attachedWallForHand(primaryWall, hand) {
   return map[primaryWall] || null;
 }
 
+/** Шкаф §6.8.3: 5 см у стены на primary. */
 export const CORNER_GAP_CM = 5;
+/** Кухня: секция/столешка до стены; зазор корпуса НМУ (−10 мм) — в дереве модуля, не в секции. */
+export const KITCHEN_CORNER_GAP_CM = 0;
+
+/** Кухня активна → шкафной CORNER_GAP / plank-clamp / niche-gap не применяем. */
+export function isWardrobeCornerGapLogicActive() {
+  try {
+    if (typeof isKitchenSectionLayoutActive === 'function' && isKitchenSectionLayoutActive()) {
+      return false;
+    }
+  } catch (_) {}
+  try {
+    if (
+      typeof window !== 'undefined' &&
+      typeof window.__cldIsKitchenSectionLayoutActive === 'function' &&
+      window.__cldIsKitchenSectionLayoutActive()
+    ) {
+      return false;
+    }
+  } catch (_) {}
+  // Clodis-Kitchen: без хука не откатываться к шкафным 50 мм.
+  return false;
+}
+
+/** Актуальный зазор угла primary→стена (см). Кухня = 0. */
+export function resolveCornerGapCm() {
+  return isWardrobeCornerGapLogicActive() ? CORNER_GAP_CM : KITCHEN_CORNER_GAP_CM;
+}
+
+export function resolveCornerGapMm() {
+  return Math.round(resolveCornerGapCm() * 10);
+}
+
+try {
+  if (typeof window !== 'undefined') {
+    window.__cldIsWardrobeCornerGapLogicActive = isWardrobeCornerGapLogicActive;
+    window.__cldResolveCornerGapMm = resolveCornerGapMm;
+  }
+} catch (_) {}
 
 const WALLS = new Set(['front', 'back', 'left', 'right']);
 
@@ -81,12 +122,27 @@ export function resolveCornerJoint(primaryWall, hand) {
   const primaryGapSide = offsetSideTowardWall(primary, attached);
   const attachedTrimSide = offsetSideTowardWall(attached, primary);
   if (!primaryGapSide || !attachedTrimSide) return null;
+  const typeKey = `corner-${primary}-${attached}`;
+  // Приставка к attached-стене (= min/max U). Не «hand===left» на любой стене:
+  // на left wall X0=back → back=atStart, front=end (см. L_CORNER_CONFIG).
+  const atStartByType = {
+    'corner-back-left': true,
+    'corner-back-right': false,
+    'corner-right-front': false,
+    'corner-right-back': true,
+    'corner-front-left': false,
+    'corner-front-right': true,
+    'corner-left-front': false,
+    'corner-left-back': true,
+  };
+  const cornerAtStart =
+    typeof atStartByType[typeKey] === 'boolean' ? atStartByType[typeKey] : h === 'left';
   return {
     hand: h,
     primary,
     attached,
-    cornerAtStart: h === 'left',
-    typeKey: `corner-${primary}-${attached}`,
+    cornerAtStart,
+    typeKey,
     primaryGapSide,
     attachedTrimSide,
   };
@@ -177,7 +233,12 @@ export function createLinkedSectionFromJoint(primarySection, hand, deps, opts = 
   if (attached.group?.userData) attached.group.userData.isCornerSection = true;
 
   const attOff = withBottomTop(emptyAlongOffsets(joint.attached), attached, getSectionOffsetsMm);
-  attOff[joint.attachedTrimSide] = Dcm;
+  // Кухня L/П: плечо до угла комнаты (без врезки на D primary → пустой квадрат).
+  // Шкаф: attachedTrim = D, стык к лицу primary.
+  const kitchenCorner =
+    typeof isKitchenSectionLayoutActive === 'function' &&
+    isKitchenSectionLayoutActive();
+  attOff[joint.attachedTrimSide] = kitchenCorner ? resolveCornerGapCm() : Dcm;
   try {
     updateSectionSize(attached, attOff, Dcm);
   } catch (e) {
@@ -186,7 +247,7 @@ export function createLinkedSectionFromJoint(primarySection, hand, deps, opts = 
 
   if (!skipPrimaryResize) {
     const primOff = withBottomTop(emptyAlongOffsets(joint.primary), primarySection, getSectionOffsetsMm);
-    primOff[joint.primaryGapSide] = CORNER_GAP_CM;
+    primOff[joint.primaryGapSide] = resolveCornerGapCm();
     try {
       updateSectionSize(primarySection, primOff, Dcm);
     } catch (e) {
@@ -298,12 +359,16 @@ export function getCornerJointTrimPlan(section, findPair) {
   }
 
   let overlapMm = 0;
-  if (role === 'primary' && typeof findPair === 'function') {
+  // Кухня: спец/столешка до угла; overlap D (шкафной) не режем — иначе П уезжает на ~600.
+  const kitchenNoOverlap =
+    typeof isKitchenSectionLayoutActive === 'function' &&
+    isKitchenSectionLayoutActive();
+  if (!kitchenNoOverlap && role === 'primary' && typeof findPair === 'function') {
     for (const j of joints) {
       const pair = findPair(section, j);
       if (!pair) continue;
       const attW = sectionDepthWmm(pair);
-      overlapMm = Math.max(overlapMm, Math.max(0, attW - CORNER_GAP_CM * 10));
+      overlapMm = Math.max(overlapMm, Math.max(0, attW - resolveCornerGapMm()));
     }
   }
 
@@ -320,7 +385,7 @@ export function getCornerJointTrimPlan(section, findPair) {
     joints,
     jointSides: [...new Set(jointSides)],
     gapFields: [...new Set(gapFields)],
-    gapMm: CORNER_GAP_CM * 10,
+    gapMm: resolveCornerGapMm(),
     suppressJoint: role === 'primary',
     noOverlayJoint: true,
     overlapMm,
@@ -341,8 +406,8 @@ export function createUShapeArmsFromJoints(primarySection, deps) {
     primarySection,
     deps.getSectionOffsetsMm
   );
-  primOff[jR.primaryGapSide] = CORNER_GAP_CM;
-  primOff[jL.primaryGapSide] = CORNER_GAP_CM;
+  primOff[jR.primaryGapSide] = resolveCornerGapCm();
+  primOff[jL.primaryGapSide] = resolveCornerGapCm();
   try {
     deps.updateSectionSize(primarySection, primOff, Dcm);
   } catch (e) {
@@ -367,7 +432,19 @@ export function createUShapeArmsFromJoints(primarySection, deps) {
     pairIdLeft: pairLeft,
     hand: null,
   };
+  if (primarySection.division) {
+    primarySection.division.uShape = true;
+    primarySection.division.isLShapeBack = true;
+  }
   if (right?.lShape) right.lShape.uSpineId = primarySection.id;
   if (left?.lShape) left.lShape.uSpineId = primarySection.id;
+  console.log('[CORNER-JOINT] U arms', {
+    spineId: primarySection.id,
+    leftId: pairLeft,
+    rightId: pairRight,
+    kitchenTrim0:
+      typeof isKitchenSectionLayoutActive === 'function' &&
+      isKitchenSectionLayoutActive(),
+  });
   return { left: left || null, right: right || null };
 }

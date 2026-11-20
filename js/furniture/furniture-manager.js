@@ -1,6 +1,7 @@
 // Furniture manager module - handles furniture creation, placement, movement
 // Main module for all furniture operations
 
+import * as __THREE_MOD from 'three';
 import { state } from '../utils/state.js';
 import {
   isStep5DecorUsable,
@@ -10,7 +11,8 @@ import {
 } from '../ui/color-wheel.js?v=20260913-hang-lite';
 import {
   applyJointFittingHolesToFurnitureGroup,
-} from '../joint-hole-meshes.js?v=20260727-drawer-holes';
+  repositionJointSchemeFurnitureInRoom,
+} from '../joint-hole-meshes.js?v=20261115-upperGTop8';
 import {
   getWindowRowRef,
   getWindowRowSillMm,
@@ -18,26 +20,21 @@ import {
   resolveWindowRowPlaceHeightMm,
   bumpWindowRowSceneRev,
 } from '../sections/window-row-model.js?v=20260918-straight-s12';
-function isTemplateLockedMaterialFromUserData(ud) {
-  if (typeof window !== 'undefined' && typeof window.__cldIsTemplateMaterialUserData === 'function') {
-    return window.__cldIsTemplateMaterialUserData(ud);
-  }
-  return false;
-}
 import {
   removeFurnitureGhost,
   startFurniturePlacement,
   updateFurnitureGhostPosition,
   showCatalogDragIcon,
   removeCatalogDragIcon,
-} from './furniture-ghost.js?v=20260925-corner44y';
+  isKitchenWallBandFurnitureData,
+} from './furniture-ghost.js?v=20261115-upperGLeft27';
 import { updateMousePosition } from '../events/mouse-handler.js';
 import { hideFurniturePerimeterMarker, showFurniturePerimeterMarker, showSectionPerimeterMarker } from '../ui/markers.js';
-import { applyRoomCabinetStudioLook, syncAllRoomCabinetStudio, syncAllSectionTrimStudio, applySectionTrimStudioLookForSectionId, refreshCabinetStudioAfterDecor, refreshCabinetEdgeIkeaV0, scheduleIkeaRoomLightSync } from './room-cabinet-studio.js?v=20260918-komod-h8';
+import { applyRoomCabinetStudioLook, syncAllRoomCabinetStudio, syncAllSectionTrimStudio, applySectionTrimStudioLookForSectionId, refreshCabinetStudioAfterDecor, refreshCabinetEdgeIkeaV0, scheduleIkeaRoomLightSync } from './room-cabinet-studio.js?v=20261117-studioRestore1';
 import {
   applyIkeaV0MeshDecorFromStep5ToMesh,
   copyIkeaV0VisualFromCoreToEdge,
-} from './ikea-room-light-v0.js?v=20260913-hang-lite';
+} from './ikea-room-light-v0.js?v=20261110-lightWipe1';
 import {
   findSectionAtPosition,
   snapToZoneDoubleModule,
@@ -46,6 +43,7 @@ import {
   resolveSectionFurniturePlacement,
   alignFurnitureBBoxToSectionInnerBounds,
   fitFurnitureToSectionZone,
+  fitFurnitureBBoxToZoneBounds,
   TOP_PLANK_HEIGHT_MM,
   getZoneDoorKind,
   getFurnitureFrontWorldCoord,
@@ -55,12 +53,17 @@ import {
   L_CORNER_CONFIG,
   getLShapeMeta,
   getLShapeSpecialZoneIndex,
+  getLShapeSpecialZoneIndices,
   getLShapeSpecialSnapBounds,
+  getLShapePairForSection,
   ensureLShapeDivisionSegments,
+  ensureKitchenLCornerFlush,
   syncWindowAlongEmptyFramesOnWall,
   syncSectionEmptyFrameVisibility,
   ensureWindowAlongFrameMeshes,
-} from '../sections/section-manager.js?v=20260925-corner44y';
+  ensureCellVolumesAfterNmPlace,
+} from '../sections/section-manager.js?v=20261103-wdepth5';
+import { isUShapeBackSection } from '../sections/l-corner.js?v=20261022-bust13';
 import { getAxisCoord, getWallAxes } from '../utils/wall-coords.js';
 import {
   getEndCabinetSlot,
@@ -94,9 +97,82 @@ import {
   isWallHungLowPlacementKind,
   isWallHungHighPlacementKind,
   isLowFurniturePlacementKind,
+  isKitchenBasePlacementKind,
+  isKitchenTallPlacementKind,
+  isKitchenWallMidPlacementKind,
+  isKitchenWallTopPlacementKind,
   DEFAULT_BOTTOM_PLANK_MM,
   resolveWallHungFloorClearanceMm,
-} from '../sections/vertical-layout.js?v=20260921-whh1';
+} from '../sections/vertical-layout.js?v=20261010-plinth-datum1';
+import {
+  bindKitchenBaseEngineDeps,
+  getKitchenProfileIdFromFurnitureData,
+  resolvePlaceSizing as resolveKitchenPlaceHeightAndPlinth,
+  applyPlaceVariables as applyKitchenPlaceVariables,
+  prepareKitchenPlace,
+  stampKitchenUserData,
+  finalizeKitchenBaseAppearance,
+  kitchenPlacementUsesLayoutZones,
+  shouldSkipFloorNicheMerge as kitchenShouldSkipFloorNicheMerge,
+  getKitchenBaseProfileIdFromGroup,
+  getKitchenBaseWidthLimitsMm,
+  validateKitchenBaseCellWidthMm,
+  rebuildForCellWidthMm as rebuildKitchenBaseForCellWidthMm,
+  rebuildForCellDepthMm as rebuildKitchenBaseForCellDepthMm,
+  findKitchenBaseInSectionZone,
+  syncKitchenBaseInZoneToWidthMm,
+  applyProjectPlinthToScene as applyProjectPlinthHeightToKitchenBases,
+  applyProjectFrontModeToScene as applyProjectFrontModeToKitchenBases,
+  applyKitchenBandLowRhythmToScene as applyKitchenBandLowRhythmToKitchenModules,
+  applyKitchenCeilingTiersToScene as applyKitchenCeilingTiersToKitchenModules,
+  applyProjectDepthToScene as applyProjectDepthToKitchenBases,
+  applyWorktopDepthOnWall as applyKitchenWorktopDepthOnWall,
+  isKitchenBaseGroup,
+  isKitchenTallGroup,
+  isKitchenCornerBaseGroup,
+  isKitchenWallCornerGroup,
+  isKitchenWallTopGroup,
+  isKitchenWallMidGroup,
+  applyKitchenWallTopDepthForGroup,
+  setKitchenWallTopDepthMode,
+  findKitchenTallInSectionZone,
+  isKitchenTallColumnZone,
+  resolveKitchenWallTopDepthMm,
+  isKitchenCornerModuleGroup,
+  resolveKitchenNeighborCarcassDepthMm,
+} from '../kitchen/kitchen-base-engine.js?v=20261115-upperGLeft27';
+import {
+  isKitchenNmPlacement,
+  buildKitchenCellSnap,
+  getKitchenCellPivotWorldPosition,
+  placeKitchenModuleInCell,
+  afterKitchenPlaceLayout,
+  alignKitchenModuleBackToWall,
+} from '../kitchen/kitchen-section-engine.js?v=20261115-upperGLeft27';
+import {
+  isKitchenSectionLayoutActive,
+  resolveKitchenCornerSpecialWidthMm,
+  resolveKitchenWallCornerWidthMm,
+  KITCHEN_WALL_CORNER_DEFAULT_WIDTH_MM,
+  resolveKitchenCornerPlaceFromProject,
+  resolveKitchenCornerAtStartForCatalogCard,
+  isKitchenStraightBaseBandSection,
+  buildKitchenBandCellLayoutForSection,
+  markCustomZoneWidthsSource,
+  CUSTOM_ZONE_WIDTHS_SOURCE_USER,
+  isKitchenUpperCornerSeatBZone,
+} from '../kitchen/kitchen-section-layout.js?v=20261118-overlayL6';
+import {
+  resolveKitchenUpperCornerSeatTarget,
+  isSectionUpperCornerGPresent,
+  getNsh1BlockedMidZoneIndexes,
+} from '../kitchen/kitchen-upper-corner-seats.js?v=20261115-upperGLeft27';
+import { prepareKitchenModuleForBuild } from '../clodis/clodis-build-contract.js?v=20261108-gplace19';
+import {
+  applySidePanelsToPreparedRoots,
+  ensureTallAutoSideOverlayS2A,
+  tintSideOverlaysInGroupS2A,
+} from '../kitchen/kitchen-side-panels.js?v=20261117-overlayFix1';
 import {
   rebuildSectionZoneEditIconsForSection,
   removeSectionZoneEditIcon,
@@ -110,8 +186,8 @@ import {
   upsertFurnitureCatalogNameLabel,
   invalidateGroupIconBBoxCache,
   askStandalonePlaceHeightChoice,
-} from '../ui/scene-icons.js?v=20260923-cohabit1';
-import { getClodisDataForBuild, extractSectionSizeFromFurnitureData, getDataForBuild, extractModuleVariablesFromFurnitureData } from './furniture-clodis.js?v=20260614-clodis-typo-fix';
+} from '../ui/scene-icons.js?v=20261116-dimsOff1';
+import { getClodisDataForBuild, extractSectionSizeFromFurnitureData, getDataForBuild, extractModuleVariablesFromFurnitureData } from './furniture-clodis.js?v=20261109-seatb3';
 import {
   readClodisJSON,
   readClodisVariables,
@@ -125,7 +201,7 @@ import {
   writeUserDataClodisRoots,
   writeUserDataClodisVariables,
   readUserDataClodisVariables,
-} from '../clodis-json-fields.js?v=20260615-purity';
+} from '../clodis-json-fields.js?v=20261008-joint-room2';
 import { normalizeClodisRoots } from '../cabinet-pyramid-layout.js?v=20260614-catalog-migrate';
 import {
   prepareClodisForRoomBuild,
@@ -143,10 +219,11 @@ import {
   resolveModuleHasSwingDoor,
   readPairedHandCatalogIdsFromItem,
   buildRoomDoorPrepareOpts,
+  filterClodisTreeByDoorLayout,
   normalizeZoneHand,
   normalizeDoorKind,
   resolveZoneHandForSingleSwingModule,
-} from './furniture-door-layout.js?v=20260624-unified-wardrobe-only';
+} from './furniture-door-layout.js?v=20261010-kitchen-base-doors';
 import {
   applyDrawerStackPolicyToRoots,
   applyInteriorDrawerStackToRoots,
@@ -154,12 +231,13 @@ import {
   stampDrawerNoHandleFlagsInTree,
   syncDrawerCatalog33ToGlobalCache,
   ensureDrawerCatalog33FreshFromApi,
-} from './furniture-drawer-stack.js?v=20260921-trim-edge1';
+} from './furniture-drawer-stack.js?v=20261011-gola-sku';
 import {
   applyShelfStackPolicyToRoots,
   countShelfLikeNodesInTree,
   extractShelfStackPolicyFromCatalogItem,
   isFullHeightShelvesOnlyLayout,
+  isShelfModuleNode,
   logShelfCount,
   resolveShelfLayoutPolicy,
 } from './furniture-shelf-stack.js?v=20260711-rod-slide-block';
@@ -180,9 +258,10 @@ import {
 import { getFurnitureFloorContactWorldYNoAo } from '../sections/section-layout-role-utils.js';
 import {
   computeFurnitureWorldBBoxNoAo,
+  computeFurnitureCorpusLayoutWorldBBoxNoAo,
   shouldExcludeMeshFromFurnitureBBox,
   withFurnitureDoorSwingsClosedForMeasure,
-} from './furniture-bbox.js?v=20260907-shelf-props';
+} from './furniture-bbox.js?v=20261025-cell1';
 import { patchSectionNicheDepthWrite } from '../sections/section-depth-patch.js';
 import { syncCabinetPivotDebugVisibility } from '../debug/cabinet-pivot-visibility.js';
 import { refreshAllHingeRoleMarkersInRoom, mountHingeRoleMarkersOnFurniture } from './hinge-role-markers-room.js?v=20260613-hinge-cup-y-align';
@@ -200,7 +279,22 @@ import {
   rebuildTransitionsForWall,
   cumulativeTransitionGapMm,
   getSectionZoneTransitionGaps,
-} from '../sections/section-transition-manager.js?v=20260925-corner44y';
+} from '../sections/section-transition-manager.js?v=20261027-nmu142g';
+
+// Prefer window.THREE (index.html bootstrap) to avoid dual-instance Mesh checks;
+// fall back to ESM import so top-level consts never hit bare THREE ReferenceError.
+const THREE =
+  (typeof window !== 'undefined' && window.THREE) ||
+  (typeof globalThis !== 'undefined' && globalThis.THREE) ||
+  __THREE_MOD;
+if (typeof window !== 'undefined' && !window.THREE) window.THREE = THREE;
+
+function isTemplateLockedMaterialFromUserData(ud) {
+  if (typeof window !== 'undefined' && typeof window.__cldIsTemplateMaterialUserData === 'function') {
+    return window.__cldIsTemplateMaterialUserData(ud);
+  }
+  return false;
+}
 
 /** Пивот и ширина между внутренними гранями боковых планок (не по внешнему bbox секции). */
 function applyInnerSectionFurnitureSlot(section, wallName, position, sectionSize, opts = {}) {
@@ -236,7 +330,7 @@ function applyInnerSectionFurnitureSlot(section, wallName, position, sectionSize
 
 /**
  * JSON из конструктора / Clodis: uniform scale в updateFurnitureInSection ломает геометрию
- * (внутренние модули, петли) и при Ыкривомл bbox даёт ложное Ыуменьшениел.
+ * (внутренние модули, петли) и при «кривом» bbox даёт ложное «уменьшение».
  * Должно совпадать по смыслу с проверкой перед legacy-scale в placePendingFurniture.
  */
 function clodisHasConstructorMarkers(node) {
@@ -295,8 +389,25 @@ function __disposeMaterialMaps(material) {
   }
 }
 
+/** IKEA_PORT Phong-proxy читает этот флаг — иначе dump whiteCorpus затирает цвет колеса. */
+function __markStep5DecorApplied(material, hasMap = false) {
+  if (!material) return;
+  try {
+    material.userData = material.userData || {};
+    material.userData.step5DecorApplied = true;
+    material.userData.__cldStep5DecorMap = !!hasMap;
+  } catch (_) {}
+}
+
 function __assignMaterialMap(material, texture) {
   if (!material) return;
+  try {
+    if (texture && typeof texture === 'object') {
+      texture.userData = texture.userData || {};
+      texture.userData.__cldStep5Decor = true;
+    }
+    __markStep5DecorApplied(material, !!texture);
+  } catch (_) {}
   const prev = material.map;
   if (prev && prev !== texture) {
     try {
@@ -411,7 +522,9 @@ function __downscaleDecorTextureIfNeeded(tex) {
 
 function __loadDecorTexture(url, onReady, onError) {
   if (!url || typeof onReady !== 'function') return;
-  const cached = _decorTextureCache.get(url);
+  const loadUrl =
+    /[^\x00-\x7F]/.test(url) && !/%[0-9A-Fa-f]{2}/.test(url) ? encodeURI(url) : url;
+  const cached = _decorTextureCache.get(loadUrl) || _decorTextureCache.get(url);
   if (cached) {
     onReady(cached);
     return;
@@ -419,9 +532,10 @@ function __loadDecorTexture(url, onReady, onError) {
   const loader = __getDecorTextureLoader();
   if (!loader) return;
   loader.load(
-    url,
+    loadUrl,
     (tex) => {
       const ready = __downscaleDecorTextureIfNeeded(tex);
+      _decorTextureCache.set(loadUrl, ready);
       _decorTextureCache.set(url, ready);
       onReady(ready);
     },
@@ -443,8 +557,97 @@ function __scheduleCorpusEdgeSyncOnce() {
   });
 }
 
+/**
+ * Один глобальный sync на все catalog_* (export_all пишет сразу все ключи).
+ * Раньше кэш был per-type → каждый клик «Рабочие столы / Gola / Навесные»
+ * снова тянул export + disk 44/54 и UI вставал на секунды.
+ */
+const _catalogFreshGlobal = { at: 0, promise: null };
+/** @deprecated kept for invalidate clear compatibility */
 const _catalogFreshMeta = new Map();
-const CATALOG_FRESH_TTL_MS = 3 * 60 * 1000;
+const CATALOG_FRESH_TTL_MS = 5 * 60 * 1000;
+
+function _catalogDebug(...args) {
+  try {
+    if (typeof window !== 'undefined' && window.__cldCatalogDebug === true) {
+      console.log(...args);
+    }
+  } catch (_) {}
+}
+
+function _lsCatalogCount(catKey) {
+  try {
+    const raw = localStorage.getItem(catKey);
+    if (!raw) return 0;
+    const arr = JSON.parse(raw);
+    return Array.isArray(arr) ? arr.length : 0;
+  } catch (_) {
+    return 0;
+  }
+}
+
+function _readCatalogRev() {
+  try {
+    const fromLs = parseInt(localStorage.getItem('cld_catalog_rev') || '0', 10);
+    if (Number.isFinite(fromLs) && fromLs > 0) return fromLs;
+  } catch (_) {}
+  try {
+    const bump = parseInt(window.__cldCatalogFreshBump || '0', 10);
+    if (Number.isFinite(bump) && bump > 0) return bump;
+  } catch (_) {}
+  return 0;
+}
+
+function _readAppliedCatalogRev() {
+  try {
+    const n = parseInt(localStorage.getItem('cld_catalog_rev_applied') || '0', 10);
+    return Number.isFinite(n) && n > 0 ? n : 0;
+  } catch (_) {
+    return 0;
+  }
+}
+
+function _writeAppliedCatalogRev(rev) {
+  try {
+    const n = Number(rev) || 0;
+    if (n > 0) localStorage.setItem('cld_catalog_rev_applied', String(n));
+  } catch (_) {}
+}
+
+/** Сырой items_get в LS (без clodisJSON) — яд для комнаты; форсим re-export. */
+function _catalogLsLooksPoisoned(catKey) {
+  try {
+    const raw = localStorage.getItem(catKey);
+    if (!raw) return false;
+    const list = JSON.parse(raw);
+    if (!Array.isArray(list) || !list.length) return false;
+    const sample = list.find((x) => x && typeof x === 'object') || {};
+    const hasClodis =
+      (Array.isArray(sample.clodisJSON) && sample.clodisJSON.length > 0) ||
+      (Array.isArray(sample.params) && sample.params.length > 0);
+    const hasCs = !!(
+      sample.constructor_structure ||
+      (sample.data &&
+        typeof sample.data === 'object' &&
+        sample.data.constructor_structure)
+    );
+    return !hasClodis && hasCs;
+  } catch (_) {
+    return false;
+  }
+}
+
+/** Сброс TTL-кэша каталогов (вызывается после Save / export). */
+window.__cldInvalidateConstructorCatalogCache = function () {
+  _catalogFreshMeta.clear();
+  _catalogFreshGlobal.at = 0;
+  _catalogFreshGlobal.promise = null;
+  try {
+    const rev = Date.now();
+    localStorage.setItem('cld_catalog_rev', String(rev));
+    window.__cldCatalogFreshBump = rev;
+  } catch (_) {}
+};
 
 function readPairedCatalogIdsFromItem(item) {
   const d = parseCatalogItemDataField(item);
@@ -459,24 +662,68 @@ function readPairedCatalogIdsFromItem(item) {
   };
 }
 
+/** data.kitchenSupports с карточки модуля (карта высота>cabinet_model.id). */
+function extractKitchenSupportsFromCatalogItem(catalogItem) {
+  if (!catalogItem || typeof catalogItem !== 'object') return null;
+  const parsed = parseCatalogItemDataField(catalogItem);
+  const raw = parsed.kitchenSupports ?? catalogItem.kitchenSupports ?? null;
+  if (!raw || typeof raw !== 'object') return null;
+  if (typeof window !== 'undefined' && window.__cldCatalogKitchenSupports?.normalizeKitchenSupports) {
+    return window.__cldCatalogKitchenSupports.normalizeKitchenSupports(raw);
+  }
+  const map = raw.modelsByHeightMm || raw.modelsByHeight || {};
+  const modelsByHeightMm = {};
+  [100, 120, 150].forEach((h) => {
+    const v = map[h] != null ? map[h] : map[String(h)];
+    const id = v && typeof v === 'object' ? v.cabinetModelId ?? v.id : v;
+    if (id != null && String(id).trim() !== '') modelsByHeightMm[h] = String(id).trim();
+  });
+  return { enabled: raw.enabled !== false, modelsByHeightMm };
+}
+
 function findCatalogItemInRoomStorage(catalogType, itemId) {
   const id = Number(itemId) || 0;
   const ct = String(catalogType || '').trim();
   if (!ct || id <= 0) return null;
+  const key = ct.startsWith('catalog_') ? ct : `catalog_${ct}`;
+  // Порядок: LS (после Save + export_all) → память → диск.
+  // Раньше kitchen 4x/5x всегда брали /catalog_items из public/ — там копия
+  // часто старше, чем Save в корень catalog_items/ → крыло/rot из админки
+  // «не доходило» в комнату (канон админки ломался).
+  const fromDiskSync = () => {
+    try {
+      const xhr = new XMLHttpRequest();
+      xhr.open(
+        'GET',
+        '/catalog_items/' + encodeURIComponent(key) + '.json?t=' + Date.now(),
+        false
+      );
+      xhr.send(null);
+      if (xhr.status < 200 || xhr.status >= 300) return null;
+      const arr = JSON.parse(xhr.responseText);
+      if (!Array.isArray(arr)) return null;
+      return arr.find((x) => Number(x?.id) === id) || null;
+    } catch (_) {
+      return null;
+    }
+  };
   try {
-    const cache = window.__CLD_CATALOGS_DATA?.[ct]?.items?.[String(id)];
-    if (cache) return cache;
+    const raw = localStorage.getItem(key);
+    if (raw) {
+      const arr = JSON.parse(raw);
+      if (Array.isArray(arr)) {
+        const hit = arr.find((x) => Number(x?.id) === id) || null;
+        if (hit) return hit;
+      }
+    }
   } catch (_) {}
   try {
-    const key = ct.startsWith('catalog_') ? ct : `catalog_${ct}`;
-    const raw = localStorage.getItem(key);
-    if (!raw) return null;
-    const arr = JSON.parse(raw);
-    if (!Array.isArray(arr)) return null;
-    return arr.find((x) => Number(x?.id) === id) || null;
-  } catch (_) {
-    return null;
-  }
+    const cache =
+      window.__CLD_CATALOGS_DATA?.[ct]?.items?.[String(id)] ||
+      window.__CLD_CATALOGS_DATA?.[key]?.items?.[String(id)];
+    if (cache) return cache;
+  } catch (_) {}
+  return fromDiskSync();
 }
 
 function inferModuleDoorKindForGroup(ud, catalogItem) {
@@ -537,11 +784,83 @@ function resolveCatalogTypeFromFurnitureData(furnitureData) {
   return raw != null && String(raw).trim() !== '' ? String(raw).trim() : null;
 }
 
-/** catalog_44 — угловой шкаф S+D: только спец-зона L, без remap одн./дву. фасадов. */
+/**
+ * Угловой модуль спец-зоны L/П: НМУ (kitchen_base_corner / 44) + ВМУ (kitchen_wall_corner / 54).
+ * Обычный kitchen_base / kitchen_base_gola / wall_mid — никогда не угол (даже с «угловой» в имени).
+ */
 export function isLCornerCabinetModule(furnitureData) {
-  const ct = resolveCatalogTypeFromFurnitureData(furnitureData);
-  if (ct && String(ct).replace(/^catalog_/i, '').trim() === '44') return true;
   const item = furnitureData?.catalogItem || furnitureData;
+  // Угловой Г: остаётся углом даже в stamp/папке mid|top (антресоль Г).
+  try {
+    if (_isUpperGFurnitureData(furnitureData)) return true;
+  } catch (_) {}
+  // НШ1/НШ2 (50/51/42/43) — никогда не угол (sticky folder 54 / имя не считаем).
+  const stampBand = String(furnitureData?.__kitchenWallBand || '')
+    .trim()
+    .toLowerCase();
+  if (stampBand === 'mid' || stampBand === 'top') return false;
+  const ctEarly = String(
+    furnitureData?.catalogType ||
+      furnitureData?.catalog_type ||
+      item?.catalog_type ||
+      item?.catalogType ||
+      item?.element_type ||
+      furnitureData?.catalogItem?.element_type ||
+      ''
+  )
+    .trim()
+    .toLowerCase()
+    .replace(/^catalog_/, '');
+  if (
+    ctEarly === '50' ||
+    ctEarly === '51' ||
+    ctEarly === '42' ||
+    ctEarly === '43'
+  ) {
+    return false;
+  }
+  // Сырой kitchen_* с карточки — не mapped wall_hung_low (иначе ВМУ теряет corner-gate).
+  let rawPk = '';
+  try {
+    rawPk = String(getRawPlacementKindFromFurnitureData(furnitureData) || '')
+      .trim()
+      .toLowerCase();
+  } catch (_) {
+    rawPk = '';
+  }
+  const pk = String(
+    rawPk ||
+      furnitureData?.placementKind ||
+      item?.placementKind ||
+      furnitureData?.__placementKindProfileId ||
+      ''
+  )
+    .trim()
+    .toLowerCase();
+  if (
+    pk === 'kitchen_wall_mid' ||
+    pk === 'kitchen_wall_top' ||
+    pk === 'kitchen_base' ||
+    pk === 'kitchen_base_gola' ||
+    rawPk === 'kitchen_wall_mid' ||
+    rawPk === 'kitchen_wall_top' ||
+    rawPk === 'kitchen_base' ||
+    rawPk === 'kitchen_base_gola'
+  ) {
+    return false;
+  }
+  if (
+    pk === 'kitchen_base_corner' ||
+    pk === 'kitchen_wall_corner' ||
+    rawPk === 'kitchen_base_corner' ||
+    rawPk === 'kitchen_wall_corner'
+  ) {
+    return true;
+  }
+
+  const ctRaw = resolveCatalogTypeFromFurnitureData(furnitureData);
+  const ct = ctRaw != null ? String(ctRaw).replace(/^catalog_/i, '').trim() : '';
+  if (ct === '44' || ct === '54') return true;
   const nested =
     item?.data?.catalog_type ||
     item?.data?.catalogType ||
@@ -554,11 +873,23 @@ export function isLCornerCabinetModule(furnitureData) {
           }
         })()
       : null);
-  if (nested != null && String(nested).replace(/^catalog_/i, '').trim() === '44') {
+  const nestedCt =
+    nested != null ? String(nested).replace(/^catalog_/i, '').trim() : '';
+  if (nestedCt === '44' || nestedCt === '54') {
     return true;
   }
+  // Mapped wall_hung_* не блокирует fallback по имени/папке 54.
+  const mappedBase =
+    pk === 'wall_hung_low' ||
+    pk === 'wall_hung' ||
+    pk === 'wall_hung_high' ||
+    pk === 'floor_in_niche' ||
+    pk === 'standalone_floor';
+  if (pk && !mappedBase) return false;
   const name = String(item?.name || furnitureData?.name || '').toLowerCase();
-  if (name.includes('угловой') || name.includes('угловые')) return true;
+  if (name.includes('угловой') || name.includes('угловые') || /вму/.test(name)) {
+    return true;
+  }
   try {
     const folder =
       (typeof window !== 'undefined' &&
@@ -566,7 +897,9 @@ export function isLCornerCabinetModule(furnitureData) {
           window.step3SelectedFolderId ||
           window.__cldCurrentCatalogFolderKey)) ||
       null;
-    if (folder != null && String(folder).replace(/^catalog_/i, '').trim() === '44') {
+    const fk =
+      folder != null ? String(folder).replace(/^catalog_/i, '').trim() : '';
+    if (fk === '44' || fk === '54') {
       return true;
     }
   } catch (_) {}
@@ -574,10 +907,249 @@ export function isLCornerCabinetModule(furnitureData) {
 }
 
 /**
- * Край секции / верхней планки по U (§6.8.3: зазор 50 у primary→attached).
- * Если планка короче края секции ≤80 мм — это зазор 5 см у стены (как на скрине).
- * Если планка короче на сотни мм — это overlap (D−50), корпус всё равно до края секции.
+ * Сторона угловой карточки: true = левый (угол у start), false = правый.
+ * Канон: clodisVariables.corner_at_start / имя / resolveKitchenCornerAtStartForCatalogCard.
  */
+function getCatalogItemCornerAtStart(itemOrFurniture) {
+  const furnitureData =
+    itemOrFurniture && itemOrFurniture.catalogItem
+      ? itemOrFurniture
+      : { catalogItem: itemOrFurniture };
+  const item = furnitureData.catalogItem || itemOrFurniture || {};
+  let data = item.data;
+  if (typeof data === 'string') {
+    try {
+      data = JSON.parse(data);
+    } catch (_) {
+      data = {};
+    }
+  }
+  if (!data || typeof data !== 'object') data = {};
+  const cv =
+    (item.clodisVariables && typeof item.clodisVariables === 'object'
+      ? item.clodisVariables
+      : null) ||
+    (data.clodisVariables && typeof data.clodisVariables === 'object'
+      ? data.clodisVariables
+      : null) ||
+    (furnitureData.clodisVariables &&
+    typeof furnitureData.clodisVariables === 'object'
+      ? furnitureData.clodisVariables
+      : {}) ||
+    {};
+  let cornerAtStart;
+  if (typeof item.cornerAtStart === 'boolean') cornerAtStart = item.cornerAtStart;
+  else if (typeof data.cornerAtStart === 'boolean') cornerAtStart = data.cornerAtStart;
+  return resolveKitchenCornerAtStartForCatalogCard({
+    name: item.name || data.name || furnitureData.name,
+    catalog_type:
+      item.catalog_type ||
+      data.catalog_type ||
+      furnitureData.catalogType ||
+      'catalog_44',
+    catalogType: item.catalogType || data.catalogType,
+    cornerAtStart,
+    clodisVariables: cv,
+  });
+}
+
+/**
+ * Сторона угловой спец-зоны: true=лев (start), false=прав (end).
+ * П-спина: zi=0 > лев, zi=parts-1 > прав.
+ */
+function getSectionLCornerZoneAtStart(section, zoneIndex) {
+  if (!section || zoneIndex == null) return null;
+  if (!__isLShapeSpecialZone(section, zoneIndex)) return null;
+  const zi = Number(zoneIndex);
+  // Joint: ???? ???????? (?????/?????? ???? ???????), ?? geom atStart ?? ?????.
+  try {
+    const findJ =
+      typeof window !== 'undefined'
+        ? window.__cldFindKitchenJointForSectionZone
+        : null;
+    const handFn =
+      typeof window !== 'undefined'
+        ? window.__cldResolveJointCatalogHandAtStart
+        : null;
+    if (typeof findJ === 'function' && typeof handFn === 'function') {
+      const j = findJ(section, zi);
+      if (j) return handFn(j) === true;
+    }
+  } catch (_) {}
+  try {
+    if (isUShapeBackSection(section) || section.division?.uShape === true) {
+      const parts = Math.floor(Number(section.division?.parts) || 0);
+      if (zi === 0) return true;
+      if (parts >= 2 && zi === parts - 1) return false;
+    }
+    const meta = getLShapeMeta(section);
+    if (meta && typeof meta.cornerAtStart === 'boolean') return meta.cornerAtStart;
+  } catch (_) {}
+  return null;
+}
+
+/**
+ * Цель постановки НМУ: primary + спец-зона.
+ * П: левый модуль > zi=0, правый > parts-1; если курсор уже на спец — её.
+ */
+function resolveCornerCabinetPlaceTarget(baySec, zoneInfo, furnitureData) {
+  if (!baySec?.lShape) return null;
+  const hitZi =
+    zoneInfo?.zoneIndex != null && Number.isFinite(Number(zoneInfo.zoneIndex))
+      ? Number(zoneInfo.zoneIndex)
+      : null;
+  // WIPED ucorner24: ВМУ mid.special удалён. Ниже — только НМУ / base special.
+  try {
+    const bayIndices = getLShapeSpecialZoneIndices(baySec);
+    if (
+      hitZi != null &&
+      Array.isArray(bayIndices) &&
+      bayIndices.some((z) => Number(z) === hitZi)
+    ) {
+      return { section: baySec, zoneIndex: hitZi };
+    }
+  } catch (_) {}
+  let primary = baySec;
+  try {
+    if (isUShapeBackSection(baySec)) {
+      primary = baySec;
+    } else {
+      const pairId = baySec.lShape.pairId;
+      const other =
+        pairId != null && Array.isArray(state.customSections)
+          ? state.customSections.find((s) => s && String(s.id) === String(pairId))
+          : null;
+      if (other && isUShapeBackSection(other)) {
+        primary = other;
+      } else if (baySec.lShape?.uSpineId != null) {
+        const spine = (state.customSections || []).find(
+          (s) => s && String(s.id) === String(baySec.lShape.uSpineId)
+        );
+        if (spine) primary = spine;
+      } else {
+        const pair = getLShapePairForSection(baySec);
+        if (pair?.primary) primary = pair.primary;
+      }
+    }
+  } catch (_) {}
+  if (!primary?.division) return null;
+  try {
+    if (isUShapeBackSection(primary) || primary.division.uShape === true) {
+      primary.division.uShape = true;
+      ensureLShapeDivisionSegments(primary.division);
+    }
+  } catch (_) {}
+  const indices = getLShapeSpecialZoneIndices(primary);
+  if (!indices.length) return null;
+  if (hitZi != null && indices.includes(hitZi) && String(baySec.id) === String(primary.id)) {
+    return { section: primary, zoneIndex: hitZi };
+  }
+  if (indices.length >= 2) {
+    const modAt = getCatalogItemCornerAtStart(furnitureData);
+    const zi = modAt ? Math.min(...indices) : Math.max(...indices);
+    return { section: primary, zoneIndex: zi };
+  }
+  return { section: primary, zoneIndex: indices[0] };
+}
+
+/**
+ * Сторона угла только если сейчас целимся в угловую спец-зону (ghost/pending).
+ * Просмотр каталога «Уг»овыел без постановки — оба модуля (левый и правый).
+ */
+function getPendingLCornerZoneAtStart() {
+  try {
+    const zi = state._pendingZoneInfo;
+    if (zi?.sectionId == null || zi.zoneIndex == null) return null;
+    const sec = Array.isArray(state.customSections)
+      ? state.customSections.find(
+          (s) => s && String(s.id) === String(zi.sectionId)
+        )
+      : null;
+    return getSectionLCornerZoneAtStart(sec, zi.zoneIndex);
+  } catch (_) {
+    return null;
+  }
+}
+
+/**
+ * Угол: карточка kitchen_base_corner + corner_at_start - спец-зона.
+ * Без pending-зоны не режем сетку.
+ */
+function catalogItemMatchesActiveLCornerSide(item) {
+  if (!isLCornerCabinetModule({ catalogItem: item })) return true;
+  // Г-шкаф одна карточка на оба угла — side-gate не режем.
+  try {
+    if (
+      typeof window.__cldIsKitchenUpperGModuleData === 'function' &&
+      window.__cldIsKitchenUpperGModuleData({ catalogItem: item, ...item })
+    ) {
+      return true;
+    }
+  } catch (_) {}
+  if (/угловой\s*г/i.test(String(item?.name || ''))) return true;
+  const zoneAt = getPendingLCornerZoneAtStart();
+  if (zoneAt == null) return true;
+  return getCatalogItemCornerAtStart(item) === zoneAt;
+}
+
+function _isUpperGFurnitureData(furnitureData) {
+  try {
+    if (typeof window.__cldIsKitchenUpperGModuleData === 'function') {
+      return !!window.__cldIsKitchenUpperGModuleData(furnitureData);
+    }
+  } catch (_) {}
+  const item = furnitureData?.catalogItem || furnitureData || {};
+  return /угловой\s*г/i.test(String(item.name || item.title || ''));
+}
+
+/**
+ * Как Gola/ordinary: тип размещения карточки vs режим кухни.
+ * Угловые (kitchen_base_corner) сюда не входят — у них свой side-gate.
+ */
+function catalogItemMatchesKitchenPlacement(item) {
+  if (!item) return true;
+  const pk = String(
+    item.placementKind ||
+      item.placement_kind ||
+      (item.data && item.data.placementKind) ||
+      (item.data && item.data.placement_kind) ||
+      ''
+  ).trim();
+  if (pk !== 'kitchen_base' && pk !== 'kitchen_base_gola') return true;
+  let mode = 'non_gola';
+  try {
+    const api =
+      typeof window !== 'undefined' ? window.__cldKitchenManufacturing : null;
+    mode =
+      api && typeof api.getKitchenProjectState === 'function'
+        ? api.getKitchenProjectState()?.frontMode || 'non_gola'
+        : 'non_gola';
+  } catch (_) {}
+  if (mode === 'gola') return pk === 'kitchen_base_gola';
+  return pk === 'kitchen_base';
+}
+
+/**
+ * Кухня L: убрать шкафный зазор 50 мм у стены (CORNER_GAP_CM=5), чтобы
+ * ячейка/столешка шли до стены. Корпус НМУ ?10 мм — отдельно в дереве.
+ */
+function __cldEnsureKitchenLFlushToWall(section) {
+  try {
+    if (typeof ensureKitchenLCornerFlush === 'function') {
+      const ok = ensureKitchenLCornerFlush(section);
+      if (ok) {
+        __cldLogLCorner('kitchen L: cleared wardrobe 50mm gap > flush to wall', {
+          sectionId: section?.id,
+        });
+      }
+      return ok;
+    }
+  } catch (e) {
+    console.warn('[KITCHEN-CORNER] flush to wall failed', e);
+  }
+  return false;
+}
+
 function __cldSectionOuterMaxU(section) {
   const wall = section?.wallName || section?.division?.wallName || 'back';
   const pos = section?.group?.position;
@@ -624,8 +1196,22 @@ function __cldCornerCabTargetEndU(section) {
   if (!(end > 0)) end = outer;
   if (!(end > 0)) end = plank;
   if (!(end > 0)) return null;
-  // Планка чуть короче края спец/секции (±80) → корпус как планка (видимый зазор 5 см).
-  if (plank > 0 && end - plank >= -1 && end - plank <= 80) {
+  // Только шкаф: планка чуть короче края (±80) > корпус как планка (зазор 5 см).
+  let wardrobeGap = true;
+  try {
+    if (
+      typeof window !== 'undefined' &&
+      typeof window.__cldIsWardrobeCornerGapLogicActive === 'function'
+    ) {
+      wardrobeGap = !!window.__cldIsWardrobeCornerGapLogicActive();
+    } else if (
+      typeof isKitchenSectionLayoutActive === 'function' &&
+      isKitchenSectionLayoutActive()
+    ) {
+      wardrobeGap = false;
+    }
+  } catch (_) {}
+  if (wardrobeGap && plank > 0 && end - plank >= -1 && end - plank <= 80) {
     end = Math.min(end, plank);
   }
   return end;
@@ -633,11 +1219,25 @@ function __cldCornerCabTargetEndU(section) {
 
 /**
  * После place: корпус углового не дальше края спец (§6.8.3 CORNER_GAP 50).
- * Эталон края = TopPlank, если она ≈ outer секции (зазор 5 см у стены);
- * если планка укорочена overlap (D−50) — край = outer секции.
+ * Только шкаф. Кухня: no-op (ячейка до стены, корпус ?10 в дереве).
  */
 function __cldClampCornerCabinetToSpecialGap(group, section, zoneIndex) {
   if (!group || !section) return false;
+  try {
+    if (
+      typeof window !== 'undefined' &&
+      typeof window.__cldIsWardrobeCornerGapLogicActive === 'function' &&
+      !window.__cldIsWardrobeCornerGapLogicActive()
+    ) {
+      return false;
+    }
+  } catch (_) {}
+  if (
+    typeof isKitchenSectionLayoutActive === 'function' &&
+    isKitchenSectionLayoutActive()
+  ) {
+    return false;
+  }
   const wall = section.wallName || section.division?.wallName || 'back';
   const endU = __cldCornerCabTargetEndU(section);
   if (!(endU > 0)) return false;
@@ -670,7 +1270,7 @@ function __cldClampCornerCabinetToSpecialGap(group, section, zoneIndex) {
     return false;
   }
 
-  // Ширина больше слота → rebuild под endU−zoneStart (не только сдвиг в соседние ячейки).
+  // Ширина больше слота > rebuild под endU?zoneStart (не только сдвиг в соседние ячейки).
   const curW = maxU - minU;
   if (wantW > 1 && curW > wantW + 0.5) {
     const curH =
@@ -733,33 +1333,82 @@ function __cldLogLCorner(tag, extra) {
       zi?.sectionId != null && Array.isArray(state.customSections)
         ? state.customSections.find((s) => s && s.id === zi.sectionId)
         : null;
-    const specialZi = baySec ? __getLShapeSpecialZoneIndex(baySec) : null;
+    let pairPrimary = null;
+    try {
+      if (baySec?.lShape && typeof getLShapePairForSection === 'function') {
+        pairPrimary = getLShapePairForSection(baySec)?.primary || null;
+      }
+    } catch (_) {}
+    const specialSec = pairPrimary || baySec;
+    const specialZi = specialSec ? __getLShapeSpecialZoneIndex(specialSec) : null;
     const onLSpecial =
       !!baySec && __isLShapeSpecialZone(baySec, zi?.zoneIndex);
     const div = baySec?.division;
     const segs = div?.segmentsLShapeBack || div?.segmentsLShape || null;
+    let spBounds = null;
+    try {
+      if (specialSec?.division) {
+        spBounds = getLShapeSpecialSnapBounds(specialSec.division);
+      }
+    } catch (_) {}
+    const cacheSegs = Array.isArray(baySec?._layoutCache?.segments)
+      ? baySec._layoutCache.segments.map((s) => ({
+          zi: s?.zoneIndex,
+          w: Math.round((Number(s?.endU) || 0) - (Number(s?.startU) || 0)),
+          dk: s?.doorKind,
+          sp: !!s?.isLSpecial,
+        }))
+      : null;
+    let reason = extra?.reason || null;
+    if (!reason) {
+      if (!fd) reason = 'no-pending-furniture';
+      else if (!isLCornerCabinetModule(fd)) reason = 'not-corner-module';
+      else if (!baySec) reason = 'no-section-under-ghost';
+      else if (specialZi == null) reason = 'specialZi-null (нет спец на этой секции/паре)';
+      else if (!onLSpecial)
+        reason = `zoneIndex=${zi?.zoneIndex} !== specialZi=${specialZi}`;
+      else if (state._ghostZonePlacementAllowed === false)
+        reason = 'ghostAllowed=false';
+      else reason = 'ok-or-other';
+    }
     const payload = {
       tag,
+      reason,
       isCorner: isLCornerCabinetModule(fd),
       catalogType: resolveCatalogTypeFromFurnitureData(fd),
+      pk: resolvePlacementKindFromFurnitureData(fd),
       zoneIndex: zi?.zoneIndex ?? null,
       doorKind: zi?.doorKind ?? null,
       sectionId: zi?.sectionId ?? null,
+      sectionWall: baySec?.wallName || null,
       lShape: baySec?.lShape
         ? { type: baySec.lShape.type, role: baySec.lShape.role }
         : null,
+      pairPrimaryId: pairPrimary?.id ?? null,
       specialZi,
       onLSpecial,
+      spBounds: spBounds
+        ? {
+            zi: spBounds.zoneIndex,
+            w: Math.round(spBounds.moduleWidth),
+            u0: Math.round(spBounds.zoneStart),
+            u1: Math.round(spBounds.zEnd),
+            S: spBounds.S,
+            D: spBounds.D,
+          }
+        : null,
       ghostAllowed: state._ghostZonePlacementAllowed,
       ghostPos: !!state.ghostPosition,
       ghostWall: state.ghostWall || null,
       ghostVisible: !!state.furnitureGhost?.visible,
       parts: div?.parts ?? null,
+      layoutKind: div?.layoutKind ?? null,
       typeKey: div?.typeKey ?? null,
       S: div?.singleWidthMm ?? null,
       D: div?.cornerWidthMm ?? null,
       free: div?.freeSizeMm ?? null,
       sectionStart: div?.sectionStart ?? null,
+      sectionEnd: div?.sectionEnd ?? null,
       partSize: div?.partSize ?? null,
       segs: Array.isArray(segs)
         ? segs.map((s) => ({
@@ -769,6 +1418,7 @@ function __cldLogLCorner(tag, extra) {
             w: s?.widthMm,
           }))
         : null,
+      cacheSegs,
       segsLen: {
         L: Array.isArray(div?.segmentsLShape) ? div.segmentsLShape.length : 0,
         Back: Array.isArray(div?.segmentsLShapeBack)
@@ -777,7 +1427,12 @@ function __cldLogLCorner(tag, extra) {
       },
       ...(extra || {}),
     };
-    console.log('[L-CORNER]', payload);
+    const isBlock = String(tag || '').includes('BLOCK') || payload.reason?.startsWith?.('zoneIndex');
+    if (isBlock || String(tag || '').includes('gate')) {
+      console.warn('[L-CORNER]', payload);
+    } else {
+      console.log('[L-CORNER]', payload);
+    }
     return payload;
   } catch (e) {
     console.warn('[L-CORNER] log failed', e);
@@ -889,7 +1544,7 @@ function getStandaloneHeightFromMapOnlyInGroup(sectionData, catalogType) {
 
 /**
  * Высота уже стоящих в секции модулей другого каталога / общая floor-высота.
- * Используется для вопроса Ысвоя или как в секциил при посадке.
+ * Используется для вопроса «своя или как в секции» при посадке.
  */
 function getNeighborStandaloneHeightMm(sectionData, catalogType) {
   if (!sectionData) return 0;
@@ -1002,13 +1657,13 @@ function isHeightSyncEligiblePlacementKind(pk) {
   );
 }
 
-/** Высота правится в ЫНастройка модулял (fixedHeight). */
+/** Высота правится в «Настройка модуля» (fixedHeight). */
 function canEditCustomModuleHeight(pk) {
   const s = String(pk || '').trim();
   return s === PLACEMENT_KIND.STANDALONE_FLOOR || isWallHungPlacementKind(s);
 }
 
-/** Модули того же placementKind + каталога в секции — для попапа Ыэтот / всел. */
+/** Модули того же placementKind + каталога в секции — для попапа «этот / все». */
 function collectModulesForHeightSync(sectionData, catalogType, sourcePlacementKind) {
   const out = [];
   if (!state.scene || !sectionData?.id) return out;
@@ -1206,7 +1861,7 @@ function getStandaloneEditHeightLimitsMm(placementKindId) {
 
 function sectionLooksShrunkForStandalone(sectionData) {
   if (!sectionData || !state.room) return false;
-  // Иначе ensureFullHeight → updateSectionSize → rebuildAllTransitions → снова ensure → зависание.
+  // Иначе ensureFullHeight > updateSectionSize > rebuildAllTransitions > снова ensure > зависание.
   if (isUnderWindowBaySection(sectionData)) return false;
   const m = getSlotVerticalMetrics(sectionData);
   if (!(m.innerHeightMm > 0)) return false;
@@ -1294,8 +1949,8 @@ function shouldResizeSectionForStandaloneCatalog(sectionData, catalogType) {
   if (Number(sectionData?.division?.parts || 0) > 1) return false;
   if (sectionHasNicheFurniture(sectionData)) return false;
   if (!sectionHasOnlyStandaloneFloor(sectionData)) return false;
-  // Не сжимать стену, если ниша почти на всю высоту комнаты — иначе шкаф получит s:y≈600
-  // и формулы s:y−corpus_antresol_mm (1950) дадут 0 в ClodisBuilder.
+  // Не сжимать стену, если ниша почти на всю высоту комнаты — иначе шкаф получит s:y?600
+  // и формулы s:y?corpus_antresol_mm (1950) дадут 0 в ClodisBuilder.
   if (state.room && Number(state.room.height) > 1400) return false;
   const all = collectStandaloneFurnitureInSection(sectionData, null);
   for (const f of all) {
@@ -1535,8 +2190,39 @@ function zoneWidthMmForFurnitureGroup(grp, sectionData, layout) {
   const size = sectionData.size;
   const sectionWidth = wallName === 'front' || wallName === 'back' ? size.x : size.z;
   const depthForWall = wallName === 'left' || wallName === 'right' ? size.x : size.z;
-  const segs = layout?.segments || [];
+  let layoutUse = layout;
+  try {
+    const pk =
+      String(grp?.userData?.__placementKindProfileId || grp?.userData?.placementKind || '').trim();
+    const prod = String(grp?.userData?.productKind || '').trim();
+    if (isKitchenStraightBaseBandSection(sectionData)) {
+      if (
+        isKitchenWallTopGroup(grp) ||
+        isKitchenWallTopPlacementKind(pk) ||
+        prod === 'kitchen_wall_top'
+      ) {
+        const topLayout = buildKitchenBandCellLayoutForSection(sectionData, 'top');
+        if (topLayout) layoutUse = topLayout;
+      } else if (
+        isKitchenWallMidGroup(grp) ||
+        isKitchenWallMidPlacementKind(pk) ||
+        prod === 'kitchen_wall_mid'
+      ) {
+        const midLayout = buildKitchenBandCellLayoutForSection(sectionData, 'mid');
+        if (midLayout) layoutUse = midLayout;
+      }
+    }
+  } catch (_) {}
+  const segs = layoutUse?.segments || [];
   let seg = segs.find((s) => s.type === 'module' && s.furnitureUuid === grp.uuid);
+  if (!seg) {
+    seg = segs.find(
+      (s) =>
+        s.type === 'module' &&
+        Array.isArray(s.furnitureUuids) &&
+        s.furnitureUuids.indexOf(grp.uuid) >= 0
+    );
+  }
   if (!seg) {
     const zi = typeof grp.userData?.zoneIndex === 'number' ? grp.userData.zoneIndex : null;
     if (zi != null) {
@@ -1544,7 +2230,7 @@ function zoneWidthMmForFurnitureGroup(grp, sectionData, layout) {
     }
   }
   let zoneW = 0;
-  // Спец L (§6.8.3): ширина только из snap S+D→sectionEnd, не из stale seg / partSize.
+  // Спец L (В§6.8.3): ширина только из snap S+D>sectionEnd, не из stale seg / partSize.
   const zi =
     typeof grp.userData?.zoneIndex === 'number' ? grp.userData.zoneIndex : null;
   const specialZi =
@@ -1574,6 +2260,9 @@ function zoneWidthMmForFurnitureGroup(grp, sectionData, layout) {
     // Никогда не прыгать на всю ширину секции, если известна зона/partSize/ширина посадки.
     zoneW = part > 1 ? part : initialX > 1 ? initialX : sectionWidth;
   }
+  // Карандаш модуля: своя W (customWidthMm), не вся ячейка / соседи по зоне.
+  const ownW = Math.round(Number(grp.userData?.customWidthMm) || 0);
+  if (ownW > 50) zoneW = ownW;
   if (typeof window !== 'undefined' && window.__CLD_DEBUG_PLACE === true) {
     console.warn('[ZONEW]', {
       uuid: grp.uuid,
@@ -1590,6 +2279,157 @@ function zoneWidthMmForFurnitureGroup(grp, sectionData, layout) {
   const targetDepthMm =
     customDepthMm > 0 ? Math.min(customDepthMm, depthForWall) : depthForWall;
   const placementKind = grp.userData?.__placementKind || PLACEMENT_KIND.FLOOR_IN_NICHE;
+  const profileId = String(
+    grp.userData?.__placementKindProfileId || grp.userData?.placementKind || ''
+  ).trim();
+  const productKind = String(grp.userData?.productKind || '').trim();
+
+  // Upper G: конверт arm×arm как в админке. Не clamp к глубине ниши секции (часто 350) —
+  // иначе s:z у «Приставка Г» = 350, pivot+1 → крыло садится внутрь корпуса, не вперёд.
+  try {
+    const udG = grp?.userData || {};
+    const isUpperG =
+      udG.__kitchenUpperGSeated === true ||
+      udG.__kitchenUpperGKind === 'g_arms' ||
+      (typeof window !== 'undefined' &&
+        typeof window.__cldIsKitchenUpperGModuleGroup === 'function' &&
+        !!window.__cldIsKitchenUpperGModuleGroup(grp)) ||
+      /угловой\s*г/i.test(String(udG.catalogName || ''));
+    if (isUpperG) {
+      const arm =
+        Math.round(Number(udG.__kitchenUpperGArmMm) || 0) ||
+        Math.round(Number(udG.customWidthMm) || 0) ||
+        Math.round(Number(udG.customDepthMm) || 0) ||
+        Math.round(Number(udG.__kitchenCarcassDepthMm) || 0) ||
+        600;
+      const band =
+        String(udG.__kitchenUpperGBand || udG.__kitchenUpperGFrame?.band || '')
+          .trim()
+          .toLowerCase() === 'top'
+          ? 'top'
+          : 'mid';
+      let h =
+        Math.round(Number(udG.__kitchenUpperGFrame?.heightMm) || 0) ||
+        Math.round(Number(udG.__targetSectionSizeMm?.y) || 0) ||
+        Math.round(Number(udG.__initialSectionSizeMm?.y) || 0) ||
+        0;
+      if (!(h > 50)) {
+        try {
+          const km =
+            typeof window !== 'undefined'
+              ? window.__cldKitchenManufacturing
+              : null;
+          const fn =
+            band === 'top'
+              ? km && km.resolveKitchenWallTopPlaceSizing
+              : km && km.resolveKitchenWallMidPlaceSizing;
+          const sizing = typeof fn === 'function' ? fn.call(km, {}) : null;
+          if (sizing && Number(sizing.carcassHeightMm) > 0) {
+            h = Math.round(Number(sizing.carcassHeightMm));
+          }
+        } catch (_) {}
+      }
+      if (!(h > 50)) h = band === 'top' ? 360 : 720;
+      const w = Math.round(Number(udG.customWidthMm) || 0) || arm;
+      return { x: w > 50 ? w : arm, y: h, z: arm };
+    }
+  } catch (_) {}
+
+  // Пенал: высота = датамы (цоколь+low+mid+high), НЕ слот ниши до потолка.
+  // Иначе rebuild вкладки «Пеналы» раздувает корпус на всю высоту секции.
+  if (
+    isKitchenTallPlacementKind(profileId) ||
+    productKind === 'kitchen_tall' ||
+    !!(grp.userData?.__kitchenTall && typeof grp.userData.__kitchenTall === 'object')
+  ) {
+    let tallH = 0;
+    try {
+      const km =
+        typeof window !== 'undefined' ? window.__cldKitchenManufacturing : null;
+      const kt = grp.userData?.__kitchenTall || {};
+      if (km && typeof km.resolveKitchenTallPlaceSizing === 'function') {
+        const sizing = km.resolveKitchenTallPlaceSizing({
+          facadeType: kt.facadeType || 'doors_3',
+          lowerHalfOfNmMm: kt.lowerHalfOfNmMm,
+          ovenNicheMm: kt.ovenNicheMm,
+          microwaveNicheMm: kt.microwaveNicheMm,
+          carcassDepthMm:
+            Number(grp.userData?.__kitchenCarcassDepthMm) ||
+            Number(grp.userData?.customDepthMm) ||
+            undefined,
+        });
+        if (sizing && sizing.ok && Number(sizing.totalHeightMm) > 0) {
+          tallH = Math.round(Number(sizing.totalHeightMm));
+        }
+      }
+    } catch (_) {}
+    if (!(tallH > 0)) {
+      tallH =
+        Math.round(Number(grp.userData?.customHeightMm) || 0) ||
+        Math.round(Number(grp.userData?.__initialSectionSizeMm?.y) || 0) ||
+        2260;
+    }
+    const tallD =
+      Math.round(Number(grp.userData?.__kitchenCarcassDepthMm) || 0) ||
+      Math.round(Number(grp.userData?.customDepthMm) || 0) ||
+      560;
+    return {
+      x: zoneW,
+      y: tallH,
+      z: Math.min(tallD, depthForWall > 0 ? depthForWall : tallD),
+    };
+  }
+
+  // НШ1/НШ2: формула ритма — не высота/глубина ниши секции.
+  if (
+    isKitchenWallMidPlacementKind(profileId) ||
+    productKind === 'kitchen_wall_mid' ||
+    isKitchenWallTopPlacementKind(profileId) ||
+    productKind === 'kitchen_wall_top' ||
+    isKitchenWallTopGroup(grp) ||
+    isKitchenWallMidGroup(grp)
+  ) {
+    const isTop =
+      isKitchenWallTopGroup(grp) ||
+      isKitchenWallTopPlacementKind(profileId) ||
+      productKind === 'kitchen_wall_top';
+    let wallH = Math.round(Number(grp.userData?.customHeightMm) || 0) || (isTop ? 360 : 720);
+    let wallD =
+      Math.round(Number(grp.userData?.__kitchenCarcassDepthMm) || 0) ||
+      Math.round(Number(grp.userData?.customDepthMm) || 0) ||
+      350;
+    try {
+      const km =
+        typeof window !== 'undefined' ? window.__cldKitchenManufacturing : null;
+      const fn = isTop
+        ? km && km.resolveKitchenWallTopPlaceSizing
+        : km && km.resolveKitchenWallMidPlaceSizing;
+      if (typeof fn === 'function') {
+        const sizing = fn.call(km, { sectionDepthMm: wallD });
+        if (sizing && sizing.ok) {
+          if (Number(sizing.carcassHeightMm) > 0) wallH = Math.round(Number(sizing.carcassHeightMm));
+          if (Number(sizing.carcassDepthMm) > 0) wallD = Math.round(Number(sizing.carcassDepthMm));
+        }
+      }
+    } catch (_) {}
+    if (isTop) {
+      try {
+        const depthRes =
+          typeof window.__cldKitchenBaseEngine?.resolveKitchenWallTopDepthMm === 'function'
+            ? window.__cldKitchenBaseEngine.resolveKitchenWallTopDepthMm(grp, sectionData)
+            : null;
+        if (depthRes?.ok && Number(depthRes.carcassDepthMm) > 0) {
+          wallD = Math.round(Number(depthRes.carcassDepthMm));
+        }
+      } catch (_) {}
+    }
+    return {
+      x: zoneW,
+      y: wallH,
+      z: Math.min(wallD, depthForWall > 0 ? depthForWall : wallD),
+    };
+  }
+
   if (placementKind === PLACEMENT_KIND.STANDALONE_FLOOR) {
     const h = resolveStandaloneHeightMm(grp, sectionData);
     if (h > 0) return { x: zoneW, y: h, z: targetDepthMm };
@@ -1657,6 +2497,235 @@ function zoneWidthMmForFurnitureGroup(grp, sectionData, layout) {
   );
   const targetHeight = roleAwareTotalHeight != null ? roleAwareTotalHeight : fallbackTargetHeight;
   return { x: zoneW, y: targetHeight, z: targetDepthMm };
+}
+
+function listCatalogItemsInRoomStorage(catalogType) {
+  const ct = String(catalogType || '').trim();
+  if (!ct) return [];
+  const key = ct.startsWith('catalog_') ? ct : 'catalog_' + ct;
+  const fromDisk = () => {
+    try {
+      const xhr = new XMLHttpRequest();
+      xhr.open(
+        'GET',
+        '/catalog_items/' + encodeURIComponent(key) + '.json?t=' + Date.now(),
+        false
+      );
+      xhr.send(null);
+      if (xhr.status < 200 || xhr.status >= 300) return [];
+      const arr = JSON.parse(xhr.responseText);
+      return Array.isArray(arr) ? arr : [];
+    } catch (_) {
+      return [];
+    }
+  };
+  if (/^catalog_[45]\d+$/i.test(key)) {
+    const disk = fromDisk();
+    if (disk.length) return disk;
+  }
+  try {
+    const raw = localStorage.getItem(key);
+    if (raw) {
+      const arr = JSON.parse(raw);
+      if (Array.isArray(arr) && arr.length) return arr;
+    }
+  } catch (_) {}
+  return fromDisk();
+}
+
+function resolveKitchenCornerHandPairTargetId(ud, wantAtStart) {
+  const isWall =
+    String(ud?.__placementKindProfileId || ud?.__placementKind || '')
+      .trim()
+      .toLowerCase() === 'kitchen_wall_corner' ||
+    /catalog_54|(^|_)54$/i.test(String(ud?.catalogType || ''));
+  const catalogType = String(
+    ud?.catalogType || (isWall ? 'catalog_54' : 'catalog_44')
+  )
+    .trim() || (isWall ? 'catalog_54' : 'catalog_44');
+  const wantPk = isWall ? 'kitchen_wall_corner' : 'kitchen_base_corner';
+  const wantLeft = wantAtStart === true;
+  let pair = ud?.pairedHandCatalogItemIds;
+  if (!pair || !(pair.left || pair.right)) {
+    const currentItem = findCatalogItemInRoomStorage(
+      catalogType,
+      Number(ud?.catalogItemId) || 0
+    );
+    pair = readPairedHandCatalogIdsFromItem(currentItem);
+  }
+  let targetId = wantLeft ? Number(pair.left) || 0 : Number(pair.right) || 0;
+  if (targetId > 0) return { catalogType, targetId, pair };
+  const items = listCatalogItemsInRoomStorage(catalogType);
+  for (const it of items) {
+    const id = Number(it?.id) || 0;
+    if (id <= 0) continue;
+    const pk = String(it?.data?.placementKind || it?.placementKind || '')
+      .trim()
+      .toLowerCase();
+    if (pk && pk !== wantPk) continue;
+    if (getCatalogItemCornerAtStart(it) === wantLeft) {
+      targetId = id;
+      break;
+    }
+  }
+  return { catalogType, targetId, pair };
+}
+
+/**
+ * Разворот угла: карточка левый ↔ правый (НМУ catalog_44 / приставной ВМУ catalog_54).
+ */
+export function trySwapKitchenCornerHandCatalog(group, wantAtStart, sectionData) {
+  if (!group || !isKitchenCornerModuleGroup(group)) {
+    return { ok: false, reason: 'not_corner' };
+  }
+  // Г-шкаф — одна карточка, не пара левый/правый ВМУ1.
+  try {
+    if (
+      typeof window.__cldIsKitchenUpperGModuleGroup === 'function' &&
+      window.__cldIsKitchenUpperGModuleGroup(group)
+    ) {
+      return { ok: false, reason: 'upper_g_no_hand_pair' };
+    }
+  } catch (_) {}
+  const ud = group.userData || (group.userData = {});
+  const isWall = isKitchenWallCornerGroup(group);
+  const catalogType =
+    String(ud.catalogType || (isWall ? 'catalog_54' : 'catalog_44')).trim() ||
+    (isWall ? 'catalog_54' : 'catalog_44');
+  const currentId = Number(ud.catalogItemId) || 0;
+  if (currentId <= 0) return { ok: false, reason: 'no_catalog_id' };
+
+  const currentItem = findCatalogItemInRoomStorage(catalogType, currentId);
+  const currentAt = getCatalogItemCornerAtStart(currentItem || ud.catalogItem);
+  if (currentAt === (wantAtStart === true)) {
+    return { ok: true, swapped: false, fromId: currentId, toId: currentId };
+  }
+
+  const resolved = resolveKitchenCornerHandPairTargetId(ud, wantAtStart === true);
+  const targetId = Number(resolved.targetId) || 0;
+  if (targetId <= 0 || targetId === currentId) {
+    return {
+      ok: false,
+      reason: 'no_pair',
+      message: wantAtStart
+        ? isWall
+          ? 'Нет карточки ВМУ левый в catalog_54.'
+          : 'Нет карточки «Угловой левый» в catalog_44.'
+        : isWall
+          ? 'Нет карточки ВМУ правый в catalog_54.'
+          : 'Нет карточки «Угловой правый» в catalog_44.',
+    }
+  }
+
+  const targetItem = findCatalogItemInRoomStorage(resolved.catalogType, targetId);
+  if (!targetItem) return { ok: false, reason: 'pair_missing', toId: targetId };
+
+  const furnitureData = buildFurnitureDataFromCatalogItem(
+    targetItem,
+    resolved.catalogType
+  );
+  if (!furnitureData) return { ok: false, reason: 'bad_furniture_data' };
+
+  const clodisData = getClodisDataForBuild(furnitureData);
+  if (!clodisData || clodisData.length === 0) return { ok: false, reason: 'no_clodis' };
+
+  let dataForBuild;
+  try {
+    dataForBuild = JSON.parse(JSON.stringify(clodisData));
+  } catch (_) {
+    return { ok: false, reason: 'clone_failed' };
+  }
+
+  const placementKind = resolvePlacementKindFromFurnitureData(furnitureData);
+  const { opts: doorOpts, needsPatch } = buildRoomDoorPrepareOpts(furnitureData, {
+    doorLayout: ud.doorLayout,
+    zoneHand: ud.zoneHand,
+    doorKind: ud.doorKind,
+    catalogItem: targetItem,
+    placementKind,
+    productKind: resolveProductKindForFurnitureData(furnitureData),
+  });
+  const prepared = needsPatch
+    ? prepareClodisForRoomBuild(dataForBuild, doorOpts)
+    : dataForBuild;
+
+  writeUserDataClodisData(ud, prepared);
+  ud.catalogItemId = targetId;
+  ud.catalogItem = targetItem;
+  ud.catalogName =
+    (targetItem.name && String(targetItem.name).trim()) || ud.catalogName || '';
+  ud.catalogType = resolved.catalogType;
+  ud.pairedHandCatalogItemIds = {
+    left: Number(resolved.pair?.left) || (wantAtStart ? targetId : currentId),
+    right: Number(resolved.pair?.right) || (wantAtStart ? currentId : targetId),
+  };
+  if (!ud.pairedHandCatalogItemIds.left) {
+    ud.pairedHandCatalogItemIds.left = wantAtStart ? targetId : currentId;
+  }
+  if (!ud.pairedHandCatalogItemIds.right) {
+    ud.pairedHandCatalogItemIds.right = wantAtStart ? currentId : targetId;
+  }
+  ud.pairedCatalogItemIds = readPairedCatalogIdsFromItem(targetItem);
+  ud.__placementKindProfileId = getRawPlacementKindFromFurnitureData(furnitureData);
+  ud.__placementKind = placementKind;
+  ud.__cldSkipSectionAutoRescale = clodisHasConstructorMarkers(prepared);
+  // ???: ???? = ??????? ??????. ???: geom ?????? ???? ?? ??????? (?????? ????????).
+  if (!isWall) {
+    ud.__kitchenCornerSideAtMinU = wantAtStart === true;
+  }
+
+  // ??? CornerCell = 1050; ??? ? ???? ??????? (?????? 600, ?? 1050).
+  let cellW = isWall
+    ? resolveKitchenWallCornerWidthMm(group)
+    : 1050;
+  if (!isWall) {
+    try {
+      if (typeof resolveKitchenCornerSpecialWidthMm === 'function') {
+        cellW = resolveKitchenCornerSpecialWidthMm() || 1050;
+      }
+    } catch (_) {
+      cellW = 1050;
+    }
+    if (!(cellW >= 900 && cellW <= 1200)) cellW = 1050;
+  }
+  ud.__kitchenCellWidthMm = cellW;
+  ud.customWidthMm = cellW;
+  const targetSize = {
+    x:
+      cellW > 50
+        ? cellW
+        : Math.round(
+            Number(ud.__targetSectionSizeMm?.x) ||
+              (isWall ? KITCHEN_WALL_CORNER_DEFAULT_WIDTH_MM : 1050)
+          ),
+    y: Math.round(Number(ud.__targetSectionSizeMm?.y) || (isWall ? 720 : 820)),
+    z: Math.round(
+      Number(ud.__kitchenCarcassDepthMm) ||
+        Number(ud.__targetSectionSizeMm?.z) ||
+        (isWall ? 350 : 550)
+    ),
+  };
+  const ok = rebuildFurnitureGroupForSectionResize(
+    group,
+    sectionData || null,
+    targetSize,
+    { force: true }
+  );
+  if (!ok) {
+    return { ok: false, reason: 'rebuild_failed', fromId: currentId, toId: targetId };
+  }
+
+  console.warn('[CORNER-HAND] catalog swap', {
+    fromId: currentId,
+    toId: targetId,
+    wantAtStart: wantAtStart === true,
+    name: ud.catalogName,
+    cellW,
+  });
+  try {
+    recalcFurniturePricingAfterGeometryChange();
+  } catch (_) {}
+  return { ok: true, swapped: true, fromId: currentId, toId: targetId };
 }
 
 /**
@@ -1770,15 +2839,15 @@ export function tryApplyDoorPairCatalogSwap(group, sectionData, layout) {
 
 function tryRestoreCanonicalClodisRootsForGroup(ud) {
   if (!ud || typeof ud !== 'object') return;
-  const roots = readUserDataClodisRoots(ud) || readUserDataClodisData(ud);
-  if (clodisRootsHaveSplitFacades(roots)) return;
   const catalogType = getFurnitureCatalogType(ud);
   const catalogItemId = Number(ud.catalogItemId) || 0;
   if (!catalogType || catalogItemId <= 0) return;
   const item = findCatalogItemInRoomStorage(catalogType, catalogItemId);
   if (!item) return;
   const fresh = getClodisDataForBuild({ catalogItem: item });
-  if (!clodisRootsHaveSplitFacades(fresh)) return;
+  if (!fresh) return;
+  // Паритет с админкой: при rebuild всегда брать актуальное дерево каталога
+  // (сколько профилей/вырезов сохранили — столько в комнате), не застывший снимок.
   try {
     const clone = JSON.parse(JSON.stringify(Array.isArray(fresh) ? fresh : [fresh]));
     writeUserDataClodisRoots(ud, clone);
@@ -1791,8 +2860,8 @@ function tryRestoreCanonicalClodisRootsForGroup(ud) {
  * @returns {boolean}
  */
 /**
- * @param {{ force?: boolean }} [opts] force=true — пересобрать даже если sectionSize ≈ прошлого билда
- *   (смена zoneHand / ручек / каталога). Без force — при |Δ|≤1 мм по осям только layout (place N-го шкафа).
+ * @param {{ force?: boolean }} [opts] force=true — пересобрать даже если sectionSize ? прошлого билда
+ *   (смена zoneHand / ручек / каталога). Без force — при |?|?1 мм по осям только layout (place N-го шкафа).
  */
 export function rebuildFurnitureGroupForSectionResize(group, sectionData, targetSectionSizeMm, opts = {}) {
   if (!group || !sectionData || !targetSectionSizeMm) return false;
@@ -1806,9 +2875,115 @@ export function rebuildFurnitureGroupForSectionResize(group, sectionData, target
     });
   }
   // Как в рабочей ThreeJS-25: без REBUILD-SKIP.
-  // Skip Ыinitial ≈ targetл оставлял mesh уже зоны → щель шкаф↔шкаф после ускорения place.
+  // Skip «initial ? target» оставлял mesh уже зоны > щель шкаф-шкаф после ускорения place.
   const ud = group.userData || {};
-  tryRestoreCanonicalClodisRootsForGroup(ud);
+  // S2A: пенал с отступом от стены → авто left overlay (без консоли).
+  try {
+    ensureTallAutoSideOverlayS2A(ud);
+  } catch (_) {}
+  let isUpperGRebuildEarly = opts.upperGArms === true;
+  try {
+    if (
+      !isUpperGRebuildEarly &&
+      typeof window.__cldIsKitchenUpperGModuleGroup === 'function'
+    ) {
+      isUpperGRebuildEarly = !!window.__cldIsKitchenUpperGModuleGroup(group);
+    }
+    if (!isUpperGRebuildEarly) {
+      isUpperGRebuildEarly = /угловой\s*г/i.test(String(ud.catalogName || ''));
+    }
+  } catch (_) {}
+  // 2-phase UpperG уже stamped в ud — не откатывать в сырой catalog.
+  if (!opts.skipCanonicalRestore) {
+    tryRestoreCanonicalClodisRootsForGroup(ud);
+    // Г: канон админки → мм ячейки (стык на торце как в карточке).
+    if (
+      isUpperGRebuildEarly &&
+      typeof window.__cldApplyUpperGArmSizesToRoots === 'function' &&
+      typeof window.__cldResolveUpperGCellWorldFrame === 'function'
+    ) {
+      try {
+        let joint =
+          ud.__kitchenJointId &&
+          typeof window.__cldGetKitchenJoint === 'function'
+            ? window.__cldGetKitchenJoint(ud.__kitchenJointId)
+            : null;
+        if (
+          !joint &&
+          typeof window.__cldFindUpperGJointForSection === 'function'
+        ) {
+          joint = window.__cldFindUpperGJointForSection(sectionData);
+        }
+        if (joint) {
+          try {
+            window.__cldReseatUpperGCellArmDepths?.(joint);
+          } catch (_) {}
+          const bandUg =
+            String(ud.__kitchenUpperGBand || ud.__kitchenUpperGFrame?.band || '')
+              .trim()
+              .toLowerCase() === 'top'
+              ? 'top'
+              : 'mid';
+          const frame = window.__cldResolveUpperGCellWorldFrame(joint, {
+            band: bandUg,
+          });
+          const roots0 =
+            readUserDataClodisRoots(ud) || readUserDataClodisData(ud);
+          if (frame && roots0) {
+            const gVars =
+              typeof window.__cldBuildUpperGReturnVars === 'function'
+                ? window.__cldBuildUpperGReturnVars(
+                    frame.armMm,
+                    frame.depthAMm,
+                    frame.depthBMm
+                  )
+                : null;
+            if (gVars) {
+              try {
+                const prev = readUserDataClodisVariables(ud) || {};
+                writeUserDataClodisVariables(ud, { ...prev, ...gVars });
+              } catch (_) {}
+            }
+            const copy = JSON.parse(
+              JSON.stringify(Array.isArray(roots0) ? roots0 : [roots0])
+            );
+            window.__cldApplyUpperGArmSizesToRoots(copy, frame, {
+              phase: 'both',
+            });
+            writeUserDataClodisRoots(ud, copy);
+            writeUserDataClodisData(ud, Array.isArray(copy) ? copy[0] : copy);
+            ud.__kitchenCellWidthMm = frame.armMm;
+            ud.customWidthMm = frame.armMm;
+            ud.__kitchenCarcassDepthMm = frame.armMm;
+            ud.customDepthMm = frame.armMm;
+            ud.__kitchenUpperGArmMm = frame.armMm;
+            ud.__kitchenUpperGDepthAMm = frame.depthAMm;
+            ud.__kitchenUpperGDepthBMm = frame.depthBMm;
+            ud.__kitchenUpperGBand = bandUg;
+            const hUg = Math.round(Number(frame.heightMm) || 0);
+            if (hUg > 50) {
+              ud.customHeightMm = hUg;
+              ud.__targetSectionSizeMm = {
+                x: frame.armMm,
+                y: hUg,
+                z: frame.armMm,
+              };
+              ud.__initialSectionSizeMm = { ...ud.__targetSectionSizeMm };
+              // Не дать targetSectionSizeMm.y с низа/ниши раздуть корпус.
+              if (targetSectionSizeMm && typeof targetSectionSizeMm === 'object') {
+                targetSectionSizeMm.x = frame.armMm;
+                targetSectionSizeMm.y = hUg;
+                targetSectionSizeMm.z = frame.armMm;
+              }
+            }
+            if (gVars) ud.__kitchenUpperGStubMm = gVars.corner_g_stub_mm;
+          }
+        }
+      } catch (eUg) {
+        console.warn('[REBUILD] UpperG arm stamp failed', eUg);
+      }
+    }
+  }
   group.userData = ud;
   if (!readUserDataClodisRoots(ud) && readUserDataClodisData(ud)) {
     try {
@@ -1881,6 +3056,17 @@ export function rebuildFurnitureGroupForSectionResize(group, sectionData, target
     ? prepareClodisForRoomBuild(dataForBuild, doorOpts)
     : dataForBuild;
   let buildPayload = getDataForBuild(prepared) || dataForBuild;
+  let __rebuildCornerCtx = null;
+  let __rebuildKitchenSupports = null;
+  if (isKitchenBaseGroup(group) || getKitchenBaseProfileIdFromGroup(group)) {
+    try {
+      __rebuildKitchenSupports =
+        ud.kitchenSupports ||
+        extractKitchenSupportsFromCatalogItem(ud.catalogItem || ud.__catalogItem) ||
+        null;
+      if (__rebuildKitchenSupports) ud.kitchenSupports = __rebuildKitchenSupports;
+    } catch (_) {}
+  }
 
   // При resize заполняем ширину зоны целиком (ряд вплотную).
   let sx = Math.max(0, Number(targetSectionSizeMm.x) || 0);
@@ -1894,14 +3080,138 @@ export function rebuildFurnitureGroupForSectionResize(group, sectionData, target
     readUserDataClodisVariables(ud) && typeof readUserDataClodisVariables(ud) === 'object'
       ? readUserDataClodisVariables(ud)
       : {};
-  const moduleVars = {
-    vysota_cokolya: 100,
+  // Кухня: h_bottom / vysota_cokolya только из project plinth (engine), не ниша/каталог 100.
+  const rebuildHb = Math.max(
+    0,
+    Number(ud.hBottomMm) ||
+      Number(ud.__kitchenPlinthHeightMm) ||
+      Number(storedVars.h_bottom) ||
+      0
+  );
+  let moduleVars = {
+    vysota_cokolya: rebuildHb > 0 ? rebuildHb : 100,
     glubina_cokolya: 100,
     otstup_paza: 0,
-    h_bottom: Math.max(0, Number(ud.hBottomMm) || Number(storedVars.h_bottom) || 0),
     h_top: Math.max(0, Number(ud.hTopCatalogMm) || Number(storedVars.h_top) || 0),
     ...storedVars,
+    ...(rebuildHb > 0
+      ? { h_bottom: rebuildHb, vysota_cokolya: rebuildHb }
+      : { h_bottom: Math.max(0, Number(storedVars.h_bottom) || 0) }),
   };
+  if (isKitchenBaseGroup(group) || getKitchenBaseProfileIdFromGroup(group)) {
+    const kitchenSizing = {
+      profileId: getKitchenBaseProfileIdFromGroup(group) || ud.__kitchenProfileId,
+      carcassHeightMm: Number(ud.__kitchenCarcassHeightMm) || 0,
+      plinthHeightMm: rebuildHb,
+      totalHeightMm: sy,
+    };
+    moduleVars = applyKitchenPlaceVariables(moduleVars, kitchenSizing);
+  }
+  // Угловой НМУ: контекст для единого prepare (не второй калькулятор vars).
+  try {
+    const pkRebuild = String(
+      ud.__placementKindProfileId || ud.__kitchenProfileId || ud.__placementKind || ''
+    )
+      .trim()
+      .toLowerCase();
+    const isWallCornerRebuild = pkRebuild === 'kitchen_wall_corner';
+    let isUpperGRebuild = false;
+    try {
+      isUpperGRebuild =
+        opts.upperGArms === true ||
+        (typeof window.__cldIsKitchenUpperGModuleGroup === 'function' &&
+          !!window.__cldIsKitchenUpperGModuleGroup(group)) ||
+        /угловой\s*г/i.test(String(ud.catalogName || ''));
+    } catch (_) {
+      isUpperGRebuild = opts.upperGArms === true;
+    }
+    const isCornerRebuild =
+      !isUpperGRebuild &&
+      (pkRebuild === 'kitchen_base_corner' ||
+        isWallCornerRebuild ||
+        isKitchenCornerBaseGroup(group));
+    if (isCornerRebuild) {
+      let atMin = ud.__kitchenCornerSideAtMinU === true;
+      if (ud.__kitchenCornerSideAtMinU == null) {
+        try {
+          const ziR =
+            ud.zoneIndex != null && Number.isFinite(Number(ud.zoneIndex))
+              ? Number(ud.zoneIndex)
+              : null;
+          const zoneAt = getSectionLCornerZoneAtStart(sectionData, ziR);
+          if (zoneAt != null) {
+            atMin = zoneAt;
+          } else {
+            const meta = getLShapeMeta(sectionData);
+            if (meta && typeof meta.cornerAtStart === 'boolean') {
+              atMin = meta.cornerAtStart;
+            } else if (typeof sectionData?.lShape?.cornerAtStart === 'boolean') {
+              atMin = sectionData.lShape.cornerAtStart;
+            } else if (sectionData?.lShape?.hand === 'left') {
+              atMin = true;
+            } else if (sectionData?.lShape?.hand === 'right') {
+              atMin = false;
+            } else {
+              const typeKey = sectionData?.division?.typeKey || meta?.typeKey || null;
+              const cfg = typeKey && L_CORNER_CONFIG ? L_CORNER_CONFIG[typeKey] : null;
+              atMin = !!cfg?.cornerAtStart;
+            }
+          }
+        } catch (_) {}
+      }
+      const dOverride =
+        Math.round(
+          Number(ud.__kitchenCornerReturnMm) ||
+            Number(ud.__kitchenCarcassDepthMm) ||
+            Number(sz) ||
+            0
+        ) || undefined;
+      // clear=0 валиден (карандаш «отступ»); не Number(x)||10 — иначе 0в†’10.
+      const clearRaw = Math.round(Number(ud.__kitchenSideWallClearanceMm));
+      let clearMm =
+        Number.isFinite(clearRaw) && clearRaw >= 0 ? clearRaw : 10;
+      ud.__kitchenSideWallClearanceMm = clearMm;
+      const cellW =
+        Math.round(Number(ud.__kitchenCellWidthMm) || Number(ud.customWidthMm) || 0) ||
+        sx + clearMm;
+      if (cellW > 50) {
+        ud.__kitchenCellWidthMm = cellW;
+        ud.customWidthMm = cellW;
+      }
+      // НМУ: wallGap = clear (карандаш «отступ» = щель у стены, корпус Wв€’clear).
+      // ВМУ: wallGap всегда 0 — не считать свес столешки 600в€’40в€’D (=210 при D=350).
+      let wallGapMm = 0;
+      if (!isWallCornerRebuild) {
+        wallGapMm = clearMm;
+      } else {
+        clearMm = 0;
+        ud.__kitchenSideWallClearanceMm = 0;
+      }
+      let returnMm = dOverride;
+      if (isWallCornerRebuild && (!(Number(returnMm) > 0) || Number(returnMm) >= 460)) {
+        returnMm = Math.round(Number(sz) || Number(ud.__kitchenCarcassDepthMm) || 350);
+      }
+      // Приставной G-поза: return_pos local=true; уголок — через left embed, не atMin.
+      const gPoseLocal =
+        ud.__kitchenUpperGReturnLocalAtStart === true ||
+        (ud.__kitchenUpperGSeated === true &&
+          String(ud.__kitchenUpperGKind || '') === 'return');
+      if (gPoseLocal && ud.__kitchenUpperGWorldAtStart === false) {
+        try {
+          if (typeof window.__cldRepointRightReturnEmbedForGPose === 'function') {
+            window.__cldRepointRightReturnEmbedForGPose(ud);
+          }
+        } catch (_) {}
+      }
+      __rebuildCornerCtx = {
+        widthMm: cellW,
+        returnMm,
+        clearMm: isWallCornerRebuild ? 0 : clearMm,
+        wallGapMm,
+        atStart: gPoseLocal ? true : atMin,
+      };
+    }
+  } catch (_) {}
   const ca = Number(ud.corpusAntresolMm) || 0;
   if (placementKind !== PLACEMENT_KIND.STANDALONE_FLOOR) {
     const cb = Number(ud.corpusBodyMm) || 0;
@@ -1911,8 +3221,11 @@ export function rebuildFurnitureGroupForSectionResize(group, sectionData, target
   const tech = Number(ud.techZoneMm) || 0;
   if (tech > 0) moduleVars.tech_zone_mm = tech;
 
-  const moduleVarsForBuilder =
+  const kitchenRebuildSkipNiche =
+    !!getKitchenBaseProfileIdFromGroup(group) || isKitchenBaseGroup(group);
+  let moduleVarsForBuilder =
     sectionData &&
+    !kitchenRebuildSkipNiche &&
     !isLowFurniturePlacementKind(placementKind) &&
     !isWallHungPlacementKind(placementKind)
       ? mergeFloorNicheVariablesFromSection(sectionData, moduleVars)
@@ -1929,20 +3242,90 @@ export function rebuildFurnitureGroupForSectionResize(group, sectionData, target
     syncDrawerCatalog33ToGlobalCache();
   } catch (_) {}
 
+  let layoutZones = null;
+  const kitchenRebuildPk =
+    getKitchenBaseProfileIdFromGroup(group) || String(ud.__placementKindProfileId || '').trim();
+  const kitchenTallPk =
+    String(ud.__placementKindProfileId || ud.placementKind || kitchenRebuildPk || '').trim() ===
+      'kitchen_tall' ||
+    String(ud.productKind || '') === 'kitchen_tall' ||
+    !!(ud.__kitchenTall && ud.__kitchenTall.facadeType) ||
+    String(kitchenRebuildPk) === 'kitchen_tall' ||
+    isKitchenTallPlacementKind(kitchenRebuildPk);
+  if (kitchenTallPk) {
+    // Пенал: датамы > layoutZones до shelf fill (2 горизонта на стыках).
+    try {
+      const km =
+        typeof window !== 'undefined' ? window.__cldKitchenManufacturing : null;
+      const kt =
+        ud.__kitchenTall ||
+        (ud.catalogItem && ud.catalogItem.data && ud.catalogItem.data.kitchenTall) ||
+        {};
+      const plinth =
+        Number(ud.__kitchenPlinthHeightMm) ||
+        Number(moduleVarsForBuilder.h_bottom) ||
+        (km && typeof km.getProjectPlinthHeightMm === 'function'
+          ? km.getProjectPlinthHeightMm()
+          : 100);
+      if (km && typeof km.resolveTallLayoutZonesMm === 'function') {
+        const tallZones = km.resolveTallLayoutZonesMm({
+          facadeType: kt.facadeType || 'doors_3',
+          plinthHeightMm: plinth,
+          lowerHalfOfNmMm: kt.lowerHalfOfNmMm,
+          ovenNicheMm: kt.ovenNicheMm,
+          microwaveNicheMm: kt.microwaveNicheMm,
+        });
+        if (tallZones?.ok && tallZones.zones) {
+          layoutZones = tallZones;
+          ud.__layoutZones = tallZones;
+          ud.__kitchenTall = {
+            facadeType: kt.facadeType || 'doors_3',
+            lowerHalfOfNmMm: kt.lowerHalfOfNmMm,
+            ovenNicheMm: kt.ovenNicheMm,
+            microwaveNicheMm: kt.microwaveNicheMm,
+          };
+          ud.__kitchenPlinthHeightMm = tallZones.zones.plinthMm;
+          ud.hTopCatalogMm = 0;
+          moduleVarsForBuilder.h_bottom = tallZones.zones.plinthMm;
+          moduleVarsForBuilder.h_top = 0;
+        }
+      }
+    } catch (eTall) {
+      console.warn('[KITCHEN-TALL] layoutZones resolve failed', eTall);
+    }
+    ud.corpusBodyMm = 0;
+  }
+
   const catalogItemForFill =
     resolveFillCatalogItemFromClodisRoots(prepared) ||
     (placementKind !== PLACEMENT_KIND.STANDALONE_FLOOR
       ? findCatalogItemInRoomStorage(getFurnitureCatalogType(ud), Number(ud.catalogItemId) || 0)
       : null);
-  const shelfStackPolicyForFill =
+  let shelfStackPolicyForFill =
     resolveFillShelfStackPolicyFromClodisRoots(prepared) ||
     (ud.shelfStackPolicy && typeof ud.shelfStackPolicy === 'object' ? ud.shelfStackPolicy : null) ||
     extractShelfStackPolicyFromCatalogItem(catalogItemForFill);
+  if (kitchenTallPk) {
+    // Пенал: не wardrobe shelfStack — только панели-горизонты на датамах.
+    shelfStackPolicyForFill = null;
+  }
   const drawerPolicy =
     (ud.drawerStackPolicy && typeof ud.drawerStackPolicy === 'object' ? ud.drawerStackPolicy : null) ||
     extractDrawerStackPolicyFromCatalogItem(catalogItemForFill);
 
-  if (
+  if (kitchenTallPk) {
+    try {
+      const changedTall = applyKitchenTallDatumHorizonsToRoots(
+        prepared,
+        layoutZones || ud.__layoutZones
+      );
+      if (changedTall) {
+        buildPayload = getDataForBuild(prepared) || buildPayload;
+      }
+    } catch (e) {
+      console.warn('[KITCHEN-TALL] resize datum horizons failed', e);
+    }
+  } else if (
     placementKind !== PLACEMENT_KIND.STANDALONE_FLOOR &&
     !isWallHungPlacementKind(placementKind)
   ) {
@@ -1978,6 +3361,7 @@ export function rebuildFurnitureGroupForSectionResize(group, sectionData, target
       console.warn('[DRAWER-STACK] resize apply failed', e);
     }
     if (
+      !kitchenTallPk &&
       placementKind !== PLACEMENT_KIND.STANDALONE_FLOOR &&
       !isWallHungPlacementKind(placementKind)
     ) {
@@ -2011,16 +3395,25 @@ export function rebuildFurnitureGroupForSectionResize(group, sectionData, target
 
   void ensureDrawerCatalog33FreshFromApi();
 
-  let layoutZones = null;
-  if (placementKind === PLACEMENT_KIND.STANDALONE_FLOOR) {
-    layoutZones = computeStandaloneFloorLayoutZones(sy, moduleVarsForBuilder, placementKind);
-    ud.__layoutZones = layoutZones;
-    ud.hTopCatalogMm = layoutZones.zones.hTopMm;
-    // Каталог часто хранит corpus_body_mm=500 (тумба 616 мм). Боковины тогда 500−32=468,
-    // а полоса корпуса при 600 мм = 484 → боковины должны быть 452. Убираем фикс каталога.
+  // kitchenTallPk: layoutZones уже выставлены выше (до shelf fill).
+  if (!kitchenTallPk && placementKind === PLACEMENT_KIND.STANDALONE_FLOOR) {
+    // Каталог часто хранит corpus_body_mm=500 (тумба 616 мм). Боковины тогда 500-32=468,
+    // а полоса корпуса при 600 мм = 484 > боковины должны быть 452. Убираем фикс каталога.
     delete moduleVarsForBuilder.corpus_body_mm;
     delete moduleVarsForBuilder.corpus_fixed_mm;
     delete moduleVarsForBuilder.h_corpus_body;
+    // kitchen_base: как админка — без room layoutZones (только формулы + h_bottom).
+    if (kitchenPlacementUsesLayoutZones(kitchenRebuildPk || placementKind)) {
+      layoutZones = computeStandaloneFloorLayoutZones(sy, moduleVarsForBuilder, placementKind);
+      ud.__layoutZones = layoutZones;
+      ud.hTopCatalogMm = layoutZones.zones.hTopMm;
+    } else {
+      layoutZones = null;
+      try {
+        delete ud.__layoutZones;
+      } catch (_) {}
+      ud.hTopCatalogMm = Math.max(0, Number(moduleVarsForBuilder.h_top) || 0);
+    }
     ud.corpusBodyMm = 0;
   } else if (sectionData) {
     try {
@@ -2044,6 +3437,54 @@ export function rebuildFurnitureGroupForSectionResize(group, sectionData, target
     } catch (_) {}
   }
 
+  // Кухня rebuild: тот же prepareKitchenModuleForBuild, что place/админ.
+  if (isKitchenBaseGroup(group) || getKitchenBaseProfileIdFromGroup(group)) {
+    try {
+      const pkPrep = String(
+        kitchenRebuildPk ||
+          ud.__placementKindProfileId ||
+          ud.__kitchenProfileId ||
+          ''
+      ).trim();
+      const preparedRebuild = prepareKitchenModuleForBuild({
+        roots: buildPayload,
+        variables: moduleVarsForBuilder,
+        widthMm: Number(__rebuildCornerCtx?.widthMm) || sx,
+        item: ud.catalogItem || ud.__catalogItem || null,
+        placementKind: pkPrep,
+        plinthHeightMm: rebuildHb || undefined,
+        kitchenSupports: __rebuildKitchenSupports,
+        kitchenNormalize: {
+          sidePanels: ud.sidePanels || null,
+          carcassDepthMm: ud.__kitchenCarcassDepthMm || ud.customDepthMm || sz || null,
+          // НШ1/НШ2/пенал: нет столешницы — не применять worktop-cover/extend (STEP 3З/3И).
+          skipWorktopCover:
+            isKitchenWallMidGroup(group) ||
+            isKitchenWallTopGroup(group) ||
+            isKitchenTallGroup(group),
+        },
+        corner: __rebuildCornerCtx
+          ? {
+              ...__rebuildCornerCtx,
+              item: ud.catalogItem || ud.__catalogItem || null,
+              normalizeTree: true,
+              enabled: true,
+            }
+          : { enabled: false },
+      });
+      buildPayload = preparedRebuild.roots;
+      moduleVarsForBuilder = preparedRebuild.variables;
+      try {
+        writeUserDataClodisVariables(ud, {
+          ...storedVars,
+          ...moduleVarsForBuilder,
+        });
+      } catch (_) {}
+    } catch (eRebPrep) {
+      console.warn('[SECTION-RESIZE][REBUILD] prepareKitchenModuleForBuild failed', eRebPrep);
+    }
+  }
+
   const corpusWallThicknessMm = Number(moduleVarsForBuilder?._wt) > 0 ? Number(moduleVarsForBuilder._wt) : 16;
   const step5Selection =
     typeof window !== 'undefined' && typeof window.getStep5DecorSelection === 'function'
@@ -2057,13 +3498,16 @@ export function rebuildFurnitureGroupForSectionResize(group, sectionData, target
     groups: {
       g0: { thickness: corpusWallThicknessMm },
       g1: { thickness: 3 },
+      g2: { thickness: 18 },
+      g3: { thickness: 16 },
       hdf1: { thickness: 3 },
     },
-    useLegacySetupPivot: true,
-    decorOutside: ud.step5ModuleOutside || step5Selection.outside,
-    decorInside: ud.step5ModuleInside || step5Selection.inside,
+    useLegacySetupPivot: !isUpperGRebuildEarly,
+    decorOutside: step5Selection.outside || ud.step5ModuleOutside,
+    decorInside: step5Selection.inside || ud.step5ModuleInside,
     layoutZones,
-    placementKind,
+    // Сырой kitchen_base — тот же контекст билдера, что в админке (не mapped standalone_floor).
+    placementKind: kitchenRebuildPk || placementKind,
     doorLayout: doorOpts.doorLayout || undefined,
     zoneHand: doorOpts.zoneHand || undefined,
     doorKind: doorOpts.doorKind || undefined,
@@ -2075,6 +3519,27 @@ export function rebuildFurnitureGroupForSectionResize(group, sectionData, target
     fillPolicyCatalogItem: catalogItemForFill || null,
     shelfProps: resolveShelfPropsConfigFromFillItem(catalogItemForFill),
   };
+
+  // S2A belt: inject ещё раз прямо перед build (если prepare/кэш не проставил).
+  try {
+    if (ud.sidePanels) {
+      const inj = applySidePanelsToPreparedRoots(buildPayload, {
+        sidePanels: ud.sidePanels,
+        carcassDepthMm:
+          Math.round(Number(ud.__kitchenCarcassDepthMm)) ||
+          Math.round(Number(ud.customDepthMm)) ||
+          Math.round(Number(sectionSize?.z)) ||
+          0,
+        rearOffsetMm: Math.max(0, Math.round(Number(ud.rearOffsetMm) || 0)),
+      });
+      ud.__cldSidePanelsPrepareMeta = inj.meta || ud.__cldSidePanelsPrepareMeta;
+      if (inj.meta?.injected > 0) {
+        console.info('[S2A][rebuild] pre-build inject', inj.meta);
+      }
+    }
+  } catch (eInj) {
+    console.warn('[S2A][rebuild] pre-build inject failed', eInj);
+  }
 
   let built;
   try {
@@ -2145,6 +3610,19 @@ export function rebuildFurnitureGroupForSectionResize(group, sectionData, target
       scheduleIkeaRoomLightSync();
     }
   } catch (_) {}
+  try {
+    if (typeof window.__cldRefreshRoomFurnitureXray === 'function') {
+      window.__cldRefreshRoomFurnitureXray();
+    }
+  } catch (_) {}
+  try {
+    if (typeof window.__cldParityProbeAfterBuild === 'function') {
+      window.__cldParityProbeAfterBuild(group, 'rebuildFurniture');
+    }
+  } catch (_) {}
+  try {
+    window.__cldInvalidateIkeaCamUniformMats?.();
+  } catch (_) {}
 
   if (typeof window !== 'undefined' && window.__CLD_DEBUG_PLACE === true) {
     const panelNominals = [];
@@ -2200,14 +3678,74 @@ export function rebuildFurnitureGroupForSectionResize(group, sectionData, target
     writeUserDataClodisVariables(ud, clodisVars);
   }
   // Пивот/свес фасада меняют local Y — без snap дверь остаётся у пола после rebuild шага 4.
+  // Г: не трогать Y — seat уже поставил origin в пивот ячейки (floorY).
+  const skipYSnapUpperG =
+    opts.upperGArms === true ||
+    group?.userData?.__kitchenUpperGSeated === true ||
+    (typeof window.__cldIsKitchenUpperGModuleGroup === 'function' &&
+      window.__cldIsKitchenUpperGModuleGroup(group));
+  // Г после rebuild/save: поза/matrixLock. Если rebuild уже из UpperG geom —
+  // только pose (иначе recurse). Внешний rebuild (смена каталога/низа) —
+  // полный reseat с H яруса mid|top.
+  if (skipYSnapUpperG || isUpperGRebuildEarly) {
+    try {
+      let jointUg =
+        ud.__kitchenJointId &&
+        typeof window.__cldGetKitchenJoint === 'function'
+          ? window.__cldGetKitchenJoint(ud.__kitchenJointId)
+          : null;
+      if (
+        !jointUg &&
+        typeof window.__cldFindUpperGJointForSection === 'function'
+      ) {
+        jointUg = window.__cldFindUpperGJointForSection(sectionData);
+      }
+      if (
+        jointUg &&
+        typeof window.__cldPlaceModuleIntoUpperGCell === 'function'
+      ) {
+        const bandUg =
+          ud.__kitchenUpperGBand ||
+          ud.__kitchenUpperGFrame?.band ||
+          (typeof window.__cldResolveUpperGBandFromContext === 'function'
+            ? window.__cldResolveUpperGBandFromContext(null, null, group)
+            : 'mid');
+        const fromUgOwnGeom = opts.upperGArms === true;
+        window.__cldPlaceModuleIntoUpperGCell(group, jointUg, {
+          force: true,
+          forceGArms: true,
+          rebuildArms: !fromUgOwnGeom,
+          rebuildGeometry: !fromUgOwnGeom,
+          band: bandUg,
+          upperGBand: bandUg,
+        });
+      }
+    } catch (eWing) {
+      console.warn('[REBUILD] UpperG reseat after rebuild', eWing);
+    }
+  }
+  if (!skipYSnapUpperG) {
+    try {
+      snapFurnitureGroupPlacementY(group, sectionData);
+    } catch (_) {}
+  }
   try {
-    snapFurnitureGroupPlacementY(group, sectionData);
+    if (isKitchenBaseGroup(group) && !skipYSnapUpperG) {
+      finalizeKitchenBaseAppearance(group);
+      // GLB опоры грузятся async — повторно после attach + snap на пол.
+      setTimeout(() => {
+        try {
+          finalizeKitchenBaseAppearance(group);
+          snapFurnitureGroupPlacementY(group, sectionData);
+        } catch (_) {}
+      }, 400);
+    }
   } catch (_) {}
   return true;
 }
 
 /**
- * Тумба (standalone_floor): новая высота в см → пересборка Clodis, фасад/петли по формулам.
+ * Тумба (standalone_floor): новая высота в см > пересборка Clodis, фасад/петли по формулам.
  * @returns {boolean}
  */
 function resolveSectionLayoutForFurnitureGroup(sectionData) {
@@ -2240,8 +3778,23 @@ function snapFurnitureGroupFloorY(group) {
 /** Y после resize: пол / навес (floorClearance / под потолок). */
 function snapFurnitureGroupPlacementY(group, sectionData) {
   if (!group) return;
-  const pk = String(group.userData?.__placementKind || '').trim();
-  if (!isWallHungPlacementKind(pk) || !sectionData) {
+  const ud = group.userData || {};
+  // Г: Y только из UpperG seat (floorY ячейки), не wall-hung snap.
+  if (
+    ud.__kitchenUpperGSeated === true ||
+    ud.__kitchenUpperGKind === 'g_arms' ||
+    ud.__kitchenUpperGMatrixLock === true
+  ) {
+    return;
+  }
+  const pk = String(
+    ud.__placementKindProfileId || ud.__placementKind || ud.placementKind || ''
+  ).trim();
+  const wallMid =
+    isKitchenWallMidPlacementKind(pk) || String(ud.productKind || '') === 'kitchen_wall_mid';
+  const wallTop =
+    isKitchenWallTopPlacementKind(pk) || String(ud.productKind || '') === 'kitchen_wall_top';
+  if ((!isWallHungPlacementKind(pk) && !wallMid && !wallTop) || !sectionData) {
     // Ниша и тумба: после rebuild пивот/свес меняют local Y — нужен snap цоколя на пол.
     if (
       !pk ||
@@ -2262,12 +3815,27 @@ function snapFurnitureGroupPlacementY(group, sectionData) {
     const m = getSlotVerticalMetrics(sectionData);
     const bodyH = Math.max(
       1,
-      Number(group.userData?.customHeightMm) ||
-        Number(group.userData?.__initialSectionSizeMm?.y) ||
-        0
+      Number(ud.customHeightMm) || Number(ud.__initialSectionSizeMm?.y) || 0
     );
     let targetBottomY = roomWorldPos.y;
-    if (isWallHungHighPlacementKind(pk)) {
+    if (wallMid || wallTop) {
+      // Всегда от датамов проекта (plinth+bands), не залипший customFloorClearanceMm.
+      let clr = NaN;
+      try {
+        const km =
+          typeof window !== 'undefined' ? window.__cldKitchenManufacturing : null;
+        const fn = wallTop
+          ? km && km.resolveKitchenWallTopPlaceSizing
+          : km && km.resolveKitchenWallMidPlaceSizing;
+        const sizing = typeof fn === 'function' ? fn.call(km, {}) : null;
+        if (sizing && sizing.ok && Number(sizing.floorClearanceMm) > 0) {
+          clr = Math.round(Number(sizing.floorClearanceMm));
+        }
+      } catch (_) {}
+      if (!(Number.isFinite(clr) && clr >= 0)) clr = wallTop ? 2140 : 1420;
+      ud.customFloorClearanceMm = Math.round(clr);
+      targetBottomY = roomWorldPos.y + Math.max(0, clr);
+    } else if (isWallHungHighPlacementKind(pk)) {
       const topY =
         roomWorldPos.y +
         Math.max(0, Number(m.rawHeightMm) || 0) -
@@ -2284,6 +3852,15 @@ function snapFurnitureGroupPlacementY(group, sectionData) {
     }
   } catch (_) {}
 }
+
+bindKitchenBaseEngineDeps({
+  rebuildFurnitureGroupForSectionResize,
+  snapFurnitureGroupPlacementY,
+  alignBackToWall: alignKitchenModuleBackToWall,
+  getCatalogOwnStandaloneHeightMm,
+  getRawPlacementKindFromFurnitureData,
+  fitFurnitureToSectionZone,
+});
 
 function scheduleSectionTrimAfterFurnitureGeometry(sectionData) {
   if (!sectionData) return;
@@ -2344,7 +3921,7 @@ function applyModuleCustomSizeFromUserData(group, sectionData) {
 }
 
 /**
- * Тумба (standalone_floor): глубина в см → customDepthMm + Clodis rebuild.
+ * Тумба (standalone_floor): глубина в см > customDepthMm + Clodis rebuild.
  * Шкафы в нише — uniform-scale в scene-icons (как ThreeJS-20).
  * @returns {boolean}
  */
@@ -2377,7 +3954,149 @@ export function applyModuleCustomHeightCm(group, sectionData, heightCm) {
   return applyModuleCustomSizeFromUserData(group, sectionData);
 }
 
-/** Отступ от пола (см) для нижнего навеса → customFloorClearanceMm + snap Y. */
+/**
+ * Ширина только этого модуля (карандаш в пироге), без customZoneWidthsMm / соседей.
+ * НМ — через kitchen rebuild; НШ/прочие — customWidthMm + rebuild.
+ */
+export function applyModuleCustomWidthCm(group, sectionData, widthCm) {
+  const wCm = Number(widthCm);
+  if (!group || !sectionData || !Number.isFinite(wCm) || wCm <= 0) return false;
+  const wMm = Math.round(wCm * 10);
+  if (wMm < 50) return false;
+  const ud = group.userData || (group.userData = {});
+
+  const profileId = String(ud.__placementKindProfileId || ud.__placementKind || '').trim();
+  const prod = String(ud.productKind || '').trim();
+  const isNmCarcass =
+    !isKitchenTallGroup(group) &&
+    (prod === 'kitchen_base' ||
+      profileId === 'kitchen_base' ||
+      profileId === 'kitchen_base_gola' ||
+      profileId === 'kitchen_base_corner' ||
+      profileId.includes('kitchen_base_corner'));
+  if (isNmCarcass) {
+    const r = rebuildKitchenBaseForCellWidthMm(group, sectionData, wMm);
+    const ok = !!(r && r.ok !== false);
+    console.log('[MODULE-WIDTH] kitchen base', {
+      catalogName: ud.catalogName,
+      widthCm: wCm,
+      widthMm: wMm,
+      ok,
+      reason: r?.reason,
+    });
+    return ok;
+  }
+
+  // Seat B карман: ширина модуля → угловая mid-зона + жертва пояса.
+  const isSeatB =
+    String(ud.__kitchenUpperCornerSeat || '').toUpperCase() === 'B' ||
+    ud.__kitchenUpperCornerCompanion === true;
+  if (isSeatB) {
+    try {
+      const resizeFn =
+        typeof window !== 'undefined'
+          ? window.__cldResizeKitchenUpperCornerSeatPocketMm
+          : null;
+      if (typeof resizeFn === 'function') {
+        const r = resizeFn(sectionData, wMm);
+        if (r && r.ok === false && r.reason) {
+          console.warn('[MODULE-WIDTH] seat B pocket', r);
+        }
+        if (r && Number(r.pocketMm) > 0) {
+          // Фактический карман после жертвы (может быть partial).
+          const pocket = Math.round(Number(r.pocketMm));
+          ud.customWidthMm = pocket;
+          if (ud.__initialSectionSizeMm && typeof ud.__initialSectionSizeMm === 'object') {
+            ud.__initialSectionSizeMm = { ...ud.__initialSectionSizeMm, x: pocket };
+          }
+          if (ud.__targetSectionSizeMm && typeof ud.__targetSectionSizeMm === 'object') {
+            ud.__targetSectionSizeMm = { ...ud.__targetSectionSizeMm, x: pocket };
+          }
+          const sized = applyModuleCustomSizeFromUserData(group, sectionData);
+          try {
+            const snapFn =
+              typeof window !== 'undefined'
+                ? window.__cldBuildUpperCornerSeatBSnap
+                : null;
+            if (typeof snapFn === 'function' && sized) {
+              const wall =
+                sectionData.wallName ||
+                sectionData.division?.wallName ||
+                'back';
+              const snap = snapFn(sectionData, pocket, wall);
+              if (
+                snap &&
+                Number.isFinite(Number(snap.startU)) &&
+                Number.isFinite(Number(snap.endU)) &&
+                typeof fitFurnitureBBoxToZoneBounds === 'function'
+              ) {
+                fitFurnitureBBoxToZoneBounds(
+                  group,
+                  snap.startU,
+                  snap.endU,
+                  wall,
+                  {
+                    zoneIndex: snap.zoneIndex,
+                    clampMaxToZoneEnd: true,
+                    anchorEdge: snap.anchorEdge === 'max' ? 'max' : 'min',
+                  }
+                );
+              }
+            }
+          } catch (eFit) {
+            console.warn('[MODULE-WIDTH] seat B refit', eFit);
+          }
+          console.log('[MODULE-WIDTH] seat B pocket', {
+            catalogName: ud.catalogName,
+            wantMm: wMm,
+            pocketMm: pocket,
+            zoneWidthMm: r.zoneWidthMm,
+          });
+          return sized;
+        }
+      }
+    } catch (eSeat) {
+      console.warn('[MODULE-WIDTH] seat B resize', eSeat);
+    }
+  }
+
+  ud.customWidthMm = wMm;
+  if (ud.__initialSectionSizeMm && typeof ud.__initialSectionSizeMm === 'object') {
+    ud.__initialSectionSizeMm = { ...ud.__initialSectionSizeMm, x: wMm };
+  }
+  if (ud.__targetSectionSizeMm && typeof ud.__targetSectionSizeMm === 'object') {
+    ud.__targetSectionSizeMm = { ...ud.__targetSectionSizeMm, x: wMm };
+  }
+  console.log('[MODULE-WIDTH] applyModuleCustomWidthCm', {
+    catalogName: ud.catalogName,
+    widthCm: wCm,
+    widthMm: wMm,
+    placementKind: ud.__placementKindProfileId || ud.__placementKind,
+    productKind: ud.productKind,
+    sectionId: sectionData.id,
+    zoneIndex: ud.zoneIndex,
+  });
+  return applyModuleCustomSizeFromUserData(group, sectionData);
+}
+
+// Kitchen Cell / plinth / depth API — из kitchen-base-engine (re-export).
+export {
+  getKitchenBaseProfileIdFromGroup,
+  getKitchenBaseWidthLimitsMm,
+  validateKitchenBaseCellWidthMm,
+  rebuildKitchenBaseForCellWidthMm,
+  rebuildKitchenBaseForCellDepthMm,
+  findKitchenBaseInSectionZone,
+  syncKitchenBaseInZoneToWidthMm,
+  applyProjectPlinthHeightToKitchenBases,
+  applyProjectFrontModeToKitchenBases,
+  applyKitchenBandLowRhythmToKitchenModules,
+  applyKitchenCeilingTiersToKitchenModules,
+  applyProjectDepthToKitchenBases,
+  applyKitchenWorktopDepthOnWall,
+};
+
+/** Отступ от пола (см) для нижнего навеса > customFloorClearanceMm + snap Y. */
 export function applyModuleFloorClearanceCm(group, sectionData, clearanceCm) {
   const cCm = Number(clearanceCm);
   if (!group || !sectionData || !Number.isFinite(cCm) || cCm < 0) return false;
@@ -2613,11 +4332,26 @@ function syncSingleSwingNeighborsAfterPlace(sectionData) {
 if (typeof window !== 'undefined') {
   window.__clodisApplyModuleCustomDepthCm = applyModuleCustomDepthCm;
   window.__clodisApplyModuleCustomHeightCm = applyModuleCustomHeightCm;
+  window.__clodisApplyModuleCustomWidthCm = applyModuleCustomWidthCm;
   window.__clodisApplyModuleFloorClearanceCm = applyModuleFloorClearanceCm;
   window.__clodisSyncWallHungFloorClearance = syncWallHungFloorClearanceInSection;
   window.__clodisApplyModuleCustomSizeFromUserData = applyModuleCustomSizeFromUserData;
   window.__clodisApplyModuleZoneHand = applyModuleZoneHand;
+  window.__cldTrySwapKitchenCornerHandCatalog = trySwapKitchenCornerHandCatalog;
+  window.__cldTrySwapKitchenCornerHandCatalog = trySwapKitchenCornerHandCatalog;
   window.__clodisSyncStandaloneCategoryHeight = syncStandaloneCategoryHeightInSection;
+  window.__clodisValidateKitchenBaseCellWidthMm = validateKitchenBaseCellWidthMm;
+  window.__clodisRebuildKitchenBaseForCellWidthMm = rebuildKitchenBaseForCellWidthMm;
+  window.__clodisRebuildKitchenBaseForCellDepthMm = rebuildKitchenBaseForCellDepthMm;
+  window.__clodisSyncKitchenBaseInZoneToWidthMm = syncKitchenBaseInZoneToWidthMm;
+  window.__clodisFindKitchenBaseInSectionZone = findKitchenBaseInSectionZone;
+  window.__clodisApplyProjectPlinthToKitchenBases = applyProjectPlinthHeightToKitchenBases;
+  window.__clodisApplyProjectFrontModeToKitchenBases = applyProjectFrontModeToKitchenBases;
+  window.__clodisApplyKitchenBandLowRhythmToModules = applyKitchenBandLowRhythmToKitchenModules;
+  window.__clodisApplyKitchenCeilingTiersToModules = applyKitchenCeilingTiersToKitchenModules;
+  window.__clodisApplyProjectDepthToKitchenBases = applyProjectDepthToKitchenBases;
+  window.__clodisApplyKitchenWorktopDepthOnWall = applyKitchenWorktopDepthOnWall;
+  window.__cldIsKitchenBaseGroup = isKitchenBaseGroup;
   window.__cldCountStandaloneHeightSyncTargets = countStandaloneHeightSyncTargets;
   window.__cldResolveWallHungFloorClearanceMm = resolveWallHungFloorClearanceMm;
   window.__cldGetStandaloneHeightForCatalog = getStandaloneHeightForCatalog;
@@ -2659,13 +4393,59 @@ function mapPlacementKindViaRoomProfiles(placementKind) {
 }
 
 function getRawPlacementKindFromFurnitureData(furnitureData) {
-  const direct =
-    furnitureData?.placementKind ||
-    furnitureData?.catalogItem?.placementKind ||
-    furnitureData?.catalogItem?.data?.placementKind;
-  if (typeof direct === 'string' && direct.trim() && direct.trim() !== 'floor_in_niche') {
-    return direct.trim();
+  // Stamp / папка 50/51 раньше card placementKind (иначе wall_hung_* ломает MID).
+  {
+    const stamp = String(furnitureData?.__kitchenWallBand || '')
+      .trim()
+      .toLowerCase();
+    if (stamp === 'top') return 'kitchen_wall_top';
+    if (stamp === 'mid') return 'kitchen_wall_mid';
+    const ctFolder = String(
+      furnitureData?.catalogItem?.element_type ||
+        furnitureData?.catalogItem?.key ||
+        furnitureData?.catalogType ||
+        furnitureData?.element_type ||
+        furnitureData?.catalogItem?.params?.spec?.element_type ||
+        furnitureData?.catalogItem?.catalog_type ||
+        furnitureData?.catalogItem?.catalogType ||
+        furnitureData?.catalog_type ||
+        ''
+    )
+      .trim()
+      .toLowerCase()
+      .replace(/^catalog_/, '');
+    if (ctFolder === '51') return 'kitchen_wall_top';
+    if (ctFolder === '50' || ctFolder === '42' || ctFolder === '43') {
+      return 'kitchen_wall_mid';
+    }
+    try {
+      const apiPk =
+        typeof window !== 'undefined' ? window.__cldPlacementKindProfiles : null;
+      if (apiPk && typeof apiPk.defaultKitchenUnitPlacementKind === 'function' && ctFolder) {
+        const defPk = String(
+          apiPk.defaultKitchenUnitPlacementKind(
+            ctFolder.startsWith('catalog_') ? ctFolder : `catalog_${ctFolder}`
+          ) || ''
+        ).trim();
+        if (defPk === 'kitchen_wall_top' || defPk === 'kitchen_wall_mid') return defPk;
+      }
+    } catch (_) {}
   }
+
+  // Важно: furnitureData.placementKind часто уже mapped (kitchen_base > standalone_floor).
+  // Сырой id берём сначала из карточки каталога, иначе kitchen-путь (опоры проекта) не срабатывает.
+  const fromCatalog =
+    furnitureData?.catalogItem?.placementKind ||
+    furnitureData?.catalogItem?.data?.placementKind ||
+    furnitureData?.placementKindProfileId ||
+    furnitureData?.__placementKindProfileId;
+  const fromData = furnitureData?.placementKind;
+  const pick = (v) =>
+    typeof v === 'string' && v.trim() && v.trim() !== 'floor_in_niche' ? v.trim() : '';
+  const catalogRaw = pick(fromCatalog);
+  if (catalogRaw) return catalogRaw;
+  const direct = pick(fromData);
+  if (direct) return direct;
 
   const parseFrom = (raw) => {
     if (typeof raw !== 'string' || !raw.trim()) return '';
@@ -2691,6 +4471,7 @@ function getRawPlacementKindFromFurnitureData(furnitureData) {
     else if (raw && typeof raw === 'object') clodisArr = [raw];
   } catch (_) {}
 
+
   if (clodisArr) {
     const roleOf = (n) => String(n?.layout_role ?? n?.sectionLayoutRole ?? '').trim();
     const findRoles = (nodes) => {
@@ -2715,6 +4496,18 @@ function getRawPlacementKindFromFurnitureData(furnitureData) {
     // Навес: роль wall_hung_body. Низкий/высокий — из явного placementKind карточки.
     // Без явного kind: низкий по высоте каталога Ф1200 (комод), иначе верхний.
     if (hasWallHungBody) {
+      const ctBody = String(
+        furnitureData?.catalogItem?.element_type ||
+          furnitureData?.catalogType ||
+          furnitureData?.element_type ||
+          ''
+      )
+        .trim()
+        .toLowerCase();
+      if (ctBody === 'catalog_51') return 'kitchen_wall_top';
+      if (ctBody === 'catalog_50' || ctBody === 'catalog_42' || ctBody === 'catalog_43') {
+        return 'kitchen_wall_mid';
+      }
       const catalogH =
         Number(furnitureData?.height) ||
         Number(furnitureData?.catalogItem?.height) ||
@@ -2774,7 +4567,96 @@ function resolveShelfStackPolicyForFurnitureData(furnitureData) {
   return null;
 }
 
-/** Полки в clodis roots — только для fill catalog_38/37; оболочка catalog_26 → ClodisBuilder. */
+/**
+ * Пенал: Y двух «Горизонтальная панель *» от низа корпуса = стыки датамов.
+ * Не wardrobe shelfStack (even/step) — панели уже в catalog_47.
+ */
+function resolveKitchenTallHorizonYFromCarcassMm(layoutZones) {
+  if (!layoutZones || layoutZones.ok === false) return null;
+  const z = layoutZones.zones || {};
+  let y0 = Number(z.tallBandLowMm);
+  let y1 = Number(z.tallBandLowMm) + Number(z.tallBandMidMm);
+  if (!(y0 > 0) || !(y1 > y0)) {
+    const hs = Array.isArray(layoutZones.horizons) ? layoutZones.horizons : [];
+    if (hs.length >= 2) {
+      y0 = Number(hs[0].yFromCarcassBottomMm ?? hs[0].yMm);
+      y1 = Number(hs[1].yFromCarcassBottomMm ?? hs[1].yMm);
+    }
+  }
+  if (!(y0 > 0) || !(y1 > y0)) return null;
+  return [Math.round(y0), Math.round(y1)];
+}
+
+function isKitchenTallHorizonPanelNode(n) {
+  if (!n || typeof n !== 'object') return false;
+  const name = String(n.name || n.spec?.key || '');
+  if (/горизонтальная\s*панель/i.test(name)) return true;
+  if (/horizon_low_mid|horizon_mid_high|tall_horizon/i.test(name)) return true;
+  return false;
+}
+
+/** Выставить 2 горизонта на датамы; лишние панели и wardrobe-полки убрать. */
+function applyKitchenTallDatumHorizonsToRoots(roots, layoutZones) {
+  const ys = resolveKitchenTallHorizonYFromCarcassMm(layoutZones);
+  if (!ys || !roots) return false;
+  const rootsArr = Array.isArray(roots) ? roots : [roots];
+  let changed = false;
+  const panels = [];
+
+  const walk = (nodes) => {
+    if (!Array.isArray(nodes)) return;
+    for (let i = nodes.length - 1; i >= 0; i -= 1) {
+      const n = nodes[i];
+      if (!n || typeof n !== 'object') continue;
+      if (isKitchenTallHorizonPanelNode(n)) {
+        panels.push({ n, parent: nodes, index: i });
+      } else if (isShelfModuleNode(n)) {
+        // wardrobe shelfStack-полки в пенале не нужны
+        nodes.splice(i, 1);
+        changed = true;
+        continue;
+      }
+      if (Array.isArray(n.children)) walk(n.children);
+      if (Array.isArray(n.spec?.template_tree)) walk(n.spec.template_tree);
+    }
+  };
+  walk(rootsArr);
+
+  panels.sort((a, b) => {
+    const ay = Number(a.n?.pos?.y);
+    const by = Number(b.n?.pos?.y);
+    const aOk = Number.isFinite(ay) ? ay : 0;
+    const bOk = Number.isFinite(by) ? by : 0;
+    return aOk - bOk;
+  });
+
+  for (let i = 0; i < panels.length; i += 1) {
+    const { n, parent, index } = panels[i];
+    if (i < 2) {
+      n.pos = n.pos && typeof n.pos === 'object' ? { ...n.pos } : {};
+      if (Number(n.pos.y) !== ys[i]) {
+        n.pos.y = ys[i];
+        changed = true;
+      }
+      if (n.active === 0) {
+        n.active = 1;
+        changed = true;
+      }
+    } else if (Array.isArray(parent)) {
+      const idx = parent.indexOf(n);
+      if (idx >= 0) {
+        parent.splice(idx, 1);
+        changed = true;
+      } else if (index >= 0 && parent[index] === n) {
+        parent.splice(index, 1);
+        changed = true;
+      }
+    }
+  }
+  return changed;
+}
+
+/** Полки в clodis roots — только для fill catalog_38/37; оболочка catalog_26 > ClodisBuilder. */
 function shouldApplyShelfStackOnRoomRoots(opts = {}) {
   const item = opts.catalogItem || opts.furnitureData?.catalogItem || opts.furnitureData;
   if (!item || typeof item !== 'object') return false;
@@ -2912,7 +4794,7 @@ function prefetchFillCatalogsForClodisPlan(roots) {
   const fillItem = resolveFillCatalogItemFromClodisRoots(roots);
   if (!fillItem) {
     console.warn(
-      '[FILL-CATALOG] Не найден catalog_38/37 для наполнения в clodis — проверьте ЫВыгрузить в конструкторл и catalog_38 в localStorage'
+      '[FILL-CATALOG] Не найден catalog_38/37 для наполнения в clodis — проверьте «Выгрузить в конструктор» и catalog_38 в localStorage'
     );
   }
   return fillItem;
@@ -3166,30 +5048,70 @@ function __restoreDebugColorsOnMeshMaterials(obj) {
   });
 }
 
+/** Угловой НМ (catalog_44 / kitchen_base_corner) — для отладочной раскраски. */
+function __isCornerNmFurnitureRoot(root) {
+  if (!root?.userData) return false;
+  const ud = root.userData;
+  if (ud.isFurniture !== true) return false;
+  const pk = String(
+    ud.__placementKindProfileId || ud.__placementKind || ud.placementKind || ''
+  )
+    .trim()
+    .toLowerCase();
+  if (pk === 'kitchen_base_corner') return true;
+  try {
+    if (
+      isLCornerCabinetModule({
+        catalogItem: ud.catalogItem || null,
+        catalogType: ud.catalogType || ud.catalog_type,
+        name: ud.catalogName || ud.name,
+        placementKind: pk,
+      })
+    ) {
+      return true;
+    }
+  } catch (_) {}
+  return false;
+}
+
 function __applyDebugColorsToFurnitureParts(root) {
-  const enabled =
+  const globalOn =
     typeof window !== 'undefined' && window.DEBUG_COLOR_FURNITURE_PARTS === true;
+  // Только по флагу: window.__cldTintCornerNm = true (иначе розовая «хуета» на place).
+  const cornerTintOn =
+    typeof window !== 'undefined' && window.__cldTintCornerNm === true;
   if (!root) return;
 
+  const isCorner = __isCornerNmFurnitureRoot(root);
+  const enabled = globalOn || (cornerTintOn && isCorner);
+
   if (!enabled) {
-    root.traverse((obj) => __restoreDebugColorsOnMeshMaterials(obj));
+    // Не трогаем обычные НМ; угловой при выключенном флаге — снять tint.
+    if (isCorner && root.userData?.__cldCornerNmTintApplied) {
+      root.traverse((obj) => __restoreDebugColorsOnMeshMaterials(obj));
+      delete root.userData.__cldCornerNmTintApplied;
+    }
     return;
   }
 
   const opacity =
     typeof window !== 'undefined' && Number.isFinite(window.DEBUG_COLOR_FURNITURE_OPACITY)
       ? window.DEBUG_COLOR_FURNITURE_OPACITY
-      : 0.35;
+      : 0.4;
 
   const roleToColor = {
-    plinth: 0x00ccff, // циан
-    corpus: 0xff33cc, // магента
+    plinth: 0x00ccff, // циан — цоколь
+    corpus: 0xff33cc, // магента — корпус (нога фасада)
     corpus_antresol: 0xcc66ff,
     top: 0xffcc00, // жёлтый
     cabinet_root: 0x9acd32,
     service: 0x66bb6a,
     wall_hung_body: 0xcccccc,
+    corner_return: 0xff8800, // оранжевый — возврат угла (return)
+    corner_post: 0xff2222, // красный — угловая планка / нащельник
   };
+
+  if (isCorner) root.userData.__cldCornerNmTintApplied = true;
 
   root.traverse((obj) => {
     if (!obj || !obj.isMesh) return;
@@ -3248,6 +5170,64 @@ export function reapplyDebugColorsToFurnitureParts() {
     }
     syncCabinetPivotDebugVisibility();
   } catch (_) {}
+}
+
+/** Консоль: __cldTintCornerNmFurniture() — перекрасить угловые НМ в сцене. */
+if (typeof window !== 'undefined') {
+  window.__cldTintCornerNmFurniture = function __cldTintCornerNmFurniture() {
+    window.__cldTintCornerNm = true;
+    reapplyDebugColorsToFurnitureParts();
+    console.warn('[L-CORNER] tint corner NM: magenta=corpus, orange=corner_return, red=corner_post, cyan=plinth');
+  };
+}
+
+/** Только слот приставки — оранжевый полупрозрачный (корпус не трогаем). */
+function __tintKitchenCornerReturnSlot(root) {
+  if (!root) return;
+  const hex = 0xff8800;
+  const opacity = 0.45;
+  root.traverse((obj) => {
+    if (!obj?.isMesh) return;
+    // Ищем layout_role=corner_return среди предков (live-модуль внутри тоже).
+    let cur = obj.parent;
+    let underReturn = false;
+    while (cur && cur !== root) {
+      if (cur.userData?.isFurniture && cur !== root) break;
+      if (
+        cur.userData?.isSection &&
+        String(cur.userData.layoutRole || '') === 'corner_return'
+      ) {
+        underReturn = true;
+        break;
+      }
+      cur = cur.parent;
+    }
+    if (!underReturn) return;
+    const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+    mats.forEach((m) => {
+      if (!m) return;
+      if (!m.userData) m.userData = {};
+      if (!m.userData.__cldDbgOrig) {
+        let colorHex = null;
+        try {
+          if (m.color && typeof m.color.getHex === 'function') colorHex = m.color.getHex();
+        } catch (_) {}
+        m.userData.__cldDbgOrig = {
+          colorHex,
+          opacity: typeof m.opacity === 'number' ? m.opacity : 1,
+          transparent: !!m.transparent,
+          depthWrite: m.depthWrite !== false,
+        };
+      }
+      try {
+        if (m.color && typeof m.color.setHex === 'function') m.color.setHex(hex);
+      } catch (_) {}
+      m.transparent = true;
+      m.opacity = opacity;
+      m.depthWrite = false;
+      m.needsUpdate = true;
+    });
+  });
 }
 
 // --- Price calculation (LDSP only for now) ---
@@ -3445,7 +5425,7 @@ function __getStep5FacadeBottomOffsetMm() {
       if (!m) return NaN;
       return Number(String(m[0]).replace(',', '.'));
     };
-    // 1) Приоритет: ключи, похожие на Ырасстояние/отступ/двер/фасадл
+    // 1) Приоритет: ключи, похожие на «расстояние/отступ/двер/фасад»
     const pri = keys.filter((k) => /расстоя|отступ|двер|фасад|distance|offset|facade|door/i.test(String(k)));
     for (const k of pri) {
       const n = toNum(map[k]);
@@ -4193,6 +6173,61 @@ async function __recalcRoomTotalPriceAndUpdateUi() {
   } catch (_) {}
 }
 
+/** PlanPlace get_specs-стиль: type:model с show_in_spec / опоры > цена cabinet_model. */
+function __sumFurnitureCabinetModelPrices(group, libMap) {
+  const rows = [];
+  let rub = 0;
+  if (!group || !libMap) return { rub: 0, rows };
+  const seen = new Set();
+  group.traverse((o) => {
+    if (!o?.isGroup || !o.userData?.isCabinetModel) return;
+    const sid = String(o.userData.modelSpecId || '').trim();
+    if (!sid) return;
+    // Один узел Model_* — не считать повторно по uuid родителя
+    const key = o.uuid;
+    if (seen.has(key)) return;
+    seen.add(key);
+    const entry = libMap[sid];
+    if (!entry) return;
+    const isLeg = !!o.userData.cldSupportLeg;
+    const show = Number(entry.show_in_spec) === 1 || entry.show_in_spec === true;
+    if (!isLeg && !show) return;
+    const unit = Number(entry.price) || 0;
+    const cnt = Math.max(1, Number(entry.count) || 1);
+    const line = unit * cnt;
+    rub += line;
+    rows.push({
+      id: sid,
+      name: entry.name || o.name || sid,
+      count: cnt,
+      unitPrice: unit,
+      rub: line,
+      isSupportLeg: isLeg,
+    });
+  });
+  return { rub, rows };
+}
+
+function __attachCabinetModelPricing(group, ldspEdgeTotal) {
+  const api = typeof window !== 'undefined' ? window.__cldRoomCabinetModels : null;
+  const ensure = api && typeof api.ensureCabinetModelLibraryMap === 'function'
+    ? api.ensureCabinetModelLibraryMap()
+    : Promise.resolve(null);
+  return ensure.then((libMap) => {
+    const hw = __sumFurnitureCabinetModelPrices(group, libMap || {});
+    group.userData.priceHardwareRub = hw.rub;
+    group.userData.hardwarePricingRows = hw.rows;
+    group.userData.priceRubTotal = (Number(ldspEdgeTotal) || 0) + hw.rub;
+    __cldPriceLog('[PRICE] Furniture + cabinet_model hardware:', {
+      ldspEdgeTotal,
+      hardwareRub: hw.rub,
+      rows: hw.rows,
+      totalRub: group.userData.priceRubTotal,
+    });
+    return __recalcRoomTotalPriceAndUpdateUi();
+  });
+}
+
 function __scheduleFurnitureLdspPricing(furniture) {
   // Async fetch price + update UI when ready
   try {
@@ -4220,7 +6255,7 @@ function __scheduleFurnitureLdspPricing(furniture) {
       __cldPriceLog('[PRICE] Using LDSP material id for pricing:', matId, selectedMatId != null ? '(from step5)' : '(default)');
       if (!matId) {
         group.userData.priceRubTotal = 0;
-        return __recalcRoomTotalPriceAndUpdateUi();
+        return __attachCabinetModelPricing(group, 0);
       }
       return __getLdspPricePerM2(matId).then((pricePerM2) => {
         const pLdsp = Number(pricePerM2) || 0;
@@ -4239,7 +6274,6 @@ function __scheduleFurnitureLdspPricing(furniture) {
             group.userData.edgePricingRows = [
               { edgeId: edgeMeta.edgeId, lengthMp: edgeLengthMp, pricePerMp: pMp, source: 'material_default' },
             ];
-            group.userData.priceRubTotal = baseRub + edgeRub;
             __cldPriceLog('[PRICE] Furniture price computed (LDSP + edge/material_default):', {
               areaM2,
               pricePerM2: pLdsp,
@@ -4249,7 +6283,7 @@ function __scheduleFurnitureLdspPricing(furniture) {
               edgeRub,
               totalRub: baseRub + edgeRub,
             });
-            return __recalcRoomTotalPriceAndUpdateUi();
+            return __attachCabinetModelPricing(group, baseRub + edgeRub);
           });
         }
         // Fallback: если у материала нет назначенной кромки — считаем по breakdown из Clodis (если есть).
@@ -4262,7 +6296,6 @@ function __scheduleFurnitureLdspPricing(furniture) {
             let edgeRub2 = 0;
             rows.forEach((r) => { edgeRub2 += (Number(r.lengthMp) || 0) * (Number(r.pricePerMp) || 0); });
             group.userData.edgePricingRows = rows;
-            group.userData.priceRubTotal = baseRub + edgeRub2;
             __cldPriceLog('[PRICE] Furniture price computed (LDSP + edge/breakdown fallback):', {
               areaM2,
               pricePerM2: pLdsp,
@@ -4272,16 +6305,15 @@ function __scheduleFurnitureLdspPricing(furniture) {
               totalRub: baseRub + edgeRub2,
               rows
             });
-            return __recalcRoomTotalPriceAndUpdateUi();
+            return __attachCabinetModelPricing(group, baseRub + edgeRub2);
           });
         }
-        group.userData.priceRubTotal = baseRub;
         __cldPriceLog('[PRICE] Furniture price computed (LDSP only, no edge):', {
           areaM2,
           pricePerM2: pLdsp,
           baseRub,
         });
-        return __recalcRoomTotalPriceAndUpdateUi();
+        return __attachCabinetModelPricing(group, baseRub);
       });
     });
   } catch (e) {}
@@ -4341,7 +6373,9 @@ function __recalcAllFurnitureLdspPricesWithCurrentMaterial() {
                 const edgeRub = edgeLen * edgePricePerMp;
                 g.userData.priceRubTotal = baseRub + edgeRub;
               });
-              __recalcRoomTotalPriceAndUpdateUi();
+              return Promise.all(
+                groups.map((g) => __attachCabinetModelPricing(g, Number(g.userData.priceRubTotal) || 0))
+              );
             });
           }
 
@@ -4373,7 +6407,9 @@ function __recalcAllFurnitureLdspPricesWithCurrentMaterial() {
                   g.userData.edgePricingRows = edgeRows;
                   g.userData.priceRubTotal = baseRub + edgeRub;
                 });
-                __recalcRoomTotalPriceAndUpdateUi();
+                return Promise.all(
+                  groups.map((g) => __attachCabinetModelPricing(g, Number(g.userData.priceRubTotal) || 0))
+                );
               });
           }
 
@@ -4396,7 +6432,9 @@ function __recalcAllFurnitureLdspPricesWithCurrentMaterial() {
                 const edgeRub = edgeLen * edgePricePerMp;
                 g.userData.priceRubTotal = baseRub + edgeRub;
               });
-              __recalcRoomTotalPriceAndUpdateUi();
+              return Promise.all(
+                groups.map((g) => __attachCabinetModelPricing(g, Number(g.userData.priceRubTotal) || 0))
+              );
             });
           }
 
@@ -4409,7 +6447,9 @@ function __recalcAllFurnitureLdspPricesWithCurrentMaterial() {
             const baseRub = area * pLdsp;
             g.userData.priceRubTotal = baseRub;
           });
-          __recalcRoomTotalPriceAndUpdateUi();
+          return Promise.all(
+            groups.map((g) => __attachCabinetModelPricing(g, Number(g.userData.priceRubTotal) || 0))
+          );
         });
       });
     });
@@ -4542,6 +6582,9 @@ function setupCatalogDragToPlace(cabinetData, startEvent) {
       const underBay = isUnderWindowBaySection(baySec);
       const pendingPk = resolvePlacementKindFromFurnitureData(state.pendingFurnitureData);
       const isCornerCab = isLCornerCabinetModule(state.pendingFurnitureData);
+      const freeWallPlace =
+        state.kitchenSectionsEnabled === false ||
+        !(state.customSections || []).length;
       const onLSpecial =
         !!baySec && __isLShapeSpecialZone(baySec, zoneInfo?.zoneIndex);
       __cldLogLCorner('onDragUp', {
@@ -4549,12 +6592,49 @@ function setupCatalogDragToPlace(cabinetData, startEvent) {
         zoneDoorKind,
         underBay,
         pendingPk,
+        freeWallPlace,
         canZoneGesture: false,
         placementBlockedBefore: state._ghostZonePlacementAllowed === false,
       });
+      // ??? ??????: ??????? ? ?????, ?? ? ????-??????.
+      if (freeWallPlace && isCornerCab) {
+        state._ghostZonePlacementAllowed = true;
+        if (!state.ghostPosition && state.furnitureGhost) {
+          state.ghostPosition = state.furnitureGhost.position.clone();
+        }
+        if (!state.ghostWall) {
+          state.ghostWall =
+            state.furnitureGhost?.userData?.wall ||
+            state.ghostWall ||
+            null;
+        }
+        state._pendingZoneInfo = null;
+        placePendingFurniture();
+        return;
+      }
+      const rawPkDrag = String(
+        getRawPlacementKindFromFurnitureData(state.pendingFurnitureData) || ''
+      )
+        .trim()
+        .toLowerCase();
+      const isWallBandDrag =
+        !isCornerCab &&
+        (isKitchenWallBandFurnitureData(state.pendingFurnitureData) ||
+          rawPkDrag === 'kitchen_wall_mid' ||
+          rawPkDrag === 'kitchen_wall_top' ||
+          isKitchenWallMidPlacementKind(rawPkDrag) ||
+          isKitchenWallTopPlacementKind(rawPkDrag) ||
+          // mapped wall_hung_low + stamp/папка 50 — всё равно НШ1-сосед.
+          ((pendingPk === PLACEMENT_KIND.WALL_HUNG_LOW ||
+            pendingPk === PLACEMENT_KIND.WALL_HUNG ||
+            pendingPk === PLACEMENT_KIND.WALL_HUNG_HIGH) &&
+            isKitchenWallBandFurnitureData(state.pendingFurnitureData)));
+      // НШ1-сосед ВМУ: place не срывать (door / спец / ghostAllowed).
+      const zoneInfoLive = state._pendingZoneInfo || zoneInfo;
       const skipDoorGate =
         pendingPk === PLACEMENT_KIND.STANDALONE_FLOOR ||
         isWallHungPlacementKind(pendingPk) ||
+        isWallBandDrag ||
         (isCornerCab && onLSpecial);
       const zoneMismatch =
         !skipDoorGate &&
@@ -4563,10 +6643,164 @@ function setupCatalogDragToPlace(cabinetData, startEvent) {
         moduleDoorKind !== zoneDoorKind;
       const canZoneGesture =
         !!zoneMismatch &&
-        zonePlaceGesturePossible(baySec, zoneInfo?.zoneIndex, moduleDoorKind);
+        zonePlaceGesturePossible(
+          baySec,
+          zoneInfoLive?.zoneIndex,
+          moduleDoorKind
+        );
       let placementBlocked =
         state._ghostZonePlacementAllowed === false && !canZoneGesture;
-      if (isCornerCab && onLSpecial) {
+      if (isWallBandDrag) {
+        placementBlocked = false;
+        state._ghostZonePlacementAllowed = true;
+        if (!state.ghostPosition && state.furnitureGhost) {
+          state.ghostPosition = state.furnitureGhost.position.clone();
+        }
+        if (!state.ghostWall) {
+          state.ghostWall =
+            state.furnitureGhost?.userData?.wall ||
+            zoneInfoLive?.wallName ||
+            baySec?.wallName ||
+            null;
+        }
+        if (!state.ghostPosition && state.lastValidGhostPosition) {
+          state.ghostPosition = state.lastValidGhostPosition.clone();
+        }
+        if (!state.ghostWall && state.lastValidGhostWall) {
+          state.ghostWall = state.lastValidGhostWall;
+        }
+      }
+      // Угловой: L — одна спец; П — лев/прав по модулю (или hit на спец).
+      let cornerForceSec = baySec;
+      let cornerForceZi = zoneInfo?.zoneIndex;
+      const isUpperGDrag = _isUpperGFurnitureData(state.pendingFurnitureData);
+      // Любой навесной угол (Г и приставной) → G-ячейка на L/П.
+      const forceUpperGCell =
+        baySec?.lShape &&
+        (isUpperGDrag || rawPkDrag === 'kitchen_wall_corner');
+      if (forceUpperGCell) {
+        placementBlocked = false;
+        state._ghostZonePlacementAllowed = true;
+        if (state.furnitureGhost) {
+          state.ghostPosition = state.furnitureGhost.position.clone();
+          state.ghostWall =
+            state.furnitureGhost.userData?.wall ||
+            zoneInfo?.wallName ||
+            baySec.wallName ||
+            null;
+        }
+        if (!state.ghostPosition && state.lastValidGhostPosition) {
+          state.ghostPosition = state.lastValidGhostPosition.clone();
+        }
+        if (!state.ghostWall && state.lastValidGhostWall) {
+          state.ghostWall = state.lastValidGhostWall;
+        }
+        const zLive = state._pendingZoneInfo || zoneInfo || {};
+        let bandDrag = zLive.upperGBand || null;
+        try {
+          if (
+            !bandDrag &&
+            typeof window.__cldResolveUpperGBandFromContext === 'function'
+          ) {
+            bandDrag = window.__cldResolveUpperGBandFromContext(
+              state.pendingFurnitureData,
+              zLive,
+              null
+            );
+          }
+        } catch (_) {}
+        state._pendingZoneInfo = {
+          ...zLive,
+          sectionId: zLive.sectionId ?? baySec.id,
+          wallName: zLive.wallName || baySec.wallName,
+          zoneIndex: zLive.zoneIndex ?? zoneInfo?.zoneIndex ?? 0,
+          upperGCell: true,
+          upperCornerSeat: 'G',
+          upperGBand: bandDrag || 'mid',
+          jointId: zLive.jointId || null,
+          upperCornerCellId: zLive.upperCornerCellId || null,
+        };
+        cornerForceSec = baySec;
+        cornerForceZi = state._pendingZoneInfo.zoneIndex;
+        __cldLogLCorner('onDragUp/force-upper-g', {
+          sectionId: baySec.id,
+          zoneIndex: cornerForceZi,
+          jointId: state._pendingZoneInfo.jointId,
+          upperGBand: state._pendingZoneInfo.upperGBand,
+          isUpperGDrag,
+        });
+      } else if (isCornerCab && baySec?.lShape) {
+        try {
+          const tgt = resolveCornerCabinetPlaceTarget(
+            baySec,
+            zoneInfo,
+            state.pendingFurnitureData
+          );
+          if (tgt?.section && tgt.zoneIndex != null) {
+            const zoneAt = getSectionLCornerZoneAtStart(
+              tgt.section,
+              tgt.zoneIndex
+            );
+            const modAt = getCatalogItemCornerAtStart(
+              state.pendingFurnitureData
+            );
+            if (zoneAt != null && modAt !== zoneAt) {
+              __cldLogLCorner('BLOCK onDragUp wrong corner side', {
+                zoneAt,
+                modAt,
+              });
+              const msg = zoneAt
+                ? 'В этот угол подходит только угловой левый модуль.'
+                : 'В этот угол подходит только угловой правый модуль.';
+              if (typeof window.showToast === 'function') {
+                window.showToast(msg, 'warning');
+              } else if (typeof window.toastr !== 'undefined') {
+                window.toastr.warning(msg);
+              } else {
+                console.warn('[РАЗМЕЩЕНИЕ] ' + msg);
+              }
+              cancelFurniturePlacement();
+              return;
+            }
+            cornerForceSec = tgt.section;
+            cornerForceZi = tgt.zoneIndex;
+            state._pendingZoneInfo = {
+              sectionId: tgt.section.id,
+              wallName:
+                tgt.section.wallName ||
+                tgt.section.division?.wallName ||
+                zoneInfo?.wallName,
+              zoneIndex: tgt.zoneIndex,
+              doorKind: 'double',
+              hitAlongMm: zoneInfo?.hitAlongMm,
+            };
+            placementBlocked = false;
+            state._ghostZonePlacementAllowed = true;
+            if (state.furnitureGhost) {
+              state.ghostPosition = state.furnitureGhost.position.clone();
+              state.ghostWall =
+                state.furnitureGhost.userData?.wall ||
+                tgt.section.wallName ||
+                null;
+            }
+            __cldLogLCorner('onDragUp/force-special', {
+              reason: 'force primary special on release (L/U)',
+              primaryId: tgt.section.id,
+              specialZi: tgt.zoneIndex,
+              wasZi: zoneInfo?.zoneIndex ?? null,
+              wasSectionId: zoneInfo?.sectionId ?? null,
+            });
+          } else if (onLSpecial) {
+            placementBlocked = false;
+            state._ghostZonePlacementAllowed = true;
+          } else {
+            placementBlocked = true;
+            state._ghostZonePlacementAllowed = false;
+          }
+        } catch (e) {
+          console.warn('[L-CORNER] force-special failed', e);
+        }
+      } else if (isCornerCab && onLSpecial) {
         placementBlocked = false;
         state._ghostZonePlacementAllowed = true;
         if (!state.ghostPosition && state.furnitureGhost) {
@@ -4578,17 +6812,23 @@ function setupCatalogDragToPlace(cabinetData, startEvent) {
             zoneInfo?.wallName ||
             null;
         }
-      }
-      if (isCornerCab && !onLSpecial) {
+      } else if (isCornerCab && !onLSpecial) {
         placementBlocked = true;
         state._ghostZonePlacementAllowed = false;
       }
+      const onLSpecialFinal =
+        isCornerCab &&
+        cornerForceSec &&
+        cornerForceZi != null &&
+        __isLShapeSpecialZone(cornerForceSec, cornerForceZi);
       __cldLogLCorner('onDragUp/gate', {
-        onLSpecial,
+        onLSpecial: onLSpecialFinal || onLSpecial,
         placementBlocked,
         zoneMismatch,
         canZoneGesture,
         skipDoorGate,
+        forceZi: cornerForceZi,
+        forceSec: cornerForceSec?.id ?? null,
       });
       const switchKind =
         state._catalogSwitchDoorKindOnRelease || zoneDoorKind || null;
@@ -4599,7 +6839,7 @@ function setupCatalogDragToPlace(cabinetData, startEvent) {
           cancelFurniturePlacement();
           return;
         }
-        if (isCornerCab && !onLSpecial) {
+        if (isCornerCab && !(onLSpecialFinal || onLSpecial)) {
           __cldLogLCorner('BLOCK corner not on special', {
             reason: 'zoneIndex!==specialZi',
           });
@@ -4613,9 +6853,13 @@ function setupCatalogDragToPlace(cabinetData, startEvent) {
           cancelFurniturePlacement();
           return;
         }
-        __cldLogLCorner('BLOCK switch catalog', { switchKind });
-        cancelPlacementAndSwitchCatalogForZone(switchKind);
-        return;
+        if (!isCornerCab) {
+          __cldLogLCorner('BLOCK switch catalog', { switchKind });
+          cancelPlacementAndSwitchCatalogForZone(switchKind);
+          return;
+        }
+        // corner + force special: не уходим в switch catalog
+        placementBlocked = false;
       }
 
       if (canZoneGesture && state.furnitureGhost) {
@@ -4643,11 +6887,34 @@ function setupCatalogDragToPlace(cabinetData, startEvent) {
         state.ghostWall &&
         state.furnitureGhost
       ) {
-        __cldLogLCorner('PLACE via ghostPosition');
+        __cldLogLCorner('PLACE via ghostPosition', {
+          reason: 'ok',
+          sectionId: state._pendingZoneInfo?.sectionId,
+          zoneIndex: state._pendingZoneInfo?.zoneIndex,
+        });
         placePendingFurniture();
       } else if (
+        isWallBandDrag &&
+        state.isPlacingFurniture &&
+        state.furnitureGhost
+      ) {
+        state.ghostPosition = state.furnitureGhost.position.clone();
+        state.ghostWall =
+          state.furnitureGhost.userData?.wall ||
+          zoneInfoLive?.wallName ||
+          baySec?.wallName ||
+          state.lastValidGhostWall ||
+          null;
+        __cldLogLCorner('PLACE via wall-band fallback', {
+          reason: 'ok-wall-band',
+          zoneIndex: state._pendingZoneInfo?.zoneIndex,
+          ghostWall: state.ghostWall,
+        });
+        if (state.ghostWall) placePendingFurniture();
+        else cancelFurniturePlacement();
+      } else if (
         isCornerCab &&
-        onLSpecial &&
+        (onLSpecialFinal || onLSpecial) &&
         state.isPlacingFurniture &&
         state.furnitureGhost
       ) {
@@ -4655,18 +6922,37 @@ function setupCatalogDragToPlace(cabinetData, startEvent) {
         state.ghostWall =
           state.furnitureGhost.userData?.wall ||
           zoneInfo?.wallName ||
-          baySec.wallName ||
+          cornerForceSec?.wallName ||
+          baySec?.wallName ||
           null;
         __cldLogLCorner('PLACE via corner special fallback', {
+          reason: 'ok-fallback',
           ghostWall: state.ghostWall,
         });
         if (state.ghostWall) placePendingFurniture();
-        else cancelFurniturePlacement();
+        else {
+          __cldLogLCorner('CANCEL corner no wall');
+          cancelFurniturePlacement();
+        }
+      } else if (
+        isCornerCab &&
+        state.lastValidGhostPosition &&
+        state.lastValidGhostWall &&
+        state.isPlacingFurniture &&
+        state.furnitureGhost
+      ) {
+        state.ghostPosition = state.lastValidGhostPosition.clone();
+        state.ghostWall = state.lastValidGhostWall;
+        __cldLogLCorner('PLACE via lastValidGhost', { reason: 'ok-lastValid' });
+        placePendingFurniture();
       } else if (!state.ghostPosition && !state.lastValidGhostPosition) {
         __cldLogLCorner('NO PLACE click-on-wall mode');
         console.log('[PLACE] click-on-wall mode: move cursor to wall and click');
       } else {
-        __cldLogLCorner('CANCEL no ghost pos');
+        __cldLogLCorner('CANCEL no ghost pos', {
+          reason: 'no-ghostPosition',
+          hasLastValid: !!state.lastValidGhostPosition,
+        });
         cancelFurniturePlacement();
       }
     } finally {
@@ -4723,7 +7009,7 @@ export function cancelFurniturePlacement() {
   if (typeof window !== 'undefined') {
     window.__lastAutoSwitchZoneDoorKind = null;
   }
-  console.log('❌ Размещение мебели отменено');
+  console.log('? Размещение мебели отменено');
 }
 
 /** Секционная мебель: только вдоль стены (U), глубина — по фасаду секции. */
@@ -4822,9 +7108,48 @@ function __ensureLiveDragGhost(widthMm, heightMm, depthMm, rotationY) {
   return ghost;
 }
 
-function __applyLiveDragGhostCellSnap(section, resolvedWall, hitWorldU, snapIn, kindA) {
+function __applyLiveDragGhostCellSnap(
+  section,
+  resolvedWall,
+  hitWorldU,
+  snapIn,
+  kindA,
+  wallBandIdOpt
+) {
   let snap = snapIn;
   if (!section?.division || !snap) return { snap, worldPos: null, moduleW: 0 };
+  const wallBandId =
+    wallBandIdOpt === 'mid' || wallBandIdOpt === 'top' ? wallBandIdOpt : null;
+  // НШ1/НШ2: только mid|top ячейка. Не auth/base special 1050 (zi часто совпадает).
+  if (wallBandId) {
+    let moduleW = Math.round(Number(snap.moduleWidth) || 0);
+    let pivotCoord = Number(snap.pivotCoord);
+    if (
+      !(moduleW > 0) ||
+      !Number.isFinite(pivotCoord) ||
+      snap.startU == null ||
+      snap.endU == null
+    ) {
+      const bandSnap = __snapWallBandDragHit(
+        section,
+        wallBandId,
+        hitWorldU,
+        resolvedWall
+      );
+      if (!bandSnap) return { snap: null, worldPos: null, moduleW: 0 };
+      snap = bandSnap;
+      moduleW = Math.round(Number(bandSnap.moduleWidth) || 0);
+      pivotCoord = Number(bandSnap.pivotCoord);
+    }
+    const snapBand = {
+      pivotCoord,
+      zoneIndex: Math.floor(Number(snap.zoneIndex)),
+      moduleWidth: moduleW,
+    };
+    const worldPos = getZonePivotWorldPosition(section, snapBand, resolvedWall);
+    return { snap: snapBand, worldPos, moduleW };
+  }
+
   let moduleW = Number(snap.moduleWidth) || 0;
   const authSnap = buildZoneSnapForSection(section, snap.zoneIndex, resolvedWall);
   if (authSnap?.moduleWidth > 0) moduleW = authSnap.moduleWidth;
@@ -4833,7 +7158,7 @@ function __applyLiveDragGhostCellSnap(section, resolvedWall, hitWorldU, snapIn, 
   const segs = section._layoutCache?.segments;
 
   if (__isLShapeSpecialZone(section, zi)) {
-    const sp = getLShapeSpecialSnapBounds(section.division);
+    const sp = getLShapeSpecialSnapBounds(section.division, zi);
     if (sp?.moduleWidth > 0) {
       moduleW = Math.round(sp.moduleWidth);
       const pivotCoord =
@@ -4890,11 +7215,177 @@ function __applyLiveDragGhostCellSnap(section, resolvedWall, hitWorldU, snapIn, 
   return { snap, worldPos, moduleW };
 }
 
+function __kitchenCellsUiOff() {
+  return state.kitchenCellsUiEnabled === false;
+}
+
+function __kitchenFreeAlongWallDrag(group) {
+  if (!__kitchenCellsUiOff() || !group) return false;
+  try {
+    if (isKitchenCornerBaseGroup(group) || isKitchenBaseGroup(group)) return true;
+  } catch (_) {}
+  return false;
+}
+
+/** НШ1/НШ2: пояс mid|top (не base 1050). */
+function __kitchenWallBandIdForGroup(group) {
+  if (!group) return null;
+  try {
+    if (isKitchenWallCornerGroup?.(group)) return null;
+  } catch (_) {}
+  try {
+    if (isKitchenWallTopGroup(group)) return 'top';
+    if (isKitchenWallMidGroup(group)) return 'mid';
+  } catch (_) {}
+  const ud = group.userData || {};
+  const pk = String(ud.productKind || ud.__kitchenProfileId || '').trim();
+  if (pk === 'kitchen_wall_top') return 'top';
+  if (pk === 'kitchen_wall_mid') return 'mid';
+  const band = String(ud.__kitchenWallBand || ud.__zoneSlotRole || '')
+    .trim()
+    .toLowerCase();
+  if (band === 'top' || band === 'mid') return band;
+  const cat = String(ud.catalogType || '')
+    .trim()
+    .toLowerCase()
+    .replace(/^catalog_/, '');
+  if (cat === '51') return 'top';
+  if (cat === '50' || cat === '42' || cat === '43') return 'mid';
+  return null;
+}
+
+/** Snap НШ1/НШ2 по сетке пояса (не division.base). */
+function __snapWallBandDragHit(section, bandId, hitWorldU, wallName) {
+  if (!section || !bandId) return null;
+  let layout = null;
+  try {
+    layout = buildKitchenBandCellLayoutForSection(section, bandId);
+  } catch (_) {
+    layout = null;
+  }
+  if (!layout?.segments?.length) return null;
+  const hit = Number(hitWorldU);
+  if (!Number.isFinite(hit)) return null;
+  const blocked = new Set();
+  try {
+    if (typeof getNsh1BlockedMidZoneIndexes === 'function') {
+      for (const z of getNsh1BlockedMidZoneIndexes(section, bandId) || []) {
+        blocked.add(Math.floor(Number(z)));
+      }
+    }
+  } catch (_) {}
+  let best = null;
+  let bestDist = Infinity;
+  for (const seg of layout.segments) {
+    if (!seg || seg.type !== 'module') continue;
+    const zi = Math.floor(Number(seg.zoneIndex));
+    if (!(zi >= 0) || blocked.has(zi)) continue;
+    const a = Math.min(Number(seg.startU), Number(seg.endU));
+    const b = Math.max(Number(seg.startU), Number(seg.endU));
+    if (!(b > a + 1)) continue;
+    let d = 0;
+    if (hit < a) d = a - hit;
+    else if (hit > b) d = hit - b;
+    if (d < bestDist) {
+      bestDist = d;
+      const pivotCoord =
+        wallName === 'left' || wallName === 'front' ? b : a;
+      best = {
+        zoneIndex: zi,
+        moduleWidth: Math.round(b - a),
+        pivotCoord,
+        startU: a,
+        endU: b,
+      };
+    }
+    if (d === 0) break;
+  }
+  return best;
+}
+
+/** Тот же пояс (mid↔mid, top↔top) — для swap, не «залазить» на другой ярус. */
+function __sameKitchenWallBand(groupA, groupB) {
+  const a = __kitchenWallBandIdForGroup(groupA);
+  const b = __kitchenWallBandIdForGroup(groupB);
+  if (a && b) return a === b;
+  if (a || b) return false;
+  return true;
+}
+
+/** IKEA-mode: ???? ?? ????? ? ??????? ???????; bbox ?? ??????? ?? ???????. */
+function __applyKitchenFreeDragAlongWall(group, wallName, hitWorldU) {
+  const startPos = state.dragStartFurniturePos;
+  const drag = state.draggedFurniture;
+  if (!startPos || !group) return false;
+
+  const hit = Number(hitWorldU);
+  if (!Number.isFinite(hit)) return false;
+  if (drag && !Number.isFinite(Number(drag.startHitAlongMm))) {
+    drag.startHitAlongMm = hit;
+  }
+  const startHit = Number(drag?.startHitAlongMm);
+  const delta = Number.isFinite(startHit) ? hit - startHit : 0;
+
+  const alongIsX = wallName === 'front' || wallName === 'back';
+  const next = startPos.clone();
+  if (alongIsX) next.x = startPos.x + delta;
+  else next.z = startPos.z + delta;
+
+  group.position.copy(next);
+  group.updateMatrixWorld(true);
+
+  // ?? ????????? ?? ??????? (??? IKEA): ??????? ?????, ???? AABB ?????.
+  try {
+    const room = state.room;
+    if (room?.group && Number(room.width) > 0 && Number(room.depth) > 0) {
+      const roomPos = new THREE.Vector3();
+      room.group.getWorldPosition(roomPos);
+      const pad = 2;
+      const box = new THREE.Box3().setFromObject(group);
+      let shift = 0;
+      if (alongIsX) {
+        const lo = roomPos.x + pad;
+        const hi = roomPos.x + Number(room.width) - pad;
+        if (box.min.x < lo) shift = lo - box.min.x;
+        else if (box.max.x > hi) shift = hi - box.max.x;
+        next.x += shift;
+      } else {
+        const lo = roomPos.z + pad;
+        const hi = roomPos.z + Number(room.depth) - pad;
+        if (box.min.z < lo) shift = lo - box.min.z;
+        else if (box.max.z > hi) shift = hi - box.max.z;
+        next.z += shift;
+      }
+      if (shift !== 0) {
+        group.position.copy(next);
+        group.updateMatrixWorld(true);
+      }
+    }
+  } catch (_) {}
+
+  try {
+    if (state._liveDragGhost) state._liveDragGhost.visible = false;
+  } catch (_) {}
+  try {
+    __setLiveDragSourceOpacity(group, 1);
+  } catch (_) {}
+
+  group.userData = group.userData || {};
+  group.userData._dragHoverHitAlongMm = hit;
+  group.userData._dragHoverZoneIndex = null;
+  group.userData._dragFreeAlongWall = true;
+  return true;
+}
+
 function __applySectionFurnitureDragAlongWall(group, wallName, hitWorldU) {
+  if (__kitchenFreeAlongWallDrag(group)) {
+    return __applyKitchenFreeDragAlongWall(group, wallName, hitWorldU);
+  }
+
   const drag = state.draggedFurniture;
   const startPos = state.dragStartFurniturePos;
 
-  // Оригинал на старте — цель видна по призраку.
+  // ???????? ?? ?????? ? ???? ????? ?? ????????.
   if (startPos && drag?.group === group) {
     group.position.copy(startPos);
     group.updateMatrixWorld(true);
@@ -4913,18 +7404,30 @@ function __applySectionFurnitureDragAlongWall(group, wallName, hitWorldU) {
 
   const resolvedWall = sectionAt.wallName || sectionAt.division?.wallName || wallName;
   if (sectionAt.lShape) __ensureLShapeLayoutCacheSegments(sectionAt);
-  let snap = snapToZoneDoubleModule(
-    hitWorldU,
-    sectionAt.division,
-    resolvedWall,
-    sectionAt.id
-  );
-  // Спец-зона угла — не целимся жестами (призрак спрятать).
-  if (snap && __isLShapeSpecialZone(sectionAt, snap.zoneIndex)) {
-    if (state._liveDragGhost) state._liveDragGhost.visible = false;
-    group.userData._dragHoverZoneIndex = null;
-    group.userData._dragHoverHitAlongMm = Number(hitWorldU);
-    return true;
+  const wallBandId = __kitchenWallBandIdForGroup(group);
+  let snap = null;
+  if (wallBandId) {
+    // НШ1/НШ2: только ячейки mid|top. Base.zi=7 = 1050 — не путать с top.zi=7.
+    snap = __snapWallBandDragHit(
+      sectionAt,
+      wallBandId,
+      hitWorldU,
+      resolvedWall
+    );
+  } else {
+    snap = snapToZoneDoubleModule(
+      hitWorldU,
+      sectionAt.division,
+      resolvedWall,
+      sectionAt.id
+    );
+    // Спец-зона угла низа — не целимся жестами (призрак спрятать).
+    if (snap && __isLShapeSpecialZone(sectionAt, snap.zoneIndex)) {
+      if (state._liveDragGhost) state._liveDragGhost.visible = false;
+      group.userData._dragHoverZoneIndex = null;
+      group.userData._dragHoverHitAlongMm = Number(hitWorldU);
+      return true;
+    }
   }
 
   const kindA =
@@ -4937,7 +7440,8 @@ function __applySectionFurnitureDragAlongWall(group, wallName, hitWorldU) {
     resolvedWall,
     hitWorldU,
     snap,
-    kindA
+    kindA,
+    wallBandId
   );
   snap = cell.snap;
   const worldPos = cell.worldPos;
@@ -4975,7 +7479,7 @@ export function dragFurnitureAlongWall(event) {
 
   // Проверяем что стена видима
   if (state.room && state.room.walls && state.room.walls[state.dragWall] && state.room.walls[state.dragWall].visible === false) {
-    console.warn('Р️ Стена скрыта — перетаскивание невозможно');
+    console.warn('Р? Стена скрыта — перетаскивание невозможно');
     return;
   }
 
@@ -5025,13 +7529,20 @@ export function dragFurnitureAlongWall(event) {
     const localIntersectionPoint = intersectionPoint.clone().sub(roomWorldPos);
 
     const group = state.draggedFurniture.group;
+    const hitWorldU =
+      wallName === 'front' || wallName === 'back'
+        ? localIntersectionPoint.x + roomWorldPos.x
+        : localIntersectionPoint.z + roomWorldPos.z;
+
+    // НШ1/НШ2: только ячейки пояса. Свободный drag по стене запрещён
+    // (иначе модуль выходит за ячейку и пересекается с соседом).
+    if (__kitchenWallBandIdForGroup(group)) {
+      __applySectionFurnitureDragAlongWall(group, wallName, hitWorldU);
+      return;
+    }
 
     // Тумбы в секции: только U (влево/вправо), фасад фиксирован у секции.
     if (__furnitureDragUsesSectionAlongWall(group)) {
-      const hitWorldU =
-        wallName === 'front' || wallName === 'back'
-          ? localIntersectionPoint.x + roomWorldPos.x
-          : localIntersectionPoint.z + roomWorldPos.z;
       if (__applySectionFurnitureDragAlongWall(group, wallName, hitWorldU)) {
         return;
       }
@@ -5109,20 +7620,25 @@ export function dragFurnitureAlongWall(event) {
       finalZ + roomWorldPos.z
     );
 
-    // Zone snapping: pivot-to-pivot when dragging into section with zones
-    const sectionAtPosition = findSectionAtPosition(worldPos);
-    if (sectionAtPosition && sectionAtPosition.division) {
-      const division = sectionAtPosition.division;
-      const resolvedWallName = sectionAtPosition.wallName || division.wallName || wallName;
-      const hitCoord = (resolvedWallName === 'front' || resolvedWallName === 'back') ? worldPos.x : worldPos.z;
-      const snap = snapToZoneDoubleModule(
-        hitCoord,
-        division,
-        resolvedWallName,
-        sectionAtPosition.id
-      );
-      if (snap) {
-        worldPos = getZonePivotWorldPosition(sectionAtPosition, snap, resolvedWallName);
+    // Zone snapping ? ?????? ???? UI ????? ??????? (????? IKEA: ?? ????? ?????).
+    if (!__kitchenFreeAlongWallDrag(group)) {
+      const sectionAtPosition = findSectionAtPosition(worldPos);
+      if (sectionAtPosition && sectionAtPosition.division) {
+        const division = sectionAtPosition.division;
+        const resolvedWallName = sectionAtPosition.wallName || division.wallName || wallName;
+        const hitCoord =
+          resolvedWallName === 'front' || resolvedWallName === 'back'
+            ? worldPos.x
+            : worldPos.z;
+        const snap = snapToZoneDoubleModule(
+          hitCoord,
+          division,
+          resolvedWallName,
+          sectionAtPosition.id
+        );
+        if (snap) {
+          worldPos = getZonePivotWorldPosition(sectionAtPosition, snap, resolvedWallName);
+        }
       }
     }
 
@@ -5381,10 +7897,15 @@ export function tryBeginFurnitureDragFromCanvas(event) {
   state.selectedFurniture = { group: root };
   clearAllFurnitureHighlights();
   setFurnitureHighlight(root, true);
-  // Live-drag: оригинал полупрозрачный, цель — синий призрак (как из каталога).
+  // Live-drag: ?????? ? ???????; IKEA free ? ??? ?????? ????????????.
   if (__furnitureDragUsesSectionAlongWall(root)) {
-    __setLiveDragSourceOpacity(root, 0.35);
-    __removeLiveDragGhost();
+    if (__kitchenFreeAlongWallDrag(root)) {
+      __setLiveDragSourceOpacity(root, 1);
+      __removeLiveDragGhost();
+    } else {
+      __setLiveDragSourceOpacity(root, 0.35);
+      __removeLiveDragGhost();
+    }
   }
   const selName = root.userData?.catalogName;
   if (selName) {
@@ -5416,9 +7937,29 @@ function __syncFurnitureZoneFromWorldPosition(group) {
   return sectionAt;
 }
 
-/** Ширина модуля (мм) по зоне из актуального layout cache или division. */
-function __getModuleWidthMmForZone(sectionData, zoneIndex) {
+/** Ширина модуля (мм) по зоне из band/layout cache или division. */
+function __getModuleWidthMmForZone(sectionData, zoneIndex, bandIdOpt) {
   if (zoneIndex == null || !sectionData) return 0;
+  const band =
+    bandIdOpt === 'mid' || bandIdOpt === 'top' || bandIdOpt === 'base'
+      ? bandIdOpt
+      : null;
+  if (band) {
+    try {
+      const lay = buildKitchenBandCellLayoutForSection(sectionData, band);
+      const s = (lay?.segments || []).find(
+        (x) => x && x.type === 'module' && Number(x.zoneIndex) === Number(zoneIndex)
+      );
+      if (s && Number.isFinite(s.endU - s.startU)) {
+        return Math.abs(s.endU - s.startU);
+      }
+    } catch (_) {}
+    const gw =
+      sectionData.kitchenBandGrids?.[band]?.customZoneWidthsMm?.[zoneIndex] ??
+      sectionData.kitchenBandGrids?.[band]?.customZoneWidthsMm?.[String(zoneIndex)];
+    const cwBand = Number(gw);
+    if (Number.isFinite(cwBand) && cwBand > 0) return cwBand;
+  }
   const segs = sectionData._layoutCache?.segments;
   if (Array.isArray(segs)) {
     const s = segs.find((x) => x.type === 'module' && x.zoneIndex === zoneIndex);
@@ -5455,6 +7996,19 @@ function __swapSectionZoneWidthsForCabinetExchange(sectionData, ziA, ziB) {
   const czw = div.customZoneWidthsMm;
   czw[ziA] = wB;
   czw[ziB] = wA;
+  try {
+    markCustomZoneWidthsSource(sectionData, CUSTOM_ZONE_WIDTHS_SOURCE_USER, {
+      bandId: 'base',
+      division: true,
+    });
+  } catch (_) {
+    div.customZoneWidthsSource = 'user';
+  }
+  try {
+    if (typeof window !== 'undefined' && typeof window.__cldMirrorCustomZoneWidthsToKitchenBaseGrid === 'function') {
+      window.__cldMirrorCustomZoneWidthsToKitchenBaseGrid(sectionData);
+    }
+  } catch (_) {}
   return true;
 }
 
@@ -5697,6 +8251,18 @@ function __fitAllFurnitureInSection(sectionData) {
     typeof window.__clodisComputeSectionLayout === 'function'
       ? window.__clodisComputeSectionLayout(sectionData)
       : null;
+  let midLayout = null;
+  let topLayout = null;
+  try {
+    midLayout = buildKitchenBandCellLayoutForSection(sectionData, 'mid');
+  } catch (_) {
+    midLayout = null;
+  }
+  try {
+    topLayout = buildKitchenBandCellLayoutForSection(sectionData, 'top');
+  } catch (_) {
+    topLayout = null;
+  }
   const sid = String(sectionData.id);
   state.scene.traverse((obj) => {
     if (!obj?.isGroup || !obj.userData?.isFurniture) return;
@@ -5705,7 +8271,17 @@ function __fitAllFurnitureInSection(sectionData) {
     const zi = obj.userData.zoneIndex;
     if (typeof zi !== 'number') return;
     try {
-      fitFurnitureToSectionZone(obj, sectionData, zi, layout || undefined);
+      const useTop = isKitchenWallTopGroup(obj);
+      const useMid =
+        !useTop &&
+        !isKitchenWallCornerGroup(obj) &&
+        isKitchenWallMidGroup(obj);
+      const lay = useTop
+        ? topLayout || undefined
+        : useMid
+          ? midLayout || undefined
+          : layout || undefined;
+      fitFurnitureToSectionZone(obj, sectionData, zi, lay);
     } catch (_) {}
   });
   try {
@@ -5720,11 +8296,188 @@ function __fitAllFurnitureInSection(sectionData) {
 
 /**
  * mouseup после drag:
- * — одинаковый размер (S↔S / D↔D): обмен с шкафом под курсором;
- * — Single → half занятого Double: вставка + сдвиг Double (оба остаются);
+ * — одинаковый размер (S-S / D-D): обмен с шкафом под курсором;
+ * — Single > half занятого Double: вставка + сдвиг Double (оба остаются);
  * — пустой double / разный span без жильца: A0/eat через prepareZonePlaceGesture;
  * — пустая зона того же span: переезд.
  */
+/**
+ * НШ1/НШ2 drag end: только ячейки пояса; на соседа того же яруса → swap;
+ * иначе move в пустую; всегда place в ячейку (запрет вылезать/пересекаться).
+ * @returns {boolean} true если обработали (caller не идёт в base-drag).
+ */
+function __finishKitchenWallBandDrag(groupA, drag, event) {
+  const wallBandA = __kitchenWallBandIdForGroup(groupA);
+  if (!wallBandA) return false;
+
+  const startSectionId = drag?.startSectionId ?? groupA.userData?.sectionId ?? null;
+  const startZi =
+    typeof drag?.startZoneIndex === 'number'
+      ? drag.startZoneIndex
+      : typeof groupA.userData?.zoneIndex === 'number'
+        ? groupA.userData.zoneIndex
+        : null;
+  const sectionSwap =
+    startSectionId != null
+      ? (state.customSections || []).find((s) => s && s.id === startSectionId)
+      : null;
+  if (!sectionSwap || typeof startZi !== 'number') {
+    // Вернуть в старт, если секции нет.
+    try {
+      if (state.dragStartFurniturePos) {
+        groupA.position.copy(state.dragStartFurniturePos);
+      }
+    } catch (_) {}
+    return true;
+  }
+
+  const wallName =
+    sectionSwap.wallName ||
+    sectionSwap.division?.wallName ||
+    state.dragWall ||
+    'back';
+
+  updateMousePosition(event);
+  state.raycaster.setFromCamera(state.mouse, state.camera);
+
+  // 1) Цель: сосед того же яруса под курсором.
+  let groupB = null;
+  const meshes = __collectFurnitureMeshesForRaycast();
+  if (meshes.length) {
+    const hits = state.raycaster.intersectObjects(meshes, false);
+    for (let i = 0; i < hits.length; i++) {
+      const root = findFurnitureRootGroupFromObject(hits[i].object);
+      if (!root || root.uuid === groupA.uuid) continue;
+      if (String(root.userData?.sectionId) !== String(startSectionId)) continue;
+      if (!__sameKitchenWallBand(groupA, root)) continue;
+      if (root.userData?.__kitchenUpperCornerSeat === 'G') continue;
+      groupB = root;
+      break;
+    }
+  }
+
+  // 2) Иначе ячейка пояса по hit вдоль стены.
+  let targetZi = null;
+  if (groupB && typeof groupB.userData?.zoneIndex === 'number') {
+    targetZi = Math.floor(Number(groupB.userData.zoneIndex));
+  } else {
+    const hitAlong =
+      typeof groupA.userData?._dragHoverHitAlongMm === 'number'
+        ? Number(groupA.userData._dragHoverHitAlongMm)
+        : wallName === 'front' || wallName === 'back'
+          ? Number(event?.clientX) // fallback ниже
+          : null;
+    let hitCoord = hitAlong;
+    if (!Number.isFinite(hitCoord)) {
+      // Луч в плоскость стены.
+      try {
+        const planes = state.room?.wallPlanes || [];
+        const wallPlane = planes.find(
+          (p) => p?.userData?.wallName === state.dragWall
+        );
+        if (wallPlane) {
+          const ints = state.raycaster.intersectObject(wallPlane, false);
+          if (ints[0]) {
+            hitCoord =
+              wallName === 'front' || wallName === 'back'
+                ? ints[0].point.x
+                : ints[0].point.z;
+          }
+        }
+      } catch (_) {}
+    }
+    if (!Number.isFinite(hitCoord)) {
+      hitCoord =
+        wallName === 'front' || wallName === 'back'
+          ? groupA.position.x
+          : groupA.position.z;
+    }
+    const hoverZi = groupA.userData?._dragHoverZoneIndex;
+    if (typeof hoverZi === 'number') {
+      targetZi = Math.floor(Number(hoverZi));
+    } else {
+      const snap = __snapWallBandDragHit(
+        sectionSwap,
+        wallBandA,
+        hitCoord,
+        wallName
+      );
+      if (snap && typeof snap.zoneIndex === 'number') {
+        targetZi = Math.floor(Number(snap.zoneIndex));
+      }
+    }
+  }
+
+  if (typeof targetZi !== 'number' || targetZi === startZi) {
+    groupA.userData.zoneIndex = startZi;
+  } else {
+    // Occupant той же ячейки/яруса.
+    let occupant = groupB;
+    if (
+      !occupant ||
+      Math.floor(Number(occupant.userData?.zoneIndex)) !== targetZi
+    ) {
+      occupant = null;
+      state.scene.traverse((obj) => {
+        if (occupant) return;
+        if (!obj?.isGroup || !obj.userData?.isFurniture) return;
+        if (obj.uuid === groupA.uuid) return;
+        if (String(obj.userData?.sectionId) !== String(startSectionId)) return;
+        if (Math.floor(Number(obj.userData?.zoneIndex)) !== targetZi) return;
+        if (!__sameKitchenWallBand(groupA, obj)) return;
+        if (obj.userData?.__kitchenUpperCornerSeat === 'G') return;
+        occupant = obj;
+      });
+    }
+
+    if (occupant) {
+      // Swap местами — канон: тянем на соседа → обмен.
+      const ziB = Math.floor(Number(occupant.userData.zoneIndex));
+      groupA.userData.zoneIndex = ziB;
+      occupant.userData.zoneIndex = startZi;
+      console.log('[DRAG-SWAP] wall-band', {
+        band: wallBandA,
+        from: startZi,
+        to: ziB,
+      });
+    } else {
+      // Пустая ячейка пояса.
+      groupA.userData.zoneIndex = targetZi;
+      console.log('[DRAG-MOVE] wall-band', {
+        band: wallBandA,
+        from: startZi,
+        to: targetZi,
+      });
+    }
+  }
+
+  delete groupA.userData._dragHoverZoneIndex;
+  delete groupA.userData._dragHoverHitAlongMm;
+
+  // Всегда посадить весь ярус секции в свои ячейки (анти-пересечение).
+  const eng = window.__cldKitchenSectionEngine;
+  if (eng && typeof eng.placeKitchenModuleInCell === 'function') {
+    state.scene.traverse((obj) => {
+      if (!obj?.isGroup || !obj.userData?.isFurniture) return;
+      if (String(obj.userData?.sectionId) !== String(startSectionId)) return;
+      if (__kitchenWallBandIdForGroup(obj) !== wallBandA) return;
+      if (obj.userData?.__kitchenUpperCornerSeat === 'G') return;
+      const zi = obj.userData?.zoneIndex;
+      if (typeof zi !== 'number') return;
+      try {
+        eng.placeKitchenModuleInCell(obj, sectionSwap, zi, wallName);
+      } catch (_) {}
+    });
+  }
+
+  try {
+    if (typeof window.rebuildSectionZoneEditIconsForSection === 'function') {
+      window.rebuildSectionZoneEditIconsForSection(sectionSwap.id);
+    }
+  } catch (_) {}
+  return true;
+}
+
 export function finishFurnitureDragFromCanvas(event) {
   const drag = state.draggedFurniture;
   const groupA = drag?.group;
@@ -5736,17 +8489,35 @@ export function finishFurnitureDragFromCanvas(event) {
     __setLiveDragSourceOpacity(groupA, 1);
   } catch (_) {}
 
+  // НШ1/НШ2: отдельный канон (ячейка / swap), без base-drag.
+  if (__finishKitchenWallBandDrag(groupA, drag, event)) {
+    clearAllFurnitureHighlights();
+    state._hoveredFurnitureUuid = null;
+    return;
+  }
+
   updateMousePosition(event);
   state.raycaster.setFromCamera(state.mouse, state.camera);
   const meshes = __collectFurnitureMeshesForRaycast();
   let groupB = null;
+  const wallBandPref = __kitchenWallBandIdForGroup(groupA);
   if (meshes.length) {
     const intersects = state.raycaster.intersectObjects(meshes, false);
+    // Сначала сосед того же яруса (top↔top), не mid под ним.
     for (let i = 0; i < intersects.length; i++) {
       const root = findFurnitureRootGroupFromObject(intersects[i].object);
-      if (root && root.uuid !== groupA.uuid) {
-        groupB = root;
-        break;
+      if (!root || root.uuid === groupA.uuid) continue;
+      if (wallBandPref && !__sameKitchenWallBand(groupA, root)) continue;
+      groupB = root;
+      break;
+    }
+    if (!groupB) {
+      for (let i = 0; i < intersects.length; i++) {
+        const root = findFurnitureRootGroupFromObject(intersects[i].object);
+        if (root && root.uuid !== groupA.uuid) {
+          groupB = root;
+          break;
+        }
       }
     }
   }
@@ -5776,6 +8547,7 @@ export function finishFurnitureDragFromCanvas(event) {
     typeof groupA.userData?._dragHoverZoneIndex === 'number'
       ? groupA.userData._dragHoverZoneIndex
       : null;
+  const wallBandA = __kitchenWallBandIdForGroup(groupA);
 
   if (
     ghostZi == null &&
@@ -5788,12 +8560,14 @@ export function finishFurnitureDragFromCanvas(event) {
       wallName === 'front' || wallName === 'back'
         ? groupA.position.x
         : groupA.position.z;
-    const snap = snapToZoneDoubleModule(
-      hitCoord,
-      sectionSwap.division,
-      wallName,
-      sectionSwap.id
-    );
+    const snap = wallBandA
+      ? __snapWallBandDragHit(sectionSwap, wallBandA, hitCoord, wallName)
+      : snapToZoneDoubleModule(
+          hitCoord,
+          sectionSwap.division,
+          wallName,
+          sectionSwap.id
+        );
     if (snap && typeof snap.zoneIndex === 'number') ghostZi = snap.zoneIndex;
   }
 
@@ -5818,12 +8592,24 @@ export function finishFurnitureDragFromCanvas(event) {
         : groupA.position.z;
 
   let skipDragLogic = false;
-  if (
+  // IKEA-mode: ????? ???? ???????? ? ?? cancel ? ?? snap ? ??????.
+  if (__kitchenFreeAlongWallDrag(groupA)) {
+    if (typeof startZi === 'number') groupA.userData.zoneIndex = startZi;
+    delete groupA.userData._dragHoverZoneIndex;
+    delete groupA.userData._dragHoverHitAlongMm;
+    delete groupA.userData._dragFreeAlongWall;
+    if (sectionSwap) sectionsToRefresh.add(sectionSwap);
+    dragAction = 'free-along-wall';
+    skipDragLogic = true;
+    console.log('[DRAG] free along wall (cells UI off)');
+  } else if (
+    !wallBandA &&
     sectionSwap?.lShape &&
     (__isLShapeSpecialZone(sectionSwap, startZi) ||
       __isLShapeSpecialZone(sectionSwap, ghostZi) ||
       (groupB && __isLShapeSpecialZone(sectionSwap, groupB.userData?.zoneIndex)))
   ) {
+    // Только низ: base special 1050. НШ1/НШ2 — свой special/G, не base.zi.
     if (typeof startZi === 'number') groupA.userData.zoneIndex = startZi;
     delete groupA.userData._dragHoverZoneIndex;
     delete groupA.userData._dragHoverHitAlongMm;
@@ -5831,6 +8617,29 @@ export function finishFurnitureDragFromCanvas(event) {
     dragAction = 'cancel';
     skipDragLogic = true;
     console.log('[DRAG] blocked L special zone');
+  } else if (
+    wallBandA &&
+    sectionSwap &&
+    typeof ghostZi === 'number' &&
+    typeof getNsh1BlockedMidZoneIndexes === 'function'
+  ) {
+    try {
+      const blocked = new Set(
+        getNsh1BlockedMidZoneIndexes(sectionSwap, wallBandA) || []
+      );
+      if (blocked.has(Math.floor(Number(ghostZi)))) {
+        if (typeof startZi === 'number') groupA.userData.zoneIndex = startZi;
+        delete groupA.userData._dragHoverZoneIndex;
+        delete groupA.userData._dragHoverHitAlongMm;
+        sectionsToRefresh.add(sectionSwap);
+        dragAction = 'cancel';
+        skipDragLogic = true;
+        console.log('[DRAG] blocked upper G footprint', {
+          band: wallBandA,
+          ghostZi,
+        });
+      }
+    } catch (_) {}
   }
 
   // Same-size: только шкаф под курсором (raycast).
@@ -5841,13 +8650,14 @@ export function finishFurnitureDragFromCanvas(event) {
     groupB.userData?.sectionId === startSectionId &&
     typeof startZi === 'number' &&
     typeof groupB.userData?.zoneIndex === 'number' &&
-    groupB.userData.zoneIndex !== startZi
+    groupB.userData.zoneIndex !== startZi &&
+    __sameKitchenWallBand(groupA, groupB)
   ) {
     const ziA = startZi;
     const ziB = groupB.userData.zoneIndex;
     const kindB = getZoneDoorKind(sectionSwap, ziB);
-    const wA = __getModuleWidthMmForZone(sectionSwap, ziA);
-    const wB = __getModuleWidthMmForZone(sectionSwap, ziB);
+    const wA = __getModuleWidthMmForZone(sectionSwap, ziA, wallBandA);
+    const wB = __getModuleWidthMmForZone(sectionSwap, ziB, wallBandA);
     const sameSpan =
       (kindA && kindB && kindA === kindB) ||
       (wA > 0 && wB > 0 && Math.abs(wA - wB) < 1);
@@ -5940,7 +8750,10 @@ export function finishFurnitureDragFromCanvas(event) {
       if (!obj?.isGroup || !obj.userData?.isFurniture) return;
       if (obj.uuid === groupA.uuid) return;
       if (String(obj.userData?.sectionId) !== String(startSectionId)) return;
-      if (obj.userData?.zoneIndex === ghostZi) occupant = obj;
+      if (obj.userData?.zoneIndex !== ghostZi) return;
+      // Тот же ярус: top не «залазит» на mid и наоборот при swap.
+      if (!__sameKitchenWallBand(groupA, obj)) return;
+      occupant = obj;
     });
 
     const targetKind = getZoneDoorKind(sectionSwap, ghostZi);
@@ -5948,12 +8761,17 @@ export function finishFurnitureDragFromCanvas(event) {
       ? getZoneDoorKind(sectionSwap, occupant.userData.zoneIndex)
       : null;
     const occW = occupant
-      ? __getModuleWidthMmForZone(sectionSwap, occupant.userData.zoneIndex)
+      ? __getModuleWidthMmForZone(
+          sectionSwap,
+          occupant.userData.zoneIndex,
+          wallBandA
+        )
       : 0;
 
     // base+upper одной группы: встать в ту же ячейку, не swap
+    // Для НШ1/НШ2 same-band occupant → swap, не cohabit (иначе два top в одной zi).
     let didCohabit = false;
-    if (occupant) {
+    if (occupant && !wallBandA) {
       const pendingSpec = resolveGroupZoneCohabitSpec(groupA);
       const zoneOcc = collectFurnitureGroupsInZone(startSectionId, ghostZi).filter(
         (g) => g.uuid !== groupA.uuid
@@ -6072,20 +8890,34 @@ export function finishFurnitureDragFromCanvas(event) {
       dragAction = 'move';
       console.log('[DRAG-MOVE] same-span empty at ghost', { from: startZi, to: placeZi });
     }
-  } else {
-    const sectionData = __syncFurnitureZoneFromWorldPosition(groupA);
-    if (typeof startZi === 'number' && groupA.userData) {
-      if (
-        typeof ghostZi !== 'number' ||
-        ghostZi === startZi ||
-        groupA.userData.zoneIndex == null
-      ) {
+  } else if (!skipDragLogic) {
+    // НШ1/НШ2: никогда base snapToZone — иначе zi/поз уезжают в 1050 и бок о бок.
+    if (wallBandA && sectionSwap && typeof startZi === 'number') {
+      if (typeof ghostZi === 'number' && ghostZi !== startZi) {
+        groupA.userData.zoneIndex = ghostZi;
+        dragAction = 'move';
+      } else {
         groupA.userData.zoneIndex = startZi;
+        dragAction = 'cancel';
       }
+      delete groupA.userData?._dragHoverZoneIndex;
+      delete groupA.userData?._dragHoverHitAlongMm;
+      sectionsToRefresh.add(sectionSwap);
+    } else {
+      const sectionData = __syncFurnitureZoneFromWorldPosition(groupA);
+      if (typeof startZi === 'number' && groupA.userData) {
+        if (
+          typeof ghostZi !== 'number' ||
+          ghostZi === startZi ||
+          groupA.userData.zoneIndex == null
+        ) {
+          groupA.userData.zoneIndex = startZi;
+        }
+      }
+      delete groupA.userData?._dragHoverZoneIndex;
+      delete groupA.userData?._dragHoverHitAlongMm;
+      if (sectionData) sectionsToRefresh.add(sectionData);
     }
-    delete groupA.userData?._dragHoverZoneIndex;
-    delete groupA.userData?._dragHoverHitAlongMm;
-    if (sectionData) sectionsToRefresh.add(sectionData);
   }
 
   if (startSectionId && Array.isArray(state.customSections)) {
@@ -6101,8 +8933,10 @@ export function finishFurnitureDragFromCanvas(event) {
   const didSwap = dragAction === 'swap';
   const didMove = dragAction === 'move';
   const didCancel = dragAction === 'cancel';
+  const didFreeAlongWall = dragAction === 'free-along-wall';
 
   const useLightLayout =
+    !didFreeAlongWall &&
     (didSwap || didMove || didGesture || didInsert || didCancel) &&
     sectionSwap?.division &&
     !sectionSwap.underWindowBay;
@@ -6117,9 +8951,41 @@ export function finishFurnitureDragFromCanvas(event) {
       if (didGesture || didInsert) {
         __fitAllFurnitureInSection(sectionSwap);
       } else {
+        const eng = window.__cldKitchenSectionEngine;
         for (const g of fitGroups) {
           if (!g || typeof g.userData?.zoneIndex !== 'number') continue;
-          fitFurnitureToSectionZone(g, sectionSwap, g.userData.zoneIndex, layout || undefined);
+          const bandG = __kitchenWallBandIdForGroup(g);
+          if (
+            bandG &&
+            eng &&
+            typeof eng.placeKitchenModuleInCell === 'function'
+          ) {
+            // НШ1/НШ2 строго в ячейку пояса (не base layout 1050).
+            eng.placeKitchenModuleInCell(
+              g,
+              sectionSwap,
+              g.userData.zoneIndex,
+              sectionSwap.wallName
+            );
+          } else {
+            let bandLay = layout || undefined;
+            if (bandG) {
+              try {
+                bandLay = buildKitchenBandCellLayoutForSection(
+                  sectionSwap,
+                  bandG
+                );
+              } catch (_) {
+                bandLay = undefined;
+              }
+            }
+            fitFurnitureToSectionZone(
+              g,
+              sectionSwap,
+              g.userData.zoneIndex,
+              bandLay
+            );
+          }
         }
         if (swappedWidths && typeof window.updateCabinetMarkersForSection === 'function') {
           window.updateCabinetMarkersForSection(sectionSwap.id);
@@ -6139,7 +9005,8 @@ export function finishFurnitureDragFromCanvas(event) {
       mode: dragAction,
       ms: Math.round(performance.now() - t0),
     });
-  } else if (needUpdate) {
+  } else if (needUpdate && !didFreeAlongWall) {
+    // IKEA free-drag: ?? updateFurnitureInSection ? ????? fit ? ?????? ? ???????? ï¿½???????ï¿½.
     for (const sec of sectionsToRefresh) {
       try {
         syncSingleSwingNeighborsAfterPlace(sec);
@@ -6152,6 +9019,13 @@ export function finishFurnitureDragFromCanvas(event) {
         console.warn('[DRAG] updateFurnitureInSection', e);
       }
     }
+  } else if (didFreeAlongWall) {
+    console.log('[DRAG] free along wall committed (no zone fit)');
+    try {
+      if (typeof window.rebuildSectionZoneEditIconsForSection === 'function' && sectionSwap?.id) {
+        window.rebuildSectionZoneEditIconsForSection(sectionSwap.id);
+      }
+    } catch (_) {}
   }
 
   clearAllFurnitureHighlights();
@@ -6159,13 +9033,12 @@ export function finishFurnitureDragFromCanvas(event) {
   if (state.renderer?.domElement) state.renderer.domElement.style.cursor = '';
 
   // Light layout only fits furniture in zones. SideCap/TopCap/AutoTop/planks are
-  // world-space — without rebuild they stay at the pre-drag pose (floating debris
-  // after delete+move tumba / wardrobe↔low). Same opts as place: placeLayoutOnly
-  // still takes full path when needsCap (niche↔standalone).
+  // world-space ? without rebuild they stay at the pre-drag pose.
+  // Free IKEA-drag: ?? ???????????? ??? ? ????? ????????/????? ï¿½??????????ï¿½.
   try {
     const wallForTx =
       sectionSwap?.wallName || groupA.userData?.wallName || state.dragWall || null;
-    if (wallForTx) {
+    if (wallForTx && !didFreeAlongWall) {
       rebuildTransitionsForWall(wallForTx, {
         skipFurnitureDecorRefresh: true,
         placeLayoutOnly: true,
@@ -6187,6 +9060,13 @@ export function finishFurnitureDragFromCanvas(event) {
       if (hasAnyFurnitureInScene()) buildStep4SectionEditIcons();
     }
     refreshFurnitureCatalogNameLabels();
+  } catch (_) {}
+
+  // Stage5: только после завершения drag (не на mousemove).
+  try {
+    if (typeof window !== 'undefined' && typeof window.__cldMarkRoomDraftDirty === 'function') {
+      window.__cldMarkRoomDraftDirty('furniture_drag');
+    }
   } catch (_) {}
 }
 
@@ -6354,6 +9234,8 @@ export async function placeEndCabinetFurniture(sectionData, side, furnitureDataO
     groups: {
       g0: { thickness: corpusWallThicknessMm },
       g1: { thickness: 3 },
+      g2: { thickness: 18 },
+      g3: { thickness: 16 },
       hdf1: { thickness: 3 },
     },
     useLegacySetupPivot: true,
@@ -6445,7 +9327,7 @@ export async function placeEndCabinetFurniture(sectionData, side, furnitureDataO
   }
 
   // Сначала подгоняем scale в локальных осях (width=x=глубина секции, depth=z=вдоль стены),
-  // потом ±90° (left/right зеркально) и snap в пятно слота — иначе pivot уезжает в стену.
+  // потом ±90В° (left/right зеркально) и snap в пятно слота — иначе pivot уезжает в стену.
   group.position.copy(slot.position);
   group.rotation.y = 0;
   group.updateMatrixWorld(true);
@@ -6561,7 +9443,7 @@ function measureEndCabinetBBox(group) {
   });
 }
 
-/** После пересборки модуля вернуть его в габариты слота: scale по bbox → б90а → snap. */
+/** После пересборки модуля вернуть его в габариты слота: scale по bbox > б90а > snap. */
 function restoreEndCabinetGroupTransform(group, sectionData, side) {
   if (!group || !sectionData || !side) return;
   const slot = getEndCabinetSlot(sectionData, side);
@@ -6758,7 +9640,7 @@ if (typeof window !== 'undefined') {
   window.__cldPlaceEndCabinetFurniture = placeEndCabinetFurniture;
 }
 
-// ─── Zone place gestures (Maatkasten SoT A–G + Clodis insert-shift) ───
+// --- Zone place gestures (Maatkasten SoT A–G + Clodis insert-shift) ---
 // Прямые + свободное плечо L-угла. Не трогаем: спец-зону угла, bay/мост.
 // Push живого соседа запрещён на прямой (eat); на L — insert-shift без спец.
 
@@ -6773,6 +9655,10 @@ function __isLShapeSpecialZone(sectionData, zoneIndex) {
   if (!sectionData?.lShape || zoneIndex == null) return false;
   const zi = Number(zoneIndex);
   if (!Number.isFinite(zi) || zi < 0) return false;
+  try {
+    const all = getLShapeSpecialZoneIndices(sectionData);
+    if (all.includes(zi)) return true;
+  } catch (_) {}
   const sp = __getLShapeSpecialZoneIndex(sectionData);
   if (sp != null && zi === sp) return true;
   const div = sectionData.division;
@@ -6796,6 +9682,22 @@ function __isLShapeSpecialZone(sectionData, zoneIndex) {
     }
   }
   return false;
+}
+
+/** MID special 600 на upper-host (ВМУ / слот под Г). */
+function __isMidUpperCornerSpecialZone(sectionData, zoneIndex) {
+  if (!sectionData?.lShape || zoneIndex == null) return false;
+  const zi = Math.floor(Number(zoneIndex));
+  const sp = Math.floor(
+    Number(sectionData?.kitchenBandGrids?.mid?.specialZoneIndex)
+  );
+  return (
+    Number.isFinite(zi) &&
+    zi >= 0 &&
+    Number.isFinite(sp) &&
+    sp >= 0 &&
+    zi === sp
+  );
 }
 
 /** После split/repack на L: спец всегда 0 или parts-1 по конфигу, сегменты пересобрать. */
@@ -6963,11 +9865,127 @@ function collectFurnitureGroupsInZone(sectionId, zoneIndex) {
   state.scene.traverse((obj) => {
     if (!obj?.isGroup || !obj.userData?.isFurniture) return;
     if (String(obj.userData.sectionId) !== sid) return;
-    if (Number(obj.userData.zoneIndex) !== zi) return;
     if (obj.userData.isEndCabinet || obj.userData.__endCabinetSide) return;
-    out.push(obj);
+    // Обычный zoneIndex.
+    if (Number(obj.userData.zoneIndex) === zi) {
+      out.push(obj);
+      return;
+    }
+    // Seat B (НШ1 у угла): занятость по spanned mid-ячейкам bbox.
+    const seat = String(obj.userData.__kitchenUpperCornerSeat || '').toUpperCase();
+    const isSeatB =
+      seat === 'B' || obj.userData.__kitchenUpperCornerCompanion === true;
+    if (isSeatB) {
+      const zones =
+        obj.userData.__kitchenUpperCornerSeatBZones ||
+        obj.userData.__kitchenUpperCornerCompanionZones;
+      if (Array.isArray(zones) && zones.some((z) => Number(z) === zi)) {
+        out.push(obj);
+      }
+    }
   });
   return out;
+}
+
+function findUpperCornerSeatBByCellId(sectionId, upperCornerCellId, excludeUuid) {
+  if (!state.scene || !upperCornerCellId) return null;
+  const sid = sectionId != null ? String(sectionId) : null;
+  const cid = String(upperCornerCellId);
+  let found = null;
+  state.scene.traverse((obj) => {
+    if (found || !obj?.isGroup || !obj.userData?.isFurniture) return;
+    const seat = String(obj.userData.__kitchenUpperCornerSeat || '').toUpperCase();
+    const isB =
+      seat === 'B' || obj.userData.__kitchenUpperCornerCompanion === true;
+    if (!isB) return;
+    if (String(obj.userData.__kitchenUpperCornerCellId || '') !== cid) return;
+    if (sid && String(obj.userData.sectionId) !== sid) return;
+    if (excludeUuid && obj.uuid === excludeUuid) return;
+    found = obj;
+  });
+  return found;
+}
+
+function _resolvePendingUpperCornerSeatB(section, furnitureData, pendingZoneInfo, wallName) {
+  if (!section || !furnitureData) return null;
+  if (isLCornerCabinetModule(furnitureData)) return null;
+  if (_isUpperGFurnitureData(furnitureData)) return null;
+  if (!isKitchenWallBandFurnitureData(furnitureData)) return null;
+  const stamp = String(furnitureData?.__kitchenWallBand || '')
+    .trim()
+    .toLowerCase();
+  const rawPk = String(getRawPlacementKindFromFurnitureData(furnitureData) || '')
+    .trim()
+    .toLowerCase();
+  if (rawPk === 'kitchen_wall_top' || stamp === 'top') return null;
+
+  const W = Math.round(
+    Number(pendingZoneInfo?.seatBModuleWidth) ||
+      Number(pendingZoneInfo?.companionModuleWidth) ||
+      Number(furnitureData.customWidthMm) ||
+      Number(extractSectionSizeFromFurnitureData(furnitureData)?.x) ||
+      600
+  );
+
+  const pendingIsB =
+    pendingZoneInfo?.upperCornerSeat === 'B' ||
+    pendingZoneInfo?.upperCornerCompanion === true;
+  const ziCand =
+    pendingZoneInfo?.zoneIndex != null
+      ? pendingZoneInfo.zoneIndex
+      : null;
+  const hitCoord =
+    pendingZoneInfo?.hitAlongMm != null
+      ? pendingZoneInfo.hitAlongMm
+      : pendingZoneInfo?.hitCoord;
+  const ziIsB =
+    ziCand != null && isKitchenUpperCornerSeatBZone(section, ziCand);
+  const pendingHasSeatU =
+    Number.isFinite(Number(pendingZoneInfo?.seatBStartU)) &&
+    Number.isFinite(Number(pendingZoneInfo?.seatBEndU));
+
+  // Г в углу → не B. Пустой угол → тоже не B (НШ1 = обычная MID-ячейка).
+  // B только если ghost уже явно пометил seat B (ВМУ+приставка).
+  if (isSectionUpperCornerGPresent(section)) return null;
+  if (!(pendingIsB || pendingHasSeatU)) return null;
+  if (!pendingIsB && ziIsB) return null;
+
+  return resolveKitchenUpperCornerSeatTarget({
+    section,
+    wallName,
+    moduleWidthMm: W,
+    hitCoord,
+    forceSeatB: true,
+  });
+}
+
+/** При Г: zi на крыле (special/seatB) → ближайшая свободная MID/TOP. */
+function _redirectPlaceOffGFootprintMidZi(section, fromZi, bandId = 'mid') {
+  if (!section || !isSectionUpperCornerGPresent(section)) return null;
+  const band = String(bandId || 'mid').toLowerCase() === 'top' ? 'top' : 'mid';
+  const blocked = new Set(getNsh1BlockedMidZoneIndexes(section, band));
+  const zi = Math.floor(Number(fromZi));
+  if (!Number.isFinite(zi) || zi < 0 || !blocked.has(zi)) return null;
+  const parts = Math.max(
+    0,
+    Math.floor(
+      Number(
+        section?.kitchenBandGrids?.[band]?.parts ||
+          section?.kitchenBandGrids?.mid?.parts
+      ) || 0
+    )
+  );
+  if (!(parts > 1)) return null;
+  const order = [];
+  if (zi - 1 >= 0) order.push(zi - 1);
+  if (zi + 1 < parts) order.push(zi + 1);
+  for (let i = 0; i < parts; i++) {
+    if (i !== zi && i !== zi - 1 && i !== zi + 1) order.push(i);
+  }
+  for (const cand of order) {
+    if (cand >= 0 && cand < parts && !blocked.has(cand)) return cand;
+  }
+  return null;
 }
 
 function _roomStepsConfigForCohabit() {
@@ -6985,6 +10003,36 @@ function _pkCohabitApi() {
 
 /** Спека совместности для pending из каталога. */
 function resolvePendingZoneCohabitSpec(furnitureData) {
+  // Угловой Г: mid (НШ1) или top (антресоль) — по pending band, не всегда mid.
+  if (_isUpperGFurnitureData(furnitureData)) {
+    let band = 'mid';
+    try {
+      if (typeof window.__cldResolveUpperGBandFromContext === 'function') {
+        band = window.__cldResolveUpperGBandFromContext(
+          furnitureData,
+          state._pendingZoneInfo,
+          null
+        );
+      } else {
+        const z = String(state._pendingZoneInfo?.upperGBand || '')
+          .trim()
+          .toLowerCase();
+        if (z === 'top') band = 'top';
+      }
+    } catch (_) {}
+    if (band === 'top') {
+      return {
+        role: 'top',
+        group: 'kitchen_column',
+        placementKindId: 'kitchen_wall_top',
+      };
+    }
+    return {
+      role: 'mid',
+      group: 'kitchen_column',
+      placementKindId: 'kitchen_wall_corner',
+    };
+  }
   const api = _pkCohabitApi();
   const raw = getRawPlacementKindFromFurnitureData(furnitureData);
   const item = furnitureData?.catalogItem || furnitureData?.item || null;
@@ -6993,6 +10041,24 @@ function resolvePendingZoneCohabitSpec(furnitureData) {
   }
   // Fallback до загрузки profiles: шкаф = full, тумба/низ = base, верх = upper
   const pk = String(resolvePlacementKindFromFurnitureData(furnitureData) || '').trim();
+  const rawPk = String(raw || pk).trim();
+  if (
+    isKitchenBasePlacementKind(rawPk) ||
+    rawPk === 'kitchen_base' ||
+    rawPk === 'kitchen_base_gola' ||
+    rawPk === 'kitchen_base_corner'
+  ) {
+    return { role: 'base', group: 'kitchen_column', placementKindId: rawPk };
+  }
+  if (isKitchenWallMidPlacementKind(rawPk) || rawPk === 'kitchen_wall_corner') {
+    return { role: 'mid', group: 'kitchen_column', placementKindId: rawPk };
+  }
+  if (isKitchenWallTopPlacementKind(rawPk)) {
+    return { role: 'top', group: 'kitchen_column', placementKindId: rawPk };
+  }
+  if (isKitchenTallPlacementKind(rawPk)) {
+    return { role: 'full', group: 'kitchen_column', placementKindId: rawPk };
+  }
   if (pk === PLACEMENT_KIND.STANDALONE_FLOOR || pk === PLACEMENT_KIND.WALL_HUNG_LOW) {
     return { role: 'base', group: 'wall_column', placementKindId: raw };
   }
@@ -7003,11 +10069,63 @@ function resolvePendingZoneCohabitSpec(furnitureData) {
 }
 
 function resolveGroupZoneCohabitSpec(grp) {
+  const ud = grp?.userData || {};
+  // Угловой Г: роль по ярусу (mid|top), не всегда mid из kitchen_wall_corner.
+  const isUg =
+    ud.__kitchenUpperGSeated === true ||
+    ud.__kitchenUpperGKind === 'g_arms' ||
+    ud.__kitchenUpperCornerSeat === 'G' ||
+    (typeof window.__cldIsKitchenUpperGModuleGroup === 'function' &&
+      !!window.__cldIsKitchenUpperGModuleGroup(grp));
+  if (isUg) {
+    const band = String(ud.__kitchenUpperGBand || ud.__zoneSlotRole || '')
+      .trim()
+      .toLowerCase();
+    if (band === 'top') {
+      return {
+        role: 'top',
+        group: 'kitchen_column',
+        placementKindId: 'kitchen_wall_top',
+      };
+    }
+    return {
+      role: 'mid',
+      group: 'kitchen_column',
+      placementKindId: 'kitchen_wall_corner',
+    };
+  }
   const api = _pkCohabitApi();
   if (api && typeof api.resolveZoneCohabitSpecFromUserData === 'function') {
-    return api.resolveZoneCohabitSpecFromUserData(grp?.userData, _roomStepsConfigForCohabit());
+    return api.resolveZoneCohabitSpecFromUserData(ud, _roomStepsConfigForCohabit());
   }
-  const pk = String(grp?.userData?.__placementKind || '').trim();
+  const pk = String(
+    ud.__placementKindProfileId || ud.__placementKind || ''
+  ).trim();
+  if (
+    isKitchenBasePlacementKind(pk) ||
+    pk === 'kitchen_base' ||
+    pk === 'kitchen_base_gola' ||
+    pk === 'kitchen_base_corner'
+  ) {
+    return { role: 'base', group: 'kitchen_column', placementKindId: pk };
+  }
+  if (isKitchenWallMidPlacementKind(pk) || isKitchenWallMidGroup(grp)) {
+    return {
+      role: 'mid',
+      group: 'kitchen_column',
+      placementKindId: isKitchenWallMidPlacementKind(pk) ? pk : 'kitchen_wall_mid',
+    };
+  }
+  if (isKitchenWallTopPlacementKind(pk) || isKitchenWallTopGroup(grp)) {
+    return {
+      role: 'top',
+      group: 'kitchen_column',
+      placementKindId: isKitchenWallTopPlacementKind(pk) ? pk : 'kitchen_wall_top',
+    };
+  }
+  if (isKitchenTallPlacementKind(pk)) {
+    return { role: 'full', group: 'kitchen_column', placementKindId: pk };
+  }
   if (pk === PLACEMENT_KIND.STANDALONE_FLOOR || pk === PLACEMENT_KIND.WALL_HUNG_LOW) {
     return { role: 'base', group: 'wall_column', placementKindId: pk };
   }
@@ -7020,12 +10138,57 @@ function resolveGroupZoneCohabitSpec(grp) {
 function stampZoneCohabitOnUserData(ud, spec) {
   if (!ud || !spec) return;
   ud.__zoneSlotRole = String(spec.role || 'full');
-  ud.__cohabitGroup = spec.role === 'full' ? '' : String(spec.group || '');
+  // Пенал (full + kitchen_column) сохраняет группу — иначе НШ2 сносит его.
+  ud.__cohabitGroup = String(spec.group || '');
+}
+
+/**
+ * Кухня kitchen_column: уже есть жилец той же роли (два mid / два base / два top)?
+ * @returns {object|null} группа-occupant или null
+ */
+function findSameRoleKitchenColumnOccupant(sectionId, zoneIndex, pendingSpec, excludeUuid) {
+  if (sectionId == null || !Number.isFinite(Number(zoneIndex)) || !pendingSpec) return null;
+  const gPending = String(pendingSpec.group || '').trim();
+  const rPending = String(pendingSpec.role || '').trim();
+  if (gPending !== 'kitchen_column') return null;
+  if (!rPending || rPending === 'full') return null;
+  for (const g of collectFurnitureGroupsInZone(sectionId, zoneIndex)) {
+    if (excludeUuid && g.uuid === excludeUuid) continue;
+    // Угловой Г занимает upperCornerCell, не слот НШ1. Старый zi=base.parts−1
+    // совпадал с mid-соседом → ложный «уже есть НШ1».
+    const udG = g.userData || {};
+    if (
+      udG.__kitchenUpperGSeated === true ||
+      udG.__kitchenUpperGKind === 'g_arms' ||
+      String(udG.__kitchenUpperCornerSeat || '').toUpperCase() === 'G'
+    ) {
+      continue;
+    }
+    const occ = resolveGroupZoneCohabitSpec(g);
+    if (String(occ.group || '').trim() !== 'kitchen_column') continue;
+    if (String(occ.role || '').trim() === rPending) return g;
+  }
+  return null;
+}
+
+function toastKitchenSameRoleBlocked(pendingSpec) {
+  const role = String(pendingSpec?.role || '');
+  const msg =
+    role === 'mid'
+      ? 'В этой ячейке уже есть НШ1 (1-й ярус). Два mid нельзя — выберите другую ячейку.'
+      : role === 'base'
+        ? 'В этой ячейке уже есть нижний модуль. Два base нельзя.'
+        : role === 'top'
+          ? 'В этой ячейке уже есть НШ2 (2-й ярус). Два top нельзя.'
+          : 'В этой ячейке уже занят этот ярус.';
+  if (typeof window.showToast === 'function') window.showToast(msg, 'warning');
+  else console.warn('[KITCHEN-COHABIT]', msg);
 }
 
 /**
  * Перед place / жестом: снести несовместимых жильцов зоны.
- * base+upper одной группы остаются; same-role / full / другая группа — remove.
+ * base+mid+top одной kitchen_column остаются; same-role / full / другая группа — remove.
+ * Same-role kitchen_column не сносим здесь — place должен отказаться (см. findSameRole…).
  */
 function removeIncompatibleZoneOccupantsForPlace(sectionId, zoneIndex, pendingSpec, excludeUuid) {
   if (sectionId == null || !Number.isFinite(Number(zoneIndex)) || !pendingSpec) return;
@@ -7037,6 +10200,15 @@ function removeIncompatibleZoneOccupantsForPlace(sectionId, zoneIndex, pendingSp
   for (const g of collectFurnitureGroupsInZone(sectionId, zoneIndex)) {
     if (excludeUuid && g.uuid === excludeUuid) continue;
     const occ = resolveGroupZoneCohabitSpec(g);
+    // Не «заменять» mid>mid молча: блокировка на place.
+    if (
+      String(pendingSpec.group || '') === 'kitchen_column' &&
+      String(occ.group || '') === 'kitchen_column' &&
+      String(pendingSpec.role || '') === String(occ.role || '') &&
+      String(pendingSpec.role || '') !== 'full'
+    ) {
+      continue;
+    }
     if (shouldRemove(occ)) {
       removeFurnitureGroupQuietForGesture(g);
     }
@@ -7132,7 +10304,7 @@ function snapshotSectionZoneWidthsMm(sectionData) {
 function applySectionCustomZoneWidthsMm(sectionData, widthsMm) {
   const div = sectionData.division;
   if (!div || !Array.isArray(widthsMm) || !widthsMm.length) return;
-  // Жесты меняют ширины зон, но не выбранный вариант Ы+/−л — сохраняем для счётчика.
+  // Жесты меняют ширины зон, но не выбранный вариант «+/?» — сохраняем для счётчика.
   const keepVariantIdx = div.divisionVariantIndex;
   const keepStripN = div.stripCountN;
   // L: не сбрасывать угол / freeSize / segments (их обновит __rebuildLShapeSegmentsFromWidths).
@@ -7153,6 +10325,14 @@ function applySectionCustomZoneWidthsMm(sectionData, widthsMm) {
   div.customZoneWidthsMm = {};
   for (let i = 0; i < widthsMm.length; i += 1) {
     div.customZoneWidthsMm[i] = Math.round(Number(widthsMm[i]) || 0);
+  }
+  try {
+    markCustomZoneWidthsSource(sectionData, CUSTOM_ZONE_WIDTHS_SOURCE_USER, {
+      bandId: 'base',
+      division: true,
+    });
+  } catch (_) {
+    div.customZoneWidthsSource = 'user';
   }
   if (!isL) {
     delete div.layoutKind;
@@ -7192,7 +10372,7 @@ function applySectionCustomZoneWidthsMm(sectionData, widthsMm) {
 /**
  * Сосед для Double на Single: сначала справа (Maatkasten SoT Ч3 C/D/E:
  * клик + следующая ячейка; содержимое обеих ячеек съесть, в т.ч. occupied).
- * Не изобретать Ытолько пустой соседл — это ломает эталон.
+ * Не изобретать «только пустой сосед» — это ломает эталон.
  */
 function findNeighborZoneForDoubleEat(sectionData, zoneIndex) {
   const parts = Math.floor(Number(sectionData.division?.parts) || 0);
@@ -7260,7 +10440,7 @@ function findZoneIndexByHitAlong(sectionData, hitAlongMm) {
 }
 
 /**
- * Maatkasten: после Single в half double — не оставлять Ысиротул empty single.
+ * Maatkasten: после Single в half double — не оставлять «сироту» empty single.
  * Пустые ячейки перепаковать в doubles слева направо; хвост single справа.
  * reservedZi — слот, куда сейчас сажаем (считаем занятым до появления мебели).
  * @returns {number} новый zoneIndex для reserved
@@ -7384,7 +10564,7 @@ export function zonePlaceGesturePossible(sectionData, zoneIndex, moduleDoorKind)
 }
 
 /**
- * Перед place (Maatkasten SoT): ячейки → replace / split(занятый) / eat-merge.
+ * Перед place (Maatkasten SoT): ячейки > replace / split(занятый) / eat-merge.
  * @param {number} [hitAlongMm] — координата клика вдоль стены
  * @param {{ role?: string, group?: string }|null} [pendingCohabitSpec] — совместность pending (drag)
  */
@@ -7403,7 +10583,7 @@ function prepareZonePlaceGesture(sectionData, zoneIndex, moduleDoorKind, hitAlon
   if (sectionData.lShape) __ensureLShapeLayoutCacheSegments(sectionData);
 
   // Не режем всю секцию в singles (это ломало Maatkasten).
-  // Single на double → split только кликнутой зоны (ниже).
+  // Single на double > split только кликнутой зоны (ниже).
 
   let zi = Number(zoneIndex);
   const hitZi = findZoneIndexByHitAlong(sectionData, hitAlongMm);
@@ -7411,7 +10591,7 @@ function prepareZonePlaceGesture(sectionData, zoneIndex, moduleDoorKind, hitAlon
 
   if (__isLShapeSpecialZone(sectionData, zi)) {
     // Спец угла (§6.8): жесты split/merge не для неё.
-    // Раньше ok:false → placePendingFurniture делал return — призрак ок, шкаф не появлялся.
+    // Раньше ok:false > placePendingFurniture делал return — призрак ок, шкаф не появлялся.
     return null;
   }
 
@@ -7431,8 +10611,12 @@ function prepareZonePlaceGesture(sectionData, zoneIndex, moduleDoorKind, hitAlon
         : { role: 'full', group: '' };
 
   // F/G + place в пустую ячейку: same width — replace / просто place.
-  // Совместимую пару (base+upper) не сносим.
+  // Совместимую пару (base+mid kitchen_column) не сносим; same-role — отказ.
   if (moduleDoorKind === zoneKind) {
+    if (findSameRoleKitchenColumnOccupant(sectionData.id, zi, pendingSpec)) {
+      toastKitchenSameRoleBlocked(pendingSpec);
+      return { ok: false, reason: 'same-role-kitchen-column' };
+    }
     removeIncompatibleZoneOccupantsForPlace(sectionData.id, zi, pendingSpec);
     return {
       ok: true,
@@ -7442,7 +10626,7 @@ function prepareZonePlaceGesture(sectionData, zoneIndex, moduleDoorKind, hitAlon
     };
   }
 
-  // B: Single на Double → half под курсором; на L — то же на свободном плече (спец не трогаем).
+  // B: Single на Double > half под курсором; на L — то же на свободном плече (спец не трогаем).
   if (moduleDoorKind === 'single' && zoneKind === 'double') {
     const widths = snapshotSectionZoneWidthsMm(sectionData);
     const w = Number(widths[zi]) || 0;
@@ -7587,41 +10771,53 @@ if (typeof window !== 'undefined') {
 }
 
 /**
- * Delete selected furniture
+ * Delete one furniture module (explicit group from pencil, else selection).
+ * @param {object|null} [explicitGroup] THREE.Object3D with userData.isFurniture
+ * @returns {boolean}
  */
-export function deleteSelectedFurniture() {
-  // Рефакторинг: явный selection почти нигде не задаётся — работаем как Ытекущая мебельл.
-  const target = state.selectedFurniture || state.furniture;
+export function deleteSelectedFurniture(explicitGroup = null) {
+  let grp = null;
+  if (explicitGroup && explicitGroup.isObject3D && explicitGroup.userData?.isFurniture) {
+    grp = explicitGroup;
+  } else {
+    const target = state.selectedFurniture || state.furniture;
+    grp = target?.group || null;
+  }
   console.log('[DELETE] deleteSelectedFurniture called', {
+    explicit: !!(explicitGroup && explicitGroup.isObject3D),
     hasSelectedFurniture: !!state.selectedFurniture,
     hasStateFurniture: !!state.furniture,
-    hasGroup: !!target?.group,
+    hasGroup: !!grp,
+    uuid: grp?.uuid ? String(grp.uuid).slice(0, 8) : null,
+    zoneIndex: grp?.userData?.zoneIndex,
+    pk: grp?.userData?.__placementKindProfileId || grp?.userData?.__placementKind || null,
   });
-  if (!target || !target.group) {
+  if (!grp) {
     console.warn('[DELETE] abort: no furniture to delete (set selection or place/select module)');
-    return;
+    return false;
   }
 
-  console.log('🗑️ Удаление мебели');
-
-  const grp = target.group;
   const sectionBeforeDelete = Array.isArray(state.customSections)
     ? state.customSections.find(
         (sec) => String(sec?.id) === String(grp.userData?.sectionId)
       ) || null
     : null;
+  const deletedWallName = String(
+    grp.userData?.wallName || sectionBeforeDelete?.wallName || ''
+  ).trim();
   try {
     const B = typeof window !== 'undefined' ? window.ClodisBuilder : null;
     if (B && typeof B.unregisterDoorSwingGroupsFromRoot === 'function') {
       B.unregisterDoorSwingGroupsFromRoot(grp);
     }
   } catch (_) {}
-  // Снять с любого родителя (не только прямой child state.scene)
   const deletedSectionId = grp.userData?.sectionId;
   const deletedZoneIndex = grp.userData?.zoneIndex;
+  const deletedUuid = grp.uuid;
   try {
     if (deletedSectionId != null && typeof deletedZoneIndex === 'number') {
-      removeSectionZoneEditIcon(deletedSectionId, deletedZoneIndex);
+      // Only this module pencil — keep cohabiting mid/top icons until rebuild.
+      removeSectionZoneEditIcon(deletedSectionId, deletedZoneIndex, deletedUuid);
     }
     if (typeof clearModuleEditFocusFog === 'function') {
       clearModuleEditFocusFog();
@@ -7630,18 +10826,14 @@ export function deleteSelectedFurniture() {
   if (grp.parent) grp.parent.remove(grp);
   else if (state.scene) state.scene.remove(grp);
 
-  // Clean up geometry, materials and GPU textures
   __disposeObject3DTree(grp);
   invalidateGroupIconBBoxCache(grp);
 
-  // Hide marker and button
   hideFurniturePerimeterMarker();
 
-  // Clear selection (сравниваем по группе — target может быть { group } без Furniture)
   state.selectedFurniture = null;
   if (state.furniture?.group === grp) state.furniture = null;
 
-  // Recalc total price in UI
   try {
     __recalcRoomTotalPriceAndUpdateUi();
   } catch {}
@@ -7650,7 +10842,6 @@ export function deleteSelectedFurniture() {
     refreshFurnitureCatalogNameLabels();
   } catch (_) {}
 
-  // Debug: show remaining furniture in scene after deletion
   try {
     const remaining = [];
     state.scene.traverse((obj) => {
@@ -7667,7 +10858,6 @@ export function deleteSelectedFurniture() {
     console.log('[DELETE] remaining furniture after scene.remove:', remaining.length, remaining);
   } catch (_) {}
 
-  // Пересобрать переходные накладки — мебель удалена, значит переходы изменились
   try {
     rebuildAllTransitions();
   } catch (e) {
@@ -7708,15 +10898,49 @@ export function deleteSelectedFurniture() {
   } catch (_) {}
 
   try {
+    if (deletedSectionId != null && typeof rebuildSectionZoneEditIconsForSection === 'function') {
+      rebuildSectionZoneEditIconsForSection(deletedSectionId);
+    }
+  } catch (_) {}
+
+  try {
     if (typeof window !== 'undefined' && window.currentRoomStep === 4) {
       if (hasAnyFurnitureInScene()) buildStep4SectionEditIcons();
       else clearStep4SectionEditIcons();
     }
   } catch (_) {}
 
-  console.log('✅ Мебель удалена');
-}
+  try {
+    if (typeof window.__cldSyncCellVolumeMeshes === 'function') {
+      window.__cldSyncCellVolumeMeshes();
+    }
+  } catch (_) {}
 
+  // Лицевой цоколь-прогон: пересобрать ленту после удаления модуля.
+  try {
+    const ov =
+      typeof window !== 'undefined' ? window.__cldKitchenRunOverlays : null;
+    if (
+      deletedWallName &&
+      ov &&
+      typeof ov.syncKitchenRunOverlaysOnWall === 'function'
+    ) {
+      ov.syncKitchenRunOverlaysOnWall(deletedWallName);
+    }
+  } catch (_) {}
+
+  console.log('[DELETE] furniture removed', {
+    sectionId: deletedSectionId,
+    zoneIndex: deletedZoneIndex,
+    uuid: deletedUuid ? String(deletedUuid).slice(0, 8) : null,
+  });
+  try {
+    if (typeof window !== 'undefined' && typeof window.__cldMarkRoomDraftDirty === 'function') {
+      window.__cldMarkRoomDraftDirty('furniture_delete');
+    }
+  } catch (_) {}
+  return true;
+}
 const STEP5_MODULE_DECORS_STORAGE_KEY = 'room_step5_module_decors';
 
 function __getFurnitureRootGroupForMesh(mesh) {
@@ -7752,7 +10976,7 @@ function __getFurnitureRootForDecorMesh(mesh) {
 const STEP5_ROOT_UV_REV = 4;
 
 /**
- * Локальный AABB корня мебели (все вершины мешей под isFurniture) — для UV Ырастянуть текстуру на весь шкафл.
+ * Локальный AABB корня мебели (все вершины мешей под isFurniture) — для UV «растянуть текстуру на весь шкаф».
  */
 function __computeFurnitureRootLocalBbox(furnitureRoot) {
   furnitureRoot.updateMatrixWorld(true);
@@ -7781,10 +11005,10 @@ function __computeFurnitureRootLocalBbox(furnitureRoot) {
 }
 
 /**
- * UV по корню мебели: одна Ыплиткал текстуры растягивается на весь корпус (0Ц1), без повторов каждые tex мм —
+ * UV по корню мебели: одна «плитка» текстуры растягивается на весь корпус (0Ц1), без повторов каждые tex мм —
  * иначе на заднике и боках видны стыки тайлинга.
  * Трипланарно по доминанту нормали (generateAdvancedUVs, строгие >).
- * Вторая координата с flip 1−v как в референсе.
+ * Вторая координата с flip 1?v как в референсе.
  *
  * @param {object|null} rootBbox — из кэша на один проход refreshFurnitureDecors (локальный AABB корня)
  */
@@ -7901,6 +11125,14 @@ export function applyStep5ModuleDecorToFurnitureGroup(group, ring, color) {
     group.userData.step5ModuleEndOverlay = n;
   }
   refreshFurnitureDecors();
+  try {
+    const wall = String(group?.userData?.wallName || '').trim();
+    const ov =
+      typeof window !== 'undefined' ? window.__cldKitchenRunOverlays : null;
+    if (wall && ov && typeof ov.syncKitchenRunOverlaysOnWall === 'function') {
+      ov.syncKitchenRunOverlaysOnWall(wall);
+    }
+  } catch (_) {}
 }
 
 /** Сохранить декор: обычный модуль — sectionId+zoneIndex, торцевой — sectionId+side. */
@@ -7922,6 +11154,11 @@ export function persistStep5ModuleDecorForGroup(group) {
   } catch (e) {
     console.warn('[STEP5] persistStep5ModuleDecorForGroup:', e);
   }
+  try {
+    if (typeof window !== 'undefined' && typeof window.__cldMarkRoomDraftDirty === 'function') {
+      window.__cldMarkRoomDraftDirty('step5_decor');
+    }
+  } catch (_) {}
 }
 
 export function restoreStep5ModuleDecorFromStorage(group) {
@@ -7960,9 +11197,49 @@ function __isSectionTrimPlankUserData(ud) {
   );
 }
 
-/** Декор Ыснаружил на меш (фасад / обклад). */
+/**
+ * НМУ после restore иногда получает один Material на все доски.
+ * Без clone outside/replacement красит весь модуль. Пенал ок — у него материалы уже разные.
+ * Флаг на меше: один раз на жизнь меша (после rebuild сбрасывается).
+ */
+function __ensureUniqueMeshMaterialForStep5(obj) {
+  if (!obj?.isMesh || !obj.material) return;
+  // Sticky-флаг недостаточен: после rebuild материал могут снова шарить,
+  // а флаг остаётся → outside красит чужие доски (столешка/корпус).
+  const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+  const alreadyUnique =
+    obj.userData?.__cldStep5MatUniqued === true &&
+    mats.every((m) => m && m.userData && m.userData.__cldStep5MatOwnerId === obj.uuid);
+  if (alreadyUnique) return;
+  try {
+    if (Array.isArray(obj.material)) {
+      obj.material = obj.material.map((m) => {
+        if (!m?.clone) return m;
+        const c = m.clone();
+        if (m.userData) c.userData = { ...(m.userData || {}) };
+        else c.userData = {};
+        c.userData.__cldStep5MatOwnerId = obj.uuid;
+        return c;
+      });
+    } else if (typeof obj.material.clone === 'function') {
+      const src = obj.material;
+      const c = src.clone();
+      if (src.userData) c.userData = { ...(src.userData || {}) };
+      else c.userData = {};
+      c.userData.__cldStep5MatOwnerId = obj.uuid;
+      obj.material = c;
+    }
+  } catch (_) {
+    return;
+  }
+  if (!obj.userData) obj.userData = {};
+  obj.userData.__cldStep5MatUniqued = true;
+}
+
+/** Декор «снаружи» на меш (фасад / обклад). */
 function __applyStep5OutsideDecorToMesh(obj, effectiveOutside, ctx) {
   if (!obj?.isMesh || !obj.material || !effectiveOutside) return false;
+  __ensureUniqueMeshMaterialForStep5(obj);
   const ud = obj.userData || {};
   const { textureLoader, decorRoot, getRootBboxForUv, isFacadeEdgeStrip } = ctx;
   const isTrim = __isSectionTrimPlankUserData(ud);
@@ -7996,7 +11273,7 @@ function __applyStep5OutsideDecorToMesh(obj, effectiveOutside, ctx) {
   const ikeaBound = mats.some((m) => m?.userData?.__cldIkeaV0);
 
   // Обклад секции (планки/накладки) лежит вне bbox шкафа — root-space UV фасада
-  // даёт белый/чёрный сэмпл. Текстуру ЫСнаружил кладём на собственные UV бокса.
+  // даёт белый/чёрный сэмпл. Текстуру «Снаружил к»адём на собственные UV бокса.
   const useMeshLocalUvForTrim = isTrim === true;
 
   if (ikeaBound) {
@@ -8063,6 +11340,7 @@ function __applyStep5OutsideDecorToMesh(obj, effectiveOutside, ctx) {
       m.color.set(hex);
       m.roughness = rough;
       m.metalness = 0.2;
+      __markStep5DecorApplied(m, false);
       m.needsUpdate = true;
     }
     return true;
@@ -8073,6 +11351,7 @@ function __applyStep5OutsideDecorToMesh(obj, effectiveOutside, ctx) {
       if (!m) continue;
       m.map = null;
       m.color.set(outsideHex);
+      __markStep5DecorApplied(m, false);
       m.needsUpdate = true;
     }
   } else if (outsideTex) {
@@ -8080,6 +11359,7 @@ function __applyStep5OutsideDecorToMesh(obj, effectiveOutside, ctx) {
       for (const m of mats) {
         if (!m) continue;
         m.color.set(outsidePreview);
+        __markStep5DecorApplied(m, false);
         m.needsUpdate = true;
       }
     }
@@ -8094,6 +11374,7 @@ function __applyStep5OutsideDecorToMesh(obj, effectiveOutside, ctx) {
     m.depthWrite = true;
     m.depthTest = true;
     if (ud.isFacade === true || edgeStrip) m.side = THREE.DoubleSide;
+    __markStep5DecorApplied(m, !!m.map);
     m.needsUpdate = true;
   }
 
@@ -8189,11 +11470,15 @@ function __reapplyOutsideDecorToSectionTrimMeshes(
       ud.isEndCabinetTopPlank === true ||
       ud.isEndCabinetPlinth === true;
     const isEndCabinetOverlay = ud.isEndCabinetFacadeOverlay === true;
+    const editingRoot =
+      typeof window !== 'undefined' ? window.step5EditingFurnitureGroup : null;
     const outside =
       isEndCabinetOverlay && owner
         ? owner.userData?.step5ModuleEndOverlay ?? selection?.outside
         : isEndCabinetBodyTrim && owner
-          ? owner.userData?.step5ModuleOutside ?? selection?.outside
+          ? editingRoot && owner === editingRoot
+            ? owner.userData?.step5ModuleOutside ?? selection?.outside
+            : selection?.outside ?? owner.userData?.step5ModuleOutside
           : selection?.outside;
     if (!outside) return;
 
@@ -8257,7 +11542,7 @@ function copyCoreVisualMaterialToEdge(edgeMesh, coreMesh) {
   return true;
 }
 
-/** Комната: полоски кромки корпуса ← clone material _core (плита не меняется). */
+/** Комната: полоски кромки корпуса < clone material _core (плита не меняется). */
 function syncCorpusEdgeMaterialsFromCoreMeshes(scene) {
   if (!scene || typeof THREE === 'undefined') return 0;
   const seen = new Set();
@@ -8341,8 +11626,35 @@ function auditStep5Decor(root) {
     selection,
     counts: { facadeIkea, facadeStd, bodyIkea, bodyStd },
     samples,
-    pipeline: 'studio bind → step5 uniforms (IKEA); re-bind не сбрасывает diffuse',
+    pipeline: 'studio bind > step5 uniforms (IKEA); re-bind не сбрасывает diffuse',
   };
+}
+
+/** Legacy S2A «Боковая накладка» — белый inside-дубль поверх SidePanelOverlay. */
+function __stripLegacyS2ASideOverlayMeshes(root) {
+  if (!root?.traverse) return 0;
+  const kill = [];
+  root.traverse((o) => {
+    if (!o || o === root) return;
+    const nm = String(o.name || '');
+    const ud = o.userData || {};
+    if (ud.cldSidePanelOverlay === true) return;
+    const hit =
+      /боковая\s*накладка/i.test(nm) ||
+      ud.sidePanelsS2A === true ||
+      ud.sideOverlay === true ||
+      String(ud.layout_role || '').toLowerCase() === 'side_overlay' ||
+      String(o.id || '').startsWith('cld_side_overlay_');
+    if (hit) kill.push(o);
+  });
+  let n = 0;
+  kill.forEach((o) => {
+    try {
+      o.parent?.remove(o);
+      n += 1;
+    } catch (_) {}
+  });
+  return n;
 }
 
 function refreshFurnitureDecorsImmediate(options = {}) {
@@ -8363,6 +11675,16 @@ function refreshFurnitureDecorsImmediate(options = {}) {
     ? window.getStep5DecorSelection()
     : { outside: null, inside: null };
   console.log('[STEP5] Текущий выбор декоров:', selection);
+
+  try {
+    if (limitRoot) {
+      __stripLegacyS2ASideOverlayMeshes(limitRoot);
+    } else if (state.scene?.traverse) {
+      state.scene.traverse((g) => {
+        if (g?.userData?.isFurniture) __stripLegacyS2ASideOverlayMeshes(g);
+      });
+    }
+  } catch (_) {}
 
   __ensureIkeaV0BeforeStep5Decor(limitRoot);
 
@@ -8390,7 +11712,7 @@ function refreshFurnitureDecorsImmediate(options = {}) {
     return false;
   };
 
-  /** Полоска кромки на корпусе (не фасад / не обклад) — тот же декор Ывнутрил, что у isBody. */
+  /** Полоска кромки на корпусе (не фасад / не обклад) — тот же декор «внутри», что у isBody. */
   const isCorpusBodyEdgeStrip = (mesh) => {
     if (!mesh?.userData?.isEdge || isFacadeEdgeStrip(mesh)) return false;
     if (mesh.userData.cldCorpusBodyEdge === true) return true;
@@ -8421,36 +11743,145 @@ function refreshFurnitureDecorsImmediate(options = {}) {
     root.traverse((obj) => {
     if (!obj.isMesh || !obj.material) return;
     const ud = obj.userData || {};
-    // Lifestyle props / штанга — не декор шага 5, не гоняем по ним.
+    // Lifestyle props / штанга / опоры / Gola / конфирматы — не декор шага 5.
     if (ud.isShelfProp === true || ud.isRodCompanion === true) return;
+    if (ud.cldSupportLeg === true) return;
+    if (
+      ud.fromJointScheme ||
+      ud.jointHardwareMesh ||
+      Number(ud.joint_hardware) === 1 ||
+      Number(ud.jointTemplateModel) === 1
+    ) {
+      return;
+    }
+    // Столешка: декор из карточки/tabletop_items (админка). Шаг 5 «внутри» = белый ЛДСП — не красить.
+    // Цоколь: белый дефолт; выбор цвета цоколя — позже (не красить корпусом «внутри»).
+    if (ud.cldKitchenCountertop === true || ud.cldSkipStep5BodyDecor === true) return;
+    if (ud.isModulePlinthBoard === true) return;
+    {
+      let pTt = obj;
+      let isTt = false;
+      let isPlinthBoard = false;
+      for (let i = 0; !isTt && !isPlinthBoard && i < 12 && pTt; i++) {
+        const pud = pTt.userData || {};
+        const dt = String(pud.detailType || pud.type || pud.originalType || pud.itemType || '').toLowerCase();
+        if (
+          pud.cldKitchenCountertop === true ||
+          dt === 'countertop' ||
+          dt === 'tabletop' ||
+          /столеш/i.test(String(pTt.name || ''))
+        ) {
+          isTt = true;
+        }
+        if (
+          pud.isModulePlinthBoard === true ||
+          pud.cldSkipStep5BodyDecor === true ||
+          dt === 'plinth' ||
+          dt === 'cokol' ||
+          /^цокол/i.test(String(pTt.name || ''))
+        ) {
+          isPlinthBoard = true;
+        }
+        pTt = pTt.parent;
+      }
+      if (isTt || isPlinthBoard) return;
+    }
+    // Только каталожный accessory с карточкой (не фасады с isAccessory).
+    if (
+      ud.isAccessory === true &&
+      (ud.cldCabinetMaterialParams || ud.cldSkipStep5FacadeDecor === true)
+    ) {
+      return;
+    }
+    if (ud.cldCabinetMaterialParams) {
+      let pLeg = obj;
+      let isLeg = false;
+      for (let i = 0; !isLeg && i < 12 && pLeg; i++) {
+        if (pLeg.userData?.cldSupportLeg) isLeg = true;
+        pLeg = pLeg.parent;
+      }
+      if (isLeg) return;
+    }
 
     const furnitureRoot = __getFurnitureRootGroupForMesh(obj);
     const decorRoot = __getFurnitureRootForDecorMesh(obj);
     const moduleOutside = furnitureRoot?.userData?.step5ModuleOutside;
     const moduleInside = furnitureRoot?.userData?.step5ModuleInside;
-    const effectiveOutside = moduleOutside ?? selection.outside;
-    const effectiveInside = moduleInside ?? selection.inside;
+    // Глобальное колесо шага 5 важнее «залипшего» moduleOutside (кроме режима правки одного шкафа).
+    const editingRoot =
+      typeof window !== 'undefined' ? window.step5EditingFurnitureGroup : null;
+    const editingThis = !!(editingRoot && furnitureRoot && editingRoot === furnitureRoot);
+    const effectiveOutside = editingThis
+      ? moduleOutside ?? selection.outside
+      : selection.outside ?? moduleOutside;
+    const effectiveInside = editingThis
+      ? moduleInside ?? selection.inside
+      : selection.inside ?? moduleInside;
     const templateMat = isTemplateLockedMaterialFromUserData(ud);
 
-    // ХДФ / material_3 из шаблона — не трогаем декором Ывнутрил с колеса.
+    // ХДФ / material_3 из шаблона — не трогаем декором «внутри» с колеса.
     if (templateMat) return;
 
-    // Явный декор в JSON детали (превью конструктора) — не затирать; material_id без текстуры в комнате не блокирует шаг 5.
+    // Явный декор в JSON детали (превью конструктора):
+    // — если есть снаружи/внутри с колеса — пускаем дальше (шаг 5 перекрывает);
+    // — если колеса нет — для фасадной группы (g2/g3 уголок) красим декором с карточки.
     if (ud.catalogExplicitDecor === true || ud.catalogMaterialFromItem === true) {
       const bodyUsesInside =
         effectiveInside &&
+        ud.step5DecorChannel !== 'outside' &&
+        ud.cldFacadeMaterialGroup !== true &&
         (ud.isBody === true ||
           ud.step5DecorChannel === 'inside' ||
           isCorpusBodyEdgeStrip(obj));
       const facadeUsesOutside =
-        effectiveOutside && (ud.isFacade === true || isFacadeEdgeStrip(obj));
-      if (!bodyUsesInside && !facadeUsesOutside) return;
+        effectiveOutside &&
+        (ud.isFacade === true ||
+          isFacadeEdgeStrip(obj) ||
+          ud.step5DecorChannel === 'outside' ||
+          ud.cldFacadeMaterialGroup === true);
+      if (!bodyUsesInside && !facadeUsesOutside) {
+        const isFacadeCh =
+          ud.step5DecorChannel === 'outside' || ud.cldFacadeMaterialGroup === true;
+        if (isFacadeCh) {
+          const item = ud.cldBuildItem || obj.parent?.userData?.cldBuildItem || null;
+          const tex = String(
+            item?.material_icon ||
+              item?.materialIcon ||
+              item?.spec?.material?.texture ||
+              item?.spec?.material?.icon ||
+              ''
+          ).trim();
+          const mid = ud.catalogMaterialId ?? item?.material_id ?? item?.spec?.material?.id;
+          if (tex || mid != null) {
+            const fromCard = {
+              id: mid != null ? `m-${mid}` : 'catalog-explicit',
+              name: item?.material_name || '',
+              texture: tex,
+              icon: tex,
+              material_id: mid,
+              materialId: mid,
+              material_type: ud.catalogMaterialKey || item?.material_key || 'material_2',
+            };
+            if (
+              __applyStep5OutsideDecorToMesh(obj, fromCard, {
+                textureLoader,
+                decorRoot,
+                getRootBboxForUv,
+                isFacadeEdgeStrip,
+              })
+            ) {
+              facadeCount++;
+            }
+          }
+        }
+        return;
+      }
     }
 
     const isPlaceholder = obj.name === 'PlaceholderFromSize' || obj.name === 'Placeholder';
     // Шаг 5: куда кладётся выбор с колеса — задаётся кнопками «снаружи/внутри» (window.step5DecorTarget),
     // оба кольца SVG — только разные палитры (см. color-wheel.js applyToActiveTarget).
-    // Применение: selection.outside → меши isFacade (+ планки секции); selection.inside → корпус isBody / детали.
+    // Применение: selection.outside > меши isFacade (+ планки секции); selection.inside > корпус isBody / детали.
     // Планки/накладки/топы секции: тот же канал outside, что и фасады.
     const isSectionTrimPlank =
       ud.sectionTrimUsesOutsideDecor === true &&
@@ -8462,11 +11893,15 @@ function refreshFurnitureDecorsImmediate(options = {}) {
     const usesOutsideDecor =
       (ud.isFacade === true ||
         isFacadeEdgeStrip(obj) ||
-        ud.sectionTrimUsesOutsideDecor === true) &&
+        ud.sectionTrimUsesOutsideDecor === true ||
+        ud.step5DecorChannel === 'outside' ||
+        ud.cldFacadeMaterialGroup === true) &&
       ud.cldSkipStep5FacadeDecor !== true;
     const usesInsideDecor =
       !templateMat &&
       effectiveInside &&
+      ud.step5DecorChannel !== 'outside' &&
+      ud.cldFacadeMaterialGroup !== true &&
       (ud.isBody === true ||
         ud.step5DecorChannel === 'inside' ||
         isCorpusBodyEdgeStrip(obj) ||
@@ -8487,6 +11922,7 @@ function refreshFurnitureDecorsImmediate(options = {}) {
       if (isCorpusBodyEdgeStrip(obj)) return;
 
       bodyCount++;
+      __ensureUniqueMeshMaterialForStep5(obj);
       const insideTex = getStep5DecorTextureUrl(effectiveInside);
       const insideHex = getStep5DecorHexFallback(effectiveInside);
 
@@ -8547,6 +11983,7 @@ function refreshFurnitureDecorsImmediate(options = {}) {
           if (!m) continue;
           m.map = null;
           m.color.set(insideHex);
+          __markStep5DecorApplied(m, false);
           m.needsUpdate = true;
         }
       } else if (insideTex) {
@@ -8555,6 +11992,7 @@ function refreshFurnitureDecorsImmediate(options = {}) {
           for (const m of mats) {
             if (!m) continue;
             m.color.set(insidePreview);
+            __markStep5DecorApplied(m, false);
             m.needsUpdate = true;
           }
         }
@@ -8682,6 +12120,15 @@ export function refreshFurnitureDecors() {
 export function applyStep5DecorToFurnitureGroupImmediate(group) {
   if (!group) return;
   refreshFurnitureDecorsImmediate({ root: group, placementPreview: true });
+  // Лицевой цоколь-прогон: подтянуть цвет/текстуру корпуса после декора.
+  try {
+    const wall = String(group?.userData?.wallName || '').trim();
+    const ov =
+      typeof window !== 'undefined' ? window.__cldKitchenRunOverlays : null;
+    if (wall && ov && typeof ov.syncKitchenRunOverlaysOnWall === 'function') {
+      ov.syncKitchenRunOverlaysOnWall(wall);
+    }
+  } catch (_) {}
 }
 
 function __getStep5ConfigStep() {
@@ -8860,7 +12307,7 @@ function __ensureStep5DecorSelectionInitializedFromConfig() {
   __applyStep5DefaultsFromRoomConfig({ onlyMissing: true });
 }
 
-/** Дефолты Ыснаружи/внутрил из админки → localStorage (+ опционально текстуры на сцене). */
+/** Дефолты «снаружи/внутри» из админки > localStorage (+ опционально текстуры на сцене). */
 export function initStep5DefaultDecorsFromRoomConfig(options = {}) {
   const force = options.force === true;
   const doRefresh = options.refresh === true || (force && options.refresh !== false);
@@ -8885,7 +12332,7 @@ export function placePendingFurniture() {
   void placePendingFurnitureAsync();
 }
 
-/** mm size equality for ghost prebuild adopt (±1 мм, как REBUILD-SKIP). */
+/** mm size equality for ghost prebuild adopt (В±1 мм, как REBUILD-SKIP). */
 function _sectionMmClose(a, b, eps = 1) {
   if (!a || !b) return false;
   const ax = Number(a.x) || 0;
@@ -8958,7 +12405,7 @@ function _normGhostZoneIdx(z) {
   return Number.isFinite(n) ? n : null;
 }
 
-/** Ключ секция+зона+размер — нельзя adopt’ить шкаф, собранный Ыпо путил в другой нише. */
+/** Ключ секция+зона+размер — нельзя adopt’ить шкаф, собранный «по пути» в другой нише. */
 function _ghostClodisContextKey(sectionSize, sectionId, zoneIdx) {
   return `${_ghostClodisSizeKey(sectionSize)}|${sectionId ?? 'none'}|${_normGhostZoneIdx(zoneIdx) ?? 'n'}`;
 }
@@ -8976,18 +12423,27 @@ function _readGhostClodisContextFromState() {
     y: Math.max(0, Number(sizeSrc?.y) || 0),
     z: Math.max(0, Number(sizeSrc?.z) || 0),
   };
-  // Тумба: не раздувать шире каталога. Шкаф в нише — ширина зоны (вплотную).
-  // Навес — как тумба: ширина карточки, не зона.
+  // Тумба/навес/kitchen_base: не раздувать шире каталога. Шкаф в нише — ширина зоны.
   if (furnitureData) {
     const pk = resolvePlacementKindFromFurnitureData(furnitureData);
+    const rawPk = getRawPlacementKindFromFurnitureData(furnitureData);
     if (
       pk === PLACEMENT_KIND.STANDALONE_FLOOR ||
-      isWallHungPlacementKind(pk)
+      isWallHungPlacementKind(pk) ||
+      isKitchenBasePlacementKind(rawPk) ||
+      isKitchenTallPlacementKind(rawPk)
     ) {
       const cat = extractSectionSizeFromFurnitureData(furnitureData);
       const cx = Number(cat?.x) || 0;
+      const cz = Number(cat?.z) || 0;
       if (cx > 0 && sectionSize.x > cx) {
         sectionSize = { ...sectionSize, x: cx };
+      }
+      if (
+        (isKitchenBasePlacementKind(rawPk) || isKitchenTallPlacementKind(rawPk)) &&
+        cz > 0
+      ) {
+        sectionSize = { ...sectionSize, z: cz };
       }
     }
   }
@@ -9199,6 +12655,8 @@ function buildGhostClodisPrebuildNow() {
         groups: {
           g0: { thickness: corpusWallThicknessMm },
           g1: { thickness: 3 },
+          g2: { thickness: 18 },
+          g3: { thickness: 16 },
           hdf1: { thickness: 3 },
         },
         useLegacySetupPivot: true,
@@ -9300,7 +12758,7 @@ async function placePendingFurnitureAsync() {
     }
   };
 
-  console.log('[ОТЛАДКА] 🏗️ placePendingFurniture вызван! pos=', state.ghostPosition, 'wall=', state.ghostWall);
+  console.log('[ОТЛАДКА] ??? placePendingFurniture вызван! pos=', state.ghostPosition, 'wall=', state.ghostWall);
   console.log('State:', {
     pendingFurnitureData: !!state.pendingFurnitureData,
     ghostPosition: state.ghostPosition,
@@ -9309,7 +12767,7 @@ async function placePendingFurnitureAsync() {
   });
 
   if (!state.pendingFurnitureData) {
-    console.warn('Р️ Нет данных для размещения мебели');
+    console.warn('Р? Нет данных для размещения мебели');
     return;
   }
 
@@ -9330,8 +12788,23 @@ async function placePendingFurnitureAsync() {
     return;
   }
 
+  // НШ1-сосед: если ghostAllowed сбросил pivot — взять позицию короба призрака.
+  if (
+    (!state.ghostPosition || !state.ghostWall) &&
+    state.furnitureGhost &&
+    state.pendingFurnitureData &&
+    isKitchenWallBandFurnitureData(state.pendingFurnitureData)
+  ) {
+    state.ghostPosition = state.furnitureGhost.position.clone();
+    state.ghostWall =
+      state.furnitureGhost.userData?.wall ||
+      state._pendingZoneInfo?.wallName ||
+      state.lastValidGhostWall ||
+      null;
+    state._ghostZonePlacementAllowed = true;
+  }
   if (!state.ghostPosition || !state.ghostWall) {
-    console.warn('Р️ Нет привязки к стене — размещение отменено');
+    console.warn('[PLACE] Нет привязки к стене — размещение отменено');
     cancelFurniturePlacement();
     return;
   }
@@ -9339,7 +12812,7 @@ async function placePendingFurnitureAsync() {
   // Check if wall is visible
   if (state.room && state.room.walls && state.room.walls[state.ghostWall]) {
     if (state.room.walls[state.ghostWall].visible === false) {
-      console.warn('Р️ Стена скрыта — размещение невозможно');
+      console.warn('Р? Стена скрыта — размещение невозможно');
       cancelFurniturePlacement();
       return;
     }
@@ -9356,30 +12829,217 @@ async function placePendingFurnitureAsync() {
   // до removeFurnitureGhost, т.к. он очищает состояние.
   const pendingZoneInfo = state._pendingZoneInfo || null;
 
-  // ── Проверка совместимости: тип модуля vs тип зоны ────────────────────────
-  // single↔double: отказ или жест (split/merge) — только шкафы (floor_in_niche).
-  // Комод/тумба/навес: пилюли одн./дву. не блокируют — иначе нельзя upper над base.
-  // catalog_44 (угловой): только спец-зона L; обычные шкафы в спец не ставим.
-  if (pendingZoneInfo?.doorKind) {
+  // -- Проверка совместимости: тип модуля vs тип зоны ------------------------
+  // Угол (44/54): всегда, даже без doorKind на зоне.
+  // single-double: только шкафы (floor_in_niche); kitchen mid/base не режем.
+  if (pendingZoneInfo) {
     const baySec =
       Array.isArray(state.customSections) && pendingZoneInfo.sectionId != null
         ? state.customSections.find((s) => s && s.id === pendingZoneInfo.sectionId)
         : null;
     const pkGate = resolvePlacementKindFromFurnitureData(furnitureData);
-    const skipDoorGate =
-      pkGate === PLACEMENT_KIND.STANDALONE_FLOOR || isWallHungPlacementKind(pkGate);
     const isCornerCab = isLCornerCabinetModule(furnitureData);
-    const onLSpecial =
+    const rawPkGate = String(
+      getRawPlacementKindFromFurnitureData(furnitureData) || ''
+    )
+      .trim()
+      .toLowerCase();
+    const wallBandGate =
+      !isCornerCab && isKitchenWallBandFurnitureData(furnitureData);
+    const isWallMidGate =
+      wallBandGate &&
+      (rawPkGate === 'kitchen_wall_mid' ||
+        String(furnitureData?.__kitchenWallBand || '').toLowerCase() !==
+          'top');
+    const isWallTopGateEarly =
+      wallBandGate &&
+      (rawPkGate === 'kitchen_wall_top' ||
+        String(furnitureData?.__kitchenWallBand || '').toLowerCase() ===
+          'top');
+    // НШ1/НШ2: при Г — зона среди свободных MID/TOP (левая от 210/крыла), не seat B.
+    if (wallBandGate && baySec && pendingZoneInfo.zoneIndex != null) {
+      let ziHit = Math.floor(Number(pendingZoneInfo.zoneIndex));
+      const bandGate = isWallTopGateEarly ? 'top' : 'mid';
+      if (isSectionUpperCornerGPresent(baySec)) {
+        const blocked = new Set(getNsh1BlockedMidZoneIndexes(baySec, bandGate));
+        const hit =
+          pendingZoneInfo.hitAlongMm != null
+            ? Number(pendingZoneInfo.hitAlongMm)
+            : Number(pendingZoneInfo.hitCoord);
+        if (Number.isFinite(hit) && blocked.size) {
+          try {
+            const lay = buildKitchenBandCellLayoutForSection(baySec, bandGate);
+            let best = null;
+            let bestDist = Infinity;
+            for (const seg of lay?.segments || []) {
+              if (!seg || seg.type !== 'module') continue;
+              const z = Math.floor(Number(seg.zoneIndex));
+              if (blocked.has(z)) continue;
+              const a = Math.min(Number(seg.startU), Number(seg.endU));
+              const b = Math.max(Number(seg.startU), Number(seg.endU));
+              if (!(b > a + 1)) continue;
+              let d = 0;
+              if (hit < a) d = a - hit;
+              else if (hit > b) d = hit - b;
+              if (d < bestDist) {
+                bestDist = d;
+                best = z;
+              }
+              if (d === 0) break;
+            }
+            if (best != null) ziHit = best;
+          } catch (_) {}
+        }
+        if (blocked.has(ziHit)) {
+          const offG = _redirectPlaceOffGFootprintMidZi(baySec, ziHit, bandGate);
+          if (offG != null) ziHit = offG;
+        }
+        if (ziHit !== Math.floor(Number(pendingZoneInfo.zoneIndex))) {
+          pendingZoneInfo.zoneIndex = ziHit;
+          pendingZoneInfo.upperCornerSeat = null;
+          pendingZoneInfo.upperCornerCompanion = false;
+          pendingZoneInfo.seatBStartU = null;
+          pendingZoneInfo.seatBEndU = null;
+          pendingZoneInfo.doorKind = getZoneDoorKind(baySec, ziHit);
+          state._pendingZoneInfo = pendingZoneInfo;
+        }
+      }
+    }
+    const skipDoorGate =
+      pkGate === PLACEMENT_KIND.STANDALONE_FLOOR ||
+      isWallHungPlacementKind(pkGate) ||
+      isWallMidGate ||
+      isWallTopGateEarly ||
+      wallBandGate;
+    const isUpperGPlaceGate = _isUpperGFurnitureData(furnitureData);
+    let onLSpecial =
       !!baySec && __isLShapeSpecialZone(baySec, pendingZoneInfo.zoneIndex);
+    if (baySec && isCornerCab && rawPkGate === 'kitchen_wall_corner') {
+      const midSp = Math.floor(
+        Number(baySec.kitchenBandGrids?.mid?.specialZoneIndex)
+      );
+      const onMidSp =
+        Number.isFinite(midSp) &&
+        midSp >= 0 &&
+        Number(pendingZoneInfo.zoneIndex) === midSp;
+      onLSpecial = onLSpecial || onMidSp;
+    }
+    // Г-обр и приставной навесной угол → одна G-ячейка на L/П (mid|top).
+    if (
+      (rawPkGate === 'kitchen_wall_corner' || isUpperGPlaceGate) &&
+      (pendingZoneInfo.upperGCell === true ||
+        pendingZoneInfo.upperCornerSeat === 'G' ||
+        !!baySec?.lShape ||
+        isUpperGPlaceGate)
+    ) {
+      onLSpecial = true;
+      pendingZoneInfo.upperGCell = true;
+      pendingZoneInfo.upperCornerSeat = 'G';
+      try {
+        if (
+          typeof window.__cldResolveUpperGBandFromContext === 'function' &&
+          !pendingZoneInfo.upperGBand
+        ) {
+          pendingZoneInfo.upperGBand = window.__cldResolveUpperGBandFromContext(
+            furnitureData,
+            pendingZoneInfo,
+            null
+          );
+        }
+      } catch (_) {}
+    }
+    // НШ1-сосед: спец низа/MID никогда не блок.
+    // UpperG в антресоль (top): onLSpecial не сбрасывать.
+    if (
+      (isWallMidGate || isWallTopGateEarly || wallBandGate) &&
+      !isUpperGPlaceGate
+    ) {
+      onLSpecial = false;
+    }
     __cldLogLCorner('placePendingFurniture/gate', {
       onLSpecial,
       isCornerCab,
+      isUpperGPlaceGate,
+      isWallMidGate,
       skipDoorGate,
+      doorKind: pendingZoneInfo.doorKind ?? null,
     });
-    if (isCornerCab && !onLSpecial) {
+    const freeWallPlace =
+      state.kitchenSectionsEnabled === false ||
+      !(state.customSections || []).length;
+    if (isCornerCab && !onLSpecial && !freeWallPlace) {
       __cldLogLCorner('BLOCK placePending not special');
       const msg =
         'Угловой модуль ставится только в угловую спец-секцию.';
+      if (typeof window.showToast === 'function') {
+        window.showToast(msg, 'warning');
+      } else if (typeof window.toastr !== 'undefined') {
+        window.toastr.warning(msg);
+      } else {
+        console.warn('[РАЗМЕЉЕНИЕ] ' + msg);
+      }
+      cancelFurniturePlacement();
+      return;
+    }
+    if (isCornerCab && baySec?.lShape && !isUpperGPlaceGate) {
+      const tgt = resolveCornerCabinetPlaceTarget(
+        baySec,
+        pendingZoneInfo,
+        furnitureData
+      );
+      if (tgt?.section && tgt.zoneIndex != null) {
+        pendingZoneInfo.sectionId = tgt.section.id;
+        pendingZoneInfo.zoneIndex = tgt.zoneIndex;
+        pendingZoneInfo.wallName =
+          tgt.section.wallName ||
+          tgt.section.division?.wallName ||
+          pendingZoneInfo.wallName;
+        pendingZoneInfo.doorKind = 'double';
+        state._pendingZoneInfo = pendingZoneInfo;
+      }
+      const zoneAt = getSectionLCornerZoneAtStart(
+        tgt?.section || baySec,
+        tgt?.zoneIndex ?? pendingZoneInfo.zoneIndex
+      );
+      const modAt = getCatalogItemCornerAtStart(furnitureData);
+      if (zoneAt != null && modAt !== zoneAt) {
+        __cldLogLCorner('BLOCK placePending wrong corner side', {
+          zoneAt,
+          modAt,
+        });
+        const msg = zoneAt
+          ? 'В этот угол подходит только угловой левый модуль.'
+          : 'В этот угол подходит только угловой правый модуль.';
+        if (typeof window.showToast === 'function') {
+          window.showToast(msg, 'warning');
+        } else if (typeof window.toastr !== 'undefined') {
+          window.toastr.warning(msg);
+        } else {
+          console.warn('[РАЗМЕЩЕНИЕ] ' + msg);
+        }
+        cancelFurniturePlacement();
+        return;
+      }
+    }
+    // Спец L/U низа: только НМУ/ВМУ. НШ1 — ячейка-сосед MID (не блок 1050).
+    const isWallTopGate =
+      isWallTopGateEarly ||
+      (!isCornerCab &&
+        (rawPkGate === 'kitchen_wall_top' ||
+          isKitchenWallTopPlacementKind(rawPkGate)));
+    if (
+      onLSpecial &&
+      !isCornerCab &&
+      !isWallMidGate &&
+      !isWallTopGate &&
+      !wallBandGate
+    ) {
+      __cldLogLCorner('BLOCK non-corner on special', {
+        skipDoorGate,
+        pkGate,
+      });
+      const msg =
+        'В угловую спец-зону ставится только угловой модуль (НМУ / Навесные угловые).';
       if (typeof window.showToast === 'function') {
         window.showToast(msg, 'warning');
       } else if (typeof window.toastr !== 'undefined') {
@@ -9390,52 +13050,40 @@ async function placePendingFurnitureAsync() {
       cancelFurniturePlacement();
       return;
     }
-    if (onLSpecial && !isCornerCab && !skipDoorGate) {
-      __cldLogLCorner('BLOCK non-corner on special');
-      const msg =
-        'В угловую спец-зону ставится только угловой модуль из каталога «Угловые модули».';
-      if (typeof window.showToast === 'function') {
-        window.showToast(msg, 'warning');
-      } else if (typeof window.toastr !== 'undefined') {
-        window.toastr.warning(msg);
-      } else {
-        console.warn('[РАЗМЕЩЕНИЕ] ' + msg);
-      }
-      cancelPlacementAndSwitchCatalogForZone(pendingZoneInfo.doorKind);
-      return;
-    }
-    const moduleDoorKind = inferModuleDoorKindFromCategories(furnitureData);
-    const zoneDoorKind = pendingZoneInfo.doorKind;
-    if (
-      !skipDoorGate &&
-      !isCornerCab &&
-      moduleDoorKind &&
-      moduleDoorKind !== zoneDoorKind
-    ) {
-      const canGesture = zonePlaceGesturePossible(
-        baySec,
-        pendingZoneInfo.zoneIndex,
-        moduleDoorKind
-      );
-      if (!canGesture) {
-        const zoneLabel = zoneDoorKind === 'single' ? 'одинарную' : 'двойную';
-        const modLabel = moduleDoorKind === 'single' ? 'одинарный шкаф' : 'двойной шкаф';
-        const msg = `Нельзя разместить ${modLabel} в ${zoneLabel} зону. Выберите подходящий модуль из каталога.`;
-        if (typeof window.showToast === 'function') {
-          window.showToast(msg, 'warning');
-        } else if (typeof window.toastr !== 'undefined') {
-          window.toastr.warning(msg);
-        } else {
-          console.warn('[РАЗМЕЩЕНИЕ] ' + msg);
+    if (pendingZoneInfo.doorKind) {
+      const moduleDoorKind = inferModuleDoorKindFromCategories(furnitureData);
+      const zoneDoorKind = pendingZoneInfo.doorKind;
+      if (
+        !skipDoorGate &&
+        !isCornerCab &&
+        moduleDoorKind &&
+        moduleDoorKind !== zoneDoorKind
+      ) {
+        const canGesture = zonePlaceGesturePossible(
+          baySec,
+          pendingZoneInfo.zoneIndex,
+          moduleDoorKind
+        );
+        if (!canGesture) {
+          const zoneLabel = zoneDoorKind === 'single' ? 'одинарную' : 'двойную';
+          const modLabel = moduleDoorKind === 'single' ? 'одинарный шкаф' : 'двойной шкаф';
+          const msg = `Нельзя разместить ${modLabel} в ${zoneLabel} зону. Выберите подходящий модуль из каталога.`;
+          if (typeof window.showToast === 'function') {
+            window.showToast(msg, 'warning');
+          } else if (typeof window.toastr !== 'undefined') {
+            window.toastr.warning(msg);
+          } else {
+            console.warn('[РАЗМЕЩЕНИЕ] ' + msg);
+          }
+          cancelPlacementAndSwitchCatalogForZone(zoneDoorKind);
+          return;
         }
-        cancelPlacementAndSwitchCatalogForZone(zoneDoorKind);
-        return;
       }
     }
   }
 
   // Как в «1.44 перед скоростью»: ghost Clodis prebuild/adopt НЕ используем.
-  // Ускорение place оставляло корпус уже зоны → щель шкаф↔шкаф и у планки.
+  // Ускорение place оставляло корпус уже зоны > щель шкаф-шкаф и у планки.
   try {
     const deadPrebuild = detachGhostClodisPrebuildForPlace();
     if (deadPrebuild) __disposeObject3DTree(deadPrebuild);
@@ -9461,7 +13109,7 @@ async function placePendingFurnitureAsync() {
       if (isWindowAlongWallSection(earlySection)) {
         const existingH = getExistingStandaloneHeightInWindowAlongGroup(earlySection);
         const sillH = getWindowAlongGroupSillStandaloneHeightMm(earlySection);
-        // Старый ряд sill−цоколь (~800 при sill 900) — не закрепляем, поднимаем к подоконнику.
+        // Старый ряд sill?цоколь (~800 при sill 900) — не закрепляем, поднимаем к подоконнику.
         let h = 0;
         if (existingH > 0 && sillH > 0 && existingH < sillH - 5) {
           h = sillH;
@@ -9478,9 +13126,18 @@ async function placePendingFurnitureAsync() {
           };
         }
       } else {
-        const ownH = getCatalogOwnStandaloneHeightMm(furnitureData);
+        const ownHRaw = getCatalogOwnStandaloneHeightMm(furnitureData);
+        const kitchenPlaceEarly = resolveKitchenPlaceHeightAndPlinth(furnitureData);
+        const ownH = kitchenPlaceEarly ? kitchenPlaceEarly.totalHeightMm : ownHRaw;
         const existingH = getExistingStandaloneHeightInWindowAlongGroup(earlySection);
-        if (existingH > 0 && ownH > 0 && Math.abs(existingH - ownH) > 1) {
+        // Нижний кухонный ряд: всегда своя высота (корпус+опоры), без модалки.
+        if (kitchenPlaceEarly && ownH > 0) {
+          standalonePlacePreChoice = {
+            catalogType: earlyCatalogType,
+            heightMm: ownH,
+            fromAsk: false,
+          };
+        } else if (existingH > 0 && ownH > 0 && Math.abs(existingH - ownH) > 1) {
           let choice = 'own';
           try {
             choice = await askStandalonePlaceHeightChoice({
@@ -9545,7 +13202,7 @@ async function placePendingFurnitureAsync() {
       }
       return;
     } catch (error) {
-      console.error('❌ Ошибка размещения сохраненной модели:', error);
+      console.error('? Ошибка размещения сохраненной модели:', error);
       alert('Ошибка размещения модели: ' + error.message);
       return;
     }
@@ -9554,7 +13211,7 @@ async function placePendingFurnitureAsync() {
   // Create furniture from Clodis JSON (как в legacy main.js)
   const clodisData = getClodisDataForBuild(furnitureData);
   if (!clodisData || clodisData.length === 0) {
-    console.error('❌ Clodis JSON пуст для размещения мебели');
+    console.error('? Clodis JSON пуст для размещения мебели');
     return;
   }
   prefetchFillCatalogsForClodisPlan(clodisData);
@@ -9562,7 +13219,7 @@ async function placePendingFurnitureAsync() {
   let sectionSize = extractSectionSizeFromFurnitureData(furnitureData);
   const defaultModuleSize = { ...sectionSize };
   
-  // Секция: сначала зона призрака (на стыке bay↔tall AABB врёт), иначе hit по AABB.
+  // Секция: сначала зона призрака (на стыке bay-tall AABB врёт), иначе hit по AABB.
   let sectionAtPosition = null;
   if (pendingZoneInfo?.sectionId != null && Array.isArray(state.customSections)) {
     sectionAtPosition =
@@ -9572,7 +13229,7 @@ async function placePendingFurnitureAsync() {
     sectionAtPosition = findSectionAtPosition(position);
   }
   if ((state.customSections || []).length > 0 && !sectionAtPosition) {
-    console.warn('Р️ Шкаф можно ставить только в секцию обклада');
+    console.warn('Р? Шкаф можно ставить только в секцию обклада');
     cancelFurniturePlacement();
     return;
   }
@@ -9629,7 +13286,7 @@ async function placePendingFurnitureAsync() {
   let placeSnap = null;
   if (sectionAtPosition) {
     // Раньше требовали ghostZoneSize || furnitureData.sectionSize — иначе ветка зоны не выполнялась,
-    // срабатывала Ыполная секциял с чужим pivot и каталожной высотой (~2200 вместо слота ниши).
+    // срабатывала «полная секция» с чужим pivot и каталожной высотой (~2200 вместо слота ниши).
     if (sectionAtPosition.division) {
       const baseY = sectionAtPosition.size.y ?? sectionAtPosition.size.height;
       const wallNameForSize = sectionAtPosition.wallName || sectionAtPosition.division?.wallName || wall;
@@ -9646,18 +13303,108 @@ async function placePendingFurnitureAsync() {
       };
 
       // Если при движении призрака мы уже знали точный zoneIndex, не пересчитываем его по координате,
-      // чтобы избежать эффекта Ыпопали на границу и ушли в соседнюю зонул.
+      // чтобы избежать эффекта «попа»и на границу и ушли в соседнюю зонул.
       const division = sectionAtPosition.division;
       placementDivision = division;
       const wallName = sectionAtPosition.wallName || division?.wallName || wall;
       let snap = null;
       if (pendingZoneInfo && pendingZoneInfo.sectionId === sectionAtPosition.id) {
         const wForPivot = pendingZoneInfo.wallName || wallName;
-        snap = buildZoneSnapForSection(
-          sectionAtPosition,
-          pendingZoneInfo.zoneIndex,
-          wForPivot
-        );
+        // НШ1/НШ2: snap из MID/TOP (не base 1050) — иначе zi соседа ВМУ
+        // не находится в division.parts и place срывается.
+        const stampBandPlace = String(furnitureData?.__kitchenWallBand || '')
+          .trim()
+          .toLowerCase();
+        const rawPkBandPlace = String(
+          getRawPlacementKindFromFurnitureData(furnitureData) || ''
+        )
+          .trim()
+          .toLowerCase();
+        const placeBandEarly =
+          !isLCornerCabinetModule(furnitureData) &&
+          (isKitchenWallBandFurnitureData(furnitureData) ||
+            stampBandPlace === 'mid' ||
+            stampBandPlace === 'top' ||
+            rawPkBandPlace === 'kitchen_wall_mid' ||
+            rawPkBandPlace === 'kitchen_wall_top')
+            ? rawPkBandPlace === 'kitchen_wall_top' || stampBandPlace === 'top'
+              ? 'top'
+              : 'mid'
+            : null;
+        if (placeBandEarly) {
+          try {
+            const seatBEarly =
+              placeBandEarly === 'mid'
+                ? _resolvePendingUpperCornerSeatB(
+                    sectionAtPosition,
+                    furnitureData,
+                    pendingZoneInfo,
+                    wForPivot
+                  )
+                : null;
+            if (seatBEarly) {
+              snap = {
+                pivotCoord: seatBEarly.pivotCoord,
+                zoneIndex: seatBEarly.zoneIndex,
+                moduleWidth: seatBEarly.moduleWidth,
+                upperCornerSeat: 'B',
+                upperCornerCellId: seatBEarly.upperCornerCellId,
+                seatBStartU: seatBEarly.startU,
+                seatBEndU: seatBEarly.endU,
+                seatBSpannedZones: seatBEarly.spannedZoneIndexes.slice(),
+                seatBAnchorEdge: seatBEarly.anchorEdge,
+              };
+            } else {
+              const bandLayoutEarly = buildKitchenBandCellLayoutForSection(
+                sectionAtPosition,
+                placeBandEarly
+              );
+              const ziEarly = Math.floor(Number(pendingZoneInfo.zoneIndex));
+              const segEarly = (bandLayoutEarly?.segments || []).find(
+                (s) =>
+                  s &&
+                  s.type === 'module' &&
+                  Number(s.zoneIndex) === ziEarly
+              );
+              if (segEarly) {
+                const a = Math.min(
+                  Number(segEarly.startU),
+                  Number(segEarly.endU)
+                );
+                const b = Math.max(
+                  Number(segEarly.startU),
+                  Number(segEarly.endU)
+                );
+                const bandW = Math.round(b - a);
+                if (bandW > 50) {
+                  const pivotCoord =
+                    wForPivot === 'left' || wForPivot === 'front' ? b : a;
+                  snap = {
+                    pivotCoord,
+                    zoneIndex: ziEarly,
+                    moduleWidth: bandW,
+                  };
+                }
+              }
+            }
+          } catch (eEarlyBand) {
+            console.warn('[ZONE-PLACE] early band snap', eEarlyBand);
+          }
+        }
+        if (!snap) {
+          const kitchenPlaceSnap = isKitchenNmPlacement(furnitureData);
+          snap = kitchenPlaceSnap
+            ? buildKitchenCellSnap(
+                sectionAtPosition,
+                pendingZoneInfo.zoneIndex,
+                wForPivot
+              )
+            : buildZoneSnapForSection(
+                sectionAtPosition,
+                pendingZoneInfo.zoneIndex,
+                wForPivot
+              );
+        }
       } else {
         // Fallback: старый путь через hitCoord
         const hitCoord = (wallName === 'front' || wallName === 'back') ? position.x : position.z;
@@ -9673,39 +13420,103 @@ async function placePendingFurnitureAsync() {
       // catalog_44 / спец L: всегда S+D, не Math.min с каталожной шириной двери (иначе куцый модуль не в углу).
       if (snap && snap.moduleWidth > 0) {
         const isCornerCabW = isLCornerCabinetModule(furnitureData);
+        const rawPkCornerW = String(
+          getRawPlacementKindFromFurnitureData(furnitureData) || ''
+        )
+          .trim()
+          .toLowerCase();
+        const isWallCornerCab = rawPkCornerW === 'kitchen_wall_corner';
+        const onMidSp =
+          isWallCornerCab &&
+          __isMidUpperCornerSpecialZone(sectionAtPosition, snap.zoneIndex);
         const onSp =
-          isCornerCabW && __isLShapeSpecialZone(sectionAtPosition, snap.zoneIndex);
+          (isCornerCabW &&
+            __isLShapeSpecialZone(sectionAtPosition, snap.zoneIndex)) ||
+          onMidSp;
         if (onSp) {
+          __cldEnsureKitchenLFlushToWall(sectionAtPosition);
           ensureLShapeDivisionSegments(sectionAtPosition.division);
           sectionAtPosition._layoutCache = null;
-          const sp = getLShapeSpecialSnapBounds(sectionAtPosition.division);
-          let wMm = sp?.moduleWidth > 0 ? sp.moduleWidth : snap.moduleWidth;
-          // Не шире края TopPlank/секции (§6.8.3 зазор 50 у стены).
-          const endU = __cldCornerCabTargetEndU(sectionAtPosition);
-          if (sp && endU > 0 && Number.isFinite(sp.zoneStart)) {
-            const capped = Math.max(1, Math.round(endU - sp.zoneStart));
-            if (capped < wMm) {
-              __cldLogLCorner('place S+D capped to plank/section end', {
-                was: Math.round(wMm),
-                capped,
-                endU,
-                plank: __cldTopPlankMaxU(sectionAtPosition),
-                outer: __cldSectionOuterMaxU(sectionAtPosition),
-              });
-              wMm = capped;
-            }
+          // ВМУ: bounds из MID-сетки. НМУ: спец низа.
+          let sp = null;
+          if (onMidSp) {
+            try {
+              const midLayout = buildKitchenBandCellLayoutForSection(
+                sectionAtPosition,
+                'mid'
+              );
+              const seg = (midLayout?.segments || []).find(
+                (s) =>
+                  s &&
+                  s.type === 'module' &&
+                  Number(s.zoneIndex) === Number(snap.zoneIndex)
+              );
+              if (seg) {
+                const a = Math.min(Number(seg.startU), Number(seg.endU));
+                const b = Math.max(Number(seg.startU), Number(seg.endU));
+                sp = {
+                  zoneStart: a,
+                  zoneEnd: b,
+                  moduleWidth: Math.round(b - a),
+                  zoneIndex: Number(snap.zoneIndex),
+                };
+              }
+            } catch (_) {}
+          } else {
+            sp = getLShapeSpecialSnapBounds(
+              sectionAtPosition.division,
+              snap.zoneIndex
+            );
           }
-          sectionSize = { ...sectionSize, x: Math.round(wMm) };
+          let wMm = sp?.moduleWidth > 0 ? sp.moduleWidth : snap.moduleWidth;
+          const kitchenCornerPlace =
+            typeof isKitchenSectionLayoutActive === 'function' &&
+            isKitchenSectionLayoutActive();
+          if (!kitchenCornerPlace) {
+            const endU = __cldCornerCabTargetEndU(sectionAtPosition);
+            if (sp && endU > 0 && Number.isFinite(sp.zoneStart)) {
+              const capped = Math.max(1, Math.round(endU - sp.zoneStart));
+              if (capped < wMm) {
+                __cldLogLCorner('place S+D capped to plank/section end', {
+                  was: Math.round(wMm),
+                  capped,
+                  endU,
+                  plank: __cldTopPlankMaxU(sectionAtPosition),
+                  outer: __cldSectionOuterMaxU(sectionAtPosition),
+                });
+                wMm = capped;
+              }
+            }
+          } else if (isWallCornerCab) {
+            wMm = KITCHEN_WALL_CORNER_DEFAULT_WIDTH_MM;
+          } else if (!(wMm >= 1045 && wMm <= 1055)) {
+            const fixed = resolveKitchenCornerSpecialWidthMm();
+            if (fixed > 0) wMm = fixed;
+          }
+          const cellW = Math.round(wMm);
+          const projPlace = resolveKitchenCornerPlaceFromProject();
+          const placeClearMm = isWallCornerCab
+            ? 0
+            : Math.max(0, Math.round(Number(projPlace.rearMm) || 10));
+          sectionSize = { ...sectionSize, x: cellW };
+          sectionSize.__kitchenCornerCellWidthMm = cellW;
+          sectionSize.__kitchenSideWallClearanceMm = placeClearMm;
+          sectionSize.__kitchenCornerReturnMm = isWallCornerCab
+            ? Math.round(
+                Number(extractSectionSizeFromFurnitureData(furnitureData)?.z) ||
+                  350
+              )
+            : projPlace.carcassMm;
           const wForPivot = pendingZoneInfo?.wallName || wallName;
           if (sp) {
             const pivotCoord =
               wForPivot === 'left' || wForPivot === 'front'
-                ? sp.zoneStart + wMm
+                ? sp.zoneStart + cellW
                 : sp.zoneStart;
             snap = {
               pivotCoord,
               zoneIndex: sp.zoneIndex,
-              moduleWidth: Math.round(wMm),
+              moduleWidth: cellW,
             };
             const worldPos = getZonePivotWorldPosition(
               sectionAtPosition,
@@ -9723,21 +13534,111 @@ async function placePendingFurnitureAsync() {
             zoneIndex: snap?.zoneIndex,
             S: sp?.S,
             D: sp?.D,
-            endU,
+            kitchenCornerPlace,
+            zEnd: sp?.zEnd ?? null,
           });
         } else {
-          const cx = Number(extractSectionSizeFromFurnitureData(furnitureData).x);
-          const wx =
-            placementKindForSection === PLACEMENT_KIND.STANDALONE_FLOOR
-              ? snap.moduleWidth
-              : cx > 0
-                ? Math.min(snap.moduleWidth, cx)
-                : snap.moduleWidth;
+          const catSz = extractSectionSizeFromFurnitureData(furnitureData);
+          const cx = Number(catSz.x);
+          const cz = Number(catSz.z);
+          const rawPk = getRawPlacementKindFromFurnitureData(furnitureData);
+          const kitchenNm =
+            isKitchenBasePlacementKind(rawPk) ||
+            isKitchenTallPlacementKind(rawPk) ||
+            isKitchenWallMidPlacementKind(rawPk) ||
+            isKitchenWallTopPlacementKind(rawPk);
+          // kitchen_base / tall / wall_mid: ширина = ячейка; глубина — engine/каталог.
+          // standalone_floor (тумба): ширина зоны.
+          // шкаф в нише: min(зона, каталог).
+          let wx;
+          if (kitchenNm) {
+            wx = snap.moduleWidth > 0 ? snap.moduleWidth : cx > 0 ? cx : snap.moduleWidth;
+          } else if (placementKindForSection === PLACEMENT_KIND.STANDALONE_FLOOR) {
+            wx = snap.moduleWidth;
+          } else {
+            wx = cx > 0 ? Math.min(snap.moduleWidth, cx) : snap.moduleWidth;
+          }
+          // MID / TOP: ширины из kitchenBandGrids.mid|top (прямая и L — сосед ВМУ = НШ1).
+          const stampBand = String(
+            furnitureData?.__kitchenWallBand || ''
+          )
+            .trim()
+            .toLowerCase();
+          const placeBandId = isKitchenWallTopPlacementKind(rawPk)
+            ? 'top'
+            : stampBand === 'top'
+              ? 'top'
+              : isKitchenWallMidPlacementKind(rawPk) ||
+                  stampBand === 'mid' ||
+                  isKitchenWallBandFurnitureData(furnitureData)
+                ? 'mid'
+                : null;
+          if (placeBandId) {
+            try {
+              const bandLayout = buildKitchenBandCellLayoutForSection(
+                sectionAtPosition,
+                placeBandId
+              );
+              const ziBand = Math.floor(Number(snap.zoneIndex));
+              const bandSeg = (bandLayout?.segments || []).find(
+                (s) => s.type === 'module' && Number(s.zoneIndex) === ziBand
+              );
+              if (bandSeg) {
+                const bandW = Math.round(
+                  Number(bandSeg.endU) - Number(bandSeg.startU)
+                );
+                if (bandW > 50) {
+                  wx = bandW;
+                  const wForPivot = pendingZoneInfo?.wallName || wallName;
+                  const pivotCoord =
+                    wForPivot === 'left' || wForPivot === 'front'
+                      ? bandSeg.endU
+                      : bandSeg.startU;
+                  snap = {
+                    pivotCoord,
+                    zoneIndex: ziBand,
+                    moduleWidth: bandW,
+                  };
+                  const worldPos = getZonePivotWorldPosition(
+                    sectionAtPosition,
+                    snap,
+                    wForPivot
+                  );
+                  if (worldPos) {
+                    position.x = worldPos.x;
+                    position.z = worldPos.z;
+                  }
+                }
+              }
+            } catch (eBandPlace) {
+              console.warn(`[ZONE-PLACE] ${placeBandId} band width`, eBandPlace);
+            }
+          }
           sectionSize = { ...sectionSize, x: wx };
+          // Глубина кухни (НМ/пенал/НШ) — НЕ из карточки каталога.
+          // Иначе 510 из админки залипает до/вместо prepareKitchenPlace (project 460/510/550).
+          // z задаёт engine: prepareKitchenPlace > carcassDepthMm проекта.
+          // НШ1/НШ2: не тащить глубину секции низа (550–600) в sectionSize до engine.
+          // Г-шкаф: конверт 600×600 — не сжимать z до 350 одной стены.
+          const skipDepthClampForUpperG =
+            typeof window.__cldIsKitchenUpperGModuleData === 'function' &&
+            window.__cldIsKitchenUpperGModuleData(furnitureData);
+          if (
+            placeBandId &&
+            !skipDepthClampForUpperG &&
+            (!(Number(sectionSize.z) > 0) || Number(sectionSize.z) > 450)
+          ) {
+            sectionSize = { ...sectionSize, z: 350 };
+          }
         }
       }
       placeSnap = snap;
-      if (placementKindForSection === PLACEMENT_KIND.FLOOR_IN_NICHE) {
+      const rawPkForNiche = getRawPlacementKindFromFurnitureData(furnitureData);
+      // Пенал: высота из датамов (prepareKitchenPlace), не ниша шкафа.
+      if (
+        placementKindForSection === PLACEMENT_KIND.FLOOR_IN_NICHE &&
+        !isKitchenTallPlacementKind(rawPkForNiche)
+      ) {
         const syNiche = nicheSlotYmm ?? fallbackSlotY;
         if (syNiche > 0) sectionSize.y = syNiche;
         sectionSize.z = depthForZone;
@@ -9752,8 +13653,10 @@ async function placePendingFurnitureAsync() {
         let appliedZoneGesture = null;
 
         // Жесты replace/split/merge (свободное плечо L / прямая). Спец угла и catalog_44 — без жестов.
+        // kitchen_tall: не шкафные жесты ниши.
         if (
           placementKindForSection === PLACEMENT_KIND.FLOOR_IN_NICHE &&
+          !isKitchenTallPlacementKind(rawPkForNiche) &&
           placementZoneIndex != null &&
           sectionAllowsZonePlaceGestures(sectionAtPosition) &&
           !isLCornerCabinetModule(furnitureData) &&
@@ -9775,6 +13678,11 @@ async function placePendingFurnitureAsync() {
               hitAlongMm
             );
             if (gest && gest.ok === false) {
+              if (gest.reason === 'same-role-kitchen-column') {
+                // Тост уже из prepareZonePlaceGesture.
+                cancelFurniturePlacement();
+                return;
+              }
               const msg =
                 gest.reason === 'merge-no-neighbor'
                   ? 'Рядом нет однодверной зоны для двухдверного модуля.'
@@ -9784,6 +13692,7 @@ async function placePendingFurnitureAsync() {
               } else {
                 console.warn('[ZONE-GESTURE]', gest.reason, msg);
               }
+              cancelFurniturePlacement();
               return;
             }
             if (gest && gest.ok) {
@@ -9865,18 +13774,108 @@ async function placePendingFurnitureAsync() {
         // Пробрасываем жест дальше по place (doorKind / ширина).
         state._appliedZonePlaceGesture = appliedZoneGesture;
 
-        // Hang / тумба: жесты FLOOR_IN_NICHE не вызывались — всё равно снести
-        // несовместимых (same-role / full), совместимую пару оставить.
+        // Hang / тумба / кухня (в т.ч. пенал baseKind=floor_in_niche): снести
+        // несовместимых (full / чужая группа), совместимую пару оставить.
+        // Same-role kitchen_column (два mid / два base) — отказ, не replace.
         if (
           placementZoneIndex != null &&
           Number.isFinite(Number(placementZoneIndex)) &&
-          placementKindForSection !== PLACEMENT_KIND.FLOOR_IN_NICHE
+          (placementKindForSection !== PLACEMENT_KIND.FLOOR_IN_NICHE ||
+            isKitchenTallPlacementKind(rawPkForNiche) ||
+            isKitchenBasePlacementKind(rawPkForNiche) ||
+            isKitchenWallMidPlacementKind(rawPkForNiche) ||
+            isKitchenWallTopPlacementKind(rawPkForNiche))
         ) {
-          removeIncompatibleZoneOccupantsForPlace(
-            sectionAtPosition.id,
-            placementZoneIndex,
-            resolvePendingZoneCohabitSpec(furnitureData)
+          const pendingCohabit = resolvePendingZoneCohabitSpec(furnitureData);
+          const wallNameOcc = pendingZoneInfo?.wallName || wallName;
+          const seatBPlace = _resolvePendingUpperCornerSeatB(
+            sectionAtPosition,
+            furnitureData,
+            pendingZoneInfo,
+            wallNameOcc
           );
+          // Seat B НШ1 внутри upperCornerCell: W=catalog; замена только B (не A/ВМУ).
+          if (seatBPlace) {
+            snap = {
+              pivotCoord: seatBPlace.pivotCoord,
+              zoneIndex: seatBPlace.zoneIndex,
+              moduleWidth: seatBPlace.moduleWidth,
+              upperCornerSeat: 'B',
+              upperCornerCellId: seatBPlace.upperCornerCellId,
+              seatBStartU: seatBPlace.startU,
+              seatBEndU: seatBPlace.endU,
+              seatBSpannedZones: seatBPlace.spannedZoneIndexes.slice(),
+              seatBAnchorEdge: seatBPlace.anchorEdge,
+            };
+            placeSnap = snap;
+            placementZoneIndex = seatBPlace.zoneIndex;
+            sectionSize = {
+              ...sectionSize,
+              x: seatBPlace.moduleWidth,
+            };
+            const prevSeatB = findUpperCornerSeatBByCellId(
+              sectionAtPosition.id,
+              seatBPlace.upperCornerCellId
+            );
+            if (prevSeatB) {
+              removeFurnitureGroupQuietForGesture(prevSeatB);
+            }
+            const spanZis = seatBPlace.spannedZoneIndexes.length
+              ? seatBPlace.spannedZoneIndexes.slice()
+              : [seatBPlace.zoneIndex];
+            for (const ziSpan of spanZis) {
+              if (
+                findSameRoleKitchenColumnOccupant(
+                  sectionAtPosition.id,
+                  ziSpan,
+                  pendingCohabit
+                )
+              ) {
+                toastKitchenSameRoleBlocked(pendingCohabit);
+                cancelFurniturePlacement();
+                return;
+              }
+              removeIncompatibleZoneOccupantsForPlace(
+                sectionAtPosition.id,
+                ziSpan,
+                pendingCohabit
+              );
+            }
+            try {
+              state._pendingZoneInfo = {
+                ...(pendingZoneInfo || {}),
+                sectionId: sectionAtPosition.id,
+                wallName: wallNameOcc,
+                zoneIndex: seatBPlace.zoneIndex,
+                upperCornerSeat: 'B',
+                upperCornerCellId: seatBPlace.upperCornerCellId,
+                seatBStartU: seatBPlace.startU,
+                seatBEndU: seatBPlace.endU,
+                seatBSpannedZones: spanZis,
+                seatBAnchorEdge: seatBPlace.anchorEdge,
+                seatBModuleWidth: seatBPlace.moduleWidth,
+                seatBStartMm: seatBPlace.seatStartMm,
+              };
+            } catch (_) {}
+          } else {
+            // НШ1: зона как у ghost (hit). Не уводить с соседа в угол и не выкидывать из угла.
+            if (
+              findSameRoleKitchenColumnOccupant(
+                sectionAtPosition.id,
+                placementZoneIndex,
+                pendingCohabit
+              )
+            ) {
+              toastKitchenSameRoleBlocked(pendingCohabit);
+              cancelFurniturePlacement();
+              return;
+            }
+            removeIncompatibleZoneOccupantsForPlace(
+              sectionAtPosition.id,
+              placementZoneIndex,
+              pendingCohabit
+            );
+          }
         }
 
         position.copy(
@@ -10046,8 +14045,16 @@ async function placePendingFurnitureAsync() {
 
   let dataForBuild = getDataForBuild(clodisForBuild);
   if (!dataForBuild) {
-    console.error('❌ Не удалось извлечь секцию для сборки из Clodis данных');
+    console.error('? Не удалось извлечь секцию для сборки из Clodis данных');
     return;
+  }
+  // Опоры/нормализацию дерева делает один prepareKitchenModuleForBuild ниже (не здесь).
+  if (kitchenShouldSkipFloorNicheMerge(getRawPlacementKindFromFurnitureData(furnitureData))) {
+    try {
+      const catItem = furnitureData?.catalogItem || furnitureData;
+      const ks = extractKitchenSupportsFromCatalogItem(catItem);
+      if (ks) furnitureData.__kitchenSupports = ks;
+    } catch (_) {}
   }
   const isConstructorClodisJson =
     clodisHasConstructorMarkers(dataForBuild) ||
@@ -10061,7 +14068,8 @@ async function placePendingFurnitureAsync() {
   // В комнате точка привязки мебели должна быть back-left-bottom (bbox.min -> 0),
   // иначе шкаф будет "уезжать" от стены при размещении/повороте.
   // Поэтому для Clodis используем setupPivot, но избегаем legacy-скейла (см. ниже).
-  const USE_LEGACY_SETUP_PIVOT = true;
+  // Г: Clodis BLB = origin группы → seat в пивот ячейки. Legacy setupPivot сдвигает bbox и рвёт совпадение.
+  const USE_LEGACY_SETUP_PIVOT = !_isUpperGFurnitureData(furnitureData);
 
   // Декоры шага 5: outside = фасад, inside = корпус (полная запись из круга + ЛДСП)
   __applyStep5DefaultsFromRoomConfig({ onlyMissing: true });
@@ -10072,12 +14080,190 @@ async function placePendingFurnitureAsync() {
 
   const moduleVarsMerged = extractModuleVariablesFromFurnitureData(furnitureData);
   const placementKind = placementKindForSection;
-  const moduleVarsForBuilder =
-    sectionAtPosition &&
-    !isLowFurniturePlacementKind(placementKind) &&
-    !isWallHungPlacementKind(placementKind)
-      ? mergeFloorNicheVariablesFromSection(sectionAtPosition, moduleVarsMerged)
-      : moduleVarsMerged;
+  const rawKitchenPk = getRawPlacementKindFromFurnitureData(furnitureData);
+  // Антресоль над колонкой пенала: сразу D ячейки/пенала (до prepare/build).
+  try {
+    if (
+      sectionAtPosition &&
+      placementZoneIndex != null &&
+      Number.isFinite(Number(placementZoneIndex)) &&
+      isKitchenWallTopPlacementKind(rawKitchenPk) &&
+      isKitchenTallColumnZone(sectionAtPosition, placementZoneIndex)
+    ) {
+      const probe = {
+        userData: {
+          zoneIndex: Math.floor(Number(placementZoneIndex)),
+          productKind: 'kitchen_wall_top',
+          __kitchenTopDepthMode: 'deep',
+        },
+      };
+      const depthRes = resolveKitchenWallTopDepthMm(probe, sectionAtPosition);
+      if (depthRes?.ok && Number(depthRes.carcassDepthMm) > 0) {
+        const dz = Math.round(Number(depthRes.carcassDepthMm));
+        sectionSize = { ...sectionSize, z: dz };
+        furnitureData.customDepthMm = dz;
+        if (!furnitureData.userData || typeof furnitureData.userData !== 'object') {
+          furnitureData.userData = {};
+        }
+        furnitureData.userData.zoneIndex = Math.floor(Number(placementZoneIndex));
+        furnitureData.userData.__kitchenTopDepthMode = 'deep';
+        furnitureData.userData.__kitchenCarcassDepthMm = dz;
+      }
+    }
+  } catch (eTopPre) {
+    console.warn('[PLACE] TOP over tall depth pre-stamp', eTopPre);
+  }
+  const kitchenEnginePlace = kitchenShouldSkipFloorNicheMerge(rawKitchenPk)
+    ? prepareKitchenPlace(furnitureData, moduleVarsMerged, sectionSize)
+    : null;
+  // Kitchen engine: никогда не mergeFloorNiche (планки шкафа).
+  let moduleVarsForBuilder =
+    kitchenEnginePlace && kitchenEnginePlace.ok
+      ? kitchenEnginePlace.moduleVars
+      : sectionAtPosition &&
+          !isLowFurniturePlacementKind(placementKind) &&
+          !isWallHungPlacementKind(placementKind) &&
+          !kitchenShouldSkipFloorNicheMerge(rawKitchenPk)
+        ? mergeFloorNicheVariablesFromSection(sectionAtPosition, moduleVarsMerged)
+        : moduleVarsMerged;
+  if (kitchenEnginePlace && kitchenEnginePlace.ok) {
+    sectionSize.x = kitchenEnginePlace.sectionSize.x || sectionSize.x;
+    sectionSize.y = kitchenEnginePlace.sectionSize.y;
+    sectionSize.z = kitchenEnginePlace.sectionSize.z || sectionSize.z;
+  }
+
+  // Угловой НМУ: контекст для единого prepare (не отдельный повар). Соседа не угадывать.
+  let __kitchenCornerSideAtMinU = null;
+  let __kitchenCornerPrepareCtx = null;
+  try {
+    const ziCorner =
+      placementZoneIndex != null
+        ? placementZoneIndex
+        : placeSnap?.zoneIndex != null
+          ? placeSnap.zoneIndex
+          : null;
+    const pkCornerSp = String(rawKitchenPk || '').trim();
+    const onUpperGPending =
+      (pkCornerSp === 'kitchen_wall_corner' ||
+        _isUpperGFurnitureData(furnitureData)) &&
+      (pendingZoneInfo?.upperGCell === true ||
+        pendingZoneInfo?.upperCornerSeat === 'G' ||
+        (typeof window.__cldFindUpperGJointForSection === 'function' &&
+          !!window.__cldFindUpperGJointForSection(sectionAtPosition)));
+    const onMidUpperSp =
+      ((pkCornerSp === 'kitchen_wall_corner' ||
+        _isUpperGFurnitureData(furnitureData)) &&
+        ziCorner != null &&
+        __isMidUpperCornerSpecialZone(sectionAtPosition, ziCorner)) ||
+      onUpperGPending;
+    const onCornerSp =
+      kitchenEnginePlace?.ok &&
+      sectionAtPosition &&
+      isLCornerCabinetModule(furnitureData) &&
+      (pkCornerSp === 'kitchen_base_corner' ||
+        pkCornerSp === 'kitchen_wall_corner') &&
+      ziCorner != null &&
+      (__isLShapeSpecialZone(sectionAtPosition, ziCorner) || onMidUpperSp);
+    if (onCornerSp) {
+      // Сторона приставки: зона (П: zi=0 лев / zi=end прав) > meta L > hand > typeKey.
+      // Без зоны на П typeKey пуст > atStart=false и левый НМУ строится как правый.
+      let atStart = false;
+      let typeKey = sectionAtPosition.division?.typeKey || null;
+      // ВМУ: сторона из upper reserves / mid special, не из спец низа.
+      if (onMidUpperSp) {
+        const bag = sectionAtPosition._kitchenJointUpperReserves;
+        if (bag && typeof bag === 'object') {
+          for (const r of Object.values(bag)) {
+            if (r?.isHost === true && typeof r.atStart === 'boolean') {
+              atStart = r.atStart === true;
+              break;
+            }
+          }
+        } else {
+          const midSp = Math.floor(
+            Number(sectionAtPosition.kitchenBandGrids?.mid?.specialZoneIndex)
+          );
+          atStart = midSp === 0;
+        }
+      }
+      const zoneAt = onMidUpperSp
+        ? null
+        : getSectionLCornerZoneAtStart(sectionAtPosition, ziCorner);
+      if (zoneAt != null) {
+        atStart = zoneAt;
+      } else if (!onMidUpperSp) {
+        try {
+          const meta = getLShapeMeta(sectionAtPosition);
+          if (meta) {
+            if (meta.typeKey) typeKey = meta.typeKey;
+            if (typeof meta.cornerAtStart === 'boolean') atStart = meta.cornerAtStart;
+          }
+        } catch (_) {}
+        if (typeof sectionAtPosition?.lShape?.cornerAtStart === 'boolean') {
+          atStart = sectionAtPosition.lShape.cornerAtStart;
+        } else if (sectionAtPosition?.lShape?.hand === 'left') {
+          atStart = true;
+        } else if (sectionAtPosition?.lShape?.hand === 'right') {
+          atStart = false;
+        } else {
+          const cfg = typeKey && L_CORNER_CONFIG ? L_CORNER_CONFIG[typeKey] : null;
+          if (cfg && typeof cfg.cornerAtStart === 'boolean') atStart = cfg.cornerAtStart;
+        }
+      }
+      __kitchenCornerSideAtMinU = atStart;
+      const isWallCornerCtx = pkCornerSp === 'kitchen_wall_corner';
+      const cellW = isWallCornerCtx
+        ? Math.round(
+            Number(sectionSize?.__kitchenCornerCellWidthMm) ||
+              Number(sectionSize?.x) ||
+              KITCHEN_WALL_CORNER_DEFAULT_WIDTH_MM
+          )
+        : Math.round(
+            Number(sectionSize?.__kitchenCornerCellWidthMm) ||
+              Number(sectionSize?.x) +
+                Number(sectionSize?.__kitchenSideWallClearanceMm || 10) ||
+              resolveKitchenCornerSpecialWidthMm()
+          );
+      const projPlace = resolveKitchenCornerPlaceFromProject();
+      // ??? 1.42: return = project D; clear = rear. ???: clear=0, return = D ????????.
+      const placeClear = isWallCornerCtx
+        ? 0
+        : Math.max(
+            0,
+            Math.round(
+              Number(sectionSize?.__kitchenSideWallClearanceMm) ||
+                Number(projPlace.rearMm) ||
+                10
+            )
+          );
+      const placeReturn = isWallCornerCtx
+        ? Math.round(
+            Number(sectionSize?.__kitchenCornerReturnMm) ||
+              Number(sectionSize?.z) ||
+              350
+          )
+        : Math.round(
+            Number(sectionSize?.__kitchenCornerReturnMm) ||
+              Number(projPlace.carcassMm) ||
+              0
+          );
+      __kitchenCornerPrepareCtx = {
+        widthMm: cellW,
+        returnMm: placeReturn,
+        clearMm: placeClear,
+        wallGapMm: placeClear,
+        atStart,
+      };
+      console.warn('[PLACE] corner ctx from project D (1.42)', {
+        cellW,
+        atStart,
+        sectionZ: sectionSize.z,
+        placeReturn,
+        placeClear,
+        projectRear: projPlace.rearMm,
+      });
+    }
+  } catch (_) {}
 
   if (typeof window !== 'undefined' && window.__CLD_DEBUG_PLACE === true) {
     console.log('[PLACEMENT-DEBUG]', {
@@ -10100,7 +14286,10 @@ async function placePendingFurnitureAsync() {
     standalonePlaceCatalogType =
       (standalonePlacePreChoice && standalonePlacePreChoice.catalogType) ||
       resolveCatalogTypeFromFurnitureData(furnitureData);
-    const ownH = getCatalogOwnStandaloneHeightMm(furnitureData);
+    const ownHRaw = getCatalogOwnStandaloneHeightMm(furnitureData);
+    const kitchenPlace = resolveKitchenPlaceHeightAndPlinth(furnitureData);
+    // Кухня: каталог = корпус; в комнате + опора проекта (SKU 100/120/150 по plinth).
+    const ownH = kitchenPlace ? kitchenPlace.totalHeightMm : ownHRaw;
     const existingH = getExistingStandaloneHeightInWindowAlongGroup(sectionAtPosition);
     const sillH = getWindowAlongGroupSillStandaloneHeightMm(sectionAtPosition);
     const HEIGHT_EPS_MM = 1;
@@ -10120,12 +14309,15 @@ async function placePendingFurnitureAsync() {
         ownH
       );
     } else if (inWindowAlong) {
-      // Старый ряд ниже подоконника (sill−цоколь) — поднимаем к sill.
+      // Старый ряд ниже подоконника (sill?цоколь) — поднимаем к sill.
       if (existingH > 0 && sillH > 0 && existingH < sillH - 5) {
         h = sillH;
       } else {
         h = existingH > 0 ? existingH : sillH > 0 ? sillH : ownH;
       }
+    } else if (kitchenPlace && ownH > 0) {
+      // Нижний кухонный ряд: корпус+опоры проекта, без выбора «как сосед».
+      h = ownH;
     } else if (
       existingH > 0 &&
       ownH > 0 &&
@@ -10186,14 +14378,56 @@ async function placePendingFurnitureAsync() {
     }
   }
 
+  // Kitchen engine: финальные s:y / h_bottom / layoutZones (после clamp ширины ячейки).
   let layoutZones = null;
-  if (sectionAtPosition && placementKind === PLACEMENT_KIND.STANDALONE_FLOOR) {
-    moduleVarsForBuilder.h_top = resolveModuleHTopMm(moduleVarsForBuilder, placementKind);
-    layoutZones = computeStandaloneFloorLayoutZones(
-      sectionSize.y,
-      moduleVarsForBuilder,
-      placementKind
+  if (kitchenEnginePlace && kitchenEnginePlace.ok && kitchenEnginePlace.sizing) {
+    const ks = kitchenEnginePlace.sizing;
+    sectionSize.y = Math.round(ks.totalHeightMm);
+    if (Number(ks.carcassDepthMm) > 0) {
+      sectionSize.z = Math.round(ks.carcassDepthMm);
+    }
+    moduleVarsForBuilder = applyKitchenPlaceVariables(
+      { ...moduleVarsMerged, ...kitchenEnginePlace.moduleVars },
+      ks
     );
+    moduleVarsForBuilder.h_top = resolveModuleHTopMm(
+      moduleVarsForBuilder,
+      PLACEMENT_KIND.STANDALONE_FLOOR
+    );
+    delete moduleVarsForBuilder.corpus_body_mm;
+    delete moduleVarsForBuilder.corpus_fixed_mm;
+    delete moduleVarsForBuilder.h_corpus_body;
+    // kitchen_tall: layoutZones из датамов; kitchen_base: обычно null (формулы).
+    if (isKitchenTallPlacementKind(rawKitchenPk)) {
+      layoutZones =
+        kitchenEnginePlace.layoutZones && kitchenEnginePlace.layoutZones.ok
+          ? kitchenEnginePlace.layoutZones
+          : null;
+    } else if (kitchenPlacementUsesLayoutZones(rawKitchenPk)) {
+      layoutZones = computeStandaloneFloorLayoutZones(
+        sectionSize.y,
+        moduleVarsForBuilder,
+        PLACEMENT_KIND.STANDALONE_FLOOR
+      );
+    } else {
+      layoutZones = null;
+    }
+    standalonePlaceHeightMm = sectionSize.y;
+  } else if (sectionAtPosition && placementKind === PLACEMENT_KIND.STANDALONE_FLOOR) {
+    moduleVarsForBuilder.h_top = resolveModuleHTopMm(moduleVarsForBuilder, placementKind);
+    // НМ / НМУ (kitchen_base*): только v:h_bottom в JSON — без layoutZones.
+    // Иначе corpus получает pos.y=plinthMm поверх v:h_bottom > двойной цоколь у НМУ.
+    const skipZonesForKitchen =
+      kitchenShouldSkipFloorNicheMerge(rawKitchenPk) ||
+      isKitchenBasePlacementKind(rawKitchenPk) ||
+      (rawKitchenPk && !kitchenPlacementUsesLayoutZones(rawKitchenPk));
+    layoutZones = skipZonesForKitchen
+      ? null
+      : computeStandaloneFloorLayoutZones(
+          sectionSize.y,
+          moduleVarsForBuilder,
+          placementKind
+        );
     delete moduleVarsForBuilder.corpus_body_mm;
     delete moduleVarsForBuilder.corpus_fixed_mm;
     delete moduleVarsForBuilder.h_corpus_body;
@@ -10225,13 +14459,29 @@ async function placePendingFurnitureAsync() {
     }
   }
 
-  const shelfStackPolicy =
+  let shelfStackPolicy =
     resolveFillShelfStackPolicyFromClodisRoots(clodisForBuild) ||
     resolveShelfStackPolicyForFurnitureData(furnitureData);
+  const kitchenTallPlace = isKitchenTallPlacementKind(rawKitchenPk);
+  if (kitchenTallPlace) {
+    // Пенал: горизонты = панели в корпусе на датамах, не shelfStack.
+    shelfStackPolicy = null;
+  }
   const drawerStackPolicy = resolveDrawerStackPolicyForFurnitureData(furnitureData);
   const fillCatalogItemForInterior = resolveFillCatalogItemFromClodisRoots(clodisForBuild);
 
-  if (
+  if (kitchenTallPlace) {
+    try {
+      const rootsForTall = JSON.parse(JSON.stringify(clodisForBuild));
+      const changedTall = applyKitchenTallDatumHorizonsToRoots(rootsForTall, layoutZones);
+      if (changedTall) {
+        clodisForBuild = rootsForTall;
+        dataForBuild = getDataForBuild(clodisForBuild) || dataForBuild;
+      }
+    } catch (e) {
+      console.warn('[KITCHEN-TALL] place datum horizons failed', e);
+    }
+  } else if (
     placementKind !== PLACEMENT_KIND.STANDALONE_FLOOR &&
     !isWallHungPlacementKind(placementKind)
   ) {
@@ -10272,6 +14522,7 @@ async function placePendingFurnitureAsync() {
       console.warn('[DRAWER-STACK] place apply failed', e);
     }
     if (
+      !kitchenTallPlace &&
       placementKind !== PLACEMENT_KIND.STANDALONE_FLOOR &&
       !isWallHungPlacementKind(placementKind)
     ) {
@@ -10307,27 +14558,144 @@ async function placePendingFurnitureAsync() {
   const corpusWallThicknessMm =
     Number(moduleVarsForBuilder?._wt) > 0 ? Number(moduleVarsForBuilder._wt) : 16;
 
+  // Кухня: один prepare (как админ-превью) — опоры + угол только для kitchen_base_corner.
+  if (kitchenEnginePlace && kitchenEnginePlace.ok) {
+    try {
+      const catItem = furnitureData?.catalogItem || furnitureData;
+      const ks =
+        furnitureData.__kitchenSupports ||
+        extractKitchenSupportsFromCatalogItem(catItem) ||
+        null;
+      const pkPlace = String(rawKitchenPk || '').trim();
+      const isUpperGPlace =
+        typeof window.__cldIsKitchenUpperGModuleData === 'function'
+          ? !!window.__cldIsKitchenUpperGModuleData(furnitureData)
+          : /угловой\s*г/i.test(
+              String(
+                furnitureData?.catalogItem?.name || furnitureData?.name || ''
+              )
+            );
+      const isCornerPlace =
+        !isUpperGPlace &&
+        (pkPlace === 'kitchen_base_corner' || pkPlace === 'kitchen_wall_corner');
+      const isWallCornerPlace = !isUpperGPlace && pkPlace === 'kitchen_wall_corner';
+      let cornerCtx = isCornerPlace ? { ...(__kitchenCornerPrepareCtx || {}) } : null;
+      // Если спец-зона не сработала — всё равно project D/rear, не catalog 550.
+      if (isCornerPlace && cornerCtx && !isWallCornerPlace) {
+        const projFallback = resolveKitchenCornerPlaceFromProject();
+        if (!(Number(cornerCtx.returnMm) > 0)) {
+          cornerCtx.returnMm = Math.round(Number(projFallback.carcassMm) || 0);
+        }
+        if (
+          Number(projFallback.carcassMm) > 0 &&
+          Number(cornerCtx.returnMm) !== Number(projFallback.carcassMm)
+        ) {
+          cornerCtx.returnMm = Math.round(Number(projFallback.carcassMm));
+        }
+        // 1.42: если clear не проставлен — rear из project (не хардкод 10).
+        if (!(Number(cornerCtx.clearMm) >= 0)) {
+          cornerCtx.clearMm = Math.max(0, Math.round(Number(projFallback.rearMm) || 10));
+        }
+        cornerCtx.wallGapMm = cornerCtx.clearMm;
+      }
+      if (isWallCornerPlace && cornerCtx) {
+        cornerCtx.clearMm = 0;
+        cornerCtx.wallGapMm = 0;
+        const dWall = Math.round(
+          Number(catItem?.depth) || Number(catItem?.data?.depth) || 0
+        );
+        if (!(Number(cornerCtx.returnMm) > 0) || Number(cornerCtx.returnMm) >= 460) {
+          cornerCtx.returnMm = dWall > 0 ? dWall : 350;
+        }
+      }
+      const preparedKitchen = prepareKitchenModuleForBuild({
+        roots: dataForBuild,
+        variables: moduleVarsForBuilder,
+        widthMm:
+          Number(cornerCtx?.widthMm) ||
+          Number(sectionSize?.x) ||
+          undefined,
+        item: catItem,
+        placementKind: pkPlace,
+        plinthHeightMm: isWallCornerPlace
+          ? 0
+          : Number(moduleVarsForBuilder?.h_bottom) || undefined,
+        kitchenSupports: ks,
+        kitchenNormalize: {
+          sidePanels:
+            furnitureData?.sidePanels ||
+            furnitureData?.userData?.sidePanels ||
+            null,
+          carcassDepthMm:
+            furnitureData?.userData?.__kitchenCarcassDepthMm ||
+            furnitureData?.__kitchenCarcassDepthMm ||
+            furnitureData?.customDepthMm ||
+            sectionSize?.z ||
+            null,
+          skipWorktopCover:
+            isUpperGPlace ||
+            isKitchenWallMidPlacementKind(pkPlace) ||
+            isKitchenWallTopPlacementKind(pkPlace) ||
+            isKitchenTallPlacementKind(pkPlace) ||
+            pkPlace === 'kitchen_wall_mid' ||
+            pkPlace === 'kitchen_wall_top' ||
+            pkPlace === 'kitchen_tall',
+          ...(isUpperGPlace ? { cornerNmu: false } : {}),
+        },
+        // Г / не-угол: corner off. Приставной ВМУ1 — corner on.
+        corner: isCornerPlace
+          ? {
+              ...(cornerCtx || {}),
+              item: catItem,
+              normalizeTree: true,
+              enabled: true,
+            }
+          : { enabled: false },
+      });
+      dataForBuild = preparedKitchen.roots;
+      moduleVarsForBuilder = preparedKitchen.variables;
+      if (ks) furnitureData.__kitchenSupports = ks;
+      if (typeof window !== 'undefined' && window.__CLD_DEBUG_PREPARE === true) {
+        console.log('[PLACE] prepareKitchenModuleForBuild', preparedKitchen.meta);
+      }
+    } catch (ePrep) {
+      console.warn('[PLACE] prepareKitchenModuleForBuild failed', ePrep);
+    }
+  }
+
+  // Кухня: цоколь/опоры = project plinth, не захардкоженные 100.
+  const kitchenHbForParams = Math.max(
+    0,
+    Number(moduleVarsForBuilder?.h_bottom) || 0
+  );
   const params = {
     sectionSize: sectionSize,
-    // Толщина ЛДСП для выражений $wall.thickness → v:_wt и для g:g0.thickness в шаблонах.
+    // Толщина ЛДСП для выражений $wall.thickness > v:_wt и для g:g0.thickness в шаблонах.
     wallThicknessMm: corpusWallThicknessMm,
     variables: {
-      vysota_cokolya: 100,
+      vysota_cokolya: kitchenHbForParams > 0 ? kitchenHbForParams : 100,
       glubina_cokolya: 100,
       otstup_paza: 0,
       ...moduleVarsForBuilder,
+      ...(kitchenHbForParams > 0 ? { h_bottom: kitchenHbForParams } : {}),
     },
     // g1 часто используется как группа задней стенки (HDF 3мм) в импортированных шаблонах.
     groups: {
       g0: { thickness: corpusWallThicknessMm },
       g1: { thickness: 3 },
+      g2: { thickness: 18 },
+      g3: { thickness: 16 },
       hdf1: { thickness: 3 },
     },
     useLegacySetupPivot: USE_LEGACY_SETUP_PIVOT,
     decorOutside: step5Selection.outside,
     decorInside: step5Selection.inside,
     layoutZones,
-    placementKind,
+    // kitchen_base: в билдер — сырой id (как админка), не mapped standalone_floor.
+    placementKind:
+      kitchenEnginePlace && kitchenEnginePlace.ok && rawKitchenPk
+        ? rawKitchenPk
+        : placementKind,
     doorLayout: doorOpts.doorLayout || undefined,
     zoneHand: doorOpts.zoneHand || undefined,
     doorKind: doorOpts.doorKind || undefined,
@@ -10339,6 +14707,10 @@ async function placePendingFurnitureAsync() {
       furnitureData?.catalogItem?.data?.hingeLayoutId ??
       undefined,
     productKind: resolveProductKindForFurnitureData(furnitureData),
+    kitchenSupports:
+      furnitureData.__kitchenSupports ||
+      extractKitchenSupportsFromCatalogItem(furnitureData?.catalogItem || furnitureData) ||
+      null,
     shellFillPolicyCatalogItem:
       resolveShellFillPolicyCatalogItemFromClodisRoots(clodisForBuild, furnitureData?.catalogItem) ||
       null,
@@ -10348,10 +14720,113 @@ async function placePendingFurnitureAsync() {
     ),
   };
 
-  console.log('📦 Создание мебели из Clodis JSON, декоры:', {
+  console.log('?? Создание мебели из Clodis JSON, декоры:', {
     outside: step5Selection.outside?.name || step5Selection.outside?.id || '—',
     inside: step5Selection.inside?.name || step5Selection.inside?.id || '—',
   });
+
+  // Г-ячейка: конверт arm×arm + stamp рукавов под depthA/depthB (топология админки).
+  try {
+    const pkG = String(rawKitchenPk || '').trim();
+    const isGData =
+      typeof window.__cldIsKitchenUpperGModuleData === 'function'
+        ? !!window.__cldIsKitchenUpperGModuleData(furnitureData)
+        : /угловой\s*г/i.test(
+            String(furnitureData?.catalogItem?.name || furnitureData?.name || '')
+          );
+    // Не требовать section.lShape: Г-ячейка Joint может быть без L-meta на секции.
+    const wantGEnvelope = isGData && pkG === 'kitchen_wall_corner';
+    if (
+      wantGEnvelope &&
+      typeof window.__cldResolveUpperGCellWorldFrame === 'function'
+    ) {
+      let jointG =
+        pendingZoneInfo?.jointId &&
+        typeof window.__cldGetKitchenJoint === 'function'
+          ? window.__cldGetKitchenJoint(pendingZoneInfo.jointId)
+          : null;
+      if (!jointG && sectionAtPosition) {
+        jointG = window.__cldFindUpperGJointForSection?.(sectionAtPosition);
+      }
+      if (jointG) {
+        try {
+          window.__cldReseatUpperGCellArmDepths?.(jointG);
+        } catch (_) {}
+        const bandG =
+          pendingZoneInfo?.upperGBand ||
+          (typeof window.__cldResolveUpperGBandFromContext === 'function'
+            ? window.__cldResolveUpperGBandFromContext(
+                furnitureData,
+                pendingZoneInfo,
+                null
+              )
+            : 'mid');
+        const frameG = window.__cldResolveUpperGCellWorldFrame(jointG, {
+          band: bandG,
+        });
+        if (params?.sectionSize) {
+          const arm = Math.round(Number(frameG?.armMm) || 600);
+          const hy = Math.round(
+            Number(frameG?.heightMm) ||
+              (bandG === 'top' ? 360 : 720) ||
+              Number(params.sectionSize.y) ||
+              720
+          );
+          params.sectionSize = {
+            ...params.sectionSize,
+            x: arm,
+            y: hy,
+            z: arm,
+          };
+          sectionSize = params.sectionSize;
+        }
+        if (
+          frameG &&
+          dataForBuild &&
+          typeof window.__cldApplyUpperGArmSizesToRoots === 'function'
+        ) {
+          const gVars =
+            typeof window.__cldBuildUpperGReturnVars === 'function'
+              ? window.__cldBuildUpperGReturnVars(
+                  frameG.armMm,
+                  frameG.depthAMm,
+                  frameG.depthBMm
+                )
+              : null;
+          if (gVars) {
+            moduleVarsForBuilder = { ...moduleVarsForBuilder, ...gVars };
+            if (params?.variables) {
+              params.variables = { ...params.variables, ...gVars };
+            }
+          }
+          const roots = Array.isArray(dataForBuild)
+            ? dataForBuild
+            : [dataForBuild];
+          const copy = JSON.parse(JSON.stringify(roots));
+          const stamped = window.__cldApplyUpperGArmSizesToRoots(copy, frameG);
+          dataForBuild = Array.isArray(dataForBuild) ? copy : copy[0];
+          clodisForBuild = dataForBuild;
+          console.warn('[PLACE] UpperG arms→cell', {
+            armMm: frameG.armMm,
+            depthAMm: frameG.depthAMm,
+            depthBMm: frameG.depthBMm,
+            stubMm: gVars?.corner_g_stub_mm,
+            stamped,
+          });
+        }
+      } else if (params?.sectionSize) {
+        params.sectionSize = {
+          ...params.sectionSize,
+          x: 600,
+          y: Math.round(Number(params.sectionSize.y) || 720),
+          z: 600,
+        };
+        sectionSize = params.sectionSize;
+      }
+    }
+  } catch (eGArms) {
+    console.warn('[PLACE] UpperG envelope failed', eGArms);
+  }
 
   // Не удаляем ранее размещённые шкафы: допускаем несколько модулей в общей секции.
   // state.furniture дальше используется как ссылка на "текущий/последний" создаваемый модуль.
@@ -10386,11 +14861,77 @@ async function placePendingFurnitureAsync() {
         writeUserDataClodisVariables(ud, { ...moduleVarsForBuilder });
       }
     }
+    // Ячейка/отступ НМУ — только kitchen_base_corner (не ВМУ: иначе 1050 на навес).
+    // rawKitchenPk: __placementKindProfileId ещё не проставлен ниже.
+    const pkStamp = String(rawKitchenPk || ud.__placementKindProfileId || '').trim();
+    if (__kitchenCornerSideAtMinU != null && pkStamp === 'kitchen_base_corner') {
+      ud.__kitchenCornerSideAtMinU = __kitchenCornerSideAtMinU === true;
+      const cellFromPlace = Math.round(Number(sectionSize?.__kitchenCornerCellWidthMm) || 0);
+      const clearFromPlaceRaw = Math.round(
+        Number(sectionSize?.__kitchenSideWallClearanceMm)
+      );
+      const clearFromPlace =
+        Number.isFinite(clearFromPlaceRaw) && clearFromPlaceRaw >= 0
+          ? clearFromPlaceRaw
+          : 10;
+      ud.__kitchenSideWallClearanceMm = clearFromPlace;
+      ud.__kitchenCellWidthMm =
+        cellFromPlace > 50
+          ? cellFromPlace
+          : Math.round(Number(ud.__kitchenCellWidthMm) || 0) ||
+            Math.round(Number(sectionSize?.x) || 0) + ud.__kitchenSideWallClearanceMm;
+      ud.customWidthMm = ud.__kitchenCellWidthMm;
+      try {
+        __tintKitchenCornerReturnSlot(state.furniture?.group || null);
+      } catch (_) {}
+    } else if (pkStamp === 'kitchen_wall_corner') {
+      const isGStamp =
+        typeof window.__cldIsKitchenUpperGModuleData === 'function'
+          ? !!window.__cldIsKitchenUpperGModuleData(furnitureData)
+          : /угловой\s*г/i.test(
+              String(furnitureData?.catalogItem?.name || furnitureData?.name || '')
+            );
+      ud.__kitchenSideWallClearanceMm = 0;
+      const cellFromPlace = Math.round(
+        Number(sectionSize?.__kitchenCornerCellWidthMm) ||
+          Number(sectionSize?.x) ||
+          0
+      );
+      ud.__kitchenCellWidthMm =
+        cellFromPlace >= 300 && cellFromPlace <= 900
+          ? cellFromPlace
+          : KITCHEN_WALL_CORNER_DEFAULT_WIDTH_MM;
+      ud.customWidthMm = ud.__kitchenCellWidthMm;
+      ud.__zoneSlotRole = ud.__zoneSlotRole || 'mid';
+      if (isGStamp) {
+        ud.__kitchenUpperCornerSeat = 'G';
+      } else if (__kitchenCornerSideAtMinU != null) {
+        ud.__kitchenCornerSideAtMinU = __kitchenCornerSideAtMinU === true;
+        ud.__kitchenUpperCornerSeat = 'A';
+      }
+    }
     ud.__initialSectionSizeMm = sectionSize;   // {x,y,z} мм, использовано при построении
-    ud.__catalogSizeMm = defaultModuleSize;    // каталожные W×H×D до подгонки под нишу
+    ud.__catalogSizeMm = defaultModuleSize;    // каталожные W?H?D до подгонки под нишу
     if (layoutZones) ud.__layoutZones = layoutZones;
+    else {
+      try {
+        delete ud.__layoutZones;
+      } catch (_) {}
+    }
     ud.__placementKindProfileId = getRawPlacementKindFromFurnitureData(furnitureData);
     ud.__placementKind = placementKind;
+    // catalogType до placeKitchenModuleInCell — иначе isKitchenWallTopGroup
+    // не видит «51» и fit уходит в base 1050.
+    {
+      const ctEarly =
+        furnitureData?.catalogType ||
+        furnitureData?.catalogItem?.catalog_type ||
+        furnitureData?.catalogItem?.catalogType ||
+        null;
+      if (ctEarly != null && String(ctEarly).trim() !== '') {
+        ud.catalogType = String(ctEarly).trim();
+      }
+    }
     stampZoneCohabitOnUserData(ud, resolvePendingZoneCohabitSpec(furnitureData));
     if (doorOpts.doorLayout) ud.doorLayout = doorOpts.doorLayout;
     if (doorOpts.zoneHand && !ud.zoneHandManual) ud.zoneHand = doorOpts.zoneHand;
@@ -10400,12 +14941,20 @@ async function placePendingFurnitureAsync() {
     ud.unifiedFacade = !!doorOpts.unifiedFacade;
     ud.drawerStackPolicy = drawerStackPolicy || null;
     ud.shelfStackPolicy = shelfStackPolicy || null;
+    ud.kitchenSupports =
+      furnitureData.__kitchenSupports ||
+      extractKitchenSupportsFromCatalogItem(furnitureData?.catalogItem || furnitureData) ||
+      null;
     ud.productKind = resolveProductKindForFurnitureData(furnitureData);
     ud.pairedHandCatalogItemIds = readPairedHandCatalogIdsFromItem(furnitureData?.catalogItem);
     ud.__hasPlinthSection = !!hasPlinthSection;
     ud.__enableStep5FacadeOffset = !!enableStep5FacadeOffset;
     if (enableStep5FacadeOffset && hasPlinthSection && Number.isFinite(step5FacadeBottomOffsetMm)) {
       ud.__step5FacadeBottomOffsetMm = step5FacadeBottomOffsetMm;
+    }
+    // Пенал: stamp ДО placeKitchenModuleInCell / depth-stack (иначе ловит стек НМ wall+10).
+    if (kitchenEnginePlace && kitchenEnginePlace.ok && kitchenEnginePlace.sizing) {
+      stampKitchenUserData(ud, kitchenEnginePlace.sizing);
     }
   } catch (_) {}
 
@@ -10420,38 +14969,76 @@ async function placePendingFurnitureAsync() {
   // иначе bbox становится шире шкафа (~+8%), и после скейла корпус получается уже зоны
   // (визуально как "зазор ~50мм").
   const localBbox = computeFurnitureWorldBBoxNoAo(state.furniture.group);
+  // Корпус без corner_post / corner_return: иначе Z жмётся и ломает глубину приставки.
+  const localCorpusBbox = computeFurnitureCorpusLayoutWorldBBoxNoAo(state.furniture.group, {
+    forDepthScale: true,
+  });
 
   // Конструктор / Clodis: не масштабировать всю группу под sectionSize (см. clodisHasConstructorMarkers).
-  if (sectionSize && typeof sectionSize.x === 'number' && typeof sectionSize.y === 'number' && typeof sectionSize.z === 'number') {
+  // Г-шкаф: никогда не scale — иначе два крыла «размазываются» под W×D одной ячейки.
+  const skipSectionScaleForUpperG =
+    _isUpperGFurnitureData(furnitureData) ||
+    state.furniture?.group?.userData?.__kitchenUpperCornerSeat === 'G' ||
+    state.furniture?.group?.userData?.__kitchenSkipSectionScale === true;
+  if (
+    !skipSectionScaleForUpperG &&
+    sectionSize &&
+    typeof sectionSize.x === 'number' &&
+    typeof sectionSize.y === 'number' &&
+    typeof sectionSize.z === 'number'
+  ) {
     const currentSize = {
       x: localBbox.max.x - localBbox.min.x,
       y: localBbox.max.y - localBbox.min.y,
       z: localBbox.max.z - localBbox.min.z,
     };
+    const corpusZ =
+      localCorpusBbox && !localCorpusBbox.isEmpty()
+        ? localCorpusBbox.max.z - localCorpusBbox.min.z
+        : currentSize.z;
     const targetSize = sectionSize;
     if (currentSize.x > 1 && currentSize.y > 1 && currentSize.z > 1) {
       const sx = targetSize.x / currentSize.x;
       const sy = targetSize.y / currentSize.y;
-      const sz = targetSize.z / currentSize.z;
       const relErr = (a, b) => Math.abs(a - b) / Math.max(1, Math.abs(b));
       const ex = relErr(currentSize.x, targetSize.x);
       const ey = relErr(currentSize.y, targetSize.y);
-      const ez = relErr(currentSize.z, targetSize.z);
+      // НМ: Z корпуса из формул (carcass); столешка = Dwt ячейки. Не scale.z —
+      // иначе TT без layout_role:top попадала в corpus bbox и сжималась > щель у стены.
+      const kitchenForceZ =
+        !!(kitchenEnginePlace && kitchenEnginePlace.ok) ||
+        isKitchenBasePlacementKind(rawKitchenPk) ||
+        isKitchenTallPlacementKind(rawKitchenPk) ||
+        isKitchenWallMidPlacementKind(rawKitchenPk) ||
+        isKitchenWallTopPlacementKind(rawKitchenPk);
+      const zForScale = kitchenForceZ && corpusZ > 1 ? corpusZ : currentSize.z;
+      const sz = targetSize.z / zForScale;
+      const ez = relErr(zForScale, targetSize.z);
       const NEED_SCALE = (ex > 0.03) || (ey > 0.03) || (ez > 0.03);
-
-      if (NEED_SCALE && !isConstructorClodisJson) {
-        state.furniture.group.scale.set(
-          state.furniture.group.scale.x * sx,
-          state.furniture.group.scale.y * sy,
-          state.furniture.group.scale.z * sz
-        );
-        state.furniture.group.updateMatrixWorld(true);
-        state.furniture.bbox.copy(computeFurnitureWorldBBoxNoAo(state.furniture.group));
-        console.log('📐 Масштабируем модуль под sectionSize (legacy fallback):', { currentSize, targetSize, scale: { sx, sy, sz }, relErr: { ex, ey, ez } });
+      if (NEED_SCALE && (!isConstructorClodisJson || kitchenForceZ)) {
+        if (isConstructorClodisJson && kitchenForceZ) {
+          console.log('[KITCHEN-DEPTH] skip scale Z (cell=TT Dwt, carcass from formulas)', {
+            currentZ: Math.round(currentSize.z),
+            corpusZ: Math.round(corpusZ),
+            targetZ: Math.round(targetSize.z),
+          });
+        } else {
+          state.furniture.group.scale.set(
+            state.furniture.group.scale.x * sx,
+            state.furniture.group.scale.y * sy,
+            state.furniture.group.scale.z * sz
+          );
+          state.furniture.group.updateMatrixWorld(true);
+          state.furniture.bbox.copy(computeFurnitureWorldBBoxNoAo(state.furniture.group));
+          console.log('?? Масштабируем модуль под sectionSize (legacy fallback):', { currentSize, targetSize, scale: { sx, sy, sz }, relErr: { ex, ey, ez } });
+        }
       } else if (NEED_SCALE && isConstructorClodisJson) {
-        console.log('📐 Пропускаем масштабирование module под sectionSize (constructor Clodis):', { currentSize, targetSize, relErr: { ex, ey, ez } });
+        console.log('?? Пропускаем масштабирование module под sectionSize (constructor Clodis):', { currentSize, targetSize, relErr: { ex, ey, ez } });
       }
     }
+  } else if (skipSectionScaleForUpperG && state.furniture?.group) {
+    state.furniture.group.scale.set(1, 1, 1);
+    state.furniture.group.userData.__kitchenSkipSectionScale = true;
   }
   
   // Restore position and rotation
@@ -10469,7 +15056,13 @@ async function placePendingFurnitureAsync() {
   }
 
   state.furniture.group.position.copy(adjustedPosition);
-  state.furniture.group.rotation.y = rotationY;
+  // Г: не wall-yaw — позу даст UpperG seat (иначе одно крыло «плашмя»).
+  const placingUpperG = _isUpperGFurnitureData(furnitureData);
+  if (!placingUpperG) {
+    state.furniture.group.rotation.y = rotationY;
+  } else {
+    state.furniture.group.scale.set(1, 1, 1);
+  }
   if (typeof logFurniturePivotTrace === 'function' && sectionAtPosition) {
     const wPlace = sectionAtPosition.wallName || wall;
     logFurniturePivotTrace('place:after_zonePos', state.furniture.group, {
@@ -10480,21 +15073,268 @@ async function placePendingFurnitureAsync() {
   }
   if (sectionAtPosition) {
     let zoneFitted = false;
-    if (placementZoneIndex != null && Number.isFinite(Number(placementZoneIndex))) {
-      zoneFitted = fitFurnitureToSectionZone(
+    let aligned = false;
+    let depthAligned = false;
+    const isUpperGGroup =
+      placingUpperG ||
+      (typeof window.__cldIsKitchenUpperGModuleGroup === 'function'
+        ? window.__cldIsKitchenUpperGModuleGroup(state.furniture.group)
+        : false);
+    const kitchenNmPlace =
+      isKitchenNmPlacement(furnitureData) ||
+      isKitchenBaseGroup(state.furniture.group) ||
+      isKitchenWallCornerGroup(state.furniture.group);
+    if (kitchenNmPlace) {
+      // НМУ низ → CornerCell 1050. Верх (Г и приставной) → upperCornerCell G.
+      const rawPkSeat = String(
+        getRawPlacementKindFromFurnitureData(furnitureData) ||
+          state.furniture?.group?.userData?.__placementKindProfileId ||
+          ''
+      ).trim();
+      const wantUpperG =
+        !!sectionAtPosition?.lShape &&
+        (isUpperGGroup ||
+          rawPkSeat === 'kitchen_wall_corner' ||
+          placingUpperG ||
+          state._pendingZoneInfo?.upperGCell === true);
+      // Верх в G: не placeKitchenModuleInCell (ломает приставку/рукава).
+      if (!wantUpperG && !isUpperGGroup) {
+        const r = placeKitchenModuleInCell(
+          state.furniture.group,
+          sectionAtPosition,
+          placementZoneIndex,
+          sectionAtPosition.wallName || wall
+        );
+        zoneFitted = !!r.zoneFitted;
+        aligned = !!r.aligned;
+        depthAligned = !!r.depthAligned;
+      }
+      if (__kitchenCornerSideAtMinU != null && !wantUpperG && !isUpperGGroup) {
+        try {
+          __tintKitchenCornerReturnSlot(state.furniture.group);
+        } catch (_) {}
+      }
+      // НШ1/НШ2: не CornerCell 1050. Base special zi часто = mid zi соседа
+      // (7↔7) — иначе корпус уезжает в угол при zoneIndex «слева от угла».
+      const gSeat = state.furniture.group;
+      const catSeat = String(
+        gSeat?.userData?.catalogType ||
+          gSeat?.userData?.element_type ||
+          gSeat?.userData?.__catalogType ||
+          ''
+      )
+        .trim()
+        .toLowerCase()
+        .replace(/^catalog_/, '');
+      const wallBandPlain =
+        !isKitchenWallCornerGroup(gSeat) &&
+        (isKitchenWallMidGroup(gSeat) ||
+          isKitchenWallTopGroup(gSeat) ||
+          catSeat === '50' ||
+          catSeat === '51' ||
+          catSeat === '42' ||
+          catSeat === '43' ||
+          String(gSeat?.userData?.__kitchenWallBand || '').toLowerCase() ===
+            'mid' ||
+          String(gSeat?.userData?.__kitchenWallBand || '').toLowerCase() ===
+            'top');
+      const seatCornerCell =
+        !wantUpperG &&
+        !wallBandPlain &&
+        __kitchenCornerSideAtMinU != null &&
+        typeof window.__cldPlaceModuleIntoKitchenCornerCell === 'function' &&
+        placementZoneIndex != null &&
+        (__isLShapeSpecialZone(sectionAtPosition, placementZoneIndex) ||
+          __isMidUpperCornerSpecialZone(sectionAtPosition, placementZoneIndex));
+      if (wantUpperG) {
+        try {
+          // Метаданные до seat — иначе G#4 / дерево без role → kind=return и вылет.
+          const gUd =
+            state.furniture.group.userData ||
+            (state.furniture.group.userData = {});
+          const catItem = furnitureData?.catalogItem || null;
+          if (!gUd.catalogName) {
+            gUd.catalogName =
+              (catItem && (catItem.name || catItem.title)) ||
+              furnitureData?.name ||
+              '';
+          }
+          if (gUd.catalogItemId == null && catItem && catItem.id != null) {
+            gUd.catalogItemId = catItem.id;
+          }
+          if (!gUd.catalogType) {
+            const ct0 =
+              furnitureData?.catalogType ||
+              (catItem && (catItem.catalog_type || catItem.catalogType)) ||
+              '';
+            if (ct0) gUd.catalogType = String(ct0).trim();
+          }
+          state.furniture.group.scale.set(1, 1, 1);
+          const forceGArms = !!placingUpperG || !!isUpperGGroup;
+          // НШ1 Г / любой kitchen_wall_corner на L → UpperG cell.
+          // Fallback на KitchenCornerCell (1050) схлопывал крыло (seated=false, bbox≈depth).
+          let seated = null;
+          if (typeof window.__cldPlaceModuleIntoUpperGCell === 'function') {
+            let jointUg =
+              state._pendingZoneInfo?.jointId &&
+              typeof window.__cldGetKitchenJoint === 'function'
+                ? window.__cldGetKitchenJoint(state._pendingZoneInfo.jointId)
+                : null;
+            if (!jointUg && sectionAtPosition) {
+              jointUg =
+                window.__cldFindUpperGJointForSection?.(sectionAtPosition) ||
+                null;
+            }
+            if (jointUg) {
+              const bandUg =
+                state._pendingZoneInfo?.upperGBand ||
+                (typeof window.__cldResolveUpperGBandFromContext ===
+                'function'
+                  ? window.__cldResolveUpperGBandFromContext(
+                      furnitureData,
+                      state._pendingZoneInfo,
+                      state.furniture.group
+                    )
+                  : 'mid');
+              seated = window.__cldPlaceModuleIntoUpperGCell(
+                state.furniture.group,
+                jointUg,
+                {
+                  rebuildArms: true,
+                  rebuildGeometry: true,
+                  force: true,
+                  forceGArms: forceGArms || rawPkSeat === 'kitchen_wall_corner',
+                  furnitureData,
+                  pendingZone: state._pendingZoneInfo,
+                  band: bandUg,
+                  upperGBand: bandUg,
+                }
+              );
+            }
+          }
+          if (
+            !(seated && seated.ok) &&
+            rawPkSeat !== 'kitchen_wall_corner' &&
+            !forceGArms
+          ) {
+            seated = window.__cldPlaceModuleIntoKitchenCornerCell(
+              state.furniture.group,
+              sectionAtPosition,
+              placementZoneIndex != null ? placementZoneIndex : 0
+            );
+          }
+          console.warn('[ZONE-PLACE] UpperG seat', seated);
+          if (seated?.ok) {
+            zoneFitted = true;
+            aligned = true;
+            if (
+              seated.frame &&
+              typeof window.__cldApplyUpperGCellPoseToGroup === 'function'
+            ) {
+              window.__cldApplyUpperGCellPoseToGroup(
+                state.furniture.group,
+                seated.frame
+              );
+            }
+            state._upperGSeatedFrame = seated.frame || null;
+          }
+        } catch (e) {
+          console.warn('[ZONE-PLACE] UpperG seat failed', e);
+        }
+      } else if (seatCornerCell) {
+        try {
+          const seated = window.__cldPlaceModuleIntoKitchenCornerCell(
+            state.furniture.group,
+            sectionAtPosition,
+            placementZoneIndex
+          );
+          console.warn('[ZONE-PLACE] CornerCell seat', seated);
+          if (seated?.ok) {
+            zoneFitted = true;
+            aligned = true;
+          }
+        } catch (e) {
+          console.warn('[ZONE-PLACE] CornerCell seat failed', e);
+        }
+      }
+    } else {
+      const seatBFitInfo =
+        state._pendingZoneInfo?.upperCornerSeat === 'B' ||
+        state._pendingZoneInfo?.upperCornerCompanion === true
+          ? state._pendingZoneInfo
+          : null;
+      const seatB0 =
+        Number(seatBFitInfo?.seatBStartU ?? seatBFitInfo?.companionStartU);
+      const seatB1 =
+        Number(seatBFitInfo?.seatBEndU ?? seatBFitInfo?.companionEndU);
+      if (
+        seatBFitInfo &&
+        Number.isFinite(seatB0) &&
+        Number.isFinite(seatB1)
+      ) {
+        const wFit =
+          seatBFitInfo.wallName ||
+          sectionAtPosition.wallName ||
+          wall;
+        zoneFitted = !!fitFurnitureBBoxToZoneBounds(
+          state.furniture.group,
+          seatB0,
+          seatB1,
+          wFit,
+          {
+            zoneIndex: placementZoneIndex,
+            clampMaxToZoneEnd: true,
+            anchorEdge:
+              (seatBFitInfo.seatBAnchorEdge ||
+                seatBFitInfo.companionAnchorEdge) === 'max'
+                ? 'max'
+                : 'min',
+          }
+        );
+      } else if (
+        placementZoneIndex != null &&
+        Number.isFinite(Number(placementZoneIndex))
+      ) {
+        let bandLayoutFit = null;
+        try {
+          const gFit = state.furniture.group;
+          if (
+            isKitchenWallMidGroup(gFit) ||
+            isKitchenWallTopGroup(gFit)
+          ) {
+            bandLayoutFit = buildKitchenBandCellLayoutForSection(
+              sectionAtPosition,
+              isKitchenWallTopGroup(gFit) ? 'top' : 'mid'
+            );
+          }
+        } catch (_) {
+          bandLayoutFit = null;
+        }
+        zoneFitted = fitFurnitureToSectionZone(
+          state.furniture.group,
+          sectionAtPosition,
+          placementZoneIndex,
+          bandLayoutFit || undefined
+        );
+      }
+      aligned = alignFurnitureBBoxToSectionInnerBounds(
         state.furniture.group,
         sectionAtPosition,
-        placementZoneIndex
+        true
+      );
+      depthAligned = alignSectionStandaloneFurnitureFront(
+        state.furniture.group,
+        sectionAtPosition,
+        sectionAtPosition.wallName || wall
       );
     }
-    // Как в 1.46: inner-align и для ниши (потом updateFurnitureInSection / второй fit).
-    const aligned = alignFurnitureBBoxToSectionInnerBounds(
-      state.furniture.group,
-      sectionAtPosition,
-      true
-    );
-    if (zoneFitted || aligned) {
-      console.log('[ZONE-PLACE] zone/section bounds applied', { zoneFitted, aligned: !!aligned });
+    if (zoneFitted || aligned || depthAligned) {
+      console.log('[ZONE-PLACE] zone/section bounds applied', {
+        kitchenNm: !!kitchenNmPlace,
+        zoneFitted,
+        aligned: !!aligned,
+        depthAligned: !!depthAligned,
+      });
     }
     if (typeof logFurniturePivotTrace === 'function') {
       logFurniturePivotTrace('place:after_align', state.furniture.group, {
@@ -10503,11 +15343,15 @@ async function placePendingFurnitureAsync() {
         extra: { zoneFitted, aligned: !!aligned, zoneIndex: placementZoneIndex },
       });
     }
-    // catalog_44 в спец: после fit/align корпус не должен заезжать в зазор 50 (§6.8.3).
+    // catalog_44 в спец: шкаф L — clamp к зазору 50. Кухня: спец=1050, clamp не ужимать.
     if (
       isCornerCabPlace &&
       placementZoneIndex != null &&
-      __isLShapeSpecialZone(sectionAtPosition, placementZoneIndex)
+      __isLShapeSpecialZone(sectionAtPosition, placementZoneIndex) &&
+      !(
+        typeof isKitchenSectionLayoutActive === 'function' &&
+        isKitchenSectionLayoutActive()
+      )
     ) {
       __cldClampCornerCabinetToSpecialGap(
         state.furniture.group,
@@ -10521,9 +15365,24 @@ async function placePendingFurnitureAsync() {
     ClodisBuilder.finalizeDrawerFixedPartsReparent(state.furniture.group);
     state.furniture.group.updateMatrixWorld(true);
   }
+  // Финал: пивот Г-шкафа = пивот ячейки (после любых post-pass).
+  try {
+    const g = state.furniture?.group;
+    const fr = state._upperGSeatedFrame;
+    if (
+      g &&
+      fr &&
+      (_isUpperGFurnitureData(furnitureData) ||
+        g.userData?.__kitchenUpperGSeated === true) &&
+      typeof window.__cldApplyUpperGCellPoseToGroup === 'function'
+    ) {
+      window.__cldApplyUpperGCellPoseToGroup(g, fr);
+      state._upperGSeatedFrame = null;
+    }
+  } catch (_) {}
   console.log('[ZONE-PLACE] finalFurniture', {
     wall,
-    finalPosition: adjustedPosition.clone(),
+    finalPosition: state.furniture?.group?.position?.clone?.() || adjustedPosition.clone(),
     rotationY,
     sectionId: sectionAtPosition?.id || null,
     usedSectionSize: sectionSize,
@@ -10569,17 +15428,74 @@ async function placePendingFurnitureAsync() {
       setStandaloneHeightForWindowAlongGroup(sectionAtPosition, catKey, standalonePlaceHeightMm);
     }
   }
+  // Kitchen Cell: зафиксировать H/D модулялога, чтобы rebuild по ширине ячейки их не трогал.
+  {
+    const rawPkStamp = getRawPlacementKindFromFurnitureData(furnitureData);
+    if (
+      isKitchenBasePlacementKind(rawPkStamp) ||
+      isKitchenTallPlacementKind(rawPkStamp) ||
+      isKitchenWallMidPlacementKind(rawPkStamp) ||
+      isKitchenWallTopPlacementKind(rawPkStamp)
+    ) {
+      const kz = Math.round(
+        Number(kitchenEnginePlace?.sizing?.carcassDepthMm) || Number(sectionSize?.z) || 0
+      );
+      const ky = Math.round(Number(sectionSize?.y) || 0);
+      const maxD =
+        isKitchenWallMidPlacementKind(rawPkStamp) ||
+        isKitchenWallTopPlacementKind(rawPkStamp)
+          ? 450
+          : 560;
+      if (kz > 0 && kz <= maxD) groupUD.customDepthMm = kz;
+      if (ky > 0 && !(Number(groupUD.customHeightMm) > 0)) groupUD.customHeightMm = ky;
+    }
+  }
   groupUD.__cldSkipSectionAutoRescale = !!isConstructorClodisJson;
   groupUD.wallName = sectionAtPosition?.wallName || wall || 'back';
   const __varsPlace = extractModuleVariablesFromFurnitureData(furnitureData);
+  const kitchenPlaceAtVars =
+    (kitchenEnginePlace && kitchenEnginePlace.ok && kitchenEnginePlace.sizing) ||
+    resolveKitchenPlaceHeightAndPlinth(furnitureData);
+  if (kitchenPlaceAtVars) {
+    Object.assign(__varsPlace, applyKitchenPlaceVariables(__varsPlace, kitchenPlaceAtVars));
+  }
+  // Kitchen engine: без mergeFloorNiche. Legacy ниша — только не-kitchen.
   const __varsPlaceRoom =
-    sectionAtPosition &&
-    !isLowFurniturePlacementKind(placementKind) &&
-    !isWallHungPlacementKind(placementKind)
-      ? mergeFloorNicheVariablesFromSection(sectionAtPosition, __varsPlace)
-      : __varsPlace;
-  // В нише h_bottom совпадает с нижней планкой секции (mergeFloorNicheVariablesFromSection).
+    kitchenPlaceAtVars ||
+    kitchenShouldSkipFloorNicheMerge(getRawPlacementKindFromFurnitureData(furnitureData))
+      ? __varsPlace
+      : sectionAtPosition &&
+          !isLowFurniturePlacementKind(placementKind) &&
+          !isWallHungPlacementKind(placementKind)
+        ? mergeFloorNicheVariablesFromSection(sectionAtPosition, __varsPlace)
+        : __varsPlace;
   groupUD.hBottomMm = Math.max(0, Number(__varsPlaceRoom.h_bottom) || 0);
+  if (kitchenPlaceAtVars) {
+    stampKitchenUserData(groupUD, kitchenPlaceAtVars);
+  }
+  // НМУ place: отступ (clear) отдельно от rear; return = project D. ВМУ — не трогать.
+  if (
+    __kitchenCornerSideAtMinU != null &&
+    String(rawKitchenPk || groupUD.__placementKindProfileId || '').trim() ===
+      'kitchen_base_corner'
+  ) {
+    const projStamp = resolveKitchenCornerPlaceFromProject();
+    const stampClear = Math.round(Number(groupUD.__kitchenSideWallClearanceMm));
+    if (!(Number.isFinite(stampClear) && stampClear >= 0)) {
+      groupUD.__kitchenSideWallClearanceMm = Math.max(
+        0,
+        Math.round(Number(projStamp.rearMm) || 10)
+      );
+    }
+    // Project D первым — иначе catalog corner_return_mm (часто 550) залипает при D=460.
+    const retStamp = Math.round(
+      Number(projStamp.carcassMm) ||
+        Number(groupUD.__kitchenCornerReturnMm) ||
+        Number(moduleVarsForBuilder?.corner_return_mm) ||
+        0
+    );
+    if (retStamp > 0) groupUD.__kitchenCornerReturnMm = retStamp;
+  }
   groupUD.techZoneMm = getTechZoneMmFromVariables(__varsPlaceRoom);
   // Каталожный h_top (до подстановки зоны антресоли в комнате) — для пересчёта layoutZones при ресайзе ниши
   groupUD.hTopCatalogMm =
@@ -10629,9 +15545,71 @@ async function placePendingFurnitureAsync() {
         }
       }
     }
+    // Seat B НШ1 ↔ upperCornerCell (нога Г, не следующая обычная ячейка).
+    const pendingSeat =
+      state._pendingZoneInfo?.upperCornerSeat === 'B' ||
+      state._pendingZoneInfo?.upperCornerCompanion === true
+        ? state._pendingZoneInfo
+        : pendingZoneInfo?.upperCornerSeat === 'B' ||
+            pendingZoneInfo?.upperCornerCompanion === true
+          ? pendingZoneInfo
+          : null;
+    if (pendingSeat && pendingSeat.upperCornerCellId) {
+      groupUD.__kitchenUpperCornerSeat = 'B';
+      groupUD.__kitchenUpperCornerCellId = String(pendingSeat.upperCornerCellId);
+      groupUD.__kitchenCornerCellId = groupUD.__kitchenUpperCornerCellId;
+      const spanRaw =
+        pendingSeat.seatBSpannedZones || pendingSeat.companionSpannedZones;
+      const span = Array.isArray(spanRaw)
+        ? spanRaw
+            .map((z) => Math.floor(Number(z)))
+            .filter((z) => Number.isFinite(z) && z >= 0)
+        : [];
+      groupUD.__kitchenUpperCornerSeatBZones = span;
+      const c0 = Number(pendingSeat.seatBStartU ?? pendingSeat.companionStartU);
+      const c1 = Number(pendingSeat.seatBEndU ?? pendingSeat.companionEndU);
+      if (Number.isFinite(c0)) groupUD.__kitchenUpperCornerSeatBStartU = c0;
+      if (Number.isFinite(c1)) groupUD.__kitchenUpperCornerSeatBEndU = c1;
+      const anchor =
+        pendingSeat.seatBAnchorEdge || pendingSeat.companionAnchorEdge;
+      if (anchor) groupUD.__kitchenUpperCornerSeatBAnchorEdge = anchor;
+      const startMm = Math.round(
+        Number(pendingSeat.seatBStartMm) || 0
+      );
+      if (startMm >= 50) groupUD.__kitchenUpperCornerSeatBStartMm = startMm;
+      const cw = Math.round(
+        Number(pendingSeat.seatBModuleWidth) ||
+          Number(pendingSeat.companionModuleWidth) ||
+          Number(sectionSize?.x) ||
+          0
+      );
+      if (cw >= 300) {
+        groupUD.customWidthMm = cw;
+        groupUD.__kitchenCellWidthMm = cw;
+      }
+      // legacy companion stamps — не писать
+      try {
+        delete groupUD.__kitchenUpperCornerCompanion;
+        delete groupUD.__kitchenUpperCornerCompanionZones;
+      } catch (_) {}
+    } else {
+      try {
+        delete groupUD.__kitchenUpperCornerSeat;
+        delete groupUD.__kitchenUpperCornerSeatBZones;
+        delete groupUD.__kitchenUpperCornerSeatBStartU;
+        delete groupUD.__kitchenUpperCornerSeatBEndU;
+        delete groupUD.__kitchenUpperCornerSeatBAnchorEdge;
+        delete groupUD.__kitchenUpperCornerSeatBStartMm;
+        delete groupUD.__kitchenUpperCornerCompanion;
+        delete groupUD.__kitchenUpperCornerCompanionZones;
+        delete groupUD.__kitchenUpperCornerCompanionStartU;
+        delete groupUD.__kitchenUpperCornerCompanionEndU;
+        delete groupUD.__kitchenUpperCornerCompanionAnchorEdge;
+      } catch (_) {}
+    }
   }
   
-  // IKEA: bind shader → step5 uniforms до add (без белого MeshStandard); light sync — после add
+  // IKEA: bind shader > step5 uniforms до add (без белого MeshStandard); light sync — после add
   try {
     restoreStep5ModuleDecorFromStorage(state.furniture.group);
     const doorsOpenPreAdd =
@@ -10678,14 +15656,14 @@ async function placePendingFurnitureAsync() {
 
   if (sectionAtPosition && groupUD.zoneIndex != null) {
     try {
-      // Debounce: не rebuild соседей сразу после place (L↔R thrash при росте chainLen).
+      // Debounce: не rebuild соседей сразу после place (L-R thrash при росте chainLen).
       syncSingleSwingNeighborsAfterPlace(sectionAtPosition);
     } catch (syncHandErr) {
       console.warn('[ZONE-HAND] neighbor sync failed', syncHandErr);
     }
   }
 
-  // ── Critical path: пол → transitions → fit (без DOM-меток / O(n) label refresh) ──
+  // -- Critical path: пол > transitions > fit (без DOM-меток / O(n) label refresh) --
   const tolerance = 1;
   state.furniture.group.updateMatrixWorld(true);
   let bboxMinY = getFurnitureFloorContactWorldYNoAo(state.furniture.group);
@@ -10699,8 +15677,19 @@ async function placePendingFurnitureAsync() {
         Number(furnitureData?.height) ||
         0
     );
-    if (isWallHungHighPlacementKind(placementKind)) {
-      // Верх корпуса под потолочной планкой − ceilingClearance.
+    const rawPkY = getRawPlacementKindFromFurnitureData(furnitureData);
+    const wallBandY =
+      isKitchenWallMidPlacementKind(rawPkY) ||
+      isKitchenWallMidPlacementKind(placementKind) ||
+      isKitchenWallTopPlacementKind(rawPkY) ||
+      isKitchenWallTopPlacementKind(placementKind);
+    if (wallBandY) {
+      // НШ1/НШ2: низ от датамов (customFloorClearanceMm после stamp), не потолок.
+      targetBottomY =
+        roomWorldPos.y +
+        Math.max(0, resolveWallHungFloorClearanceMm(state.furniture.group, sectionAtPosition));
+    } else if (isWallHungHighPlacementKind(placementKind)) {
+      // Верх корпуса под потолочной планкой ? ceilingClearance.
       const topY =
         roomWorldPos.y +
         Math.max(0, Number(m.rawHeightMm) || 0) -
@@ -10708,7 +15697,7 @@ async function placePendingFurnitureAsync() {
         Math.max(0, Number(m.ceilingClearanceMm) || 0);
       targetBottomY = topY - bodyH;
     } else {
-      // Нижний навес: от пола + floorClearance (модуль → секция → 300).
+      // Нижний навес: от пола + floorClearance (модуль > секция > 300).
       targetBottomY =
         roomWorldPos.y +
         Math.max(0, resolveWallHungFloorClearanceMm(state.furniture.group, sectionAtPosition));
@@ -10770,21 +15759,26 @@ async function placePendingFurnitureAsync() {
       groupUD.wallName ||
       state.ghostWall ||
       null;
-    const placeUuid = state.furniture?.group?.uuid;
-    const txOpts = {
-      skipFurnitureDecorRefresh: true,
-      placeLayoutOnly: true,
-    };
-    if (placeUuid) txOpts.furnitureLayoutOnlyUuids = [placeUuid];
-    if (wallForTx) {
-      rebuildTransitionsForWall(wallForTx, txOpts);
+    const kitchenNmAfter =
+      isKitchenBaseGroup(state.furniture?.group) || isKitchenNmPlacement(furnitureData);
+    if (kitchenNmAfter && wallForTx) {
+      // НМ: без шкафного rebuildTransitions — только kitchen section afterPlace.
+      afterKitchenPlaceLayout(wallForTx);
     } else {
-      rebuildAllTransitions();
+      const placeUuid = state.furniture?.group?.uuid;
+      const txOpts = {
+        skipFurnitureDecorRefresh: true,
+        placeLayoutOnly: true,
+      };
+      if (placeUuid) txOpts.furnitureLayoutOnlyUuids = [placeUuid];
+      if (wallForTx) {
+        rebuildTransitionsForWall(wallForTx, txOpts);
+      } else {
+        rebuildAllTransitions();
+      }
     }
-    // Window-along frames: один раз внутри transitions (ensureFrames).
-    // Не дублировать ensure/sync по группе — это главный лаг у окна vs прямой.
   } catch (e) {
-    console.error('[PLACE] rebuild transitions failed', e);
+    console.error('[PLACE] rebuild transitions / kitchen afterPlace failed', e);
   }
   __placeMark('after_transitions');
 
@@ -10801,17 +15795,77 @@ async function placePendingFurnitureAsync() {
         __isLShapeSpecialZone(secForLayout, groupUD.zoneIndex);
       if (isCornerFit) {
         ensureLShapeDivisionSegments(secForLayout.division);
-        getLShapeSpecialSnapBounds(secForLayout.division);
-        secForLayout._layoutCache = null;
-      }
-      fitFurnitureToSectionZone(state.furniture.group, secForLayout, groupUD.zoneIndex);
-      // post-fit снова лезет в зазор 50 (ниша не clamp max→zoneEnd) — вернуть как призрак.
-      if (isCornerFit) {
-        __cldClampCornerCabinetToSpecialGap(
-          state.furniture.group,
-          secForLayout,
+        getLShapeSpecialSnapBounds(
+          secForLayout.division,
           groupUD.zoneIndex
         );
+        secForLayout._layoutCache = null;
+      }
+      if (isKitchenBaseGroup(state.furniture.group)) {
+        // Не оставлять залипший scale.z (раньше жал столешку > щель у стены).
+        try {
+          const sc = state.furniture.group.scale;
+          if (sc && Math.abs(Number(sc.z) - 1) > 0.001) {
+            sc.z = 1;
+            state.furniture.group.updateMatrixWorld(true);
+          }
+        } catch (_) {}
+        placeKitchenModuleInCell(
+          state.furniture.group,
+          secForLayout,
+          groupUD.zoneIndex,
+          secForLayout.wallName || groupUD.wallName
+        );
+        // afterPlace раньше шёл до zoneIndex/rebuild — столешница и стыки от старого bbox.
+        const wallNm = secForLayout.wallName || groupUD.wallName;
+        if (wallNm) afterKitchenPlaceLayout(wallNm);
+        try {
+          ensureCellVolumesAfterNmPlace();
+        } catch (_) {}
+        try {
+          if (groupUD.__kitchenCornerSideAtMinU != null) {
+            __tintKitchenCornerReturnSlot(state.furniture.group);
+          }
+        } catch (_) {}
+      } else if (
+        String(groupUD.__kitchenUpperCornerSeat || '').toUpperCase() === 'B' ||
+        groupUD.__kitchenUpperCornerCompanion === true
+      ) {
+        const c0 = Number(
+          groupUD.__kitchenUpperCornerSeatBStartU ??
+            groupUD.__kitchenUpperCornerCompanionStartU
+        );
+        const c1 = Number(
+          groupUD.__kitchenUpperCornerSeatBEndU ??
+            groupUD.__kitchenUpperCornerCompanionEndU
+        );
+        if (Number.isFinite(c0) && Number.isFinite(c1) && c1 - c0 > 50) {
+          fitFurnitureBBoxToZoneBounds(
+            state.furniture.group,
+            c0,
+            c1,
+            secForLayout.wallName || groupUD.wallName,
+            {
+              zoneIndex: groupUD.zoneIndex,
+              clampMaxToZoneEnd: true,
+              anchorEdge:
+                (groupUD.__kitchenUpperCornerSeatBAnchorEdge ||
+                  groupUD.__kitchenUpperCornerCompanionAnchorEdge) === 'max'
+                  ? 'max'
+                  : 'min',
+            }
+          );
+        }
+      } else {
+        fitFurnitureToSectionZone(state.furniture.group, secForLayout, groupUD.zoneIndex);
+        // post-fit снова лезет в зазор 50 (ниша не clamp max>zoneEnd) — вернуть как призрак.
+        if (isCornerFit) {
+          __cldClampCornerCabinetToSpecialGap(
+            state.furniture.group,
+            secForLayout,
+            groupUD.zoneIndex
+          );
+        }
       }
     } catch (e) {
       console.warn('[PLACE] post-layout zone fit', e);
@@ -10825,7 +15879,7 @@ async function placePendingFurnitureAsync() {
       console.warn('[PLACE] windowLowSlot marker refresh', e);
     }
   }
-  // Split/merge: индексы соседей уже сдвинуты — подогнать их в новые слоты (иначе Ыне смещаетл).
+  // Split/merge: индексы соседей уже сдвинуты — подогнать их в новые слоты (иначе «не смещает»).
   if (
     secForLayout &&
     appliedGest &&
@@ -10881,6 +15935,21 @@ async function placePendingFurnitureAsync() {
   const placedGroup = state.furniture.group;
   const placedFurniture = state.furniture;
   const placedSectionSize = sectionSize;
+  try {
+    if (isKitchenBaseGroup(placedGroup)) {
+      finalizeKitchenBaseAppearance(placedGroup);
+      setTimeout(() => {
+        try {
+          finalizeKitchenBaseAppearance(placedGroup);
+        } catch (_) {}
+      }, 400);
+      setTimeout(() => {
+        try {
+          finalizeKitchenBaseAppearance(placedGroup);
+        } catch (_) {}
+      }, 1200);
+    }
+  } catch (_) {}
   const raf =
     typeof requestAnimationFrame === 'function'
       ? requestAnimationFrame
@@ -10931,7 +16000,7 @@ async function placePendingFurnitureAsync() {
             ? { x: placedSectionSize.x, y: placedSectionSize.y, z: placedSectionSize.z }
             : null,
         });
-        console.log('✅ Мебель размещена');
+        console.log('? Мебель размещена');
       }
     } catch (_) {}
 
@@ -10971,7 +16040,7 @@ async function placePendingFurnitureAsync() {
         }
       }
     } catch (e) {
-      console.warn('Р️ Не удалось создать метку ширины мебели при размещении:', e);
+      console.warn('Р? Не удалось создать метку ширины мебели при размещении:', e);
     }
 
     try {
@@ -10980,7 +16049,7 @@ async function placePendingFurnitureAsync() {
     try {
       mountHingeRoleMarkersOnFurniture(placedGroup);
     } catch (e) {
-      console.warn('Р️ Метки петель (по ролям):', e);
+      console.warn('Р? Метки петель (по ролям):', e);
     }
     try {
       showFurniturePerimeterMarker(placedFurniture);
@@ -11034,6 +16103,11 @@ async function placePendingFurnitureAsync() {
   });
 
   __placeDone();
+  try {
+    if (typeof window !== 'undefined' && typeof window.__cldMarkRoomDraftDirty === 'function') {
+      window.__cldMarkRoomDraftDirty('furniture_place');
+    }
+  } catch (_) {}
 }
 
 // Extract category IDs from catalog item (supports various formats)
@@ -11144,7 +16218,7 @@ function inferModuleDoorKindFromCategories(furnitureData) {
   return null;
 }
 
-/** Отмена размещения + переключение пилюли ряда Ыодн./дву.л под тип зоны. */
+/** Отмена размещения + переключение пилюли ряда «одн./дву.» под тип зоны. */
 function cancelPlacementAndSwitchCatalogForZone(switchKind) {
   const kind =
     switchKind === 'single' || switchKind === 'double' ? switchKind : null;
@@ -11166,8 +16240,8 @@ function itemMatchesCategoryFilter(item, filterCategoryId) {
 }
 
 /**
- * Двухдверный по ширине корпус, но в категориях только Ыбез дверейл (каркас под двустворку, фасадов нет).
- * Пилюля с categoryId ЫДвухдверныел + фильтр double иначе их отсекает.
+ * Двухдверный по ширине корпус, но в категориях только «без дверей» (каркас под двустворку, фасадов нет).
+ * Пилюля с categoryId «Двухдверные» + фильтр double иначе их отсекает.
  * Настройка: room_steps_config.steps[step4].catalog_filter
  */
 function getStep4CatalogCategoryAliases() {
@@ -11210,7 +16284,7 @@ function getStep4CatalogCategoryAliases() {
   }
 }
 
-/** В пилюле Ыдвойныел: не показывать модули только с тегом Ыоднодверныел без Ыдвухдверныел (ошибка разметки в админке). */
+/** В пилюле «двойные»: не показывать модули только с тегом «однодверные» без «двухдверные» (ошибка разметки в админке). */
 function itemExcludedFromDoubleDoorCatalogByTags(item, catalogType) {
   const perCatalog = getDoorCategoryIdsForCatalogType(catalogType);
   const aliases = getStep4CatalogCategoryAliases();
@@ -11265,6 +16339,10 @@ function buildStep4PillFilterList(
           p.cabinetDoorFilter === 'single' || p.cabinetDoorFilter === 'double'
             ? p.cabinetDoorFilter
             : null,
+        facadeFilter:
+          p.facadeFilter === 'with' || p.facadeFilter === 'without'
+            ? p.facadeFilter
+            : null,
       }));
   }
   if (
@@ -11281,10 +16359,64 @@ function buildStep4PillFilterList(
         filterCategoryId: filterCategoryId ?? null,
         orFilterCategoryId: orFilterCategoryId ?? null,
         cabinetDoorFilter: d,
+        facadeFilter: null,
       },
     ];
   }
   return [];
+}
+
+/**
+ * Пилюля «С дверями» / «Без дверей» без categoryId (кухня).
+ * Смотрим doorLayout и имя модуля.
+ * Важно: в JS \\b не работает с кириллицей — не использовать \\b вокруг «дв».
+ */
+function itemMatchesFacadeFilter(item, facadeFilter) {
+  if (facadeFilter !== 'with' && facadeFilter !== 'without') return true;
+  const raw = item?.catalogItem || item;
+  let d = {};
+  try {
+    d = parseCatalogItemDataField(raw) || {};
+  } catch (_) {
+    d = {};
+  }
+  const name = String(d.name || raw?.name || item?.name || '').toLowerCase();
+  const doorLayout = String(
+    d.doorLayout ||
+      raw?.doorLayout ||
+      item?.doorLayout ||
+      d.door_layout ||
+      ''
+  )
+    .trim()
+    .toLowerCase();
+  const withoutByName =
+    /без\s*двер|без\s*дв(?:\s|$|[.,;:_-])|open[\s_-]?shell|no[\s_-]?door/.test(
+      name
+    );
+  const withoutByLayout =
+    doorLayout === 'none' ||
+    doorLayout === 'open' ||
+    doorLayout === 'without' ||
+    doorLayout === 'no_doors';
+  const withByLayout =
+    doorLayout === 'corpus' ||
+    doorLayout === 'doors' ||
+    doorLayout === 'facade' ||
+    doorLayout === 'with';
+  // «1 дв», «2 дв», «с дверью» — без \\b (кириллица).
+  const withByName =
+    !withoutByName &&
+    (/с\s*двер|\d+\s*дв|дверь|фасад/.test(name) || withByLayout);
+  const isWithout = withoutByName || withoutByLayout;
+  const isWith = !isWithout && (withByName || withByLayout);
+  if (facadeFilter === 'without') {
+    return isWithout || (!isWith && !withByLayout);
+  }
+  // «С дверями»: если doorLayout/имя не дают сигнала — не режем сетку (экспорт часто без doorLayout).
+  if (isWith) return true;
+  if (isWithout) return false;
+  return true;
 }
 
 /** Элемент каталога должен удовлетворять всем выбранным пилюлям сразу (И). */
@@ -11299,7 +16431,8 @@ function itemMatchesAllStep4Pills(item, pillFilterList, widthMmDoor, catalogType
         pf.cabinetDoorFilter,
         widthMmDoor,
         pf.orFilterCategoryId,
-        catalogType
+        catalogType,
+        pf.facadeFilter
       )
     ) {
       return false;
@@ -11308,23 +16441,30 @@ function itemMatchesAllStep4Pills(item, pillFilterList, widthMmDoor, catalogType
   return true;
 }
 
-/** Пилюля шага 4: сначала ширина по Ыодинар/двойнл, затем категория (+ смягчение для корпуса без фасадов).
- * @param {number|null} orCategoryId — вторая категория (ИЛИ-логика): если задана, достаточно совпадения с ней. */
+/** Пилюля шага 4: сначала ширина по «одинар/двойн», затем категория (+ смягчение для корпуса без фасадов).
+ * @param {number|null} orCategoryId — вторая категория (ИЛИ-логика): если задана, достаточно совпадения с ней.
+ * @param {string|null} facadeFilter — 'with' | 'without' | null (кухня без categoryId). */
 function itemMatchesStep4CatalogPill(
   item,
   filterCategoryId,
   cabinetDoorFilter,
   widthMm,
   orCategoryId = null,
-  catalogType = null
+  catalogType = null,
+  facadeFilter = null
 ) {
   const f = cabinetDoorFilter && String(cabinetDoorFilter).trim();
   const ctNorm = String(catalogType || '')
     .replace(/^catalog_/i, '')
     .trim();
-  // Угловые (44): не фильтруем пилюлей одн./дву. — модуль один на спец-зону.
-  const skipDoorPill = ctNorm === '44' || isLCornerCabinetModule({ catalogItem: item, catalogType });
-  if (!skipDoorPill && (f === 'single' || f === 'double')) {
+  // Угловые (44): один модуль на спец-зону — не режем пилюлей одн./дву. и категориями
+  // (у «Стол угловой» category часто пустой > иначе сетка пустая при «Однодверные»).
+  const skipDoorPill =
+    ctNorm === '44' ||
+    isLCornerCabinetModule({ catalogItem: item, catalogType });
+  if (skipDoorPill) return true;
+  if (!itemMatchesFacadeFilter(item, facadeFilter)) return false;
+  if (f === 'single' || f === 'double') {
     const labeled = getCatalogItemDoorKind(item, catalogType);
     if (labeled) {
       if (labeled !== f) return false;
@@ -11332,11 +16472,17 @@ function itemMatchesStep4CatalogPill(
       return false;
     }
   }
+  if (f === 'double' && itemExcludedFromDoubleDoorCatalogByTags(item, catalogType)) {
+    return false;
+  }
+  // Категорий у кухни часто нет — не режем сетку «пустым» categoryId-фильтром.
   if (
-    !skipDoorPill &&
-    f === 'double' &&
-    itemExcludedFromDoubleDoorCatalogByTags(item, catalogType)
+    filterCategoryId != null &&
+    getItemCategoryIds(item).length === 0 &&
+    (orCategoryId == null || !itemMatchesCategoryFilter(item, orCategoryId))
   ) {
+    // Если пилюля уже отфильтровала по фасаду/двери — категории не требуем.
+    if (facadeFilter || f === 'single' || f === 'double') return true;
     return false;
   }
   // Primary OR secondary category
@@ -11355,9 +16501,9 @@ function itemMatchesStep4CatalogPill(
 }
 
 /**
- * Пороги Ыодинарный / двойнойл по ширине корпуса: из настроек шага 4 (section_division),
+ * Пороги «одинарный / двойной» по ширине корпуса: из настроек шага 4 (section_division),
  * иначе как раньше: одинарный Ф600, двойной 601–1200.
- * Иначе пилюля Ыдвойныел (подпись 800–1200 из админки) и фильтр каталога расходятся — сетка пустая.
+ * Иначе пилюля «двойные» (подпись 800–1200 из админки) и фильтр каталога расходятся — сетка пустая.
  */
 function getCabinetDoorWidthBoundsFromRoomSteps() {
   const fallback = {
@@ -11442,7 +16588,7 @@ function itemMatchesCabinetDoorFilter(widthMm, cabinetDoorFilter) {
 /**
  * Удаляет из localStorage все ключи catalog_* (но не catalogCategories_*, не catalogs_keys).
  * Вызывать из консоли конструктора: window.clearCatalogCache()
- * После вызова нужно нажать ЫВыгрузить всё в конструкторл и перезагрузить шаг 4.
+ * После вызова нужно нажать «Выгрузить всё в конструктор» и перезагрузить шаг 4.
  */
 window.clearCatalogCache = function () {
   const removed = [];
@@ -11470,13 +16616,13 @@ window.clearCatalogCache = function () {
     console.warn('[clearCatalogCache] Нет ключей catalog_* для удаления — localStorage уже чистый.');
   } else {
     console.warn(
-      '[clearCatalogCache] Готово. Нажмите ЫВыгрузить всё в конструкторл в админке и перейдите на шаг 4 заново.'
+      '[clearCatalogCache] Готово. Нажмите «Выгрузить всё в конструктор» в админке и перейдите на шаг 4 заново.'
     );
   }
   return { removed, keep };
 };
 
-/** Преобразовать элемент catalog_N.json → формат localStorage комнаты (как export_all). */
+/** Преобразовать элемент catalog_N.json > формат localStorage комнаты (как export_all). */
 function transformRawCatalogItemForRoomExport(it) {
   if (!it || typeof it !== 'object') return null;
   const parsedData = parseCatalogItemDataField(it);
@@ -11488,11 +16634,14 @@ function transformRawCatalogItemForRoomExport(it) {
         : it;
   const cs = data.constructor_structure || it.constructor_structure;
   let clodisJSON = [];
+  // Паритет с админкой: children > template > spec > clodisJSON (не наоборот).
   if (cs && typeof cs === 'object') {
-    if (cs.template && Array.isArray(cs.template.structure)) clodisJSON = cs.template.structure;
-    else if (cs.spec?.template?.tree && Array.isArray(cs.spec.template.tree)) clodisJSON = cs.spec.template.tree;
-    else if (cs.type === 'module' && Array.isArray(cs.children)) clodisJSON = cs.children;
-    else if (Array.isArray(cs)) clodisJSON = cs;
+    if (Array.isArray(cs.children) && cs.children.length) clodisJSON = cs.children;
+    else if (cs.template && Array.isArray(cs.template.structure) && cs.template.structure.length) {
+      clodisJSON = cs.template.structure;
+    } else if (cs.spec?.template?.tree && Array.isArray(cs.spec.template.tree)) {
+      clodisJSON = cs.spec.template.tree;
+    } else if (Array.isArray(cs)) clodisJSON = cs;
   }
   if (!clodisJSON.length) {
     const ppj = readClodisJSON(it) ?? readClodisJSON(data);
@@ -11519,6 +16668,8 @@ function transformRawCatalogItemForRoomExport(it) {
   };
   if (data.roomTags ?? it.roomTags) out.roomTags = data.roomTags ?? it.roomTags;
   if (data.doorKind ?? it.doorKind) out.doorKind = data.doorKind ?? it.doorKind;
+  const doorLayout = data.doorLayout ?? it.doorLayout ?? data.door_layout;
+  if (doorLayout) out.doorLayout = doorLayout;
   if (data.unifiedFacade === true || it.unifiedFacade === true) out.unifiedFacade = true;
   if (data.placementKind ?? it.placementKind) out.placementKind = data.placementKind ?? it.placementKind;
   if (data.drawerStack ?? it.drawerStack) {
@@ -11557,15 +16708,19 @@ function transformRawCatalogItemForRoomExport(it) {
   return out;
 }
 
-async function bootstrapCatalogFromItemsApi(catalogTypeNorm) {
+/** Диск /catalog_items/catalog_N.json — если API пуст (ВМУ 54 и др. кухня 4x/5x). */
+async function bootstrapCatalogFromDiskJson(catalogTypeNorm) {
   const typeKey = 'catalog_' + catalogTypeNorm;
   try {
     const res = await fetch(
-      '/api/catalog/items_get/' + encodeURIComponent(typeKey) + '?ts=' + Date.now(),
+      '/catalog_items/' +
+        encodeURIComponent(typeKey) +
+        '.json?t=' +
+        Date.now(),
       { cache: 'no-store' }
     );
     if (!res.ok) {
-      console.warn('[loadSavedModels] items_get HTTP', res.status, typeKey);
+      console.warn('[loadSavedModels] disk HTTP', res.status, typeKey);
       return 0;
     }
     const payload = await res.json();
@@ -11575,10 +16730,46 @@ async function bootstrapCatalogFromItemsApi(catalogTypeNorm) {
         ? payload.items
         : [];
     if (!rawItems.length) return 0;
+    // Как items_get: нормализуем nested data → placementKind/doorLayout/clodisJSON наверх.
+    const list = rawItems
+      .map((it) => transformRawCatalogItemForRoomExport(it) || it)
+      .filter(Boolean);
+    migrateCatalogArrayStorageKeys(list);
+    localStorage.setItem(typeKey, JSON.stringify(list));
+    _catalogDebug(
+      '[loadSavedModels] bootstrap с диска: ' + typeKey + ' > ' + list.length + ' шт.'
+    );
+    return list.length;
+  } catch (e) {
+    console.warn('[loadSavedModels] bootstrap disk failed:', e);
+    return 0;
+  }
+}
+
+async function bootstrapCatalogFromItemsApi(catalogTypeNorm) {
+  const typeKey = 'catalog_' + catalogTypeNorm;
+  try {
+    const res = await fetch(
+      '/api/catalog/items_get/' + encodeURIComponent(typeKey) + '?ts=' + Date.now(),
+      { cache: 'no-store' }
+    );
+    if (!res.ok) {
+      console.warn('[loadSavedModels] items_get HTTP', res.status, typeKey);
+      return bootstrapCatalogFromDiskJson(catalogTypeNorm);
+    }
+    const payload = await res.json();
+    const rawItems = Array.isArray(payload)
+      ? payload
+      : Array.isArray(payload?.items)
+        ? payload.items
+        : [];
+    if (!rawItems.length) {
+      return bootstrapCatalogFromDiskJson(catalogTypeNorm);
+    }
     const list = rawItems.map(transformRawCatalogItemForRoomExport).filter(Boolean);
     migrateCatalogArrayStorageKeys(list);
     localStorage.setItem(typeKey, JSON.stringify(list));
-    console.log('[loadSavedModels] bootstrap из items_get: ' + typeKey + ' → ' + list.length + ' шт.');
+    _catalogDebug('[loadSavedModels] bootstrap из items_get: ' + typeKey + ' > ' + list.length + ' шт.');
     if (typeKey === 'catalog_33') {
       try {
         syncDrawerCatalog33ToGlobalCache();
@@ -11588,96 +16779,137 @@ async function bootstrapCatalogFromItemsApi(catalogTypeNorm) {
     return list.length;
   } catch (e) {
     console.warn('[loadSavedModels] bootstrap items_get failed:', e);
-    return 0;
+    return bootstrapCatalogFromDiskJson(catalogTypeNorm);
   }
 }
 
-/** Подтянуть catalog_* из API (roomTags, doorKind и т.д.) — без ручной ЫВыгрузить всёл. */
+/** Подтянуть catalog_* из API (roomTags, doorKind и т.д.) — без ручной «Выгрузить всё». */
 export async function ensureConstructorCatalogFresh(catalogTypeNorm) {
-  if (!catalogTypeNorm) return;
-  const catKey = 'catalog_' + catalogTypeNorm;
+  const typeNorm =
+    catalogTypeNorm != null && String(catalogTypeNorm).trim() !== ''
+      ? String(catalogTypeNorm).trim().replace(/^catalog_/, '')
+      : '';
+  const catKey = typeNorm ? 'catalog_' + typeNorm : null;
   const now = Date.now();
-  const meta = _catalogFreshMeta.get(catalogTypeNorm);
-  if (meta?.promise) return meta.promise;
-  if (meta?.at && now - meta.at < CATALOG_FRESH_TTL_MS) {
-    try {
-      const raw = localStorage.getItem(catKey);
-      if (raw && JSON.parse(raw).length > 0) return;
-    } catch (_) {}
+  if (_catalogFreshGlobal.promise) {
+    await _catalogFreshGlobal.promise;
+    if (catKey && _lsCatalogCount(catKey) === 0) {
+      await bootstrapCatalogFromItemsApi(typeNorm);
+      if (_lsCatalogCount(catKey) === 0) await bootstrapCatalogFromDiskJson(typeNorm);
+    }
+    return;
   }
+
+  const rev = _readCatalogRev();
+  const appliedRev = _readAppliedCatalogRev();
+  const poisoned = !!(catKey && _catalogLsLooksPoisoned(catKey));
+  const revStale = rev > 0 && rev > appliedRev;
+  const ttlOk =
+    !poisoned &&
+    !revStale &&
+    _catalogFreshGlobal.at > 0 &&
+    now - _catalogFreshGlobal.at < CATALOG_FRESH_TTL_MS;
+
+  if (ttlOk) {
+    if (!catKey || _lsCatalogCount(catKey) > 0) return;
+    // TTL жив, но нужный каталог пуст — точечный bootstrap, без export_all.
+    await bootstrapCatalogFromItemsApi(typeNorm);
+    if (_lsCatalogCount(catKey) === 0) await bootstrapCatalogFromDiskJson(typeNorm);
+    return;
+  }
+
+  const shouldRebuildFurniture = !!(poisoned || revStale);
 
   const run = (async () => {
-  try {
-    const res = await fetch(
-      '/api/catalog/export_all_for_constructor?ts=' + Date.now(),
-      { cache: 'no-store' }
-    );
-    if (!res.ok) {
-      console.warn(
-        '[loadSavedModels] export API HTTP ' + res.status + ' — bootstrap из items_get'
+    try {
+      const res = await fetch(
+        '/api/catalog/export_all_for_constructor?ts=' + Date.now(),
+        { cache: 'no-store' }
       );
-      await bootstrapCatalogFromItemsApi(catalogTypeNorm);
+      if (!res.ok) {
+        console.warn(
+          '[loadSavedModels] export API HTTP ' + res.status + ' — bootstrap из items_get'
+        );
+        if (typeNorm) await bootstrapCatalogFromItemsApi(typeNorm);
+        try {
+          syncDrawerCatalog33ToGlobalCache();
+        } catch (_) {}
+        return;
+      }
+      const data = await res.json();
+      if (data.catalogs && typeof data.catalogs === 'object') {
+        Object.keys(data.catalogs).forEach((key) => {
+          const arr = data.catalogs[key];
+          const list = Array.isArray(arr) ? arr.slice() : [];
+          migrateCatalogArrayStorageKeys(list);
+          localStorage.setItem(key, JSON.stringify(list));
+        });
+      }
+      if (data.categories && typeof data.categories === 'object') {
+        Object.keys(data.categories).forEach((key) => {
+          localStorage.setItem(
+            'catalogCategories_' + key,
+            JSON.stringify(data.categories[key])
+          );
+        });
+      }
+      if (window.__cldDoorCatIdsByCatalog) {
+        window.__cldDoorCatIdsByCatalog = {};
+      }
+
+      let n = catKey ? _lsCatalogCount(catKey) : 0;
+      if (typeNorm && n === 0) {
+        n = await bootstrapCatalogFromItemsApi(typeNorm);
+      }
+      if (typeNorm && n === 0) {
+        n = await bootstrapCatalogFromDiskJson(typeNorm);
+      }
+      // Угол 44/54: диск только если export пуст — не перетирать на каждый клик категории.
+      for (const fk of ['44', '54']) {
+        if (_lsCatalogCount('catalog_' + fk) > 0) continue;
+        const filled = await bootstrapCatalogFromDiskJson(fk);
+        if (fk === typeNorm && filled > 0) n = filled;
+      }
+      _catalogDebug(
+        '[loadSavedModels] каталог синхронизирован с сервера: ' +
+          (catKey || 'all') +
+          ' > ' +
+          n +
+          ' шт.'
+      );
       try {
         syncDrawerCatalog33ToGlobalCache();
-        await ensureDrawerCatalog33FreshFromApi();
       } catch (_) {}
-      return;
-    }
-    const data = await res.json();
-    if (data.catalogs && typeof data.catalogs === 'object') {
-      Object.keys(data.catalogs).forEach((key) => {
-        const arr = data.catalogs[key];
-        const list = Array.isArray(arr) ? arr.slice() : [];
-        migrateCatalogArrayStorageKeys(list);
-        localStorage.setItem(key, JSON.stringify(list));
-      });
-    }
-    if (data.categories && typeof data.categories === 'object') {
-      Object.keys(data.categories).forEach((key) => {
-        localStorage.setItem(
-          'catalogCategories_' + key,
-          JSON.stringify(data.categories[key])
-        );
-      });
-    }
-    if (window.__cldDoorCatIdsByCatalog) {
-      window.__cldDoorCatIdsByCatalog = {};
-    }
-    let n = (() => {
-      try {
-        const raw = localStorage.getItem(catKey);
-        return raw ? JSON.parse(raw).length : 0;
-      } catch (_) {
-        return 0;
+      // ensureDrawerCatalog33FreshFromApi убран с hot-path (лишний round-trip на каждый sync).
+
+      if (shouldRebuildFurniture) {
+        try {
+          if (typeof window.__cldRebuildFurnitureForStep4Toggles === 'function') {
+            console.warn('[CATALOG] rebuild room furniture after invalidate/poison');
+            window.__cldRebuildFurnitureForStep4Toggles();
+          }
+        } catch (_) {}
       }
-    })();
-    if (n === 0) {
-      n = await bootstrapCatalogFromItemsApi(catalogTypeNorm);
+      if (rev > 0) _writeAppliedCatalogRev(rev);
+    } catch (e) {
+      console.warn('[loadSavedModels] синхронизация каталога не удалась:', e);
+      if (typeNorm) await bootstrapCatalogFromItemsApi(typeNorm);
+      for (const fk of ['44', '54']) {
+        if (_lsCatalogCount('catalog_' + fk) > 0) continue;
+        await bootstrapCatalogFromDiskJson(fk);
+      }
+      try {
+        syncDrawerCatalog33ToGlobalCache();
+      } catch (_) {}
     }
-    console.log(
-      '[loadSavedModels] каталог синхронизирован с сервера: ' + catKey + ' → ' + n + ' шт.'
-    );
-    try {
-      syncDrawerCatalog33ToGlobalCache();
-      await ensureDrawerCatalog33FreshFromApi();
-    } catch (_) {}
-  } catch (e) {
-    console.warn('[loadSavedModels] синхронизация каталога не удалась:', e);
-    await bootstrapCatalogFromItemsApi(catalogTypeNorm);
-    try {
-      syncDrawerCatalog33ToGlobalCache();
-      await ensureDrawerCatalog33FreshFromApi();
-    } catch (_) {}
-  }
   })();
 
-  _catalogFreshMeta.set(catalogTypeNorm, { at: meta?.at || 0, promise: run });
+  _catalogFreshGlobal.promise = run;
   try {
     await run;
-    _catalogFreshMeta.set(catalogTypeNorm, { at: Date.now(), promise: null });
-  } catch (e) {
-    _catalogFreshMeta.set(catalogTypeNorm, { at: meta?.at || 0, promise: null });
-    throw e;
+    _catalogFreshGlobal.at = Date.now();
+  } finally {
+    _catalogFreshGlobal.promise = null;
   }
 }
 
@@ -11707,7 +16939,7 @@ export async function loadSavedModels(
   const cabinetsGrid =
     targetGrid || document.getElementById('cabinets-grid');
   if (!cabinetsGrid) {
-    console.warn('Р️ Элемент для каталога не найден');
+    console.warn('Р? Элемент для каталога не найден');
     return;
   }
   cabinetsGrid.innerHTML = '';
@@ -11739,23 +16971,15 @@ export async function loadSavedModels(
     endCabMode = null;
   }
 
-  console.log(
+  _catalogDebug(
     '[loadSavedModels] catalogType=' +
       catalogType +
-      ' → norm="' +
+      ' > norm="' +
       catalogTypeNorm +
       '", pillFilterList=' +
       JSON.stringify(pillFilterList)
   );
 
-  // Diagnostics: which catalogs exist in localStorage
-  const catalogKeys = [];
-  for (let i = 0; i < localStorage.length; i++) {
-    const k = localStorage.key(i);
-    if (k && k.startsWith('catalog_') && k !== 'catalogs_keys') {
-      catalogKeys.push(k);
-    }
-  }
   const diagKey = hasExplicitCatalogType ? 'catalog_' + catalogTypeNorm : null;
   const diagJson = diagKey ? localStorage.getItem(diagKey) : null;
   const diagArr = diagJson
@@ -11768,30 +16992,27 @@ export async function loadSavedModels(
         }
       })()
     : [];
-  console.log(
-    '[ШКАФ-ДИАГНОСТИКА] localStorage: ключи=' +
-      catalogKeys.join(', ') +
-      ' | catalogType=' +
-      catalogType +
-      ' | каталог ' +
-      (diagKey || '—') +
-      ' существует=' +
-      !!diagJson +
-      ' элементов=' +
-      diagArr.length +
-      ' | элементы: ' +
-      diagArr
-        .slice(0, 5)
-        .map(
-          (it) =>
-            (it?.name || '?') +
-            (readClodisJSON(it) ? '✓clodis' : '✗нетClodis') +
-            (it?.roomTags?.categories?.length
-              ? '✓roomTags'
-              : '✗нетRoomTags')
-        )
-        .join(', ')
-  );
+  if (typeof window !== 'undefined' && window.__cldCatalogDebug === true) {
+    const catalogKeys = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith('catalog_') && k !== 'catalogs_keys') {
+        catalogKeys.push(k);
+      }
+    }
+    _catalogDebug(
+      '[ШКАФ-ДИАГНОСТИКА] localStorage: ключи=' +
+        catalogKeys.join(', ') +
+        ' | catalogType=' +
+        catalogType +
+        ' | каталог ' +
+        (diagKey || '—') +
+        ' существует=' +
+        !!diagJson +
+        ' элементов=' +
+        diagArr.length
+    );
+  }
 
   if (hasExplicitCatalogType) {
     await ensureConstructorCatalogFresh(catalogTypeNorm);
@@ -11827,7 +17048,7 @@ export async function loadSavedModels(
 
   try {
     // 1. Load models from "savedModels" (legacy) — только если нет выбранной папки каталога.
-    // Раньше проверялось !catalogType: при пустой строке или потере folderId подмешивались старые savedModels → «лишние» шкафы на шаге 4.
+    // Раньше проверялось !catalogType: при пустой строке или потере folderId подмешивались старые savedModels > «лишние» шкафы на шаге 4.
     if (!hasExplicitCatalogType) {
       const savedModelsKey = 'savedModels';
       const savedModelsJson = localStorage.getItem(savedModelsKey);
@@ -11836,13 +17057,13 @@ export async function loadSavedModels(
           const savedModels = JSON.parse(savedModelsJson);
           if (Array.isArray(savedModels)) {
             console.log(
-              `📦 Загружено ${savedModels.length} сохраненных моделей из savedModels`
+              `?? Загружено ${savedModels.length} сохраненных моделей из savedModels`
             );
 
             savedModels.forEach((modelData, index) => {
               if (!modelData || !modelData.metadata) {
                 console.warn(
-                  `Р️ Модель ${index} не имеет метаданных, пропускаем`
+                  `Р? Модель ${index} не имеет метаданных, пропускаем`
                 );
                 return;
               }
@@ -11861,7 +17082,7 @@ export async function loadSavedModels(
               const cabinetItem = createCabinetItem({
                 id: 'saved-model-' + index,
                 name: metadata.name || 'Модель ' + (index + 1),
-                width: `${widthMm}×${heightMm} мм`,
+                width: `${widthMm}?${heightMm} мм`,
                 price: '0,-',
                 savedModelData: modelData,
                 iconOnly: cabinetsGrid.id === 'step4-cabinets-grid',
@@ -11870,12 +17091,12 @@ export async function loadSavedModels(
               cabinetsGrid.appendChild(cabinetItem);
               totalItems++;
               console.log(
-                `  ✅ Добавлена в каталог: "${metadata.name}" (${widthMm}×${heightMm} мм)`
+                `  ? Добавлена в каталог: "${metadata.name}" (${widthMm}?${heightMm} мм)`
               );
             });
           }
         } catch (e) {
-          console.warn('Р️ Ошибка парсинга savedModels:', e);
+          console.warn('Р? Ошибка парсинга savedModels:', e);
         }
       }
     }
@@ -11896,7 +17117,7 @@ export async function loadSavedModels(
             .sort((a, b) => (a.order || 0) - (b.order || 0))
         : null;
 
-    // moduleItems — только без выбранного типа каталога (режим ЫМодулил).
+    // moduleItems — только без выбранного типа каталога (режим «Модули»).
     if (moduleItems && !hasExplicitCatalogType) {
       try {
         let filteredMods = moduleItems;
@@ -12035,7 +17256,7 @@ export async function loadSavedModels(
           console.warn(
             '[Step4] Каталог не найден. catalogType:',
             catalogType,
-            'Нажмите ЫВыгрузить всё в конструкторл'
+            'Нажмите «Выгрузить всё в конструктор»'
           );
         }
       } catch (e) {
@@ -12108,7 +17329,7 @@ export async function loadSavedModels(
                 (item.showInRoom !== undefined ||
                   item.show_in_constructor !== undefined)
               ) {
-                console.log(
+                _catalogDebug(
                   '[ШКАФ-ДИАГНОСТИКА] ПРОПУСК "' +
                     name +
                     '": show_in_constructor=' +
@@ -12142,6 +17363,31 @@ export async function loadSavedModels(
                   if (!blob.includes(tag)) return;
                 }
               }
+              // Тип размещения: ordinary - Gola (как управление кухней).
+              if (!catalogItemMatchesKitchenPlacement(item)) {
+                _catalogDebug(
+                  '[ШКАФ-ДИАГНОСТИКА] ПРОПУСК "' +
+                    name +
+                    '": placementKind не для текущего режима кухни'
+                );
+                return;
+              }
+              // Угловые 44 (НМУ) / 54 (ВМУ): лев/прав только при постановке в спец-зону.
+              if (
+                (catalogTypeNorm === '44' || catalogTypeNorm === '54') &&
+                !catalogItemMatchesActiveLCornerSide(item)
+              ) {
+                _catalogDebug(
+                  '[ШКАФ-ДИАГНОСТИКА] ПРОПУСК "' +
+                    name +
+                    '": сторона угла не совпадает (модуль ' +
+                    (getCatalogItemCornerAtStart(item) ? 'лев' : 'прав') +
+                    ', зона ' +
+                    (getPendingLCornerZoneAtStart() ? 'лев' : 'прав') +
+                    ')'
+                );
+                return;
+              }
               const tagsApi =
                 typeof window !== 'undefined' ? window.__cldRoomFurnitureTags : null;
               if (
@@ -12162,7 +17408,7 @@ export async function loadSavedModels(
                     ),
                   })
                 ) {
-                  console.log(
+                  _catalogDebug(
                     '[ШКАФ-ДИАГНОСТИКА] ПРОПУСК "' +
                       name +
                       '": не подходит под комнату/раздел (roomTags=' +
@@ -12175,15 +17421,16 @@ export async function loadSavedModels(
                       (roomCtx.roomKey || '—') +
                       ' catalog=' +
                       catalogTypeNorm +
-                      '). Проверьте галочку ЫКатегории для комнатыл и ЫВыгрузить всё в конструкторл.'
+                      '). Проверьте галочку «Категории для комнаты» и «Выгрузить всё в конструктор».'
                   );
                   return;
                 }
               }
+              // Кухня: ordinary kitchen_base = 720; Gola — отдельные SKU kitchen_base_gola = 780.
               const { plan: resolvedPlan, fromFallback: planFromFallback } =
                 resolveClodisJSONForCatalogGridItem(item);
               if (!resolvedPlan || resolvedPlan.length === 0) {
-                console.log(
+                _catalogDebug(
                   '[ШКАФ-ДИАГНОСТИКА] ПРОПУСК "' +
                     name +
                     '": нет clodisJSON и нет размеров для каркаса (width/height/depth или params.sectionSize).'
@@ -12212,7 +17459,7 @@ export async function loadSavedModels(
                   catalogTypeNorm
                 )
               ) {
-                console.log(
+                _catalogDebug(
                   '[ШКАФ-ДИАГНОСТИКА] ПРОПУСК "' +
                     name +
                     '": пилюли ' +
@@ -12254,7 +17501,7 @@ export async function loadSavedModels(
                 displayHeight = displayWidth * 2;
               }
 
-              const widthStr = `${displayWidth}×${displayHeight} мм`;
+              const widthStr = `${displayWidth}?${displayHeight} мм`;
               const iconAspect = resolveCatalogItemIconAspect(item, catalogTypeNorm);
               const rawPrice =
                 item.price ??
@@ -12266,6 +17513,34 @@ export async function loadSavedModels(
               const wMm = getCatalogDimensionMm(itemForGrid, 'width') || sectionSize.x;
               const hMm = getCatalogDimensionMm(itemForGrid, 'height') || sectionSize.y;
               const dMm = getCatalogDimensionMm(itemForGrid, 'depth') || sectionSize.z;
+              const rawProfilePk = getRawPlacementKindFromFurnitureData({
+                placementKind: item?.placementKind,
+                catalogItem: itemForGrid,
+                data: item?.data,
+                catalogType: catalogTypeNorm,
+              });
+              const ctBand = String(catalogTypeNorm || '')
+                .trim()
+                .toLowerCase()
+                .replace(/^catalog_/, '');
+              const rawPkBand = String(rawProfilePk || '')
+                .trim()
+                .toLowerCase();
+              let kitchenWallBand = '';
+              if (
+                rawPkBand === 'kitchen_wall_top' ||
+                ctBand === '51'
+              ) {
+                kitchenWallBand = 'top';
+              } else if (
+                rawPkBand === 'kitchen_wall_mid' ||
+                ctBand === '50' ||
+                ctBand === '42' ||
+                ctBand === '43'
+              ) {
+                kitchenWallBand = 'mid';
+              }
+              const wallBandDepthMm = kitchenWallBand ? 350 : 0;
               const cabinetItem = createCabinetItem({
                 id: key + '-' + index,
                 name: item.name || 'Элемент ' + (index + 1),
@@ -12280,28 +17555,39 @@ export async function loadSavedModels(
                   catalogItem: itemForGrid,
                   catalogType: catalogTypeNorm || undefined,
                   placementKind: itemPlacementKind,
+                  // Сырой id (kitchen_tall) — ghost/place не теряют профиль после map>baseKind.
+                  __placementKindProfileId: rawProfilePk || itemPlacementKind,
+                  // НШ1/НШ2: явный stamp — ghost не путает с низом / wall_hung.
+                  ...(kitchenWallBand
+                    ? { __kitchenWallBand: kitchenWallBand }
+                    : {}),
                   width: wMm,
                   height: hMm,
-                  depth: dMm,
-                  sectionSize: sectionSize,
+                  depth: wallBandDepthMm > 0 ? wallBandDepthMm : dMm,
+                  sectionSize: {
+                    x: Math.max(1, Math.round(Number(wMm) || Number(sectionSize.x) || 600)),
+                    y: Math.max(1, Math.round(Number(hMm) || Number(sectionSize.y) || 2400)),
+                    z: Math.max(
+                      1,
+                      Math.round(
+                        wallBandDepthMm > 0
+                          ? wallBandDepthMm
+                          : Number(dMm) || Number(sectionSize.z) || 550
+                      )
+                    ),
+                  },
                   ...(planFromFallback ? { catalogPlanFallback: true } : {}),
                 },
                 iconOnly: cabinetsGrid.id === 'step4-cabinets-grid',
               });
               cabinetsGrid.appendChild(cabinetItem);
               totalItems++;
-              console.log(
+              _catalogDebug(
                 '[ШКАФ-ДИАГНОСТИКА] ДОБАВЛЕН В КАТАЛОГ: "' +
                   (item.name || 'Элемент ' + index) +
                   '" clodisJSON.length=' +
                   resolvedPlan.length +
-                  (planFromFallback ? ' (каркас из размеров)' : '') +
-                  ' sectionSize=' +
-                  sectionSize.x +
-                  'Г—' +
-                  sectionSize.y +
-                  'Г—' +
-                  sectionSize.z
+                  (planFromFallback ? ' (каркас из размеров)' : '')
               );
             });
           } catch (e) {
@@ -12333,7 +17619,7 @@ export async function loadSavedModels(
               catKey +
               '" пуст или нет. Доступны: ' +
               available.join(', ') +
-              '. В шаге 3 для Шкафы задайте key=26. Затем ЫВыгрузить всё в конструкторл.'
+              '. В шаге 3 для Шкафы задайте key=26. Затем «Выгрузить всё в конструктор».'
           );
         }
       }
@@ -12355,7 +17641,7 @@ export async function loadSavedModels(
         totalItems = 0;
         runCatalogLoad(true, [], true);
       }
-      console.log(
+      _catalogDebug(
         '[ШКАФ-ДИАГНОСТИКА] ИТОГО в каталоге отображается элементов: ' +
           totalItems +
           (totalItems === 0
@@ -12402,16 +17688,16 @@ export async function loadSavedModels(
       }
       if (hasExplicitCatalogType) {
         emptyText +=
-          '\n\nЕсли модуль в админке уже есть: ЫВыгрузить всё в конструкторл, затем Ctrl+F5.';
+          '\n\nЕсли модуль в админке уже есть: «Выгрузить всё в конструктор», затем Ctrl+F5.';
       }
       emptyMessage.textContent = emptyText;
       emptyMessage.style.whiteSpace = 'pre-line';
       cabinetsGrid.appendChild(emptyMessage);
     }
 
-    console.log(`✅ Всего добавлено элементов в каталог: ${totalItems}`);
+    console.log(`? Всего добавлено элементов в каталог: ${totalItems}`);
   } catch (error) {
-    console.error('❌ Ошибка загрузки сохраненных моделей:', error);
+    console.error('? Ошибка загрузки сохраненных моделей:', error);
     console.error('  Стек ошибки:', error.stack);
   }
 }
@@ -12440,11 +17726,24 @@ function createCabinetItem(cabinet) {
         iconVal.replace(/"/g, '') +
         '"></i>';
 
+    const nameLabel = String(cabinet.name || '').trim();
+    if (nameLabel) {
+      item.title = nameLabel;
+      item.setAttribute('aria-label', nameLabel);
+    }
+    // Без картинки превью (fa-cube) — подпись, иначе ВМУ левый/правый неразличимы.
+    const nameHtml =
+      !isImg && nameLabel
+        ? '<div class="cabinet-item-name">' +
+          nameLabel.replace(/</g, '&lt;') +
+          '</div>'
+        : '';
     item.innerHTML =
       '<div class="cabinet-item-image">' +
       iconHtml +
       '<span class="cabinet-item-selected-check" aria-hidden="true"><i class="fas fa-check"></i></span>' +
-      '</div>';
+      '</div>' +
+      nameHtml;
 
     if (cabinet.data) {
       item.addEventListener('mousedown', (e) => {
@@ -12519,7 +17818,7 @@ function createCabinetItem(cabinet) {
     if (cabinet.glbFile) {
       loadGLBFromPath(cabinet.glbFile);
     } else if (cabinet.savedModelData) {
-      console.log('  → Сохранённая модель (не реализовано)');
+      console.log('  > Сохранённая модель (не реализовано)');
     }
   });
 
@@ -12589,11 +17888,35 @@ export function rebuildAllRoomFurnitureForHandleChange() {
     }
     if (!targetSize || targetSize.x < 1 || targetSize.y < 1 || targetSize.z < 1) continue;
     try {
+      const isUgHandle =
+        ud.__kitchenUpperGSeated === true ||
+        ud.__kitchenUpperGKind === 'g_arms' ||
+        (typeof window.__cldIsKitchenUpperGModuleGroup === 'function' &&
+          !!window.__cldIsKitchenUpperGModuleGroup(grp)) ||
+        /угловой\s*г/i.test(String(ud.catalogName || ''));
       rebuildFurnitureGroupForSectionResize(grp, sec, targetSize, { force: true });
+      // Г: не snap/fit спец-зоны — ломает matrixLock и раздувает H.
+      if (isUgHandle) continue;
+      // НШ1: после rebuild вкладки (Пеналы/…) вернуть Y = plinth+720+600.
+      try {
+        snapFurnitureGroupPlacementY(grp, sec);
+      } catch (_) {}
       const zi = ud.zoneIndex;
+      // Только реальный угловой НМУ/ВМУ в base-special. НШ1 mid.zi==base.special
+      // (7↔7) сюда не пускать — иначе съезд в угол при смене каталога/ручек.
+      const isWallBandHandle =
+        isKitchenWallMidGroup(grp) ||
+        isKitchenWallTopGroup(grp) ||
+        ['50', '51', '42', '43'].includes(
+          String(ud.catalogType || '')
+            .toLowerCase()
+            .replace(/^catalog_/, '')
+        );
       if (
         sec &&
         zi != null &&
+        !isWallBandHandle &&
+        !isUgHandle &&
         typeof getLShapeSpecialZoneIndex === 'function' &&
         Number(getLShapeSpecialZoneIndex(sec)) === Number(zi)
       ) {
@@ -12608,7 +17931,7 @@ export function rebuildAllRoomFurnitureForHandleChange() {
   }
   try {
     // Пересобранные модули рождаются с закрытыми дверями: возвращаем состояние
-    // шага мгновенно, иначе аниматор доводит их и видно Ызакрылись → открылисьл.
+    // шага мгновенно, иначе аниматор доводит их и видно «закры»ись > открылисьл.
     const B = typeof window !== 'undefined' ? window.ClodisBuilder : null;
     if (B && typeof B.toggleAllDoors === 'function' && Number(window.currentRoomStep) >= 4) {
       B.toggleAllDoors(window.__cldRoomDoorsDesiredOpen === true, { instant: true });
@@ -12663,6 +17986,8 @@ export function rebuildAllRoomFurnitureForHandleChange() {
 if (typeof window !== 'undefined') {
   window.refreshFurnitureDecors = refreshFurnitureDecors;
   window.refreshFurnitureDecorsImmediate = refreshFurnitureDecorsImmediate;
+  window.__cldApplyStep5DecorToFurnitureGroupImmediate =
+    applyStep5DecorToFurnitureGroupImmediate;
   window.__cldReapplyOutsideDecorToSectionTrimMeshes = () => {
     try {
       const selection =
@@ -12705,6 +18030,7 @@ if (typeof window !== 'undefined') {
   };
   window.isTrimPartNumberLabelsVisible = isTrimPartNumberLabelsVisible;
   window.__cldApplyJointFittingHoles = applyJointFittingHolesToFurnitureGroup;
+  window.__cldRepositionJointSchemeFurniture = repositionJointSchemeFurnitureInRoom;
   window.initStep5DefaultDecorsFromRoomConfig = initStep5DefaultDecorsFromRoomConfig;
   window.__cldLoadDecorTexture = __loadDecorTexture;
   window.__cldGetDecorTextureCache = () => _decorTextureCache;
@@ -12718,8 +18044,11 @@ if (typeof window !== 'undefined') {
     return inferModuleDoorKindFromCategories(state.pendingFurnitureData);
   };
   window.__cldIsLCornerCabinetModule = isLCornerCabinetModule;
+  window.__cldRebuildFurnitureGroupForSectionResize =
+    rebuildFurnitureGroupForSectionResize;
   window.__cldDumpLCornerPlace = () => __cldLogLCorner('manual-dump');
   window.__cldGetLShapeSpecialZoneIndex = __getLShapeSpecialZoneIndex;
+  window.__cldGetLShapeSpecialSnapBounds = getLShapeSpecialSnapBounds;
   /**
    * Зазор фасада/цоколя от пола комнаты (мм). Консоль: __cldAuditFacadeFloorGap()
    * Эталон: стандарт ~70 мм (свес 30 при h_bottom=100); deep-toggle ~25 мм.
@@ -12869,13 +18198,15 @@ if (typeof window !== 'undefined') {
         expectedFacadeFromFloor +
         ' мм (deep=' +
         deep +
-        '). plinth≈0, corpus≈h_bottom.',
+        '). plinth?0, corpus?h_bottom.',
       'color:#0a7;font-weight:bold'
     );
     console.table(rows);
     window.__cldLastFacadeFloorGap = rows;
     return rows;
   };
+  window.__cldSnapFurnitureFloorY = snapFurnitureGroupFloorY;
+  window.__cldSnapFurniturePlacementY = snapFurnitureGroupPlacementY;
   window.__cldRebuildFurnitureForHandles = rebuildAllRoomFurnitureForHandleChange;
   window.__cldRebuildFurnitureForStep4Toggles = rebuildAllRoomFurnitureForStep4Toggles;
   window.__cldRebuildFurnitureForUnifiedFacade = rebuildAllRoomFurnitureForStep4Toggles;
@@ -12883,7 +18214,36 @@ if (typeof window !== 'undefined') {
     resolveLowerFacadeBottomOverhangMm,
     resolveRoomStep4FacadeBottomDeepToggle,
     resolveRoomStep4UnifiedFacadeToggle,
+    filterClodisTreeByDoorLayout,
   };
+  // Админка (другая вкладка) после Save пишет cld_catalog_rev + catalog_* в LS.
+  // Подтянуть дерево (pos/rot крыла) и пересобрать стоящие модули.
+  if (!window.__cldCatalogRevStorageBound) {
+    window.__cldCatalogRevStorageBound = true;
+    window.addEventListener('storage', (ev) => {
+      if (!ev || ev.key !== 'cld_catalog_rev') return;
+      try {
+        if (typeof window.__cldInvalidateConstructorCatalogCache === 'function') {
+          window.__cldInvalidateConstructorCatalogCache();
+        }
+      } catch (_) {}
+      try {
+        window.__CLD_CATALOGS_DATA = {};
+      } catch (_) {}
+      try {
+        if (typeof window.__cldRebuildFurnitureForStep4Toggles === 'function') {
+          window.__cldRebuildFurnitureForStep4Toggles();
+        }
+      } catch (e) {
+        console.warn('[CATALOG-REV] rebuild after admin save failed', e);
+      }
+      try {
+        if (typeof window.__cldSyncPlacedUpperGModulesToJoints === 'function') {
+          window.__cldSyncPlacedUpperGModulesToJoints();
+        }
+      } catch (_) {}
+    });
+  }
   if (!window.__cldHandleCatalogRetryBound) {
     window.__cldHandleCatalogRetryBound = true;
     window.addEventListener('handles-catalog-ready', () => {

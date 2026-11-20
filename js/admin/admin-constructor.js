@@ -11,14 +11,22 @@
   const TYPE_NAMES = {
     'section': 'Секция',
     'fillable_section': 'Наполняемая секция',
+    'fill_section': 'Наполняемая секция',
+    'fake_section': 'Фиктивная секция',
     'detail': 'Деталь',
     'element': 'Элемент',
     'model': 'Модель',
     'facade': 'Фасад',
     'countertop': 'Столешница',
+    'tabletop': 'Столешница',
     'plinth': 'Цоколь',
+    'cokol': 'Цоколь',
     'fitting': 'Присадка',
+    'furniture': 'Присадка',
+    'fill_module': 'Элемент наполнения',
     'cutout': 'Вырез',
+    'cut': 'Вырез',
+    'hole': 'Отверстие',
     'animator': 'Аниматор',
     'size': 'Размер',
     'mouse_target': 'Цель для мыши',
@@ -26,7 +34,9 @@
     'attachment_point': 'Точка прилипания',
     'module': 'Модуль',
     'wall': 'Стенка',
-    'path': 'Паз'
+    'path': 'Паз',
+    'groove': 'Паз',
+    'notch': 'Выемка'
   };
   const TYPE_TO_NODE = {
     'section': 'section', 'fillable_section': 'section',
@@ -902,8 +912,7 @@
       const materialKey = document.getElementById('catalog-constructor-property-material-key');
       const materialThickness = document.getElementById('catalog-constructor-property-material-thickness');
 
-      // Для фасадов по умолчанию используем группу материалов g2 ("Фасады"),
-      // если в nodeData.material_group ещё ничего не задано.
+      // Для фасадов по умолчанию — g2 («Фасады 18»). Уголок 16 мм — вручную g3 («Фасады 16»).
       let gk = nodeData.material_group;
       if (!gk) {
         if (nodeData.originalType === 'facade') {
@@ -2132,6 +2141,7 @@
         g0: result.materials?.g0?.thickness,
         g1: result.materials?.g1?.thickness,
         g2: result.materials?.g2?.thickness,
+        g3: result.materials?.g3?.thickness,
         vars_wt: result.vars?._wt,
       });
       return result;
@@ -2217,7 +2227,12 @@
       if (groupSel) {
         groupSel.innerHTML = '';
         const groups = lib.groups || [];
-        const fallbackGroups = [{ key: 'g0', name: 'Корпус' }, { key: 'g1', name: 'Задняя стенка' }, { key: 'g2', name: 'Фасады' }];
+        const fallbackGroups = [
+          { key: 'g0', name: 'Корпус' },
+          { key: 'g1', name: 'Задняя стенка' },
+          { key: 'g2', name: 'Фасады 18' },
+          { key: 'g3', name: 'Фасады 16' },
+        ];
         const toUse = groups.length ? groups : fallbackGroups;
         for (const g of toUse) {
           const opt = document.createElement('option');
@@ -5229,7 +5244,8 @@
   const FALLBACK_GROUPS = [
     { key: 'g0', name: 'Корпус', material: 'ldsp', thickness: 16, allowed_keys: ['material_2'] },
     { key: 'g1', name: 'Задняя стенка', material: 'hdf', thickness: 3, allowed_keys: ['material_3'] },
-    { key: 'g2', name: 'Фасады', material: 'ldsp', thickness: 16, allowed_keys: ['material_2'] },
+    { key: 'g2', name: 'Фасады 18', material: 'ldsp', thickness: 18, allowed_keys: ['material_2'] },
+    { key: 'g3', name: 'Фасады 16', material: 'ldsp', thickness: 16, allowed_keys: ['material_2'] },
   ];
   function syncThicknessFromSelectedMaterial() {
     const sel = document.querySelector('.constructor-tree-item-selected')?.closest('.constructor-tree-node');
@@ -5283,9 +5299,13 @@
   // Периодически восстанавливаем селект — admin-new очищает его после нашего патча
   setInterval(patchEmptyGroupSelect, 4000);
 
-  // Оборачиваем __cldBuildMaterialsPayload: логирование + гарантия g1/g2 в payload
-  // (admin-new может использовать lib.groups с 1 элементом — тогда g1/g2 не попадают)
-  const MATERIAL_FALLBACK = { g1: { thickness: 3, material: 'hdf' }, g2: { thickness: null, material: 'ldsp' } };
+  // Оборачиваем __cldBuildMaterialsPayload: логирование + гарантия g1/g2/g3 в payload
+  // (admin-new может использовать lib.groups с 1 элементом — тогда g1/g2/g3 не попадают)
+  const MATERIAL_FALLBACK = {
+    g1: { thickness: 3, material: 'hdf' },
+    g2: { thickness: 18, material: 'ldsp' },
+    g3: { thickness: 16, material: 'ldsp' },
+  };
   function wrapBuildMaterialsPayloadWithLog() {
     const fn = window.__cldBuildMaterialsPayload;
     if (typeof fn === 'function' && !fn.__cldLogWrapped) {
@@ -5307,11 +5327,13 @@
                 thickness = (ovk.thickness ?? groupDef?.thickness ?? def.thickness);
                 if (thickness === 16) thickness = 3;
               } else {
-                thickness = ovk.thickness ?? groupDef?.thickness ?? g0Thickness ?? 16;
+                thickness = ovk.thickness ?? groupDef?.thickness ?? def.thickness ?? g0Thickness ?? 16;
               }
               thickness = Number(thickness);
               r.materials[gk] = r.materials[gk] || {};
-              r.materials[gk].thickness = Number.isFinite(thickness) ? thickness : (gk === 'g1' ? 3 : g0Thickness);
+              r.materials[gk].thickness = Number.isFinite(thickness)
+                ? thickness
+                : (gk === 'g1' ? 3 : (def.thickness ?? g0Thickness));
               const matKey = ovk.material_key || groupDef?.material || def.material;
               r.materials[gk].material = r.materials[gk].material && r.materials[gk].material.key
                 ? r.materials[gk].material
@@ -5322,7 +5344,13 @@
         }
         r.vars = r.vars || {};
         r.vars._wt = Number(r.materials?.g0?.thickness ?? r.vars?._wt ?? 16) || 16;
-        if (window.__CLD_DEBUG) console.log('[CLD][thickness-dbg] __cldBuildMaterialsPayload result', { g0: r?.materials?.g0?.thickness, g1: r?.materials?.g1?.thickness, g2: r?.materials?.g2?.thickness, vars_wt: r.vars?._wt });
+        if (window.__CLD_DEBUG) console.log('[CLD][thickness-dbg] __cldBuildMaterialsPayload result', {
+          g0: r?.materials?.g0?.thickness,
+          g1: r?.materials?.g1?.thickness,
+          g2: r?.materials?.g2?.thickness,
+          g3: r?.materials?.g3?.thickness,
+          vars_wt: r.vars?._wt,
+        });
         return r;
       };
       window.__cldBuildMaterialsPayload.__cldLogWrapped = true;

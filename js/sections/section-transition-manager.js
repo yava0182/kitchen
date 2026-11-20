@@ -32,7 +32,7 @@ import {
   computeFurnitureCorpusLayoutWorldBBoxNoAo,
   findCatalogHorizontalTopWallGroup,
   setCatalogHorizontalTopVisible,
-} from '../furniture/furniture-bbox.js?v=20260907-shelf-props';
+} from '../furniture/furniture-bbox.js?v=20261011-bbox-fix2';
 import {
   PLACEMENT_KIND,
   isLowFurniturePlacementKind,
@@ -42,6 +42,7 @@ import {
   isTallLowJunctionPair,
   needsFloorPlinthPlacementKind,
 } from './vertical-layout.js?v=20260921-whh1';
+import { isKitchenBaseGroup } from '../kitchen/kitchen-base-engine.js?v=20261103-wdepth5';
 import { buildWindowRowState, computeTrimPlan } from './window-row-model.js?v=20260923-cohabit38';
 import { classifyCapBetweenZones } from './trim-junction-classify.js?v=20260923-cohabit38';
 import {
@@ -583,6 +584,8 @@ function _findLayoutCapSegmentForPair(sec, nicheGrp, standaloneGrp) {
  */
 function _buildSideCapFromGroups(nicheGrp, standaloneGrp, dresserSide, wallName, transitionKey, opts = null) {
   if (!state.scene) return;
+  // Кухня НМ: не шкаф↔тумба SideCap.
+  if (isKitchenBaseGroup(nicheGrp) || isKitchenBaseGroup(standaloneGrp)) return;
   const sectionId = standaloneGrp?.userData?.sectionId || nicheGrp?.userData?.sectionId || null;
   try {
     const _sec = Array.isArray(state.customSections)
@@ -927,6 +930,8 @@ function _finalizeHeightMismatchOverlaysOnWall(wallName) {
  */
 function _buildHeightMismatchSideOverlay(leftGrp, rightGrp, wallName, transitionKey) {
   if (!state.scene) return;
+  // Кухня НМ: без 16мм HeightMismatch (шкафная/тумбовая обкладка).
+  if (isKitchenBaseGroup(leftGrp) || isKitchenBaseGroup(rightGrp)) return;
   try {
     const leftBox = _furnitureBBox(leftGrp);
     const rightBox = _furnitureBBox(rightGrp);
@@ -1186,6 +1191,8 @@ function _computeExtendedTopFootprint(grp, wallName) {
   if (!grp) return null;
   // Верхний навес: фасадный топ снизу корпуса, не сверху.
   if (isWallHungHighPlacementKind(grp.userData?.__placementKind)) return null;
+  // Кухня НМ: без «крышки тумбы» (TransitionAutoTopCap) — только монтажные планки из JSON.
+  if (isKitchenBaseGroup(grp)) return null;
   // U/глубина — по корпусу; topY — по крышке админки (если есть), иначе верх корпуса.
   const corpus = computeFurnitureCorpusLayoutWorldBBoxNoAo(grp);
   const box = !corpus.isEmpty() ? corpus : _furnitureBBox(grp);
@@ -2787,6 +2794,8 @@ function _splitHorizontalPlanksForWall(wallName) {
  */
 function _buildTopCapFromGroups(nicheGrp, standaloneGrp, dresserSide, wallName, transitionKey) {
   if (!state.scene) return;
+  // Кухня НМ: без TransitionTopCap (крышка тумбы).
+  if (isKitchenBaseGroup(nicheGrp) || isKitchenBaseGroup(standaloneGrp)) return;
   const sectionId = standaloneGrp?.userData?.sectionId || nicheGrp?.userData?.sectionId || null;
   try {
     const nicheBox = _furnitureBBox(nicheGrp);
@@ -5455,6 +5464,31 @@ export function rebuildWallTransitions(wallName, opts = {}) {
   }
 }
 
+function _kitchenNmSectionAfterPlace(wallName) {
+  try {
+    const kse =
+      typeof window !== 'undefined' ? window.__cldKitchenSectionEngine : null;
+    if (kse && typeof kse.afterKitchenPlaceLayout === 'function') {
+      kse.afterKitchenPlaceLayout(wallName);
+      return;
+    }
+  } catch (_) {}
+  _clearAllTransitionsOnWall(wallName);
+  try {
+    const strip =
+      typeof window !== 'undefined'
+        ? window.__cldStripWardrobeSectionTrimForKitchen
+        : null;
+    if (typeof strip === 'function') {
+      const norm = String(wallName || '').trim().toLowerCase();
+      for (const sec of state.customSections || []) {
+        if (!sec || (sec.wallName || '').toLowerCase() !== norm) continue;
+        strip(sec);
+      }
+    }
+  } catch (_) {}
+}
+
 function _rebuildWallTransitionsImpl(wallName, opts = {}) {
   if (!state.scene) return;
 
@@ -5467,6 +5501,23 @@ function _rebuildWallTransitionsImpl(wallName, opts = {}) {
   })();
   const layoutUpdateOpts = onlyUuids ? { onlyUuids: [...onlyUuids] } : null;
 
+  // НМ kitchen_base: шкафной transition stack не запускаем (kitchen-section-engine).
+  {
+    const sortedKitchen = _getFurnitureOnWallSorted(wallName);
+    const focus = onlyUuids
+      ? sortedKitchen.filter((g) => onlyUuids.has(String(g.uuid)))
+      : sortedKitchen;
+    const kitchenFocus =
+      focus.length > 0 && focus.every((g) => isKitchenBaseGroup(g));
+    const wallAllKitchen =
+      sortedKitchen.length > 0 && sortedKitchen.every((g) => isKitchenBaseGroup(g));
+    if (kitchenFocus || wallAllKitchen) {
+      _txBranch = 'kitchen-section-engine';
+      _kitchenNmSectionAfterPlace(wallName);
+      return;
+    }
+  }
+
   // Place: ряд ниши без шкаф↔тумба — только fit нового шкафа (~60мс), не 200мс clear+planks+caps.
   // Исключение: standalone (тумба/комод) — нужен AutoTopCap / подрезка (§6.4.1), иначе топ не строится.
   if (onlyUuids && opts.placeLayoutOnly === true) {
@@ -5478,11 +5529,16 @@ function _rebuildWallTransitionsImpl(wallName, opts = {}) {
         break;
       }
     }
+    // kitchen_base mapped→standalone_floor, но это НЕ тумба с AutoTop/SideCap.
     const placedStandalone = sorted.some(
       (g) =>
         onlyUuids.has(String(g.uuid)) &&
-        isLowFurniturePlacementKind(g.userData?.__placementKind)
+        isLowFurniturePlacementKind(g.userData?.__placementKind) &&
+        !isKitchenBaseGroup(g)
     );
+    const placedKitchenOnly =
+      sorted.some((g) => onlyUuids.has(String(g.uuid)) && isKitchenBaseGroup(g)) &&
+      !placedStandalone;
     const placedHangHigh = sorted.some(
       (g) =>
         onlyUuids.has(String(g.uuid)) &&
@@ -5496,10 +5552,12 @@ function _rebuildWallTransitionsImpl(wallName, opts = {}) {
         break;
       }
     }
-    if (!needsCap && !placedStandalone && !placedHangHigh && !needsHangWardrobeCap) {
-      // Place уже собрал и посадил шкаф (zonePos/fit). Повторный updateFurniture (~60–200мс)
-      // здесь не нужен, пока нет шкаф↔тумба (cap 16 мм) и не тумба/комод.
-      _txBranch = 'niche-fitOnly';
+    if (
+      (!needsCap && !placedStandalone && !placedHangHigh && !needsHangWardrobeCap) ||
+      (placedKitchenOnly && !needsCap && !needsHangWardrobeCap && !placedHangHigh)
+    ) {
+      // Place уже собрал и посадил шкаф/кухню. Без шкаф↔тумба / AutoTop / SideCap.
+      _txBranch = placedKitchenOnly ? 'kitchen-fitOnly' : 'niche-fitOnly';
       _tx('lowSlots', () => _reapplyWindowLowSlotsOnWall(wallName));
       try {
         if (typeof window.__cldSyncWindowAlongEmptyFramesOnWall === 'function') {
@@ -5508,9 +5566,27 @@ function _rebuildWallTransitionsImpl(wallName, opts = {}) {
           );
         }
       } catch (_) {}
-      // Шаблоны обклада после пустой секции → прежний split/adjust (шкаф/тумба).
-      _tx('splitPlanks', () => _splitHorizontalPlanksForWall(wallName));
-      _tx('adjustTop', () => _adjustTopPlankForLowFurniture(wallName));
+      if (!placedKitchenOnly) {
+        // Шаблоны обклада после пустой секции → прежний split/adjust (шкаф/тумба).
+        _tx('splitPlanks', () => _splitHorizontalPlanksForWall(wallName));
+        _tx('adjustTop', () => _adjustTopPlankForLowFurniture(wallName));
+      } else {
+        // Кухня: снять оставшиеся шкафные Side/Top с секций стены + transition caps.
+        try {
+          _clearAllTransitionsOnWall(wallName);
+          const norm = String(wallName || '').trim().toLowerCase();
+          const strip =
+            typeof window !== 'undefined'
+              ? window.__cldStripWardrobeSectionTrimForKitchen
+              : null;
+          if (typeof strip === 'function') {
+            for (const sec of state.customSections || []) {
+              if (!sec || (sec.wallName || '').toLowerCase() !== norm) continue;
+              strip(sec);
+            }
+          }
+        } catch (_) {}
+      }
       return;
     }
     // Комод/тумба без шкаф↔тумба: lite (без Clodis×N) — и прямая, и окно.

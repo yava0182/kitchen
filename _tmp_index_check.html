@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "/node_modules/three/build/three.module.js",
+          "three/examples/jsm/": "/node_modules/three/examples/jsm/",
+          "n8ao": "/node_modules/n8ao/dist/N8AO.js",
+          "postprocessing": "/node_modules/postprocessing/build/index.js"
+        }
+      }
+    </script>
+  <script type="module" src="/@vite/client"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clodis Room Configurator</title>
+    <script>
+    (function () {
+      var bust = '20261020-base-depth2';
+      var q = new URLSearchParams(location.search);
+      if (q.get('v') !== bust) {
+        q.set('v', bust);
+        location.replace(location.pathname + '?' + q.toString() + location.hash);
+      }
+      window.__CLD_BUILD = bust;
+      document.addEventListener('DOMContentLoaded', function () {
+        var el = document.createElement('div');
+        el.id = 'cld-build-badge';
+        el.textContent = bust;
+        el.style.cssText =
+          'position:fixed;bottom:6px;left:6px;z-index:10000;font:11px/1.2 monospace;color:#888;background:rgba(255,255,255,.85);padding:2px 6px;border-radius:4px;pointer-events:none;';
+        document.body.appendChild(el);
+      });
+    })();
+    </script>
+    <script>
+    /** ? ES-?: GLB ? ? ? clodis-cabinet-model-loader ? room-cabinet-studio. */
+    (function () {
+      var pending = new Set();
+      function findFurnitureRoot(obj) {
+        var p = obj;
+        for (var i = 0; i < 32 && p; i++) {
+          if (p.isGroup && p.userData && p.userData.isFurniture) return p;
+          p = p.parent;
+        }
+        return null;
+      }
+      window.__cldQueueCabinetStudioRebind = function (root) {
+        var fr = findFurnitureRoot(root) || root;
+        if (fr) pending.add(fr);
+        if (typeof window.__cldFlushPendingCabinetStudioRebinds === 'function') {
+          window.__cldFlushPendingCabinetStudioRebinds();
+        }
+      };
+      window.__cldFlushPendingCabinetStudioRebinds = function () {
+        var apply = window.__cldApplyRoomCabinetStudioLook;
+        var sync = window.__cldSyncAllRoomCabinetStudio;
+        if (!apply && !sync) return 0;
+        var n = 0;
+        pending.forEach(function (r) {
+          try {
+            if (apply && apply(r)) n += 1;
+          } catch (_) {}
+        });
+        pending.clear();
+        try {
+          if (sync) sync();
+        } catch (_) {}
+        return n;
+      };
+      window.__cldScheduleCabinetStudioRebind = function (root) {
+        window.__cldQueueCabinetStudioRebind(root);
+        [100, 500, 1500, 3500, 8000].forEach(function (ms) {
+          setTimeout(function () {
+            window.__cldQueueCabinetStudioRebind(root);
+          }, ms);
+        });
+      };
+      /** ? ? room-steps.js ? ? ? ? ? ? Cursor. */
+      window.__cldPendingRoomStep = null;
+      window.__cldGoToRoomStep = function (n) {
+        var step = Number(n);
+        if (!Number.isFinite(step)) return false;
+        if (typeof window.__cldGoToRoomStepImpl === 'function') {
+          return window.__cldGoToRoomStepImpl(step);
+        }
+        window.__cldPendingRoomStep = step;
+        return true;
+      };
+      window.__cldRoomStepNext = function () {
+        var top = document.getElementById('sidebar-next-btn-top');
+        var foot = document.getElementById('sidebar-next-btn');
+        var fl = document.getElementById('cld-step-float-next');
+        if (top) top.click();
+        else if (foot) foot.click();
+        else if (fl) fl.click();
+      };
+    })();
+    </script>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="js/room/room-edit-toolbar.css?v=20261008-kitchen-pie1">
+    <style>
+        /* Clodis design system ? ? 1: tokens + layout shell */
+        :root {
+            --clodis-bg: #F5F5F5;
+            --clodis-surface: #FFFFFF;
+            --clodis-text: #222222;
+            --clodis-text-secondary: #777777;
+            --clodis-text-muted: #A3A3A3;
+            --clodis-border: #E8E8E8;
+            --clodis-orange: #FF9F1C;
+            --clodis-orange-hover: #F39100;
+            --clodis-orange-soft: #FFF3DF;
+            --clodis-radius-sm: 8px;
+            --clodis-radius-md: 12px;
+            --clodis-radius-lg: 16px;
+        }
+        /* Cera Pro: ? ? public/fonts/ ? ? ? ? Arial */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            overflow: hidden;
+            height: 100%;
+            height: 100vh;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            overflow-x: hidden;
+            font-family: "Cera Pro", Arial, sans-serif;
+            color: var(--clodis-text);
+            display: flex;
+            height: 100%;
+            height: 100vh;
+            width: 100%;
+            background: var(--clodis-bg);
+        }
+        #canvas-container {
+            flex: 1 1 auto;
+            position: relative;
+            background: var(--clodis-bg);
+            overflow: hidden;
+            min-width: 0;
+            contain: layout paint;
+            isolation: isolate;
+        }
+        #canvas-container canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+        #sidebar {
+            position: relative;
+            z-index: 10;
+            box-sizing: border-box;
+            width: 440px;
+            flex: 0 0 440px;
+            height: 100%;
+            background: var(--clodis-surface);
+            color: var(--clodis-text);
+            border-left: 1px solid var(--clodis-border);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        @media (max-width: 1279px) {
+            #sidebar {
+                width: clamp(380px, 28vw, 440px);
+                flex: 0 0 clamp(380px, 28vw, 440px);
+            }
+            /* Dev-? ?: ? ? ? ? ? ? ? */
+            #cld-step-float {
+                right: calc(clamp(380px, 28vw, 440px) + 16px);
+            }
+        }
+        #sidebar-header {
+            position: relative;
+            padding: 20px 28px;
+            background: var(--clodis-surface);
+            border-bottom: none;
+            flex-shrink: 0;
+        }
+        .step-header {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin: 0 0 20px;
+            padding: 0;
+            gap: 6px;
+            background: transparent;
+            border: none;
+            border-radius: 0;
+        }
+        .step-badge {
+            width: auto;
+            height: auto;
+            min-height: 0;
+            background: transparent;
+            color: var(--clodis-text-secondary);
+            border-radius: 0;
+            display: block;
+            font-weight: 500;
+            font-size: 13px;
+            margin: 0;
+            padding: 0;
+            line-height: 1.3;
+            font-family: "Cera Pro", Arial, sans-serif;
+        }
+        .step-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--clodis-text);
+            padding: 0;
+            line-height: 1.2;
+            text-transform: none;
+            font-family: "Cera Pro", Arial, sans-serif;
+        }
+        .cld-step-description {
+            margin: 8px 0 0;
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.5;
+            color: var(--clodis-text-secondary);
+        }
+        .cld-step-description[hidden] {
+            display: none !important;
+        }
+        .cld-step-progress {
+            width: 100%;
+            height: 3px;
+            background: #ECECEC;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+        .cld-step-progress-fill {
+            height: 100%;
+            width: 16.666%;
+            background: var(--clodis-orange);
+            border-radius: inherit;
+            transition: width 250ms ease;
+        }
+        .price-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background: #F7F7F7;
+            border-radius: 12px;
+            box-shadow: none;
+            border: 1px solid var(--clodis-border);
+        }
+        .price-display {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--clodis-text);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0;
+            font-family: "Cera Pro", Arial, sans-serif;
+        }
+        .price-display i {
+            display: none;
+        }
+        .delivery-info {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            color: var(--clodis-text-secondary);
+            padding: 0;
+            font-family: "Cera Pro", Arial, sans-serif;
+        }
+        .delivery-date {
+            color: var(--clodis-text);
+            font-weight: 600;
+            padding: 0;
+            font-size: 14px;
+            font-family: "Cera Pro", Arial, sans-serif;
+        }
+        .price-subline-row {
+            padding: 6px 11px 8px;
+            font-size: 18px;
+            font-weight: 500;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Cera Pro', Arial, sans-serif;
+        }
+        .price-subline-help-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #2196f3;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .price-subline-help-icon:hover {
+            background: #1976d2;
+        }
+        .price-subline-help-popup {
+            position: absolute;
+            left: 12px;
+            right: 12px;
+            margin-top: 2px;
+            padding: 12px;
+            background: #fff;
+            border: 1px solid #e0e4e8;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            font-size: 13px;
+            color: #333;
+            line-height: 1.45;
+            z-index: 1000;
+        }
+        .price-subline-help-link,
+        .sidebar-info-line .price-subline-help-link,
+        #step4-modules-help-link {
+            color: #2196f3;
+            cursor: pointer;
+            text-decoration: none !important;
+            -webkit-text-decoration: none !important;
+            border-bottom: none !important;
+            font-weight: 500;
+            font-size: 18px;
+            font-family: 'Cera Pro', Arial, sans-serif;
+        }
+        .price-subline-help-link:hover,
+        #step4-modules-help-link:hover {
+            color: #1976d2;
+        }
+        /* ? ? ? 4: Cera Pro, 18px */
+        .sidebar-info-line {
+            font-size: 18px;
+            font-weight: 500;
+            color: #555;
+            font-family: 'Cera Pro', Arial, sans-serif;
+        }
+        .step4-help-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 20000;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-end;
+            padding: 40px 36px 40px 40px;
+        }
+        /* Module edit: no dark veil — scene must stay readable (Maatkasten focus) */
+        .step4-help-modal-overlay.step4-help-modal-overlay--module-edit {
+            background: transparent;
+        }
+        .step4-help-modal {
+            background: #FFFFFF;
+            border-radius: 16px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.14);
+            border: 1px solid rgba(34,34,34,0.06);
+            width: 440px;
+            max-width: min(440px, calc(100vw - 48px));
+            height: auto;
+            max-height: calc(100vh - 100px);
+            padding: 24px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            font-family: "Cera Pro", Arial, sans-serif;
+        }
+        .step4-help-modal.step4-help-modal--module-edit {
+            width: 420px;
+            max-width: calc(100vw - 32px);
+            padding: 0;
+            overflow: hidden;
+        }
+        .step4-help-modal h3 {
+            margin: 0 0 16px 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: #222;
+        }
+        .step4-help-modal.step4-help-modal--module-edit > h3,
+        .step4-help-modal.step4-help-modal--module-edit > .step4-help-modal-btn {
+            display: none !important;
+        }
+        .step4-help-modal-content {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #555;
+            margin-bottom: 20px;
+            min-height: 0;
+        }
+        .step4-help-modal.step4-help-modal--module-edit .step4-help-modal-content {
+            margin: 0;
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            overflow: hidden;
+            color: #222;
+        }
+        .step4-help-modal-btn {
+            width: 100%;
+            padding: 12px 20px;
+            background: #FF9F1C;
+            color: #222;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: "Cera Pro", Arial, sans-serif;
+        }
+        .step4-help-modal-btn:hover {
+            background: #F39100;
+        }
+        /* Module settings panel (Clodis) */
+        .cld-module-edit {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            min-height: 0;
+            max-height: calc(100vh - 100px);
+        }
+        .cld-module-edit__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 24px 28px 18px;
+            flex-shrink: 0;
+        }
+        .cld-module-edit__title {
+            margin: 0;
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 22px;
+            font-weight: 600;
+            line-height: 1.2;
+            color: #222222;
+        }
+        .cld-module-edit__close {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            border-radius: 10px;
+            color: #777777;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: background-color 160ms ease, color 160ms ease;
+        }
+        .cld-module-edit__close:hover {
+            background: #F5F5F5;
+            color: #222222;
+        }
+        .cld-module-edit__body {
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow-y: auto;
+            padding: 4px 28px 28px;
+        }
+        .cld-module-edit__field {
+            margin-bottom: 24px;
+        }
+        .cld-module-edit__label-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        .cld-module-edit__label {
+            display: block;
+            margin: 0 0 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #222222;
+        }
+        .cld-module-edit__label-row .cld-module-edit__label {
+            margin-bottom: 0;
+        }
+        .cld-module-edit__reset {
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: 13px;
+            font-weight: 500;
+            color: #777777;
+            cursor: pointer;
+            font-family: "Cera Pro", Arial, sans-serif;
+        }
+        .cld-module-edit__reset:hover {
+            color: #FF9F1C;
+        }
+        .cld-module-edit__input-wrap {
+            position: relative;
+        }
+        .cld-module-edit__input {
+            box-sizing: border-box;
+            height: 48px;
+            width: 100%;
+            background: #FFFFFF;
+            border: 1px solid #E8E8E8;
+            border-radius: 12px;
+            padding: 0 48px 0 14px;
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            color: #222222;
+            outline: none;
+            transition: border-color 160ms ease, box-shadow 160ms ease;
+        }
+        .cld-module-edit__input:focus {
+            border-color: #FF9F1C;
+            box-shadow: 0 0 0 3px rgba(255, 159, 28, 0.12);
+        }
+        .cld-module-edit__unit {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 13px;
+            color: #A3A3A3;
+            pointer-events: none;
+        }
+        .cld-module-edit__validity {
+            display: none !important;
+        }
+        .cld-module-edit__hint {
+            margin-top: 6px;
+            font-size: 12px;
+            line-height: 1.4;
+            color: #A3A3A3;
+        }
+        .cld-module-edit__segment {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px;
+            padding: 4px;
+            background: #F5F5F5;
+            border-radius: 12px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .step4-module-hand-btn {
+            height: 40px;
+            border: none;
+            border-radius: 9px;
+            background: transparent;
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #555555;
+            cursor: pointer;
+            transition: background-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
+        }
+        .step4-module-hand-btn.is-selected {
+            background: #FFF3DF;
+            color: #222222;
+            box-shadow: inset 0 0 0 1px rgba(255, 159, 28, 0.30);
+        }
+        .cld-module-edit__delete {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+            padding: 0;
+            background: transparent;
+            border: none;
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: #B94A48;
+            cursor: pointer;
+        }
+        .cld-module-edit__delete:hover {
+            color: #9A3533;
+        }
+        .cld-module-edit__footer {
+            flex-shrink: 0;
+            position: sticky;
+            bottom: 0;
+            background: #FFFFFF;
+            border-top: 1px solid #F0F0F0;
+            padding: 16px 28px 20px;
+        }
+        .cld-module-edit__save {
+            width: 100%;
+            height: 48px;
+            padding: 0 22px;
+            background: #FF9F1C;
+            color: #222222;
+            border: none;
+            border-radius: 12px;
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 160ms ease;
+        }
+        .cld-module-edit__save:hover {
+            background: #F39100;
+        }
+        .section-zone-edit-icon {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            min-height: 32px;
+            padding: 0;
+            border-radius: 50%;
+            background: #FFFFFF;
+            border: 1px solid rgba(34, 34, 34, 0.10);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            pointer-events: auto;
+            user-select: none;
+            color: #333333;
+            font-size: 15px;
+            line-height: 1;
+            transition:
+                background-color 160ms ease,
+                border-color 160ms ease,
+                color 160ms ease,
+                box-shadow 160ms ease;
+            z-index: 1002;
+        }
+        .section-zone-edit-icon i,
+        .section-zone-edit-icon svg,
+        .section-zone-edit-icon__pen {
+            width: 15px;
+            height: 15px;
+            color: inherit;
+            fill: none;
+            stroke: currentColor;
+            font-size: 15px;
+            line-height: 15px;
+            background: transparent;
+            display: block;
+            flex-shrink: 0;
+        }
+        .section-zone-edit-icon:hover {
+            background: #FFF8EE;
+            border-color: rgba(255, 159, 28, 0.35);
+            color: #FF9F1C;
+        }
+        /* No visual active/selected style for module pencils */
+        /* ? 4: ? ? + segmented pills (Clodis) */
+        .step4-filters {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 0 0 14px;
+        }
+        .step4-pill-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 0;
+        }
+        .step4-pill-row {
+            width: 100%;
+        }
+        .step4-pill-track {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: stretch;
+            width: 100%;
+            background: #F5F5F5;
+            border-radius: 12px;
+            padding: 4px;
+            box-sizing: border-box;
+        }
+        .step4-pill-track[data-pill-count="3"] {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+        .step4-pill-track[data-pill-count="4"] {
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+        .step4-pill-slider {
+            position: absolute;
+            top: 4px;
+            bottom: 4px;
+            left: 4px;
+            width: 0;
+            border-radius: 9px;
+            background: #FFF3DF;
+            border: none;
+            box-shadow: inset 0 0 0 1px rgba(255, 159, 28, 0.25);
+            transition:
+                transform 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+                width 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.15s ease;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0;
+        }
+        .step4-pill-slider.is-visible {
+            opacity: 1;
+        }
+        .step4-pill-button {
+            position: relative;
+            z-index: 1;
+            flex: 1 1 0;
+            min-width: 0;
+            height: 40px;
+            margin: 0;
+            padding: 0 10px;
+            border: none;
+            border-radius: 9px;
+            background: transparent;
+            font-family: "Cera Pro", Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1.2;
+            color: #555555;
+            cursor: pointer;
+            white-space: normal;
+            text-align: center;
+            transition: color 0.15s ease;
+        }
+        .step4-pill-button:hover {
+            color: #222222;
+        }
+        .step4-pill-button.selected {
+            color: #222222;
+            background: transparent;
+        }
+        /* ? 4: ? horizontal cat

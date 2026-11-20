@@ -196,7 +196,7 @@
       const row = document.createElement('tr');
 
       const checkboxCell = document.createElement('td');
-      checkboxCell.style.width = '10px';
+      checkboxCell.className = 'col-check';
       const checkbox = document.createElement('input');
       checkbox.type = 'checkbox';
       checkbox.className = 'catalog-item-checkbox';
@@ -204,21 +204,19 @@
       checkboxCell.appendChild(checkbox);
 
       const idCell = document.createElement('td');
-      idCell.style.width = '50px';
+      idCell.className = 'col-id';
       idCell.textContent = item.id || '-';
 
       const iconCell = document.createElement('td');
-      iconCell.style.width = '80px';
+      iconCell.className = 'col-icon';
       if (f.icon) {
         const img = document.createElement('img');
         img.src = accUrl + (f.icon.startsWith('/') ? '' : '/') + f.icon;
-        img.style.width = '50px';
-        img.style.height = '50px';
-        img.style.objectFit = 'cover';
-        img.onerror = function() { this.style.display = 'none'; iconCell.textContent = '-'; };
+        img.className = 'admin-list-thumb';
+        img.onerror = function() { this.style.display = 'none'; iconCell.innerHTML = '<div class="admin-list-thumb-empty"></div>'; };
         iconCell.appendChild(img);
       } else {
-        iconCell.textContent = '-';
+        iconCell.innerHTML = '<div class="admin-list-thumb-empty"></div>';
       }
 
       const nameCell = document.createElement('td');
@@ -239,14 +237,15 @@
       categoryCell.textContent = catNames.join(', ') || '-';
 
       const orderCell = document.createElement('td');
-      orderCell.style.width = '80px';
+      orderCell.className = 'col-order';
       orderCell.textContent = String(f.order ?? '0');
 
       const visibilityCell = document.createElement('td');
-      visibilityCell.style.width = '80px';
-      const eyeIcon = document.createElement('i');
-      eyeIcon.className = (f.active == '1' || f.active === 1) ? 'fa fa-eye text-success' : 'fa fa-eye-slash text-danger';
-      visibilityCell.appendChild(eyeIcon);
+      visibilityCell.className = 'col-vis';
+      const active = (f.active == '1' || f.active === 1);
+      visibilityCell.innerHTML = active
+        ? '<button type="button" class="btn btn-xs btn-outline btn-success" title="Видим"><i class="fa fa-eye"></i></button>'
+        : '<button type="button" class="btn btn-xs btn-outline btn-default" title="Скрыт"><i class="fa fa-eye-slash"></i></button>';
 
       const actionsCell = document.createElement('td');
       actionsCell.className = 'col-actions';
@@ -264,12 +263,15 @@
       actionsWrap.appendChild(editIcon);
 
       const copyIcon = document.createElement('i');
-      copyIcon.className = 'fa fa-copy btn btn-outline btn-primary';
+      copyIcon.className = 'fa fa-link btn btn-outline btn-primary';
       copyIcon.title = 'Копировать в этот каталог';
       copyIcon.style.cursor = 'pointer';
       copyIcon.onclick = () => {
-        if (typeof window.copyCatalogItem === 'function') window.copyCatalogItem(item.id, state.catalogType, state.catalogName);
-        else {}
+        if (typeof window.copyCatalogItem === 'function') {
+          window.copyCatalogItem(item.id, state.catalogType, state.catalogName);
+        } else {
+          alert('Функция копирования не загружена. Обновите страницу (Ctrl+F5).');
+        }
       };
       actionsWrap.appendChild(copyIcon);
 
@@ -745,8 +747,38 @@
       if (payload.data.catalog_type != null) payload.data.catalog_type = targetType;
     }
 
-    const baseName = String(payload.name || payload.data?.name || 'Элемент').trim();
-    const newTitle = targetType === sourceType ? baseName + ' (копия)' : baseName;
+    const baseName = String(payload.name || payload.data?.name || 'Элемент')
+      .trim()
+      .replace(/\s*\(копия(?:\s+\d+)?\)\s*$/i, '');
+    let newTitle = targetType === sourceType ? baseName + ' (копия)' : baseName;
+    if (targetType === sourceType) {
+      try {
+        const listResp = await fetch(
+          `/api/catalog/items_get/${encodeURIComponent(targetType)}?t=${Date.now()}`,
+          { cache: 'no-cache' }
+        );
+        if (listResp.ok) {
+          const listData = await listResp.json();
+          const arr = Array.isArray(listData)
+            ? listData
+            : Array.isArray(listData?.items)
+              ? listData.items
+              : [];
+          const names = new Set(
+            arr.map((it) =>
+              String(it?.name || it?.data?.name || '')
+                .trim()
+                .toLowerCase()
+            )
+          );
+          if (names.has(newTitle.toLowerCase())) {
+            let n = 2;
+            while (names.has(`${baseName} (копия ${n})`.toLowerCase()) && n < 100) n += 1;
+            newTitle = `${baseName} (копия ${n})`;
+          }
+        }
+      } catch (_) {}
+    }
     payload.name = newTitle;
     prepareCatalogItemPayloadAfterClone(payload, newTitle, baseName);
 

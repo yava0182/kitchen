@@ -1,7 +1,7 @@
 {
-  "name": "configurator-clodis-threejs",
+  "name": "clodis-kitchen-playground",
   "version": "1.0.0",
-  "description": "3D Furniture Configurator using Three.js",
+  "description": "Clodis kitchen configurator playground (ports 8100/8101; wardrobes are separate)",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -13,13 +13,26 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "type-check": "tsc --noEmit",
+    "test": "node scripts/foundation-smoke.mjs",
+    "test:live": "node scripts/foundation-live.mjs",
+    "test:foundation": "node scripts/foundation-smoke.mjs && node scripts/foundation-live.mjs",
     "start": "node server.js",
     "start:prod": "node server.js",
     "stage:prod": "node scripts/stage-production.mjs",
     "create-analysis": "node scripts/create-analysis.js",
     "extract-ikea": "node scripts/extract-ikea-textures.js",
     "parse:cfrn": "node tools/parse-cfrn.mjs",
-    "b3d:cfrn": "node tools/b3d-to-cfrn.mjs"
+    "b3d:cfrn": "node tools/b3d-to-cfrn.mjs",
+    "ikea:slope:dump": "node scripts/ikea-dump-kitchen-slope.mjs",
+    "ikea:slope:model": "node scripts/ikea-extract-slope-model.mjs",
+    "ikea:slope:overlay": "node scripts/ikea-extract-slope-overlay.mjs",
+    "ikea:slope:html": "node scripts/ikea-find-slope-html.mjs",
+    "freeze:nmu": "node scripts/nmu-freeze-check.mjs",
+    "freeze:overlays": "node scripts/overlays-freeze-check.mjs",
+    "dump:pp-checklist": "node scripts/pp-dump-checklist.mjs",
+    "layer:checkpoint": "node scripts/layer-checkpoint.mjs save",
+    "layer:restore": "node scripts/layer-checkpoint.mjs restore",
+    "layer:list": "node scripts/layer-checkpoint.mjs list"
   },
   "keywords": [
     "threejs",
@@ -33,6 +46,7 @@
     "@gltf-transform/extensions": "^4.3.0",
     "@types/three": "^0.160.0",
     "js-beautify": "^1.15.4",
+    "playwright": "^1.63.0",
     "prettier": "^3.8.0",
     "typescript": "^5.6.0",
     "vite": "^5.4.0"

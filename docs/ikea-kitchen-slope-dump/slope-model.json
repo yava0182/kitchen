@@ -1,0 +1,362 @@
+{
+  "schema": "ikea-kitchen-slope-model-20261006",
+  "at": "2026-10-06T18:35:12.948Z",
+  "slopeLocale": [
+    {
+      "path": "business_rule.ceiling_height_rule.message",
+      "value": "Minimum distance between the floor and ceiling, or bottom of sloped ceiling is {{x}}."
+    },
+    {
+      "path": "business_rule.sloping_rule_base_cabinet_error_message",
+      "value": "Minimum distance between a base cabinet and sloped ceiling is {{x}}."
+    },
+    {
+      "path": "business_rule.sloping_rule_base_cabinet_title",
+      "value": "Base cabinet position"
+    },
+    {
+      "path": "business_rule.sloping_rule_cooktop_cabinet_error_message",
+      "value": "Minimum distance between a cooktop cabinet and sloped ceiling is {{x}}."
+    },
+    {
+      "path": "business_rule.sloping_rule_cooktop_cabinet_title",
+      "value": "Cooktop cabinet position"
+    },
+    {
+      "path": "business_rule.sloping_rule_dishwasher_cabinet_error_message",
+      "value": "Minimum distance between a dishwasher cabinet and sloped ceiling is {{x}}."
+    },
+    {
+      "path": "business_rule.sloping_rule_dishwasher_cabinet_title",
+      "value": "Dishwasher cabinet position"
+    },
+    {
+      "path": "business_rule.sloping_rule_fridge_cabinet_error_message",
+      "value": "Minimum distance between a freestanding fridge or freezer and sloped ceiling is {{x}}."
+    },
+    {
+      "path": "business_rule.sloping_rule_fridge_cabinet_title",
+      "value": "Freestanding fridge cabinet position"
+    },
+    {
+      "path": "business_rule.sloping_rule_half_height_cabinet_error_message",
+      "value": "Minimum distance between a half height cabinet and sloped ceiling is {{x}}."
+    },
+    {
+      "path": "business_rule.sloping_rule_half_height_cabinet_title",
+      "value": "Half Height cabinet position"
+    },
+    {
+      "path": "business_rule.sloping_rule_high_cabinet_error_message",
+      "value": "Minimum distance between a high cabinet and sloped ceiling is {{x}}."
+    },
+    {
+      "path": "business_rule.sloping_rule_high_cabinet_title",
+      "value": "High cabinet position"
+    },
+    {
+      "path": "business_rule.sloping_rule_high_cabinet_top_light_error_message",
+      "value": "Minimum distance between a high cabinet with top light and sloped ceiling is {{x}}."
+    },
+    {
+      "path": "business_rule.sloping_rule_high_cabinet_top_light_title",
+      "value": "High cabinet with top light"
+    },
+    {
+      "path": "business_rule.sloping_rule_horizontal_cabinet_error_message",
+      "value": "Minimum distance between a horizontal wall cabinet and sloped ceiling is {{x}}."
+    },
+    {
+      "path": "business_rule.sloping_rule_horizontal_cabinet_title",
+      "value": "Horizontal wall cabinet position"
+    },
+    {
+      "path": "business_rule.sloping_rule_horizontal_cabinet_top_light_error_message",
+      "value": "Minimum distance between a horizontal cabinet with top light and sloped ceiling is {{x}}."
+    },
+    {
+      "path": "business_rule.sloping_rule_horizontal_cabinet_top_light_title",
+      "value": "Horizontal cabinet with top light"
+    },
+    {
+      "path": "business_rule.sloping_rule_intersection_message",
+      "value": "Cabinets are colliding with sloped ceiling"
+    },
+    {
+      "path": "business_rule.sloping_rule_intersection_title",
+      "value": "Cabinet colliding with sloped ceiling"
+    },
+    {
+      "path": "business_rule.sloping_rule_oven_cabinet_error_message",
+      "value": "Minimum distance between an oven cabinet and sloped ceiling is {{x}}."
+    },
+    {
+      "path": "business_rule.sloping_rule_oven_cabinet_title",
+      "value": "Oven cabinet position"
+    },
+    {
+      "path": "business_rule.sloping_rule_sink_cabinet_error_message",
+      "value": "Minimum distance between a sink cabinet and sloped ceiling is {{x}}."
+    },
+    {
+      "path": "business_rule.sloping_rule_sink_cabinet_title",
+      "value": "Sink cabinet position"
+    },
+    {
+      "path": "business_rule.sloping_rule_wall_cabinet_error_message",
+      "value": "Minimum distance between a wall cabinet and sloped ceiling is {{x}}."
+    },
+    {
+      "path": "business_rule.sloping_rule_wall_cabinet_title",
+      "value": "Wall cabinet position"
+    },
+    {
+      "path": "business_rule.sloping_rule_wall_cabinet_top_light_error_message",
+      "value": "Minimum distance between a wall cabinet with top light and sloped ceiling is {{x}}."
+    },
+    {
+      "path": "business_rule.sloping_rule_wall_cabinet_top_light_title",
+      "value": "Wall cabinet with top light"
+    },
+    {
+      "path": "business_rule.sloping_rule_wall_panel_error_message",
+      "value": "Minimum distance between a wall panel and sloped ceiling is {{x}}."
+    },
+    {
+      "path": "business_rule.sloping_rule_wall_panel_intersection_message",
+      "value": "Wall panels are colliding with sloped ceiling"
+    },
+    {
+      "path": "business_rule.sloping_rule_wall_panel_intersection_title",
+      "value": "Wall panel colliding with sloped ceiling"
+    },
+    {
+      "path": "business_rule.sloping_rule_wall_panel_title",
+      "value": "Wall panel"
+    },
+    {
+      "path": "business_rule.sloping_rule_washer_cabinet_error_message",
+      "value": "Minimum distance between a washing machine cabinet and sloped ceiling is {{x}}."
+    },
+    {
+      "path": "business_rule.sloping_rule_washer_cabinet_title",
+      "value": "Washing machine position"
+    },
+    {
+      "path": "draw_plan_panel.add_sloped_walls",
+      "value": "Manage sloped ceilings"
+    },
+    {
+      "path": "edit_properties_panel.sloped_ceiling",
+      "value": "Sloped ceiling"
+    },
+    {
+      "path": "navigation_catalog.design_room_state.roofWindow",
+      "value": "Roof windows"
+    },
+    {
+      "path": "notification.info_no_sloped_ceiling",
+      "value": "No roof window without sloped ceiling."
+    },
+    {
+      "path": "notification.info_no_sloped_ceiling_link",
+      "value": "Add sloped ceiling"
+    },
+    {
+      "path": "popin.no_space.message_roof_window",
+      "value": "We have not found enough space to correctly position the roof window.<br/>We will put it in the middle of the screen<br/>so that you can move it manually."
+    },
+    {
+      "path": "property.room_type.attic",
+      "value": "Attic"
+    },
+    {
+      "path": "sloped_ceiling.editor_title",
+      "value": "Sloped ceiling"
+    },
+    {
+      "path": "sloped_ceiling.hide_schema",
+      "value": "Hide schema"
+    },
+    {
+      "path": "sloped_ceiling.show_schema",
+      "value": "Show schema"
+    },
+    {
+      "path": "sloped_ceiling.schema",
+      "value": "Sloped ceiling schema"
+    },
+    {
+      "path": "sloped_ceiling.description",
+      "value": "Schema of a sloped ceiling. Measure A: height of the remaining wall after the ceiling slope; Measure B: floor area under the sloped ceiling; Measure C: angle of the ceiling slope."
+    },
+    {
+      "path": "sloped_ceiling.sloped_ceiling_overlay.change_sloped_ceiling",
+      "value": "Change sloped ceiling"
+    },
+    {
+      "path": "sloped_ceiling.sloped_ceiling_overlay.change_sloped_ceiling_button",
+      "value": "Change"
+    },
+    {
+      "path": "sloped_ceiling.sloped_ceiling_overlay.delete_sloped_ceiling",
+      "value": "Delete sloped ceiling"
+    },
+    {
+      "path": "sloped_ceiling.sloped_ceiling_overlay.delete_sloped_ceiling_button",
+      "value": "Delete"
+    },
+    {
+      "path": "sloped_ceiling.sloped_ceiling_overlay.title",
+      "value": "Sloped ceiling options"
+    },
+    {
+      "path": "sloped_ceiling.subtitle",
+      "value": "Choose a wall, click to edit and add your sloped ceiling. Then, validate to save your floorplan."
+    },
+    {
+      "path": "sloped_ceiling.title",
+      "value": "Add sloped ceiling"
+    }
+  ],
+  "jsExtracts": [
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/js/app.js",
+      "snippets": [
+        "n zr;_r=1;var e=u();return zr=function(){var t,i={};function n(){return t.parentNode.removeChild(t),e.unsubscribe(t,\"ui.sloped-ceiling-overlay.destroy\",n),i.toggleSchemaBtn.removeEventListener(\"click\",r),void i.radioInputs.forEach((function(e){e.removeEventListener(\"change\",a)}))}function r(e){var t;e.target.matc",
+        "hes(\".mod-overlay-container-sloped-ceiling [aria-controls]\")&&(t=\"true\"===i.toggleSchemaBtn.getAttribute(\"aria-expanded\"),i.toggleSchemaBtn.setAttribute(\"aria-expanded\",!t),i.schema.setAttribute(\"aria-hidden\",t),i.toggleSc",
+        "disabled\",!0),n.setAttribute(\"readonly\",!0),n.setAttribute(\"aria-disabled\",!0))}))}return e.subscribe(document.body,\"ui.sloped-ceiling-overlay.init\",(function(s,o,l){if(!l||!l.node||!l.node.nodeName)throw new Error(\"No node passed to ui.sloped-ceiling-overlay.init.\");t=l.node,i.radioInputs=[].slice.call(t.querySe",
+        "tn=t.querySelector('[aria-controls=\"toggle-schema\"]'),i.schema=t.querySelector(\"figure.illustration\"),e.subscribe(t,\"ui.sloped-ceiling-overlay.destroy\",n),i.toggleSchemaBtn.addEventListener(\"click\",r),i.radioInputs.forEach((function(e){e.addEventListener(\"change\",a)}))})),{}}}function Vr(e,t,i,n){return e.params.",
+        "ct\")),document.body.addEventListener(\"change\",i),e.selects.length&&e.selects.forEach((function(e){i({target:e})})),{}}),slopedCeilingOverlay:Fr(),solutions:da,sublayerAnimated:ua(),sublayerMediaSelection:pa(),sublayerSelectableList:Ra,tips:ja(),togglableSections:Ha(),tool2dplan:Ga(),toolOverlays:Wa(),toolOpacity"
+      ],
+      "identifiers": []
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/common~Kitchen~Kitchen/common~Kitchen~KitchenRTL.js",
+      "snippets": [
+        "rm-mobile\"]'):(0,o.$)('[data-ui-selector=\"ceiling-height-form\"]');return this._uiController.createCustomModule(n.Tfj,i,\"CeilingHeightForm\"),this._uiController.startModule(\"CeilingHeightForm\",{isOnMobile:e}).then((()=>{this._initCeilingHeight(),e?o.Qev.AddMemberCallback(this._uiController.getModule(\"CeilingHeight",
+        "Form\"),\"CeilingHeightValidateButtonClicked\",this,this._updateCeilingHeight.bind(this)):this.dom.ceilingHeight.on(\"blur keyup\",this._onCeilingHeightInputChanged.bind(this))}))}))},y.prototype.leave=function(){this._stopTopbarUIModule(),this._resetTips(),this._resetMouseTip(),n.feL.prototyp",
+        "e)}if(this._app.isOnMobile()){const e={name:\"Ceiling Height\",constructor:\"EventSender\",params:{clickHandler:this._onOpenCeilingHeightForm,buttonClass:\"bt-icon-label-alt\",listable:\"isListable\",svgClass:\"icon-action-catalog\",svgFileName:\"#icon-tools-ceiling-height\",name:o.wDx.Translate([\"common.ceiling_height\"]),i",
+        "d:\"ceilingHeight\"}};this._catalogToolBoxParams.push(e)}},y.prototype._populatePlanToolBoxParams=function(){const e={id:\"import-plan\",name:\"import-plan\",constructor:\"EventSender\",params:{ariaContro",
+        "berCallback(o.pcw,\"BayRemoved\",this,this.toggleBayTooltip),(0,o.$)(\"#go-to-auto-design\").off(\"click\")},y.prototype._undoSlopedCeilingEditorCallback=function(){this._app.level.updateGeometry2D()},y.prototype._populateToolTipsParams=function(){if(this._app.isOnMobile())return[];const e=[{action:\"import_plan\",messa",
+        "UIModule=function(){this._uiController.getModule(\"Topbar\")&&this._uiController.stopModule(\"Topbar\")},y.prototype._onOpenCeilingHeightForm=function(){o.Qev.SendEvent((0,o.$)('[data-ui-selector=\"ceiling-height-form-mobile\"]').get(0),\"ui.bottom-sheet.open\")};class w extends o.$kO{constructor(){super(),this._materia",
+        "heckKitchen=async function(e){var t;const i=e.meta,a=e.items,s=e.bom,r=e.walls,l={version:0,levels:[{levelName:\"level0\",wallHeight:2500,rooms:[{roomName:\"kitchen\",walls:r,bays:e.windows}]}]},d=(e,t)=>{const i=new o.kn4,n=new o.kn4;n.makeTranslation(t.x,t.y,t.z),i.multiply(n);const a=new o.kn4;a.makeRotationAx",
+        "ST_IFRAME_VERSION),this._localUndoRedoStates=[n.oU4.WorktopEditor,n.oU4.WallPanelEditor,n.oU4.WallEdgeStripEditor,n.oU4.SlopedCeilingState,n.oU4.AddBorderState,n.oU4.MultiReplace,n.oU4.WaterSupply,n.oU4.AdvancedDecoration],this.setOnProjectSavedAction(null),n.gVx.WaterfallInset=this.productSettings.waterfallInse",
+        "or:i=n.MHA,r=\"WallEdgeStripEditorState\";break;case n.oU4.MeasureToolState:i=n.uVQ,r=\"MeasureToolState\";break;case n.oU4.SlopedCeilingState:i=n.seJ,r=\"SlopedCeilingState\";break;case n.oU4.AddBorderState:i=n.FZS,r=\"AddBorderState\";break;case n.oU4.Render360State:i=n.xYM,r=\"Render360State\";break;case n.oU4.ItemNote",
+        "w Error(\"ProjectServices.loadFromDXF: No walls to create\")):a.I2k.LoadFromIMProj({version:0,levels:[{levelName:\"level0\",wallHeight:0!==r?r:t,rooms:[{walls:s}]}]})}},53730:(e,t,i)=>{\"use strict\";i.d(t,{r:()=>n});var o=i(14238);const n={IsSentryLoaded:function(){return!!window.Sentry},Init:function(){let e=argu",
+        "d 0!==h.D&&h.D.currentView?h.D.currentView:\"ViewIn3D\",\"ViewIn2D\"==t&&(i=\"ViewInFE\")),o&&g.app.currentState.stateId!=m.o.SlopedCeilingState&&g.app.currentState.stateId!=m.o.MeasureToolState||g.app.currentState.stateId===m.o.Design||g.app.currentState.stateId===m.o.Snapshot||(t=null!==h.D&&void 0!==h.D&&h.D.curren",
+        "dEvents(){this._isOnMobile&&(0,o.$)('[data-ui-action=\"validate-ceiling-height\"]').on(\"click\",(()=>{this.sb.notify(this,\"CeilingHeightValidateButtonClicked\",{})}))}_unbindEvents(){this._isOnMobile&&(0,o.$)('[data-ui-action=\"validate-ceiling-height\"]').off()}}},30304:(e,t,i)=>{\"use strict\";i.d(t,{K:()=>s});var o=i"
+      ],
+      "identifiers": [
+        "_undoSlopedCeilingEditorCallback",
+        "_updateSlopedWallSVG",
+        "updateSlopedWallSVG",
+        "_getDirectionOfSlope",
+        "getSlopeSingleFace2DA"
+      ]
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/common~Kitchen~KitchenRTL~TemplateEditor/common~Kitchen~KitchenRTL~TemplateEditor.js",
+      "snippets": [
+        "heck=function(e,t){const n=t.tolerance||2,o=e.level;if(d=[],p=[],m=[],void 0===o)return Promise.resolve();{const t=o.getWallHeight();let i=o.getFurnitures();i=i.filter((e=>{var t;const n=2===(null==e||null===(t=e.productInfo)||void 0===t||null===(t=t.behaviors)||void 0===t?void 0:t.targetPositionID),o=e.hasPa",
+        "=t.minDistance?t.minDistance:t.distance);const o=[],i=[],s=e.level;if(void 0===s)return Promise.resolve();{const t=s.getWallHeight(),a=e.level.getFurnitures(),l=a.length;for(let e=0;e<l;e++)!0===r._SE.IsProductHorizontalWallCabinet(a[e])&&Ze(a[e],a,t,n,o,i);if(!0===Ke||!0===qe){const e=new r.jP7(!1,[],[],Ne);",
+        "s=o.wDx.Translate(\"business_rule.cabinet_rule_error_message\"),e.type){case It.baseUnit:n=o.wDx.Translate(\"business_rule.sloping_rule_base_cabinet_title\"),s=o.wDx.Translate(\"business_rule.sloping_rule_base_cabinet_error_message\"),i=\"baseUnit\";break;case It.wallUnit:n=o.wDx.Translate(\"business_rule.sloping_r",
+        "ule_wall_cabinet_title\"),s=o.wDx.Translate(\"business_rule.sloping_rule_wall_cabinet_error_message\"),i=\"wallUnit\",l=\"./assets/images/BusinessRules/videos/MinDistanceSlopingCeilingAndCabinets.mp4\",u.typeCard=\"animation\";break;case It.horizontalUni",
+        "t:n=o.wDx.Translate(\"business_rule.sloping_rule_horizontal_cabinet_title\"),s=o.wDx.Translate(\"business_rule.sloping_rule_horizontal_cabinet_error_message\"),i=\"horizontalUnit\";break;case It.highUnit:n=o.wDx.Translate(\"business_rule.sloping_rule_high_cabinet_title\"),s=o.wDx.Translate(\"business_ru",
+        "le.sloping_rule_high_cabinet_error_message\"),i=\"highUnit\";break;case It.fridgeUnit:n=o.wDx.Translate(\"business_rule.sloping_rule_fridge_cabinet_title\"),s=o.wDx.Translate(\"business_rule.sloping_rule_fridge_cabinet_error_message\"),i=\"fridgeUnit\";break;case It.sinkUnit:n=o.wDx.Translate(\"business_rule.slo",
+        "ping_rule_sink_cabinet_title\"),s=o.wDx.Translate(\"business_rule.sloping_rule_sink_cabinet_error_message\"),i=\"sinkUnit\";break;case It.cooktopUnit:n=o.wDx.Translate(\"business_rule.sloping_rule_cooktop_cabinet_title\"),s=o.wDx.Translate(\"business_rule.slo",
+        "ping_rule_cooktop_cabinet_error_message\"),i=\"cooktopUnit\";break;case It.wallPanelUnit:n=o.wDx.Translate(\"business_rule.sloping_rule_wall_panel_title\"),s=o.wDx.Translate(\"business_rule.sloping_rule_wall_panel_error_message\"),i=\"wallPanelUnit\";break;case It.highUnitWithTopLight:n=o.wDx.Translate(\"business_r",
+        "ule.sloping_rule_high_cabinet_top_light_title\"),s=o.wDx.Translate(\"business_rule.sloping_rule_high_cabinet_top_light_error_message\"),i=\"highUnitWithTopLight\";break;case It.wallUnitWithTopLight:n=o.wDx.Translate(\"business_rule.sloping_rule_wall_cabinet_top_light_title\"",
+        "),s=o.wDx.Translate(\"business_rule.sloping_rule_wall_cabinet_top_light_error_message\"),i=\"wallUnitWithTopLight\";break;case It.horizontalUnitWithTopLight:n=o.wDx.Translate(\"business_rule.sloping_rule_horizontal_cabinet_top_",
+        "light_title\"),s=o.wDx.Translate(\"business_rule.sloping_rule_horizontal_cabinet_top_light_error_message\"),i=\"horizontalUnitWithTopLight\";break;case It.ovenUnit:n=o.wDx.Translate(\"business_rule.sloping_rule_oven_cabinet_title\"),s=o.wDx.",
+        "Translate(\"business_rule.sloping_rule_oven_cabinet_error_message\"),i=\"ovenUnit\";break;case It.dishwasherUnit:n=o.wDx.Translate(\"business_rule.sloping_rule_dishwasher_cabinet_title\"),s=o.wDx.Translate(\"business_ru",
+        "le.sloping_rule_dishwasher_cabinet_error_message\"),i=\"dishwasherUnit\";break;case It.washerUnit:n=o.wDx.Translate(\"business_rule.sloping_rule_washer_cabinet_title\"),s=o.wDx.Translate(\"busines",
+        "s_rule.sloping_rule_washer_cabinet_error_message\"),i=\"washerUnit\";break;case It.halfHeightUnit:n=o.wDx.Translate(\"business_rule.sloping_rule_half_height_cabinet_title\"),s=o.wDx.Translate(\"busine",
+        "ss_rule.sloping_rule_half_height_cabinet_error_message\"),i=\"washerUnit\";break;default:r.VyI.Error(\"failed case type is missing\")}a=Mustache.render(s,{x:o.wiv.mmToCurrentUnit(Ot[i],!0)});let c=\"\",",
+        "),t.add(s[n],r)}o.mut.SetMultipleParametersValues(t)}}}},Kt.prototype.check=function(e){let t=[];const n=e.level,o=n.getWallHeight();t=n.getFurnitures();const i={involvedElements:[]},s=t.filter((function(e){if(!!(e.productInfo&&e.productInfo.behaviors&&e.productInfo.behaviors.targetPositionID&&16===e.productI",
+        "EdgeRule:r.jrc,ArcsConvexConcaveCutRule:r.uRq,CabinetComposerAdjustableElementsRule:u,CabinetVerticalIntersectionRule:c,CeilingHeightRule:b,CooktopHalfHeightCabinetRule:E,CooktopHighCabinetRule:y,CooktopSinkRule:w,CoveringRule:C,CoverPanelParameterRule:D,CustomWallPanelAvailabilityRule:r.F2f,CustomWorktopAvailab",
+        "urnitureIntersectRule:ee,FurnitureLegRule:ae,FurnitureOutsideRoomRule:me,HobHoodRule:he,HoodWallRule:we,IntersectionWithSlopedCeilingRule:r.Cdu,JointOverApplianceRule:Ce,JointToAnyOperationRule:r.Hit,KitchenIslandBOMRule:r.Gf8,LegHeightRule:De,LightProductBOMRule:r.W1h,LightingBOMRule:r.X0f,MappingSortingRule:Te",
+        ",MaxDistanceBetweenWallAndHighCabinet:Se,MinDepthWorktopCornerJointRule:r.TBP,MinDimensionABDoubleCutRule:r.vSf,MinDimensionABRectCutOutRule:r.IC8,MinDimensionABSingleCutRule:r.ySd,MinDimensionABTripleCutRule:r.k7Q,MinDimensionDCircCutOutRule:r.UYy,MinDimensionRCutRule:r.X7e,MinDimensionROpRule:r.Gy2,Min",
+        "ceDrainerGrooveAndOtherOperation:ut,MinDistanceFromWallAndObstacle:dt,MinDistanceOvenAndCornerCabinetRule:Ct,MinDistanceSlopingCeilingAndCabinets:Dt,MinDistanceTapHoleAndSink:kt,MinDistanceTapHoleAndWTBackEdge:Vt,OvenRule:Mt,ParameterBOMRule:r.U1V,ParameterConditionRule:Ht,PlinthLegRule:Nt,PositionOfCeilin",
+        "e:r.Me6,VentilationGrillToEOWandBOWRule:r.ZXL,WallPanelEdgeFinishRule:r.VGo,WallPanelInvalidShapeRule:r.xBM,WallPanelMinDimensionABDoubleCutRule:r.ltb,WallPanelMinDimensionABRectCutOutRule:r._5$,WallPanelMinDimensionABSingleCutRule:r.gF6,WallPanelMinDimensionABTripleCutRule:r.cVK,WallPanelMinDimensionDCircCut"
+      ],
+      "identifiers": [
+        "getBaseHeightOneSlope",
+        "CalculateDistanceWithSlopping",
+        "MinDistanceSlopingCeilingAndCabinets",
+        "IntersectionWithSlopedCeilingRule"
+      ]
+    }
+  ],
+  "byMe": {
+    "keys": [
+      {
+        "key": "EventDispatcher",
+        "type": "function",
+        "sample": "fn"
+      },
+      {
+        "key": "constructor",
+        "type": "function",
+        "sample": "fn"
+      },
+      {
+        "key": "__defineGetter__",
+        "type": "function",
+        "sample": "fn"
+      },
+      {
+        "key": "__defineSetter__",
+        "type": "function",
+        "sample": "fn"
+      },
+      {
+        "key": "hasOwnProperty",
+        "type": "function",
+        "sample": "fn"
+      },
+      {
+        "key": "__lookupGetter__",
+        "type": "function",
+        "sample": "fn"
+      },
+      {
+        "key": "__lookupSetter__",
+        "type": "function",
+        "sample": "fn"
+      },
+      {
+        "key": "isPrototypeOf",
+        "type": "function",
+        "sample": "fn"
+      },
+      {
+        "key": "propertyIsEnumerable",
+        "type": "function",
+        "sample": "fn"
+      },
+      {
+        "key": "toString",
+        "type": "function",
+        "sample": "fn"
+      },
+      {
+        "key": "valueOf",
+        "type": "function",
+        "sample": "fn"
+      },
+      {
+        "key": "__proto__",
+        "type": "object",
+        "sample": []
+      },
+      {
+        "key": "toLocaleString",
+        "type": "function",
+        "sample": "fn"
+      }
+    ],
+    "slopeish": [],
+    "str": "[object Object]"
+  }
+}

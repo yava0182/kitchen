@@ -8,6 +8,13 @@ dist/
 *.log
 npm-debug.log*
 
+# Отладочные дампы в корне (не коммитить)
+.tmp-*.json
+_tmp_*.json
+tmp-*.json
+*-dump.json
+.api-*.out.log
+
 # OS files
 .DS_Store
 Thumbs.db
@@ -29,6 +36,12 @@ db.json
 AI_PILOT.env
 ai-pilot/ai_pilot_config.json
 ai-pilot/drafts/
+
+# IKEA kitchen slope dumps (огромные vendor-бандлы)
+docs/ikea-kitchen-slope-dump/*.js
+docs/ikea-kitchen-slope-dump/extra-*.js
+docs/ikea-kitchen-slope-dump/vendors-*
+docs/ikea-kitchen-slope-dump/net-*
 
 # Референсы (не коммитим референсный код)
 planplace_refs/

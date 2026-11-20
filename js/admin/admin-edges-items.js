@@ -93,11 +93,11 @@
           ? window.__cldResolveAdminMediaUrl(decorUrl)
           : (decorUrl.startsWith('/') ? window.location.origin + decorUrl : decorUrl);
         const safeSrc = src.replace(/"/g, '&quot;');
-        iconHtml = `<img src="${safeSrc}" style="width:120px;height:70px;object-fit:cover;border-radius:6px;border:1px solid #e5e7eb;" onerror="this.style.display='none'">`;
+        iconHtml = `<img class="admin-list-thumb admin-list-thumb--edge" src="${safeSrc}" alt="" onerror="this.style.display='none'">`;
       } else if (colorVal && /^#([0-9A-Fa-f]{6})$/.test(colorVal)) {
-        iconHtml = `<div style="width:120px;height:70px;background-color:${colorVal};border-radius:6px;border:1px solid #e5e7eb;"></div>`;
+        iconHtml = `<div class="admin-list-thumb-empty admin-list-thumb--edge" style="background-color:${colorVal};"></div>`;
       } else {
-        iconHtml = '<div style="width:70px;height:70px;border:1px solid #e5e7eb;border-radius:6px;background:#f8fafc;"></div>';
+        iconHtml = '<div class="admin-list-thumb-empty"></div>';
       }
       const active = (item?.active ?? 1) == 1 || item?.active === true;
       const visHtml = active

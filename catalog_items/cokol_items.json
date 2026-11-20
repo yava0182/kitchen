@@ -1,0 +1,546 @@
+[
+  {
+    "id": 1,
+    "catalog_type": "cokol_items",
+    "name": "Цоколь ЛДСП",
+    "code": "",
+    "category": "лдсп",
+    "materialKind": "board",
+    "colorMode": "facade",
+    "heightMm": 100,
+    "thicknessMm": 16,
+    "widthMm": 3000,
+    "pricePerMp": 0,
+    "order": 10000,
+    "active": 1,
+    "icon": "",
+    "modelUrl": "",
+    "color": "",
+    "related_changing": false,
+    "related_changing_on_scene": true,
+    "related_materials_group_id": 0,
+    "related_materials_group_key": "",
+    "sizes": [
+      {
+        "id": "size-row-0",
+        "enabled": true,
+        "name": "",
+        "code": "",
+        "height": "100",
+        "width": "3000",
+        "thickness": "16",
+        "price_type": "c",
+        "price_mode": "m",
+        "price": 0,
+        "acc_id": 0,
+        "scene_hidden": false
+      }
+    ],
+    "sizes_radius": [],
+    "params": {
+      "mat_mode": 3,
+      "material": 0,
+      "p_mat_key": "ldsp",
+      "p_mat": "3",
+      "p_mat_category_ids": [],
+      "p_mat_variants": [
+        {
+          "id": "plit-default-0",
+          "p_mat_key": "ldsp",
+          "p_mat_category_ids": [],
+          "p_mat": "3"
+        }
+      ],
+      "p_variant": 0,
+      "spec": {
+        "butts": [],
+        "orientation": "f",
+        "show_index": 1,
+        "butts_flags": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0
+        }
+      },
+      "mat_params": {},
+      "models": {
+        "common": {
+          "model": ""
+        },
+        "radius": {
+          "model": ""
+        }
+      },
+      "accs": [],
+      "conns": {
+        "a0": {
+          "enabled": false,
+          "model": "",
+          "code": "",
+          "price_type": "c",
+          "price_mode": "m",
+          "price": 0,
+          "acc_id": 0
+        },
+        "a180": {
+          "enabled": false,
+          "model": "",
+          "code": "",
+          "price_type": "c",
+          "price_mode": "m",
+          "price": 0,
+          "acc_id": 0
+        },
+        "a90": {
+          "enabled": false,
+          "model": "",
+          "code": "",
+          "price_type": "c",
+          "price_mode": "m",
+          "price": 0,
+          "acc_id": 0
+        },
+        "a135": {
+          "enabled": false,
+          "model": "",
+          "code": "",
+          "price_type": "c",
+          "price_mode": "m",
+          "price": 0,
+          "acc_id": 0
+        }
+      },
+      "height": 100,
+      "thickness": 16,
+      "width": 3000,
+      "side_acc_left_id": 0,
+      "side_acc_right_id": 0,
+      "side_acc_plate_joint_id": 0,
+      "side_acc_top": {
+        "name": "",
+        "code": "",
+        "price_type": "p",
+        "price_mode": "m",
+        "price": 0,
+        "acc_id": 0
+      },
+      "side_acc_bottom": {
+        "name": "",
+        "code": "",
+        "price_type": "p",
+        "price_mode": "m",
+        "price": 0,
+        "acc_id": 0
+      }
+    }
+  },
+  {
+    "id": 2,
+    "catalog_type": "cokol_items",
+    "name": "Цоколь МДФ 100×16мм",
+    "code": "",
+    "category": "МДФ",
+    "materialKind": "board",
+    "colorMode": "facade",
+    "heightMm": 100,
+    "thicknessMm": 16,
+    "widthMm": 3000,
+    "pricePerMp": 0,
+    "order": 10001,
+    "active": 1,
+    "icon": "",
+    "modelUrl": "",
+    "color": "",
+    "related_changing": false,
+    "related_changing_on_scene": true,
+    "related_materials_group_id": 0,
+    "related_materials_group_key": "",
+    "sizes": [
+      {
+        "id": "size-row-0",
+        "enabled": true,
+        "name": "",
+        "code": "",
+        "height": "100",
+        "width": "3000",
+        "thickness": "16",
+        "price_type": "c",
+        "price_mode": "m",
+        "price": 0,
+        "acc_id": 0,
+        "scene_hidden": false
+      }
+    ],
+    "sizes_radius": [],
+    "params": {
+      "mat_mode": 3,
+      "material": 0,
+      "p_mat_key": "mdf",
+      "p_mat": 0,
+      "p_mat_category_ids": [],
+      "p_mat_variants": [
+        {
+          "id": "plit-default-0",
+          "p_mat_key": "mdf",
+          "p_mat_category_ids": [],
+          "p_mat": 0
+        }
+      ],
+      "p_variant": 0,
+      "spec": {
+        "butts": [],
+        "orientation": "f",
+        "show_index": 1,
+        "butts_flags": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0
+        }
+      },
+      "mat_params": {},
+      "models": {
+        "common": {
+          "model": ""
+        },
+        "radius": {
+          "model": ""
+        }
+      },
+      "accs": [],
+      "conns": {
+        "a0": {
+          "enabled": false,
+          "model": "",
+          "code": "",
+          "price_type": "c",
+          "price_mode": "m",
+          "price": 0,
+          "acc_id": 0
+        },
+        "a180": {
+          "enabled": false,
+          "model": "",
+          "code": "",
+          "price_type": "c",
+          "price_mode": "m",
+          "price": 0,
+          "acc_id": 0
+        },
+        "a90": {
+          "enabled": false,
+          "model": "",
+          "code": "",
+          "price_type": "c",
+          "price_mode": "m",
+          "price": 0,
+          "acc_id": 0
+        },
+        "a135": {
+          "enabled": false,
+          "model": "",
+          "code": "",
+          "price_type": "c",
+          "price_mode": "m",
+          "price": 0,
+          "acc_id": 0
+        }
+      },
+      "height": 100,
+      "thickness": 16,
+      "width": 3000,
+      "side_acc_left_id": 0,
+      "side_acc_right_id": 0,
+      "side_acc_plate_joint_id": 0,
+      "side_acc_top": {
+        "name": "",
+        "code": "",
+        "price_type": "p",
+        "price_mode": "m",
+        "price": 0,
+        "acc_id": 0
+      },
+      "side_acc_bottom": {
+        "name": "",
+        "code": "",
+        "price_type": "p",
+        "price_mode": "m",
+        "price": 0,
+        "acc_id": 0
+      }
+    }
+  },
+  {
+    "id": 3,
+    "catalog_type": "cokol_items",
+    "name": "Цоколь МДФ 120×16мм",
+    "code": "",
+    "category": "МДФ",
+    "materialKind": "board",
+    "colorMode": "facade",
+    "heightMm": 120,
+    "thicknessMm": 16,
+    "widthMm": 3000,
+    "pricePerMp": 0,
+    "order": 10002,
+    "active": 1,
+    "icon": "",
+    "modelUrl": "",
+    "color": "",
+    "related_changing": false,
+    "related_changing_on_scene": true,
+    "related_materials_group_id": 0,
+    "related_materials_group_key": "",
+    "sizes": [
+      {
+        "id": "size-row-0",
+        "enabled": true,
+        "name": "",
+        "code": "",
+        "height": "120",
+        "width": "3000",
+        "thickness": "16",
+        "price_type": "c",
+        "price_mode": "m",
+        "price": 0,
+        "acc_id": 0,
+        "scene_hidden": false
+      }
+    ],
+    "sizes_radius": [],
+    "params": {
+      "mat_mode": 3,
+      "material": 0,
+      "p_mat_key": "mdf",
+      "p_mat": 0,
+      "p_mat_category_ids": [],
+      "p_mat_variants": [
+        {
+          "id": "plit-default-0",
+          "p_mat_key": "mdf",
+          "p_mat_category_ids": [],
+          "p_mat": 0
+        }
+      ],
+      "p_variant": 0,
+      "spec": {
+        "butts": [],
+        "orientation": "f",
+        "show_index": 1,
+        "butts_flags": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0
+        }
+      },
+      "mat_params": {},
+      "models": {
+        "common": {
+          "model": ""
+        },
+        "radius": {
+          "model": ""
+        }
+      },
+      "accs": [],
+      "conns": {
+        "a0": {
+          "enabled": false,
+          "model": "",
+          "code": "",
+          "price_type": "c",
+          "price_mode": "m",
+          "price": 0,
+          "acc_id": 0
+        },
+        "a180": {
+          "enabled": false,
+          "model": "",
+          "code": "",
+          "price_type": "c",
+          "price_mode": "m",
+          "price": 0,
+          "acc_id": 0
+        },
+        "a90": {
+          "enabled": false,
+          "model": "",
+          "code": "",
+          "price_type": "c",
+          "price_mode": "m",
+          "price": 0,
+          "acc_id": 0
+        },
+        "a135": {
+          "enabled": false,
+          "model": "",
+          "code": "",
+          "price_type": "c",
+          "price_mode": "m",
+          "price": 0,
+          "acc_id": 0
+        }
+      },
+      "height": 120,
+      "thickness": 16,
+      "width": 3000,
+      "side_acc_left_id": 0,
+      "side_acc_right_id": 0,
+      "side_acc_plate_joint_id": 0,
+      "side_acc_top": {
+        "name": "",
+        "code": "",
+        "price_type": "p",
+        "price_mode": "m",
+        "price": 0,
+        "acc_id": 0
+      },
+      "side_acc_bottom": {
+        "name": "",
+        "code": "",
+        "price_type": "p",
+        "price_mode": "m",
+        "price": 0,
+        "acc_id": 0
+      }
+    }
+  },
+  {
+    "id": 4,
+    "catalog_type": "cokol_items",
+    "name": "Цоколь МДФ 150×16мм",
+    "code": "",
+    "category": "МДФ",
+    "materialKind": "board",
+    "colorMode": "facade",
+    "heightMm": 150,
+    "thicknessMm": 16,
+    "widthMm": 3000,
+    "pricePerMp": 0,
+    "order": 10003,
+    "active": 1,
+    "icon": "",
+    "modelUrl": "",
+    "color": "",
+    "related_changing": false,
+    "related_changing_on_scene": true,
+    "related_materials_group_id": 0,
+    "related_materials_group_key": "",
+    "sizes": [
+      {
+        "id": "size-row-0",
+        "enabled": true,
+        "name": "",
+        "code": "",
+        "height": "150",
+        "width": "3000",
+        "thickness": "16",
+        "price_type": "c",
+        "price_mode": "m",
+        "price": 0,
+        "acc_id": 0,
+        "scene_hidden": false
+      }
+    ],
+    "sizes_radius": [],
+    "params": {
+      "mat_mode": 3,
+      "material": 0,
+      "p_mat_key": "mdf",
+      "p_mat": 0,
+      "p_mat_category_ids": [],
+      "p_mat_variants": [
+        {
+          "id": "plit-default-0",
+          "p_mat_key": "mdf",
+          "p_mat_category_ids": [],
+          "p_mat": 0
+        }
+      ],
+      "p_variant": 0,
+      "spec": {
+        "butts": [],
+        "orientation": "f",
+        "show_index": 1,
+        "butts_flags": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0
+        }
+      },
+      "mat_params": {},
+      "models": {
+        "common": {
+          "model": ""
+        },
+        "radius": {
+          "model": ""
+        }
+      },
+      "accs": [],
+      "conns": {
+        "a0": {
+          "enabled": false,
+          "model": "",
+          "code": "",
+          "price_type": "c",
+          "price_mode": "m",
+          "price": 0,
+          "acc_id": 0
+        },
+        "a180": {
+          "enabled": false,
+          "model": "",
+          "code": "",
+          "price_type": "c",
+          "price_mode": "m",
+          "price": 0,
+          "acc_id": 0
+        },
+        "a90": {
+          "enabled": false,
+          "model": "",
+          "code": "",
+          "price_type": "c",
+          "price_mode": "m",
+          "price": 0,
+          "acc_id": 0
+        },
+        "a135": {
+          "enabled": false,
+          "model": "",
+          "code": "",
+          "price_type": "c",
+          "price_mode": "m",
+          "price": 0,
+          "acc_id": 0
+        }
+      },
+      "height": 150,
+      "thickness": 16,
+      "width": 3000,
+      "side_acc_left_id": 0,
+      "side_acc_right_id": 0,
+      "side_acc_plate_joint_id": 0,
+      "side_acc_top": {
+        "name": "",
+        "code": "",
+        "price_type": "p",
+        "price_mode": "m",
+        "price": 0,
+        "acc_id": 0
+      },
+      "side_acc_bottom": {
+        "name": "",
+        "code": "",
+        "price_type": "p",
+        "price_mode": "m",
+        "price": 0,
+        "acc_id": 0
+      }
+    }
+  }
+]

@@ -9,8 +9,8 @@
  */
 
 import { state } from '../utils/state.js';
-import { setTopViewCamera, applyIkeaEmptyRoomCamera } from '../core/camera.js?v=20260923-cohabit42';
-import { updateRoomDimensionLabels } from '../ui/scene-icons.js?v=20260921-whh1';
+import { setTopViewCamera, applyIkeaEmptyRoomCamera } from '../core/camera.js?v=20261110-ikeaPort10';
+import { updateRoomDimensionLabels } from '../ui/scene-icons.js?v=20261027-nmu142q';
 import {
   mountRoomEditOpenings,
   unmountRoomEditOpenings,
@@ -18,7 +18,24 @@ import {
   setSelectedWindowCatalog,
   onRoomEditPanelChanged,
   reapplyRoomEditOpenings,
-} from './room-edit-openings.js?v=20260917-seamfix2';
+} from './room-edit-openings.js?v=20261030-autosave2';
+import {
+  reapplyRoomEditObjects,
+  onRoomEditObjectsPanelChanged,
+} from './room-edit-objects.js?v=20261030-autosave2';
+import {
+  mountKitchenWallEdit,
+  unmountKitchenWallEdit,
+} from './kitchen-wall-edit.js?v=20261005-draw-wall4';
+import {
+  mountKitchenDrawModeUi,
+  unmountKitchenDrawModeUi,
+  setKitchenPlanToolbarVisible,
+} from './kitchen-room-draw-mode.js?v=20261006-ikea-slope26';
+import {
+  mountKitchenWaterOutlet,
+  unmountKitchenWaterOutlet,
+} from './kitchen-water-outlet.js?v=20261007-no-topbar1';
 import {
   DEFAULT_ROOM_EDIT_MATERIALS,
   mountRoomEditMaterials,
@@ -29,9 +46,9 @@ import {
   renderRoomMaterialsCatalog,
 } from './room-edit-materials.js?v=20260913-oak-dark';
 
-const PANELS = ['shape', 'doors', 'windows', 'style'];
+const PANELS = ['shape', 'objects', 'doors', 'windows', 'style'];
 
-/** Дефолт дверей КЛОДИС (свои GLB). */
+/** Дефолт дверей КЛОДИС (свои GLB) + проход без полотна (IKEA «Проход»). */
 const DEFAULT_DOORS = [
   {
     id: 're-door-clodis-fluted',
@@ -42,6 +59,16 @@ const DEFAULT_DOORS = [
     defaultWidthCm: 95,
     defaultHeightCm: 207,
     kind: 'interior',
+  },
+  {
+    id: 're-door-passage',
+    name: 'Проход',
+    group: 'Проёмы',
+    thumb: '/models/doors/thumbs/clodis_passage.svg',
+    modelUrl: '',
+    defaultWidthCm: 90,
+    defaultHeightCm: 210,
+    kind: 'opening',
   },
 ];
 
@@ -122,7 +149,16 @@ function readRoomEditConfig() {
           (d) => d && String(d.modelUrl || '').indexOf('clodis_door_fluted') !== -1
         );
         if (!hasFluted) {
-          re.doors = DEFAULT_DOORS.map((d) => Object.assign({}, d)).concat(re.doors);
+          re.doors = DEFAULT_DOORS.filter((d) => d.kind !== 'opening')
+            .map((d) => Object.assign({}, d))
+            .concat(re.doors);
+        }
+        const hasPassage = re.doors.some(
+          (d) => d && (d.id === 're-door-passage' || d.kind === 'opening')
+        );
+        if (!hasPassage) {
+          const passage = DEFAULT_DOORS.find((d) => d.kind === 'opening');
+          if (passage) re.doors = re.doors.concat([Object.assign({}, passage)]);
         }
       }
       if (!Array.isArray(re.windows) || !re.windows.length) {
@@ -334,6 +370,14 @@ function fillCatalogPanels() {
   bindStyleCards();
 }
 
+/** Каталоги дверей/окон/стиля без открытия модалки (шаг 1 кухни). */
+export function prepareKitchenRoomEditCatalogs() {
+  fillCatalogPanels();
+  try {
+    mountRoomEditMaterials();
+  } catch (_) {}
+}
+
 function bindDoorCards() {
   document.querySelectorAll('#cld-room-edit-catalog-doors .cld-room-edit-card').forEach((card) => {
     card.addEventListener('click', () => {
@@ -392,6 +436,7 @@ export function setRoomEditPanel(id) {
     }
   });
   onRoomEditPanelChanged();
+  onRoomEditObjectsPanelChanged();
   onRoomEditMaterialsPanelChanged();
 }
 
@@ -430,18 +475,31 @@ export function setRoomEditViewMode(mode) {
     setTopViewCamera();
     updateRoomDimensionLabels();
     showDimensionLabels();
+    if (window.__cldKitchenShapePlan) applyPlanWallColors(true);
   } else {
-    applyIkeaEmptyRoomCamera(state.room, state.camera, { intro: false });
+    // force3d: иначе __cldSceneViewPreset остаётся 'top' → isLockedOrthoView
+    // каждый кадр возвращает ortho (кнопка 3D горит, а вид снова «2D»).
+    try {
+      if (typeof window !== 'undefined') window.__cldSceneViewPreset = '3d';
+    } catch (_) {}
+    applyIkeaEmptyRoomCamera(state.room, state.camera, { intro: false, force3d: true });
     keepCeilingHidden();
     hideDimensionLabels();
     const layer = document.getElementById('cld-room-outer-dim-lines');
     if (layer) layer.replaceChildren();
+    if (window.__cldKitchenShapePlan) applyPlanWallColors(false);
   }
   if (state.room && typeof state.room.updateWallVisibility === 'function' && state.camera) {
     state.room.updateWallVisibility(state.camera);
   }
   // Пересобрать подсветку стены / размеры / gizmo под 2D|3D
   reapplyRoomEditOpenings();
+  reapplyRoomEditObjects();
+  try {
+    if (typeof window.__cldSyncKitchenCeilingSlopeViewVisibility === 'function') {
+      window.__cldSyncKitchenCeilingSlopeViewVisibility();
+    }
+  } catch (_) {}
 }
 
 function onRailClick(e) {
@@ -452,7 +510,10 @@ function onRailClick(e) {
 
 function onViewClick(e) {
   const view = e.currentTarget.getAttribute('data-view');
-  if (view) setRoomEditViewMode(view);
+  if (!view) return;
+  clearShapePlanIntroTimer(); // ручной выбор отменяет авто 3D→2D
+  setRoomEditViewMode(view);
+  if (window.__cldKitchenShapePlan) applyPlanWallColors(view === '2d');
 }
 
 function getFillerTargetSection() {
@@ -590,7 +651,12 @@ export function unmountRoomEditChrome() {
     if (filler) filler.style.display = 'none';
     window.editingFillerSection = null;
   } catch (_) {}
-  showDimensionLabels();
+  // Не оставляем орто «Сверху» после Готово — 3D выставит closeEditRoomModal.
+  try {
+    if (typeof window.__cldExitRoomEditPlanOrtho === 'function') {
+      window.__cldExitRoomEditPlanOrtho();
+    }
+  } catch (_) {}
 }
 
 if (typeof window !== 'undefined') {
@@ -603,7 +669,205 @@ export function syncRoomEditAfterResize() {
     keepCeilingHidden();
     hideDimensionLabels();
   } else {
-    setTopViewCamera();
+    // Не сбивать сценические «Прямо/Сбоку» в top после правок НМ / rebuild.
+    const scene = String(window.__cldSceneViewPreset || '')
+      .trim()
+      .toLowerCase();
+    if (scene !== 'front' && scene !== 'side') {
+      setTopViewCamera();
+    }
   }
   reapplyRoomEditMaterials();
+}
+
+/** Стиль стен для 2D-плана (IKEA: светло-серый контур + плоский material). */
+function applyPlanWallColors(is2d) {
+  const room = state.room;
+  if (!room?.walls) return;
+  const PLAN_FILL = 0xb8b8b2;
+
+  const paintFlat = (mesh) => {
+    if (!mesh?.material || mesh.userData?.isWallProxy) return;
+    if (is2d) {
+      if (mesh.userData._planMatBackup) {
+        if (mesh.material?.color?.setHex) mesh.material.color.setHex(PLAN_FILL);
+        return;
+      }
+      mesh.userData._planMatBackup = mesh.material;
+      mesh.material = new THREE.MeshBasicMaterial({
+        color: PLAN_FILL,
+        side: mesh.material.side != null ? mesh.material.side : THREE.DoubleSide,
+      });
+    } else if (mesh.userData._planMatBackup) {
+      const cur = mesh.material;
+      mesh.material = mesh.userData._planMatBackup;
+      delete mesh.userData._planMatBackup;
+      if (cur && cur !== mesh.material) cur.dispose?.();
+    } else if (typeof window.applyIkeaWallPaintToStandardMaterial === 'function' && mesh.material?.isMeshStandardMaterial) {
+      window.applyIkeaWallPaintToStandardMaterial(mesh.material);
+    } else if (mesh.material?.color && typeof mesh.material.color.setHex === 'function') {
+      mesh.material.color.setHex(0xf1f0e4);
+    }
+  };
+
+  Object.keys(room.walls).forEach((name) => {
+    if (name === 'ceiling' || name === '__ring') return;
+    paintFlat(room.walls[name]);
+  });
+  paintFlat(room._polygonWallRing);
+
+  const inners = room.wallInners || {};
+  Object.keys(inners).forEach((name) => {
+    const mesh = inners[name];
+    if (!mesh) return;
+    mesh.visible = !is2d;
+  });
+}
+
+/** Только цвета плана после quiet-rebuild (без setTopViewCamera). */
+export function applyKitchenPlanColorsQuiet() {
+  if (!window.__cldKitchenShapePlan) return;
+  applyPlanWallColors(true);
+  keepCeilingHidden();
+  if (state.room && typeof state.room.updateWallVisibility === 'function' && state.camera) {
+    state.room.updateWallVisibility(state.camera);
+  }
+}
+
+if (typeof window !== 'undefined') {
+  window.__cldApplyKitchenPlanColorsQuiet = applyKitchenPlanColorsQuiet;
+}
+
+/** Таймер автопереключения 3D → 2D при входе в шаг «Форма кухни». */
+let shapePlanIntroTimer = 0;
+
+function clearShapePlanIntroTimer() {
+  if (shapePlanIntroTimer) {
+    clearTimeout(shapePlanIntroTimer);
+    shapePlanIntroTimer = 0;
+  }
+}
+
+/**
+ * Шаг 1 «Форма кухни»: старт в 3D, через 2 с — орто-план 2D.
+ * Лишний chrome прячется классом body.cld-kitchen-shape-step.
+ */
+export function enterKitchenShapePlanView() {
+  clearShapePlanIntroTimer();
+  window.__cldKitchenShapePlan = true;
+  window.__cldRoomEditOpen = true;
+  document.body.classList.add('cld-room-edit-open', 'cld-kitchen-shape-step');
+
+  const viewbar = document.getElementById('cld-room-edit-viewbar');
+  if (viewbar) {
+    viewbar.classList.add('is-open');
+    viewbar.querySelectorAll('.cld-room-edit-view-btn').forEach((btn) => {
+      btn.removeEventListener('click', onViewClick);
+      btn.addEventListener('click', onViewClick);
+    });
+  }
+
+  // Не открываем edit-room-modal — панели живут в правой колонке шага 1
+  const modal = document.getElementById('edit-room-modal');
+  if (modal) modal.classList.remove('is-open');
+
+  if (window.editRoomButton) {
+    window.editRoomButton.style.display = 'none';
+  }
+
+  const chip = document.getElementById('cld-kitchen-ceiling-chip');
+  if (chip) chip.remove();
+
+  // Сразу 2D-план (без 3D→2D через 2с — давало белый блик/прыжок при возврате на шаг 1).
+  setRoomEditViewMode('2d');
+
+  try {
+    mountKitchenWallEdit();
+  } catch (e) {
+    console.warn('[kitchen wall edit] mount failed', e);
+  }
+  try {
+    // Тулбар Форма/План/Вывод воды скрыт — те же пункты во вкладках справа
+    mountKitchenDrawModeUi();
+    setKitchenPlanToolbarVisible(false);
+  } catch (e) {
+    console.warn('[kitchen draw mode] mount failed', e);
+  }
+  try {
+    mountKitchenWaterOutlet();
+  } catch (e) {
+    console.warn('[kitchen water outlet] mount failed', e);
+  }
+  try {
+    if (typeof window.__cldRefreshKitchenZonesLayer === 'function') {
+      window.__cldRefreshKitchenZonesLayer();
+    }
+  } catch (_) {}
+  try {
+    if (typeof window.__cldRefreshKitchenCeilingSlopes === 'function') {
+      window.__cldRefreshKitchenCeilingSlopes();
+    }
+  } catch (_) {}
+}
+
+export function exitKitchenShapePlanView() {
+  if (!window.__cldKitchenShapePlan) return;
+  clearShapePlanIntroTimer();
+  window.__cldKitchenShapePlan = false;
+  document.body.classList.remove('cld-kitchen-shape-step');
+  applyPlanWallColors(false);
+  try {
+    unmountKitchenWallEdit();
+  } catch (_) {}
+  try {
+    unmountKitchenDrawModeUi();
+  } catch (_) {}
+  try {
+    unmountKitchenWaterOutlet();
+  } catch (_) {}
+
+  try {
+    if (typeof window.__cldTeardownKitchenRoomStepTools === 'function') {
+      // панели вернём при уходе со шага 1 через goToStep; здесь только chip
+    }
+  } catch (_) {}
+  const chip = document.getElementById('cld-kitchen-ceiling-chip');
+  if (chip) chip.remove();
+
+  if (window.editRoomButton) {
+    window.editRoomButton.style.display = '';
+  }
+
+  // Если открыт полный редактор комнаты — не трогаем его
+  const modal = document.getElementById('edit-room-modal');
+  if (modal && modal.classList.contains('is-open')) return;
+
+  window.__cldRoomEditOpen = false;
+  window.__cldRoomEditView = null;
+  document.body.classList.remove('cld-room-edit-open');
+  const viewbar = document.getElementById('cld-room-edit-viewbar');
+  if (viewbar) viewbar.classList.remove('is-open');
+  const layer = document.getElementById('cld-room-outer-dim-lines');
+  if (layer) layer.replaceChildren();
+
+  try {
+    if (typeof window.__cldSetSceneViewPreset === 'function') {
+      window.__cldSetSceneViewPreset('3d');
+    } else if (typeof window.__cldExitRoomEditPlanOrtho === 'function') {
+      window.__cldExitRoomEditPlanOrtho();
+      applyIkeaEmptyRoomCamera(state.room, state.camera, { intro: false, force3d: true });
+    } else {
+      applyIkeaEmptyRoomCamera(state.room, state.camera, { intro: false, force3d: true });
+    }
+  } catch (_) {
+    try {
+      applyIkeaEmptyRoomCamera(state.room, state.camera, { intro: false, force3d: true });
+    } catch (_) {}
+  }
+}
+
+if (typeof window !== 'undefined') {
+  window.__cldEnterKitchenShapePlanView = enterKitchenShapePlanView;
+  window.__cldExitKitchenShapePlanView = exitKitchenShapePlanView;
+  window.__cldSetRoomEditViewMode = setRoomEditViewMode;
 }

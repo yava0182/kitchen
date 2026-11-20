@@ -1,0 +1,29 @@
+# Секция: отступы → ячейки с pin
+
+Слой: сетка ячеек BASE/MID/TOP при смене отступов / длины секции.
+
+## Канон
+
+- **Число ячеек (parts) не меняется** при смене отступов.
+- **Pinned** (карандаш зоны / пенал): ширина **держится**.
+- **Свободные** ячейки **забирают delta** (пропорция между свободными).
+- Без pin — пропорция по всем (как раньше).
+- После rescale: мебель кухни **rebuild + fit** в зоны (BASE / tall / MID / TOP), не оставлять на старых world-координатах.
+
+## Хранение
+
+- `kitchenBandGrids[band].pinnedZoneWidthsMm[zi] = mm`
+- Карандаш (`setZoneCustomWidthMm` / balance) → pin edited zi
+- Сброс ширины зоны → unpin
+- Пенал без карандаша: на rescale — extra pin текущей ширины зоны (base+mid)
+- Save/restore: pin уезжает вместе с `kitchenBandGrids`
+
+## Код
+
+- `rescaleKitchenBandGridToAvailMm` / `rescaleKitchenBandZoneGridsToAvailMm`
+- `_syncKitchenModulesAfterBandRescale` из `updateSectionSize`
+- Не писать пропорциональный rescale «поверх» pin и не чинить миллиметрами под скрин
+
+## Не трогать заодно
+
+Фасады, UI цены, столешку, НМУ-канон, алгоритм деления parts с нуля.

@@ -6,7 +6,7 @@ import {
   computeFurnitureWorldBBoxNoAo,
   shouldExcludeMeshFromFurnitureBBox,
   withFurnitureDoorSwingsClosedForMeasure,
-} from '../furniture/furniture-bbox.js';
+} from '../furniture/furniture-bbox.js?v=20261011-bbox-fix2';
 
 const THREE = typeof window !== 'undefined' ? window.THREE : null;
 

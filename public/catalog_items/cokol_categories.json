@@ -1,0 +1,5 @@
+[
+  { "id": 1, "catalog_type": "cokol_categories", "name": "лдсп", "parent": 0, "order": 1, "active": 1 },
+  { "id": 2, "catalog_type": "cokol_categories", "name": "МДФ", "parent": 0, "order": 2, "active": 1 },
+  { "id": 3, "catalog_type": "cokol_categories", "name": "Пластик", "parent": 0, "order": 3, "active": 1 }
+]

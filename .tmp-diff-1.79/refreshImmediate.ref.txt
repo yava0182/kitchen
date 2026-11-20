@@ -1,0 +1,2092 @@
+function refreshFurnitureDecorsImmediate(options = {}) {
+  const limitRoot = options?.root || null;
+  const placementPreview = options?.placementPreview === true;
+  if (!limitRoot && !state.scene) {
+    console.warn('[STEP5] Пропуск: нет state.scene');
+    return;
+  }
+  if (!limitRoot && typeof THREE === 'undefined') {
+    console.warn('[STEP5] Пропуск: нет THREE');
+    return;
+  }
+  if (!placementPreview) {
+    console.log('[STEP5] refreshFurnitureDecors вызван');
+  }
+  const selection = typeof window !== 'undefined' && window.getStep5DecorSelection
+    ? window.getStep5DecorSelection()
+    : { outside: null, inside: null };
+  console.log('[STEP5] Текущий выбор декоров:', selection);
+
+  __ensureIkeaV0BeforeStep5Decor(limitRoot);
+
+  const textureLoader = __getDecorTextureLoader();
+  let facadeCount = 0;
+  let bodyCount = 0;
+  let pendingInsideTextureLoads = 0;
+
+  const isInsideFurniture = (mesh) => {
+    let p = mesh.parent;
+    while (p) {
+      if (p.userData?.isFurniture) return true;
+      p = p.parent;
+    }
+    return false;
+  };
+
+  const isFacadeEdgeStrip = (mesh) => {
+    if (!mesh?.userData?.isEdge) return false;
+    let p = mesh.parent;
+    while (p) {
+      if (p.userData?.isFacade) return true;
+      p = p.parent;
+    }
+    return false;
+  };
+
+  /** Полоска кромки на корпусе (не фасад / не обклад) — тот же декор «внутри», что у isBody. */
+  const isCorpusBodyEdgeStrip = (mesh) => {
+    if (!mesh?.userData?.isEdge || isFacadeEdgeStrip(mesh)) return false;
+    if (mesh.userData.cldCorpusBodyEdge === true) return true;
+    let p = mesh.parent;
+    while (p) {
+      const pud = p.userData || {};
+      if (pud.isFacade === true || pud.sectionTrimUsesOutsideDecor === true) return false;
+      if (pud.step5DecorChannel === 'inside' || pud.isBody === true) return true;
+      p = p.parent;
+    }
+    return false;
+  };
+
+  const rootBboxCache = new WeakMap();
+  const getRootBboxForUv = (root) => {
+    if (!root) return null;
+    let b = rootBboxCache.get(root);
+    if (!b) {
+      b = __computeFurnitureRootLocalBbox(root);
+      rootBboxCache.set(root, b);
+    }
+    return b;
+  };
+
+  const roots = limitRoot ? [limitRoot] : state.scene ? [state.scene] : [];
+  for (const root of roots) {
+    if (!root) continue;
+    root.traverse((obj) => {
+    if (!obj.isMesh || !obj.material) return;
+    const ud = obj.userData || {};
+    // Lifestyle props / штанга / опоры / Gola (model_key_material) — не декор шага 5.
+    if (ud.isShelfProp === true || ud.isRodCompanion === true) return;
+    if (ud.cldSupportLeg === true) return;
+    // Столешка: декор из карточки/tabletop_items (админка). Шаг 5 «внутри» = белый ЛДСП — не красить.
+    if (ud.cldKitchenCountertop === true || ud.cldSkipStep5BodyDecor === true) return;
+    {
+      let pTt = obj;
+      let isTt = false;
+      for (let i = 0; !isTt && i < 12 && pTt; i++) {
+        const pud = pTt.userData || {};
+        const dt = String(pud.detailType || pud.type || pud.originalType || '').toLowerCase();
+        if (
+          pud.cldKitchenCountertop === true ||
+          dt === 'countertop' ||
+          dt === 'tabletop' ||
+          /столеш/i.test(String(pTt.name || ''))
+        ) {
+          isTt = true;
+        }
+        pTt = pTt.parent;
+      }
+      if (isTt) return;
+    }
+    // Только каталожный accessory с карточкой (не фасады с isAccessory).
+    if (
+      ud.isAccessory === true &&
+      (ud.cldCabinetMaterialParams || ud.cldSkipStep5FacadeDecor === true)
+    ) {
+      return;
+    }
+    if (ud.cldCabinetMaterialParams) {
+      let pLeg = obj;
+      let isLeg = false;
+      for (let i = 0; !isLeg && i < 12 && pLeg; i++) {
+        if (pLeg.userData?.cldSupportLeg) isLeg = true;
+        pLeg = pLeg.parent;
+      }
+      if (isLeg) return;
+    }
+
+    const furnitureRoot = __getFurnitureRootGroupForMesh(obj);
+    const decorRoot = __getFurnitureRootForDecorMesh(obj);
+    const moduleOutside = furnitureRoot?.userData?.step5ModuleOutside;
+    const moduleInside = furnitureRoot?.userData?.step5ModuleInside;
+    // Глобальное колесо шага 5 важнее «залипшего» moduleOutside (кроме режима правки одного шкафа).
+    const editingRoot =
+      typeof window !== 'undefined' ? window.step5EditingFurnitureGroup : null;
+    const editingThis = !!(editingRoot && furnitureRoot && editingRoot === furnitureRoot);
+    const effectiveOutside = editingThis
+      ? moduleOutside ?? selection.outside
+      : selection.outside ?? moduleOutside;
+    const effectiveInside = editingThis
+      ? moduleInside ?? selection.inside
+      : selection.inside ?? moduleInside;
+    const templateMat = isTemplateLockedMaterialFromUserData(ud);
+
+    // ХДФ / material_3 из шаблона — не трогаем декором «внутри» с колеса.
+    if (templateMat) return;
+
+    // Явный декор в JSON детали (превью конструктора):
+    // — если есть снаружи/внутри с колеса — пускаем дальше (шаг 5 перекрывает);
+    // — если колеса нет — для фасадной группы (g2/g3 уголок) красим декором с карточки.
+    if (ud.catalogExplicitDecor === true || ud.catalogMaterialFromItem === true) {
+      const bodyUsesInside =
+        effectiveInside &&
+        ud.step5DecorChannel !== 'outside' &&
+        ud.cldFacadeMaterialGroup !== true &&
+        (ud.isBody === true ||
+          ud.step5DecorChannel === 'inside' ||
+          isCorpusBodyEdgeStrip(obj));
+      const facadeUsesOutside =
+        effectiveOutside &&
+        (ud.isFacade === true ||
+          isFacadeEdgeStrip(obj) ||
+          ud.step5DecorChannel === 'outside' ||
+          ud.cldFacadeMaterialGroup === true);
+      if (!bodyUsesInside && !facadeUsesOutside) {
+        const isFacadeCh =
+          ud.step5DecorChannel === 'outside' || ud.cldFacadeMaterialGroup === true;
+        if (isFacadeCh) {
+          const item = ud.cldBuildItem || obj.parent?.userData?.cldBuildItem || null;
+          const tex = String(
+            item?.material_icon ||
+              item?.materialIcon ||
+              item?.spec?.material?.texture ||
+              item?.spec?.material?.icon ||
+              ''
+          ).trim();
+          const mid = ud.catalogMaterialId ?? item?.material_id ?? item?.spec?.material?.id;
+          if (tex || mid != null) {
+            const fromCard = {
+              id: mid != null ? `m-${mid}` : 'catalog-explicit',
+              name: item?.material_name || '',
+              texture: tex,
+              icon: tex,
+              material_id: mid,
+              materialId: mid,
+              material_type: ud.catalogMaterialKey || item?.material_key || 'material_2',
+            };
+            if (
+              __applyStep5OutsideDecorToMesh(obj, fromCard, {
+                textureLoader,
+                decorRoot,
+                getRootBboxForUv,
+                isFacadeEdgeStrip,
+              })
+            ) {
+              facadeCount++;
+            }
+          }
+        }
+        return;
+      }
+    }
+
+    const isPlaceholder = obj.name === 'PlaceholderFromSize' || obj.name === 'Placeholder';
+    // Шаг 5: куда кладётся выбор с колеса — задаётся кнопками «снаружи/внутри» (window.step5DecorTarget),
+    // оба кольца SVG — только разные палитры (см. color-wheel.js applyToActiveTarget).
+    // Применение: selection.outside > меши isFacade (+ планки секции); selection.inside > корпус isBody / детали.
+    // Планки/накладки/топы секции: тот же канал outside, что и фасады.
+    const isSectionTrimPlank =
+      ud.sectionTrimUsesOutsideDecor === true &&
+      (ud.isTopPlank ||
+        ud.isBottomPlank ||
+        ud.isSidePlank ||
+        ud.isSideOverlay ||
+        ud.isSectionFacadeTrim);
+    const usesOutsideDecor =
+      (ud.isFacade === true ||
+        isFacadeEdgeStrip(obj) ||
+        ud.sectionTrimUsesOutsideDecor === true ||
+        ud.step5DecorChannel === 'outside' ||
+        ud.cldFacadeMaterialGroup === true) &&
+      ud.cldSkipStep5FacadeDecor !== true;
+    const usesInsideDecor =
+      !templateMat &&
+      effectiveInside &&
+      ud.step5DecorChannel !== 'outside' &&
+      ud.cldFacadeMaterialGroup !== true &&
+      (ud.isBody === true ||
+        ud.step5DecorChannel === 'inside' ||
+        isCorpusBodyEdgeStrip(obj) ||
+        isPlaceholder ||
+        (ud.isDetail && isInsideFurniture(obj) && !usesOutsideDecor));
+
+    if (usesOutsideDecor && effectiveOutside && !isSectionTrimPlank) {
+      facadeCount++;
+      __applyStep5OutsideDecorToMesh(obj, effectiveOutside, {
+        textureLoader,
+        decorRoot,
+        getRootBboxForUv,
+        isFacadeEdgeStrip,
+      });
+    }
+    if (usesInsideDecor) {
+      // Декор только на _core; полоски — в syncCorpusEdgeMaterialsFromCoreMeshes после цикла.
+      if (isCorpusBodyEdgeStrip(obj)) return;
+
+      bodyCount++;
+      const insideTex = getStep5DecorTextureUrl(effectiveInside);
+      const insideHex = getStep5DecorHexFallback(effectiveInside);
+
+      const inMid = effectiveInside.material_id ?? effectiveInside.materialId;
+      if (inMid != null && inMid !== '') {
+        const n = Number(inMid);
+        if (Number.isFinite(n) && n > 0) {
+          obj.userData.step5MaterialId = n;
+          obj.userData.catalogMaterialId = n;
+          obj.userData.catalogMaterialKey =
+            effectiveInside.material_key ||
+            effectiveInside.materialKey ||
+            'material_2';
+        }
+      }
+      const mat = obj.material;
+      const mats = Array.isArray(mat) ? mat : [mat];
+      const ikeaInside = mats.some((m) => m?.userData?.__cldIkeaV0);
+      if (ikeaInside) {
+        if (!insideTex && insideHex) {
+          applyIkeaV0MeshDecorFromStep5ToMesh(obj, {
+            colorHex: insideHex,
+            roughness: 0.35,
+            metalness: 0,
+          });
+        } else if (insideTex) {
+          const insidePreview = getStep5DecorPreviewColor(effectiveInside);
+          if (insidePreview) {
+            applyIkeaV0MeshDecorFromStep5ToMesh(obj, {
+              previewHex: insidePreview,
+              roughness: 0.35,
+              metalness: 0,
+            });
+          }
+          if (furnitureRoot) {
+            __ensureRootSpaceTextureUvForMesh(obj, furnitureRoot, getRootBboxForUv(furnitureRoot));
+          }
+          pendingInsideTextureLoads += 1;
+          __loadDecorTexture(
+            insideTex,
+            (tex) => {
+              const localTex = __prepareDecorTextureClone(tex, { edgeStrip: false, obj });
+              applyIkeaV0MeshDecorFromStep5ToMesh(obj, {
+                colorHex: '#ffffff',
+                map: localTex,
+                roughness: 0.35,
+                metalness: 0,
+              });
+              pendingInsideTextureLoads -= 1;
+              if (pendingInsideTextureLoads <= 0) {
+                __scheduleCorpusEdgeSyncOnce();
+              }
+            }
+          );
+        }
+      } else if (!insideTex && insideHex) {
+        for (const m of mats) {
+          if (!m) continue;
+          m.map = null;
+          m.color.set(insideHex);
+          m.needsUpdate = true;
+        }
+      } else if (insideTex) {
+        const insidePreview = getStep5DecorPreviewColor(effectiveInside);
+        if (insidePreview) {
+          for (const m of mats) {
+            if (!m) continue;
+            m.color.set(insidePreview);
+            m.needsUpdate = true;
+          }
+        }
+        if (insideTex) {
+          if (furnitureRoot) {
+            __ensureRootSpaceTextureUvForMesh(obj, furnitureRoot, getRootBboxForUv(furnitureRoot));
+          }
+          pendingInsideTextureLoads += 1;
+          __loadDecorTexture(
+            insideTex,
+            (tex) => {
+              const localTex = __prepareDecorTextureClone(tex, { edgeStrip: false, obj });
+              for (const m of mats) {
+                if (!m) continue;
+                __assignMaterialMap(m, localTex);
+                m.color.set(0xffffff);
+                m.needsUpdate = true;
+              }
+              pendingInsideTextureLoads -= 1;
+              if (pendingInsideTextureLoads <= 0) {
+                __scheduleCorpusEdgeSyncOnce();
+              }
+            }
+          );
+        }
+      }
+    }
+    });
+  }
+
+  const syncedEdges = syncCorpusEdgeMaterialsFromCoreMeshes(limitRoot || state.scene);
+  if (syncedEdges > 0) {
+    console.log('[STEP5] Кромка корпуса: material плиты на полосках:', syncedEdges);
+  }
+
+  console.log('[STEP5] Обновлено мешей: снаружи (фасад+планки/накладки)=', facadeCount, ', корпус=', bodyCount);
+
+  try {
+    if (limitRoot?.userData?.isFurniture) {
+      refreshCabinetStudioAfterDecor(limitRoot);
+    } else if (state.scene) {
+      state.scene.traverse((o) => {
+        if (o?.userData?.isFurniture) {
+          try {
+            refreshCabinetStudioAfterDecor(o);
+          } catch (_) {}
+        }
+      });
+    }
+  } catch (_) {}
+
+  if (placementPreview) {
+    // После resize sync-функции заново создают торцевые trim-меши в sectionGroup.
+    // Сразу возвращаем им сохранённые модульные декоры, не ожидая следующего клика.
+    __reapplyOutsideDecorToSectionTrimMeshes(
+      selection,
+      textureLoader,
+      getRootBboxForUv,
+      limitRoot || state.scene
+    );
+    if (limitRoot?.userData?.isFurniture) {
+      try {
+        refreshCabinetStudioAfterDecor(limitRoot);
+      } catch (_) {}
+    }
+    return;
+  }
+
+  if (facadeCount === 0 && bodyCount === 0) {
+    const sample = [];
+    state.scene.traverse((obj) => {
+      if (obj.isMesh && sample.length < 10) {
+        sample.push({ name: obj.name, userData: { ...obj.userData } });
+      }
+    });
+    console.warn('[STEP5] Мешей с isFacade/isBody не найдено. Пример мешей в сцене:', sample);
+  }
+
+  // Пересчитываем цены мебели с учётом нового выбранного декора/материала.
+  __recalcAllFurnitureLdspPricesWithCurrentMaterial();
+  // Кромки обклада секции (как у фасадов: полоски, радиус, __cldButts)
+  try {
+    return Promise.resolve(
+      refreshSectionTrimEdges(state.scene, { fallbackOutside: selection?.outside || null }),
+    ).then(() => {
+      const trimN = __reapplyOutsideDecorToSectionTrimMeshes(
+        selection,
+        textureLoader,
+        getRootBboxForUv
+      );
+      if (trimN > 0) {
+        console.log('[STEP5] Обклад: декор повторно после кромок:', trimN);
+      }
+      try {
+        const sid = limitRoot?.userData?.sectionId;
+        if (sid != null) applySectionTrimStudioLookForSectionId(sid);
+        else syncAllSectionTrimStudio(state.scene);
+      } catch (_) {}
+      // Ч6.3 после prepareTrimMeshObkladVisual / resetTrimMeshPlain — иначе SidePlank снова fullH.
+      try {
+        if (typeof window.__clodisReapplyVerticalTrimHeights === 'function') {
+          window.__clodisReapplyVerticalTrimHeights();
+        }
+      } catch (_) {}
+      try {
+        Promise.resolve(__recalcSectionFacadeTrimPricing()).then(() => __recalcRoomTotalPriceAndUpdateUi());
+      } catch (_) {}
+    });
+  } catch (_) {
+    try {
+      Promise.resolve(__recalcSectionFacadeTrimPricing()).then(() => __recalcRoomTotalPriceAndUpdateUi());
+    } catch (_) {}
+    return Promise.resolve();
+  }
+}
+
+export function refreshFurnitureDecors() {
+  if (_refreshFurnitureDecorsTimer) clearTimeout(_refreshFurnitureDecorsTimer);
+  _refreshFurnitureDecorsTimer = setTimeout(() => {
+    _refreshFurnitureDecorsTimer = null;
+    refreshFurnitureDecorsImmediate();
+  }, 50);
+}
+
+export function applyStep5DecorToFurnitureGroupImmediate(group) {
+  if (!group) return;
+  refreshFurnitureDecorsImmediate({ root: group, placementPreview: true });
+}
+
+function __getStep5ConfigStep() {
+  try {
+    const raw = typeof localStorage !== 'undefined' ? localStorage.getItem('room_steps_config') : null;
+    if (!raw) return null;
+    const cfg = JSON.parse(raw);
+    const steps = cfg && Array.isArray(cfg.steps) ? cfg.steps : [];
+    return steps.find((s) => s && s.stepId === 5) || null;
+  } catch (_) {
+    return null;
+  }
+}
+
+function __mergeDecorWithWheelEntry(decor, wheelList) {
+  if (!decor?.id || !Array.isArray(wheelList)) return decor;
+  const full = wheelList.find((c) => c && String(c.id) === String(decor.id));
+  if (!full) return decor;
+  const texDecor = decor.texture && String(decor.texture).trim();
+  const texFull = full.texture && String(full.texture).trim();
+  const merged = {
+    ...full,
+    ...decor,
+    texture: texDecor || texFull || '',
+    name: decor.name || full.name,
+    material_type: decor.material_type || decor.materialType || full.material_type || full.materialType || null,
+    material_id:
+      decor.material_id != null
+        ? decor.material_id
+        : decor.materialId != null
+          ? decor.materialId
+          : full.material_id != null
+            ? full.material_id
+            : full.materialId,
+  };
+  const ext = typeof window !== 'undefined' ? window.__cldStep5Edge : null;
+  if (ext && typeof ext.decorateFromMaterialCard === 'function') {
+    return ext.decorateFromMaterialCard(merged);
+  }
+  return merged;
+}
+
+const __ldspItemTextureCache = new Map();
+
+async function __enrichStep5DecorWithLdspTexture(decor) {
+  if (!decor) return decor;
+  const ext = typeof window !== 'undefined' ? window.__cldStep5Edge : null;
+  if (ext && typeof ext.decorateFromMaterialCard === 'function') {
+    const fromCard = ext.decorateFromMaterialCard(decor);
+    if (fromCard?.texture && String(fromCard.texture).trim()) return fromCard;
+    decor = fromCard;
+  }
+  if (decor.texture && String(decor.texture).trim()) return decor;
+  const mid = Number(decor.material_id ?? decor.materialId);
+  if (!Number.isFinite(mid) || mid <= 0) return decor;
+  if (__ldspItemTextureCache.has(mid)) {
+    const cached = __ldspItemTextureCache.get(mid);
+    return cached ? { ...decor, texture: cached } : decor;
+  }
+  try {
+    const resp = await fetch(
+      `/api/catalog/item/material_2/${encodeURIComponent(String(mid))}?t=${Date.now()}`,
+      { cache: 'no-store' },
+    );
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const item = await resp.json();
+    const url = String(item?.texture || item?.icon || item?.image || '').trim();
+    __ldspItemTextureCache.set(mid, url || null);
+    if (url) {
+      const enriched = { ...decor, texture: url };
+      if (ext && typeof ext.decorateFromMaterialCard === 'function') {
+        return ext.decorateFromMaterialCard(enriched);
+      }
+      return enriched;
+    }
+  } catch (e) {
+    console.warn('[STEP5] Не удалось подтянуть текстуру ЛДСП для декора:', mid, e);
+    __ldspItemTextureCache.set(mid, null);
+  }
+  return decor;
+}
+
+/** Подставить дефолты снаружи/внутри из room_steps_config (админка шага 5). */
+function __applyStep5DefaultsFromRoomConfig(options = {}) {
+  const onlyMissing = options.onlyMissing !== false;
+  if (typeof window === 'undefined' || typeof window.setStep5DecorSelection !== 'function') return;
+
+  const step5 = __getStep5ConfigStep();
+  if (!step5) return;
+
+  const outerWheel = Array.isArray(step5.step5WheelOuter) ? step5.step5WheelOuter : [];
+  const innerWheel = Array.isArray(step5.step5WheelInner) ? step5.step5WheelInner : [];
+  const allWheel = outerWheel.concat(innerWheel);
+  const sel0 =
+    typeof window.getStep5DecorSelection === 'function'
+      ? window.getStep5DecorSelection()
+      : { outside: null, inside: null };
+
+  if (!onlyMissing || !sel0.outside) {
+    const outside = __mergeDecorWithWheelEntry(
+      __resolveStep5DefaultDecorFromConfig(step5, 'outside'),
+      allWheel,
+    );
+    if (outside) window.setStep5DecorSelection('outside', outside);
+  }
+  if (!onlyMissing || !sel0.inside) {
+    const inside = __mergeDecorWithWheelEntry(
+      __resolveStep5DefaultDecorFromConfig(step5, 'inside'),
+      allWheel,
+    );
+    if (inside) window.setStep5DecorSelection('inside', inside);
+  }
+}
+
+async function __applyStep5DefaultsFromRoomConfigAsync() {
+  if (typeof window === 'undefined' || typeof window.setStep5DecorSelection !== 'function') return;
+  const sel = typeof window.getStep5DecorSelection === 'function'
+    ? window.getStep5DecorSelection()
+    : { outside: null, inside: null };
+  let outside = sel.outside;
+  let inside = sel.inside;
+  outside = await __enrichStep5DecorWithLdspTexture(outside);
+  inside = await __enrichStep5DecorWithLdspTexture(inside);
+  if (outside) window.setStep5DecorSelection('outside', outside);
+  if (inside) window.setStep5DecorSelection('inside', inside);
+}
+
+function __resolveStep5DefaultDecorFromConfig(step5, ring) {
+  if (!step5) return null;
+  const def = step5.step5Defaults || {};
+  const outer = Array.isArray(step5.step5WheelOuter) ? step5.step5WheelOuter : [];
+  const inner = Array.isArray(step5.step5WheelInner) ? step5.step5WheelInner : [];
+  const all = outer.concat(inner);
+  const pick = (id, wheel) => {
+    if (!id) return null;
+    const sid = String(id);
+    const w = Array.isArray(wheel) ? wheel : [];
+    let found = w.find((c) => c && String(c.id) === sid) || all.find((c) => c && String(c.id) === sid);
+    if (!found) {
+      const m = sid.match(/^m-(\d+)$/);
+      if (m) {
+        const mid = Number(m[1]);
+        found = all.find(
+          (c) => c && Number(c.material_id ?? c.materialId) === mid,
+        );
+      }
+    }
+    return found && isStep5DecorUsable(found) ? found : null;
+  };
+  const norm = (s) => String(s || '').trim().toLowerCase();
+  const heuristic = (wheel) => {
+    const list = Array.isArray(wheel) ? wheel : all;
+    const facadeWhite = list.find(
+      (c) => isStep5DecorUsable(c) && norm(c.name).includes('белый') && norm(c.name).includes('фасад'),
+    );
+    const anyWhite = list.find((c) => isStep5DecorUsable(c) && norm(c.name).includes('белый'));
+    const anyVisual = list.find((c) => isStep5DecorUsable(c));
+    return facadeWhite || anyWhite || anyVisual || null;
+  };
+
+  if (ring === 'outside') {
+    return (
+      pick(def.outsideId, all) ||
+      pick(def.defaultId, all) ||
+      heuristic(all)
+    );
+  }
+  return (
+    pick(def.insideId, all) ||
+    pick(def.defaultId, all) ||
+    heuristic(all)
+  );
+}
+
+function __ensureStep5DecorSelectionInitializedFromConfig() {
+  __applyStep5DefaultsFromRoomConfig({ onlyMissing: true });
+}
+
+/** Дефолты «снаружи/внутри» из админки > localStorage (+ опционально текстуры на сцене). */
+export function initStep5DefaultDecorsFromRoomConfig(options = {}) {
+  const force = options.force === true;
+  const doRefresh = options.refresh === true || (force && options.refresh !== false);
+  __applyStep5DefaultsFromRoomConfig({ onlyMissing: !force });
+  if (doRefresh) {
+    refreshFurnitureDecors();
+    __applyStep5DefaultsFromRoomConfigAsync()
+      .then(() => refreshFurnitureDecors())
+      .catch((e) => console.warn('[STEP5] async default decor enrich:', e));
+  } else {
+    __applyStep5DefaultsFromRoomConfigAsync().catch((e) =>
+      console.warn('[STEP5] async default decor enrich:', e)
+    );
+  }
+}
+
+/**
+ * Place pending furniture at ghost position
+ * This is a large function that handles all furniture placement logic
+ */
+export function placePendingFurniture() {
+  void placePendingFurnitureAsync();
+}
+
+/** mm size equality for ghost prebuild adopt (В±1 мм, как REBUILD-SKIP). */
+function _sectionMmClose(a, b, eps = 1) {
+  if (!a || !b) return false;
+  const ax = Number(a.x) || 0;
+  const ay = Number(a.y) || 0;
+  const az = Number(a.z) || 0;
+  const bx = Number(b.x) || 0;
+  const by = Number(b.y) || 0;
+  const bz = Number(b.z) || 0;
+  if (ax < 1 || ay < 1 || az < 1 || bx < 1 || by < 1 || bz < 1) return false;
+  return Math.abs(ax - bx) <= eps && Math.abs(ay - by) <= eps && Math.abs(az - bz) <= eps;
+}
+
+function _ghostClodisSizeKey(sz) {
+  if (!sz) return '';
+  return `${Math.round(Number(sz.x) || 0)}_${Math.round(Number(sz.y) || 0)}_${Math.round(Number(sz.z) || 0)}`;
+}
+
+let _ghostClodisBuildTimer = null;
+let _ghostClodisBuildGen = 0;
+
+function clearGhostClodisPrebuildTimer() {
+  if (_ghostClodisBuildTimer != null) {
+    clearTimeout(_ghostClodisBuildTimer);
+    _ghostClodisBuildTimer = null;
+  }
+}
+
+/**
+ * Снять готовый Clodis с призрака до removeFurnitureGhost (иначе dispose).
+ * @returns {THREE.Object3D|null}
+ */
+function detachGhostClodisPrebuildForPlace() {
+  clearGhostClodisPrebuildTimer();
+  _ghostClodisBuildGen += 1;
+  const ghost = state.furnitureGhost;
+  const g = ghost?.userData?.__clodisPrebuiltGroup;
+  if (!g) return null;
+  if (g.parent) g.parent.remove(g);
+  try {
+    delete ghost.userData.__clodisPrebuiltGroup;
+    delete ghost.userData.__clodisPrebuiltKey;
+  } catch (_) {}
+  return g;
+}
+
+/** Сброс prebuild при смене габарита короба — снова синий бокс до debounce-сборки. */
+export function invalidateGhostClodisPrebuild() {
+  clearGhostClodisPrebuildTimer();
+  _ghostClodisBuildGen += 1;
+  const ghost = state.furnitureGhost;
+  if (!ghost) return;
+  const old = ghost.userData?.__clodisPrebuiltGroup;
+  if (old) {
+    try {
+      if (old.parent) old.parent.remove(old);
+      __disposeObject3DTree(old);
+    } catch (_) {}
+    ghost.userData.__clodisPrebuiltGroup = null;
+    ghost.userData.__clodisPrebuiltKey = null;
+  }
+  const box = ghost.getObjectByName('GhostBox');
+  if (box) box.visible = true;
+  const pivot = ghost.getObjectByName('PivotMarker');
+  if (pivot) pivot.visible = true;
+}
+
+function _normGhostZoneIdx(z) {
+  if (z == null || z === '') return null;
+  const n = Number(z);
+  return Number.isFinite(n) ? n : null;
+}
+
+/** Ключ секция+зона+размер — нельзя adopt’ить шкаф, собранный «по пути» в другой нише. */
+function _ghostClodisContextKey(sectionSize, sectionId, zoneIdx) {
+  return `${_ghostClodisSizeKey(sectionSize)}|${sectionId ?? 'none'}|${_normGhostZoneIdx(zoneIdx) ?? 'n'}`;
+}
+
+function _readGhostClodisContextFromState() {
+  const ghost = state.furnitureGhost;
+  if (!ghost) return null;
+  const furnitureData = state.pendingFurnitureData;
+  const sizeSrc =
+    ghost.userData.currentSectionSize ||
+    ghost.userData.zoneSize ||
+    (furnitureData ? extractSectionSizeFromFurnitureData(furnitureData) : null);
+  let sectionSize = {
+    x: Math.max(0, Number(sizeSrc?.x) || 0),
+    y: Math.max(0, Number(sizeSrc?.y) || 0),
+    z: Math.max(0, Number(sizeSrc?.z) || 0),
+  };
+  // Тумба/навес/kitchen_base: не раздувать шире каталога. Шкаф в нише — ширина зоны.
+  if (furnitureData) {
+    const pk = resolvePlacementKindFromFurnitureData(furnitureData);
+    const rawPk = getRawPlacementKindFromFurnitureData(furnitureData);
+    if (
+      pk === PLACEMENT_KIND.STANDALONE_FLOOR ||
+      isWallHungPlacementKind(pk) ||
+      isKitchenBasePlacementKind(rawPk) ||
+      isKitchenTallPlacementKind(rawPk)
+    ) {
+      const cat = extractSectionSizeFromFurnitureData(furnitureData);
+      const cx = Number(cat?.x) || 0;
+      const cz = Number(cat?.z) || 0;
+      if (cx > 0 && sectionSize.x > cx) {
+        sectionSize = { ...sectionSize, x: cx };
+      }
+      if (
+        (isKitchenBasePlacementKind(rawPk) || isKitchenTallPlacementKind(rawPk)) &&
+        cz > 0
+      ) {
+        sectionSize = { ...sectionSize, z: cz };
+      }
+    }
+  }
+  const section =
+    typeof findSectionAtPosition === 'function'
+      ? findSectionAtPosition(ghost.position.clone())
+      : null;
+  if ((state.customSections || []).length > 0 && !section) {
+    return { sectionSize, section: null, sectionId: null, zoneIdx: null, key: null, allowed: false };
+  }
+  const zoneIdx =
+    state._pendingZoneInfo &&
+    section &&
+    String(state._pendingZoneInfo.sectionId) === String(section.id)
+      ? state._pendingZoneInfo.zoneIndex
+      : null;
+  const sectionId = section?.id ?? null;
+  return {
+    sectionSize,
+    section,
+    sectionId,
+    zoneIdx,
+    key: _ghostClodisContextKey(sectionSize, sectionId, zoneIdx),
+    allowed: sectionSize.x >= 1 && sectionSize.y >= 1 && sectionSize.z >= 1,
+  };
+}
+
+/**
+ * При движении призрака: если секция/зона сменились при том же размере —
+ * сбросить prebuild (иначе place adopt’ит чужой шкаф).
+ */
+export function syncGhostClodisPrebuildContext() {
+  if (!state.isPlacingFurniture || !state.furnitureGhost || !state.pendingFurnitureData) return;
+  const fd = state.pendingFurnitureData;
+  if (fd.type === 'glb' || fd.type === 'savedModel') return;
+
+  const ctx = _readGhostClodisContextFromState();
+  if (!ctx) return;
+
+  if (!ctx.allowed || ctx.key == null) {
+    if (state.furnitureGhost.userData.__clodisPrebuiltGroup) {
+      invalidateGhostClodisPrebuild();
+    }
+    return;
+  }
+
+  const curKey = state.furnitureGhost.userData.__clodisPrebuiltKey;
+  if (curKey && curKey !== ctx.key) {
+    invalidateGhostClodisPrebuild();
+    scheduleGhostClodisPrebuild({ force: true });
+    return;
+  }
+  if (!state.furnitureGhost.userData.__clodisPrebuiltGroup) {
+    // Не сбрасывать уже тикающий debounce на каждый mousemove — иначе prebuild никогда не готов.
+    scheduleGhostClodisPrebuild({ force: false });
+  }
+}
+
+/**
+ * После создания/ресайза призрака: собрать полный Clodis (debounce), чтобы клик = snap.
+ * @param {{ force?: boolean }} [opts] force=true — перезапустить таймер (смена секции/зоны/размера).
+ */
+export function scheduleGhostClodisPrebuild(_opts = {}) {
+  // Выключено: PLACE-ADOPT после ghost-сборки давал щели (см. 1.44 перед скоростью).
+  return;
+}
+
+function buildGhostClodisPrebuildNow() {
+  const furnitureData = state.pendingFurnitureData;
+  const ghost = state.furnitureGhost;
+  if (!furnitureData || !ghost || !state.isPlacingFurniture) return;
+
+  const ctx = _readGhostClodisContextFromState();
+  if (!ctx || !ctx.allowed || ctx.key == null) return;
+
+  const { sectionSize, section, sectionId, zoneIdx, key } = ctx;
+  if (
+    ghost.userData.__clodisPrebuiltKey === key &&
+    ghost.userData.__clodisPrebuiltGroup
+  ) {
+    return;
+  }
+
+  // Курсор уже ушёл в другой контекст за время debounce.
+  const live = _readGhostClodisContextFromState();
+  if (!live || live.key !== key) return;
+
+  const clodisData = getClodisDataForBuild(furnitureData);
+  if (!clodisData || (Array.isArray(clodisData) && clodisData.length === 0)) return;
+  try {
+    prefetchFillCatalogsForClodisPlan(clodisData);
+  } catch (_) {}
+
+  const old = ghost.userData.__clodisPrebuiltGroup;
+  if (old) {
+    try {
+      if (old.parent) old.parent.remove(old);
+      __disposeObject3DTree(old);
+    } catch (_) {}
+    ghost.userData.__clodisPrebuiltGroup = null;
+  }
+
+  const placementKind = resolvePlacementKindFromFurnitureData(furnitureData);
+  const group = new THREE.Group();
+  group.name = 'GhostClodisPrebuilt';
+  const ud = group.userData;
+  // НЕ isFurniture: иначе computeSectionLayout/updateFurnitureInSection тащат чужие зоны.
+  ud.isFurniture = false;
+  ud.isGhostClodisPrebuild = true;
+  ud.__placementKind = placementKind;
+  ud.__placementKindProfileId = getRawPlacementKindFromFurnitureData(furnitureData);
+  ud.productKind = resolveProductKindForFurnitureData(furnitureData);
+  ud.__ghostPrebuildSectionId = sectionId;
+  ud.__ghostPrebuildZoneIndex = _normGhostZoneIdx(zoneIdx);
+  if (zoneIdx != null) ud.zoneIndex = zoneIdx;
+  if (section) {
+    ud.sectionId = section.id;
+    ud.wallName = section.wallName || ghost.userData.wall || 'back';
+  }
+
+  try {
+    const rootsCanonical = Array.isArray(clodisData)
+      ? JSON.parse(JSON.stringify(clodisData))
+      : [JSON.parse(JSON.stringify(clodisData))];
+    writeUserDataClodisRoots(ud, rootsCanonical);
+    const dataOne = getDataForBuild(rootsCanonical) || rootsCanonical[0];
+    if (dataOne) writeUserDataClodisData(ud, dataOne);
+  } catch (e) {
+    console.warn('[GHOST-CLODIS] stamp roots failed', e);
+    return;
+  }
+
+  const moduleVars = extractModuleVariablesFromFurnitureData(furnitureData);
+  const moduleVarsRoom =
+    section &&
+    !isLowFurniturePlacementKind(placementKind) &&
+    !isWallHungPlacementKind(placementKind)
+      ? mergeFloorNicheVariablesFromSection(section, moduleVars)
+      : moduleVars;
+  try {
+    writeUserDataClodisVariables(ud, JSON.parse(JSON.stringify(moduleVarsRoom)));
+  } catch (_) {
+    writeUserDataClodisVariables(ud, { ...moduleVarsRoom });
+  }
+
+  const zoneDoorKind =
+    section && zoneIdx != null
+      ? getZoneDoorKind(section, zoneIdx)
+      : resolveDoorKindFromFurnitureData(furnitureData) || 'single';
+  if (zoneDoorKind) ud.doorKind = zoneDoorKind;
+
+  const hinge =
+    furnitureData?.hingeLayoutOverride ??
+    furnitureData?.hingeLayoutId ??
+    furnitureData?.catalogItem?.hingeLayoutId ??
+    furnitureData?.catalogItem?.data?.hingeLayoutId;
+  if (hinge != null) ud.hingeLayoutOverride = hinge;
+
+  ud.unifiedFacadeFromCatalog = extractUnifiedFacadeFromCatalogItem(furnitureData?.catalogItem);
+  ud.pairedHandCatalogItemIds = readPairedHandCatalogIdsFromItem(furnitureData?.catalogItem);
+
+  let builtOk = false;
+  if (section) {
+    builtOk = rebuildFurnitureGroupForSectionResize(group, section, sectionSize, {
+      force: true,
+      syncLight: false,
+    });
+  } else {
+    // Без обклада: прямой Furniture на каталожный размер.
+    try {
+      const FurnitureCtor =
+        typeof Furniture !== 'undefined'
+          ? Furniture
+          : typeof window !== 'undefined'
+            ? window.Furniture
+            : null;
+      if (typeof FurnitureCtor !== 'function') return;
+      const roots = readUserDataClodisRoots(ud) || readUserDataClodisData(ud);
+      const swingCtx =
+        section && zoneIdx != null ? swingHandCtxForPlacement(section, zoneIdx) : {};
+      const { opts: doorOpts, needsPatch } = buildRoomDoorPrepareOpts(furnitureData, {
+        zoneIndex: zoneIdx,
+        division: section?.division,
+        doorKind: zoneDoorKind,
+        catalogItem: furnitureData?.catalogItem,
+        clodisRoots: roots,
+        placementKind,
+        productKind: ud.productKind,
+        sectionNeighbors: section ? collectSectionSwingSingleNeighborZones(section.id) : [],
+        ...swingCtx,
+      });
+      let clodisForBuild = needsPatch ? prepareClodisForRoomBuild(roots, doorOpts) : roots;
+      const dataForBuild = getDataForBuild(clodisForBuild) || clodisForBuild;
+      const corpusWallThicknessMm =
+        Number(moduleVarsRoom?._wt) > 0 ? Number(moduleVarsRoom._wt) : 16;
+      const step5Selection =
+        typeof window !== 'undefined' && typeof window.getStep5DecorSelection === 'function'
+          ? window.getStep5DecorSelection()
+          : { outside: null, inside: null };
+      const built = new FurnitureCtor(dataForBuild, {
+        sectionSize,
+        wallThicknessMm: corpusWallThicknessMm,
+        variables: {
+          vysota_cokolya: 100,
+          glubina_cokolya: 100,
+          otstup_paza: 0,
+          ...moduleVarsRoom,
+        },
+        groups: {
+          g0: { thickness: corpusWallThicknessMm },
+          g1: { thickness: 3 },
+          g2: { thickness: 18 },
+          g3: { thickness: 16 },
+          hdf1: { thickness: 3 },
+        },
+        useLegacySetupPivot: true,
+        decorOutside: step5Selection.outside,
+        decorInside: step5Selection.inside,
+        placementKind,
+        doorLayout: doorOpts.doorLayout || undefined,
+        zoneHand: doorOpts.zoneHand || undefined,
+        doorKind: doorOpts.doorKind || undefined,
+        unifiedFacade: doorOpts.unifiedFacade || undefined,
+        hingeLayoutOverride: ud.hingeLayoutOverride,
+        productKind: ud.productKind,
+      });
+      if (!built?.group) return;
+      const toAdd = [...built.group.children];
+      for (const ch of toAdd) {
+        built.group.remove(ch);
+        group.add(ch);
+      }
+      __disposeObject3DTree(built.group);
+      ud.__initialSectionSizeMm = { ...sectionSize };
+      if (doorOpts.zoneHand) ud.zoneHand = doorOpts.zoneHand;
+      if (doorOpts.doorKind) ud.doorKind = doorOpts.doorKind;
+      if (doorOpts.hasSwingDoor) ud.hasSwingDoor = true;
+      ud.unifiedFacade = !!doorOpts.unifiedFacade;
+      try {
+        applyRoomCabinetStudioLook(group, {
+          doorsOpen: typeof window !== 'undefined' && window.__cldRoomDoorsDesiredOpen === true,
+          syncLight: false,
+        });
+        applyStep5DecorToFurnitureGroupImmediate(group);
+        refreshCabinetStudioAfterDecor(group, { syncLight: false });
+      } catch (_) {}
+      builtOk = true;
+    } catch (e) {
+      console.warn('[GHOST-CLODIS] free-wall build failed', e);
+      return;
+    }
+  }
+
+  if (!builtOk || !group.children.length) {
+    try {
+      __disposeObject3DTree(group);
+    } catch (_) {}
+    return;
+  }
+
+  // Пока шла сборка, курсор мог уйти в другую секцию — не цепляем чужой шкаф.
+  const after = _readGhostClodisContextFromState();
+  if (!after || after.key !== key || !state.isPlacingFurniture || state.furnitureGhost !== ghost) {
+    try {
+      __disposeObject3DTree(group);
+    } catch (_) {}
+    return;
+  }
+
+  // Синий короб больше не нужен — показываем реальный шкаф.
+  const box = ghost.getObjectByName('GhostBox');
+  if (box) box.visible = false;
+  const pivot = ghost.getObjectByName('PivotMarker');
+  if (pivot) pivot.visible = false;
+
+  group.position.set(0, 0, 0);
+  group.rotation.set(0, 0, 0);
+  group.scale.set(1, 1, 1);
+  ghost.add(group);
+  ghost.userData.__clodisPrebuiltGroup = group;
+  ghost.userData.__clodisPrebuiltKey = key;
+  ghost.visible = true;
+
+  if (typeof window !== 'undefined' && window.__CLD_DEBUG_PLACE === true) {
+    console.warn('[GHOST-CLODIS] ready', { key, meshes: group.children.length });
+  }
+}
+
+if (typeof window !== 'undefined') {
+  window.__cldScheduleGhostClodisPrebuild = scheduleGhostClodisPrebuild;
+  window.__cldInvalidateGhostClodisPrebuild = invalidateGhostClodisPrebuild;
+  window.__cldSyncGhostClodisPrebuildContext = syncGhostClodisPrebuildContext;
+}
+
+async function placePendingFurnitureAsync() {
+  const __placeT0 = performance.now();
+  const __placeMarks = [];
+  const __placeMark = (label) => {
+    __placeMarks.push({ label, ms: Math.round(performance.now() - __placeT0) });
+  };
+  const __placeDone = () => {
+    const total = Math.round(performance.now() - __placeT0);
+    const rows = [];
+    for (let i = 0; i < __placeMarks.length; i++) {
+      const cur = __placeMarks[i];
+      const prev = i > 0 ? __placeMarks[i - 1].ms : 0;
+      rows.push({ phase: cur.label, atMs: cur.ms, dtMs: cur.ms - prev });
+    }
+    console.log('[PLACE-TIME] total', total, 'ms', rows);
+    if (typeof window !== 'undefined') {
+      window.__cldLastPlaceTime = { totalMs: total, phases: rows };
+    }
+  };
+
+  console.log('[ОТЛАДКА] ??? placePendingFurniture вызван! pos=', state.ghostPosition, 'wall=', state.ghostWall);
+  console.log('State:', {
+    pendingFurnitureData: !!state.pendingFurnitureData,
+    ghostPosition: state.ghostPosition,
+    ghostWall: state.ghostWall,
+    furnitureGhost: !!state.furnitureGhost,
+  });
+
+  if (!state.pendingFurnitureData) {
+    console.warn('Р? Нет данных для размещения мебели');
+    return;
+  }
+
+  if (typeof window !== 'undefined' && window.__CLD_DEBUG_PLACE === true) {
+    console.warn('[PLACE-ENTER]', {
+      ghostZoneWidthMm: Math.round(Number(state.furnitureGhost?.userData?.zoneSize?.x) || 0),
+      ghostWall: state.ghostWall || null,
+      endCabPendingActive: !!getPendingEndCabinetPlacement(),
+      endCabModuleMatch: isPendingEndCabinetModule(state.pendingFurnitureData),
+    });
+  }
+
+  // Торцевой слот известен из диалога — посадка не зависит от привязки призрака к зоне.
+  if (await tryPlaceIntoPendingEndCabinetSlot(state.pendingFurnitureData)) {
+    if (typeof window !== 'undefined' && window.__CLD_DEBUG_PLACE === true) {
+      console.warn('[PLACE-ENTER] ушло в торцевой слот');
+    }
+    return;
+  }
+
+  if (!state.ghostPosition || !state.ghostWall) {
+    console.warn('Р? Нет привязки к стене — размещение отменено');
+    cancelFurniturePlacement();
+    return;
+  }
+
+  // Check if wall is visible
+  if (state.room && state.room.walls && state.room.walls[state.ghostWall]) {
+    if (state.room.walls[state.ghostWall].visible === false) {
+      console.warn('Р? Стена скрыта — размещение невозможно');
+      cancelFurniturePlacement();
+      return;
+    }
+  }
+
+  // Сохраняем данные до removeFurnitureGhost — он обнуляет ghostPosition/ghostWall
+  const rotationY = state.furnitureGhost ? state.furnitureGhost.userData.rotation || 0 : 0;
+  const ghostZoneSize = state.furnitureGhost?.userData?.zoneSize || null;
+  const position = state.ghostPosition.clone();
+  const wall = state.ghostWall;
+  const furnitureData = state.pendingFurnitureData;
+
+  // Запоминаем зону, к которой был привязан призрак (если была),
+  // до removeFurnitureGhost, т.к. он очищает состояние.
+  const pendingZoneInfo = state._pendingZoneInfo || null;
+
+  // -- Проверка совместимости: тип модуля vs тип зоны ------------------------
+  // Угол (44/54): всегда, даже без doorKind на зоне.
+  // single-double: только шкафы (floor_in_niche); kitchen mid/base не режем.
+  if (pendingZoneInfo) {
+    const baySec =
+      Array.isArray(state.customSections) && pendingZoneInfo.sectionId != null
+        ? state.customSections.find((s) => s && s.id === pendingZoneInfo.sectionId)
+        : null;
+    const pkGate = resolvePlacementKindFromFurnitureData(furnitureData);
+    const skipDoorGate =
+      pkGate === PLACEMENT_KIND.STANDALONE_FLOOR || isWallHungPlacementKind(pkGate);
+    const isCornerCab = isLCornerCabinetModule(furnitureData);
+    const onLSpecial =
+      !!baySec && __isLShapeSpecialZone(baySec, pendingZoneInfo.zoneIndex);
+    __cldLogLCorner('placePendingFurniture/gate', {
+      onLSpecial,
+      isCornerCab,
+      skipDoorGate,
+      doorKind: pendingZoneInfo.doorKind ?? null,
+    });
+    const freeWallPlace =
+      state.kitchenSectionsEnabled === false ||
+      !(state.customSections || []).length;
+    if (isCornerCab && !onLSpecial && !freeWallPlace) {
+      __cldLogLCorner('BLOCK placePending not special');
+      const msg =
+        'Угловой модуль ставится только в угловую спец-секцию.';
+      if (typeof window.showToast === 'function') {
+        window.showToast(msg, 'warning');
+      } else if (typeof window.toastr !== 'undefined') {
+        window.toastr.warning(msg);
+      } else {
+        console.warn('[РАЗМЕЉЕНИЕ] ' + msg);
+      }
+      cancelFurniturePlacement();
+      return;
+    }
+    if (isCornerCab && baySec?.lShape) {
+      const tgt = resolveCornerCabinetPlaceTarget(
+        baySec,
+        pendingZoneInfo,
+        furnitureData
+      );
+      if (tgt?.section && tgt.zoneIndex != null) {
+        pendingZoneInfo.sectionId = tgt.section.id;
+        pendingZoneInfo.zoneIndex = tgt.zoneIndex;
+        pendingZoneInfo.wallName =
+          tgt.section.wallName ||
+          tgt.section.division?.wallName ||
+          pendingZoneInfo.wallName;
+        pendingZoneInfo.doorKind = 'double';
+        state._pendingZoneInfo = pendingZoneInfo;
+      }
+      const zoneAt = getSectionLCornerZoneAtStart(
+        tgt?.section || baySec,
+        tgt?.zoneIndex ?? pendingZoneInfo.zoneIndex
+      );
+      const modAt = getCatalogItemCornerAtStart(furnitureData);
+      if (zoneAt != null && modAt !== zoneAt) {
+        __cldLogLCorner('BLOCK placePending wrong corner side', {
+          zoneAt,
+          modAt,
+        });
+        const msg = zoneAt
+          ? 'В этот угол подходит только угловой левый модуль.'
+          : 'В этот угол подходит только угловой правый модуль.';
+        if (typeof window.showToast === 'function') {
+          window.showToast(msg, 'warning');
+        } else if (typeof window.toastr !== 'undefined') {
+          window.toastr.warning(msg);
+        } else {
+          console.warn('[РАЗМЕЩЕНИЕ] ' + msg);
+        }
+        cancelFurniturePlacement();
+        return;
+      }
+    }
+    // Спец L/U: только НМУ/ВМУ. kitchen NM/пенал/навес — skipDoorGate не обходит.
+    if (onLSpecial && !isCornerCab) {
+      __cldLogLCorner('BLOCK non-corner on special', {
+        skipDoorGate,
+        pkGate,
+      });
+      const msg =
+        'В угловую спец-зону ставится только угловой модуль (НМУ / Навесные угловые).';
+      if (typeof window.showToast === 'function') {
+        window.showToast(msg, 'warning');
+      } else if (typeof window.toastr !== 'undefined') {
+        window.toastr.warning(msg);
+      } else {
+        console.warn('[РАЗМЕЩЕНИЕ] ' + msg);
+      }
+      cancelFurniturePlacement();
+      return;
+    }
+    if (pendingZoneInfo.doorKind) {
+      const moduleDoorKind = inferModuleDoorKindFromCategories(furnitureData);
+      const zoneDoorKind = pendingZoneInfo.doorKind;
+      if (
+        !skipDoorGate &&
+        !isCornerCab &&
+        moduleDoorKind &&
+        moduleDoorKind !== zoneDoorKind
+      ) {
+        const canGesture = zonePlaceGesturePossible(
+          baySec,
+          pendingZoneInfo.zoneIndex,
+          moduleDoorKind
+        );
+        if (!canGesture) {
+          const zoneLabel = zoneDoorKind === 'single' ? 'одинарную' : 'двойную';
+          const modLabel = moduleDoorKind === 'single' ? 'одинарный шкаф' : 'двойной шкаф';
+          const msg = `Нельзя разместить ${modLabel} в ${zoneLabel} зону. Выберите подходящий модуль из каталога.`;
+          if (typeof window.showToast === 'function') {
+            window.showToast(msg, 'warning');
+          } else if (typeof window.toastr !== 'undefined') {
+            window.toastr.warning(msg);
+          } else {
+            console.warn('[РАЗМЕЩЕНИЕ] ' + msg);
+          }
+          cancelPlacementAndSwitchCatalogForZone(zoneDoorKind);
+          return;
+        }
+      }
+    }
+  }
+
+  // Как в «1.44 перед скоростью»: ghost Clodis prebuild/adopt НЕ используем.
+  // Ускорение place оставляло корпус уже зоны > щель шкаф-шкаф и у планки.
+  try {
+    const deadPrebuild = detachGhostClodisPrebuildForPlace();
+    if (deadPrebuild) __disposeObject3DTree(deadPrebuild);
+  } catch (_) {}
+  state._placeAdoptedClodis = null;
+
+  // Высота standalone до снятия призрака.
+  // У окна: первая = под подоконник; следующие тянутся — без модалки.
+  // Вне окна: своя / как уже стоящие.
+  let standalonePlacePreChoice = null;
+  {
+    let earlySection = null;
+    if (pendingZoneInfo?.sectionId != null && Array.isArray(state.customSections)) {
+      earlySection =
+        state.customSections.find((s) => s && s.id === pendingZoneInfo.sectionId) || null;
+    }
+    if (!earlySection) {
+      earlySection = findSectionAtPosition(position);
+    }
+    const earlyPk = resolvePlacementKindFromFurnitureData(furnitureData);
+    if (earlySection && earlyPk === PLACEMENT_KIND.STANDALONE_FLOOR) {
+      const earlyCatalogType = resolveCatalogTypeFromFurnitureData(furnitureData);
+      if (isWindowAlongWallSection(earlySection)) {
+        const existingH = getExistingStandaloneHeightInWindowAlongGroup(earlySection);
+        const sillH = getWindowAlongGroupSillStandaloneHeightMm(earlySection);
+        // Старый ряд sill?цоколь (~800 при sill 900) — не закрепляем, поднимаем к подоконнику.
+        let h = 0;
+        if (existingH > 0 && sillH > 0 && existingH < sillH - 5) {
+          h = sillH;
+        } else if (existingH > 0) {
+          h = existingH;
+        } else if (sillH > 0) {
+          h = sillH;
+        }
+        if (h > 0) {
+          standalonePlacePreChoice = {
+            catalogType: earlyCatalogType,
+            heightMm: h,
+            fromAsk: false,
+          };
+        }
+      } else {
+        const ownHRaw = getCatalogOwnStandaloneHeightMm(furnitureData);
+        const kitchenPlaceEarly = resolveKitchenPlaceHeightAndPlinth(furnitureData);
+        const ownH = kitchenPlaceEarly ? kitchenPlaceEarly.totalHeightMm : ownHRaw;
+        const existingH = getExistingStandaloneHeightInWindowAlongGroup(earlySection);
+        // Нижний кухонный ряд: всегда своя высота (корпус+опоры), без модалки.
+        if (kitchenPlaceEarly && ownH > 0) {
+          standalonePlacePreChoice = {
+            catalogType: earlyCatalogType,
+            heightMm: ownH,
+            fromAsk: false,
+          };
+        } else if (existingH > 0 && ownH > 0 && Math.abs(existingH - ownH) > 1) {
+          let choice = 'own';
+          try {
+            choice = await askStandalonePlaceHeightChoice({
+              ownHeightMm: ownH,
+              neighborHeightMm: existingH,
+            });
+          } catch (_) {
+            choice = 'own';
+          }
+          standalonePlacePreChoice = {
+            catalogType: earlyCatalogType,
+            heightMm: choice === 'neighbor' ? existingH : ownH,
+            fromAsk: true,
+          };
+        }
+      }
+    }
+  }
+
+  // Remove ghost (обнуляет state.ghostPosition/ghostWall и _pendingZoneInfo)
+  removeFurnitureGhost();
+
+  // Reset state
+  state.pendingFurnitureData = null;
+  state.isPlacingFurniture = false;
+  state.ghostWall = null;
+  state.ghostPosition = null;
+  state.lastValidGhostPosition = null;
+  state.lastValidGhostWall = null;
+
+  console.log('Creating furniture with position:', position, 'rotation:', rotationY);
+
+  // Handle GLB files
+  if (furnitureData.type === 'glb') {
+    // TODO: Extract loadGLBFileForPlacement to glb-loader module
+    if (typeof loadGLBFileForPlacement !== 'undefined') {
+      loadGLBFileForPlacement(furnitureData.path, position, rotationY, wall);
+    }
+    return;
+  }
+
+  // Handle saved models
+  if (furnitureData.type === 'savedModel') {
+    console.log('Ц Размещение сохраненной модели');
+    // TODO: Extract loadSavedModelForPlacement to glb-loader module
+    try {
+      const base64 = furnitureData.modelData.glb;
+      const binaryString = atob(base64);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+      const blob = new Blob([bytes.buffer], { type: 'model/gltf-binary' });
+      const newUrl = URL.createObjectURL(blob);
+      
+      if (furnitureData.url) {
+        URL.revokeObjectURL(furnitureData.url);
+      }
+      
+      if (typeof loadSavedModelForPlacement !== 'undefined') {
+        loadSavedModelForPlacement(newUrl, furnitureData.modelData, position, rotationY, wall);
+      }
+      return;
+    } catch (error) {
+      console.error('? Ошибка размещения сохраненной модели:', error);
+      alert('Ошибка размещения модели: ' + error.message);
+      return;
+    }
+  }
+
+  // Create furniture from Clodis JSON (как в legacy main.js)
+  const clodisData = getClodisDataForBuild(furnitureData);
+  if (!clodisData || clodisData.length === 0) {
+    console.error('? Clodis JSON пуст для размещения мебели');
+    return;
+  }
+  prefetchFillCatalogsForClodisPlan(clodisData);
+
+  let sectionSize = extractSectionSizeFromFurnitureData(furnitureData);
+  const defaultModuleSize = { ...sectionSize };
+  
+  // Секция: сначала зона призрака (на стыке bay-tall AABB врёт), иначе hit по AABB.
+  let sectionAtPosition = null;
+  if (pendingZoneInfo?.sectionId != null && Array.isArray(state.customSections)) {
+    sectionAtPosition =
+      state.customSections.find((s) => s && s.id === pendingZoneInfo.sectionId) || null;
+  }
+  if (!sectionAtPosition) {
+    sectionAtPosition = findSectionAtPosition(position);
+  }
+  if ((state.customSections || []).length > 0 && !sectionAtPosition) {
+    console.warn('Р? Шкаф можно ставить только в секцию обклада');
+    cancelFurniturePlacement();
+    return;
+  }
+  const topPlankMm = sectionAtPosition?.topPlankHeight ?? TOP_PLANK_HEIGHT_MM;
+  const bottomPlankMmPlace =
+    sectionAtPosition != null
+      ? (() => {
+          const b = Number(sectionAtPosition.bottomPlankHeightMm);
+          return Number.isFinite(b) && b >= 0 ? b : DEFAULT_BOTTOM_PLANK_MM;
+        })()
+      : DEFAULT_BOTTOM_PLANK_MM;
+  const placementKindForSection = resolvePlacementKindFromFurnitureData(furnitureData);
+  // Bay / fixedHeight под окном: только низкая мебель (слот = sill).
+  if (
+    isUnderWindowBaySection(sectionAtPosition) &&
+    !isLowFurniturePlacementKind(placementKindForSection)
+  ) {
+    console.warn('[PLACE] под окном только тумба/комод/нижний навес');
+    cancelFurniturePlacement();
+    return;
+  }
+  if (
+    sectionAtPosition &&
+    !isUnderWindowBaySection(sectionAtPosition) &&
+    placementKindForSection !== PLACEMENT_KIND.STANDALONE_FLOOR
+  ) {
+    try {
+      const restored = restoreSectionVerticalSizeForMixedWall(sectionAtPosition);
+      if (restored) {
+        console.info('[PLACE] секция возвращена на полную высоту для шкафа рядом с тумбой');
+      }
+    } catch (e) {
+      console.warn('[PLACE] restoreSectionVerticalSizeForMixedWall', e);
+    }
+  }
+  const nicheAlongOpts = (() => {
+    if (!sectionAtPosition?.windowBridge || !position || !state.room?.group) return {};
+    try {
+      const roomWorld = new THREE.Vector3();
+      state.room.group.getWorldPosition(roomWorld);
+      const local = position.clone().sub(roomWorld);
+      const wn = sectionAtPosition.wallName || wall;
+      const alongMm = wn === 'left' || wn === 'right' ? local.z : local.x;
+      return Number.isFinite(alongMm) ? { alongMm } : {};
+    } catch (_) {
+      return {};
+    }
+  })();
+  const nicheSlotYmm = sectionAtPosition
+    ? getNicheCabinetSlotHeightMm(sectionAtPosition, nicheAlongOpts)
+    : null;
+  let placementZoneIndex = null;
+  let placementDivision = null;
+  let placeSnap = null;
+  if (sectionAtPosition) {
+    // Раньше требовали ghostZoneSize || furnitureData.sectionSize — иначе ветка зоны не выполнялась,
+    // срабатывала «полная секция» с чужим pivot и каталожной высотой (~2200 вместо слота ниши).
+    if (sectionAtPosition.division) {
+      const baseY = sectionAtPosition.size.y ?? sectionAtPosition.size.height;
+      const wallNameForSize = sectionAtPosition.wallName || sectionAtPosition.division?.wallName || wall;
+      const depthForZone =
+        wallNameForSize === 'left' || wallNameForSize === 'right'
+          ? sectionAtPosition.size.x
+          : (sectionAtPosition.size.z ?? sectionAtPosition.size.depth);
+      const fallbackSlotY = Math.max(0, baseY - topPlankMm - bottomPlankMmPlace);
+      // Zone (double module): use zone size and keep position = zone pivot (already set by ghost)
+      sectionSize = ghostZoneSize || furnitureData.sectionSize || {
+        x: sectionAtPosition.division.partSize,
+        y: nicheSlotYmm ?? fallbackSlotY,
+        z: depthForZone
+      };
+
+      // Если при движении призрака мы уже знали точный zoneIndex, не пересчитываем его по координате,
+      // чтобы избежать эффекта «попа»и на границу и ушли в соседнюю зонул.
+      const division = sectionAtPosition.division;
+      placementDivision = division;
+      const wallName = sectionAtPosition.wallName || division?.wallName || wall;
+      let snap = null;
+      if (pendingZoneInfo && pendingZoneInfo.sectionId === sectionAtPosition.id) {
+        const wForPivot = pendingZoneInfo.wallName || wallName;
+        const kitchenPlaceSnap = isKitchenNmPlacement(furnitureData);
+        snap = kitchenPlaceSnap
+          ? buildKitchenCellSnap(sectionAtPosition, pendingZoneInfo.zoneIndex, wForPivot)
+          : buildZoneSnapForSection(
+              sectionAtPosition,
+              pendingZoneInfo.zoneIndex,
+              wForPivot
+            );
+      } else {
+        // Fallback: старый путь через hitCoord
+        const hitCoord = (wallName === 'front' || wallName === 'back') ? position.x : position.z;
+        snap = snapToZoneDoubleModule(
+          hitCoord,
+          division,
+          wallName,
+          sectionAtPosition.id
+        );
+      }
+
+      // В зоне — как в рабочей ThreeJS-25: ниша min(зона, каталог); тумба — ширина слота.
+      // catalog_44 / спец L: всегда S+D, не Math.min с каталожной шириной двери (иначе куцый модуль не в углу).
+      if (snap && snap.moduleWidth > 0) {
+        const isCornerCabW = isLCornerCabinetModule(furnitureData);
+        const onSp =
+          isCornerCabW && __isLShapeSpecialZone(sectionAtPosition, snap.zoneIndex);
+        if (onSp) {
+          __cldEnsureKitchenLFlushToWall(sectionAtPosition);
+          ensureLShapeDivisionSegments(sectionAtPosition.division);
+          sectionAtPosition._layoutCache = null;
+          // П: bounds по zi клика (правый = parts-1), не дефолт zi=0.
+          const sp = getLShapeSpecialSnapBounds(
+            sectionAtPosition.division,
+            snap.zoneIndex
+          );
+          let wMm = sp?.moduleWidth > 0 ? sp.moduleWidth : snap.moduleWidth;
+          // ???: ??????/???????? = 1050. ???: ???? ??????? ?????? = 600 (?? W ????).
+          const kitchenCornerPlace =
+            typeof isKitchenSectionLayoutActive === 'function' &&
+            isKitchenSectionLayoutActive();
+          const rawPkCornerW = String(
+            getRawPlacementKindFromFurnitureData(furnitureData) || ''
+          ).trim();
+          const isWallCornerCab = rawPkCornerW === 'kitchen_wall_corner';
+          if (!kitchenCornerPlace) {
+            const endU = __cldCornerCabTargetEndU(sectionAtPosition);
+            if (sp && endU > 0 && Number.isFinite(sp.zoneStart)) {
+              const capped = Math.max(1, Math.round(endU - sp.zoneStart));
+              if (capped < wMm) {
+                __cldLogLCorner('place S+D capped to plank/section end', {
+                  was: Math.round(wMm),
+                  capped,
+                  endU,
+                  plank: __cldTopPlankMaxU(sectionAtPosition),
+                  outer: __cldSectionOuterMaxU(sectionAtPosition),
+                });
+                wMm = capped;
+              }
+            }
+          } else if (isWallCornerCab) {
+            wMm = KITCHEN_WALL_CORNER_DEFAULT_WIDTH_MM;
+          } else if (!(wMm >= 1045 && wMm <= 1055)) {
+            const fixed = resolveKitchenCornerSpecialWidthMm();
+            if (fixed > 0) wMm = fixed;
+          }
+          const cellW = Math.round(wMm);
+          const projPlace = resolveKitchenCornerPlaceFromProject();
+          const placeClearMm = isWallCornerCab
+            ? 0
+            : Math.max(0, Math.round(Number(projPlace.rearMm) || 10));
+          sectionSize = { ...sectionSize, x: cellW };
+          sectionSize.__kitchenCornerCellWidthMm = cellW;
+          sectionSize.__kitchenSideWallClearanceMm = placeClearMm;
+          sectionSize.__kitchenCornerReturnMm = isWallCornerCab
+            ? Math.round(
+                Number(extractSectionSizeFromFurnitureData(furnitureData)?.z) ||
+                  350
+              )
+            : projPlace.carcassMm;
+          const wForPivot = pendingZoneInfo?.wallName || wallName;
+          if (sp) {
+            const pivotCoord =
+              wForPivot === 'left' || wForPivot === 'front'
+                ? sp.zoneStart + cellW
+                : sp.zoneStart;
+            snap = {
+              pivotCoord,
+              zoneIndex: sp.zoneIndex,
+              moduleWidth: cellW,
+            };
+            const worldPos = getZonePivotWorldPosition(
+              sectionAtPosition,
+              snap,
+              wForPivot
+            );
+            if (worldPos) {
+              position.x = worldPos.x;
+              position.z = worldPos.z;
+            }
+          }
+          __cldLogLCorner('place force S+D at special', {
+            wMm: Math.round(wMm),
+            pivotCoord: snap?.pivotCoord,
+            zoneIndex: snap?.zoneIndex,
+            S: sp?.S,
+            D: sp?.D,
+            kitchenCornerPlace,
+            zEnd: sp?.zEnd ?? null,
+          });
+        } else {
+          const catSz = extractSectionSizeFromFurnitureData(furnitureData);
+          const cx = Number(catSz.x);
+          const cz = Number(catSz.z);
+          const rawPk = getRawPlacementKindFromFurnitureData(furnitureData);
+          const kitchenNm =
+            isKitchenBasePlacementKind(rawPk) ||
+            isKitchenTallPlacementKind(rawPk) ||
+            isKitchenWallMidPlacementKind(rawPk) ||
+            isKitchenWallTopPlacementKind(rawPk);
+          // kitchen_base / tall / wall_mid: ширина = ячейка; глубина — engine/каталог.
+          // standalone_floor (тумба): ширина зоны.
+          // шкаф в нише: min(зона, каталог).
+          let wx;
+          if (kitchenNm) {
+            wx = snap.moduleWidth > 0 ? snap.moduleWidth : cx > 0 ? cx : snap.moduleWidth;
+          } else if (placementKindForSection === PLACEMENT_KIND.STANDALONE_FLOOR) {
+            wx = snap.moduleWidth;
+          } else {
+            wx = cx > 0 ? Math.min(snap.moduleWidth, cx) : snap.moduleWidth;
+          }
+          // MID / TOP ?? ??????: ??????/????? ?? kitchenBandGrids.mid|top.
+          const placeBandId = isKitchenWallTopPlacementKind(rawPk)
+            ? 'top'
+            : isKitchenWallMidPlacementKind(rawPk)
+              ? 'mid'
+              : null;
+          if (
+            placeBandId &&
+            isKitchenStraightBaseBandSection(sectionAtPosition)
+          ) {
+            try {
+              const bandLayout = buildKitchenBandCellLayoutForSection(
+                sectionAtPosition,
+                placeBandId
+              );
+              const ziBand = Math.floor(Number(snap.zoneIndex));
+              const bandSeg = (bandLayout?.segments || []).find(
+                (s) => s.type === 'module' && Number(s.zoneIndex) === ziBand
+              );
+              if (bandSeg) {
+                const bandW = Math.round(
+                  Number(bandSeg.endU) - Number(bandSeg.startU)
+                );
+                if (bandW > 50) {
+                  wx = bandW;
+                  const wForPivot = pendingZoneInfo?.wallName || wallName;
+                  const pivotCoord =
+                    wForPivot === 'left' || wForPivot === 'front'
+                      ? bandSeg.endU
+                      : bandSeg.startU;
+                  snap = {
+                    pivotCoord,
+                    zoneIndex: ziBand,
+                    moduleWidth: bandW,
+                  };
+                  const worldPos = getZonePivotWorldPosition(
+                    sectionAtPosition,
+                    snap,
+                    wForPivot
+                  );
+                  if (worldPos) {
+                    position.x = worldPos.x;
+                    position.z = worldPos.z;
+                  }
+                }
+              }
+            } catch (eBandPlace) {
+              console.warn(`[ZONE-PLACE] ${placeBandId} band width`, eBandPlace);
+            }
+          }
+          sectionSize = { ...sectionSize, x: wx };
+          // Глубина кухни (НМ/пенал/НШ) — НЕ из карточки каталога.
+          // Иначе 510 из админки залипает до/вместо prepareKitchenPlace (project 460/510/550).
+          // z задаёт engine: prepareKitchenPlace > carcassDepthMm проекта.
+        }
+      }
+      placeSnap = snap;
+      const rawPkForNiche = getRawPlacementKindFromFurnitureData(furnitureData);
+      // Пенал: высота из датамов (prepareKitchenPlace), не ниша шкафа.
+      if (
+        placementKindForSection === PLACEMENT_KIND.FLOOR_IN_NICHE &&
+        !isKitchenTallPlacementKind(rawPkForNiche)
+      ) {
+        const syNiche = nicheSlotYmm ?? fallbackSlotY;
+        if (syNiche > 0) sectionSize.y = syNiche;
+        sectionSize.z = depthForZone;
+      }
+
+      if (snap) {
+        placementZoneIndex =
+          pendingZoneInfo && pendingZoneInfo.sectionId === sectionAtPosition.id
+            ? pendingZoneInfo.zoneIndex
+            : snap.zoneIndex;
+
+        let appliedZoneGesture = null;
+
+        // Жесты replace/split/merge (свободное плечо L / прямая). Спец угла и catalog_44 — без жестов.
+        // kitchen_tall: не шкафные жесты ниши.
+        if (
+          placementKindForSection === PLACEMENT_KIND.FLOOR_IN_NICHE &&
+          !isKitchenTallPlacementKind(rawPkForNiche) &&
+          placementZoneIndex != null &&
+          sectionAllowsZonePlaceGestures(sectionAtPosition) &&
+          !isLCornerCabinetModule(furnitureData) &&
+          !__isLShapeSpecialZone(sectionAtPosition, placementZoneIndex)
+        ) {
+          const moduleDoorKind = inferModuleDoorKindFromCategories(furnitureData);
+          if (moduleDoorKind === 'single' || moduleDoorKind === 'double') {
+            const wallForHit = pendingZoneInfo?.wallName || wallName;
+            const hitAlongMm =
+              Number.isFinite(Number(pendingZoneInfo?.hitAlongMm))
+                ? Number(pendingZoneInfo.hitAlongMm)
+                : wallForHit === 'front' || wallForHit === 'back'
+                  ? position.x
+                  : position.z;
+            const gest = prepareZonePlaceGesture(
+              sectionAtPosition,
+              placementZoneIndex,
+              moduleDoorKind,
+              hitAlongMm
+            );
+            if (gest && gest.ok === false) {
+              if (gest.reason === 'same-role-kitchen-column') {
+                // Тост уже из prepareZonePlaceGesture.
+                cancelFurniturePlacement();
+                return;
+              }
+              const msg =
+                gest.reason === 'merge-no-neighbor'
+                  ? 'Рядом нет однодверной зоны для двухдверного модуля.'
+                  : 'Нельзя изменить зоны под этот модуль.';
+              if (typeof window.showToast === 'function') {
+                window.showToast(msg, 'warning');
+              } else {
+                console.warn('[ZONE-GESTURE]', gest.reason, msg);
+              }
+              cancelFurniturePlacement();
+              return;
+            }
+            if (gest && gest.ok) {
+              appliedZoneGesture = gest;
+              placementZoneIndex = gest.placeZoneIndex;
+              snap = buildZoneSnapForSection(
+                sectionAtPosition,
+                placementZoneIndex,
+                pendingZoneInfo?.wallName || wallName
+              );
+              placeSnap = snap;
+              if (!snap) {
+                console.warn('[ZONE-GESTURE] no snap after gesture', gest);
+                return;
+              }
+              // После жеста ширина строго = слот (не ghost/каталог).
+              if (snap.moduleWidth > 0) {
+                sectionSize = {
+                  ...sectionSize,
+                  x: snap.moduleWidth,
+                };
+                try {
+                  if (furnitureData && typeof furnitureData === 'object') {
+                    furnitureData.sectionSize = {
+                      ...(furnitureData.sectionSize || {}),
+                      ...sectionSize,
+                    };
+                  }
+                } catch (_) {}
+              }
+              // Страховка: двухдверный не оставляем в слоте < 800 мм.
+              if (
+                gest.gesture !== 'split' &&
+                moduleDoorKind === 'double' &&
+                Number(snap.moduleWidth) > 0 &&
+                Number(snap.moduleWidth) < 800
+              ) {
+                const msg =
+                  'Нельзя поставить двухдверный модуль в узкую зону. Нужна соседняя однодверная для объединения.';
+                if (typeof window.showToast === 'function') {
+                  window.showToast(msg, 'warning');
+                } else {
+                  console.warn('[ZONE-GESTURE] squeeze-guard', snap.moduleWidth);
+                }
+                return;
+              }
+              console.log('[ZONE-GESTURE] applied', {
+                gesture: gest.gesture,
+                placeZoneIndex: placementZoneIndex,
+                moduleWidth: snap.moduleWidth,
+                zoneDoorKind: gest.zoneDoorKind,
+                sectionSizeX: sectionSize.x,
+              });
+            }
+          }
+        }
+
+        // Anti-squeeze: только реальный двухдверный модуль (не sectionSize от призрака).
+        {
+          const mk = inferModuleDoorKindFromCategories(furnitureData);
+          if (
+            mk === 'double' &&
+            appliedZoneGesture?.gesture !== 'split' &&
+            snap &&
+            Number(snap.moduleWidth) > 0 &&
+            Number(snap.moduleWidth) < 800
+          ) {
+            const msg =
+              'Нельзя поставить двухдверный модуль в узкую зону. Нужна соседняя однодверная для объединения.';
+            if (typeof window.showToast === 'function') {
+              window.showToast(msg, 'warning');
+            } else {
+              console.warn('[ZONE-GESTURE] squeeze-guard-final', snap.moduleWidth);
+            }
+            return;
+          }
+        }
+
+        // Пробрасываем жест дальше по place (doorKind / ширина).
+        state._appliedZonePlaceGesture = appliedZoneGesture;
+
+        // Hang / тумба / кухня (в т.ч. пенал baseKind=floor_in_niche): снести
+        // несовместимых (full / чужая группа), совместимую пару оставить.
+        // Same-role kitchen_column (два mid / два base) — отказ, не replace.
+        if (
+          placementZoneIndex != null &&
+          Number.isFinite(Number(placementZoneIndex)) &&
+          (placementKindForSection !== PLACEMENT_KIND.FLOOR_IN_NICHE ||
+            isKitchenTallPlacementKind(rawPkForNiche) ||
+            isKitchenBasePlacementKind(rawPkForNiche) ||
+            isKitchenWallMidPlacementKind(rawPkForNiche) ||
+            isKitchenWallTopPlacementKind(rawPkForNiche))
+        ) {
+          const pendingCohabit = resolvePendingZoneCohabitSpec(furnitureData);
+          if (
+            findSameRoleKitchenColumnOccupant(
+              sectionAtPosition.id,
+              placementZoneIndex,
+              pendingCohabit
+            )
+          ) {
+            toastKitchenSameRoleBlocked(pendingCohabit);
+            cancelFurniturePlacement();
+            return;
+          }
+          removeIncompatibleZoneOccupantsForPlace(
+            sectionAtPosition.id,
+            placementZoneIndex,
+            pendingCohabit
+          );
+        }
+
+        position.copy(
+          getZonePivotWorldPosition(
+            sectionAtPosition,
+            snap,
+            pendingZoneInfo?.wallName || wallName
+          )
+        );
+
+        // Карандаш зоны — только после add + hang Y + rebuildSectionZoneEditIconsForSection.
+        // Ранний create здесь ставил иконку у пола (pivot), до подъёма wall_hung.
+      } else {
+        const sy = sectionAtPosition.size.y ?? sectionAtPosition.size.height;
+        const fallbackY = Math.max(0, sy - topPlankMm - bottomPlankMmPlace);
+        sectionSize = applyInnerSectionFurnitureSlot(
+          sectionAtPosition,
+          wallNameForSize,
+          position,
+          sectionSize,
+          {
+            nicheSlotYmm: nicheSlotYmm ?? fallbackY,
+            fallbackSlotY: fallbackY,
+            catalogSizeForClamp: extractSectionSizeFromFurnitureData(furnitureData),
+            placementKind: placementKindForSection,
+          }
+        );
+        if (typeof window !== 'undefined' && window.__CLD_DEBUG_PLACE === true) {
+          console.log('Ц МЕБЕЛЬ РАЗМЕЩАЕТСЯ В СЕКЦИИ (внутр. ниша, без зоны)!', sectionAtPosition.name, {
+            sectionSize,
+          });
+        }
+      }
+      if (snap) {
+        if (typeof window !== 'undefined' && window.__CLD_DEBUG_PLACE === true) {
+          console.log('Ц МЕБЕЛЬ РАЗМЕЩАЕТСЯ В ЗОНЕ (pivot-to-pivot)!', sectionAtPosition.name);
+        }
+      }
+    } else {
+      // Full section: высота слота = между нижней и верхней планками (как innerHeightMm)
+      const sy = sectionAtPosition.size.y ?? sectionAtPosition.size.height;
+      const wallNameForSize = sectionAtPosition.wallName || wall;
+      const fallbackY = Math.max(0, sy - topPlankMm - bottomPlankMmPlace);
+      const catalogSizeForClamp = extractSectionSizeFromFurnitureData(furnitureData);
+      sectionSize = applyInnerSectionFurnitureSlot(
+        sectionAtPosition,
+        wallNameForSize,
+        position,
+        sectionSize,
+        {
+          nicheSlotYmm: nicheSlotYmm ?? fallbackY,
+          fallbackSlotY: fallbackY,
+          catalogSizeForClamp,
+          placementKind: placementKindForSection,
+        }
+      );
+      if (typeof window !== 'undefined' && window.__CLD_DEBUG_PLACE === true) {
+        console.log('Ц МЕБЕЛЬ РАЗМЕЩАЕТСЯ В СЕКЦИИ!', sectionAtPosition.name, {
+          sectionSize,
+          catalogSize: catalogSizeForClamp,
+        });
+      }
+    }
+  }
+  // else: sectionSize остаётся из extractSectionSizeFromFurnitureData
+
+  const placementZoneIdx =
+    placementZoneIndex ??
+    (pendingZoneInfo && pendingZoneInfo.sectionId === sectionAtPosition?.id
+      ? pendingZoneInfo.zoneIndex
+      : null);
+
+  if (typeof window !== 'undefined' && window.__CLD_DEBUG_PLACE === true) {
+    console.warn('[PLACE-WIDTH]', {
+      widthUsedMm: Math.round(Number(sectionSize?.x) || 0),
+      zoneIndex: placementZoneIdx,
+      ghostZoneWidthMm: Math.round(Number(ghostZoneSize?.x) || 0),
+      catalogWidthMm: Math.round(Number(extractSectionSizeFromFurnitureData(furnitureData)?.x) || 0),
+      sectionWidthMm: Math.round(
+        Number(sectionAtPosition?.size?.x) || Number(sectionAtPosition?.size?.z) || 0
+      ),
+      divisionPartSizeMm: Math.round(Number(sectionAtPosition?.division?.partSize) || 0),
+      hasDivision: !!sectionAtPosition?.division,
+      endCabPendingActive: !!getPendingEndCabinetPlacement(),
+      endCabModuleMatch: isPendingEndCabinetModule(furnitureData),
+    });
+  }
+  const appliedGest = state._appliedZonePlaceGesture || null;
+  state._appliedZonePlaceGesture = null;
+  const isCornerCabPlace = isLCornerCabinetModule(furnitureData);
+  // Угловой: не подменять фасады под zoneDoorKind=double спец-зоны — дерево уже S+заглушка.
+  const zoneDoorKindForBuild = isCornerCabPlace
+    ? resolveDoorKindFromFurnitureData(furnitureData) || 'single'
+    : (appliedGest && appliedGest.zoneDoorKind) ||
+      (sectionAtPosition && placementZoneIdx != null
+        ? getZoneDoorKind(sectionAtPosition, placementZoneIdx)
+        : null) ||
+      resolveDoorKindFromFurnitureData(furnitureData) ||
+      'single';
+  if (appliedGest && placeSnap?.moduleWidth > 0 && sectionSize) {
+    sectionSize = { ...sectionSize, x: placeSnap.moduleWidth };
+  }
+  console.log('[ZONE-PLACE] doorKind/width', {
+    gesture: appliedGest?.gesture || null,
+    zoneDoorKindForBuild,
+    sectionSizeX: sectionSize?.x,
+    snapW: placeSnap?.moduleWidth,
+    placementZoneIdx,
+    isCornerCabPlace,
+  });
+  const swingCtxPlace =
+    sectionAtPosition && placementZoneIdx != null
+      ? swingHandCtxForPlacement(sectionAtPosition, placementZoneIdx)
+      : {};
+  const { opts: doorOpts, needsPatch } = buildRoomDoorPrepareOpts(furnitureData, {
+    zoneIndex: placementZoneIdx,
+    division: placementDivision || sectionAtPosition?.division,
+    doorKind: zoneDoorKindForBuild,
+    catalogItem: furnitureData?.catalogItem,
+    clodisRoots: clodisData,
+    placementKind: placementKindForSection,
+    productKind: resolveProductKindForFurnitureData(furnitureData),
+    sectionNeighbors: sectionAtPosition
+      ? collectSectionSwingSingleNeighborZones(sectionAtPosition.id)
+      : [],
+    ...swingCtxPlace,
+  });
+  let clodisForBuild = clodisData;
+  if (
+    !isCornerCabPlace &&
+    (needsPatch || (appliedGest && appliedGest.zoneDoorKind))
+  ) {
+    clodisForBuild = prepareClodisForRoomBuild(clodisData, doorOpts);
+  }
+
+  if (sectionAtPosition) {
+    const wallClamp = sectionAtPosition.wallName || wall;
+    const innerSlotClamp = resolveSectionFurniturePlacement(sectionAtPosition, wallClamp);
+    let maxSlotW = Number(innerSlotClamp?.innerWidthMm) || 0;
+    const skipSpecialClamp =
+      isCornerCabPlace &&
+      placementZoneIndex != null &&
+      __isLShapeSpecialZone(sectionAtPosition, placementZoneIndex);
+    if (
+      !skipSpecialClamp &&
+      placementZoneIndex != null &&
+      sectionAtPosition._layoutCache?.segments
+    ) {
+      const seg = sectionAtPosition._layoutCache.segments.find(
+        (s) => s.type === 'module' && s.zoneIndex === placementZoneIndex
+      );
+      if (seg && Number.isFinite(seg.endU) && Number.isFinite(seg.startU)) {
+        const zw = seg.endU - seg.startU;
+        if (zw > 0) maxSlotW = maxSlotW > 0 ? Math.min(maxSlotW, zw) : zw;
+      }
+    }
+    if (
+      !skipSpecialClamp &&
+      maxSlotW > 0 &&
+      sectionSize &&
+      Number(sectionSize.x) > maxSlotW
+    ) {
+      sectionSize = { ...sectionSize, x: maxSlotW };
+      console.log('[ZONE-PLACE] clamp sectionSize.x to inner slot', { maxSlotW, zoneIndex: placementZoneIndex });
+    }
+  }
+
+  let dataForBuild = getDataForBuild(clodisForBuild);
+  if (!dataForBuild) {
+    console.error('? Не удалось извлечь секцию для сборки из Clodis данных');
+    return;
+  }
+  // Опоры/нормализацию дерева делает один prepareKitchenModuleForBuild ниже (не здесь).
+  if (kitchenShouldSkipFloorNicheMerge(getRawPlacementKindFromFurnitureData(furnitureData))) {
+    try {
+      const catItem = furnitureData?.catalogItem || furnitureData;
+      const ks = extractKitchenSupportsFromCatalogItem(catItem);
+      if (ks) furnitureData.__kitchenSupports = ks;
+    } catch (_) {}
+  }
+  const isConstructorClodisJson =
+    clodisHasConstructorMarkers(dataForBuild) ||
+    clodisHasConstructorMarkers(clodisData);
+  // ВАЖНО: в комнате строим строго 1:1 из JSON (как в превью).
+  // Любые runtime-сдвиги фасадов из шага 5 отключены полностью.
+  const hasPlinthSection = __clodisHasPlinth(dataForBuild);
+  const step5FacadeBottomOffsetMm = null;
+  const enableStep5FacadeOffset = false;
+  
+  // В комнате точка привязки мебели должна быть back-left-bottom (bbox.min -> 0),
+  // иначе шкаф будет "уезжать" от стены при размещении/повороте.
+  // Поэтому для Clodis используем setupPivot, но избегаем legacy-скейла (см. ниже).
+  const USE_LEGACY_SETUP_PIVOT = true;
+
+  // Декоры шага 5: outside = фасад, inside = корпус (полная запись из круга + ЛДСП)
+  __applyStep5DefaultsFromRoomConfig({ onlyMissing: true });
+  const step5Selection = typeof window !== 'undefined' && window.getStep5DecorSelection
+    ? window.getStep5DecorSelection()
+    : { outside: null, inside: null };
+  __preloadStep5DecorTexturesFromSelection(step5Selection);
+
+  const moduleVarsMerged = extractModuleVariablesFromFurnitureData(furnitureData);
+  const placementKind = placementKindForSection;
+  const rawKitchenPk = getRawPlacementKindFromFurnitureData(furnitureData);
+  const kitchenEnginePlace = kitchenShouldSkipFloorNicheMerge(rawKitchenPk)
+    ? prepareKitchenPlace(furnitureData, moduleVarsMerged, sectionSize)
+    : null;
+  // Kitchen engine: никогда не mergeFloorNiche (планки шкафа).
+  let moduleVarsForBuilder =
+    kitchenEnginePlace && kitchenEnginePlace.ok
+      ? kitchenEnginePlace.moduleVars
+      : sectionAtPosition &&
+          !isLowFurniturePlacementKind(placementKind) &&
+          !isWallHungPlacementKind(placementKind) &&
+          !kitchenShouldSkipFloorNicheMerge(rawKitchenPk)
+        ? mergeFloorNicheVariablesFromSection(sectionAtPosition, moduleVarsMerged)
+        : moduleVarsMerged;
+  if (kitchenEnginePlace && kitchenEnginePlace.ok) {
+    sectionSize.x = kitchenEnginePlace.sectionSize.x || sectionSize.x;
+    sectionSize.y = kitchenEnginePlace.sectionSize.y;
+    sectionSize.z = kitchenEnginePlace.sectionSize.z || sectionSize.z;
+  }
+
+  // Угловой НМУ: контекст для единого prepare (не отдельный повар). Соседа не угадывать.
+  let __kitchenCornerSideAtMinU = null;
+  let __kitchenCornerPrepareCtx = null;
+  try {
+    const ziCorner =
+      placementZoneIndex != null
+        ? placementZoneIndex
+        : placeSnap?.zoneIndex != null
+          ? placeSnap.zoneIndex
+          : null;
+    const pkCornerSp = String(rawKitchenPk || '').trim();
+    const onCornerSp =
+      kitchenEnginePlace?.ok &&
+      sectionAtPosition &&
+      isLCornerCabinetModule(furnitureData) &&
+      (pkCornerSp === 'kitchen_base_corner' ||
+        pkCornerSp === 'kitchen_wall_corner') &&
+      ziCorner != null &&
+      __isLShapeSpecialZone(sectionAtPosition, ziCorner);
+    if (onCornerSp) {
+      // Сторона приставки: зона (П: zi=0 лев / zi=end прав) > meta L > hand > typeKey.
+      // Без зоны на П typeKey пуст > atStart=false и левый НМУ строится как правый.
+      let atStart = false;
+      let typeKey = sectionAtPosition.division?.typeKey || null;
+      const zoneAt = getSectionLCornerZoneAtStart(sectionAtPosition, ziCorner);
+      if (zoneAt != null) {
+        atStart = zoneAt;
+      } else {
+        try {
+          const meta = getLShapeMeta(sectionAtPosition);
+          if (meta) {
+            if (meta.typeKey) typeKey = meta.typeKey;
+            if (typeof meta.cornerAtStart === 'boolean') atStart = meta.cornerAtStart;
+          }
+        } catch (_) {}
+        if (typeof sectionAtPosition?.lShape?.cornerAtStart === 'boolean') {
+          atStart = sectionAtPosition.lShape.cornerAtStart;
+        } else if (sectionAtPosition?.lShape?.hand === 'left') {
+          atStart = true;
+        } else if (sectionAtPosition?.lShape?.hand === 'right') {
+          atStart = false;
+        } else {
+          const cfg = typeKey && L_CORNER_CONFIG ? L_CORNER_CONFIG[typeKey] :

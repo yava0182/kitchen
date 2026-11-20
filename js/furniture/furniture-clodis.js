@@ -3,7 +3,13 @@ import {
   normalizeClodisRoots,
   planRootsHaveFacadeShell,
 } from '../cabinet-pyramid-layout.js?v=20260615-drawer-facade-depth';
-import { readClodisJSON, readClodisVariables } from '../clodis-json-fields.js?v=20260615-purity';
+import { readClodisJSON, readClodisVariables } from '../clodis-json-fields.js?v=20261008-joint-room2';
+import {
+  resolveKitchenCornerReturnMm,
+  resolveKitchenCornerAtStartForCatalogCard,
+  buildKitchenCornerReturnVars,
+  KITCHEN_CORNER_FACADE_LEG_MM,
+} from '../kitchen/kitchen-section-layout.js?v=20261118-overlayL6';
 
 /**
  * Достать массив секций из обёртки конструктора (template.structure / spec.template.tree).
@@ -186,7 +192,28 @@ export function getClodisDataForBuild(furnitureData) {
     return __finalizeClodisForBuild(null, normalizeClodisRootArray(furnitureData));
   }
 
-  let raw = readClodisJSON(furnitureData);
+  // Канон админки: constructor_structure.children важнее устаревшего clodisJSON.
+  const itemEarly = furnitureData?.catalogItem || furnitureData;
+  let csEarly = itemEarly?.data?.constructor_structure ?? itemEarly?.constructor_structure;
+  if (typeof csEarly === 'string') {
+    try {
+      csEarly = JSON.parse(csEarly);
+    } catch (_) {
+      csEarly = null;
+    }
+  }
+  let raw = null;
+  if (csEarly && typeof csEarly === 'object') {
+    if (Array.isArray(csEarly.children) && csEarly.children.length > 0) {
+      raw = csEarly.children;
+    } else {
+      const wrappedEarly = extractStructureArrayFromWrapper(csEarly);
+      if (Array.isArray(wrappedEarly) && wrappedEarly.length > 0) raw = wrappedEarly;
+    }
+  }
+  if (raw == null) {
+    raw = readClodisJSON(furnitureData);
+  }
 
   if (typeof raw === 'string') {
     try {
@@ -493,6 +520,130 @@ export function extractModuleVariablesFromFurnitureData(furnitureData) {
   // Как при экспорте clodisVariables в админке (admin-new-bundle): базовые отступы корпуса
   if (!Number.isFinite(merged.h_top)) merged.h_top = 0;
   if (!Number.isFinite(merged.h_bottom)) merged.h_bottom = 100;
+
+  // Угловой НМ: приставка = D (project carcass / сосед). Не залипать на 550 из каталога.
+  try {
+    const rawCR = readClodisJSON(furnitureData);
+    let nodesCR = null;
+    if (typeof rawCR === 'string') {
+      try {
+        nodesCR = JSON.parse(rawCR);
+      } catch (_) {
+        nodesCR = null;
+      }
+    } else if (Array.isArray(rawCR)) {
+      nodesCR = rawCR;
+    } else if (rawCR && typeof rawCR === 'object') {
+      const inner = extractStructureArrayFromWrapper(rawCR);
+      nodesCR = inner && inner.length ? inner : [rawCR];
+    }
+    const normCR = Array.isArray(nodesCR) ? normalizeClodisRootArray(nodesCR) : [];
+    const stackCR = [...normCR];
+    let hasReturn = false;
+    while (stackCR.length) {
+      const n = stackCR.pop();
+      if (!n || typeof n !== 'object') continue;
+      if (String(n.layout_role ?? n.sectionLayoutRole ?? '').trim() === 'corner_return') {
+        hasReturn = true;
+        break;
+      }
+      if (Array.isArray(n.children)) stackCR.push(...n.children);
+    }
+    if (hasReturn) {
+      // Не затирать уже заданный D (сосед / rebuild) project-ом.
+      const already = Math.round(Number(merged.corner_return_mm) || 0);
+      if (!(already > 0)) {
+        merged.corner_return_mm = resolveKitchenCornerReturnMm();
+      }
+      // Уголок 40 мм (catalog_45). Только тонкая планка спереди (20..80).
+      const dRaw = Math.round(Number(merged.corner_return_depth_mm) || 0);
+      if (!(dRaw >= 20 && dRaw <= 80)) {
+        merged.corner_return_depth_mm = 40;
+      }
+    }
+  } catch (_) {}
+  if (Number(merged.corner_return_mm) > 0) {
+    const dRaw = Math.round(Number(merged.corner_return_depth_mm) || 0);
+    if (!(dRaw >= 20 && dRaw <= 80)) {
+      merged.corner_return_depth_mm = 40;
+    }
+  }
+  // Угловой НМУ: корпус на 10 мм короче ячейки (столешка до стены).
+  // ВМУ (kitchen_wall_corner): clear=0 — не поднимать до 10.
+  const pkMerged = String(
+    furnitureData?.placementKind ||
+      furnitureData?.catalogItem?.placementKind ||
+      ''
+  )
+    .trim()
+    .toLowerCase();
+  if (pkMerged === 'kitchen_wall_corner') {
+    // Не оставлять inset/return_pos от чужого wallGap (столешка 600−40−D).
+    merged.side_wall_clearance_mm = 0;
+    merged.corner_return_wall_gap_mm = 0;
+    try {
+      const ret = Math.round(Number(merged.corner_return_mm) || 350);
+      const sxRaw = Math.round(
+        Number(merged.section_width_mm) ||
+          Number(merged.width_mm) ||
+          Number(furnitureData?.sectionSize?.x) ||
+          0
+      );
+      const sx = sxRaw > 50 ? sxRaw : KITCHEN_CORNER_FACADE_LEG_MM + ret;
+      // G-поза (origin=угол): локально всегда приставка у 0, даже у «правого» SKU.
+      const gPoseLocal =
+        merged.corner_g_pose_local_at_start === 1 ||
+        merged.corner_g_pose_local_at_start === true ||
+        merged.corner_g_pose_local_at_start === '1';
+      const atStart = gPoseLocal
+        ? true
+        : resolveKitchenCornerAtStartForCatalogCard({
+            name: furnitureData?.name || furnitureData?.catalogItem?.name,
+            catalog_type:
+              furnitureData?.catalogType ||
+              furnitureData?.catalog_type ||
+              furnitureData?.catalogItem?.catalog_type,
+            cornerAtStart: furnitureData?.cornerAtStart,
+            clodisVariables: merged,
+          });
+      const rebuilt = buildKitchenCornerReturnVars(sx, atStart, ret, 0, 0);
+      Object.assign(merged, rebuilt);
+      if (gPoseLocal) merged.corner_g_pose_local_at_start = 1;
+    } catch (_) {
+      merged.corner_side_inset_mm = 0;
+      merged.corner_return_pos_x = 0;
+    }
+  } else {
+    // clear=0 валиден (карандаш отступа); дефолт 10 только если нет числа.
+    const clrN = Math.round(Number(merged.side_wall_clearance_mm));
+    if (!(Number.isFinite(clrN) && clrN >= 0)) {
+      merged.side_wall_clearance_mm = 10;
+    } else {
+      merged.side_wall_clearance_mm = clrN;
+    }
+  }
+  if (!Number.isFinite(Number(merged.corner_side_inset_mm))) {
+    merged.corner_side_inset_mm = 0;
+  }
+  if (!Number.isFinite(Number(merged.corner_return_pos_x))) {
+    const ret = Math.round(Number(merged.corner_return_mm) || resolveKitchenCornerReturnMm());
+    const clear = Math.round(Number(merged.side_wall_clearance_mm) || 10);
+    const sxRaw = Math.round(Number(merged.section_width_mm) || Number(merged.width_mm) || 0);
+    const sx = sxRaw > 50 ? sxRaw : KITCHEN_CORNER_FACADE_LEG_MM + ret;
+    // Сторона с карточки: левый → clear, правый → W−clear−D (не всегда «в конце»).
+    const atStart = resolveKitchenCornerAtStartForCatalogCard({
+      name: furnitureData?.name || furnitureData?.catalogItem?.name,
+      catalog_type:
+        furnitureData?.catalogType ||
+        furnitureData?.catalog_type ||
+        furnitureData?.catalogItem?.catalog_type,
+      cornerAtStart: furnitureData?.cornerAtStart,
+      clodisVariables: merged,
+    });
+    merged.corner_return_pos_x = atStart
+      ? Math.max(0, clear)
+      : Math.max(0, sx - clear - ret);
+  }
 
   if (!(merged.corpus_antresol_mm > 0)) {
     try {

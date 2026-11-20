@@ -1,0 +1,302 @@
+{
+  "interesting": [
+    {
+      "tag": "BUTTON",
+      "cls": "cta",
+      "id": "",
+      "t": "Go back",
+      "x": 720,
+      "y": 715
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "",
+      "id": "step-floorplan",
+      "t": "Задайте форму и размер комнаты",
+      "x": 303,
+      "y": 25
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "",
+      "id": "",
+      "t": "Выбрать готовый вариант",
+      "x": 577,
+      "y": 25
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "",
+      "id": "step-design",
+      "t": "Добавьте индивидуальности",
+      "x": 830,
+      "y": 25
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "",
+      "id": "",
+      "t": "Итог",
+      "x": 994,
+      "y": 25
+    },
+    {
+      "tag": "DIV",
+      "cls": "action-area",
+      "id": "design-action-area",
+      "t": "Item notes See product list Измерить Отменить Повторить Сохранить Закрыть",
+      "x": 1280,
+      "y": 25
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "bt-icon",
+      "id": "",
+      "t": "Item notes",
+      "x": 1146,
+      "y": 25
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "bt-icon",
+      "id": "",
+      "t": "See product list",
+      "x": 1186,
+      "y": 25
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "bt-icon",
+      "id": "",
+      "t": "Измерить",
+      "x": 1226,
+      "y": 25
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "bt-icon",
+      "id": "",
+      "t": "Отменить",
+      "x": 1277,
+      "y": 25
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "bt-icon",
+      "id": "",
+      "t": "Повторить",
+      "x": 1317,
+      "y": 25
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "bt-icon",
+      "id": "",
+      "t": "Сохранить",
+      "x": 1357,
+      "y": 25
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "bt-icon",
+      "id": "close-app",
+      "t": "Закрыть",
+      "x": 1412,
+      "y": 25
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "bt-icon-label-alt",
+      "id": "import-plan",
+      "t": "Нарисовать форму",
+      "x": -242,
+      "y": -181
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "bt-icon-label-alt",
+      "id": "draw-plan",
+      "t": "Нарисовать план",
+      "x": -144,
+      "y": -181
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "bt-icon-label-alt",
+      "id": "objects",
+      "t": "Объекты",
+      "x": -14,
+      "y": -181
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "bt-icon-label-alt",
+      "id": "openings",
+      "t": "Проёмы",
+      "x": 84,
+      "y": -181
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "bt-icon-label-alt",
+      "id": "search",
+      "t": "Поиск",
+      "x": 182,
+      "y": -181
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "bt-icon-label-alt",
+      "id": "WaterSupply",
+      "t": "Вывод воды",
+      "x": 280,
+      "y": -181
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "cta-primary-alt-l",
+      "id": "go-to-auto-design",
+      "t": "Продолжить",
+      "x": 1064,
+      "y": -185
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "bt-icon",
+      "id": "",
+      "t": "Другие варианты",
+      "x": 1094,
+      "y": 631
+    },
+    {
+      "tag": "UL",
+      "cls": "actions ",
+      "id": "",
+      "t": "Показать все товары",
+      "x": 913,
+      "y": 624
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "bt-icon mod-tooltip-top selected",
+      "id": "",
+      "t": "Вид на этаж",
+      "x": 349,
+      "y": 631
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "bt-icon mod-tooltip-top",
+      "id": "",
+      "t": "Вид спереди",
+      "x": 433,
+      "y": 631
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "bt-icon mod-tooltip-top",
+      "id": "",
+      "t": "Трехмерный вид",
+      "x": 475,
+      "y": 631
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "bt-icon mod-tooltip-top first-person",
+      "id": "",
+      "t": "Виртуальный визит",
+      "x": 533,
+      "y": 631
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "bt-icon",
+      "id": "show-help",
+      "t": "Новые уведомления",
+      "x": 1195,
+      "y": -61
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "bt-filter-tab",
+      "id": "bt-tab-help-center-1",
+      "t": "Подсказки по инструментам",
+      "x": 1210,
+      "y": -57
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "bt-filter-tab",
+      "id": "bt-tab-help-center-2",
+      "t": "Советы по проекту",
+      "x": 1357,
+      "y": -57
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "cta-secondary-sm",
+      "id": "tooltip-button",
+      "t": "Показать",
+      "x": 1372,
+      "y": 3
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "cta-secondary-sm",
+      "id": "tooltip-button",
+      "t": "Показать",
+      "x": 1375,
+      "y": 61
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "cta-secondary-sm",
+      "id": "tooltip-button",
+      "t": "Показать",
+      "x": 1375,
+      "y": 126
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "cta-secondary-sm",
+      "id": "tooltip-button",
+      "t": "Показать",
+      "x": 1375,
+      "y": 191
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "cta-secondary-sm",
+      "id": "tooltip-button",
+      "t": "Показать",
+      "x": 1375,
+      "y": 256
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "cta-secondary-sm",
+      "id": "tooltip-button",
+      "t": "Показать",
+      "x": 1375,
+      "y": 321
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "cta-secondary-sm",
+      "id": "tooltip-button",
+      "t": "Показать",
+      "x": 1375,
+      "y": 394
+    },
+    {
+      "tag": "BUTTON",
+      "cls": "cta-secondary-sm",
+      "id": "tooltip-button",
+      "t": "Показать",
+      "x": 1375,
+      "y": 468
+    }
+  ],
+  "body": "Error We've encountered an error. Refresh the application Go back Задайте форму и размер комнаты Выбрать готовый вариант Добавьте индивидуальности Итог Item notes See product list Измерить Отменить Повторить Сохранить Закрыть Нарисовать форму Нарисовать план Объекты Проёмы Поиск Вывод воды Высота потолка Моя кухня IKEA 0,00 € Total price updated0,00 € Продолжить Другие варианты Показать все товары Вид на этаж 16 m² Новые уведомления Помощь Подсказки по инструментам Советы по проекту Начать с формы Показать Создать кухню открытого типа Показать Добавить недвижимый объект Показать Разместите вывод воды Показать Изменить высоту потолка Показать Изменить стену или угол Показать Изменить размеры вашего пространства Показать Разместите ваши двери и окна Показать 2500 mm",
+  "svgs": []
+}

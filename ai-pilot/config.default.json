@@ -1,0 +1,9 @@
+{
+  "enabled": true,
+  "provider": "openai_compatible",
+  "model": "deepseek-v4-flash",
+  "baseUrl": "https://api.deepseek.com/v1",
+  "systemPromptExtra": "",
+  "maxHistoryMessages": 12,
+  "notes": "DeepSeek: ключ в AI_PILOT.env (AI_PILOT_API_KEY). Вернуть mock — provider=mock"
+}

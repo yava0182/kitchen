@@ -1,0 +1,947 @@
+{
+  "at": "2026-10-07T12:52:22.594Z",
+  "href": "https://kitchen.planner.ikea.com/lv/ru/planner/",
+  "kitchenFrame": "https://kitchen.planner.ikea.com/lv/ru/planner/",
+  "hits": [
+    {
+      "t": 1791377331034,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://kitchen.ikea-prod.by.me/vendors~IntroKitchen~IntroTemplateEditor~Kitchen~KitchenRTL~TemplateEditor/vendors~IntroKitchen~IntroTemplateEditor~Kitchen~KitchenRTL~TemplateEditor.js",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377331035,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://kitchen.ikea-prod.by.me/vendors~IntroKitchen~Kitchen~KitchenRTL~TemplateEditor/vendors~IntroKitchen~Kitchen~KitchenRTL~TemplateEditor.js",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377331035,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://kitchen.ikea-prod.by.me/vendors~IntroTemplateEditor~Kitchen~KitchenRTL~TemplateEditor/vendors~IntroTemplateEditor~Kitchen~KitchenRTL~TemplateEditor.js",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377331036,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://kitchen.ikea-prod.by.me/vendors~IntroKitchen~IntroTemplateEditor~Kitchen~Kitchen/vendors~IntroKitchen~IntroTemplateEditor~Kitchen~KitchenRTL.js",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377331036,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://kitchen.ikea-prod.by.me/vendors~Kitchen~KitchenRTL~TemplateEditor/vendors~Kitchen~KitchenRTL~TemplateEditor.js",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377331037,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://kitchen.ikea-prod.by.me/common~Kitchen~KitchenRTL~TemplateEditor/common~Kitchen~KitchenRTL~TemplateEditor.js",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377331860,
+      "kind": "res",
+      "status": 200,
+      "url": "https://kitchen.ikea-prod.by.me/vendors~IntroKitchen~IntroTemplateEditor~Kitchen~Kitchen/vendors~IntroKitchen~IntroTemplateEditor~Kitchen~KitchenRTL.js",
+      "contentType": "application/javascript",
+      "bytes": 11698
+    },
+    {
+      "t": 1791377332477,
+      "kind": "res",
+      "status": 200,
+      "url": "https://kitchen.ikea-prod.by.me/vendors~IntroKitchen~IntroTemplateEditor~Kitchen~KitchenRTL~TemplateEditor/vendors~IntroKitchen~IntroTemplateEditor~Kitchen~KitchenRTL~TemplateEditor.js",
+      "contentType": "application/javascript",
+      "bytes": 8271570
+    },
+    {
+      "t": 1791377332479,
+      "kind": "res",
+      "status": 200,
+      "url": "https://kitchen.ikea-prod.by.me/vendors~IntroTemplateEditor~Kitchen~KitchenRTL~TemplateEditor/vendors~IntroTemplateEditor~Kitchen~KitchenRTL~TemplateEditor.js",
+      "contentType": "application/javascript",
+      "bytes": 226075
+    },
+    {
+      "t": 1791377333401,
+      "kind": "res",
+      "status": 200,
+      "url": "https://kitchen.ikea-prod.by.me/common~Kitchen~KitchenRTL~TemplateEditor/common~Kitchen~KitchenRTL~TemplateEditor.js",
+      "contentType": "application/javascript",
+      "bytes": 204496
+    },
+    {
+      "t": 1791377333432,
+      "kind": "res",
+      "status": 200,
+      "url": "https://kitchen.ikea-prod.by.me/vendors~Kitchen~KitchenRTL~TemplateEditor/vendors~Kitchen~KitchenRTL~TemplateEditor.js",
+      "contentType": "application/javascript",
+      "bytes": 1321906
+    },
+    {
+      "t": 1791377333839,
+      "kind": "res",
+      "status": 200,
+      "url": "https://kitchen.ikea-prod.by.me/vendors~IntroKitchen~Kitchen~KitchenRTL~TemplateEditor/vendors~IntroKitchen~Kitchen~KitchenRTL~TemplateEditor.js",
+      "contentType": "application/javascript",
+      "bytes": 7176732
+    },
+    {
+      "t": 1791377336307,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=MSC-42460958-LV&ids[]=MSC-42460954-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377336451,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=MSC-42460958-LV&ids[]=MSC-42460954-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 17027
+    },
+    {
+      "t": 1791377337198,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=MSC-42460833-LV&ids[]=MSC-42460836-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377337506,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=SCP-65743.bm3mat-28.0-26113-width-depth-LV&ids[]=ART-40475256-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377337582,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=MSC-42460833-LV&ids[]=MSC-42460836-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 16780
+    },
+    {
+      "t": 1791377337728,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=SCP-65743.bm3mat-28.0-26113-width-depth-LV&ids[]=ART-40475256-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 19940
+    },
+    {
+      "t": 1791377339050,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-80557028-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377339050,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-70617872-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377339181,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-50446881-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377339182,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-80557028-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 8757
+    },
+    {
+      "t": 1791377339184,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-70617872-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 8936
+    },
+    {
+      "t": 1791377339320,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-50609444-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377339325,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-50446881-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 9023
+    },
+    {
+      "t": 1791377339525,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-30394699-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377339549,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-50609444-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 8991
+    },
+    {
+      "t": 1791377339658,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-70463600-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377339661,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-30394699-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 8634
+    },
+    {
+      "t": 1791377339789,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-70463600-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 9030
+    },
+    {
+      "t": 1791377367238,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/cursors/SVG_40px/waterSupplyOFF-40px.svg",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377367716,
+      "kind": "res",
+      "status": 200,
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/cursors/SVG_40px/waterSupplyOFF-40px.svg",
+      "contentType": "image/svg+xml",
+      "bytes": 248
+    },
+    {
+      "t": 1791377367774,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/cursors/SVG_40px/waterSupplyOVER-40px.svg",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377368589,
+      "kind": "res",
+      "status": 200,
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/cursors/SVG_40px/waterSupplyOVER-40px.svg",
+      "contentType": "image/svg+xml",
+      "bytes": 815
+    },
+    {
+      "t": 1791377368677,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/cursors/SVG_40px/waterSupply-40px.svg",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377368924,
+      "kind": "res",
+      "status": 200,
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/cursors/SVG_40px/waterSupply-40px.svg",
+      "contentType": "image/svg+xml",
+      "bytes": 815
+    },
+    {
+      "t": 1791377370264,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/cursors/SVG_40px/waterSupplyFEEDBACK-40px.svg",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377370424,
+      "kind": "res",
+      "status": 200,
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/cursors/SVG_40px/waterSupplyFEEDBACK-40px.svg",
+      "contentType": "image/svg+xml",
+      "bytes": 2561
+    },
+    {
+      "t": 1791377371722,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/api/3/templateCatalogs?applicationDistributionAppIDs[]=LV",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377371996,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/api/3/templates/?languageID=62&ids[]=3125&ids[]=3126&ids[]=3127&ids[]=3128&ids[]=3129&ids[]=3131&ids[]=3132&ids[]=3134&ids[]=3135&ids[]=3136&ids[]=3137&ids[]=3138&ids[]=3139&ids[]=3140&ids[]=3141&ids[]=3142&ids[]=3143&ids[]=3144&ids[]=3145&ids[]=3147&ids[]=3148&ids[]=3149&ids[]=3150&ids[]=3151&ids[]=3153&ids[]=3155&ids[]=3156&ids[]=3157&ids[]=3158&ids[]=3159&ids[]=3160&ids[]=3161&ids[]=3162&ids[]=3163&ids[]=3164&ids[]=3165&ids[]=3166&ids[]=3167&ids[]=3168&ids[]=3172&ids[]=3173&ids[]=3174&ids[]=3175&ids[]=3176&ids[]=3177&ids[]=3178&ids[]=3180&ids[]=3181&ids[]=3182&ids[]=3183&ids[]=3184&ids[]=3185&ids[]=3186&ids[]=3187&ids[]=3188&ids[]=3189&ids[]=3190&ids[]=3191&ids[]=3199&ids[]=3200&ids[]=3201&ids[]=3202&ids[]=3203&ids[]=3204&ids[]=3205&ids[]=3206&ids[]=3207&ids[]=3208&ids[]=3209&ids[]=3210&ids[]=3211&ids[]=3212&ids[]=3213&ids[]=3215&ids[]=3216&ids[]=3217&ids[]=3218&ids[]=3222&ids[]=3223&ids[]=3225&ids[]=3226&ids[]=3227&ids[]=3228&ids[]=3229&ids[]=3230&ids[]=3231&ids[]=3232&ids[]=3233&ids[]=3234&ids[]=3833",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377372010,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/api/3/templateCatalogs?applicationDistributionAppIDs[]=LV",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 4518
+    },
+    {
+      "t": 1791377372482,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/api/3/templates/?languageID=62&ids[]=3125&ids[]=3126&ids[]=3127&ids[]=3128&ids[]=3129&ids[]=3131&ids[]=3132&ids[]=3134&ids[]=3135&ids[]=3136&ids[]=3137&ids[]=3138&ids[]=3139&ids[]=3140&ids[]=3141&ids[]=3142&ids[]=3143&ids[]=3144&ids[]=3145&ids[]=3147&ids[]=3148&ids[]=3149&ids[]=3150&ids[]=3151&ids[]=3153&ids[]=3155&ids[]=3156&ids[]=3157&ids[]=3158&ids[]=3159&ids[]=3160&ids[]=3161&ids[]=3162&ids[]=3163&ids[]=3164&ids[]=3165&ids[]=3166&ids[]=3167&ids[]=3168&ids[]=3172&ids[]=3173&ids[]=3174&ids[]=3175&ids[]=3176&ids[]=3177&ids[]=3178&ids[]=3180&ids[]=3181&ids[]=3182&ids[]=3183&ids[]=3184&ids[]=3185&ids[]=3186&ids[]=3187&ids[]=3188&ids[]=3189&ids[]=3190&ids[]=3191&ids[]=3199&ids[]=3200&ids[]=3201&ids[]=3202&ids[]=3203&ids[]=3204&ids[]=3205&ids[]=3206&ids[]=3207&ids[]=3208&ids[]=3209&ids[]=3210&ids[]=3211&ids[]=3212&ids[]=3213&ids[]=3215&ids[]=3216&ids[]=3217&ids[]=3218&ids[]=3222&ids[]=3223&ids[]=3225&ids[]=3226&ids[]=3227&ids[]=3228&ids[]=3229&ids[]=3230&ids[]=3231&ids[]=3232&ids[]=3233&ids[]=3234&ids[]=3833",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 153619
+    },
+    {
+      "t": 1791377373941,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://byme-ikea-prod.s3.eu-west-1.amazonaws.com/data/templates/EC6E38C0-E86F-4B4C-97D5-1407AE528D46/template.BMPROJ",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377375055,
+      "kind": "res",
+      "status": 200,
+      "url": "https://byme-ikea-prod.s3.eu-west-1.amazonaws.com/data/templates/EC6E38C0-E86F-4B4C-97D5-1407AE528D46/template.BMPROJ",
+      "contentType": "application/octet-stream",
+      "bytes": 227807
+    },
+    {
+      "t": 1791377375361,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-70556067-LV&ids[]=SCP-9_me_frm_base_cb.bm3-35301-width-depth-height-LV&ids[]=ART-70338418-LV&ids[]=SCP-136_ma_drwr_med.bm3-29955-width-depth-LV&ids[]=ART-60205664-LV&ids[]=SCP-147_veddinge_front.bm3-11053-width-height-LV&ids[]=SCP-132_ma_drwr_high.bm3-29956-width-depth-LV&ids[]=ASM-42460030-LV&ids[]=ASM-42460028-LV&ids[]=SCP-130_ma_add-on_side.bm3-29961-width-LV&ids[]=SCP-62_forbattra_cvr_pnl.bm3-31499-width-depth-height-LV&ids[]=SCP-129_ma_add-on_side.bm3-29962-width-LV&ids[]=ASM-42460031-LV&ids[]=SCP-62_forbattra_cvr_pnl.bm3-31499-width-depth-height-LV&ids[]=ASM-42460029-LV&ids[]=ASM-42460038-LV&ids[]=ASM-42460037-LV&ids[]=ASM-42461158-LV&ids[]=ASM-42460037-LV&ids[]=ASM-42460028-LV&ids[]=ASM-42460038-LV&ids[]=ART-80338413-LV&ids[]=ASM-42460031-LV&ids[]=ASM-42460036-LV&ids[]=ART-20269931-LV&ids[]=ASM-42460035-LV&ids[]=ART-70556067-LV&ids[]=ASM-42460030-LV&ids[]=ART-60205664-LV&ids[]=ASM-42460029-LV&ids[]=ASM-42460027-LV&ids[]=ASM-42461158-LV&ids[]=ART-70338418-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377375361,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-10600247-LV&ids[]=SCP-7_me_frame_h_cb_frd_oven.bm3-41599-height-LV&ids[]=SCP-121_veddinge_front.bm3-10935-width-height-LV&ids[]=ASM-42460513-LV&ids[]=ASM-42460511-LV&ids[]=ART-90213573-LV&ids[]=ASM-42460509-LV&ids[]=ASM-42460514-LV&ids[]=ASM-42460512-LV&ids[]=ASM-42460512-LV&ids[]=ASM-42460513-LV&ids[]=ART-90213573-LV&ids[]=ASM-42460511-LV&ids[]=ART-10600247-LV&ids[]=ASM-42460509-LV&ids[]=ASM-42460328-LV&ids[]=ASM-42460514-LV&ids[]=ASM-42460032-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377375361,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-00572872-LV&ids[]=MSC-44460556-LV&ids[]=ASM-42468144-LV&ids[]=ASM-42468003-LV&ids[]=ART-30221458-LV&ids[]=ASM-42467475-LV&ids[]=MSC-44460556-LV&ids[]=ASM-42468144-LV&ids[]=ASM-42467475-LV&ids[]=ASM-42468003-LV&ids[]=MSC-42460515-CL&ids[]=ART-00572867-LV&ids[]=ART-30221458-LV&ids[]=ASM-42460033-LV&ids[]=ASM-42460601-LV&ids[]=ART-00572872-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377375362,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-50467883-LV&ids[]=SCP-3_me_base_cb_f_oven_sink_no_rail.bm3-28460-height-LV&ids[]=SCP-hobCutoutOperation-worktopGroup-LV&ids[]=SCP-135_ma_drwr_low.bm3-29954-width-depth-LV&ids[]=SCP-1890_mittled_led_ktchn_drawer_lighting_w_sensor.bm3-36594-width-depth-LV&ids[]=ASM-42460316-LV&ids[]=SCP-362_nyttig_hob_sep_f_drwr.bm3-29163-width-LV&ids[]=ASM-42460318-LV&ids[]=ASM-42460317-LV&ids[]=ASM-42460039-LV&ids[]=ASM-42460316-LV&ids[]=ASM-42460039-LV&ids[]=ASM-42460318-LV&ids[]=ART-50467883-LV&ids[]=SCP-hobCutoutOperation-worktopGroup-LV&ids[]=ASM-42460317-LV&ids[]=ART-50215475-LV&ids[]=ART-70213569-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377375362,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=SCP-155_utrusta_drwr_frnt_high.bm3-29957-width-height-LV&ids[]=ASM-42460042-LV&ids[]=ASM-42460042-LV&ids[]=ASM-42460041-LV&ids[]=ASM-42460040-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377375362,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=SCP-11_me_frm_wll_cb.bm3-35308-width-depth-height-LV&ids[]=SCP-168_utrusta_shelf.bm3-10972-width-depth-LV&ids[]=SCP-1883_mittled_led_ktchn_wtop_light_strip.bm3-36592-width-LV&ids[]=ASM-42460578-LV&ids[]=ASM-42460034-LV&ids[]=ASM-42460539-LV&ids[]=ASM-42460541-LV&ids[]=ASM-42460541-LV&ids[]=ASM-42460034-LV&ids[]=ASM-42460578-LV&ids[]=ART-90250259-LV&ids[]=ART-00401955-LV&ids[]=ART-70389139-LV&ids[]=ASM-42460539-LV&ids[]=ASM-42460537-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377375363,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-20317852-LV&ids[]=ART-70600904-LV&ids[]=SCP-207_hillesjon_sink.bm3-10999-worktopGroup-sinkMounting-LV&ids[]=ASM-42460781-LV&ids[]=SCP-tapCutoutOperation-worktopGroup-LV&ids[]=ART-00645449-LV&ids[]=SCP-sinkCutoutOperation-CI92031-sinkMounting-worktopGroup-LV&ids[]=ASM-42460307-LV&ids[]=ASM-42461738-LV&ids[]=ASM-42460326-LV&ids[]=ART-60263588-LV&ids[]=ART-60620479-LV&ids[]=ART-10311539-LV&ids[]=ART-90311540-LV&ids[]=SCP-sinkCutoutOperation-CI92031-sinkMounting-worktopGroup-LV&ids[]=ASM-42460308-LV&ids[]=ASM-42460310-LV&ids[]=ASM-42460315-LV&ids[]=SCP-underGluedOperation-CI92023-sinkMounting-worktopGroup-LV&ids[]=ASM-42461818-LV&ids[]=ASM-42460313-LV&ids[]=ASM-42461738-LV&ids[]=ASM-42460313-LV&ids[]=ASM-42460326-LV&ids[]=ASM-42460310-LV&ids[]=ART-60263588-LV&ids[]=ASM-42460312-LV&ids[]=ASM-42460311-LV&ids[]=ART-20317852-LV&ids[]=ART-00455161-LV&ids[]=SCP-tapCutoutOperation-worktopGroup-LV&ids[]=SCP-sinkCutoutOperation-CI92031-sinkMounting-worktopGroup-LV&ids[]=ASM-42460307-LV&ids[]=ART-10311539-LV&ids[]=ART-90311540-LV&ids[]=ASM-42460308-LV&ids[]=ASM-42460315-LV&ids[]=SCP-underGluedOperation-CI92023-sinkMounting-worktopGroup-LV&ids[]=ASM-42461818-LV&ids[]=ASM-42460309-LV&ids[]=ART-40620480-LV&ids[]=ART-60620479-LV&ids[]=ART-60282006-LV&ids[]=ASM-42460781-LV&ids[]=ART-80398058-LV&ids[]=ART-80433882-LV&ids[]=ART-80422869-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377375363,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-00568144-LV&ids[]=SCP-800_askersund_drawer_front.bm3-11053-width-height-LV&ids[]=ART-00518192-LV&ids[]=ASM-42460593-LV&ids[]=ASM-42460603-LV&ids[]=ASM-42460604-LV&ids[]=ASM-42460603-LV&ids[]=ASM-42460604-LV&ids[]=ART-40475572-LV&ids[]=ASM-42460593-LV&ids[]=ASM-42460632-LV&ids[]=MSC-42460515-LV&ids[]=ASM-42460605-LV&ids[]=ASM-42460606-LV&ids[]=ART-00518192-LV&ids[]=ART-00568144-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377375363,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-80388969-LV&ids[]=ART-70401947-LV&ids[]=ART-80388969-LV&ids[]=ART-70401947-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377375478,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-10600247-LV&ids[]=SCP-7_me_frame_h_cb_frd_oven.bm3-41599-height-LV&ids[]=SCP-121_veddinge_front.bm3-10935-width-height-LV&ids[]=ASM-42460513-LV&ids[]=ASM-42460511-LV&ids[]=ART-90213573-LV&ids[]=ASM-42460509-LV&ids[]=ASM-42460514-LV&ids[]=ASM-42460512-LV&ids[]=ASM-42460512-LV&ids[]=ASM-42460513-LV&ids[]=ART-90213573-LV&ids[]=ASM-42460511-LV&ids[]=ART-10600247-LV&ids[]=ASM-42460509-LV&ids[]=ASM-42460328-LV&ids[]=ASM-42460514-LV&ids[]=ASM-42460032-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 197925
+    },
+    {
+      "t": 1791377375483,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-00572872-LV&ids[]=MSC-44460556-LV&ids[]=ASM-42468144-LV&ids[]=ASM-42468003-LV&ids[]=ART-30221458-LV&ids[]=ASM-42467475-LV&ids[]=MSC-44460556-LV&ids[]=ASM-42468144-LV&ids[]=ASM-42467475-LV&ids[]=ASM-42468003-LV&ids[]=MSC-42460515-CL&ids[]=ART-00572867-LV&ids[]=ART-30221458-LV&ids[]=ASM-42460033-LV&ids[]=ASM-42460601-LV&ids[]=ART-00572872-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 225792
+    },
+    {
+      "t": 1791377375483,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-80388969-LV&ids[]=ART-70401947-LV&ids[]=ART-80388969-LV&ids[]=ART-70401947-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 19715
+    },
+    {
+      "t": 1791377375597,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=SCP-11_me_frm_wll_cb.bm3-35308-width-depth-height-LV&ids[]=SCP-168_utrusta_shelf.bm3-10972-width-depth-LV&ids[]=SCP-1883_mittled_led_ktchn_wtop_light_strip.bm3-36592-width-LV&ids[]=ASM-42460578-LV&ids[]=ASM-42460034-LV&ids[]=ASM-42460539-LV&ids[]=ASM-42460541-LV&ids[]=ASM-42460541-LV&ids[]=ASM-42460034-LV&ids[]=ASM-42460578-LV&ids[]=ART-90250259-LV&ids[]=ART-00401955-LV&ids[]=ART-70389139-LV&ids[]=ASM-42460539-LV&ids[]=ASM-42460537-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 139157
+    },
+    {
+      "t": 1791377375598,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=SCP-155_utrusta_drwr_frnt_high.bm3-29957-width-height-LV&ids[]=ASM-42460042-LV&ids[]=ASM-42460042-LV&ids[]=ASM-42460041-LV&ids[]=ASM-42460040-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 48322
+    },
+    {
+      "t": 1791377375617,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-70556067-LV&ids[]=SCP-9_me_frm_base_cb.bm3-35301-width-depth-height-LV&ids[]=ART-70338418-LV&ids[]=SCP-136_ma_drwr_med.bm3-29955-width-depth-LV&ids[]=ART-60205664-LV&ids[]=SCP-147_veddinge_front.bm3-11053-width-height-LV&ids[]=SCP-132_ma_drwr_high.bm3-29956-width-depth-LV&ids[]=ASM-42460030-LV&ids[]=ASM-42460028-LV&ids[]=SCP-130_ma_add-on_side.bm3-29961-width-LV&ids[]=SCP-62_forbattra_cvr_pnl.bm3-31499-width-depth-height-LV&ids[]=SCP-129_ma_add-on_side.bm3-29962-width-LV&ids[]=ASM-42460031-LV&ids[]=SCP-62_forbattra_cvr_pnl.bm3-31499-width-depth-height-LV&ids[]=ASM-42460029-LV&ids[]=ASM-42460038-LV&ids[]=ASM-42460037-LV&ids[]=ASM-42461158-LV&ids[]=ASM-42460037-LV&ids[]=ASM-42460028-LV&ids[]=ASM-42460038-LV&ids[]=ART-80338413-LV&ids[]=ASM-42460031-LV&ids[]=ASM-42460036-LV&ids[]=ART-20269931-LV&ids[]=ASM-42460035-LV&ids[]=ART-70556067-LV&ids[]=ASM-42460030-LV&ids[]=ART-60205664-LV&ids[]=ASM-42460029-LV&ids[]=ASM-42460027-LV&ids[]=ASM-42461158-LV&ids[]=ART-70338418-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 299777
+    },
+    {
+      "t": 1791377375620,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-00568144-LV&ids[]=SCP-800_askersund_drawer_front.bm3-11053-width-height-LV&ids[]=ART-00518192-LV&ids[]=ASM-42460593-LV&ids[]=ASM-42460603-LV&ids[]=ASM-42460604-LV&ids[]=ASM-42460603-LV&ids[]=ASM-42460604-LV&ids[]=ART-40475572-LV&ids[]=ASM-42460593-LV&ids[]=ASM-42460632-LV&ids[]=MSC-42460515-LV&ids[]=ASM-42460605-LV&ids[]=ASM-42460606-LV&ids[]=ART-00518192-LV&ids[]=ART-00568144-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 146612
+    },
+    {
+      "t": 1791377375649,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-20317852-LV&ids[]=ART-70600904-LV&ids[]=SCP-207_hillesjon_sink.bm3-10999-worktopGroup-sinkMounting-LV&ids[]=ASM-42460781-LV&ids[]=SCP-tapCutoutOperation-worktopGroup-LV&ids[]=ART-00645449-LV&ids[]=SCP-sinkCutoutOperation-CI92031-sinkMounting-worktopGroup-LV&ids[]=ASM-42460307-LV&ids[]=ASM-42461738-LV&ids[]=ASM-42460326-LV&ids[]=ART-60263588-LV&ids[]=ART-60620479-LV&ids[]=ART-10311539-LV&ids[]=ART-90311540-LV&ids[]=SCP-sinkCutoutOperation-CI92031-sinkMounting-worktopGroup-LV&ids[]=ASM-42460308-LV&ids[]=ASM-42460310-LV&ids[]=ASM-42460315-LV&ids[]=SCP-underGluedOperation-CI92023-sinkMounting-worktopGroup-LV&ids[]=ASM-42461818-LV&ids[]=ASM-42460313-LV&ids[]=ASM-42461738-LV&ids[]=ASM-42460313-LV&ids[]=ASM-42460326-LV&ids[]=ASM-42460310-LV&ids[]=ART-60263588-LV&ids[]=ASM-42460312-LV&ids[]=ASM-42460311-LV&ids[]=ART-20317852-LV&ids[]=ART-00455161-LV&ids[]=SCP-tapCutoutOperation-worktopGroup-LV&ids[]=SCP-sinkCutoutOperation-CI92031-sinkMounting-worktopGroup-LV&ids[]=ASM-42460307-LV&ids[]=ART-10311539-LV&ids[]=ART-90311540-LV&ids[]=ASM-42460308-LV&ids[]=ASM-42460315-LV&ids[]=SCP-underGluedOperation-CI92023-sinkMounting-worktopGroup-LV&ids[]=ASM-42461818-LV&ids[]=ASM-42460309-LV&ids[]=ART-40620480-LV&ids[]=ART-60620479-LV&ids[]=ART-60282006-LV&ids[]=ASM-42460781-LV&ids[]=ART-80398058-LV&ids[]=ART-80433882-LV&ids[]=ART-80422869-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 367641
+    },
+    {
+      "t": 1791377375651,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-50467883-LV&ids[]=SCP-3_me_base_cb_f_oven_sink_no_rail.bm3-28460-height-LV&ids[]=SCP-hobCutoutOperation-worktopGroup-LV&ids[]=SCP-135_ma_drwr_low.bm3-29954-width-depth-LV&ids[]=SCP-1890_mittled_led_ktchn_drawer_lighting_w_sensor.bm3-36594-width-depth-LV&ids[]=ASM-42460316-LV&ids[]=SCP-362_nyttig_hob_sep_f_drwr.bm3-29163-width-LV&ids[]=ASM-42460318-LV&ids[]=ASM-42460317-LV&ids[]=ASM-42460039-LV&ids[]=ASM-42460316-LV&ids[]=ASM-42460039-LV&ids[]=ASM-42460318-LV&ids[]=ART-50467883-LV&ids[]=SCP-hobCutoutOperation-worktopGroup-LV&ids[]=ASM-42460317-LV&ids[]=ART-50215475-LV&ids[]=ART-70213569-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 145116
+    },
+    {
+      "t": 1791377375868,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=SCP-654_me_base_cb_f_oven_sink_no_rail.bm3-28460-height-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377376061,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=SCP-9_me_frm_base_cb.bm3-10914-width-depth-height-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377376098,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=SCP-654_me_base_cb_f_oven_sink_no_rail.bm3-28460-height-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 8909
+    },
+    {
+      "t": 1791377376201,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=SCP-217_langudden_sink.bm3-32743-worktopGroup-sinkMounting-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377376218,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-90557725-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377376276,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=SCP-2266_havstorp_drawer_frt.bm3-11053-width-height-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377376339,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=SCP-2290_havstorp_door.bm3-31499-width-depth-height-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377376451,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=SCP-7_me_frame_h_cb_frd_oven.bm3-10986-height-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377376471,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=SCP-2264_havstorp_door.bm3-10935-width-height-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377376482,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=SCP-2498_vresjon_sink_54x44.bm3-32743-worktopGroup-sinkMounting-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377376496,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=SCP-9_me_frm_base_cb.bm3-10914-width-depth-height-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 12324
+    },
+    {
+      "t": 1791377376518,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=SCP-217_langudden_sink.bm3-32743-worktopGroup-sinkMounting-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 19268
+    },
+    {
+      "t": 1791377376524,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=SCP-987_voxtorp_door.bm3-10935-width-height-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377376525,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-90557725-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 10455
+    },
+    {
+      "t": 1791377376526,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=SCP-2266_havstorp_drawer_frt.bm3-11053-width-height-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 10811
+    },
+    {
+      "t": 1791377376527,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=SCP-2290_havstorp_door.bm3-31499-width-depth-height-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 10817
+    },
+    {
+      "t": 1791377376593,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=SCP-7_me_frame_h_cb_frd_oven.bm3-10986-height-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 9319
+    },
+    {
+      "t": 1791377376745,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-80524882-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377376749,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=SCP-2264_havstorp_door.bm3-10935-width-height-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 12347
+    },
+    {
+      "t": 1791377376772,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=SCP-2498_vresjon_sink_54x44.bm3-32743-worktopGroup-sinkMounting-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 19430
+    },
+    {
+      "t": 1791377376821,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=SCP-987_voxtorp_door.bm3-10935-width-height-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 11773
+    },
+    {
+      "t": 1791377376892,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-80524882-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 9271
+    },
+    {
+      "t": 1791377376963,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-20204647-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377377091,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-20204647-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 8964
+    },
+    {
+      "t": 1791377377563,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ASM-42460510-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377377563,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ASM-42460589-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377377563,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ASM-42460590-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377377563,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ASM-42462838-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377377686,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ASM-42460589-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 15610
+    },
+    {
+      "t": 1791377377687,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ASM-42460510-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 17402
+    },
+    {
+      "t": 1791377377782,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ASM-42460590-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 17529
+    },
+    {
+      "t": 1791377377783,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ASM-42462838-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 2
+    },
+    {
+      "t": 1791377378127,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=MSC-42460532-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377378230,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=MSC-42461556-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377378231,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=MSC-42463087-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377378231,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=EXT-42461298-LV&ids[]=ART-50315173-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377378277,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-20609030-LV&ids[]=ART-60609033-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377378284,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=MSC-42460532-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 7286
+    },
+    {
+      "t": 1791377378357,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=MSC-42461556-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 7931
+    },
+    {
+      "t": 1791377378358,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=MSC-42463087-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 7184
+    },
+    {
+      "t": 1791377378373,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=EXT-42461298-LV&ids[]=ART-50315173-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 29735
+    },
+    {
+      "t": 1791377378708,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-20609030-LV&ids[]=ART-60609033-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 22037
+    },
+    {
+      "t": 1791377380402,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://byme-ikea-prod.s3.eu-west-1.amazonaws.com/data/templates/661CC1C6-E2C7-43EA-81FF-14E56D840C3D/template.BMPROJ",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377380703,
+      "kind": "res",
+      "status": 200,
+      "url": "https://byme-ikea-prod.s3.eu-west-1.amazonaws.com/data/templates/661CC1C6-E2C7-43EA-81FF-14E56D840C3D/template.BMPROJ",
+      "contentType": "application/octet-stream",
+      "bytes": 241181
+    },
+    {
+      "t": 1791377380986,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ASM-42460516-LV&ids[]=ASM-42460516-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377380987,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ASM-42460538-LV&ids[]=ASM-42460582-LV&ids[]=ASM-42460582-LV&ids[]=ASM-42460538-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377380987,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=SCP-218_langudden_sink.bm3-32785-worktopGroup-sinkMounting-LV&ids[]=ASM-42466408-LV&ids[]=ASM-42460618-LV&ids[]=ASM-42466408-LV&ids[]=ART-20422853-LV&ids[]=ASM-42460618-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377380987,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-40205537-LV&ids[]=ASM-42460783-LV&ids[]=ASM-42460607-LV&ids[]=ASM-42460607-LV&ids[]=ASM-42460783-LV&ids[]=ART-60224078-LV&ids[]=ART-40205537-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377380988,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=SCP-2824_me_wall_cb_frm_f_b-in_extr_hood_60x37x80_white.bm3-42504-height-LV&ids[]=ART-90421336-LV&ids[]=ASM-42466575-LV&ids[]=ART-10389142-LV&ids[]=ASM-42466575-LV&ids[]=ART-10389142-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377380988,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=SCP-11_me_frm_wll_cb.bm3-11156-width-depth-height-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377381405,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=SCP-218_langudden_sink.bm3-32785-worktopGroup-sinkMounting-LV&ids[]=ASM-42466408-LV&ids[]=ASM-42460618-LV&ids[]=ASM-42466408-LV&ids[]=ART-20422853-LV&ids[]=ASM-42460618-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 65277
+    },
+    {
+      "t": 1791377381410,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-40205537-LV&ids[]=ASM-42460783-LV&ids[]=ASM-42460607-LV&ids[]=ASM-42460607-LV&ids[]=ASM-42460783-LV&ids[]=ART-60224078-LV&ids[]=ART-40205537-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 100261
+    },
+    {
+      "t": 1791377381413,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ASM-42460538-LV&ids[]=ASM-42460582-LV&ids[]=ASM-42460582-LV&ids[]=ASM-42460538-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 53707
+    },
+    {
+      "t": 1791377381413,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=SCP-11_me_frm_wll_cb.bm3-11156-width-depth-height-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 12908
+    },
+    {
+      "t": 1791377381415,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ASM-42460516-LV&ids[]=ASM-42460516-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 22884
+    },
+    {
+      "t": 1791377381415,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=SCP-2824_me_wall_cb_frm_f_b-in_extr_hood_60x37x80_white.bm3-42504-height-LV&ids[]=ART-90421336-LV&ids[]=ASM-42466575-LV&ids[]=ART-10389142-LV&ids[]=ASM-42466575-LV&ids[]=ART-10389142-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 52256
+    },
+    {
+      "t": 1791377393560,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-30475285-LV&ids[]=ART-50475251-LV&ids[]=ART-90475254-LV&ids[]=ART-70475250-LV&ids[]=ART-90475249-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377393802,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-10205609-LV&ids[]=ART-10205609-LV&ids[]=ART-10205609-LV&ids[]=ART-10205609-LV&ids[]=ART-10205609-LV&ids[]=ART-10205609-LV&ids[]=ART-10205614-LV&ids[]=ART-10205614-LV&ids[]=ART-10243296-LV&ids[]=ART-10205609-LV&ids[]=ART-10205609-LV&ids[]=ART-10205609-LV&ids[]=ART-10205609-LV&ids[]=ART-00475282-LV&ids[]=ART-80475264-LV&ids[]=ART-80475264-LV&ids[]=ART-10205633-LV&ids[]=ART-10205633-LV&ids[]=ART-50475265-LV&ids[]=ART-50475265-LV&ids[]=ART-70205526-LV&ids[]=ART-30547640-LV&ids[]=ART-90475273-LV&ids[]=ART-50475265-LV&ids[]=ART-50475265-LV&ids[]=ART-70205526-LV&ids[]=ART-50475265-LV&ids[]=ART-50475265-LV&ids[]=ART-70205526-LV&ids[]=ART-30205528-LV&ids[]=ART-90475273-LV&ids[]=ART-40475280-LV&ids[]=ART-60475279-LV&ids[]=ART-60475279-LV&ids[]=ART-10205633-LV&ids[]=ART-10205633-LV&ids[]=ART-50475265-LV&ids[]=ART-50475265-LV&ids[]=ART-70205526-LV&ids[]=ART-50475265-LV&ids[]=ART-50475265-LV&ids[]=ART-70205526-LV&ids[]=ART-90475273-LV&ids[]=ART-50213570-LV&ids[]=ART-30475271-LV&ids[]=ART-50238858-LV&ids[]=ART-50238858-LV&ids[]=ART-20204633-LV&ids[]=ART-80475283-LV&ids[]=ART-00475282-LV&ids[]=ART-30238859-LV&ids[]=ART-30238859-LV&ids[]=ART-50204636-LV&ids[]=ART-00475282-LV&ids[]=ART-40204627-LV&ids[]=ART-40204627-LV&ids[]=ART-20204652-LV&ids[]=ART-20204633-LV&ids[]=ART-80475283-LV&ids[]=ART-50238858-LV&ids[]=ART-50238858-LV&ids[]=ART-50204636-LV&ids[]=ART-00475282-LV&ids[]=ART-30238859-LV&ids[]=ART-30238859-LV&ids[]=ART-50204636-LV&ids[]=ART-00475282-LV&ids[]=ART-30238859-LV&ids[]=ART-30238859-LV&ids[]=ART-40475280-LV&ids[]=ART-50238858-LV&ids[]=ART-50238858-LV&ids[]=ART-90204639-LV&ids[]=ART-60475279-LV&ids[]=ART-30238859-LV&ids[]=ART-30238859-LV&ids[]=ART-20221449-LV&ids[]=ART-60475279-LV&ids[]=ART-20204628-LV&ids[]=ART-20204633-LV&ids[]=ART-80475283-LV&ids[]=ART-50238858-LV&ids[]=ART-50238858-LV&ids[]=ART-50204636-LV&ids[]=ART-00475282-LV&ids[]=ART-30238859-LV&ids[]=ART-30238859-LV&ids[]=ART-50204636-LV&ids[]=ART-00475282-LV&ids[]=ART-30238859-LV&ids[]=ART-30238859-LV&ids[]=ART-20204633-LV&ids[]=ART-80475283-LV&ids[]=ART-50238858-LV&ids[]=ART-50238858-LV&ids[]=ART-50204636-LV&ids[]=ART-00475282-LV&ids[]=ART-30238859-LV&ids[]=ART-30238859-LV&ids[]=ART-50204636-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377393802,
+      "kind": "req",
+      "method": "GET",
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-00475282-LV&ids[]=ART-30238859-LV&ids[]=ART-30238859-LV&ids[]=ART-90204639-LV&ids[]=ART-40475280-LV&ids[]=ART-50238858-LV&ids[]=ART-50238858-LV&ids[]=ART-20221449-LV&ids[]=ART-60475279-LV&ids[]=ART-30238859-LV&ids[]=ART-30238859-LV&ids[]=ART-20221449-LV&ids[]=ART-60475279-LV&ids[]=ART-30238859-LV&ids[]=ART-30238859-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "frame": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV"
+    },
+    {
+      "t": 1791377393807,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-30475285-LV&ids[]=ART-50475251-LV&ids[]=ART-90475254-LV&ids[]=ART-70475250-LV&ids[]=ART-90475249-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 48917
+    },
+    {
+      "t": 1791377393955,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-00475282-LV&ids[]=ART-30238859-LV&ids[]=ART-30238859-LV&ids[]=ART-90204639-LV&ids[]=ART-40475280-LV&ids[]=ART-50238858-LV&ids[]=ART-50238858-LV&ids[]=ART-20221449-LV&ids[]=ART-60475279-LV&ids[]=ART-30238859-LV&ids[]=ART-30238859-LV&ids[]=ART-20221449-LV&ids[]=ART-60475279-LV&ids[]=ART-30238859-LV&ids[]=ART-30238859-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 65091
+    },
+    {
+      "t": 1791377394089,
+      "kind": "res",
+      "status": 200,
+      "url": "https://platform.ikea-prod.by.me/3/products?languageID=62&ids[]=ART-10205609-LV&ids[]=ART-10205609-LV&ids[]=ART-10205609-LV&ids[]=ART-10205609-LV&ids[]=ART-10205609-LV&ids[]=ART-10205609-LV&ids[]=ART-10205614-LV&ids[]=ART-10205614-LV&ids[]=ART-10243296-LV&ids[]=ART-10205609-LV&ids[]=ART-10205609-LV&ids[]=ART-10205609-LV&ids[]=ART-10205609-LV&ids[]=ART-00475282-LV&ids[]=ART-80475264-LV&ids[]=ART-80475264-LV&ids[]=ART-10205633-LV&ids[]=ART-10205633-LV&ids[]=ART-50475265-LV&ids[]=ART-50475265-LV&ids[]=ART-70205526-LV&ids[]=ART-30547640-LV&ids[]=ART-90475273-LV&ids[]=ART-50475265-LV&ids[]=ART-50475265-LV&ids[]=ART-70205526-LV&ids[]=ART-50475265-LV&ids[]=ART-50475265-LV&ids[]=ART-70205526-LV&ids[]=ART-30205528-LV&ids[]=ART-90475273-LV&ids[]=ART-40475280-LV&ids[]=ART-60475279-LV&ids[]=ART-60475279-LV&ids[]=ART-10205633-LV&ids[]=ART-10205633-LV&ids[]=ART-50475265-LV&ids[]=ART-50475265-LV&ids[]=ART-70205526-LV&ids[]=ART-50475265-LV&ids[]=ART-50475265-LV&ids[]=ART-70205526-LV&ids[]=ART-90475273-LV&ids[]=ART-50213570-LV&ids[]=ART-30475271-LV&ids[]=ART-50238858-LV&ids[]=ART-50238858-LV&ids[]=ART-20204633-LV&ids[]=ART-80475283-LV&ids[]=ART-00475282-LV&ids[]=ART-30238859-LV&ids[]=ART-30238859-LV&ids[]=ART-50204636-LV&ids[]=ART-00475282-LV&ids[]=ART-40204627-LV&ids[]=ART-40204627-LV&ids[]=ART-20204652-LV&ids[]=ART-20204633-LV&ids[]=ART-80475283-LV&ids[]=ART-50238858-LV&ids[]=ART-50238858-LV&ids[]=ART-50204636-LV&ids[]=ART-00475282-LV&ids[]=ART-30238859-LV&ids[]=ART-30238859-LV&ids[]=ART-50204636-LV&ids[]=ART-00475282-LV&ids[]=ART-30238859-LV&ids[]=ART-30238859-LV&ids[]=ART-40475280-LV&ids[]=ART-50238858-LV&ids[]=ART-50238858-LV&ids[]=ART-90204639-LV&ids[]=ART-60475279-LV&ids[]=ART-30238859-LV&ids[]=ART-30238859-LV&ids[]=ART-20221449-LV&ids[]=ART-60475279-LV&ids[]=ART-20204628-LV&ids[]=ART-20204633-LV&ids[]=ART-80475283-LV&ids[]=ART-50238858-LV&ids[]=ART-50238858-LV&ids[]=ART-50204636-LV&ids[]=ART-00475282-LV&ids[]=ART-30238859-LV&ids[]=ART-30238859-LV&ids[]=ART-50204636-LV&ids[]=ART-00475282-LV&ids[]=ART-30238859-LV&ids[]=ART-30238859-LV&ids[]=ART-20204633-LV&ids[]=ART-80475283-LV&ids[]=ART-50238858-LV&ids[]=ART-50238858-LV&ids[]=ART-50204636-LV&ids[]=ART-00475282-LV&ids[]=ART-30238859-LV&ids[]=ART-30238859-LV&ids[]=ART-50204636-LV&expand[]=parameterTranslations&expand[]=parameterDefinition&expand[]=rules",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 231962
+    }
+  ],
+  "bmprojUrls": [
+    "https://byme-ikea-prod.s3.eu-west-1.amazonaws.com/data/templates/EC6E38C0-E86F-4B4C-97D5-1407AE528D46/template.BMPROJ",
+    "https://byme-ikea-prod.s3.eu-west-1.amazonaws.com/data/templates/EC6E38C0-E86F-4B4C-97D5-1407AE528D46/template.BMPROJ",
+    "https://byme-ikea-prod.s3.eu-west-1.amazonaws.com/data/templates/661CC1C6-E2C7-43EA-81FF-14E56D840C3D/template.BMPROJ",
+    "https://byme-ikea-prod.s3.eu-west-1.amazonaws.com/data/templates/661CC1C6-E2C7-43EA-81FF-14E56D840C3D/template.BMPROJ"
+  ],
+  "uuids": [
+    "EC6E38C0-E86F-4B4C-97D5-1407AE528D46",
+    "661CC1C6-E2C7-43EA-81FF-14E56D840C3D"
+  ]
+}

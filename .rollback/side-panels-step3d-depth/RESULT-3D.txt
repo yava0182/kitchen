@@ -1,0 +1,4 @@
+﻿STEP 3D PASS summary
+bust: 20261031-side3d1
+coords: carcass pos.z=0 pivot-1 front=s:z; worktop pos s:z+40 pivot+1 size 600; cover maxBack=560
+contract: depthMode auto|custom, depthMm, depthOffsetMm on left/right

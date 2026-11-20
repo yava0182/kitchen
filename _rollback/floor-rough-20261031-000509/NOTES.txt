@@ -1,0 +1,6 @@
+﻿floorRoughnessMap: ON 512x512 G-channel
+iblSpec floor: 1 when env ready, 0 fallback
+shaderRev: 58
+FPS: 31-60 (hq)
+albedo/diffuse unchanged
+rollback: _rollback/floor-rough-20261031-000509/

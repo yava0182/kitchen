@@ -751,8 +751,18 @@
     return Number(variant?.barLengthMm) || dims.barLengthMm || Number(br.min_mm) || 128;
   }
 
+  /**
+   * Временно: ручки на фасаде мешают (угол / Gola). Скрыты по умолчанию.
+   * Вернуть: в консоли `window.__CLD_HIDE_HANDLES = false` и переключить
+   * «С дверями» / rebuild, либо убрать флаг здесь.
+   */
+  if (typeof global.__CLD_HIDE_HANDLES === 'undefined') {
+    global.__CLD_HIDE_HANDLES = true;
+  }
+
   /** Ручки в комнате — preview-default уже с шага 4. */
   function shouldAttachHandlesInRoom() {
+    if (global.__CLD_HIDE_HANDLES === true) return false;
     const step = Number(global.currentRoomStep) || 0;
     return step >= 4;
   }

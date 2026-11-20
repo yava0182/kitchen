@@ -14330,13 +14330,13 @@
                   if (!ok) return;
                 }
 
-                const LEG_SIZE_MM = 40;
-                const INSET_MM = 50;
+                // Как в каталоге: size слота + pos/pivot → комната 1:1 из JSON.
+                const LEG_SIZE_MM = 70;
                 const formulas = [
-                  { name: 'Опора ПЛ', x: `${INSET_MM}`, z: `${INSET_MM}` },
-                  { name: 'Опора ПП', x: `s:x - ${INSET_MM + LEG_SIZE_MM}`, z: `${INSET_MM}` },
-                  { name: 'Опора ЗЛ', x: `${INSET_MM}`, z: `s:z - ${INSET_MM + LEG_SIZE_MM}` },
-                  { name: 'Опора ЗП', x: `s:x - ${INSET_MM + LEG_SIZE_MM}`, z: `s:z - ${INSET_MM + LEG_SIZE_MM}` },
+                  { name: 'Опора ПЛ', x: '0', z: '0', ax: 1, az: 1 },
+                  { name: 'Опора ПП', x: '0 + s:x-20', z: '0', ax: -1, az: 1 },
+                  { name: 'Опора ЗЛ', x: '0', z: '0 + s:z-20', ax: 1, az: -1 },
+                  { name: 'Опора ЗП', x: '0 + s:x-20', z: '0 + s:z-20', ax: -1, az: -1 },
                 ];
 
                 let lastNode = null;
@@ -14348,7 +14348,7 @@
                   n.nodeData.type = 'detail';
                   n.nodeData.size = { x: String(LEG_SIZE_MM), y: 'v:h_bottom', z: String(LEG_SIZE_MM) };
                   n.nodeData.position = { x: p.x, y: '0', z: p.z };
-                  n.nodeData.anchor = { x: -1, y: -1, z: -1 };
+                  n.nodeData.anchor = { x: p.ax, y: -1, z: p.az };
                   n.nodeData.rotation = { x: '0', y: '0', z: '0' };
                   n.nodeData.material_group = 'g0';
                   n.nodeData.material_key = 'material_2';
@@ -14368,7 +14368,7 @@
                 }
                 if (typeof window.__ppPostModuleToIframe === 'function') window.__ppPostModuleToIframe();
                 if (window.toastr && typeof window.toastr.success === 'function') {
-                  window.toastr.success('Добавлены 4 опоры: 50 мм от углов.');
+                  window.toastr.success('Добавлены 4 опоры по углам (JSON 1:1 в комнате).');
                 }
               } catch (e) {
                 console.error('[admin] add support legs failed:', e);

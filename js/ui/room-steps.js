@@ -1,17 +1,31 @@
 // Room steps (wizard) UI module - extracted from legacy main.js
 
-import { buildRoomTypeStep as legacyBuildRoomTypeStep } from '../room/room-manager.js?v=20260923-cohabit42';
-import { buildRoomLayoutStep as legacyBuildRoomLayoutStep } from '../room/room-manager.js?v=20260923-cohabit42';
+import { state } from '../utils/state.js';
+import {
+  buildRoomTypeStep as legacyBuildRoomTypeStep,
+  buildRoomLayoutStep as legacyBuildRoomLayoutStep,
+  removeStraightComposePanelDom,
+  hideStraightComposePanel,
+  hideWallPickHint,
+} from '../room/room-manager.js?v=20261116-lCorner1050';
+import {
+  ensureKitchenStep1ShapesInConfig,
+  isKitchenProductLineConfig,
+} from '../room/kitchen-room-shapes.js?v=20261010-tall-cat48';
+import {
+  installKitchenManageUi,
+  syncKitchenManageVisibility,
+} from './kitchen-manage-panel.js?v=20261025-nsh1-1';
+// re-export for place filters if needed later
+export { kitchenStep3MatchesItemPlacement } from './kitchen-step3-setup.js?v=20261027-nmu142g';
 import {
   loadSavedModels,
   refreshFurnitureDecors,
   initStep5DefaultDecorsFromRoomConfig,
-  ensureConstructorCatalogFresh,
   rebuildAllRoomFurnitureForStep4Toggles,
-} from '../furniture/furniture-manager.js?v=20260925-corner44y';
+} from '../furniture/furniture-manager.js?v=20261118-plinthInset16';
 import { getEndCabinetRule } from '../sections/section-end-cabinet.js?v=20260917-endcab-nobridge';
-import { refreshFurnitureCatalogNameLabels, clearFurnitureCatalogNameLabels } from './scene-icons.js?v=20260921-whh1';
-import { initColorWheel } from './color-wheel.js?v=20260913-step5-oom';
+import { initColorWheel } from './color-wheel.js?v=20261118-step5Color2';
 import { mergeRoomStepsConfigPreservingLocal, writeRoomStepsConfig } from '../sections/trim-part-registry.js?v=20260902-room-edit-p1';
 import { initStep6DefaultHandlesFromRoomConfig } from '../handle-series-catalog.js?v=20260621-step6-default';
 import { buildHandlesStep } from './room-step6-handles.js?v=20260622-handles-ref-fix';
@@ -30,7 +44,10 @@ import {
   buildStep4SectionEditIcons,
   clearStep4SectionEditIcons,
   syncAllDimsButtonVisibility,
-} from './scene-icons.js';
+  refreshFurnitureCatalogNameLabels,
+  clearFurnitureCatalogNameLabels,
+  rebuildSectionZoneEditIconsForSection,
+} from './scene-icons.js?v=20261116-dimsOff1';
 
 // In the refactored version we re-use the implementations we'll place into room-manager,
 // and keep this file focused on wiring steps, buttons and navigation.
@@ -42,6 +59,12 @@ export function getRoomStepsConfig() {
       const c = JSON.parse(raw);
       if (c && c.steps && c.steps.length) {
         ensureLifestyleStep7InConfig(c);
+        if (isKitchenProductLineConfig(c)) {
+          ensureKitchenStep1ShapesInConfig(c);
+          try {
+            localStorage.setItem('room_steps_config', JSON.stringify(c));
+          } catch (_) {}
+        }
         return c;
       }
     }
@@ -257,21 +280,187 @@ const CATALOG_FOLDERS = [
   { id: '2', name: 'Шкафы', icon: 'fa-archive' },
 ];
 
+/** Имена папок каталога из catalogs_keys (не сырые id 44/46/…). */
+function applyCatalogKeysToCategoryInfo(list) {
+  if (!Array.isArray(list) || !list.length) return;
+  const info =
+    (typeof window !== 'undefined' && window.__catalogCategoryInfo) || {};
+  list.forEach((item) => {
+    if (!item || item.active === 0 || item.active === '0') return;
+    const entry = {
+      name: item.name || 'Каталог',
+      icon: (item.icon || '').trim() || 'fa-folder',
+    };
+    if (item.id != null) info[String(item.id)] = entry;
+    const keyPart = String(item.key || '')
+      .trim()
+      .replace(/^catalog_/i, '');
+    if (keyPart) info[keyPart] = entry;
+  });
+  if (typeof window !== 'undefined') window.__catalogCategoryInfo = info;
+}
+
+function hydrateCatalogCategoryInfoSync() {
+  try {
+    const raw =
+      typeof localStorage !== 'undefined'
+        ? localStorage.getItem('catalogs_keys')
+        : null;
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    const list = Array.isArray(parsed)
+      ? parsed
+      : parsed?.items || parsed?.data || null;
+    applyCatalogKeysToCategoryInfo(list);
+  } catch (_) {}
+}
+
+function hydrateCatalogCategoryInfoAsync() {
+  hydrateCatalogCategoryInfoSync();
+  const urls = [
+    '/api/catalog/items_get/catalogs_keys',
+    'public/data/catalogs_keys.json',
+    'catalogs_keys.json',
+  ];
+  const tryNext = (i) => {
+    if (i >= urls.length) return Promise.resolve(false);
+    const url = urls[i];
+    const sep = url.indexOf('?') >= 0 ? '&' : '?';
+    return fetch(url + sep + 't=' + Date.now(), { cache: 'no-cache' })
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((data) => {
+        const list = Array.isArray(data)
+          ? data
+          : data?.items || data?.data || null;
+        if (!Array.isArray(list) || !list.length) {
+          return tryNext(i + 1);
+        }
+        applyCatalogKeysToCategoryInfo(list);
+        try {
+          localStorage.setItem('catalogs_keys', JSON.stringify(list));
+        } catch (_) {}
+        return true;
+      })
+      .catch(() => tryNext(i + 1));
+  };
+  return tryNext(0);
+}
+
+/** Кухня: папки угла 44/54 всегда на шаге 3 + в roomFurnitureByRoom.kitchen. */
+function ensureKitchenCornerCatalogFolders(config) {
+  if (!config || !isKitchenProductLineConfig(config)) return config;
+  if (!Array.isArray(config.steps)) return config;
+  const step3 = config.steps.find((s) => Number(s?.stepId) === 3);
+  if (!step3) return config;
+  if (!Array.isArray(step3.items)) step3.items = [];
+  const need = [
+    { id: '44', key: '44', name: 'Угловые модули', order: 5 },
+    { id: '54', key: '54', name: 'Навесные угловые', order: 7 },
+  ];
+  const hasKey = (k) =>
+    step3.items.some((it) => {
+      const id = String((it && (it.key || it.id)) || '')
+        .trim()
+        .replace(/^catalog_/i, '');
+      return id === k;
+    });
+  let dirty = false;
+  need.forEach((def) => {
+    if (hasKey(def.key)) return;
+    step3.items.push({
+      id: def.id,
+      key: def.key,
+      name: def.name,
+      order: def.order,
+      icon: '',
+      image: '',
+    });
+    dirty = true;
+  });
+  if (!config.roomFurnitureByRoom || typeof config.roomFurnitureByRoom !== 'object') {
+    config.roomFurnitureByRoom = {};
+  }
+  const kitchen = config.roomFurnitureByRoom.kitchen || {
+    layoutKeys: [],
+    catalogFolderKeys: [],
+  };
+  if (!Array.isArray(kitchen.catalogFolderKeys)) kitchen.catalogFolderKeys = [];
+  ['44', '54'].forEach((fk) => {
+    if (!kitchen.catalogFolderKeys.map(String).includes(fk)) {
+      kitchen.catalogFolderKeys.push(fk);
+      dirty = true;
+    }
+  });
+  config.roomFurnitureByRoom.kitchen = kitchen;
+  if (dirty) {
+    try {
+      localStorage.setItem('room_steps_config', JSON.stringify(config));
+    } catch (_) {}
+  }
+  // Фильтр шага 3 читает room_furniture_by_room раньше config — без 54 папка ВМУ пропадает.
+  // Нельзя оставлять kitchen = только [44,54], если в step3 / config уже полный набор папок.
+  try {
+    let linksRaw = localStorage.getItem('room_furniture_by_room');
+    let links = linksRaw ? JSON.parse(linksRaw) : null;
+    if (!links || typeof links !== 'object') links = {};
+    if (!links.kitchen || typeof links.kitchen !== 'object') {
+      links.kitchen = { layoutKeys: [], catalogFolderKeys: [] };
+    }
+    if (!Array.isArray(links.kitchen.catalogFolderKeys)) {
+      links.kitchen.catalogFolderKeys = [];
+    }
+    let linksDirty = false;
+    const pushFk = (fk) => {
+      const k = String(fk || '')
+        .trim()
+        .replace(/^catalog_/i, '');
+      if (!k) return;
+      if (links.kitchen.catalogFolderKeys.map(String).includes(k)) return;
+      links.kitchen.catalogFolderKeys.push(k);
+      linksDirty = true;
+    };
+    const fromConfig = Array.isArray(kitchen.catalogFolderKeys)
+      ? kitchen.catalogFolderKeys
+      : [];
+    const fromStep3 = step3.items.map((it) => it?.key || it?.id);
+    fromConfig.forEach(pushFk);
+    fromStep3.forEach(pushFk);
+    ['44', '54'].forEach(pushFk);
+    if (linksDirty || dirty) {
+      localStorage.setItem('room_furniture_by_room', JSON.stringify(links));
+    }
+  } catch (_) {}
+  return config;
+}
+
 /**    3 (     ,    3). */
 function resolveCatalogFoldersForSteps() {
+  hydrateCatalogCategoryInfoSync();
   let folders = [];
-  const config = getRoomStepsConfig();
+  let config = getRoomStepsConfig();
+  try {
+    config = ensureKitchenCornerCatalogFolders(config) || config;
+  } catch (_) {}
   if (config && config.steps) {
     const step3 = config.steps.find((s) => s.stepId === 3);
     if (step3 && step3.items && step3.items.length > 0) {
       folders = step3.items
         .sort((a, b) => (a.order || 0) - (b.order || 0))
-        .map((it) => ({
-          id: (it.key && String(it.key).trim()) || it.id || `item-${it.id}`,
-          name: it.name || '',
-          icon: (it.icon || '').trim() || 'fa-folder',
-          image: (it.image || '').trim(),
-        }));
+        .map((it) => {
+          const id =
+            (it.key && String(it.key).trim()) || it.id || `item-${it.id}`;
+          const idNorm = String(id).replace(/^catalog_/i, '');
+          const fromKeys =
+            (window.__catalogCategoryInfo || {})[idNorm] ||
+            (window.__catalogCategoryInfo || {})[String(id)] ||
+            null;
+          return {
+            id,
+            name: it.name || (fromKeys && fromKeys.name) || '',
+            icon: (it.icon || '').trim() || (fromKeys && fromKeys.icon) || 'fa-folder',
+            image: (it.image || '').trim(),
+          };
+        });
     }
   }
 
@@ -407,6 +596,14 @@ function buildCatalogFoldersStep(container) {
   container.innerHTML = '';
   window.step3CatalogOpen = false;
 
+  // Кухня: общекухонные настройки — кнопка «Управление кухней» на сцене (не в сайдбаре).
+  try {
+    installKitchenManageUi(getRoomStepsConfig());
+    syncKitchenManageVisibility();
+  } catch (e) {
+    console.warn('[KITCHEN-MANAGE] install failed', e);
+  }
+
   const folders = resolveCatalogFoldersForSteps();
 
   const grid = document.createElement('div');
@@ -517,7 +714,7 @@ function buildCatalogStep4(container, folderId, folderName) {
   const filtersHost = document.createElement('div');
   filtersHost.className = 'step4-filters';
 
-  // Block 1: − / + buttons for section division variants
+  // Block 1: − / + (пока скрыты: только однодверные ячейки) + toggles
   const optionsBlock = document.createElement('div');
   optionsBlock.id = 'step4-options-block';
   optionsBlock.innerHTML =
@@ -528,9 +725,9 @@ function buildCatalogStep4(container, folderId, folderName) {
     '</div>' +
     '<p id="step4-options-section-label" class="step4-options-section-label" title="Кликните секцию в комнате — переключить">—</p>' +
     '<div class="step4-options-row">' +
-    '<button type="button" id="step4-options-minus" class="step4-ctrl-btn" aria-label="Меньше зон">−</button>' +
-    '<span id="step4-options-value"></span>' +
-    '<button type="button" id="step4-options-plus" class="step4-ctrl-btn" aria-label="Больше зон">+</button>' +
+    '<button type="button" id="step4-options-minus" class="step4-ctrl-btn" aria-label="Меньше зон" hidden disabled>−</button>' +
+    '<span id="step4-options-value" hidden></span>' +
+    '<button type="button" id="step4-options-plus" class="step4-ctrl-btn" aria-label="Больше зон" hidden disabled>+</button>' +
     '<div class="step4-toggles-group">' +
     '<label class="step4-unified-toggle" for="step4-facade-bottom-deep-input" title="Низ фасада: 2,5 см от пола">' +
     '<input type="checkbox" id="step4-facade-bottom-deep-input" />' +
@@ -654,6 +851,15 @@ function buildCatalogStep4(container, folderId, folderName) {
 
     function refreshDoorFlankPills(sectionId) {
       if (!doorFlankPills) return;
+      // Временно: виды слева/справа у стены — скрыты (флаг в section-manager).
+      if (
+        typeof window.__cldIsLArmWallFocusUiEnabled === 'function'
+          ? !window.__cldIsLArmWallFocusUiEnabled()
+          : window.__cldLArmWallFocusUiEnabled === false
+      ) {
+        doorFlankPills.hidden = true;
+        return;
+      }
       const id = sectionId || getActiveSectionId();
       const desc =
         typeof window.__clodisDescribeDoorFlankForUi === 'function'
@@ -696,8 +902,33 @@ function buildCatalogStep4(container, folderId, folderName) {
     }
 
     function refreshLArmPills(sectionId) {
+      if (state.kitchenSectionsEnabled === false) {
+        if (lArmPills) lArmPills.hidden = true;
+        if (labelEl) {
+          labelEl.textContent = 'Секции выкл.';
+          labelEl.hidden = true;
+        }
+        if (minusBtn) minusBtn.hidden = true;
+        if (plusBtn) plusBtn.hidden = true;
+        if (valueEl) valueEl.hidden = true;
+        return;
+      }
       if (!lArmPills) return;
       const id = sectionId || getActiveSectionId();
+      // Временно: пилюли стен секции выкл. — без полупрозрачности «неактивных».
+      if (
+        typeof window.__cldIsLArmWallFocusUiEnabled === 'function'
+          ? !window.__cldIsLArmWallFocusUiEnabled()
+          : window.__cldLArmWallFocusUiEnabled === false
+      ) {
+        lArmPills.hidden = true;
+        const mode = window.__cldLArmFocus?.mode;
+        if (mode && mode !== 'overview' && typeof window.__clodisSetOverviewFocus === 'function') {
+          window.__clodisSetOverviewFocus(id);
+        }
+        refreshDoorFlankPills(id);
+        return;
+      }
       const desc =
         typeof window.__clodisDescribeWallFocusForUi === 'function'
           ? window.__clodisDescribeWallFocusForUi(id)
@@ -796,91 +1027,41 @@ function buildCatalogStep4(container, folderId, folderName) {
             window.__clodisDescribeLArmFocusForUi?.(id)
           )) ||
         needsFlank;
-      if (minusBtn) minusBtn.disabled = armLocked;
-      if (plusBtn) plusBtn.disabled = armLocked;
-      if (armLocked) {
-        if (valueEl) valueEl.textContent = '';
-        if (minusBtn) minusBtn.style.opacity = '0.3';
-        if (plusBtn) plusBtn.style.opacity = '0.3';
-        return;
+      // ± скрыты: раскладка только allSingles.
+      if (minusBtn) {
+        minusBtn.hidden = true;
+        minusBtn.disabled = true;
       }
-      const info = window.__clodisGetSectionLayoutInfo(id);
-      if (!info) {
-        if (valueEl) valueEl.textContent = '';
-        return;
+      if (plusBtn) {
+        plusBtn.hidden = true;
+        plusBtn.disabled = true;
       }
-      const divisionCfg = getSectionDivisionCfg();
-      const variants =
-        typeof window.__clodisBuildSectionDivisionVariants === 'function'
-          ? window.__clodisBuildSectionDivisionVariants(info.innerWidthMm, divisionCfg)
-          : [];
-      const curInternal =
-        typeof window.__clodisResolveDivisionVariantIndex === 'function'
-          ? window.__clodisResolveDivisionVariantIndex(id, divisionCfg)
-          : 0;
-      const hasZeroSlot =
-        variants.length > 0 && variants[0] && variants[0].kind === 'allSingles';
-      // Слот 0 = allSingles («−» до конца). Старт секции = 1 (первый double-ряд).
-      // Не показываем «0» как старт: на allSingles — «—» (как пустой счётчик Maatkasten на минимуме).
-      const displayNum = hasZeroSlot ? curInternal : curInternal + 1;
       if (valueEl) {
-        valueEl.textContent =
-          hasZeroSlot && curInternal === 0 ? '' : String(displayNum);
+        valueEl.hidden = true;
+        valueEl.textContent = '';
       }
-      window.step4VariantCount = displayNum;
-      window.step4VariantInternalIndex = curInternal;
-      window.step4VariantTotal = variants.length;
-
-      if (minusBtn) minusBtn.style.opacity = curInternal > 0 ? '1' : '0.3';
-      if (plusBtn)
-        plusBtn.style.opacity =
-          variants.length > 0 && curInternal < variants.length - 1 ? '1' : '0.3';
+      if (armLocked) return;
+      window.step4VariantCount = 0;
+      window.step4VariantInternalIndex = 0;
+      window.step4VariantTotal = 1;
     }
 
-    /** +    (  /  ); −   (). */
-    function changeVariant(delta) {
-      const focusMode = window.__cldLArmFocus?.mode || 'overview';
-      const id = getActiveSectionId();
-      //   : overview OK (  activeSectionId).
-      //   / L /       /.
-      const needsWallPick = !!(
-        typeof window.__clodisDescribeWallFocusForUi === 'function' &&
-        window.__clodisDescribeWallFocusForUi(id)
-      );
-      const needsLArm = !!(
-        typeof window.__clodisDescribeLArmFocusForUi === 'function' &&
-        window.__clodisDescribeLArmFocusForUi(id)
-      );
-      if (focusMode === 'overview' && (needsWallPick || needsLArm)) {
-        console.log('[L-ARM] ± в обзоре: выберите стену');
-        return;
-      }
-      if (
-        focusMode === 'wall' &&
-        window.__clodisDescribeDoorFlankForUi?.(id) &&
-        !window.__cldLArmFocus?.flankSide
-      ) {
-        console.log('[L-ARM] ±: выберите Слева/Справа у двери');
-        return;
-      }
-      if (!id || typeof window.__clodisApplySectionDivisionVariant !== 'function') return;
-      const divisionCfg = getSectionDivisionCfg();
-      const info = window.__clodisGetSectionLayoutInfo(id);
-      if (!info) return;
-      const variants = window.__clodisBuildSectionDivisionVariants(
-        info.innerWidthMm,
-        divisionCfg
-      );
-      if (!variants.length) return;
-      const cur = window.__clodisResolveDivisionVariantIndex(id, divisionCfg);
-      let next = cur + delta;
-      next = Math.max(0, Math.min(variants.length - 1, next));
-      window.__clodisApplySectionDivisionVariant(id, next, divisionCfg);
-      setTimeout(() => refresh(id), 50);
+    /** ± раскладки ячеек — временно отключено (только однодверные). */
+    function changeVariant(_delta) {
+      return;
     }
 
-    if (minusBtn) minusBtn.onclick = () => changeVariant(-1);
-    if (plusBtn) plusBtn.onclick = () => changeVariant(+1);
+    if (minusBtn) {
+      minusBtn.hidden = true;
+      minusBtn.disabled = true;
+      minusBtn.onclick = () => changeVariant(-1);
+    }
+    if (plusBtn) {
+      plusBtn.hidden = true;
+      plusBtn.disabled = true;
+      plusBtn.onclick = () => changeVariant(+1);
+    }
+    if (valueEl) valueEl.hidden = true;
 
     if (doorFlankPills) {
       doorFlankPills.querySelectorAll('.step4-l-arm-pill').forEach((btn) => {
@@ -1083,8 +1264,12 @@ function buildCatalogStep4(container, folderId, folderName) {
     return [];
   }
 
-  /**     (    id 4  7). */
+  /**
+   * Подставить categoryId только из справочника папки.
+   * Не хардкодить 4/5/6/7 от тумб — у кухни categories часто пустые, иначе сетка пустая.
+   */
   function resolveCategoryIdFromLabel(nameLower, cats) {
+    if (!cats || !cats.length) return null;
     const byName = (re) => {
       const hit = (cats || []).find((c) =>
         re.test(String(c.name || c.label || '').toLowerCase())
@@ -1092,57 +1277,73 @@ function buildCatalogStep4(container, folderId, folderName) {
       return hit && hit.id != null ? Number(hit.id) : null;
     };
     if (/с\s*двер|дверями/.test(nameLower)) {
-      return (
-        byName(/с\s*двер|дверями|модули\s*с\s*двер/) ??
-        7
-      );
+      return byName(/с\s*двер|дверями|модули\s*с\s*двер/);
     }
     if (/без\s*двер/.test(nameLower)) {
-      return byName(/без\s*двер/) ?? 4;
+      return byName(/без\s*двер/);
     }
     if (/однодвер|одноствор/.test(nameLower)) {
-      return byName(/однодвер|одноствор/) ?? 5;
+      return byName(/однодвер|одноствор/);
     }
-    if (/однодвер|одноствор/.test(nameLower)) {
-      return byName(/двухдвер|двуствор/) ?? 6;
+    if (/двухдвер|двуствор|двойн/.test(nameLower)) {
+      return byName(/двухдвер|двуствор|двойн/);
     }
     return null;
   }
 
   function resolvePillCategoryId(btn, folderKey) {
+    const cats = readCatalogCategoriesForFolder(folderKey);
     const stored =
-      btn.categoryId != null && btn.categoryId !== '' ? Number(btn.categoryId) : null;
+      btn.categoryId != null && btn.categoryId !== ''
+        ? Number(btn.categoryId)
+        : null;
     const name = String(btn.name || '').toLowerCase();
-    const fromLabel = resolveCategoryIdFromLabel(
-      name,
-      readCatalogCategoriesForFolder(folderKey)
-    );
-    return fromLabel != null ? fromLabel : stored;
+    const fromLabel = resolveCategoryIdFromLabel(name, cats);
+    if (fromLabel != null) return fromLabel;
+    // Без справочника категорий папки не тащим чужие id (4/5/6/7 от шкафов).
+    if (!cats.length) return null;
+    return Number.isFinite(stored) ? stored : null;
   }
 
   function resolveCategoryIdFromPillElement(el, folderKey) {
+    const cats = readCatalogCategoriesForFolder(folderKey);
     const stored = el.dataset.categoryId
       ? parseInt(el.dataset.categoryId, 10)
       : null;
     const name = String(el.textContent || '').toLowerCase();
-    const fromLabel = resolveCategoryIdFromLabel(
-      name,
-      readCatalogCategoriesForFolder(folderKey)
-    );
-    return fromLabel != null ? fromLabel : Number.isFinite(stored) ? stored : null;
+    const fromLabel = resolveCategoryIdFromLabel(name, cats);
+    if (fromLabel != null) return fromLabel;
+    if (!cats.length) return null;
+    return Number.isFinite(stored) ? stored : null;
   }
 
-  /**        (  / ). */
+  /** Фильтр одно-/двустворчатые по ширине / doorKind. */
   function inferCabinetDoorFilter(btn) {
     const raw = btn.cabinetDoorFilter;
     if (raw === 'single' || raw === 'double') return raw;
     const n = (btn.name || '').toLowerCase();
-    if (/\bодинар|\bодноствор|single|\b1[\-\s]?створ|mono/i.test(n)) {
+    if (
+      /\bодинар|\bодноствор|\bоднодвер|single|\b1[\-\s]?створ|mono/i.test(n)
+    ) {
       return 'single';
     }
-    if (/\bдвойн|\bдвухствор|double|\b2[\-\s]?створ|\bпарн/i.test(n)) {
+    if (
+      /\bдвойн|\bдвухствор|\bдвуствор|\bдвухдвер|double|\b2[\-\s]?створ|\bпарн/i.test(
+        n
+      )
+    ) {
       return 'double';
     }
+    return null;
+  }
+
+  /** С дверями / без дверей — по doorLayout и имени, без categoryId. */
+  function inferFacadeFilter(btn) {
+    const raw = btn.facadeFilter;
+    if (raw === 'with' || raw === 'without') return raw;
+    const n = String(btn.name || '').toLowerCase();
+    if (/без\s*двер/.test(n)) return 'without';
+    if (/с\s*двер|дверями/.test(n)) return 'with';
     return null;
   }
 
@@ -1155,10 +1356,13 @@ function buildCatalogStep4(container, folderId, folderName) {
         : null;
       const d = el.dataset.cabinetDoorFilter;
       const door = d === 'single' || d === 'double' ? d : null;
+      const ff = el.dataset.facadeFilter;
+      const facade = ff === 'with' || ff === 'without' ? ff : null;
       list.push({
         filterCategoryId: Number.isFinite(cid) ? cid : null,
         orFilterCategoryId: Number.isFinite(orCid) ? orCid : null,
         cabinetDoorFilter: door,
+        facadeFilter: facade,
       });
     });
     return list;
@@ -1206,7 +1410,8 @@ function buildCatalogStep4(container, folderId, folderName) {
   async function applyStep4PillSelection() {
     ensureExactlyOnePillPerTrack();
     if (folderKeyForPills) {
-      await ensureConstructorCatalogFresh(folderKeyForPills);
+      // Не зовём ensureConstructorCatalogFresh здесь — loadSavedModels сам
+      // синхронизирует один раз (глобальный TTL). Двойной await = двойной лаг.
       pillsWrapper.querySelectorAll('.step4-pill-button').forEach((el) => {
         const cid = resolveCategoryIdFromPillElement(el, folderKeyForPills);
         if (cid != null) el.dataset.categoryId = String(cid);
@@ -1231,11 +1436,12 @@ function buildCatalogStep4(container, folderId, folderName) {
     const catId = resolvePillCategoryId(btn, folderKeyForPills);
     const orCatId = btn.orCategoryId != null ? btn.orCategoryId : null;
     const doorFilter = inferCabinetDoorFilter(btn);
+    const facadeFilter = inferFacadeFilter(btn);
     const doorBadge =
       doorFilter === 'single'
-        ? ' <small>(.)</small>'
+        ? ' <small>(одн.)</small>'
         : doorFilter === 'double'
-          ? ' <small>(.)</small>'
+          ? ' <small>(дв.)</small>'
           : '';
     el.innerHTML =
       '<span>' +
@@ -1249,6 +1455,7 @@ function buildCatalogStep4(container, folderId, folderName) {
     el.dataset.categoryId = catId != null ? String(catId) : '';
     el.dataset.orCategoryId = orCatId != null ? String(orCatId) : '';
     el.dataset.cabinetDoorFilter = doorFilter || '';
+    el.dataset.facadeFilter = facadeFilter || '';
     el.addEventListener('click', () => {
       selectStep4Pill(el);
     });
@@ -1440,8 +1647,8 @@ function buildColorStep(container) {
   const config = getRoomStepsConfig();
   let tabDefs = [
     { key: 'outside', label: 'Снаружи', desc: '' },
-    { key: 'inside',  label: 'Внутри',  desc: '' },
-    { key: 'params',  label: 'Параметры', desc: '' },
+    { key: 'inside', label: 'Внутри', desc: '' },
+    { key: 'params', label: 'Параметры', desc: '' },
   ];
   if (config && config.steps) {
     const step5 = config.steps.find((s) => s.stepId === 5);
@@ -1450,17 +1657,17 @@ function buildColorStep(container) {
         {
           key: 'outside',
           label: (step5.step5Tabs.outside && step5.step5Tabs.outside.label) || 'Снаружи',
-          desc:  (step5.step5Tabs.outside && step5.step5Tabs.outside.desc)  || '',
+          desc: (step5.step5Tabs.outside && step5.step5Tabs.outside.desc) || '',
         },
         {
           key: 'inside',
           label: (step5.step5Tabs.inside && step5.step5Tabs.inside.label) || 'Внутри',
-          desc:  (step5.step5Tabs.inside && step5.step5Tabs.inside.desc)  || '',
+          desc: (step5.step5Tabs.inside && step5.step5Tabs.inside.desc) || '',
         },
         {
           key: 'params',
           label: (step5.step5Tabs.params && step5.step5Tabs.params.label) || 'Параметры',
-          desc:  (step5.step5Tabs.params && step5.step5Tabs.params.desc)  || '',
+          desc: (step5.step5Tabs.params && step5.step5Tabs.params.desc) || '',
         },
       ];
     }
@@ -1628,6 +1835,13 @@ function buildColorStep(container) {
       if (e?.detail?.moduleOnly) return;
       refreshFurnitureDecors();
     });
+    try {
+      if (typeof window.refreshFurnitureDecorsImmediate === 'function') {
+        window.refreshFurnitureDecorsImmediate();
+      } else {
+        refreshFurnitureDecors();
+      }
+    } catch (_) {}
   } catch (e) {
     console.warn('⚠️       5:', e);
   }
@@ -1689,7 +1903,7 @@ function buildColorStep(container) {
   let mpActiveKey = 'outside';
   const mpTabDefs = [
     { key: 'outside', label: 'Цвет фасада' },
-    { key: 'inside',  label: 'Цвет корпуса' },
+    { key: 'inside', label: 'Цвет корпуса' },
     { key: 'endOverlay', label: 'Цвет накладки' },
   ];
   mpTabDefs.forEach(({ key, label }) => {
@@ -1757,6 +1971,28 @@ export function goToStep(stepNumber, stepTitle, stepBuilder) {
   const prevStep = typeof window.currentRoomStep === 'number' ? window.currentRoomStep : null;
   // Сразу, чтобы lifestyle/rod adapt видели целевой шаг при leave/enter.
   window.currentRoomStep = stepNumber;
+  // Карточки компоновки («Как расположим кухню?») — только шаг 2.
+  // Ячейки в сцене при уходе на 3+ не гасим.
+  if (prevStep === 2 && stepNumber !== 2) {
+    try {
+      removeStraightComposePanelDom();
+      hideWallPickHint();
+      const coach = document.getElementById('cld-section-size-coach');
+      if (coach) coach.remove();
+      state._sectionSizeCoachAwaitCompose = false;
+    } catch (_) {}
+  }
+  // Шаг 2: красный призрак секции. Шаг 3+: призрак гасим, ячейки остаются.
+  try {
+    if (typeof window.__cldSetSectionPersistGhostsVisibleForStep === 'function') {
+      window.__cldSetSectionPersistGhostsVisibleForStep(stepNumber);
+    }
+  } catch (_) {}
+  if (stepNumber === 1 && prevStep != null && prevStep !== 1) {
+    try {
+      hideStraightComposePanel();
+    } catch (_) {}
+  }
   if (prevStep === 4 && stepNumber !== 4) {
     try {
       clearStep4SectionEditIcons();
@@ -1818,6 +2054,32 @@ export function goToStep(stepNumber, stepTitle, stepBuilder) {
   try {
     syncAllDimsButtonVisibility();
   } catch (_) {}
+  try {
+    if (typeof window.__cldInstallKitchenManageUi === 'function') {
+      window.__cldInstallKitchenManageUi(getRoomStepsConfig());
+    } else {
+      installKitchenManageUi(getRoomStepsConfig());
+    }
+    syncKitchenManageVisibility();
+  } catch (_) {}
+
+  // Шаг 1: 2D-план формы; уход с шага 1 — выходим из plan view
+  try {
+    if (stepNumber === 1) {
+      if (typeof window.__cldEnterKitchenShapePlanView === 'function') {
+        window.__cldEnterKitchenShapePlanView();
+      }
+    } else if (prevStep === 1 && stepNumber !== 1) {
+      if (typeof window.__cldTeardownKitchenRoomStepTools === 'function') {
+        window.__cldTeardownKitchenRoomStepTools();
+      }
+      if (typeof window.__cldExitKitchenShapePlanView === 'function') {
+        window.__cldExitKitchenShapePlanView();
+      }
+    }
+  } catch (e) {
+    console.warn('[kitchen shape] plan view step switch', e);
+  }
 
   const backBtn = document.getElementById('sidebar-back-btn');
   if (backBtn) {
@@ -1857,20 +2119,42 @@ export function goToStep(stepNumber, stepTitle, stepBuilder) {
     }
   }, 320);
 
-  //  13:    ; /    , .
+  // Шаги 1–3: ячейки только если пользователь включил кнопку (default = выкл.).
   if (stepNumber >= 1 && stepNumber <= 3) {
     try {
-      setStep5SectionZonesVisible(false);
-      setStep5CabinetMarkersVisible(true);
+      const cellsOn =
+        state.kitchenCellsUiEnabled !== false &&
+        !!(state.showSingleZones || state.showDoubleZones);
+      setStep5SectionZonesVisible(cellsOn);
+      setStep5CabinetMarkersVisible(cellsOn);
     } catch (e) {}
   }
 
-  // Шаг 4: зоны/Cap скрыты; синяя разметка секций (cabinet-markers) — видна для посадки.
+  // Шаги 2–4: карандаши ячеек (пустые) / модуля (занятые) — один rebuild.
+  if (stepNumber >= 2 && stepNumber <= 4) {
+    try {
+      window.showSectionZoneEditIcons = true;
+      const list = Array.isArray(state.customSections) ? state.customSections : [];
+      for (const sec of list) {
+        if (sec?.id != null) rebuildSectionZoneEditIconsForSection(sec.id);
+      }
+    } catch (e) {
+      console.warn('[step] zone pencils rebuild', e);
+    }
+  }
+
+  // Шаг 4: не форсируем ячейки вкл. — только синк по текущим флагам.
   if (stepNumber === 4) {
     setDesiredRoomOpenState(true);
     try {
-      setStep5SectionZonesVisible(false);
-      setStep5CabinetMarkersVisible(true);
+      const cellsOn =
+        state.kitchenCellsUiEnabled !== false &&
+        !!(state.showSingleZones || state.showDoubleZones);
+      setStep5SectionZonesVisible(cellsOn);
+      setStep5CabinetMarkersVisible(cellsOn);
+      if (typeof window.__cldSyncSectionCellsBtn === 'function') {
+        window.__cldSyncSectionCellsBtn();
+      }
     } catch (e) {}
     //   :  ,     .
     try {
@@ -1991,7 +2275,7 @@ export function goToRoomStepByNumber(stepNumber) {
   const step = Number(stepNumber);
   if (!Number.isFinite(step) || step < 1 || step > ROOM_STEP_TOTAL) return false;
   if (step === 1) {
-    goToStep(1, getStepTitle(1, 'ТИП КОМНАТЫ'), legacyBuildRoomTypeStep);
+    goToStep(1, getStepTitle(1, 'ФОРМА КУХНИ'), legacyBuildRoomTypeStep);
   } else if (step === 2) {
     goToStep(2, getStepTitle(2, 'РАСПОЛОЖЕНИЕ'), legacyBuildRoomLayoutStep);
   } else if (step === 3) {
@@ -2100,12 +2384,19 @@ export function goToPreviousStep() {
   if (currentStep === 1) return;
 
   if (currentStep === 2) {
-    goToStep(1, getStepTitle(1, 'ТИП КОМНАТЫ'), legacyBuildRoomTypeStep);
+    goToStep(1, getStepTitle(1, 'ФОРМА КУХНИ'), legacyBuildRoomTypeStep);
     if (window.selectedRoomType) {
       setTimeout(() => {
-        const roomItem = document.querySelector(
-          `[data-room-type=\"${window.selectedRoomType.key}\"]`
-        );
+        const shapeKey =
+          window.selectedKitchenRoomShape?.key ||
+          window.selectedRoomType.shapeKey ||
+          '';
+        const roomItem =
+          (shapeKey &&
+            document.querySelector(`[data-room-shape="${shapeKey}"]`)) ||
+          document.querySelector(
+            `[data-room-type="${window.selectedRoomType.key}"]`
+          );
         if (roomItem) {
           roomItem.classList.add('selected');
           const nextBtn = document.getElementById('sidebar-next-btn');
@@ -2186,6 +2477,17 @@ export function initRoomSteps() {
 
 function initRoomStepsAfterConfig() {
   installRoomLifestyleStepApi(window);
+  hydrateCatalogCategoryInfoAsync()
+    .then((ok) => {
+      if (!ok) return;
+      try {
+        if (Number(window.currentRoomStep) === 3 && !window.step3CatalogOpen) {
+          const main = document.getElementById('main-menu-view');
+          if (main) buildCatalogFoldersStep(main);
+        }
+      } catch (_) {}
+    })
+    .catch(() => {});
   //  :     5      .
   try {
     localStorage.removeItem('room_step5_decor_selection');
@@ -2246,13 +2548,27 @@ function initRoomStepsAfterConfig() {
     const stepBadge = document.querySelector('.step-badge');
     const stepTitleEl = document.querySelector('.step-title');
     if (stepBadge) stepBadge.textContent = formatRoomStepCounter(1);
-    if (stepTitleEl) stepTitleEl.textContent = getStepTitle(1, 'ТИП КОМНАТЫ');
+    if (stepTitleEl) stepTitleEl.textContent = getStepTitle(1, 'ФОРМА КУХНИ');
     syncRoomStepProgress(1);
     legacyBuildRoomTypeStep(mainMenuView);
     window.currentRoomStep = 1;
     setRoomDoorControlsVisible(1);
     try {
       syncAllDimsButtonVisibility();
+    } catch (_) {}
+    try {
+      if (typeof window.__cldEnterKitchenShapePlanView === 'function') {
+        const enter = () => {
+          try {
+            window.__cldEnterKitchenShapePlanView();
+          } catch (e) {
+            console.warn('[kitchen shape] plan on init', e);
+          }
+        };
+        requestAnimationFrame(enter);
+        setTimeout(enter, 120);
+        setTimeout(enter, 400);
+      }
     } catch (_) {}
     const nextBtnInit = document.getElementById('sidebar-next-btn');
     if (nextBtnInit) nextBtnInit.disabled = false;

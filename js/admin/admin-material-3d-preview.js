@@ -77,7 +77,7 @@
     tex.needsUpdate = true;
   }
 
-  /** Как create_material (part15): mirror + model/real по ширине/высоте превью-панели. */
+  /** Как create_material (part15): mirror + model/real; rotation=rotated → π/2 и swap осей. */
   function applyAdminPreviewMapRepeat(tex, sizeMm, ro) {
     if (!tex || !window.THREE) return;
     var THREE = window.THREE;
@@ -87,15 +87,29 @@
     var realH = Math.max(1, Number(ro && ro.realH) || 256);
     var stretchW = !!(ro && ro.stretchW);
     var stretchH = !!(ro && ro.stretchH);
-    if (stretchW && stretchH) {
+    var rotated = !!(ro && (ro.rotated || ro.rotation === 'rotated'));
+    var wrap = (ro && ro.wrapping) === 'repeat' ? THREE.RepeatWrapping : THREE.MirroredRepeatWrapping;
+    if (stretchW && stretchH && !rotated) {
       applyPreviewClampMap(tex);
       return;
     }
-    tex.wrapS = tex.wrapT = THREE.MirroredRepeatWrapping;
-    tex.repeat.set(
-      stretchW ? 1 : Math.max(0.01, w / realW),
-      stretchH ? 1 : Math.max(0.01, h / realH)
-    );
+    tex.wrapS = tex.wrapT = wrap;
+    if (rotated) {
+      tex.center.set(0.5, 0.5);
+      tex.rotation = Math.PI / 2;
+      // как part15: при rotated оси model/real меняются местами
+      tex.repeat.set(
+        stretchW ? 1 : Math.max(0.01, h / realH),
+        stretchH ? 1 : Math.max(0.01, w / realW)
+      );
+    } else {
+      tex.center.set(0, 0);
+      tex.rotation = 0;
+      tex.repeat.set(
+        stretchW ? 1 : Math.max(0.01, w / realW),
+        stretchH ? 1 : Math.max(0.01, h / realH)
+      );
+    }
     tex.offset.set(0, 0);
     tex.needsUpdate = true;
   }
@@ -1004,4 +1018,474 @@
   } else {
     bindEdgeInputs();
   }
+
+  /* ---- Цоколь: 3D-превью (как PP «Параметры материала») ---- */
+  var plinth3d = null;
+  var previewDebounceTimersPlinth = { plinth: null };
+
+  function plinthElVal(id) {
+    var el = document.getElementById(id);
+    return el ? String(el.value || '') : '';
+  }
+  function plinthElNum(id, def) {
+    var n = Number(plinthElVal(id));
+    return Number.isFinite(n) ? n : def;
+  }
+  function plinthElChecked(id) {
+    var el = document.getElementById(id);
+    return !!(el && el.checked);
+  }
+
+  function readPlinthPreviewSizeMm() {
+    var raw = plinthElVal('plinth-preview-size');
+    // "0:100x800x16" or "100x16"
+    var m = raw.match(/(\d+(?:\.\d+)?)x(\d+(?:\.\d+)?)x(\d+(?:\.\d+)?)/);
+    if (m) {
+      return {
+        h: Math.max(1, Number(m[1]) || 100),
+        w: Math.max(1, Number(m[2]) || 800),
+        t: Math.max(1, Number(m[3]) || 16),
+      };
+    }
+    return { h: 100, w: 800, t: 16 };
+  }
+
+  function readPlinthDisplayParams() {
+    var mapUrl = resolveMediaUrl(plinthElVal('plinth-texture-url'));
+    return {
+      color: mapUrl
+        ? '#ffffff'
+        : (plinthElVal('plinth-model-color') || plinthElVal('plinth-model-color-hex') || '#ffffff').trim() ||
+          '#ffffff',
+      roughness: clamp01(plinthElNum('plinth-model-roughness', 1), 1),
+      metalness: clamp01(plinthElNum('plinth-model-metalness', 0), 0),
+      transparent: plinthElChecked('plinth-model-transparent'),
+      opacity: plinthElChecked('plinth-model-transparent') ? 0.65 : 1,
+      oneSided: false,
+      mapUrl: mapUrl,
+      normalUrl: resolveMediaUrl(plinthElVal('plinth-normal-map-url')),
+      roughUrl: resolveMediaUrl(plinthElVal('plinth-roughness-map-url')),
+      repeatMap: applyPreviewClampMap,
+      repeatOther: applyPreviewClampMap,
+    };
+  }
+
+  function renderPlinthPreview() {
+    if (plinth3d && plinth3d.renderer) {
+      plinth3d.renderer.render(plinth3d.scene, plinth3d.camera);
+    }
+  }
+
+  function fitPlinthCamera() {
+    if (!plinth3d) return;
+    var s = readPlinthPreviewSizeMm();
+    var maxDim = Math.max(s.w, s.h, s.t) / 1000;
+    var dist = maxDim * 1.7;
+    plinth3d.camera.position.set(dist * 0.55, dist * 0.35, dist * 0.85);
+    plinth3d.camera.lookAt(0, 0, 0);
+    if (plinth3d.controls) {
+      plinth3d.controls.target.set(0, 0, 0);
+      plinth3d.controls.update();
+    }
+  }
+
+  function rebuildPlinthGeometry() {
+    if (!plinth3d || !plinth3d.mesh) return;
+    var s = readPlinthPreviewSizeMm();
+    var key = s.w + 'x' + s.h + 'x' + s.t;
+    if (plinth3d.sizeKey === key) return;
+    plinth3d.sizeKey = key;
+    if (plinth3d.mesh.geometry) plinth3d.mesh.geometry.dispose();
+    // Планка: длина × высота × толщина
+    plinth3d.mesh.geometry = new plinth3d.THREE.BoxGeometry(s.w / 1000, s.h / 1000, s.t / 1000);
+    fitPlinthCamera();
+  }
+
+  function initPlinth3dPreview() {
+    var host = document.getElementById('plinth-preview');
+    if (!host || !window.THREE) return;
+    if (plinth3d && plinth3d.host === host) return;
+    if (plinth3d) {
+      try {
+        cancelAnimationFrame(plinth3d.raf);
+        if (plinth3d.controls) plinth3d.controls.dispose();
+        disposeMeshMaterials(plinth3d.mesh);
+        if (plinth3d.mesh && plinth3d.mesh.geometry) plinth3d.mesh.geometry.dispose();
+        if (plinth3d.renderer) {
+          var el0 = plinth3d.renderer.domElement;
+          if (el0 && el0.parentNode) el0.parentNode.removeChild(el0);
+          plinth3d.renderer.dispose();
+        }
+      } catch (e) {}
+      plinth3d = null;
+    }
+
+    var THREE = window.THREE;
+    var scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xfafafa);
+    ensurePreviewLighting(scene, THREE);
+    var camera = new THREE.PerspectiveCamera(35, 1, 0.01, 50);
+    var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    host.innerHTML = '';
+    host.appendChild(renderer.domElement);
+    var s = readPlinthPreviewSizeMm();
+    var mesh = new THREE.Mesh(
+      new THREE.BoxGeometry(s.w / 1000, s.h / 1000, s.t / 1000),
+      new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 1, metalness: 0 })
+    );
+    scene.add(mesh);
+    var controls = null;
+    if (THREE.OrbitControls) {
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+    }
+
+    function onResize() {
+      var w = Math.max(1, host.clientWidth);
+      var h = Math.max(1, host.clientHeight);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h, false);
+      renderPlinthPreview();
+    }
+    onResize();
+    if (typeof ResizeObserver !== 'undefined') new ResizeObserver(onResize).observe(host);
+
+    function tick() {
+      if (!plinth3d) return;
+      if (plinth3d.controls) plinth3d.controls.update();
+      plinth3d.renderer.render(plinth3d.scene, plinth3d.camera);
+      plinth3d.raf = requestAnimationFrame(tick);
+    }
+
+    plinth3d = {
+      THREE: THREE,
+      host: host,
+      scene: scene,
+      camera: camera,
+      renderer: renderer,
+      mesh: mesh,
+      controls: controls,
+      sizeKey: s.w + 'x' + s.h + 'x' + s.t,
+      raf: 0,
+    };
+    fitPlinthCamera();
+    tick();
+    updatePlinth3dPreviewNow();
+  }
+
+  function updatePlinth3dPreviewNow() {
+    var host = document.getElementById('plinth-preview');
+    if (!host) return;
+    if (!plinth3d || plinth3d.host !== host) initPlinth3dPreview();
+    if (!plinth3d || !plinth3d.mesh) return;
+    rebuildPlinthGeometry();
+    var p = readPlinthDisplayParams();
+    var s = readPlinthPreviewSizeMm();
+    applyDecorToPanelSlot(plinth3d, p, { w: s.w, h: s.h, t: s.t }, { realW: 256, realH: 256, stretchW: 1, stretchH: 1 }, renderPlinthPreview);
+  }
+
+  function updatePlinth3dPreview() {
+    if (previewDebounceTimersPlinth.plinth) clearTimeout(previewDebounceTimersPlinth.plinth);
+    previewDebounceTimersPlinth.plinth = setTimeout(updatePlinth3dPreviewNow, 80);
+  }
+
+  window.__cldUpdatePlinthDecorPreview = updatePlinth3dPreview;
+  window.__cldInitPlinthDecorPreview = initPlinth3dPreview;
+
+  [
+    'plinth-texture-url',
+    'plinth-normal-map-url',
+    'plinth-roughness-map-url',
+    'plinth-model-color',
+    'plinth-model-color-hex',
+    'plinth-model-roughness',
+    'plinth-model-metalness',
+    'plinth-model-transparent',
+    'plinth-preview-size',
+  ].forEach(function (id) {
+    document.addEventListener(
+      'input',
+      function (e) {
+        if (e.target && e.target.id === id) updatePlinth3dPreview();
+      },
+      true
+    );
+    document.addEventListener(
+      'change',
+      function (e) {
+        if (e.target && e.target.id === id) updatePlinth3dPreview();
+      },
+      true
+    );
+  });
+
+  document.addEventListener('click', function (e) {
+    if (e.target && e.target.closest && e.target.closest('a[href="#plinth-tab-material"]')) {
+      setTimeout(function () {
+        initPlinth3dPreview();
+        updatePlinth3dPreviewNow();
+      }, 50);
+    }
+    if (e.target && e.target.closest && e.target.closest('a[href="#tt-tab-display"]')) {
+      setTimeout(function () {
+        initTabletop3dPreview();
+        updateTabletop3dPreviewNow();
+      }, 50);
+    }
+  });
+
+  /* ---- Столешка: 3D-превью с поворотом текстуры (как create_material) ---- */
+  var tt3d = null;
+  var previewDebounceTimersTt = { tt: null };
+
+  function ttElVal(id) {
+    var el = document.getElementById(id);
+    return el ? String(el.value || '') : '';
+  }
+  function ttElNum(id, def) {
+    var n = Number(ttElVal(id));
+    return Number.isFinite(n) ? n : def;
+  }
+  function ttElChecked(id) {
+    var el = document.getElementById(id);
+    return !!(el && el.checked);
+  }
+
+  function readTabletopThicknessMm() {
+    var cards = document.querySelectorAll('#tt-variants-list .tt-var-thickness');
+    if (cards && cards.length) {
+      var v = Number(cards[0].value);
+      if (v > 0) return v;
+    }
+    return 38;
+  }
+
+  function readTabletopDisplayParams() {
+    var mapUrl = resolveMediaUrl(ttElVal('tt-mat-map'));
+    return {
+      color: mapUrl
+        ? '#ffffff'
+        : (ttElVal('tt-mat-color') || ttElVal('tt-mat-color-hex') || '#ffffff').trim() || '#ffffff',
+      roughness: clamp01(ttElNum('tt-mat-roughness', 1), 1),
+      metalness: clamp01(ttElNum('tt-mat-metalness', 0), 0),
+      transparent: ttElChecked('tt-mat-transparent'),
+      opacity: ttElChecked('tt-mat-transparent') ? clamp01(ttElNum('tt-mat-opacity', 1), 1) : 1,
+      oneSided: ttElChecked('tt-mat-one-sided'),
+      mapUrl: mapUrl,
+      normalUrl: resolveMediaUrl(ttElVal('tt-mat-normal')),
+      roughUrl: resolveMediaUrl(ttElVal('tt-mat-rough-map')),
+      repeatMap: applyAdminPreviewMapRepeat,
+      repeatOther: applyAdminPreviewMapRepeat,
+    };
+  }
+
+  function readTabletopRepeatOpts() {
+    return {
+      realW: Math.max(1, ttElNum('tt-mat-real-w', 256)),
+      realH: Math.max(1, ttElNum('tt-mat-real-h', 256)),
+      stretchW: ttElChecked('tt-mat-stretch-w'),
+      stretchH: ttElChecked('tt-mat-stretch-h'),
+      rotated: ttElVal('tt-mat-rotation') === 'rotated',
+      rotation: ttElVal('tt-mat-rotation') || 'normal',
+      wrapping: ttElVal('tt-mat-wrapping') || 'mirror',
+    };
+  }
+
+  function renderTtPreview() {
+    if (tt3d && tt3d.renderer) tt3d.renderer.render(tt3d.scene, tt3d.camera);
+  }
+
+  /** Как у ЛДСП / PP: камера спереди, вся панель в кадре, без растяжения canvas */
+  function fitTtCamera() {
+    if (!tt3d || !tt3d.camera) return;
+    var pw = Math.max(1, ttElNum('tt-preview-w', 450)) / 1000;
+    var ph = Math.max(1, ttElNum('tt-preview-h', 720)) / 1000;
+    var maxDim = Math.max(pw, ph);
+    var dist = maxDim * 1.75;
+    // Прямо спереди (как PP), лёгкий сдвиг по X — видна кромка
+    tt3d.camera.position.set(dist * 0.18, 0, dist);
+    tt3d.camera.lookAt(0, 0, 0);
+    if (tt3d.controls) {
+      tt3d.controls.target.set(0, 0, 0);
+      tt3d.controls.update();
+    }
+  }
+
+  function rebuildTtGeometry() {
+    if (!tt3d || !tt3d.mesh) return;
+    var pw = Math.max(1, ttElNum('tt-preview-w', 450));
+    var ph = Math.max(1, ttElNum('tt-preview-h', 720));
+    var pt = Math.max(1, readTabletopThicknessMm());
+    var key = 'stand:' + pw + 'x' + ph + 'x' + pt;
+    if (tt3d.sizeKey === key) return;
+    tt3d.sizeKey = key;
+    if (tt3d.mesh.geometry) tt3d.mesh.geometry.dispose();
+    tt3d.mesh.geometry = new tt3d.THREE.BoxGeometry(pw / 1000, ph / 1000, pt / 1000);
+    tt3d.mesh.rotation.set(0, -0.08, 0);
+    fitTtCamera();
+  }
+
+  function initTabletop3dPreview() {
+    var host = document.getElementById('tt-preview-box');
+    if (!host || !window.THREE) return;
+    if (tt3d && tt3d.host === host) return;
+    if (tt3d) {
+      try {
+        cancelAnimationFrame(tt3d.raf);
+        if (tt3d.controls) tt3d.controls.dispose();
+        disposeMeshMaterials(tt3d.mesh);
+        if (tt3d.mesh && tt3d.mesh.geometry) tt3d.mesh.geometry.dispose();
+        if (tt3d.renderer) {
+          var el0 = tt3d.renderer.domElement;
+          if (el0 && el0.parentNode) el0.parentNode.removeChild(el0);
+          tt3d.renderer.dispose();
+        }
+      } catch (e) {}
+      tt3d = null;
+    }
+
+    var THREE = window.THREE;
+    var viewW = Math.max(200, host.clientWidth || 400);
+    var viewH = Math.max(200, host.clientHeight || 480);
+
+    var scene = new THREE.Scene();
+    ensurePreviewLighting(scene, THREE);
+    var camera = new THREE.PerspectiveCamera(38, viewW / viewH, 0.001, 50);
+    var renderer = new THREE.WebGLRenderer({ antialias: true });
+    // Важно: без `false` — CSS canvas = размер бокса (иначе растяжение/обрезка)
+    renderer.setSize(viewW, viewH);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setClearColor(0xf5f5dc, 1);
+    if (THREE.SRGBColorSpace) {
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+    }
+
+    host.innerHTML = '';
+    host.style.display = 'block';
+    host.style.position = 'relative';
+    host.appendChild(renderer.domElement);
+
+    var pw = Math.max(1, ttElNum('tt-preview-w', 450));
+    var ph = Math.max(1, ttElNum('tt-preview-h', 720));
+    var pt = Math.max(1, readTabletopThicknessMm());
+    var mesh = new THREE.Mesh(
+      new THREE.BoxGeometry(pw / 1000, ph / 1000, pt / 1000),
+      new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 1, metalness: 0 })
+    );
+    mesh.rotation.set(0, -0.08, 0);
+    scene.add(mesh);
+
+    var controls = null;
+    if (typeof THREE.OrbitControls !== 'undefined') {
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enablePan = false;
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.08;
+      controls.minDistance = 0.15;
+      controls.maxDistance = 6;
+    }
+
+    var lastW = viewW;
+    var lastH = viewH;
+    function onResize() {
+      if (!host || !renderer) return;
+      var nw = Math.max(200, host.clientWidth || 400);
+      var nh = Math.max(200, host.clientHeight || 480);
+      if (nw === lastW && nh === lastH) return;
+      lastW = nw;
+      lastH = nh;
+      renderer.setSize(nw, nh);
+      camera.aspect = nw / nh;
+      camera.updateProjectionMatrix();
+      if (tt3d) fitTtCamera();
+    }
+    if (typeof ResizeObserver !== 'undefined') {
+      new ResizeObserver(onResize).observe(host);
+    } else {
+      window.addEventListener('resize', onResize);
+    }
+
+    function tick() {
+      if (!tt3d) return;
+      if (tt3d.controls) tt3d.controls.update();
+      tt3d.renderer.render(tt3d.scene, tt3d.camera);
+      tt3d.raf = requestAnimationFrame(tick);
+    }
+
+    tt3d = {
+      THREE: THREE,
+      host: host,
+      scene: scene,
+      camera: camera,
+      renderer: renderer,
+      mesh: mesh,
+      controls: controls,
+      sizeKey: 'stand:' + pw + 'x' + ph + 'x' + pt,
+      raf: 0,
+    };
+    fitTtCamera();
+    tick();
+    updateTabletop3dPreviewNow();
+  }
+
+  function updateTabletop3dPreviewNow() {
+    var host = document.getElementById('tt-preview-box');
+    if (!host) return;
+    if (!tt3d || tt3d.host !== host) initTabletop3dPreview();
+    if (!tt3d || !tt3d.mesh) return;
+    rebuildTtGeometry();
+    fitTtCamera();
+    var p = readTabletopDisplayParams();
+    var pw = Math.max(1, ttElNum('tt-preview-w', 450));
+    var ph = Math.max(1, ttElNum('tt-preview-h', 720));
+    var pt = Math.max(1, readTabletopThicknessMm());
+    applyDecorToPanelSlot(tt3d, p, { w: pw, h: ph, t: pt }, readTabletopRepeatOpts(), renderTtPreview);
+  }
+
+  function updateTabletop3dPreview() {
+    if (previewDebounceTimersTt.tt) clearTimeout(previewDebounceTimersTt.tt);
+    previewDebounceTimersTt.tt = setTimeout(updateTabletop3dPreviewNow, 80);
+  }
+
+  window.__cldUpdateTabletopDisplayPreview = updateTabletop3dPreview;
+  window.__cldInitTabletopDecorPreview = initTabletop3dPreview;
+  window.__cldUpdateTabletopDecorPreview = updateTabletop3dPreview;
+
+  [
+    'tt-mat-map',
+    'tt-mat-normal',
+    'tt-mat-rough-map',
+    'tt-mat-color',
+    'tt-mat-color-hex',
+    'tt-mat-roughness',
+    'tt-mat-metalness',
+    'tt-mat-transparent',
+    'tt-mat-opacity',
+    'tt-mat-rotation',
+    'tt-mat-wrapping',
+    'tt-mat-stretch-w',
+    'tt-mat-stretch-h',
+    'tt-mat-real-w',
+    'tt-mat-real-h',
+    'tt-mat-one-sided',
+    'tt-preview-w',
+    'tt-preview-h',
+  ].forEach(function (id) {
+    document.addEventListener(
+      'input',
+      function (e) {
+        if (e.target && e.target.id === id) updateTabletop3dPreview();
+      },
+      true
+    );
+    document.addEventListener(
+      'change',
+      function (e) {
+        if (e.target && e.target.id === id) updateTabletop3dPreview();
+      },
+      true
+    );
+  });
 })();

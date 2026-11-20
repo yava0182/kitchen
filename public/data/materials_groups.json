@@ -17,11 +17,20 @@
   },
   {
     "key": "g2",
-    "name": "Фасады",
+    "name": "Фасады 18",
     "material": "ldsp",
     "thickness": 18,
     "allowed_keys": ["material_2"],
-    "default": false
+    "default": false,
+    "role": "facade"
+  },
+  {
+    "key": "g3",
+    "name": "Фасады 16",
+    "material": "ldsp",
+    "thickness": 16,
+    "allowed_keys": ["material_2"],
+    "default": false,
+    "role": "facade"
   }
 ]
-

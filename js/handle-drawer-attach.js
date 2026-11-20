@@ -174,11 +174,13 @@
     return false;
   }
 
-  /** Ящик в комнате: __slide_own, аниматор slide или модуль catalog_33 / layoutRole drawer. */
+  /** Ящик: __slide_own / cldSlide / catalog_33 / layoutRole drawer.
+   * Не считать __own_object ящиком — это обёртка любой детали, иначе ручки
+   * навешиваются на все стены с orientation f (в т.ч. приставку углового). */
   function isInsideDrawerContext(o) {
     let n = o;
     while (n) {
-      if (n.name === '__own_object' || n.name === '__slide_own' || n.userData?.cldSlide) return true;
+      if (n.name === '__slide_own' || n.userData?.cldSlide) return true;
       if (n.userData?.cldSlideAnimator) return true;
       if (layoutRoleOfNode(n) === 'drawer') return true;
       if (elementTypeOfNode(n) === 'catalog_33') return true;
@@ -901,7 +903,10 @@
     }
     if (!previewMode && !opts.force) {
       if (rt.shouldAttachHandlesInRoom && !rt.shouldAttachHandlesInRoom()) {
-        log('skip', { reason: 'room_step_before_6' });
+        // В т.ч. __CLD_HIDE_HANDLES: снять уже навешанные, не оставлять «призраков».
+        stripAllDrawerHandlesFromRoot(rootGroup);
+        removeStrayHandlesOnDrawerGuides(rootGroup);
+        log('skip', { reason: 'handles_hidden_or_before_step' });
         return { slides: 0, attached: 0, panels: 0 };
       }
     }

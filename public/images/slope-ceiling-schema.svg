@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 140" fill="none">
+  <!-- IKEA-like isometric schema: A knee height, B depth, C angle -->
+  <g stroke="#9aa0a6" stroke-width="1.4" stroke-linejoin="round">
+    <!-- floor -->
+    <path d="M28 98 L118 118 L208 88 L118 68 Z"/>
+    <!-- left wall (full height) -->
+    <path d="M28 98 L28 38 L118 18 L118 68"/>
+    <!-- back top edge -->
+    <path d="M118 18 L168 28"/>
+    <!-- right wall base -->
+    <path d="M208 88 L208 98"/>
+  </g>
+
+  <!-- remaining right wall up to A (solid) -->
+  <path d="M208 88 L168 78 L168 48 L208 58 Z" fill="#f3f3f3" stroke="#9aa0a6" stroke-width="1.4"/>
+
+  <!-- sloped ceiling volume (blue fill) -->
+  <path d="M168 48 L118 18 L168 28 L208 58 Z" fill="#cfe8f8" fill-opacity="0.95" stroke="#0058a3" stroke-width="1.6"/>
+  <!-- underside of slope (darker blue) -->
+  <path d="M168 48 L118 68 L168 78 L208 58 Z" fill="#7ec8f0" fill-opacity="0.55" stroke="#0058a3" stroke-width="1.4"/>
+
+  <!-- vertical dashed boundary of slope depth B -->
+  <path d="M168 48 L168 78" stroke="#0058a3" stroke-width="1.5" stroke-dasharray="3.5 2.5"/>
+
+  <!-- A: vertical measure on knee wall (dashed wall face) -->
+  <path d="M200 88 L200 60" stroke="#0058a3" stroke-width="1.5" stroke-dasharray="3 2.5"/>
+  <path d="M197 88 L203 88 M197 60 L203 60" stroke="#0058a3" stroke-width="1.4"/>
+  <text x="186" y="78" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#0058a3">A</text>
+
+  <!-- B: horizontal depth on top -->
+  <path d="M122 22 L164 32" stroke="#0058a3" stroke-width="1.5"/>
+  <path d="M122 19 L122 25 M164 29 L164 35" stroke="#0058a3" stroke-width="1.4"/>
+  <text x="136" y="20" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#0058a3">B</text>
+
+  <!-- C: angle arc at slope -->
+  <path d="M176 52 A14 14 0 0 0 188 64" stroke="#0058a3" stroke-width="1.5" fill="none" stroke-dasharray="2.5 2"/>
+  <text x="192" y="54" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#0058a3">C</text>
+</svg>

@@ -1,0 +1,50 @@
+{
+  "canvases": [
+    {
+      "w": 1672,
+      "h": 1000,
+      "cssW": 1338,
+      "cssH": 800,
+      "x": 51,
+      "y": 119,
+      "id": "canvas",
+      "cls": ""
+    }
+  ],
+  "slopedDom": [
+    {
+      "tag": "symbol",
+      "id": "icon-tools-sloped-ceiling",
+      "cls": "[object SVGAnimatedString]",
+      "t": "",
+      "w": 0,
+      "h": 0
+    },
+    {
+      "tag": "ARTICLE",
+      "id": "sketcher-mod-sloped-ceiling",
+      "cls": "mod-layer-sloped-ceiling mod-open",
+      "t": "Добавить скошенный потолок Нажмите на стену, чтобы добавить скошенный потолок и введите необходимые размеры Отменить Пов",
+      "w": 1440,
+      "h": 960
+    },
+    {
+      "tag": "DIV",
+      "id": "sloped-ceiling-layer",
+      "cls": "canvas-wrap",
+      "t": "Трехмерный вид",
+      "w": 1338,
+      "h": 800
+    }
+  ],
+  "globals": [
+    "onappinstalled",
+    "XRViewerPose",
+    "__core-js_shared__",
+    "ByMeAPI",
+    "app"
+  ],
+  "appInfo": null,
+  "body": "Error We've encountered an error. Refresh the application Go back Задайте форму и размер комнаты Выбрать готовый вариант Добавьте индивидуальности Итог Item notes See product list Измерить Отменить Повторить Сохранить Закрыть Добавить скошенный потолок Нажмите на стену, чтобы добавить скошенный потолок и введите необходимые размеры Отменить Повторить Отмена ОК Трехмерный вид 2500 mm",
+  "imgs": []
+}

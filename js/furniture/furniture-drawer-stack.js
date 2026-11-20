@@ -322,6 +322,25 @@ function isDrawerModule(n) {
 /** N×h + (N−1)×band ≤ corpusSpan; верх последнего слота = slotTop. */
 export function computeDrawerStack(corpusSpan, p) {
   if (!(corpusSpan > 0)) return null;
+
+  // Gola НМ 2 ящика: фасад фиксирован 343 (не делим проём поровну).
+  if (p && (p.golaTwoDrawer === true || p.mode === 'gola_two_drawer')) {
+    const facadeH = Math.max(
+      40,
+      Math.round(num(p.facadeHeightMm, num(p.minHeightMm, 343)))
+    );
+    const gap = Math.max(4, num(p.gapMm, 34));
+    const oh = Math.max(0, num(p.facadeOverhangMm, 0));
+    const band = 2 * oh + gap;
+    return {
+      count: 2,
+      drawerHeightMm: facadeH,
+      pivotStepMm: facadeH + band,
+      facadeHeightMm: facadeH,
+      golaTwoDrawer: true,
+    };
+  }
+
   const band = facadeBandMm(p);
   const unit = p.minHeightMm + band;
 
@@ -752,16 +771,65 @@ function seedDrawerLockedDepthVariable(root, depthMm) {
   root.variables.main.drawer_locked_depth_mm = d;
 }
 
+function resolveGolaTwoDrawerPolicyOverlay(placementKind, policy) {
+  const pk = String(placementKind || '').trim();
+  // 2×343 только у SKU kitchen_base_gola — не по флагу проекта на ordinary НМ.
+  if (pk !== 'kitchen_base_gola') return null;
+  let facadeH = 343;
+  let gapMm = 34;
+  try {
+    const layout =
+      typeof window !== 'undefined' &&
+      typeof window.__cldResolveGolaTwoDrawerFacadeLayoutMm === 'function'
+        ? window.__cldResolveGolaTwoDrawerFacadeLayoutMm({})
+        : null;
+    if (layout?.facadeHeightMm > 0) facadeH = Math.round(layout.facadeHeightMm);
+    if (layout?.gapBetweenFacadesMm > 0) {
+      gapMm = Math.max(4, Math.round(layout.gapBetweenFacadesMm));
+    }
+  } catch (_) {}
+  return {
+    ...(policy && typeof policy === 'object' ? policy : {}),
+    enabled: true,
+    golaTwoDrawer: true,
+    mode: 'gola_two_drawer',
+    maxCount: 2,
+    minHeightMm: facadeH,
+    maxHeightMm: facadeH,
+    facadeHeightMm: facadeH,
+    gapMm,
+    facadeOverhangMm: 0,
+  };
+}
+
+function countDrawerModulesInRoots(roots) {
+  let n = 0;
+  const rootsArr = Array.isArray(roots) ? roots : roots ? [roots] : [];
+  for (const root of findSectionRoots(rootsArr)) {
+    if (!Array.isArray(root.children)) continue;
+    for (let i = 0; i < root.children.length; i++) {
+      if (isDrawerModule(root.children[i])) n += 1;
+    }
+  }
+  return n;
+}
+
 export function applyDrawerStackPolicyToRoots(roots, opts = {}) {
-  const p = normalizePolicy(opts.policy || null);
-  if (!p?.enabled) return false;
   const placementKind = String(opts.placementKind || '').trim();
-  // Тумба + навес с drawerStack: стек по высоте корпуса. Не interior-fill шкафа.
+  let p = normalizePolicy(opts.policy || null);
+  const golaOverlay = resolveGolaTwoDrawerPolicyOverlay(placementKind, p);
+  // Фасады 343 — только если в модуле уже ровно 2 ящика (не плодим второй).
+  if (golaOverlay && countDrawerModulesInRoots(roots) === 2) {
+    p = normalizePolicy(golaOverlay);
+  }
+  if (!p?.enabled) return false;
+  // Тумба + навес + кухня НМ Gola (2×343): стек по высоте корпуса.
   const shouldAutoStack =
     placementKind === 'standalone_floor' ||
     placementKind === 'wall_hung' ||
     placementKind === 'wall_hung_low' ||
-    placementKind === 'wall_hung_high';
+    placementKind === 'wall_hung_high' ||
+    p.golaTwoDrawer === true;
 
   const sectionSizeY = Math.max(0, num(opts.sectionSizeMm?.y, 0));
   const sectionDepthMm = Math.max(0, num(opts.sectionSizeMm?.z, 0));

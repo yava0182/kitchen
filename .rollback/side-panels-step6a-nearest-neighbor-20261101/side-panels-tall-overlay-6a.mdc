@@ -1,0 +1,17 @@
+# STEP 6A — накладка пенала 16 мм
+
+## Канон
+
+- Только **одна** накладка (left **или** right), не две.
+- Ячейка пенала = `carcassW + 16`; корпус остаётся `carcassW` (обычно 600).
+- 16 мм забирают **соседи** через `setZoneCustomWidthMm` (balancer), секция не растёт.
+- Соседи примыкают к внешней плоскости накладки (без мм-хаков).
+- Pin ячейки пенала обновляется на `carcass+pad` (механизм pin не переписываем).
+- MID/TOP: синхрон **только changed zi** (пенал + соседи), не вся сетка.
+- Не возвращать 5B (section bounds).
+
+## Код
+
+- `kitchenTallOverlayPadMm` + `rebuildForCellWidthMm` (buildX = cell − pad)
+- `_reserveTallOverlayFootprint` в `kitchen-side-panels-overlay-api.js`
+- Bust: `20261101-side6a1`

@@ -296,6 +296,9 @@
     if (typeof window.__cldCatalogShelfStack?.applyShelfStackToVueItem === 'function') {
       window.__cldCatalogShelfStack.applyShelfStackToVueItem(vueItem, apiData, null);
     }
+    if (typeof window.__cldCatalogKitchenSupports?.applyKitchenSupportsToVueItem === 'function') {
+      window.__cldCatalogKitchenSupports.applyKitchenSupportsToVueItem(vueItem, apiData);
+    }
     // Фаза A: навес/тумба — h_bottom и стеки по типу (после загрузки с диска).
     if (typeof window.__cldCatalogModuleProfile?.applyModuleProfileToVueItem === 'function') {
       window.__cldCatalogModuleProfile.applyModuleProfileToVueItem(vueItem, {

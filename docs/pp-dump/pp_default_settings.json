@@ -1,0 +1,7 @@
+[
+  {
+    "id": "1",
+    "data": "{\"facades\":{\"id\":\"189\",\"material\":\"8081\"},\"glassed_facades_material\":{\"id\":0},\"cokol\":{\"id\":\"2\"},\"tabletop\":{\"id\":\"11\",\"variant_id\":0,\"bort_id\":0},\"cornice\":{\"id\":0},\"cokol_top\":{\"id\":0},\"walls\":{\"available\":[1],\"id\":\"914\"},\"floor\":{\"available\":[219,265],\"id\":\"7977\"},\"handle\":{\"id\":\"51\",\"size\":0},\"id\":\"1\",\"module_types_available\":[],\"module_types\":[]}",
+    "name": "default"
+  }
+]

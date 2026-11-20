@@ -1,0 +1,17 @@
+﻿FILE js\kitchen\kitchen-joint.js
+onlyIn1.102 count=4
+  if (!_wOk(widthMm) && host?.division) {
+    if (_wOk(cw)) widthMm = cw;
+  if (!_wOk(widthMm)) {
+  if (!_wOk(widthMm)) widthMm = KITCHEN_CORNER_CELL_WIDTH_MM;
+----
+onlyInCurrent count=9
+  // Авто-600 (free-arm до Joint / без user-source) — не спец НМУ.
+  const _userW =
+    host?.division?.customZoneWidthsSource === 'user' ||
+    host?.kitchenBandGrids?.base?.customZoneWidthsSource === 'user';
+  const _trustW = (w) => _wOk(w) && !(w === 600 && !_userW);
+  if (!_trustW(widthMm) && host?.division) {
+    if (_trustW(cw)) widthMm = cw;
+  if (!_trustW(widthMm)) {
+  if (!_trustW(widthMm)) widthMm = KITCHEN_CORNER_CELL_WIDTH_MM;

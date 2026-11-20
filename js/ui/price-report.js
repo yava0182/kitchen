@@ -41,13 +41,18 @@ function computeRoomPriceReport() {
       : lenMp * (Number(ud.edgePricePerMp || 0) || 0);
     const pMp = edgeRows ? 0 : (Number(ud.edgePricePerMp || 0) || 0);
 
-    const totalRub = Number(ud.priceRubTotal ?? (ldspRub + edgeRub) ?? 0) || 0;
+    const hwRub = Number(ud.priceHardwareRub || 0) || 0;
+    const hwRows = Array.isArray(ud.hardwarePricingRows) ? ud.hardwarePricingRows : null;
+    const totalRub = Number(ud.priceRubTotal ?? (ldspRub + edgeRub + hwRub) ?? 0) || 0;
 
     out.furnitureTotalRub += totalRub;
     out.ldsp.areaM2 += areaM2;
     out.ldsp.rub += ldspRub;
     out.edge.lengthMp += lenMp;
     out.edge.rub += edgeRub;
+    out.hardware = out.hardware || { rub: 0, rows: [] };
+    out.hardware.rub += hwRub;
+    if (hwRows) out.hardware.rows.push(...hwRows);
 
     out.items.push({
       id: obj.uuid,
@@ -59,8 +64,10 @@ function computeRoomPriceReport() {
       lengthMp: lenMp,
       pricePerMp: pMp,
       edgeRub,
+      hardwareRub: hwRub,
       totalRub,
       edgeRows: edgeRows || undefined,
+      hardwareRows: hwRows || undefined,
     });
   });
 

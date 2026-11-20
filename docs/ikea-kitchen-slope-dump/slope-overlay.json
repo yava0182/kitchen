@@ -1,0 +1,312 @@
+{
+  "schema": "ikea-slope-overlay-20261006",
+  "at": "2026-10-06T18:39:34.496Z",
+  "captured": [
+    {
+      "kind": "ru-LV",
+      "url": "https://platform.ikea-prod.by.me/api/3/applicationdistributions/LV/translations/ru-LV",
+      "size": 98861
+    }
+  ],
+  "live": {
+    "htmlBits": [],
+    "templates": [],
+    "idxs": [],
+    "bodyLen": 43699
+  },
+  "partials": [
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/html/sloped-ceiling.html",
+      "status": 404,
+      "body": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n<!-- a padding to disable MSIE and Chrome friendly error page -->\r\n<!-- a padding to disable MSIE and Chrome friendly error page -->\r\n<!-- a padding to disable MSIE and Chrome friendly error page -->\r\n<!-- a padding to disable MSIE and Chrome friendly error page -->\r\n<!-- a padding to disable MSIE and Chrome friendly error page -->\r\n<!-- a padding to disable MSIE and Chrome friendly error page -->\r\n"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/partials/sloped-ceiling.html",
+      "status": 404,
+      "body": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n<!-- a padding to disable MSIE and Chrome friendly error page -->\r\n<!-- a padding to disable MSIE and Chrome friendly error page -->\r\n<!-- a padding to disable MSIE and Chrome friendly error page -->\r\n<!-- a padding to disable MSIE and Chrome friendly error page -->\r\n<!-- a padding to disable MSIE and Chrome friendly error page -->\r\n<!-- a padding to disable MSIE and Chrome friendly error page -->\r\n"
+    },
+    {
+      "url": "https://kitchen.ikea-prod.by.me/Kitchen/assets/templates/sloped-ceiling.html",
+      "status": 404,
+      "body": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n<!-- a padding to disable MSIE and Chrome friendly error page -->\r\n<!-- a padding to disable MSIE and Chrome friendly error page -->\r\n<!-- a padding to disable MSIE and Chrome friendly error page -->\r\n<!-- a padding to disable MSIE and Chrome friendly error page -->\r\n<!-- a padding to disable MSIE and Chrome friendly error page -->\r\n<!-- a padding to disable MSIE and Chrome friendly error page -->\r\n"
+    }
+  ],
+  "geo": {
+    "getSlopeSingleFace2DA": [
+      "oLevel(this.getLevel(),h);const m=this.getPresenter(\"SlopeFacePresenter2D\"),_=e.getSlopeSingleFace2DA();m&&_.forEach((e=>{m.unRegisterModel(t,e)}));const g=this.getPresenter(\"BayPresenter2D\");if(g){e.getBays().forEach((e=>{e.productInfo?e.productInfo.tags.type[0]===o.MF4.RoofWindows&&g.unRegisterModel(t,e):Math.abs(e.transfo.elements[10]-1)>o.McK.EPSILON&&g.unRegisterModel(t,e)}))}e.getFurnitures(",
+      "{const e=this.getLevel(),t=this,i=this.getPresenter(\"SlopeFacePresenter2D\"),o=e.getSlopeSingleFace2DA();i&&o.forEach((e=>{i.unRegisterModel(t,e)}));const n=this.getPresenter(\"BayPresenter2D\");if(n){e.getBays().forEach((e=>{e.productInfo?e.productInfo.tags.type[0]===a.MF4.RoofWindows&&n.unRegisterModel(t,e):Math.abs(e.transfo.elements[10]-1)>a.McK.EPSILON&&n.unRegisterModel(t,e)}))}const s=this._li"
+    ],
+    "getDirectionOfSlope": [
+      "this.isRecoveringProject),await this.switchToState(o,{context:a})},k.prototype._getDirectionOfSlope=function(e){const t=e.getDirection().rotate(Math.PI/2),i=e.edge.segment.getPoint(.5);t.multiplyScalar(e.getThickness()/2),i.translate(t);const o=this._level.getRooms();for(let e=0;e<o.length;e++)if(o[e].isInside2DRoom(i))return-1;return 1},k.prototype._receiveMessageProjectInfoRequested=function(e,t"
+    ],
+    "SlopeFacePresenter2D": [
+      "inearManager.updateLinearsToLevel(this.getLevel(),h);const m=this.getPresenter(\"SlopeFacePresenter2D\"),_=e.getSlopeSingleFace2DA();m&&_.forEach((e=>{m.unRegisterModel(t,e)}));const g=this.getPresenter(\"BayPresenter2D\");if(g){e.getBays().forEach((e=>{e.productInfo?e.productInfo.tags.type[0]===o.MF4.RoofWindows&&g.unRegisterModel(t,e):Math.abs(e.transfo.elements[10]-1)>o.McK.EPSILON&&g.unRegisterMod",
+      "e.onContextBuilt=function(){const e=this.getLevel(),t=this,i=this.getPresenter(\"SlopeFacePresenter2D\"),o=e.getSlopeSingleFace2DA();i&&o.forEach((e=>{i.unRegisterModel(t,e)}));const n=this.getPresenter(\"BayPresenter2D\");if(n){e.getBays().forEach((e=>{e.productInfo?e.productInfo.tags.type[0]===a.MF4.RoofWindows&&n.unRegisterModel(t,e):Math.abs(e.transfo.elements[10]-1)>a.McK.EPSILON&&n.unRegisterMod"
+    ],
+    "SlopedCeiling": [
+      ".toggleBayTooltip),(0,o.$)(\"#go-to-auto-design\").off(\"click\")},y.prototype._undoSlopedCeilingEditorCallback=function(){this._app.level.updateGeometry2D()},y.prototype._populateToolTipsParams=function(){if(this._app.isOnMobile())return[];const e=[{action:\"import_plan\",message:o.wDx.Translate(\"tips.design_own.import_plan.title\")},{action:\"draw_plan\",message:o.wDx.Translate(\"tips.design_own.draw_plan",
+      "ates=[n.oU4.WorktopEditor,n.oU4.WallPanelEditor,n.oU4.WallEdgeStripEditor,n.oU4.SlopedCeilingState,n.oU4.AddBorderState,n.oU4.MultiReplace,n.oU4.WaterSupply,n.oU4.AdvancedDecoration],this.setOnProjectSavedAction(null),n.gVx.WaterfallInset=this.productSettings.waterfallInset,this._loadStylesAndFeatures(),this._initUIModules({brandName:e.brandName}).then((async()=>{this._initDom(),this._bindEvents()",
+      "break;case n.oU4.MeasureToolState:i=n.uVQ,r=\"MeasureToolState\";break;case n.oU4.SlopedCeilingState:i=n.seJ,r=\"SlopedCeilingState\";break;case n.oU4.AddBorderState:i=n.FZS,r=\"AddBorderState\";break;case n.oU4.Render360State:i=n.xYM,r=\"Render360State\";break;case n.oU4.ItemNotes:i=n.Squ,r=\"ItemNotesState\";break;case n.oU4.MultiReplace:i=n.HKJ,r=\"MultiReplaceState\";break;case n.oU4.WaterSupply:i=n.Enj,r",
+      "ate:i=n.uVQ,r=\"MeasureToolState\";break;case n.oU4.SlopedCeilingState:i=n.seJ,r=\"SlopedCeilingState\";break;case n.oU4.AddBorderState:i=n.FZS,r=\"AddBorderState\";break;case n.oU4.Render360State:i=n.xYM,r=\"Render360State\";break;case n.oU4.ItemNotes:i=n.Squ,r=\"ItemNotesState\";break;case n.oU4.MultiReplace:i=n.HKJ,r=\"MultiReplaceState\";break;case n.oU4.WaterSupply:i=n.Enj,r=\"WaterSupplyState\";break;case",
+      "ew:\"ViewIn3D\",\"ViewIn2D\"==t&&(i=\"ViewInFE\")),o&&g.app.currentState.stateId!=m.o.SlopedCeilingState&&g.app.currentState.stateId!=m.o.MeasureToolState||g.app.currentState.stateId===m.o.Design||g.app.currentState.stateId===m.o.Snapshot||(t=null!==h.D&&void 0!==h.D&&h.D.currentView?h.D.currentView:g.app.currentState.stateId==m.o.DesignYourRoom?\"ViewIn2D\":\"ViewIn3D\",\"ViewIn2D\"==t&&(i=\"ViewIn3D\")),\"View"
+    ]
+  },
+  "ruSlope": [
+    {
+      "path": "business_rule.ceiling_cabinet_vertical_intersection_rule_error_message",
+      "value": "Пожалуйста убедитесь, что предметы не соприкасаются с потолком"
+    },
+    {
+      "path": "business_rule.ceiling_cabinet_vertical_intersection_rule_title",
+      "value": "Пересечение объектов с потолком"
+    },
+    {
+      "path": "business_rule.ceiling_height_rule.message",
+      "value": "Минимальное расстояние между полом и потолком или нижней частью наклонного потолка составляет {{{x}}}."
+    },
+    {
+      "path": "business_rule.ceiling_height_rule.title",
+      "value": "Высота потолка"
+    },
+    {
+      "path": "business_rule.min_dis_wall_to_WallCabinet_message",
+      "value": "Минимальное расстояние между навесным шкафом и потолком составляет {{{x}}}."
+    },
+    {
+      "path": "business_rule.min_dis_wall_to_WallCabinet_title",
+      "value": "Минимальное расстояние между навесным шкафом и потолком"
+    },
+    {
+      "path": "business_rule.position_of_ceiling_mounted_furniture_rule_error_message",
+      "value": "Пожалуйста установите потолочную технику, и убедитесь, что она закреплена на потолке."
+    },
+    {
+      "path": "business_rule.sloping_rule_base_cabinet_error_message",
+      "value": "Учитывайте скошенный потолок при планировании своей кухни"
+    },
+    {
+      "path": "business_rule.sloping_rule_base_cabinet_title",
+      "value": "Положение напольного шкафа"
+    },
+    {
+      "path": "business_rule.sloping_rule_cooktop_cabinet_error_message",
+      "value": "Учитывайте скошенный потолок при планировании своей кухни"
+    },
+    {
+      "path": "business_rule.sloping_rule_cooktop_cabinet_title",
+      "value": "Положение варочной поверхности"
+    },
+    {
+      "path": "business_rule.sloping_rule_dishwasher_cabinet_error_message",
+      "value": "Наклонный потолок: шкаф для посудомоечной машины должен располагаться на минимальном расстоянии {{{x}}} от наклонного потолка."
+    },
+    {
+      "path": "business_rule.sloping_rule_dishwasher_cabinet_title",
+      "value": "Положение шкафа с посудомоечной машиной"
+    },
+    {
+      "path": "business_rule.sloping_rule_fridge_cabinet_error_message",
+      "value": "Учитывайте скошенный потолок при планировании своей кухни"
+    },
+    {
+      "path": "business_rule.sloping_rule_fridge_cabinet_title",
+      "value": "Положение отдельностоящего шкафа с холодильником"
+    },
+    {
+      "path": "business_rule.sloping_rule_half_height_cabinet_error_message",
+      "value": "Минимальное расстояние между высоким шкафом и наклонным потолком составляет {{{x}}}."
+    },
+    {
+      "path": "business_rule.sloping_rule_half_height_cabinet_title",
+      "value": "Положение шкафчика"
+    },
+    {
+      "path": "business_rule.sloping_rule_high_cabinet_error_message",
+      "value": "Учитывайте скошенный потолок при планировании своей кухни"
+    },
+    {
+      "path": "business_rule.sloping_rule_high_cabinet_title",
+      "value": "Положение высокого шкафа"
+    },
+    {
+      "path": "business_rule.sloping_rule_high_cabinet_top_light_error_message",
+      "value": "Учитывайте скошенный потолок при планировании своей кухни"
+    },
+    {
+      "path": "business_rule.sloping_rule_high_cabinet_top_light_title",
+      "value": "Положение высокого шкафа с подсветкой"
+    },
+    {
+      "path": "business_rule.sloping_rule_horizontal_cabinet_error_message",
+      "value": "Учитывайте скошенный потолок при планировании своей кухни"
+    },
+    {
+      "path": "business_rule.sloping_rule_horizontal_cabinet_title",
+      "value": "Положение горизонтального навесного шкафа"
+    },
+    {
+      "path": "business_rule.sloping_rule_horizontal_cabinet_top_light_error_message",
+      "value": "Наклонный потолок: горизонтальный шкаф с верхним освещением необходимо разместить на минимальном расстоянии {{{x}}} от наклонного потолка."
+    },
+    {
+      "path": "business_rule.sloping_rule_horizontal_cabinet_top_light_title",
+      "value": "Положение горизонтального навесного шкафа с подсветкой"
+    },
+    {
+      "path": "business_rule.sloping_rule_intersection_message",
+      "value": "Некоторые шкафы пересекаются со скошенным потолком"
+    },
+    {
+      "path": "business_rule.sloping_rule_intersection_title",
+      "value": "Пересечение шкафа со скошенным потолком"
+    },
+    {
+      "path": "business_rule.sloping_rule_oven_cabinet_error_message",
+      "value": "Наклонный потолок: шкаф для духовки должен располагаться на минимальном расстоянии {{{x}}} от наклонного потолка."
+    },
+    {
+      "path": "business_rule.sloping_rule_oven_cabinet_title",
+      "value": "Положение шкафа с духовкой"
+    },
+    {
+      "path": "business_rule.sloping_rule_sink_cabinet_error_message",
+      "value": "Учитывайте скошенный потолок при планировании своей кухни"
+    },
+    {
+      "path": "business_rule.sloping_rule_sink_cabinet_title",
+      "value": "Положение шкафа с раковиной"
+    },
+    {
+      "path": "business_rule.sloping_rule_wall_cabinet_error_message",
+      "value": "Учитывайте скошенный потолок при планировании своей кухни"
+    },
+    {
+      "path": "business_rule.sloping_rule_wall_cabinet_title",
+      "value": "Положение навесного шкафа"
+    },
+    {
+      "path": "business_rule.sloping_rule_wall_cabinet_top_light_error_message",
+      "value": "Учитывайте скошенный потолок при планировании своей кухни"
+    },
+    {
+      "path": "business_rule.sloping_rule_wall_cabinet_top_light_title",
+      "value": "Положение навесного шкафа с подсветкой"
+    },
+    {
+      "path": "business_rule.sloping_rule_wall_panel_error_message",
+      "value": "Учитывайте скошенный потолок при планировании своей кухни"
+    },
+    {
+      "path": "business_rule.sloping_rule_wall_panel_intersection_message",
+      "value": "Стеновые панели пересекаются со скошенным потолком"
+    },
+    {
+      "path": "business_rule.sloping_rule_wall_panel_intersection_title",
+      "value": "Пересечение стеновых панелей со скошенным потолком"
+    },
+    {
+      "path": "business_rule.sloping_rule_wall_panel_title",
+      "value": "Стеновая панель"
+    },
+    {
+      "path": "business_rule.sloping_rule_washer_cabinet_error_message",
+      "value": "Наклонный потолок: стиральную машину необходимо разместить на расстоянии не менее {{{x}}} от наклонного потолка."
+    },
+    {
+      "path": "business_rule.sloping_rule_washer_cabinet_title",
+      "value": "Положение стиральной машины"
+    },
+    {
+      "path": "common.ceiling_height",
+      "value": "Высота потолка"
+    },
+    {
+      "path": "draw_plan_panel.add_sloped_walls",
+      "value": "Добавить скошенный потолок"
+    },
+    {
+      "path": "edit_properties_panel.room_height",
+      "value": "Как высота потолка"
+    },
+    {
+      "path": "edit_properties_panel.sloped_ceiling",
+      "value": "Скошенные потолки"
+    },
+    {
+      "path": "kitchen.design_room_state.button_sloped_ceiling",
+      "value": "Скошенный потолок"
+    },
+    {
+      "path": "navigation_catalog.design_room_state.roofWindow",
+      "value": "Мансардное окно"
+    },
+    {
+      "path": "notification.info_no_sloped_ceiling",
+      "value": "Мансардное окно только при скошенных потолках"
+    },
+    {
+      "path": "notification.info_no_sloped_ceiling_link",
+      "value": "Добавить скошенные потолки"
+    },
+    {
+      "path": "property.room_type.attic",
+      "value": "Чердак"
+    },
+    {
+      "path": "sloped_ceiling.editor_title",
+      "value": "Скошенный потолок"
+    },
+    {
+      "path": "sloped_ceiling.hide_schema",
+      "value": "Скрыть скошенный потолок"
+    },
+    {
+      "path": "sloped_ceiling.show_schema",
+      "value": "Показать скошенный потолок"
+    },
+    {
+      "path": "sloped_ceiling.sloped_ceiling_overlay.add_sloped_ceiling",
+      "value": "Добавить скошенный потолок"
+    },
+    {
+      "path": "sloped_ceiling.sloped_ceiling_overlay.add_sloped_ceiling_button",
+      "value": "Добавить"
+    },
+    {
+      "path": "sloped_ceiling.sloped_ceiling_overlay.change_sloped_ceiling",
+      "value": "Изменить скошенный потолок"
+    },
+    {
+      "path": "sloped_ceiling.sloped_ceiling_overlay.change_sloped_ceiling_button",
+      "value": "Изменить"
+    },
+    {
+      "path": "sloped_ceiling.sloped_ceiling_overlay.delete_sloped_ceiling",
+      "value": "Удалить скошенный потолок"
+    },
+    {
+      "path": "sloped_ceiling.sloped_ceiling_overlay.delete_sloped_ceiling_button",
+      "value": "Удалить"
+    },
+    {
+      "path": "sloped_ceiling.sloped_ceiling_overlay.title",
+      "value": "Настройки скошенного потолка"
+    },
+    {
+      "path": "sloped_ceiling.subtitle",
+      "value": "Нажмите на стену, чтобы добавить скошенный потолок и введите необходимые размеры"
+    },
+    {
+      "path": "sloped_ceiling.title",
+      "value": "Добавить скошенный потолок"
+    },
+    {
+      "path": "tips.design_own.ceiling_height.description",
+      "value": "Вы можете отрегулировать высоту потолка"
+    },
+    {
+      "path": "tips.design_own.ceiling_height.title",
+      "value": "Изменить высоту потолка"
+    }
+  ]
+}

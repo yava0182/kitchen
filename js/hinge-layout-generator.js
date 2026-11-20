@@ -20,6 +20,8 @@
     { key: 'pedestal', label: 'Тумба' },
     { key: 'console', label: 'Консоль' },
     { key: 'wall_hung', label: 'Шкаф навесной' },
+    // НМ; фасады H=720 — общий пул с НШ1 (те же catalog_28), без дублирования строк.
+    { key: 'kitchen_base', label: 'Кухня НМ (стол)' },
   ];
 
   // Ось расстановки петель определяется типом открытия фасада:
@@ -60,6 +62,12 @@
     { product: 'wall_hung', variant: 'main',     opens: 'swing-right',   variantLabel: 'Фасад шкафа навесного (правый)', legacyRole: 'facades' },
     { product: 'wall_hung', variant: 'main',     opens: 'double-swing',  variantLabel: 'Фасад шкафа навесного (двустворчатый)', legacyRole: 'facades' },
     { product: 'wall_hung', variant: 'main',     opens: 'lift',          variantLabel: 'Фасад шкафа навесного', legacyRole: 'facades_top' },
+    // kitchen_base: одна полоса на корпус 720; facadeHeightMm — ключ общего пула с НШ 720.
+    { product: 'kitchen_base', variant: 'main', opens: 'swing-left',    variantLabel: 'Фасад НМ 720 (левый)', legacyRole: 'facades', facadeHeightMm: 720 },
+    { product: 'kitchen_base', variant: 'main', opens: 'swing-right',   variantLabel: 'Фасад НМ 720 (правый)', legacyRole: 'facades', facadeHeightMm: 720 },
+    { product: 'kitchen_base', variant: 'main', opens: 'double-swing',  variantLabel: 'Фасад НМ 720 (двустворчатый)', legacyRole: 'facades', facadeHeightMm: 720 },
+    // Gola 2 ящика: фасад 343 (drawerNoHandle / solid), пул catalog_28 по высоте.
+    { product: 'kitchen_base', variant: 'gola_drawer', opens: 'solid', variantLabel: 'Фасад НМ Gola ящик 343', legacyRole: 'facades', facadeHeightMm: 343 },
   ];
 
   const FACADE_LEAF_TO_COMPOSITE_CATALOG_ID = { 8: 13, 11: 13, 7: 14, 12: 14 };
@@ -84,6 +92,17 @@
     return PRODUCT_FACADE_VARIANTS.filter((v) =>
       isFacadeVariantVisibleInAdmin(v, PRODUCT_FACADE_VARIANTS)
     );
+  }
+
+  /**
+   * Варианты с тем же facadeHeightMm (НМ 720 ↔ НШ 720 — один пул catalog_28).
+   * @param {number} heightMm
+   * @returns {typeof PRODUCT_FACADE_VARIANTS}
+   */
+  function facadeVariantsByHeightMm(heightMm) {
+    const h = Math.round(Number(heightMm) || 0);
+    if (!(h > 0)) return [];
+    return PRODUCT_FACADE_VARIANTS.filter((v) => Math.round(Number(v.facadeHeightMm) || 0) === h);
   }
 
   function hingeAxisForOpens(opens) {
@@ -166,6 +185,11 @@
     }
     if (pk === 'wall_hung' && role === 'facades_top') {
       return { variant: 'main', opens: 'lift' };
+    }
+    // НМ / стол: facades и facades_main — одна полоса 720 (общий пул с НШ).
+    if (pk === 'kitchen_base' && (role === 'facades_main' || role === 'facades')) {
+      if (doubleSwing) return { variant: 'main', opens: 'double-swing' };
+      return { variant: 'main', opens: right ? 'swing-right' : 'swing-left' };
     }
     return null;
   }
@@ -1031,6 +1055,13 @@
       return 'wall_hung';
     }
     if (pk === 'corpus_only') return 'wardrobe';
+    if (
+      pk === 'kitchen_base' ||
+      pk === 'kitchen_base_gola' ||
+      pk === 'kitchen_base_corner'
+    ) {
+      return 'kitchen_base';
+    }
     return 'wardrobe';
   }
 
@@ -2045,6 +2076,7 @@
     PRODUCT_KINDS,
     PRODUCT_FACADE_VARIANTS,
     facadeVariantsForAdminUI,
+    facadeVariantsByHeightMm,
     isFacadeVariantVisibleInAdmin,
     OPENS_AXIS,
     OPENS_LABEL,

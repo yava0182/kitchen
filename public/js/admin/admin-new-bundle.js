@@ -1,6 +1,6 @@
     try {
       // console.error — иначе при __CLD_DEBUG=false этот лог молчит и кажется, что бандл не грузится.
-      console.error('[CLD][bundle] admin-new-bundle.js loaded v=20260812-tree-copy-paste');
+      console.log('[CLD][bundle] admin-new-bundle.js loaded v=20260812-tree-copy-paste');
     } catch (_) {}
 
     // Гарантированный отладочный перехват событий изменения основных размеров.
@@ -302,9 +302,10 @@
         // Действия
           const actionsCell = document.createElement('td');
         actionsCell.className = 'col-actions';
-          actionsCell.style.width = '150px';
         actionsCell.style.verticalAlign = 'middle';
         actionsCell.style.textAlign = 'center';
+          const actWrap = document.createElement('div');
+          actWrap.className = 'cld-row-actions';
           
         // Редактировать
           const editLink = document.createElement('a');
@@ -322,7 +323,6 @@
           const deleteIcon = document.createElement('i');
           deleteIcon.className = 'fa fa-trash btn btn-outline btn-danger';
           deleteIcon.style.cursor = 'pointer';
-        deleteIcon.style.marginLeft = '6px';
           deleteIcon.title = 'Удалить';
           deleteIcon.onclick = () => {
           if (typeof window.deleteCatalogGroup === 'function') {
@@ -333,8 +333,9 @@
             }
           };
           
-          actionsCell.appendChild(editLink);
-          actionsCell.appendChild(deleteIcon);
+          actWrap.appendChild(editLink);
+          actWrap.appendChild(deleteIcon);
+          actionsCell.appendChild(actWrap);
           
           row.appendChild(checkboxCell);
           row.appendChild(idCell);
@@ -671,20 +672,16 @@
         tdId.textContent = String(item?.id ?? '-');
 
         const tdIcon = document.createElement('td');
-        tdIcon.style.width = '90px';
+        tdIcon.className = 'col-icon';
         const iconUrl = (item?.icon || item?.image || '').toString();
         if (iconUrl) {
           const img = document.createElement('img');
           img.src = iconUrl;
           img.alt = '';
-          img.style.width = '70px';
-          img.style.height = '70px';
-          img.style.objectFit = 'cover';
-          img.style.borderRadius = '6px';
-          img.style.border = '1px solid #e5e7eb';
+          img.className = 'admin-list-thumb';
           tdIcon.appendChild(img);
         } else {
-          tdIcon.innerHTML = '<div style="width:70px; height:70px; border:1px solid #e5e7eb; border-radius:6px; background:#f8fafc;"></div>';
+          tdIcon.innerHTML = '<div class="admin-list-thumb-empty"></div>';
         }
 
         const tdName = document.createElement('td');
@@ -698,22 +695,20 @@
         tdCat.textContent = getMatItemCategory(item) || '';
 
         const tdOrder = document.createElement('td');
-        tdOrder.style.width = '90px';
+        tdOrder.className = 'col-order';
         tdOrder.textContent = String(item?.order ?? item?.sort ?? '');
 
         const tdVis = document.createElement('td');
-        tdVis.style.width = '110px';
+        tdVis.className = 'col-vis';
         const active = (item?.active ?? 1) === 1 || item?.active === true || item?.active === '1';
         tdVis.innerHTML = active
           ? '<button type="button" class="btn btn-xs btn-outline btn-success" title="Видим"><i class="fa fa-eye"></i></button>'
           : '<button type="button" class="btn btn-xs btn-outline btn-default" title="Скрыт"><i class="fa fa-eye-slash"></i></button>';
 
         const tdAct = document.createElement('td');
-        tdAct.style.width = '160px';
+        tdAct.className = 'col-actions';
         const actWrap = document.createElement('div');
-        actWrap.style.display = 'flex';
-        actWrap.style.gap = '8px';
-        actWrap.style.justifyContent = 'center';
+        actWrap.className = 'cld-row-actions';
 
         const mkBtn = (className, title, iconClass, action) => {
           const b = document.createElement('button');
@@ -730,7 +725,7 @@
         };
 
         actWrap.appendChild(mkBtn('btn btn-xs btn-outline btn-primary', 'Редактировать', 'fa fa-pencil', 'edit'));
-        actWrap.appendChild(mkBtn('btn btn-xs btn-outline btn-info', 'Копировать', 'fa fa-copy', 'copy'));
+        actWrap.appendChild(mkBtn('btn btn-xs btn-outline btn-info', 'Копировать', 'fa fa-link', 'copy'));
         actWrap.appendChild(mkBtn('btn btn-xs btn-outline btn-danger', 'Удалить', 'fa fa-trash', 'delete'));
 
         tdAct.appendChild(actWrap);
@@ -3376,9 +3371,10 @@
         // Действия
         const actionsCell = document.createElement('td');
         actionsCell.className = 'col-actions';
-        actionsCell.style.width = '150px';
         actionsCell.style.verticalAlign = 'middle';
         actionsCell.style.textAlign = 'center';
+        const actWrap = document.createElement('div');
+        actWrap.className = 'cld-row-actions';
         
         // Редактировать (синяя кнопка с карандашом)
         const editLink = document.createElement('a');
@@ -3406,7 +3402,6 @@
         };
         const copyIcon = document.createElement('i');
         copyIcon.className = 'fa fa-link btn btn-outline btn-primary';
-        copyIcon.style.marginLeft = '5px';
         copyIcon.title = 'Копировать';
         copyLink.appendChild(copyIcon);
         
@@ -3414,7 +3409,6 @@
         const deleteIcon = document.createElement('i');
         deleteIcon.className = 'fa fa-trash btn btn-outline btn-danger';
         deleteIcon.style.cursor = 'pointer';
-        deleteIcon.style.marginLeft = '5px';
         deleteIcon.title = 'Удалить';
         deleteIcon.onclick = () => {
           if (typeof window.deleteMaterialKey === 'function') {
@@ -3425,9 +3419,10 @@
           }
         };
         
-        actionsCell.appendChild(editLink);
-        actionsCell.appendChild(copyLink);
-        actionsCell.appendChild(deleteIcon);
+        actWrap.appendChild(editLink);
+        actWrap.appendChild(copyLink);
+        actWrap.appendChild(deleteIcon);
+        actionsCell.appendChild(actWrap);
         
         row.appendChild(checkboxCell);
         row.appendChild(idCell);
@@ -3844,9 +3839,11 @@
           <td>${item.id || '-'}</td>
           <td>${(item.name || '-')}</td>
           <td class="col-actions">
+            <div class="cld-row-actions">
             <a href="#edge-key-edit?id=${item.id}" onclick="event.preventDefault(); openEdgeKeyEdit(${item.id});"><i class="fa fa-edit btn btn-outline btn-success" title="Редактировать"></i></a>
-            <a href="#" onclick="event.preventDefault(); copyEdgeKey(${item.id});"><i class="fa fa-link btn btn-outline btn-primary" style="margin-left:5px;" title="Копировать"></i></a>
-            <i class="fa fa-trash btn btn-outline btn-danger" style="margin-left:5px; cursor:pointer;" title="Удалить" data-edge-key-action="delete" data-edge-key-id="${item.id}" data-edge-key-name="${(item.name || '').replace(/"/g, '&quot;')}"></i>
+            <a href="#" onclick="event.preventDefault(); copyEdgeKey(${item.id});"><i class="fa fa-link btn btn-outline btn-primary" title="Копировать"></i></a>
+            <i class="fa fa-trash btn btn-outline btn-danger" style="cursor:pointer;" title="Удалить" data-edge-key-action="delete" data-edge-key-id="${item.id}" data-edge-key-name="${(item.name || '').replace(/"/g, '&quot;')}"></i>
+            </div>
           </td>
         `;
         tbody.appendChild(tr);
@@ -4023,11 +4020,12 @@
     function updateEdgesSubmenu(edgesList) {
       const submenu = document.getElementById('edges-submenu');
       if (!submenu) return;
-      let html = '<li style="position:relative;"><a href="#edges-keys" data-page="edges-keys">Список наборов кромок</a><div class="cat_button" title="Категории кромок"><a href="#" class="edges-cat-modal-trigger"><i class="fa fa-folder-open-o"></i></a></div></li>';
+      let html = '<li style="position:relative;"><a href="#edges-keys" data-page="edges-keys">Список наборов кромок</a><div class="cat_button" title="Категории кромок"><a href="#" class="edges-cat-modal-trigger"><i class="fa fa-th-list"></i></a></div></li>';
       (edgesList || []).forEach(e => {
         const key = (e.key || '').toString().replace(/[^a-zA-Z0-9_]/g, '') || 'butts';
         const name = (e.name || key).replace(/"/g, '&quot;');
-        html += `<li style="position:relative;"><a href="#edges-items?type=butt_${key}&name=${encodeURIComponent(e.name || key)}" data-page="edges-items" data-edges-type="butt_${key}" data-edges-name="${name}">${e.name || key}</a><div class="cat_button" title="Категории ${name}" style="position:absolute;top:5px;left:20px;width:30px;height:30px;font-size:16px;color:#3399ff;cursor:pointer;"><a href="#edges-categories?type=butt_${key}&name=${encodeURIComponent(e.name || key)}"><i class="fa fa-folder-open-o"></i></a></div></li>`;
+        const label = (e.name || key).replace(/</g, '&lt;');
+        html += `<li style="position:relative;"><a href="#edges-items?type=butt_${key}&name=${encodeURIComponent(e.name || key)}" data-page="edges-items" data-edges-type="butt_${key}" data-edges-name="${name}"><i class="fa fa-folder"></i> ${label}</a><div class="cat_button" title="Категории ${name}"><a href="#edges-categories?type=butt_${key}&name=${encodeURIComponent(e.name || key)}"><i class="fa fa-th-list"></i></a></div></li>`;
       });
       submenu.innerHTML = html;
     }
@@ -5263,7 +5261,8 @@
         } catch (_) {}
         scene.add(modelRoot);
         modelObjs.push(modelRoot);
-        addAnchorMarker(px, py, pz);
+        // Оранжевая сфера = O кадра (начало шаблона / RGB), не отверстие и не «центр меша».
+        addAnchorMarker(originX, originY, originZ);
         applyDrillPreviewHardwareDisplayMode();
         return { modelRoot, px, py, pz };
       }
@@ -6142,11 +6141,13 @@
           <td>${esc(r.article)}</td>
           <td>${esc(Array.isArray(r.categories) ? r.categories.join(', ') : (r.category || ''))}</td>
           <td>${r.order || ''}</td>
-          <td><button type="button" class="btn btn-white btn-xs" data-dr-vis="${r.id}" title="Видимость в конструкторе"><i class="fa fa-eye${r.active ? '' : '-slash'}" style="color:${r.active ? '#1ab394' : '#ccc'};"></i></button></td>
-          <td class="text-right nowrap">
-            <a href="#drilling-template-edit?id=${r.id}" class="btn btn-white btn-xs" title="Редактировать"><i class="fa fa-pencil text-navy"></i></a>
-            <button type="button" data-dr-copy="${r.id}" class="btn btn-white btn-xs" title="Копировать"><i class="fa fa-files-o text-info"></i></button>
-            <button type="button" data-dr-del="${r.id}" class="btn btn-white btn-xs" title="Удалить"><i class="fa fa-trash text-danger"></i></button>
+          <td class="col-vis"><button type="button" class="btn btn-xs btn-outline ${r.active ? 'btn-success' : 'btn-default'}" data-dr-vis="${r.id}" title="Видимость в конструкторе"><i class="fa fa-eye${r.active ? '' : '-slash'}"></i></button></td>
+          <td class="col-actions">
+            <div class="cld-row-actions">
+              <a href="#drilling-template-edit?id=${r.id}" class="btn btn-xs btn-outline btn-primary" title="Редактировать"><i class="fa fa-pencil"></i></a>
+              <button type="button" data-dr-copy="${r.id}" class="btn btn-xs btn-outline btn-info" title="Копировать"><i class="fa fa-files-o"></i></button>
+              <button type="button" data-dr-del="${r.id}" class="btn btn-xs btn-outline btn-danger" title="Удалить"><i class="fa fa-trash"></i></button>
+            </div>
           </td>
         </tr>
       `).join('');
@@ -7231,9 +7232,11 @@
           <td>${tmplName}</td>
           <td>${typeLabel}</td>
           <td>${stepInfo}</td>
-          <td>
-            <a href="#drilling-scheme-edit?id=${s.id}" class="btn btn-xs btn-white">Ред.</a>
-            <button class="btn btn-xs btn-danger scheme-delete-btn" data-id="${s.id}" style="margin-left:4px;">Удалить</button>
+          <td class="col-actions">
+            <div class="cld-row-actions">
+              <a href="#drilling-scheme-edit?id=${s.id}" class="btn btn-xs btn-outline btn-primary" title="Редактировать"><i class="fa fa-pencil"></i></a>
+              <button type="button" class="btn btn-xs btn-outline btn-danger scheme-delete-btn" data-id="${s.id}" title="Удалить"><i class="fa fa-trash"></i></button>
+            </div>
           </td>
         </tr>`;
       }).join('');
@@ -9010,12 +9013,12 @@
             ? window.__cldResolveAdminMediaUrl(decorUrl)
             : (decorUrl.startsWith('/') ? window.location.origin + decorUrl : decorUrl);
           const safeSrc = src.replace(/"/g, '&quot;');
-          iconHtml = `<img src="${safeSrc}" style="width:120px;height:70px;object-fit:cover;border-radius:6px;border:1px solid #e5e7eb;" onerror="this.style.display='none'">`;
-        } else if (colorVal && /^#([0-9A-Fa-f]{6})$/.test(colorVal)) {
-          iconHtml = `<div style="width:120px;height:70px;background-color:${colorVal};border-radius:6px;border:1px solid #e5e7eb;"></div>`;
-        } else {
-          iconHtml = '<div style="width:70px;height:70px;border:1px solid #e5e7eb;border-radius:6px;background:#f8fafc;"></div>';
-        }
+          iconHtml = `<img class="admin-list-thumb admin-list-thumb--edge" src="${safeSrc}" alt="" onerror="this.style.display='none'">`;
+      } else if (colorVal && /^#([0-9A-Fa-f]{6})$/.test(colorVal)) {
+          iconHtml = `<div class="admin-list-thumb-empty admin-list-thumb--edge" style="background-color:${colorVal};"></div>`;
+      } else {
+          iconHtml = '<div class="admin-list-thumb-empty"></div>';
+      }
         const active = (item?.active ?? 1) == 1 || item?.active === true;
         const visHtml = active
           ? '<button type="button" class="btn btn-xs btn-outline btn-success" title="Видим"><i class="fa fa-eye"></i></button>'
@@ -9023,16 +9026,16 @@
         tr.innerHTML = `
           <td><input type="checkbox" class="edges-item-checkbox" value="${item?.id ?? ''}"></td>
           <td>${item?.id ?? '-'}</td>
-          <td>${iconHtml}</td>
+          <td class="col-icon">${iconHtml}</td>
           <td>${(item?.name || '-').replace(/</g, '&lt;')}</td>
           <td>${(item?.article || '-').replace(/</g, '&lt;')}</td>
           <td>${(getEdgeItemCategory(item) || '-').replace(/</g, '&lt;')}</td>
-          <td>${String(item?.order ?? item?.sort ?? '-')}</td>
-          <td>${visHtml}</td>
-          <td class="col-actions" style="width:194px; white-space:nowrap;">
-            <div style="display:flex; gap:8px; justify-content:center;">
+          <td class="col-order">${String(item?.order ?? item?.sort ?? '-')}</td>
+          <td class="col-vis">${visHtml}</td>
+          <td class="col-actions">
+            <div class="cld-row-actions">
               <button type="button" class="btn btn-xs btn-outline btn-primary" title="Редактировать" data-edge-action="edit" data-edge-id="${item?.id ?? 0}" data-edge-name="${(item?.name || '').replace(/"/g, '&quot;')}"><i class="fa fa-pencil"></i></button>
-              <button type="button" class="btn btn-xs btn-outline btn-info" title="Копировать" data-edge-action="copy" data-edge-id="${item?.id ?? 0}" data-edge-name="${(item?.name || '').replace(/"/g, '&quot;')}"><i class="fa fa-copy"></i></button>
+              <button type="button" class="btn btn-xs btn-outline btn-info" title="Копировать" data-edge-action="copy" data-edge-id="${item?.id ?? 0}" data-edge-name="${(item?.name || '').replace(/"/g, '&quot;')}"><i class="fa fa-link"></i></button>
               <button type="button" class="btn btn-xs btn-outline btn-danger" title="Удалить" data-edge-action="delete" data-edge-id="${item?.id ?? 0}" data-edge-name="${(item?.name || '').replace(/"/g, '&quot;')}"><i class="fa fa-trash"></i></button>
             </div>
           </td>
@@ -9338,11 +9341,11 @@
         const colorVal = (item?.color || '').toString().trim();
         let iconHtml = '';
         if (iconUrl) {
-          iconHtml = `<img src=\"${accUrl}${iconUrl.startsWith('/') ? '' : '/'}${iconUrl}\" style=\"width:120px;height:70px;object-fit:cover;border-radius:6px;border:1px solid #e5e7eb;\" onerror=\"this.style.display='none'\">`;
+          iconHtml = `<img class=\"admin-list-thumb admin-list-thumb--edge\" src=\"${accUrl}${iconUrl.startsWith('/') ? '' : '/'}${iconUrl}\" alt=\"\" onerror=\"this.style.display='none'\">`;
         } else if (colorVal && /^#([0-9A-Fa-f]{6})$/.test(colorVal)) {
-          iconHtml = `<div style=\"width:120px;height:70px;background-color:${colorVal};border-radius:6px;border:1px solid #e5e7eb;\"></div>`;
+          iconHtml = `<div class=\"admin-list-thumb-empty admin-list-thumb--edge\" style=\"background-color:${colorVal};\"></div>`;
         } else {
-          iconHtml = '<div style=\"width:70px;height:70px;border:1px solid #e5e7eb;border-radius:6px;background:#f8fafc;\"></div>';
+          iconHtml = '<div class=\"admin-list-thumb-empty\"></div>';
         }
         const nameSafe = edgePickerRowDisplayName(item, variant, variantIndex).replace(/</g, '&lt;');
         const artSafe = ((variant?.article || item?.article || '-')).toString().replace(/</g, '&lt;');
@@ -11141,9 +11144,10 @@
             
             const actionsCell = document.createElement('td');
           actionsCell.className = 'col-actions';
-            actionsCell.style.width = '150px';
           actionsCell.style.verticalAlign = 'middle';
           actionsCell.style.textAlign = 'center';
+            const actWrap = document.createElement('div');
+            actWrap.className = 'cld-row-actions';
             
             const editLink = document.createElement('a');
             editLink.href = `#catalog-type-edit?id=${item.id}`;
@@ -11159,7 +11163,6 @@
             const deleteIcon = document.createElement('i');
             deleteIcon.className = 'fa fa-trash btn btn-outline btn-danger';
             deleteIcon.style.cursor = 'pointer';
-          deleteIcon.style.marginLeft = '6px';
             deleteIcon.title = 'Удалить';
             deleteIcon.onclick = () => {
             if (typeof window.deleteCatalogType === 'function') {
@@ -11169,8 +11172,9 @@
               }
             };
             
-            actionsCell.appendChild(editLink);
-            actionsCell.appendChild(deleteIcon);
+            actWrap.appendChild(editLink);
+            actWrap.appendChild(deleteIcon);
+            actionsCell.appendChild(actWrap);
             
             row.appendChild(checkboxCell);
             row.appendChild(idCell);
@@ -11268,10 +11272,13 @@
         
         const link = document.createElement('a');
         link.href = `#catalog-items?type=${key}`;
-        link.textContent = name;
         link.setAttribute('data-page', 'catalog-items');
         link.setAttribute('data-catalog-type', key);
         link.setAttribute('data-catalog-name', name);
+        const folderIcon = document.createElement('i');
+        folderIcon.className = 'fa fa-folder';
+        link.appendChild(folderIcon);
+        link.appendChild(document.createTextNode(' ' + name));
         li.appendChild(link);
         
         const catButton = document.createElement('div');
@@ -11279,7 +11286,7 @@
         catButton.title = `Категории ${name}`;
         const catButtonLink = document.createElement('a');
         catButtonLink.href = `#edges-categories?type=${key}`;
-        catButtonLink.innerHTML = '<i class="fa fa-folder-open-o"></i>';
+        catButtonLink.innerHTML = '<i class="fa fa-th-list"></i>';
         catButton.appendChild(catButtonLink);
         li.appendChild(catButton);
         
@@ -13232,6 +13239,7 @@
       function __cldDefaultCatalogVueItem() {
         return {
           name: '',
+          short_name: '',
           category: [],
           show_in_spec: '1',
           include_nested: '1',
@@ -13244,11 +13252,27 @@
           stick_type: 'common',
           is_fill: '0',
           no_intersections: '0',
+          no_intersections_main: '0',
+          free_rotate: '0',
+          quick_replace: '0',
+          hide_sizes_menu: '0',
+          hide_sizes_catalog: '0',
+          hide_sizes_scene: '0',
+          fix_materials: '0',
+          fit_width: '0',
+          fit_height: '0',
+          fit_depth: '0',
+          intersections_nested_only: '0',
+          fill_origin_x: '0',
+          fill_origin_y: '0',
+          fill_origin_z: '0',
+          computedValues: {},
+          priceListPositions: [],
           catalog_type: '',
           width: 300,
           height: 400,
           depth: 200,
-          placementKind: 'floor_in_niche',
+          placementKind: 'kitchen_base',
           drawerNoHandle: false,
           roomTags: { rooms: [], layouts: [], catalogFolders: [] },
           hingeLayoutId: '',
@@ -13471,10 +13495,8 @@
             });
           }, 50);
           
-          // Раньше здесь автоматически монтировалось 3D-превью (ensureClodisPreviewMounted).
-          // По запросу отключили автозапуск превью, чтобы не тянуть лишние ресурсы и убрать
-          // побочные ошибки от движка превью. При необходимости его можно вызвать вручную из консоли:
-          //   window.ensureClodisPreviewMounted && window.ensureClodisPreviewMounted();
+          // 3D-превью НЕ монтируем здесь: iframe+Three тянет секунды и подвешивает «Основные».
+          // Монтаж только на вкладке «Конструктор» (ensureClodisPreviewMounted).
         } else {
           console.error('❌ Страница редактирования элемента каталога не найдена');
         }
@@ -13516,6 +13538,14 @@
           typeof window.__cldCatalogUnifiedFacade?.getVueUnifiedFacadeOptions === 'function'
             ? window.__cldCatalogUnifiedFacade.getVueUnifiedFacadeOptions()
             : { computed: {}, methods: {} };
+        const kitchenSupportsVue =
+          typeof window.__cldCatalogKitchenSupports?.getVueKitchenSupportsOptions === 'function'
+            ? window.__cldCatalogKitchenSupports.getVueKitchenSupportsOptions()
+            : { computed: {}, methods: {} };
+        const kitchenTallVue =
+          typeof window.__cldCatalogKitchenTall?.getVueKitchenTallOptions === 'function'
+            ? window.__cldCatalogKitchenTall.getVueKitchenTallOptions()
+            : { computed: {}, methods: {} };
         
         window.catalogItemVueApp = new Vue({
           el: '#catalog-item-edit-sub-form',
@@ -13524,6 +13554,7 @@
             catalogName: catalogName,
             item: {
               name: '',
+              short_name: '',
               category: [],
               show_in_spec: '1',
               include_nested: '1',
@@ -13536,11 +13567,27 @@
               stick_type: 'common',
               is_fill: '0',
               no_intersections: '0',
+              no_intersections_main: '0',
+              free_rotate: '0',
+              quick_replace: '0',
+              hide_sizes_menu: '0',
+              hide_sizes_catalog: '0',
+              hide_sizes_scene: '0',
+              fix_materials: '0',
+              fit_width: '0',
+              fit_height: '0',
+              fit_depth: '0',
+              intersections_nested_only: '0',
+              fill_origin_x: '0',
+              fill_origin_y: '0',
+              fill_origin_z: '0',
+              computedValues: {},
+              priceListPositions: [],
               catalog_type: '',
               width: 300,
               height: 400,
               depth: 200,
-              placementKind: 'floor_in_niche',
+              placementKind: 'kitchen_base',
               drawerNoHandle: false,
               roomTags: { rooms: [], layouts: [], catalogFolders: [] },
               hingeLayoutId: '',
@@ -13563,6 +13610,17 @@
                     mode: 'max_count',
                     maxCount: 8,
                   },
+              kitchenSupports:
+                typeof window.__cldCatalogKitchenSupports?.defaultKitchenSupports === 'function'
+                  ? window.__cldCatalogKitchenSupports.defaultKitchenSupports()
+                  : {
+                      enabled: true,
+                      modelsByHeightMm: { 100: '2', 120: '79', 150: '80' },
+                    },
+              kitchenTall:
+                typeof window.__cldCatalogKitchenTall?.defaultKitchenTall === 'function'
+                  ? window.__cldCatalogKitchenTall.defaultKitchenTall()
+                  : { facadeType: 'doors_3' },
               shelfStack: typeof window.__cldCatalogShelfStack?.defaultShelfStackPolicy === 'function'
                 ? window.__cldCatalogShelfStack.defaultShelfStackPolicy()
                 : {
@@ -13605,12 +13663,16 @@
             },
             categorySelectOptions: [], // Плоский список для select «Категория» с путём (как в референсе: Родитель / Дочерняя)
             placementKindOptions: [
-              { id: 'floor_in_niche', label: 'Шкаф в нише (по высоте секции)' },
-              { id: 'standalone_floor', label: 'Тумба напольная (фикс. высота)' },
-              { id: 'wall_hung', label: 'Шкаф навесной' },
-              { id: 'corpus_only', label: 'Только корпус' },
+              { id: 'kitchen_base', label: 'Напольный стол' },
+              { id: 'kitchen_base_gola', label: 'Напольный стол (Gola)' },
+              { id: 'kitchen_base_corner', label: 'Угловой напольный' },
+              { id: 'kitchen_tall', label: 'Пенал' },
+              { id: 'kitchen_wall_mid', label: 'Навесной 1-й ярус' },
+              { id: 'kitchen_wall_top', label: 'Навесной 2-й ярус' },
+              { id: 'kitchen_wall_corner', label: 'Угловой навесной' },
             ],
             doorCategoryIds: null, // id «Однодверные»/«Двухдверные» для текущего catalog_type
+            kitchenSupportModelOptions: [],
           },
           computed: Object.assign(
             {},
@@ -13620,7 +13682,101 @@
             interiorFillVue.computed || {},
             interiorLayoutVue.computed || {},
             interiorTemplatesVue.computed || {},
-            unifiedFacadeVue.computed || {}
+            unifiedFacadeVue.computed || {},
+            kitchenSupportsVue.computed || {},
+            kitchenTallVue.computed || {},
+            {
+              // Fallback: всегда на инстансе (Vue2 with(this) → ReferenceError если нет computed)
+              showKitchenSupportsEditor: function () {
+                try {
+                  if (kitchenSupportsVue.computed && typeof kitchenSupportsVue.computed.showKitchenSupportsEditor === 'function') {
+                    return !!kitchenSupportsVue.computed.showKitchenSupportsEditor.call(this);
+                  }
+                  const pk = String((this.item && this.item.placementKind) || '').trim();
+                  return pk === 'kitchen_base' || pk === 'kitchen_base_gola';
+                } catch (_) {
+                  return false;
+                }
+              },
+              kitchenSupportHeightsMm: function () {
+                try {
+                  if (kitchenSupportsVue.computed && typeof kitchenSupportsVue.computed.kitchenSupportHeightsMm === 'function') {
+                    return kitchenSupportsVue.computed.kitchenSupportHeightsMm.call(this);
+                  }
+                } catch (_) {}
+                return [100, 120, 150];
+              },
+              showKitchenTallEditor: function () {
+                try {
+                  if (kitchenTallVue.computed && typeof kitchenTallVue.computed.showKitchenTallEditor === 'function') {
+                    return !!kitchenTallVue.computed.showKitchenTallEditor.call(this);
+                  }
+                  return String((this.item && this.item.placementKind) || '').trim() === 'kitchen_tall';
+                } catch (_) {
+                  return false;
+                }
+              },
+              kitchenTallFacadeTypeOptions: function () {
+                try {
+                  if (kitchenTallVue.computed && typeof kitchenTallVue.computed.kitchenTallFacadeTypeOptions === 'function') {
+                    return kitchenTallVue.computed.kitchenTallFacadeTypeOptions.call(this);
+                  }
+                } catch (_) {}
+                return [
+                  { id: 'doors_3', label: 'Пенал 3 двери' },
+                  { id: 'oven_mw', label: 'Пенал духовка + СВЧ' },
+                  { id: 'fridge', label: 'Пенал холодильник' },
+                ];
+              },
+              kitchenTallPreview: function () {
+                try {
+                  if (kitchenTallVue.computed && typeof kitchenTallVue.computed.kitchenTallPreview === 'function') {
+                    return kitchenTallVue.computed.kitchenTallPreview.call(this);
+                  }
+                } catch (_) {}
+                return null;
+              },
+              kitchenTallPreviewFacades: function () {
+                try {
+                  if (kitchenTallVue.computed && typeof kitchenTallVue.computed.kitchenTallPreviewFacades === 'function') {
+                    return kitchenTallVue.computed.kitchenTallPreviewFacades.call(this);
+                  }
+                } catch (_) {}
+                const p = this.kitchenTallPreview;
+                return p && p.ok && Array.isArray(p.facades) ? p.facades : [];
+              },
+              kitchenTallPreviewBandsLine: function () {
+                try {
+                  if (kitchenTallVue.computed && typeof kitchenTallVue.computed.kitchenTallPreviewBandsLine === 'function') {
+                    return kitchenTallVue.computed.kitchenTallPreviewBandsLine.call(this);
+                  }
+                } catch (_) {}
+                return '—';
+              },
+              kitchenTallPreviewHorizonsLine: function () {
+                try {
+                  if (kitchenTallVue.computed && typeof kitchenTallVue.computed.kitchenTallPreviewHorizonsLine === 'function') {
+                    return kitchenTallVue.computed.kitchenTallPreviewHorizonsLine.call(this);
+                  }
+                } catch (_) {}
+                return '—';
+              },
+              isKitchenUnitCard: function () {
+                try {
+                  if (typeof window.__cldIsKitchenUnitCatalogCard === 'function') {
+                    return !!window.__cldIsKitchenUnitCatalogCard(this);
+                  }
+                  const api = window.__cldPlacementKindProfiles;
+                  if (api && typeof api.isKitchenUnitCatalogType === 'function') {
+                    return !!api.isKitchenUnitCatalogType(
+                      this.catalogType,
+                      this.item && this.item.catalog_type
+                    );
+                  }
+                } catch (_) {}
+                return false;
+              },
+            }
           ),
           methods: Object.assign(
             {},
@@ -13631,7 +13787,52 @@
             interiorLayoutVue.methods || {},
             interiorTemplatesVue.methods || {},
             unifiedFacadeVue.methods || {},
+            kitchenSupportsVue.methods || {},
+            kitchenTallVue.methods || {},
             {
+            ensureKitchenSupportOptions: function () {
+              try {
+                if (kitchenSupportsVue.methods && typeof kitchenSupportsVue.methods.ensureKitchenSupportOptions === 'function') {
+                  return kitchenSupportsVue.methods.ensureKitchenSupportOptions.call(this);
+                }
+              } catch (_) {}
+              if (!Array.isArray(this.kitchenSupportModelOptions) || !this.kitchenSupportModelOptions.length) {
+                this.kitchenSupportModelOptions = [
+                  { id: '2', label: 'Опора кухонная 100 (#2)' },
+                  { id: '79', label: 'Опора 120 мм (#79)' },
+                  { id: '80', label: 'Опора 150 мм (#80)' },
+                ];
+              }
+            },
+            onKitchenSupportsChange: function () {
+              try {
+                if (kitchenSupportsVue.methods && typeof kitchenSupportsVue.methods.onKitchenSupportsChange === 'function') {
+                  return kitchenSupportsVue.methods.onKitchenSupportsChange.call(this);
+                }
+              } catch (_) {}
+              if (!this.item) return;
+              if (!this.item.kitchenSupports || typeof this.item.kitchenSupports !== 'object') {
+                this.item.kitchenSupports = {
+                  enabled: true,
+                  modelsByHeightMm: { 100: '2', 120: '79', 150: '80' },
+                };
+              }
+            },
+            onKitchenTallChange: function () {
+              try {
+                if (kitchenTallVue.methods && typeof kitchenTallVue.methods.onKitchenTallChange === 'function') {
+                  return kitchenTallVue.methods.onKitchenTallChange.call(this);
+                }
+              } catch (_) {}
+              if (!this.item) return;
+              if (typeof window.__cldCatalogKitchenTall?.normalizeKitchenTall === 'function') {
+                this.item.kitchenTall = window.__cldCatalogKitchenTall.normalizeKitchenTall(
+                  this.item.kitchenTall
+                );
+              } else if (!this.item.kitchenTall || typeof this.item.kitchenTall !== 'object') {
+                this.item.kitchenTall = { facadeType: 'doors_3' };
+              }
+            },
             // Загрузка категорий и заполнение выпадающего списка во вкладке «Основные» (как в референсе)
             loadCategories: async function() {
               try {
@@ -13720,6 +13921,13 @@
               return rootCategories;
             },
             /** Явная запись v-model: одинаковые числовые id с узлами treeselect, иначе крестик не снимает тег (indexOf в removeValue). */
+            /** Реф PP: краткое имя; если полное пустое — копируем в name. */
+            onShortNameInput: function () {
+              const s = String(this.item?.short_name || '').trim();
+              if (s && !String(this.item?.name || '').trim()) {
+                this.$set(this.item, 'name', s);
+              }
+            },
             onCatalogCategoryInput: function(val) {
               let src = val;
               if (src == null) src = [];
@@ -14000,6 +14208,27 @@
                   return NaN;
                 };
 
+                // Фаза A: h_bottom / стеки по типу размещения + цоколь в дереве (до записи vars).
+                if (typeof window.__cldCatalogModuleProfile?.applyModuleProfileToVueItem === 'function') {
+                  try {
+                    window.__cldCatalogModuleProfile.applyModuleProfileToVueItem(this.item, {
+                      tree: clodisJSON,
+                      mode: 'full',
+                      reason: 'save',
+                    });
+                    const pv = this.item.clodisVariables;
+                    if (pv && typeof pv === 'object') {
+                      if (Number.isFinite(toNum(pv.h_bottom))) clodisVariables.h_bottom = toNum(pv.h_bottom);
+                      if (Number.isFinite(toNum(pv.h_top))) clodisVariables.h_top = toNum(pv.h_top);
+                      if (Number.isFinite(toNum(pv.tech_zone_mm))) {
+                        clodisVariables.tech_zone_mm = toNum(pv.tech_zone_mm);
+                      }
+                    }
+                  } catch (e) {
+                    console.warn('[CLD][module-profile] save apply failed', e);
+                  }
+                }
+
                 if (!Number.isFinite(toNum(clodisVariables.h_bottom))) {
                   const inferredPlinth = findPlinthHeight(clodisJSON);
                   if (Number.isFinite(inferredPlinth) && inferredPlinth > 0) {
@@ -14011,6 +14240,66 @@
                 const h = toNum(this.item.height);
                 if (hasRole(clodisJSON, 'corpus_antresol')) {
                   clodisVariables.corpus_antresol_mm = 1950;
+                }
+                if (
+                  hasRole(clodisJSON, 'corner_return') &&
+                  !Number.isFinite(toNum(clodisVariables.corner_return_mm))
+                ) {
+                  clodisVariables.corner_return_mm = 550;
+                }
+                if (
+                  hasRole(clodisJSON, 'corner_return') &&
+                  !Number.isFinite(toNum(clodisVariables.corner_return_depth_mm))
+                ) {
+                  clodisVariables.corner_return_depth_mm = 40;
+                }
+                if (
+                  String(this.item?.placementKind || placementKind || '').trim() ===
+                  'kitchen_wall_corner'
+                ) {
+                  clodisVariables.h_bottom = 0;
+                  clodisVariables.corner_return_depth_mm = 40;
+                  clodisVariables.side_wall_clearance_mm = 0;
+                  clodisVariables.corner_return_wall_gap_mm = 0;
+                  if (!Number.isFinite(toNum(clodisVariables.corner_return_mm))) {
+                    const dWall = toNum(this.item?.depth);
+                    clodisVariables.corner_return_mm =
+                      Number.isFinite(dWall) && dWall > 0 ? dWall : 350;
+                  }
+                }
+                if (
+                  (hasRole(clodisJSON, 'corner_post') ||
+                    hasRole(clodisJSON, 'corner_return')) &&
+                  !Number.isFinite(toNum(clodisVariables.corner_post_mm))
+                ) {
+                  clodisVariables.corner_post_mm = 50;
+                }
+                if (
+                  (hasRole(clodisJSON, 'corner_post') ||
+                    hasRole(clodisJSON, 'corner_return')) &&
+                  !Number.isFinite(toNum(clodisVariables.corner_post_depth_mm))
+                ) {
+                  clodisVariables.corner_post_depth_mm = 40;
+                }
+                // Vars угла — только prepareClodisForBuild.
+                if (hasRole(clodisJSON, 'corner_return')) {
+                  const Prep = window.__cldPrepareClodisForBuild;
+                  const prepFn =
+                    Prep && typeof Prep.prepareClodisForBuild === 'function'
+                      ? Prep.prepareClodisForBuild
+                      : null;
+                  if (prepFn) {
+                    const cellW = Math.max(0, toNum(this.item?.width) || toNum(w) || 1050);
+                    const prepared = prepFn(clodisJSON, {
+                      variables: clodisVariables,
+                      widthMm: cellW,
+                      item: this.item,
+                      placementKind:
+                        String(this.item?.placementKind || placementKind || '').trim() ||
+                        'kitchen_base_corner',
+                    });
+                    if (prepared?.variables) Object.assign(clodisVariables, prepared.variables);
+                  }
                 }
                 const hasFacadeShell =
                   hasRole(clodisJSON, 'facades') ||
@@ -14060,9 +14349,37 @@
                   }
                 } catch (_) {}
 
+                if (typeof window.__cldPullComputedValuesFromDom === 'function') {
+                  window.__cldPullComputedValuesFromDom();
+                }
+                if (typeof window.__cldPullPricePositionsFromDom === 'function') {
+                  window.__cldPullPricePositionsFromDom();
+                }
+
+                // База = то, что уже на диске (последняя загрузка). Whitelist только перекрывает поля формы —
+                // иначе Save затирает материалы/плюшки/старые ключи дефолтами.
+                let __cldPrevDataBase = {};
+                try {
+                  const snap = window.__cldLastLoadedCatalogData;
+                  if (
+                    snap &&
+                    String(snap.id) === String(currentId) &&
+                    String(snap.type || '') === String(controllerName || '') &&
+                    snap.data &&
+                    typeof snap.data === 'object' &&
+                    !Array.isArray(snap.data)
+                  ) {
+                    __cldPrevDataBase = JSON.parse(JSON.stringify(snap.data));
+                  }
+                } catch (_) {
+                  __cldPrevDataBase = {};
+                }
+
                 // Подготавливаем данные для отправки
                 const dataToSave = {
+                  ...__cldPrevDataBase,
                   name: this.item.name,
+                  short_name: this.item.short_name || '',
                   category: this.item.category,
                   show_in_spec: this.item.show_in_spec,
                   include_nested: this.item.include_nested,
@@ -14080,6 +14397,24 @@
                   stick_type: this.item.stick_type,
                   is_fill: this.item.is_fill,
                   no_intersections: this.item.no_intersections,
+                  no_intersections_main: this.item.no_intersections_main,
+                  free_rotate: this.item.free_rotate,
+                  quick_replace: this.item.quick_replace,
+                  hide_sizes_menu: this.item.hide_sizes_menu,
+                  hide_sizes_catalog: this.item.hide_sizes_catalog,
+                  hide_sizes_scene: this.item.hide_sizes_scene,
+                  fix_materials: this.item.fix_materials,
+                  fit_width: this.item.fit_width,
+                  fit_height: this.item.fit_height,
+                  fit_depth: this.item.fit_depth,
+                  intersections_nested_only: this.item.intersections_nested_only,
+                  fill_origin_x: this.item.fill_origin_x,
+                  fill_origin_y: this.item.fill_origin_y,
+                  fill_origin_z: this.item.fill_origin_z,
+                  computedValues: this.item.computedValues || {},
+                  priceListPositions: Array.isArray(this.item.priceListPositions)
+                    ? this.item.priceListPositions
+                    : [],
                   catalog_type: this.item.catalog_type,
                   width: this.item.width,
                   height: this.item.height,
@@ -14138,6 +14473,18 @@
                     dataToSave,
                     this.item,
                     this.catalogType
+                  );
+                }
+                if (typeof window.__cldCatalogKitchenSupports?.mergeKitchenSupportsIntoDataPayload === 'function') {
+                  window.__cldCatalogKitchenSupports.mergeKitchenSupportsIntoDataPayload(
+                    dataToSave,
+                    this.item
+                  );
+                }
+                if (typeof window.__cldCatalogKitchenTall?.mergeKitchenTallIntoDataPayload === 'function') {
+                  window.__cldCatalogKitchenTall.mergeKitchenTallIntoDataPayload(
+                    dataToSave,
+                    this.item
                   );
                 }
                 
@@ -14264,12 +14611,77 @@
                   }
                 } catch (_) {}
 
+                // Снимок для следующего Save (merge, не затирка)
+                try {
+                  window.__cldLastLoadedCatalogData = {
+                    id: itemIdInput ? itemIdInput.value : currentId,
+                    type: controllerName,
+                    data: JSON.parse(JSON.stringify(dataToSave)),
+                  };
+                } catch (_) {}
+
                 // Визуальное подтверждение сохранения
                 try {
                   if (window.toastr && typeof window.toastr.success === 'function') {
                     window.toastr.success('Элемент каталога сохранён');
                   } else {
                     console.log('[catalog-item-edit] Элемент каталога сохранён');
+                  }
+                } catch (_) {}
+
+                // Комната ждёт формат export_all (clodisJSON/showInRoom), НЕ сырой items_get.
+                // Раньше Save писал admin-JSON в LS → сетка/геометрия в комнате ≠ админка.
+                try {
+                  const rev = Date.now();
+                  try {
+                    localStorage.setItem('cld_catalog_rev', String(rev));
+                  } catch (_) {}
+                  try {
+                    window.__cldCatalogFreshBump = rev;
+                  } catch (_) {}
+                  try {
+                    if (typeof window.__cldInvalidateConstructorCatalogCache === 'function') {
+                      window.__cldInvalidateConstructorCatalogCache();
+                    }
+                  } catch (_) {}
+                  if (typeof fetch === 'function') {
+                    try {
+                      const syncRes = await fetch(
+                        '/api/catalog/export_all_for_constructor?ts=' + rev,
+                        { cache: 'no-store' }
+                      );
+                      const data = syncRes && syncRes.ok ? await syncRes.json() : null;
+                      if (data && typeof data === 'object') {
+                        if (data.catalogs && typeof data.catalogs === 'object') {
+                          Object.keys(data.catalogs).forEach((key) => {
+                            const list = Array.isArray(data.catalogs[key])
+                              ? data.catalogs[key]
+                              : [];
+                            try {
+                              localStorage.setItem(key, JSON.stringify(list));
+                            } catch (_) {}
+                          });
+                        }
+                        if (data.categories && typeof data.categories === 'object') {
+                          Object.keys(data.categories).forEach((key) => {
+                            try {
+                              localStorage.setItem(
+                                'catalogCategories_' + key,
+                                JSON.stringify(data.categories[key])
+                              );
+                            } catch (_) {}
+                          });
+                        }
+                        try {
+                          window.__CLD_CATALOGS_DATA = {};
+                        } catch (_) {}
+                        try {
+                          if (window.__cldDoorCatIdsByCatalog) {
+                            window.__cldDoorCatIdsByCatalog = {};
+                          }
+                        } catch (_) {}
+                      }
+                    } catch (_) {}
                   }
                 } catch (_) {}
 
@@ -14529,6 +14941,25 @@
                   }
                   return NaN;
                 };
+                if (typeof window.__cldCatalogModuleProfile?.applyModuleProfileToVueItem === 'function') {
+                  try {
+                    window.__cldCatalogModuleProfile.applyModuleProfileToVueItem(item, {
+                      tree: clodisJSON,
+                      mode: 'full',
+                      reason: 'export',
+                    });
+                    const pv = item.clodisVariables;
+                    if (pv && typeof pv === 'object') {
+                      if (Number.isFinite(toNum(pv.h_bottom))) clodisVariables.h_bottom = toNum(pv.h_bottom);
+                      if (Number.isFinite(toNum(pv.h_top))) clodisVariables.h_top = toNum(pv.h_top);
+                      if (Number.isFinite(toNum(pv.tech_zone_mm))) {
+                        clodisVariables.tech_zone_mm = toNum(pv.tech_zone_mm);
+                      }
+                    }
+                  } catch (e) {
+                    console.warn('[CLD][module-profile] export apply failed', e);
+                  }
+                }
                 if (!Number.isFinite(toNum(clodisVariables.h_bottom))) {
                   const inferredPlinth = findPlinthHeight(clodisJSON);
                   if (Number.isFinite(inferredPlinth) && inferredPlinth > 0) {
@@ -14539,6 +14970,65 @@
                 const h = toNum(item.height);
                 if (hasRole(clodisJSON, 'corpus_antresol')) {
                   clodisVariables.corpus_antresol_mm = 1950;
+                }
+                if (
+                  hasRole(clodisJSON, 'corner_return') &&
+                  !Number.isFinite(toNum(clodisVariables.corner_return_mm))
+                ) {
+                  clodisVariables.corner_return_mm = 550;
+                }
+                if (
+                  hasRole(clodisJSON, 'corner_return') &&
+                  !Number.isFinite(toNum(clodisVariables.corner_return_depth_mm))
+                ) {
+                  clodisVariables.corner_return_depth_mm = 40;
+                }
+                if (
+                  String(item?.placementKind || placementKind || '').trim() ===
+                  'kitchen_wall_corner'
+                ) {
+                  clodisVariables.h_bottom = 0;
+                  clodisVariables.corner_return_depth_mm = 40;
+                  clodisVariables.side_wall_clearance_mm = 0;
+                  clodisVariables.corner_return_wall_gap_mm = 0;
+                  if (!Number.isFinite(toNum(clodisVariables.corner_return_mm))) {
+                    const dWall = toNum(item?.depth);
+                    clodisVariables.corner_return_mm =
+                      Number.isFinite(dWall) && dWall > 0 ? dWall : 350;
+                  }
+                }
+                if (
+                  (hasRole(clodisJSON, 'corner_post') ||
+                    hasRole(clodisJSON, 'corner_return')) &&
+                  !Number.isFinite(toNum(clodisVariables.corner_post_mm))
+                ) {
+                  clodisVariables.corner_post_mm = 50;
+                }
+                if (
+                  (hasRole(clodisJSON, 'corner_post') ||
+                    hasRole(clodisJSON, 'corner_return')) &&
+                  !Number.isFinite(toNum(clodisVariables.corner_post_depth_mm))
+                ) {
+                  clodisVariables.corner_post_depth_mm = 40;
+                }
+                if (hasRole(clodisJSON, 'corner_return')) {
+                  const Prep = window.__cldPrepareClodisForBuild;
+                  const prepFn =
+                    Prep && typeof Prep.prepareClodisForBuild === 'function'
+                      ? Prep.prepareClodisForBuild
+                      : null;
+                  if (prepFn) {
+                    const cellW = Math.max(0, toNum(item?.width) || 1050);
+                    const prepared = prepFn(clodisJSON, {
+                      variables: clodisVariables,
+                      widthMm: cellW,
+                      item,
+                      placementKind:
+                        String(item?.placementKind || placementKind || '').trim() ||
+                        'kitchen_base_corner',
+                    });
+                    if (prepared?.variables) Object.assign(clodisVariables, prepared.variables);
+                  }
                 }
                 const hasFacadeShellExport =
                   hasRole(clodisJSON, 'facades') ||
@@ -14563,6 +15053,19 @@
                   item.iconAspect === 'low' || item.iconAspect === 'short'
                     ? 'low'
                     : item.iconAspect || window.__cldPendingScreenshotIconAspect || '';
+                // Кухня: авто roomTags + выгрузка в Кухни и в раздел по типу модуля.
+                try {
+                  if (typeof window.__cldEnsureKitchenCatalogRoomTags === 'function') {
+                    window.__cldEnsureKitchenCatalogRoomTags(app);
+                  }
+                  const fromDom =
+                    typeof window.__cldReadCatalogRoomTagsFromDom === 'function'
+                      ? window.__cldReadCatalogRoomTagsFromDom()
+                      : null;
+                  if (fromDom && fromDom.categories && fromDom.categories.length) {
+                    item.roomTags = fromDom;
+                  }
+                } catch (_) {}
                 const payload = {
                   id: (document.getElementById('item_id') && document.getElementById('item_id').value) || '',
                   name: item.name || '',
@@ -14584,19 +15087,47 @@
                   width: item.width,
                   height: item.height,
                   depth: item.depth,
-                  placementKind: placementKind
+                  placementKind: placementKind,
+                  roomTags: item.roomTags || { categories: [] },
                 };
-                const key = 'catalog_' + String(catalogType).replace(/^catalog_/, '');
-                let list = [];
+                const writeCatalogList = (typeKey, data) => {
+                  const key = 'catalog_' + String(typeKey || '').replace(/^catalog_/, '');
+                  if (!key || key === 'catalog_') return;
+                  let list = [];
+                  try {
+                    const raw = localStorage.getItem(key);
+                    if (raw) list = JSON.parse(raw);
+                  } catch (e) {}
+                  if (!Array.isArray(list)) list = [];
+                  const id = data.id || data.name;
+                  const idx = list.findIndex(function (x) {
+                    return (x.id && String(x.id) === String(id)) || x.name === data.name;
+                  });
+                  if (idx >= 0) list[idx] = Object.assign({}, list[idx], data);
+                  else list.push(data);
+                  localStorage.setItem(key, JSON.stringify(list));
+                };
+                const exportKeys = new Set();
+                const folders = item.roomTags && Array.isArray(item.roomTags.catalogFolders)
+                  ? item.roomTags.catalogFolders
+                  : [];
+                folders.forEach(function (fk) {
+                  if (fk) exportKeys.add(String(fk).replace(/^catalog_/, ''));
+                });
+                const primary = String(item.catalog_type || catalogType || '').replace(/^catalog_/, '');
+                if (primary) exportKeys.add(primary);
+                const adminType = String(app.catalogType || '').replace(/^catalog_/, '');
+                if (adminType) exportKeys.add(adminType);
+                if (!exportKeys.size) exportKeys.add('46');
+                exportKeys.forEach(function (fk) {
+                  writeCatalogList(fk, payload);
+                });
+                // Комната (другая вкладка) слушает cld_catalog_rev → rebuild канона / крыла.
                 try {
-                  const raw = localStorage.getItem(key);
-                  if (raw) list = JSON.parse(raw);
-                } catch (e) {}
-                const id = payload.id || payload.name;
-                const idx = list.findIndex(function(x) { return (x.id && String(x.id) === String(id)) || (x.name === payload.name); });
-                if (idx >= 0) list[idx] = Object.assign({}, list[idx], payload);
-                else list.push(payload);
-                localStorage.setItem(key, JSON.stringify(list));
+                  const rev = Date.now();
+                  localStorage.setItem('cld_catalog_rev', String(rev));
+                  window.__cldCatalogFreshBump = rev;
+                } catch (_) {}
                 // Категории конструктор читает из localStorage (catalogCategories_<type>). Подгружаем с сервера.
                 fetch('/api/catalog/categories_get/' + encodeURIComponent(catalogType) + '?t=' + Date.now(), { cache: 'no-cache' })
                   .then(function(r) { return r.ok ? r.json() : []; })
@@ -14611,8 +15142,9 @@
                     console.warn('[admin] drill library on export-settings:', err);
                   });
                 }
-                if (window.toastr) window.toastr.success('Настройки выгружены в конструктор (каталог «' + catalogType + '»). Откройте конструктор комнаты.');
-                else alert('Настройки выгружены в конструктор. Откройте конструктор комнаты.');
+                const exported = Array.from(exportKeys).map(function (k) { return 'catalog_' + k; }).join(', ');
+                if (window.toastr) window.toastr.success('Выгружено в конструктор: ' + exported);
+                else alert('Настройки выгружены в конструктор (' + exported + '). Откройте конструктор комнаты.');
               });
             }
           }
@@ -15024,6 +15556,22 @@
               if (tabName === 'params') {
                 setTimeout(() => initParamsTab(), 0);
               }
+
+              if (tabName === 'computed') {
+                setTimeout(() => {
+                  if (typeof window.__cldSyncComputedValuesToDom === 'function') {
+                    window.__cldSyncComputedValuesToDom();
+                  }
+                }, 0);
+              }
+
+              if (tabName === 'price-positions') {
+                setTimeout(() => {
+                  if (typeof window.__cldSyncPricePositionsToDom === 'function') {
+                    window.__cldSyncPricePositionsToDom();
+                  }
+                }, 0);
+              }
             }
           });
         });
@@ -15036,7 +15584,150 @@
             void __cldEnsureDrillRegistryThenInit();
           }, 0);
         }
+
+        // PP: вычисляемые + позиции прайс-листа — DOM ↔ item
+        if (typeof window.__cldInitComputedAndPriceTabs === 'function') {
+          window.__cldInitComputedAndPriceTabs();
+        }
       }
+
+      /** Синхрон textarea computedValues → Vue item (перед save). */
+      window.__cldPullComputedValuesFromDom = function () {
+        const ta = document.getElementById('cld-computed-json');
+        const app = window.catalogItemVueApp;
+        if (!ta || !app || !app.item) return;
+        const raw = String(ta.value || '').trim();
+        if (!raw) {
+          app.$set(app.item, 'computedValues', {});
+          return;
+        }
+        try {
+          const obj = JSON.parse(raw);
+          if (obj && typeof obj === 'object' && !Array.isArray(obj)) {
+            app.$set(app.item, 'computedValues', obj);
+          }
+        } catch (e) {
+          console.warn('[CLD] computedValues JSON:', e);
+        }
+      };
+
+      window.__cldSyncComputedValuesToDom = function () {
+        const ta = document.getElementById('cld-computed-json');
+        const app = window.catalogItemVueApp;
+        if (!ta || !app || !app.item) return;
+        const cv = app.item.computedValues;
+        if (cv && typeof cv === 'object' && !Array.isArray(cv)) {
+          try {
+            ta.value = JSON.stringify(cv, null, 2);
+          } catch (_) {
+            ta.value = '';
+          }
+        } else {
+          ta.value = '';
+        }
+      };
+
+      window.__cldPullPricePositionsFromDom = function () {
+        const tbody = document.getElementById('cld-price-positions-tbody');
+        const app = window.catalogItemVueApp;
+        if (!tbody || !app || !app.item) return;
+        const rows = [];
+        tbody.querySelectorAll('tr[data-pp-row]').forEach(function (tr) {
+          const idEl = tr.querySelector('[data-pp-id]');
+          const nameEl = tr.querySelector('[data-pp-name]');
+          const qtyEl = tr.querySelector('[data-pp-qty]');
+          const id = idEl ? String(idEl.value || '').trim() : '';
+          const name = nameEl ? String(nameEl.value || '').trim() : '';
+          const qtyRaw = qtyEl ? String(qtyEl.value || '').trim() : '1';
+          const qty = Number(qtyRaw);
+          if (!id && !name) return;
+          rows.push({
+            id: id,
+            name: name,
+            qty: Number.isFinite(qty) ? qty : 1
+          });
+        });
+        app.$set(app.item, 'priceListPositions', rows);
+      };
+
+      window.__cldSyncPricePositionsToDom = function () {
+        const tbody = document.getElementById('cld-price-positions-tbody');
+        const app = window.catalogItemVueApp;
+        if (!tbody || !app || !app.item) return;
+        const list = Array.isArray(app.item.priceListPositions) ? app.item.priceListPositions : [];
+        if (!list.length) {
+          tbody.innerHTML =
+            '<tr><td colspan="4" style="color:#9ca3af;text-align:center;padding:16px;">Нет позиций — добавьте или выгрузите из PP</td></tr>';
+          return;
+        }
+        tbody.innerHTML = list
+          .map(function (row, i) {
+            const id = String(row && row.id != null ? row.id : '');
+            const name = String(row && row.name != null ? row.name : '');
+            const qty = row && row.qty != null ? row.qty : 1;
+            return (
+              '<tr data-pp-row="' +
+              i +
+              '">' +
+              '<td><input type="text" class="form-control form-control-sm" data-pp-id value="' +
+              id.replace(/"/g, '&quot;') +
+              '" /></td>' +
+              '<td><input type="text" class="form-control form-control-sm" data-pp-name value="' +
+              name.replace(/"/g, '&quot;') +
+              '" /></td>' +
+              '<td style="width:90px;"><input type="number" class="form-control form-control-sm" data-pp-qty value="' +
+              qty +
+              '" step="any" /></td>' +
+              '<td style="width:40px;"><button type="button" class="btn btn-white btn-xs" data-pp-del title="Удалить">×</button></td>' +
+              '</tr>'
+            );
+          })
+          .join('');
+      };
+
+      window.__cldInitComputedAndPriceTabs = function () {
+        if (window.__cldComputedPriceTabsInited) return;
+        window.__cldComputedPriceTabsInited = true;
+        const addBtn = document.getElementById('cld-price-positions-add');
+        if (addBtn) {
+          addBtn.addEventListener('click', function () {
+            window.__cldPullPricePositionsFromDom();
+            const app = window.catalogItemVueApp;
+            if (!app || !app.item) return;
+            const list = Array.isArray(app.item.priceListPositions)
+              ? app.item.priceListPositions.slice()
+              : [];
+            list.push({ id: '', name: '', qty: 1 });
+            app.$set(app.item, 'priceListPositions', list);
+            window.__cldSyncPricePositionsToDom();
+          });
+        }
+        const tbody = document.getElementById('cld-price-positions-tbody');
+        if (tbody) {
+          tbody.addEventListener('click', function (ev) {
+            const btn = ev.target && ev.target.closest ? ev.target.closest('[data-pp-del]') : null;
+            if (!btn) return;
+            const tr = btn.closest('tr[data-pp-row]');
+            if (!tr) return;
+            window.__cldPullPricePositionsFromDom();
+            const app = window.catalogItemVueApp;
+            if (!app || !app.item) return;
+            const idx = Number(tr.getAttribute('data-pp-row'));
+            const list = Array.isArray(app.item.priceListPositions)
+              ? app.item.priceListPositions.slice()
+              : [];
+            if (Number.isFinite(idx) && idx >= 0 && idx < list.length) list.splice(idx, 1);
+            app.$set(app.item, 'priceListPositions', list);
+            window.__cldSyncPricePositionsToDom();
+          });
+        }
+        const ta = document.getElementById('cld-computed-json');
+        if (ta) {
+          ta.addEventListener('change', function () {
+            window.__cldPullComputedValuesFromDom();
+          });
+        }
+      };
 
       // ===== Вкладка "Переменные" (clean-room) =====
       // Хранение:
@@ -15528,7 +16219,14 @@
           const defaultsKey = keys?.[0]?.key || 'material_2';
 
           if (!Array.isArray(root.nodeData.material_groups)) {
-            // инициализируем из global groups (как минимум g0)
+            // Существующая карточка: не подсовывать глобальные дефолты вместо админского контента.
+            // Группы приходят из constructor_structure при load; до load — пусто.
+            const itemIdEl = document.getElementById('item_id');
+            const existingId = Number(itemIdEl && itemIdEl.value ? itemIdEl.value : 0);
+            if (existingId > 0) {
+              root.nodeData.material_groups = [];
+              return root.nodeData.material_groups;
+            }
             const base = globalGroups.length ? globalGroups : [{ key: 'g0', name: 'Корпус', thickness: 16, material: defaultsKey }];
             root.nodeData.material_groups = base.map((g, idx) => ({
               name: g.name || g.key || 'Группа',
@@ -16194,18 +16892,16 @@
                 <td>${esc(item.category)}</td>
                 <td>${esc(item.price)}</td>
                 <td>${esc(item.type)}</td>
-                <td style="text-align:center;">
-                  <button type="button" class="cld-acc-lib-toggle-visibility" data-id="${esc(item.id)}" style="background:${item.visible ? '#10b981' : '#e5e7eb'}; color:${item.visible ? '#fff' : '#666'}; border:none; width:32px; height:32px; border-radius:50%; padding:0; cursor:pointer; display:inline-flex; align-items:center; justify-content:center;">
-                    <i class="fa fa-eye" style="width:16px; height:16px;"></i>
+                <td class="col-vis" style="text-align:center;">
+                  <button type="button" class="btn btn-xs btn-outline ${item.visible ? 'btn-success' : 'btn-default'} cld-acc-lib-toggle-visibility" data-id="${esc(item.id)}" title="${item.visible ? 'Видим' : 'Скрыт'}">
+                    <i class="fa fa-eye${item.visible ? '' : '-slash'}"></i>
                   </button>
                 </td>
-                <td style="text-align:center;">
-                  <button type="button" class="cld-acc-lib-edit" data-id="${esc(item.id)}" style="background:#1c84c6; color:#fff; border:none; width:32px; height:32px; padding:0; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; margin-right:4px; border-radius:4px;">
-                    <i class="fa fa-pencil" style="width:14px; height:14px;"></i>
-                  </button>
-                  <button type="button" class="cld-acc-lib-delete" data-id="${esc(item.id)}" style="background:#ed5565; color:#fff; border:none; width:32px; height:32px; padding:0; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; border-radius:4px;">
-                    <i class="fa fa-trash" style="width:14px; height:14px;"></i>
-                  </button>
+                <td class="col-actions">
+                  <div class="cld-row-actions">
+                    <button type="button" class="btn btn-xs btn-outline btn-primary cld-acc-lib-edit" data-id="${esc(item.id)}" title="Редактировать"><i class="fa fa-pencil"></i></button>
+                    <button type="button" class="btn btn-xs btn-outline btn-danger cld-acc-lib-delete" data-id="${esc(item.id)}" title="Удалить"><i class="fa fa-trash"></i></button>
+                  </div>
                 </td>
               </tr>
             `;
@@ -16865,8 +17561,11 @@
           if (!root) return null;
           if (!root.nodeData) root.nodeData = { name: '(элемент без названия)' };
           if (!root.nodeData.variables) root.nodeData.variables = {};
-          // миграция старого формата main{} -> groups[]
-          if (!Array.isArray(root.nodeData.variables.groups)) {
+          // groups: [] в JSON — валидный массив, но пустой → «Добавить» молча ничего не делал.
+          const groupsEmpty =
+            !Array.isArray(root.nodeData.variables.groups) ||
+            root.nodeData.variables.groups.length === 0;
+          if (groupsEmpty) {
             const legacyMain = (root.nodeData.variables.main && typeof root.nodeData.variables.main === 'object')
               ? root.nodeData.variables.main
               : null;
@@ -16886,10 +17585,14 @@
                 if (!key || !Number.isFinite(n)) continue;
                 root.nodeData.variables.groups[0].vars.push({
                   id: 'var_' + Math.random().toString(36).slice(2),
+                  name: key,
                   key,
                   value: n,
+                  type: 'number',
                   enabled: true,
+                  local: 1,
                   scope: 'module',
+                  params: { min: 0, max: '', step: 1 },
                 });
               }
             }
@@ -17564,10 +18267,24 @@
 
         const saveVarFromModal = () => {
           const nd = getRootNodeData();
-          if (!nd) return;
+          if (!nd) {
+            alert('Нет данных модуля (constructor-root). Обновите страницу карточки.');
+            return;
+          }
           const gid = String(varGroupId.value || '').trim();
-          const g = (nd.variables.groups || []).find((x) => x && x.id === gid) || (nd.variables.groups || [])[0];
-          if (!g) return;
+          let g = (nd.variables.groups || []).find((x) => x && x.id === gid) || (nd.variables.groups || [])[0];
+          if (!g) {
+            g = {
+              id: 'grp_' + Date.now().toString(36),
+              name: 'Основные',
+              enabled: true,
+              vars: [],
+              collapsed: false,
+            };
+            nd.variables.groups = [g];
+            varGroupId.value = g.id;
+            setSelectedGroupId(g.id);
+          }
 
           const name = String(fName.value || '').trim();
           const key = String(fKey.value || '').trim();
@@ -18044,15 +18761,22 @@
         const TYPE_NAMES = {
           'section': 'Секция',
           'fillable_section': 'Наполняемая секция',
+          'fill_section': 'Наполняемая секция',
+          'fake_section': 'Фиктивная секция',
           'detail': 'Деталь',
           'element': 'Элемент',
           'model': 'Модель',
           'facade': 'Фасад',
           'countertop': 'Столешница',
+          'tabletop': 'Столешница',
           'plinth': 'Цоколь',
+          'cokol': 'Цоколь',
           'fitting': 'Присадка',
           'furniture': 'Присадка',
+          'fill_module': 'Элемент наполнения',
           'cutout': 'Вырез',
+          'cut': 'Вырез',
+          'hole': 'Отверстие',
           'animator': 'Аниматор',
           'size': 'Размер',
           'mouse_target': 'Цель для мыши',
@@ -18060,7 +18784,9 @@
           'attachment_point': 'Точка прилипания',
           'module': 'Элемент',
           'wall': 'Стенка',
-          'path': 'Паз'
+          'path': 'Паз',
+          'groove': 'Паз',
+          'notch': 'Выемка',
         };
         // Обратный маппинг: кириллица → ключ (для сохранения из поля "Тип")
         const TYPE_NAMES_REVERSE = {};
@@ -18892,7 +19618,24 @@
             rootEl.nodeData = rootEl.nodeData || {};
             rootEl.nodeData.variables = rootEl.nodeData.variables || {};
             rootEl.nodeData.variables.main = rootEl.nodeData.variables.main || {};
-            if (rootEl.nodeData.variables.main.h_bottom == null) rootEl.nodeData.variables.main.h_bottom = 100;
+            const vueItemEarly = window.catalogItemVueApp?.item;
+            const pkEarly = String(vueItemEarly?.placementKind || '').trim();
+            const wallHangEarly =
+              pkEarly === 'kitchen_wall_corner' ||
+              pkEarly === 'kitchen_wall_mid' ||
+              pkEarly === 'kitchen_wall_top';
+            // Карточка → main: не терять corner_return_* / h_bottom=0 с API.
+            try {
+              const fromItem =
+                vueItemEarly?.clodisVariables && typeof vueItemEarly.clodisVariables === 'object'
+                  ? vueItemEarly.clodisVariables
+                  : null;
+              if (fromItem) Object.assign(rootEl.nodeData.variables.main, fromItem);
+            } catch (_) {}
+            if (rootEl.nodeData.variables.main.h_bottom == null) {
+              rootEl.nodeData.variables.main.h_bottom = wallHangEarly ? 0 : 100;
+            }
+            if (wallHangEarly) rootEl.nodeData.variables.main.h_bottom = 0;
             if (rootEl.nodeData.variables.main.h_top == null) rootEl.nodeData.variables.main.h_top = 0;
             if (rootEl.nodeData.variables.main.tech_zone_mm == null) rootEl.nodeData.variables.main.tech_zone_mm = 0;
             const plan =
@@ -18907,8 +19650,60 @@
             if (needsAnt && rootEl.nodeData.variables.main.corpus_antresol_mm == null) {
               rootEl.nodeData.variables.main.corpus_antresol_mm = 1950;
             }
-            if (rootEl.nodeData.variables.main.facade_thickness_mm == null)
-              rootEl.nodeData.variables.main.facade_thickness_mm = 16;
+            const main = rootEl.nodeData.variables.main;
+            // Угол/кухня-vars — только prepareClodisForBuild (не второй калькулятор).
+            try {
+              const Prep = window.__cldPrepareClodisForBuild;
+              const prepFn =
+                Prep && typeof Prep.prepareClodisForBuild === 'function'
+                  ? Prep.prepareClodisForBuild
+                  : null;
+              if (prepFn) {
+                const vueItem = window.catalogItemVueApp?.item;
+                const vueW = Number(vueItem?.width);
+                const inputW = Number(
+                  document.getElementById('catalog-item-width')?.value ||
+                    document.querySelector('[data-field="width"]')?.value ||
+                    0
+                );
+                const cellW =
+                  Number.isFinite(vueW) && vueW > 0
+                    ? vueW
+                    : Number.isFinite(inputW) && inputW > 0
+                      ? inputW
+                      : 1050;
+                const pkPrep = String(vueItem?.placementKind || '').trim();
+                const wallHangPrep =
+                  pkPrep === 'kitchen_wall_corner' ||
+                  pkPrep === 'kitchen_wall_mid' ||
+                  pkPrep === 'kitchen_wall_top';
+                const prepared = prepFn(plan, {
+                  variables: main,
+                  widthMm: cellW,
+                  item: vueItem || {
+                    name: rootEl.nodeData?.name || '',
+                    catalog_type: rootEl.nodeData?.catalog_type || '',
+                  },
+                  placementKind: pkPrep || undefined,
+                  kitchenNormalize: {
+                    plinthHeightMm: wallHangPrep ? 0 : Number(main.h_bottom) || 100,
+                  },
+                });
+                if (prepared?.variables) Object.assign(main, prepared.variables);
+                if (wallHangPrep) main.h_bottom = 0;
+                try {
+                  if (vueItem) {
+                    vueItem.clodisVariables = {
+                      ...(vueItem.clodisVariables && typeof vueItem.clodisVariables === 'object'
+                        ? vueItem.clodisVariables
+                        : {}),
+                      ...main,
+                    };
+                  }
+                } catch (_) {}
+              }
+            } catch (_) {}
+            if (main.facade_thickness_mm == null) main.facade_thickness_mm = 16;
           } catch (_) {}
         }
 
@@ -19121,7 +19916,84 @@
             };
           }
           if (role === 'service') return { sizeY: 'v:tech_zone_mm', posY: 's:y - v:tech_zone_mm' };
+          // Эталон (пользовательский JSON): sizeZ=depth, posZ=s:z, pivot −1/−1/−1.
+          // НМУ (стол): от цоколя. ВМУ/навес (wall_*): на всю высоту s:y, pos.y=0.
+          if (role === 'corner_return') {
+            let pk = '';
+            try {
+              pk = String(window.catalogItemVueApp?.item?.placementKind || '').trim();
+            } catch (_) {}
+            const wallCorner =
+              pk === 'kitchen_wall_corner' ||
+              pk === 'kitchen_wall_mid' ||
+              pk === 'kitchen_wall_top';
+            if (wallCorner) {
+              return {
+                sizeX: 'v:corner_return_mm',
+                sizeY: 's:y',
+                sizeZ: 'v:corner_return_depth_mm',
+                posX: 'v:corner_return_pos_x',
+                posY: '0',
+                posZ: 's:z',
+              };
+            }
+            return {
+              sizeX: 'v:corner_return_mm',
+              sizeY: 's:y - v:h_bottom',
+              sizeZ: 'v:corner_return_depth_mm',
+              posX: 's:x - v:corner_return_mm',
+              posY: 'v:h_bottom',
+              posZ: 's:z',
+            };
+          }
+          // Устаревший отдельный нащельник; уголок уже в Приставном. Формулы оставляем на случай ручного узла.
+          if (role === 'corner_post') {
+            let pkPost = '';
+            try {
+              pkPost = String(window.catalogItemVueApp?.item?.placementKind || '').trim();
+            } catch (_) {}
+            const wallPost =
+              pkPost === 'kitchen_wall_corner' ||
+              pkPost === 'kitchen_wall_mid' ||
+              pkPost === 'kitchen_wall_top';
+            if (wallPost) {
+              return {
+                sizeX: 'v:corner_post_mm',
+                sizeY: 's:y',
+                sizeZ: 'v:corner_post_depth_mm',
+                posX: 's:x - v:corner_return_mm - v:corner_post_mm',
+                posY: '0',
+                posZ: 's:z',
+              };
+            }
+            return {
+              sizeX: 'v:corner_post_mm',
+              sizeY: 's:y - v:h_bottom',
+              sizeZ: 'v:corner_post_depth_mm',
+              posX: 's:x - v:corner_return_mm - v:corner_post_mm',
+              posY: 'v:h_bottom',
+              posZ: 's:z',
+            };
+          }
           if (role === 'drawer') {
+            // Тумба / навес: как у комода (стек копирует слот). Шкаф/fill — locked depth.
+            let pk = '';
+            try {
+              pk = String(window.catalogItemVueApp?.item?.placementKind || '').trim();
+            } catch (_) {}
+            if (
+              pk === 'standalone_floor' ||
+              pk === 'wall_hung' ||
+              pk === 'wall_hung_low' ||
+              pk === 'wall_hung_high'
+            ) {
+              return {
+                sizeY: 135,
+                sizeZ: 's:z - 34',
+                posY: '16',
+                posZ: 50,
+              };
+            }
             return {
               sizeY: 's:y',
               sizeZ: 'v:drawer_locked_depth_mm',
@@ -19197,28 +20069,125 @@
             nodeEl.nodeData.position && typeof nodeEl.nodeData.position === 'object'
               ? nodeEl.nodeData.position
               : {};
-          const canY = !onlyIfDefault || __cldIsExprDefaultSizeY(nodeEl.nodeData.size.y);
-          const canPosY = !onlyIfDefault || __cldIsExprDefaultPosY(nodeEl.nodeData.position.y);
+          // Тумба/навес + роль ящик: всегда перебить слот шкафа (drawer_locked), иначе «Подставить» не трогает.
+          let forceDrawerTumbaSlot = false;
+          if (role === 'drawer') {
+            let pk = '';
+            try {
+              pk = String(window.catalogItemVueApp?.item?.placementKind || '').trim();
+            } catch (_) {}
+            forceDrawerTumbaSlot =
+              pk === 'standalone_floor' ||
+              pk === 'wall_hung' ||
+              pk === 'wall_hung_low' ||
+              pk === 'wall_hung_high';
+            if (forceDrawerTumbaSlot && nodeEl.nodeData.spec && typeof nodeEl.nodeData.spec === 'object') {
+              delete nodeEl.nodeData.spec.drawer_pos_z_manual;
+              delete nodeEl.nodeData.spec.manual_layout;
+              delete nodeEl.nodeData.spec.keep_manual_layout;
+            }
+          }
+          const forceCornerReturn = role === 'corner_return';
+          const forceCornerPost = role === 'corner_post';
+          const forceCornerGeom = forceCornerReturn || forceCornerPost;
+          if (forceCornerGeom) {
+            try {
+              const rootEl = document.getElementById('constructor-root-module');
+              if (rootEl?.nodeData) {
+                rootEl.nodeData.variables = rootEl.nodeData.variables || {};
+                rootEl.nodeData.variables.main = rootEl.nodeData.variables.main || {};
+                const vm = rootEl.nodeData.variables.main;
+                let pkForce = '';
+                try {
+                  pkForce = String(window.catalogItemVueApp?.item?.placementKind || '').trim();
+                } catch (_) {}
+                const wallForce =
+                  pkForce === 'kitchen_wall_corner' ||
+                  pkForce === 'kitchen_wall_mid' ||
+                  pkForce === 'kitchen_wall_top';
+                if (!(Number(vm.corner_return_mm) > 0)) vm.corner_return_mm = 550;
+                // НМУ: планка 40; ВМУ: глубина навеса (всегда, иначе 40 из corner-vars залипает).
+                // Оболочка слота = 40. D соседа → corner_return_mm, не depth.
+                if (wallForce) {
+                  vm.corner_return_depth_mm = 40;
+                  vm.h_bottom = 0;
+                  vm.side_wall_clearance_mm = 0;
+                  vm.corner_return_wall_gap_mm = 0;
+                  if (!(Number(vm.corner_return_mm) > 0)) {
+                    const dWall = Number(window.catalogItemVueApp?.item?.depth);
+                    vm.corner_return_mm =
+                      Number.isFinite(dWall) && dWall > 0 ? dWall : 350;
+                  }
+                } else if (!(Number(vm.corner_return_depth_mm) > 0)) {
+                  vm.corner_return_depth_mm = 40;
+                }
+                if (!(Number(vm.corner_post_mm) > 0)) vm.corner_post_mm = 50;
+                if (!(Number(vm.corner_post_depth_mm) > 0)) vm.corner_post_depth_mm = 40;
+              }
+            } catch (_) {}
+          }
+          // corner_return: cabinet_root size/pos задаёт JSON (v:corner_corpus_span_mm / inset).
+          const canY =
+            forceDrawerTumbaSlot ||
+            forceCornerGeom ||
+            !onlyIfDefault ||
+            __cldIsExprDefaultSizeY(nodeEl.nodeData.size.y);
+          const canPosY =
+            forceDrawerTumbaSlot ||
+            forceCornerGeom ||
+            !onlyIfDefault ||
+            __cldIsExprDefaultPosY(nodeEl.nodeData.position.y);
           const canPosZ =
             preset.posZ &&
-            (!onlyIfDefault || __cldIsExprDefaultPosZ(nodeEl.nodeData.position.z));
+            (forceDrawerTumbaSlot ||
+              forceCornerGeom ||
+              !onlyIfDefault ||
+              __cldIsExprDefaultPosZ(nodeEl.nodeData.position.z));
           const canSizeZ =
-            preset.sizeZ &&
-            (!onlyIfDefault || __cldIsExprDefaultSizeZ(nodeEl.nodeData.size.z));
-          if (!canY && !canPosY && !canPosZ && !canSizeZ) return false;
+            preset.sizeZ != null &&
+            (forceDrawerTumbaSlot ||
+              forceCornerGeom ||
+              !onlyIfDefault ||
+              __cldIsExprDefaultSizeZ(nodeEl.nodeData.size.z));
+          const canSizeX =
+            preset.sizeX != null &&
+            (forceCornerGeom ||
+              !onlyIfDefault ||
+              __cldIsExprDefaultSizeX?.(nodeEl.nodeData.size.x) !== false);
+          const canPosX =
+            preset.posX != null &&
+            (forceCornerGeom || !onlyIfDefault);
+          if (!canY && !canPosY && !canPosZ && !canSizeZ && !canSizeX && !canPosX) return false;
           if (canY) nodeEl.nodeData.size.y = preset.sizeY;
           if (canSizeZ) nodeEl.nodeData.size.z = preset.sizeZ;
+          if (canSizeX) nodeEl.nodeData.size.x = preset.sizeX;
           if (canPosY) nodeEl.nodeData.position.y = preset.posY;
           if (canPosZ) nodeEl.nodeData.position.z = preset.posZ;
+          if (canPosX) nodeEl.nodeData.position.x = preset.posX;
+          // Эталон JSON: pivot/anchor Z = −1, pos Z = s:z, size Z = depth.
+          if (forceCornerReturn) {
+            nodeEl.nodeData.anchor = nodeEl.nodeData.anchor || {};
+            nodeEl.nodeData.anchor.x = -1;
+            nodeEl.nodeData.anchor.y = -1;
+            nodeEl.nodeData.anchor.z = -1;
+            nodeEl.nodeData.pivot = nodeEl.nodeData.pivot || {};
+            nodeEl.nodeData.pivot.x = -1;
+            nodeEl.nodeData.pivot.y = -1;
+            nodeEl.nodeData.pivot.z = -1;
+          }
           if (syncForm) {
             const yInput = document.getElementById('catalog-constructor-property-size-y');
             const posYInput = document.getElementById('catalog-constructor-property-pos-y');
             const posZInput = document.getElementById('catalog-constructor-property-pos-z');
             const sizeZInput = document.getElementById('catalog-constructor-property-size-z');
+            const xInput = document.getElementById('catalog-constructor-property-size-x');
+            const posXInput = document.getElementById('catalog-constructor-property-pos-x');
             if (canY && yInput) yInput.value = preset.sizeY;
             if (canSizeZ && sizeZInput) sizeZInput.value = preset.sizeZ;
+            if (canSizeX && xInput) xInput.value = preset.sizeX;
             if (canPosY && posYInput) posYInput.value = preset.posY;
             if (canPosZ && posZInput) posZInput.value = preset.posZ;
+            if (canPosX && posXInput) posXInput.value = preset.posX;
           }
           return true;
         }
@@ -19562,6 +20531,60 @@
                   : String(lifted).trim();
             }
             __cldApplyLayoutRoleYToNode(nodeEl, { onlyIfDefault: true, syncForm: false });
+            // Кухня/реф: одна полоса plinth (опоры+доска внутри catalog_32).
+            // Второй сосед с layout_role:plinth выталкивает по высоте — не допускаем.
+            try {
+              const roleNow = String(
+                nodeEl.nodeData.sectionLayoutRole || nodeEl.nodeData.layout_role || ''
+              )
+                .trim()
+                .toLowerCase();
+              if (roleNow === 'plinth') {
+                const parent = nodeEl.parentElement?.closest?.('.constructor-tree-node');
+                const scope =
+                  parent?.querySelector?.(':scope > .tree-node-children') ||
+                  document.getElementById('constructor-root-module-children');
+                if (scope) {
+                  const sibs = [...scope.querySelectorAll(':scope > .constructor-tree-node')].filter(
+                    (el) => el !== nodeEl
+                  );
+                  const otherPlinth = sibs.find((el) => {
+                    const r = String(
+                      el.nodeData?.sectionLayoutRole || el.nodeData?.layout_role || ''
+                    )
+                      .trim()
+                      .toLowerCase();
+                    return r === 'plinth';
+                  });
+                  if (otherPlinth) {
+                    console.warn(
+                      '[CLD][plinth] Уже есть цокольная зона — обновляем её ссылку, второй слот не создаём'
+                    );
+                    otherPlinth.nodeData = otherPlinth.nodeData || {};
+                    otherPlinth.nodeData.spec = {
+                      ...(otherPlinth.nodeData.spec || {}),
+                      id: String(catalogId),
+                      element_type: catalogType,
+                      live_catalog: true,
+                      key: displayName,
+                    };
+                    otherPlinth.nodeData.name = displayName;
+                    otherPlinth.setAttribute('data-node-name', displayName);
+                    try {
+                      const ne = otherPlinth.querySelector('.tree-node-name');
+                      if (ne) ne.textContent = displayName;
+                    } catch (_) {}
+                    try {
+                      nodeEl.remove();
+                    } catch (_) {}
+                    if (typeof window.__cldSyncAllPyramidLayersInDom === 'function') {
+                      window.__cldSyncAllPyramidLayersInDom();
+                    }
+                    return true;
+                  }
+                }
+              }
+            } catch (_) {}
             // Пирог: в DOM pos.y корпуса/антресоли = 0 (как в шаблоне); сдвиг — при экспорте в 3D.
             if (typeof window.__cldSyncAllPyramidLayersInDom === 'function') {
               window.__cldSyncAllPyramidLayersInDom();
@@ -19570,22 +20593,16 @@
           return true;
         }
 
+        // PlanPlace: type:module + element_type + id — плоский лист в дереве;
+        // внутренности (section/wall) поднимаются при сборке из карточки / template_tree.
+        // Не разворачивать catalog_29 в UI: иначе заглушка/ящик/планка получают ▶,
+        // а catalog_38/27 — нет. Полка 16 мм — отдельно в __cldApplyFlatCatalogModuleNode
+        // через __cldIsFlatCatalogShelfModule.
         function __cldShouldInsertAsFlatCatalogModule(selectedType, selectedCatalogType, templateTree, meta) {
           const st = String(selectedType || '').toLowerCase();
           const ct = String(selectedCatalogType || '').toLowerCase();
           if (!(st === 'module' || st === 'element')) return false;
           if (ct === 'facades') return false;
-          if (ct === 'catalog_29' || ct === '29') {
-            const m = meta && typeof meta === 'object' ? meta : {};
-            if (typeof window.__cldIsFlatCatalogShelfModule === 'function') {
-              return window.__cldIsFlatCatalogShelfModule({
-                type: 'module',
-                name: m.displayName || m.catalogName || '',
-                spec: { element_type: ct, id: String(m.catalogId || '') },
-              });
-            }
-            return false;
-          }
           if (!Array.isArray(templateTree) || !templateTree.length) return false;
           return templateTree.some((n) => n && typeof n === 'object' && String(n.type || '').trim() !== '');
         }
@@ -20863,7 +21880,12 @@
               originalType === 'animator' ||
               originalType === 'model' ||
               originalType === 'furniture' ||
-              originalType === 'module';
+              originalType === 'module' ||
+              // Реф type:cokol — spec.id = модель цоколя, не фасад.
+              originalType === 'plinth' ||
+              originalType === 'cokol' ||
+              attrOriginalType === 'plinth' ||
+              attrOriginalType === 'cokol';
             const nameStr = String(nodeData.name || nodeName || '');
             const specGroupStr = String(nodeData?.spec?.group || '').toLowerCase();
             const looksLikeDrillFurniture =
@@ -21103,25 +22125,38 @@
             } else if (originalType === 'model' || originalType === 'furniture') {
               showModelSections(originalType, nodeData);
               fillModelProperties(nodeData);
+            } else if (originalType === 'plinth' || originalType === 'cokol') {
+              // Реф type:cokol — не панель стенки (материал/кромки/стыки).
+              showPlinthSections();
+              fillPlinthProperties(nodeData);
+            } else if (originalType === 'countertop' || originalType === 'tabletop') {
+              // Реф type:tabletop — Материал из libs.tabletop + can_*; без g0/ЛДСП.
+              showCountertopSections();
+              fillCountertopProperties(nodeData);
             } else {
               showDetailSections();
               fillDetailProperties(nodeData);
             }
           } else {
-            // section / module (фасады, цоколь, корпус): size/position/anchor/rotation + layout_role.
+            // section / module (фасады, корпус): size/position/anchor/rotation + layout_role.
             showSectionSections();
             fillSectionProperties(nodeData);
           }
 
           const pathHintEl = document.getElementById('catalog-constructor-path-hint');
+          const isPathLike =
+            nodeType === 'detail' &&
+            (originalType === 'path' || originalType === 'groove');
           if (pathHintEl) {
-            pathHintEl.style.display =
-              nodeType === 'detail' && (originalType === 'path' || originalType === 'groove')
-                ? 'block'
-                : 'none';
+            pathHintEl.style.display = isPathLike ? 'block' : 'none';
           }
-          // Реф: у Паз pivot всегда -1,-1,-1 (кнопки «Точка отсчёта» не переставляют).
-          if (nodeType === 'detail' && (originalType === 'path' || originalType === 'groove') && nodeData) {
+          const pathHintText = document.getElementById('catalog-constructor-path-hint-text');
+          if (pathHintText) {
+            pathHintText.innerHTML =
+              '<b>Паз (CabinetPath, реф 1:1):</b> X — глубина в материал, Y — ширина. Pivot всегда (−1,−1,−1).';
+          }
+          // Реф: у Паза pivot всегда -1,-1,-1 (кнопки «Точка отсчёта» не переставляют).
+          if (isPathLike && nodeData) {
             if (typeof fillPathProperties === 'function') fillPathProperties(nodeData);
             nodeData.anchor = { x: -1, y: -1, z: -1 };
             if (nodeData.pivot) nodeData.pivot = { x: -1, y: -1, z: -1 };
@@ -21264,7 +22299,7 @@
             }
           }
 
-          // Ориентация и Форма
+          // Ориентация и Форма (реф: spec.type = common|l_shape|c_l_shape)
           const orientation = document.getElementById('catalog-constructor-property-orientation');
           const shape = document.getElementById('catalog-constructor-property-shape');
           // ⭐ ИСПРАВЛЕНИЕ: Приоритет spec.orientation > orientation > detailOrientation > 'h'
@@ -21278,7 +22313,15 @@
                              nodeData.detailOrientation;
           }
           if (orientation) orientation.value = orientationValue || 'h';
-          if (shape) shape.value = nodeData.shape || 'normal';
+          const shapeType = String(
+            nodeData.spec?.type || nodeData.shape || 'common'
+          ).toLowerCase();
+          const shapeNorm =
+            shapeType === 'l_shape' || shapeType === 'c_l_shape' ? shapeType : 'common';
+          if (shape) shape.value = shapeNorm;
+          if (typeof window.__cldFillWallShapeParamsUI === 'function') {
+            window.__cldFillWallShapeParamsUI(nodeData, shapeNorm);
+          }
 
           const facadeOffsetSection = document.getElementById('catalog-constructor-facade-offset-section');
           const offX = document.getElementById('catalog-constructor-property-door-offset-x');
@@ -21924,7 +22967,8 @@
           const animatorSection = document.getElementById('catalog-constructor-animator-section');
           const modelSection = document.getElementById('catalog-constructor-model-section');
           
-          [detailSpecific, materialSection, detailCheckboxes, edgesSection, sizeSection, positionSection, advancedSection, animatorSection, modelSection].forEach(section => {
+          const countertopSection = document.getElementById('catalog-constructor-countertop-section');
+          [detailSpecific, materialSection, detailCheckboxes, edgesSection, sizeSection, positionSection, advancedSection, animatorSection, modelSection, countertopSection].forEach(section => {
             if (section) section.style.display = 'none';
           });
         }
@@ -21939,7 +22983,11 @@
           const positionSection = document.getElementById('catalog-constructor-position-section');
           const advancedSection = document.getElementById('catalog-constructor-advanced-section');
           const modelSectionHide = document.getElementById('catalog-constructor-model-section');
+          const plinthSectionHide = document.getElementById('catalog-constructor-plinth-section');
+          const countertopSectionHide = document.getElementById('catalog-constructor-countertop-section');
           if (modelSectionHide) modelSectionHide.style.display = 'none';
+          if (plinthSectionHide) plinthSectionHide.style.display = 'none';
+          if (countertopSectionHide) countertopSectionHide.style.display = 'none';
 
           [detailSpecific, materialSection, detailCheckboxes, edgesSection, sizeSection, positionSection, advancedSection].forEach(section => {
             if (section) section.style.display = 'block';
@@ -21960,6 +23008,90 @@
           if (typeof window.__cldEnsureFormulaButtons === 'function') window.__cldEnsureFormulaButtons();
         }
 
+        /** Реф PlanPlace type:tabletop — Материал (Выбрать) + can_change/can_group/can_euro; без g0/кромок стенки. */
+        function showCountertopSections() {
+          const detailSpecific = document.getElementById('catalog-constructor-detail-specific');
+          const materialSection = document.getElementById('catalog-constructor-material-section');
+          const detailCheckboxes = document.getElementById('catalog-constructor-detail-checkboxes');
+          const edgesSection = document.getElementById('catalog-constructor-edges-section');
+          const modelSection = document.getElementById('catalog-constructor-model-section');
+          const animatorSection = document.getElementById('catalog-constructor-animator-section');
+          const plinthSection = document.getElementById('catalog-constructor-plinth-section');
+          const countertopSection = document.getElementById('catalog-constructor-countertop-section');
+          const sizeSection = document.getElementById('catalog-constructor-size-section');
+          const positionSection = document.getElementById('catalog-constructor-position-section');
+          const advancedSection = document.getElementById('catalog-constructor-advanced-section');
+          const jointSection = document.getElementById('catalog-constructor-joint-section');
+          const layoutRoleWrap = document.getElementById('catalog-constructor-section-layout-role-wrapper');
+          const accSec = document.getElementById('catalog-constructor-accessories-section');
+
+          [detailSpecific, materialSection, detailCheckboxes, edgesSection, modelSection, animatorSection, plinthSection].forEach((el) => {
+            if (el) el.style.display = 'none';
+          });
+          if (countertopSection) countertopSection.style.display = 'block';
+          [sizeSection, positionSection, advancedSection].forEach((el) => {
+            if (el) el.style.display = 'block';
+          });
+          if (layoutRoleWrap) layoutRoleWrap.style.display = 'none';
+          if (jointSection) jointSection.style.display = 'none';
+          if (accSec) accSec.style.display = 'none';
+          const previewOnlyHide = document.getElementById('catalog-constructor-property-model-preview-only-wrap');
+          if (previewOnlyHide) previewOnlyHide.style.display = 'none';
+          if (typeof window.__cldEnsureFormulaButtons === 'function') window.__cldEnsureFormulaButtons();
+        }
+
+        function fillCountertopProperties(nodeData) {
+          if (typeof fillSectionProperties === 'function') fillSectionProperties(nodeData);
+          const spec = nodeData?.spec && typeof nodeData.spec === 'object' ? nodeData.spec : {};
+          const canChangeEl = document.getElementById('catalog-constructor-property-countertop-can-change');
+          const canGroupEl = document.getElementById('catalog-constructor-property-countertop-can-group');
+          const canEuroEl = document.getElementById('catalog-constructor-property-countertop-can-euro');
+          if (canChangeEl) {
+            canChangeEl.checked =
+              spec.can_change && typeof spec.can_change === 'object'
+                ? !!Number(spec.can_change.id)
+                : true;
+          }
+          if (canGroupEl) canGroupEl.checked = spec.can_group == null ? true : !!Number(spec.can_group);
+          if (canEuroEl) canEuroEl.checked = spec.can_euro == null ? true : !!Number(spec.can_euro);
+          if (typeof updateCountertopMaterialDisplay === 'function') {
+            updateCountertopMaterialDisplay();
+          } else if (typeof updateMaterialDisplay === 'function') {
+            updateMaterialDisplay();
+          }
+        }
+
+        function __cldApplyCountertopPropertyFromUi(node) {
+          if (!node || !node.nodeData) return;
+          const nd = node.nodeData;
+          nd.spec = nd.spec && typeof nd.spec === 'object' ? nd.spec : {};
+          nd.originalType = 'countertop';
+          nd.material_key = 'tabletop';
+          nd.material_group = 'tabletop';
+          nd.spec.group = 'tabletop';
+          const canChangeEl = document.getElementById('catalog-constructor-property-countertop-can-change');
+          const canGroupEl = document.getElementById('catalog-constructor-property-countertop-can-group');
+          const canEuroEl = document.getElementById('catalog-constructor-property-countertop-can-euro');
+          nd.spec.can_change = { id: canChangeEl && !canChangeEl.checked ? 0 : 1 };
+          nd.spec.can_group = canGroupEl && !canGroupEl.checked ? 0 : 1;
+          nd.spec.can_euro = canEuroEl && !canEuroEl.checked ? 0 : 1;
+          if (!nd.spec.material || typeof nd.spec.material !== 'object') {
+            nd.spec.material = {
+              group: 'tabletop',
+              key: 'tabletop',
+              id: Number(nd.material_id) || 0,
+              variant_id: 0,
+              rotated: 0,
+            };
+          } else {
+            nd.spec.material.group = 'tabletop';
+            nd.spec.material.key = 'tabletop';
+            if (nd.material_id != null && nd.material_id !== '') {
+              nd.spec.material.id = Number(nd.material_id) || nd.material_id;
+            }
+          }
+        }
+
         /** Аниматор Clodis: габариты/позиция/якорь/поворот — тот же блок, что у секции; ниже — только spec анимации. */
         function showAnimatorSections() {
           const detailSpecific = document.getElementById('catalog-constructor-detail-specific');
@@ -21968,6 +23100,7 @@
           const edgesSection = document.getElementById('catalog-constructor-edges-section');
           const animatorSection = document.getElementById('catalog-constructor-animator-section');
           const modelSectionHideA = document.getElementById('catalog-constructor-model-section');
+          const plinthSectionHideA = document.getElementById('catalog-constructor-plinth-section');
           const sizeSection = document.getElementById('catalog-constructor-size-section');
           const positionSection = document.getElementById('catalog-constructor-position-section');
           const advancedSection = document.getElementById('catalog-constructor-advanced-section');
@@ -21975,6 +23108,7 @@
           const layoutRoleWrap = document.getElementById('catalog-constructor-section-layout-role-wrapper');
 
           if (modelSectionHideA) modelSectionHideA.style.display = 'none';
+          if (plinthSectionHideA) plinthSectionHideA.style.display = 'none';
           [detailSpecific, materialSection, detailCheckboxes, edgesSection].forEach((el) => {
             if (el) el.style.display = 'none';
           });
@@ -21998,6 +23132,7 @@
           const detailCheckboxes = document.getElementById('catalog-constructor-detail-checkboxes');
           const edgesSection = document.getElementById('catalog-constructor-edges-section');
           const modelSection = document.getElementById('catalog-constructor-model-section');
+          const plinthSectionHideM = document.getElementById('catalog-constructor-plinth-section');
           const animatorSection = document.getElementById('catalog-constructor-animator-section');
           const sizeSection = document.getElementById('catalog-constructor-size-section');
           const positionSection = document.getElementById('catalog-constructor-position-section');
@@ -22008,6 +23143,7 @@
           [detailSpecific, materialSection, detailCheckboxes, edgesSection, animatorSection].forEach((el) => {
             if (el) el.style.display = 'none';
           });
+          if (plinthSectionHideM) plinthSectionHideM.style.display = 'none';
           if (modelSection) modelSection.style.display = 'block';
           [sizeSection, positionSection, advancedSection].forEach((el) => {
             if (el) el.style.display = 'block';
@@ -22059,6 +23195,171 @@
           if (typeof window.__cldEnsureFormulaButtons === 'function') window.__cldEnsureFormulaButtons();
         }
 
+        /** Реф PlanPlace type:cokol — Цоколь / Выбрать / can_change / lock height; без материала стенки и кромок. */
+        function showPlinthSections() {
+          const detailSpecific = document.getElementById('catalog-constructor-detail-specific');
+          const materialSection = document.getElementById('catalog-constructor-material-section');
+          const detailCheckboxes = document.getElementById('catalog-constructor-detail-checkboxes');
+          const edgesSection = document.getElementById('catalog-constructor-edges-section');
+          const modelSection = document.getElementById('catalog-constructor-model-section');
+          const animatorSection = document.getElementById('catalog-constructor-animator-section');
+          const plinthSection = document.getElementById('catalog-constructor-plinth-section');
+          const sizeSection = document.getElementById('catalog-constructor-size-section');
+          const positionSection = document.getElementById('catalog-constructor-position-section');
+          const advancedSection = document.getElementById('catalog-constructor-advanced-section');
+          const jointSection = document.getElementById('catalog-constructor-joint-section');
+          const layoutRoleWrap = document.getElementById('catalog-constructor-section-layout-role-wrapper');
+          const accSec = document.getElementById('catalog-constructor-accessories-section');
+
+          const countertopSectionHideP = document.getElementById('catalog-constructor-countertop-section');
+          [detailSpecific, materialSection, detailCheckboxes, edgesSection, modelSection, animatorSection, countertopSectionHideP].forEach((el) => {
+            if (el) el.style.display = 'none';
+          });
+          if (plinthSection) plinthSection.style.display = 'block';
+          [sizeSection, positionSection, advancedSection].forEach((el) => {
+            if (el) el.style.display = 'block';
+          });
+          if (layoutRoleWrap) layoutRoleWrap.style.display = 'none';
+          if (jointSection) jointSection.style.display = 'none';
+          if (accSec) accSec.style.display = 'none';
+          const previewOnlyHide = document.getElementById('catalog-constructor-property-model-preview-only-wrap');
+          if (previewOnlyHide) previewOnlyHide.style.display = 'none';
+          if (typeof window.__cldEnsureFormulaButtons === 'function') window.__cldEnsureFormulaButtons();
+        }
+
+        let __cldPlinthModelsCache = null;
+        async function __cldLoadPlinthModelsForPicker() {
+          if (__cldPlinthModelsCache && __cldPlinthModelsCache.length) return __cldPlinthModelsCache;
+          try {
+            const res = await fetch('/api/catalog/items_get/cokol_items?t=' + Date.now(), { cache: 'no-store' });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const data = await res.json();
+            const raw = Array.isArray(data) ? data : data && Array.isArray(data.items) ? data.items : [];
+            __cldPlinthModelsCache = (raw || [])
+              .filter((it) => {
+                if (!it) return false;
+                const ct = String(it.catalog_type || '').trim();
+                // API иногда отдаёт без catalog_type — не отбрасываем.
+                return !ct || ct === 'cokol_items';
+              })
+              .map((it) => {
+                const p = it.params && typeof it.params === 'object' ? it.params : {};
+                const size0 = Array.isArray(it.sizes) ? it.sizes.find((s) => s && s.enabled !== false && s.enabled !== 0) || it.sizes[0] : null;
+                return {
+                  id: String(it.id ?? it.ID ?? ''),
+                  name: String(it.name || it.data?.name || 'Цоколь'),
+                  heightMm: Number(it.heightMm ?? size0?.height ?? p.height ?? it.data?.heightMm) || 0,
+                  thicknessMm: Number(it.thicknessMm ?? size0?.thickness ?? p.thickness ?? it.data?.thicknessMm) || 16,
+                  widthMm: Number(it.widthMm ?? size0?.width ?? p.width) || 0,
+                };
+              })
+              .filter((it) => it.id);
+          } catch (e) {
+            console.warn('[CLD][plinth] load cokol_items failed', e);
+            __cldPlinthModelsCache = [];
+          }
+          return __cldPlinthModelsCache;
+        }
+
+        function fillPlinthProperties(nodeData) {
+          const sel = document.getElementById('catalog-constructor-property-plinth-model-select');
+          const selectedEl = document.getElementById('catalog-constructor-property-plinth-selected');
+          const canChangeEl = document.getElementById('catalog-constructor-property-plinth-can-change');
+          const lockHEl = document.getElementById('catalog-constructor-property-plinth-lock-height');
+          const spec = nodeData?.spec && typeof nodeData.spec === 'object' ? nodeData.spec : {};
+          const curId = String(nodeData?.modelId ?? spec.id ?? '').trim();
+          const canChange = spec.can_change && typeof spec.can_change === 'object' ? !!Number(spec.can_change.id) : true;
+          const lockH = !!(spec.lock_height || spec.fixed_height || spec.forbid_height_change);
+          if (canChangeEl) canChangeEl.checked = canChange;
+          if (lockHEl) lockHEl.checked = lockH;
+
+          __cldLoadPlinthModelsForPicker().then((items) => {
+            if (!sel) return;
+            const keep = String(sel.value || '');
+            sel.innerHTML = '<option value="">— не выбран —</option>';
+            (items || []).forEach((it) => {
+              const opt = document.createElement('option');
+              opt.value = it.id;
+              opt.textContent = it.name + (it.heightMm ? ' (' + it.heightMm + '×' + it.thicknessMm + ')' : '');
+              sel.appendChild(opt);
+            });
+            const id = curId || keep;
+            if (id) sel.value = id;
+            const found = (items || []).find((it) => String(it.id) === String(sel.value));
+            if (selectedEl) {
+              selectedEl.textContent = found
+                ? found.name + (found.heightMm ? ' · ' + found.heightMm + '×' + found.thicknessMm + ' мм' : '')
+                : sel.value
+                  ? 'ID ' + sel.value
+                  : 'Модель не выбрана — укажите из «Модели цоколя»';
+            }
+          });
+
+          // Размеры/позиция — как у секции/детали (fillSectionProperties заполняет size/pos).
+          if (typeof fillSectionProperties === 'function') {
+            fillSectionProperties(nodeData);
+          }
+        }
+
+        function __cldApplyPlinthPropertyFromUi(node) {
+          if (!node || !node.nodeData) return;
+          const nd = node.nodeData;
+          nd.spec = nd.spec && typeof nd.spec === 'object' ? nd.spec : {};
+          const sel = document.getElementById('catalog-constructor-property-plinth-model-select');
+          const canChangeEl = document.getElementById('catalog-constructor-property-plinth-can-change');
+          const lockHEl = document.getElementById('catalog-constructor-property-plinth-lock-height');
+          const id = sel && sel.value ? String(sel.value).trim() : '';
+          if (id) {
+            nd.spec.id = Number(id) || id;
+            nd.modelId = id;
+            const opt = sel.options[sel.selectedIndex];
+            const label = opt ? String(opt.textContent || '').split(' (')[0].trim() : '';
+            if (label) nd.modelKey = label;
+            const item = (__cldPlinthModelsCache || []).find((it) => String(it.id) === id);
+            if (item && Number(item.thicknessMm) > 0) {
+              nd.size = nd.size || {};
+              if (nd.size.z == null || nd.size.z === '' || nd.size.z === 's:z') {
+                nd.size.z = Number(item.thicknessMm) || 16;
+              }
+            }
+          } else {
+            nd.spec.id = 0;
+            nd.modelId = '';
+          }
+          nd.spec.can_change = { id: canChangeEl && canChangeEl.checked ? 1 : 0 };
+          nd.spec.lock_height = lockHEl && lockHEl.checked ? 1 : 0;
+          nd.spec.orientation = nd.spec.orientation || 'f';
+          nd.spec.key = nd.spec.key || 'front';
+          nd.spec.type = nd.spec.type || 'common';
+          if (!nd.spec.material || typeof nd.spec.material !== 'object') {
+            nd.spec.material = { group: 'g0', key: 'material_2' };
+          }
+          nd.originalType = 'plinth';
+          node.setAttribute('data-original-type', 'plinth');
+          if (typeof saveConstructorNodeData === 'function') saveConstructorNodeData(node);
+          if (typeof window.__ppPostModuleToIframe === 'function') window.__ppPostModuleToIframe();
+          fillPlinthProperties(nd);
+        }
+
+        function __cldBindPlinthPropertyHandlersOnce() {
+          if (window.__CLD_PLINTH_PROPS_BOUND) return;
+          window.__CLD_PLINTH_PROPS_BOUND = true;
+          const sel = document.getElementById('catalog-constructor-property-plinth-model-select');
+          const canChangeEl = document.getElementById('catalog-constructor-property-plinth-can-change');
+          const lockHEl = document.getElementById('catalog-constructor-property-plinth-lock-height');
+          const onChange = () => {
+            const node = typeof currentSelectedNode !== 'undefined' ? currentSelectedNode : window.__cldCurrentSelectedNode;
+            if (!node) return;
+            const ot = String(node.getAttribute('data-original-type') || node.nodeData?.originalType || '').toLowerCase();
+            if (ot !== 'plinth' && ot !== 'cokol') return;
+            __cldApplyPlinthPropertyFromUi(node);
+          };
+          if (sel) sel.addEventListener('change', onChange);
+          if (canChangeEl) canChangeEl.addEventListener('change', onChange);
+          if (lockHEl) lockHEl.addEventListener('change', onChange);
+        }
+        try { __cldBindPlinthPropertyHandlersOnce(); } catch (_) {}
+
         // Показ секций для section: без материалов/кромок, но с размером/позицией/точкой отсчета/поворотом.
         function showSectionSections() {
           const detailSpecific = document.getElementById('catalog-constructor-detail-specific');
@@ -22070,9 +23371,11 @@
           const advancedSection = document.getElementById('catalog-constructor-advanced-section');
           const animatorSection = document.getElementById('catalog-constructor-animator-section');
           const modelSectionHideS = document.getElementById('catalog-constructor-model-section');
+          const plinthSectionHideS = document.getElementById('catalog-constructor-plinth-section');
           const layoutRoleWrap = document.getElementById('catalog-constructor-section-layout-role-wrapper');
 
           if (modelSectionHideS) modelSectionHideS.style.display = 'none';
+          if (plinthSectionHideS) plinthSectionHideS.style.display = 'none';
           [detailSpecific, materialSection, detailCheckboxes, edgesSection].forEach(section => {
             if (section) section.style.display = 'none';
           });
@@ -24903,6 +26206,191 @@
         }
 
 
+        // Форма стенки (реф wall_types): L / C+L — видимый вырез на контуре.
+        window.__cldFillWallShapeParamsUI = function (nodeData, shapeType) {
+          const wrap = document.getElementById('catalog-constructor-wall-shape-params');
+          const fields = document.getElementById('catalog-constructor-wall-shape-params-fields');
+          if (!wrap || !fields) return;
+          const t = String(shapeType || 'common');
+          if (t !== 'l_shape' && t !== 'c_l_shape') {
+            wrap.style.display = 'none';
+            fields.innerHTML = '';
+            return;
+          }
+          wrap.style.display = 'block';
+          const mod = window.__cldWallShapeMod;
+          const defaults =
+            mod && typeof mod.cldWallDefaultTypeParams === 'function'
+              ? mod.cldWallDefaultTypeParams(t)
+              : {};
+          const tp = {
+            ...defaults,
+            ...((nodeData?.spec?.type_params && typeof nodeData.spec.type_params === 'object'
+              ? nodeData.spec.type_params
+              : {}) || {}),
+          };
+          const num = (v, fb) => {
+            if (v && typeof v === 'object' && 'value' in v) v = v.value;
+            const n = Number(v);
+            return Number.isFinite(n) ? n : fb;
+          };
+          const str = (v, fb) => {
+            if (v && typeof v === 'object' && 'value' in v) v = v.value;
+            return v != null && String(v) !== '' ? String(v) : fb;
+          };
+          // Подпись рядом с полем (без огромного зазора); ширины дерева/свойств не трогаем.
+          const row = 'display:grid;grid-template-columns:auto minmax(72px,7.5rem);justify-content:start;column-gap:8px;row-gap:4px;align-items:center;margin:0 0 4px;min-width:0;';
+          const lab = 'font-size:11px;color:#475569;line-height:1.2;white-space:nowrap;';
+          const ctl =
+            'width:100%;max-width:7.5rem;min-width:0;padding:3px 5px;font-size:12px;line-height:1.2;height:28px;border:1px solid #cbd5e1;border-radius:4px;background:#fff;box-sizing:border-box;';
+          const head = 'font-size:11px;font-weight:600;color:#166534;margin:6px 0 3px;';
+          const hint = 'margin:4px 0 0;font-size:10px;color:#64748b;line-height:1.3;';
+
+          if (t === 'l_shape') {
+            const o = str(tp.o, 'ctr');
+            fields.innerHTML = `
+              <div style="${row}"><span style="${lab}" title="Ориентация угла">Угол</span>
+                <select id="cld-wall-shape-o" class="form-control" style="${ctl}">
+                  <option value="ctl">Верх лев.</option>
+                  <option value="ctr">Верх прав.</option>
+                  <option value="cbl">Низ лев.</option>
+                  <option value="cbr">Низ прав.</option>
+                </select></div>
+              <div style="${row}"><span style="${lab}" title="Высота L, мм">Высота L</span>
+                <input id="cld-wall-shape-d1" type="number" step="0.1" value="${num(tp.d1, 57.5)}" class="form-control" style="${ctl}" /></div>
+              <div style="${row}"><span style="${lab}" title="Глубина с торца, мм">Глуб. торца</span>
+                <input id="cld-wall-shape-d2" type="number" step="0.1" value="${num(tp.d2, 27)}" class="form-control" style="${ctl}" /></div>
+              <div style="${row}"><span style="${lab}" title="R внешний / внутренний (фреза)">R внш / внтр</span>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;min-width:0;max-width:7.5rem;">
+                  <input id="cld-wall-shape-r" type="number" step="0.1" value="${num(tp.r, 0)}" class="form-control" style="${ctl}" title="R внешний" />
+                  <input id="cld-wall-shape-rc" type="number" step="0.1" value="${num(tp.r_concave, 0)}" class="form-control" style="${ctl}" title="R внутренний фрезы" />
+                </div></div>
+              <p style="${hint}">Gola L: ≈57.5 × 27. R внтр — радиус фрезы (Ø6 → 3).</p>`;
+            const oEl = document.getElementById('cld-wall-shape-o');
+            if (oEl) oEl.value = o;
+          } else {
+            const L = Array.isArray(tp.l_shapes) && tp.l_shapes[0] ? tp.l_shapes[0] : defaults.l_shapes?.[0] || {};
+            const C = Array.isArray(tp.c_shapes) && tp.c_shapes[0] ? tp.c_shapes[0] : defaults.c_shapes?.[0] || {};
+            fields.innerHTML = `
+              <div style="${head}">L сверху</div>
+              <div style="${row}"><span style="${lab}">Угол</span>
+                <select id="cld-wall-cl-lo" class="form-control" style="${ctl}">
+                  <option value="ctl">Верх лев.</option>
+                  <option value="ctr">Верх прав.</option>
+                </select></div>
+              <div style="${row}"><span style="${lab}" title="Высота L, мм">Высота L</span>
+                <input id="cld-wall-cl-ld1" type="number" step="0.1" value="${num(L.d1, 57.5)}" class="form-control" style="${ctl}" /></div>
+              <div style="${row}"><span style="${lab}" title="Глубина с торца, мм">Глуб. торца</span>
+                <input id="cld-wall-cl-ld2" type="number" step="0.1" value="${num(L.d2, 27)}" class="form-control" style="${ctl}" /></div>
+              <div style="${row}"><span style="${lab}" title="R внешний / внутренний (фреза)">R внш / внтр</span>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;min-width:0;max-width:7.5rem;">
+                  <input id="cld-wall-cl-lr" type="number" step="0.1" value="${num(L.r, 0)}" class="form-control" style="${ctl}" title="R внешний L" />
+                  <input id="cld-wall-cl-lrc" type="number" step="0.1" value="${num(L.r_concave, 0)}" class="form-control" style="${ctl}" title="R внутренний фрезы L" />
+                </div></div>
+              <div style="${head}">C на торце</div>
+              <div style="${row}"><span style="${lab}">Сторона</span>
+                <select id="cld-wall-cl-co" class="form-control" style="${ctl}">
+                  <option value="cbr">Перед</option>
+                  <option value="ctl">Лево</option>
+                </select></div>
+              <div style="${row}"><span style="${lab}" title="Глубина C, мм">Глуб. C</span>
+                <input id="cld-wall-cl-cd1" type="number" step="0.1" value="${num(C.d1, 27)}" class="form-control" style="${ctl}" /></div>
+              <div style="${row}"><span style="${lab}" title="Высота C, мм">Высота C</span>
+                <input id="cld-wall-cl-cw1" type="number" step="0.1" value="${num(C.w1, 73.5)}" class="form-control" style="${ctl}" /></div>
+              <div style="${row}"><span style="${lab}" title="Отступ от низа, мм">От низа</span>
+                <input id="cld-wall-cl-coff" type="number" step="0.1" value="${num(C.offset, 323.25)}" class="form-control" style="${ctl}" /></div>
+              <div style="${row}"><span style="${lab}" title="R внешний / внутренний (фреза)">R внш / внтр</span>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;min-width:0;max-width:7.5rem;">
+                  <input id="cld-wall-cl-cr" type="number" step="0.1" value="${num(C.r, 0)}" class="form-control" style="${ctl}" title="R внешний C" />
+                  <input id="cld-wall-cl-crc" type="number" step="0.1" value="${num(C.r_concave, 0)}" class="form-control" style="${ctl}" title="R внутренний фрезы C" />
+                </div></div>
+              <p style="${hint}">L сверху + C между ящиками. R внтр — радиус фрезы (Ø6 → 3).</p>`;
+            const lo = document.getElementById('cld-wall-cl-lo');
+            const co = document.getElementById('cld-wall-cl-co');
+            if (lo) lo.value = str(L.o, 'ctr');
+            if (co) co.value = str(C.o, 'cbr');
+          }
+          fields.querySelectorAll('input,select').forEach((el) => {
+            el.addEventListener('change', () => {
+              if (typeof saveConstructorNodeData === 'function' && window.currentSelectedNode) {
+                saveConstructorNodeData(window.currentSelectedNode);
+              } else if (typeof saveConstructorNodeData === 'function' && typeof currentSelectedNode !== 'undefined' && currentSelectedNode) {
+                saveConstructorNodeData(currentSelectedNode);
+              }
+              if (typeof window.__ppPostModuleToIframe === 'function') window.__ppPostModuleToIframe();
+            });
+          });
+        };
+
+        window.__cldReadWallShapeParamsFromUI = function (shapeType) {
+          const t = String(shapeType || 'common');
+          const mod = window.__cldWallShapeMod;
+          const defaults =
+            mod && typeof mod.cldWallDefaultTypeParams === 'function'
+              ? mod.cldWallDefaultTypeParams(t)
+              : {};
+          if (t === 'l_shape') {
+            return {
+              o: document.getElementById('cld-wall-shape-o')?.value || 'ctr',
+              d1: Number(document.getElementById('cld-wall-shape-d1')?.value) || 57.5,
+              d2: Number(document.getElementById('cld-wall-shape-d2')?.value) || 27,
+              r: Number(document.getElementById('cld-wall-shape-r')?.value) || 0,
+              r_concave: Number(document.getElementById('cld-wall-shape-rc')?.value) || 0,
+            };
+          }
+          if (t === 'c_l_shape') {
+            return {
+              l_shapes: [
+                {
+                  o: document.getElementById('cld-wall-cl-lo')?.value || 'ctr',
+                  d1: Number(document.getElementById('cld-wall-cl-ld1')?.value) || 57.5,
+                  d2: Number(document.getElementById('cld-wall-cl-ld2')?.value) || 27,
+                  r: Number(document.getElementById('cld-wall-cl-lr')?.value) || 0,
+                  r_concave: Number(document.getElementById('cld-wall-cl-lrc')?.value) || 0,
+                },
+              ],
+              c_shapes: [
+                {
+                  o: document.getElementById('cld-wall-cl-co')?.value || 'cbr',
+                  d1: Number(document.getElementById('cld-wall-cl-cd1')?.value) || 27,
+                  w1: Number(document.getElementById('cld-wall-cl-cw1')?.value) || 73.5,
+                  offset: Number(document.getElementById('cld-wall-cl-coff')?.value) || 323.25,
+                  r: Number(document.getElementById('cld-wall-cl-cr')?.value) || 0,
+                  r_concave: Number(document.getElementById('cld-wall-cl-crc')?.value) || 0,
+                },
+              ],
+            };
+          }
+          return defaults && t !== 'common' ? defaults : {};
+        };
+
+        if (!window.__cldWallShapeSelectWired) {
+          window.__cldWallShapeSelectWired = true;
+          document.addEventListener(
+            'change',
+            (ev) => {
+              const t = ev.target;
+              if (!t || t.id !== 'catalog-constructor-property-shape') return;
+              const node =
+                typeof currentSelectedNode !== 'undefined' ? currentSelectedNode : null;
+              if (!node?.nodeData) return;
+              const shapeOk = String(t.value || 'common');
+              node.nodeData.shape = shapeOk;
+              node.nodeData.spec = node.nodeData.spec || {};
+              node.nodeData.spec.type = shapeOk === 'common' ? 'common' : shapeOk;
+              const mod = window.__cldWallShapeMod;
+              if (shapeOk === 'common') node.nodeData.spec.type_params = {};
+              else if (mod?.cldWallDefaultTypeParams) {
+                node.nodeData.spec.type_params = mod.cldWallDefaultTypeParams(shapeOk);
+              }
+              window.__cldFillWallShapeParamsUI(node.nodeData, shapeOk);
+              if (typeof saveConstructorNodeData === 'function') saveConstructorNodeData(node);
+              if (typeof window.__ppPostModuleToIframe === 'function') window.__ppPostModuleToIframe();
+            },
+            true
+          );
+        }
+
         // Паз (CabinetPath): 7 профилей + type_params как pp.custom.path_types / part13.
         const CLD_PATH_TYPE_DEFAULTS = {
           common: {},
@@ -24935,6 +26423,10 @@
               '',
           ).toLowerCase();
           return ot === 'path' || ot === 'groove';
+        }
+
+        function _cldPathIsNotchNode() {
+          return false;
         }
 
         function _cldHighlightPathTypeBtn(typeKey) {
@@ -25077,6 +26569,52 @@
 
           if (_cldPathIsPathNode(node.nodeData)) {
             savePathNodeData(node);
+            return;
+          }
+
+          // Реф type:cokol — не читать orientation/material/кромки со стенки (select по умолчанию «h» ломал планку).
+          const __plinthOt = String(node.nodeData.originalType || node.getAttribute('data-original-type') || '').toLowerCase();
+          if (__plinthOt === 'plinth' || __plinthOt === 'cokol') {
+            node.nodeData.originalType = 'plinth';
+            node.setAttribute('data-original-type', 'plinth');
+            node.nodeData.size = {
+              x: document.getElementById('catalog-constructor-property-size-x')?.value || 's:x',
+              y: document.getElementById('catalog-constructor-property-size-y')?.value || 's:y',
+              z: document.getElementById('catalog-constructor-property-size-z')?.value || '16',
+            };
+            node.nodeData.position = {
+              x: document.getElementById('catalog-constructor-property-pos-x')?.value || '0',
+              y: document.getElementById('catalog-constructor-property-pos-y')?.value || '0',
+              z: document.getElementById('catalog-constructor-property-pos-z')?.value || 's:z - 30',
+            };
+            node.nodeData.anchor = {
+              x: parseInt(document.querySelector('.anchor-btn[data-axis="x"][data-active="true"]')?.getAttribute('data-value') || '-1', 10),
+              y: parseInt(document.querySelector('.anchor-btn[data-axis="y"][data-active="true"]')?.getAttribute('data-value') || '-1', 10),
+              z: parseInt(document.querySelector('.anchor-btn[data-axis="z"][data-active="true"]')?.getAttribute('data-value') || '1', 10),
+            };
+            node.nodeData.rotation = {
+              x: document.getElementById('catalog-constructor-property-rot-x')?.value || '0',
+              y: document.getElementById('catalog-constructor-property-rot-y')?.value || '0',
+              z: document.getElementById('catalog-constructor-property-rot-z')?.value || '0',
+            };
+            node.nodeData.spec = node.nodeData.spec && typeof node.nodeData.spec === 'object' ? node.nodeData.spec : {};
+            node.nodeData.spec.orientation = 'f';
+            node.nodeData.spec.direction = node.nodeData.spec.direction || 'z';
+            node.nodeData.spec.key = node.nodeData.spec.key || 'front';
+            node.nodeData.spec.type = node.nodeData.spec.type || 'common';
+            if (!node.nodeData.spec.material || typeof node.nodeData.spec.material !== 'object') {
+              node.nodeData.spec.material = { group: 'g0', key: 'material_2' };
+            }
+            const sel = document.getElementById('catalog-constructor-property-plinth-model-select');
+            const canChangeEl = document.getElementById('catalog-constructor-property-plinth-can-change');
+            const lockHEl = document.getElementById('catalog-constructor-property-plinth-lock-height');
+            const id = sel && sel.value ? String(sel.value).trim() : '';
+            if (id) {
+              node.nodeData.spec.id = Number(id) || id;
+              node.nodeData.modelId = id;
+            }
+            node.nodeData.spec.can_change = { id: canChangeEl && canChangeEl.checked ? 1 : 0 };
+            node.nodeData.spec.lock_height = lockHEl && lockHEl.checked ? 1 : 0;
             return;
           }
 
@@ -25360,15 +26898,29 @@
           // Референс: orientation хранится в spec.orientation
           if (!node.nodeData.spec) node.nodeData.spec = {};
           node.nodeData.spec.orientation = orientationValue;
-          node.nodeData.shape = shape?.value || 'normal';
+          const shapeVal = String(shape?.value || 'common').toLowerCase();
+          const shapeOk =
+            shapeVal === 'l_shape' || shapeVal === 'c_l_shape' ? shapeVal : 'common';
+          node.nodeData.shape = shapeOk;
+          node.nodeData.spec.type = shapeOk;
+          if (typeof window.__cldReadWallShapeParamsFromUI === 'function') {
+            node.nodeData.spec.type_params = window.__cldReadWallShapeParamsFromUI(shapeOk);
+          } else if (shapeOk === 'common') {
+            node.nodeData.spec.type_params = {};
+          }
 
           // door_offset на фасаде из этой формы больше не редактируем (только animator -> "Анимация").
           
           // Материал
           // Референс: material_group берется из UI или дефолт 'g0'
           // В рефе фасады используют facades_group на уровне шкафа, а не material_group в узле
-          node.nodeData.material_group = document.getElementById('catalog-constructor-property-material-group')?.value || 'g0';
-          node.nodeData.material_key = document.getElementById('catalog-constructor-property-material-key')?.value || (window.__cldMaterialsLib?.keys?.[0]?.key) || 'material_2';
+          // Столешница: НЕ перетирать tabletop → g0/ЛДСП из скрытых селектов стенки.
+          if (__cldIsCountertopNode(node)) {
+            __cldApplyCountertopPropertyFromUi(node);
+          } else {
+            node.nodeData.material_group = document.getElementById('catalog-constructor-property-material-group')?.value || 'g0';
+            node.nodeData.material_key = document.getElementById('catalog-constructor-property-material-key')?.value || (window.__cldMaterialsLib?.keys?.[0]?.key) || 'material_2';
+          }
           // material_id и material_name сохраняются при выборе материала через selectMaterialForNode
           
           // Чекбоксы
@@ -26041,11 +27593,21 @@
                 applyPathUpdate();
               });
             });
-            ['catalog-constructor-path-orientation', 'catalog-constructor-path-direction', 'catalog-constructor-path-dz', 'catalog-constructor-path-dz2', 'catalog-constructor-path-reverse'].forEach((id) => {
+            [
+              'catalog-constructor-path-orientation',
+              'catalog-constructor-path-direction',
+              'catalog-constructor-path-dz',
+              'catalog-constructor-path-dz2',
+              'catalog-constructor-path-reverse',
+            ].forEach((id) => {
               const el = document.getElementById(id);
               if (!el) return;
-              el.addEventListener('change', applyPathUpdate);
-              if (el.tagName === 'INPUT' && el.type === 'text') el.addEventListener('blur', applyPathUpdate);
+              el.addEventListener('change', () => {
+                applyPathUpdate();
+              });
+              if (el.tagName === 'INPUT' && (el.type === 'text' || el.type === 'number')) {
+                el.addEventListener('blur', applyPathUpdate);
+              }
             });
           }
           
@@ -26323,6 +27885,10 @@
             return 's:y − Σ нижних слоёв (pos.y в форме: 0; сдвиг в 3D — при сборке)';
           if (role === 'drawer')
             return 's:y (высота слота); pos Y: (v:h_bottom) + 18; size Z: v:drawer_locked_depth_mm; pos Z: s:z − v:drawer_locked_depth_mm + 16 (фасад 16 мм вперёд корпуса)';
+          if (role === 'corner_return')
+            return 'приставка: X=v:corner_return_mm; Z=depth 40; pos X=s:x−return; pos Z=s:z−depth; якорь Z=−1 (как шкаф). Перед планки = s:z. Не якорь +1 — конфликт с BLB внутри SKU.';
+          if (role === 'corner_post')
+            return 'угловая планка: X=v:corner_post_mm (50); Z=v:corner_post_depth_mm (40); pos X=s:x−return−post (у края приставки); pos Z=s:z. Фасадные планки 1/2 — внутри';
           return '';
         }
 
@@ -26381,17 +27947,40 @@
             if (posYInput) posYInput.value = preset.posY;
             const posZInput = document.getElementById('catalog-constructor-property-pos-z');
             const sizeZInput = document.getElementById('catalog-constructor-property-size-z');
+            const xInput = document.getElementById('catalog-constructor-property-size-x');
+            const posXInput = document.getElementById('catalog-constructor-property-pos-x');
             if (posZInput && preset.posZ) posZInput.value = preset.posZ;
-            if (sizeZInput && preset.sizeZ) sizeZInput.value = preset.sizeZ;
+            if (sizeZInput && preset.sizeZ != null) sizeZInput.value = preset.sizeZ;
+            if (xInput && preset.sizeX != null) xInput.value = preset.sizeX;
+            if (posXInput && preset.posX != null) posXInput.value = preset.posX;
             yInput.dispatchEvent(new Event('input', { bubbles: true }));
             if (posYInput) posYInput.dispatchEvent(new Event('input', { bubbles: true }));
             if (posZInput && preset.posZ) posZInput.dispatchEvent(new Event('input', { bubbles: true }));
-            if (sizeZInput && preset.sizeZ) sizeZInput.dispatchEvent(new Event('input', { bubbles: true }));
+            if (sizeZInput && preset.sizeZ != null)
+              sizeZInput.dispatchEvent(new Event('input', { bubbles: true }));
+            if (xInput && preset.sizeX != null)
+              xInput.dispatchEvent(new Event('input', { bubbles: true }));
+            if (posXInput && preset.posX != null)
+              posXInput.dispatchEvent(new Event('input', { bubbles: true }));
             if (currentSelectedNode) {
               if (typeof window.__cldApplyLayoutRoleYToNode === 'function') {
                 window.__cldApplyLayoutRoleYToNode(currentSelectedNode, { onlyIfDefault: false, syncForm: false });
               }
               saveConstructorNodeData(currentSelectedNode);
+            }
+            // Фаза A: цоколь / навесной корпус → пересчёт h_bottom и стеков.
+            if (
+              (role === 'plinth' ||
+                role === 'wall_hung_body' ||
+                role === 'corpus' ||
+                role === 'drawer' ||
+                role === 'corner_return' ||
+                role === 'corner_post') &&
+              typeof window.__cldCatalogModuleProfile?.applyModuleProfileFromUi === 'function'
+            ) {
+              try {
+                window.__cldCatalogModuleProfile.applyModuleProfileFromUi('role:' + role);
+              } catch (_) {}
             }
             // Пирог: в форме pos.y корпуса = 0; для превью сдвиг считается при экспорте дерева.
             try {
@@ -26508,13 +28097,56 @@
                   if (!ok) return;
                 }
 
-                const LEG_SIZE_MM = 40;
-                const INSET_MM = 50;
+                const legSel = document.getElementById('catalog-constructor-kitchen-leg-height');
+                const legApi = window.__cldCatalogModuleProfile;
+                const pk = String(window.catalogItemVueApp?.item?.placementKind || '').trim();
+                const isKitchen = typeof legApi?.isKitchenBasePlacement === 'function'
+                  ? legApi.isKitchenBasePlacement(pk)
+                  : pk === 'kitchen_base' || pk === 'kitchen_base_gola';
+                                if (isKitchen && legSel) {
+                  const hb = typeof legApi?.snapKitchenSupportMm === 'function'
+                    ? legApi.snapKitchenSupportMm(legSel.value)
+                    : Number(legSel.value) || 100;
+                  const rootEl = document.getElementById('constructor-root-module');
+                  if (rootEl) {
+                    rootEl.nodeData = rootEl.nodeData || {};
+                    rootEl.nodeData.variables = rootEl.nodeData.variables || {};
+                    rootEl.nodeData.variables.main = rootEl.nodeData.variables.main || {};
+                    rootEl.nodeData.variables.main.h_bottom = hb;
+                  }
+                  if (window.catalogItemVueApp?.item) {
+                    window.catalogItemVueApp.item.clodisVariables =
+                      window.catalogItemVueApp.item.clodisVariables || {};
+                    window.catalogItemVueApp.item.clodisVariables.h_bottom = hb;
+                  }
+                  // Превью в админке пишет в проект кухни — не создаёт второй артикул.
+                  try {
+                    const km = window.__cldKitchenManufacturing;
+                    if (km && typeof km.setProjectPlinthHeightMm === 'function') {
+                      km.setProjectPlinthHeightMm(hb);
+                    }
+                  } catch (_) {}
+                }
+
+                // CAD: type:model → cabinet_model SKU (не LDSP-стенки). id из профиля/карточки.
+                const LEG_SIZE_MM = 70;
+                const hbNow = Number(
+                  window.catalogItemVueApp?.item?.clodisVariables?.h_bottom ||
+                    window.__cldKitchenManufacturing?.getProjectPlinthHeightMm?.() ||
+                    100
+                );
+                const ks = window.catalogItemVueApp?.item?.kitchenSupports || null;
+                const bind =
+                  typeof window.__cldKitchenManufacturing?.resolveSupportCabinetModelBinding === 'function'
+                    ? window.__cldKitchenManufacturing.resolveSupportCabinetModelBinding(hbNow, ks)
+                    : { modelId: '2', name: 'Опора кухонная 100', key: 'Опора кухонная 100' };
+                const modelId = String(bind.modelId || '2');
+                const modelName = String(bind.name || bind.key || 'Опора');
                 const formulas = [
-                  { name: 'Опора ПЛ', x: `${INSET_MM}`, z: `${INSET_MM}` },
-                  { name: 'Опора ПП', x: `s:x - ${INSET_MM + LEG_SIZE_MM}`, z: `${INSET_MM}` },
-                  { name: 'Опора ЗЛ', x: `${INSET_MM}`, z: `s:z - ${INSET_MM + LEG_SIZE_MM}` },
-                  { name: 'Опора ЗП', x: `s:x - ${INSET_MM + LEG_SIZE_MM}`, z: `s:z - ${INSET_MM + LEG_SIZE_MM}` },
+                  { name: 'Опора ПЛ', x: '0', z: '0', ax: 1, az: 1 },
+                  { name: 'Опора ПП', x: '0 + s:x-20', z: '0', ax: -1, az: 1 },
+                  { name: 'Опора ЗЛ', x: '0', z: '0 + s:z-20', ax: 1, az: -1 },
+                  { name: 'Опора ЗП', x: '0 + s:x-20', z: '0 + s:z-20', ax: -1, az: -1 },
                 ];
 
                 let lastNode = null;
@@ -26522,19 +28154,23 @@
                   const n = createConstructorTreeNode('detail', currentSelectedNode);
                   n.nodeData = n.nodeData || {};
                   n.nodeData.name = p.name;
-                  n.nodeData.originalType = 'wall';
+                  n.nodeData.originalType = 'model';
                   n.nodeData.type = 'detail';
+                  n.setAttribute('data-original-type', 'model');
                   n.nodeData.size = { x: String(LEG_SIZE_MM), y: 'v:h_bottom', z: String(LEG_SIZE_MM) };
                   n.nodeData.position = { x: p.x, y: '0', z: p.z };
-                  n.nodeData.anchor = { x: -1, y: -1, z: -1 };
-                  n.nodeData.rotation = { x: '0', y: '0', z: '0' };
-                  n.nodeData.material_group = 'g0';
-                  n.nodeData.material_key = 'material_2';
-                  n.nodeData.spec = { ...(n.nodeData.spec || {}), orientation: 'v', direction: 'z' };
+                  n.nodeData.anchor = { x: p.ax, y: -1, z: p.az };
+                  n.nodeData.rotation = { x: '0', y: '180', z: '0' };
+                  n.nodeData.c_rot = { x: '0', y: '0', z: '0' };
+                  n.nodeData.modelId = modelId;
+                  n.nodeData.modelKey = modelName;
+                  n.nodeData.spec = {
+                    id: modelId,
+                    key: modelName,
+                  };
                   n.setAttribute('data-node-name', p.name);
                   const titleEl = n.querySelector('.tree-node-name');
                   if (titleEl) titleEl.textContent = p.name;
-                  // Помечаем узлы как опоры, чтобы их было легко найти/почистить потом.
                   n.nodeData.cldSupportLeg = true;
                   n.nodeData.cldSupportLegIndex = idx + 1;
                   addTreeNodeToParent(n, currentSelectedNode);
@@ -26551,7 +28187,11 @@
                   window.__ppPostModuleToIframe();
                 }
                 if (window.toastr && typeof window.toastr.success === 'function') {
-                  window.toastr.success('Добавлены 4 опоры: 50 мм от углов.');
+                  window.toastr.success(
+                    isKitchen
+                      ? `4 опоры → cabinet_model #${modelId}. Высота v:h_bottom. Цена из карточки 3D.`
+                      : `Добавлены 4 опоры (модель #${modelId}).`
+                  );
                 }
               } catch (e) {
                 console.error('[admin] add support legs failed:', e);
@@ -26606,6 +28246,30 @@
           });
         }
         
+        // Реф tabletop: Выбрать в блоке столешницы → тот же modal, но список libs.tabletop
+        const countertopMaterialSelectLink = document.getElementById(
+          'catalog-constructor-property-countertop-material-select'
+        );
+        if (countertopMaterialSelectLink) {
+          countertopMaterialSelectLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (typeof window.openMaterialSelectModal === 'function') {
+              window.openMaterialSelectModal();
+            }
+          });
+        }
+        ['catalog-constructor-property-countertop-can-change', 'catalog-constructor-property-countertop-can-group', 'catalog-constructor-property-countertop-can-euro'].forEach((id) => {
+          const el = document.getElementById(id);
+          if (!el) return;
+          el.addEventListener('change', () => {
+            if (!currentSelectedNode || !__cldIsCountertopNode(currentSelectedNode)) return;
+            __cldApplyCountertopPropertyFromUi(currentSelectedNode);
+            if (typeof saveConstructorNodeData === 'function') saveConstructorNodeData(currentSelectedNode);
+            else if (typeof saveDetailNodeData === 'function') saveDetailNodeData(currentSelectedNode);
+            if (typeof window.__ppPostModuleToIframe === 'function') window.__ppPostModuleToIframe();
+          });
+        });
+
         // Обработчик ссылки "Выбрать" для материала (референс: #catalog_modal_materials)
         const materialSelectLink = document.getElementById('catalog-constructor-property-material-select');
         if (materialSelectLink) {
@@ -26818,11 +28482,88 @@
           }
         }
 
+        function __cldIsCountertopNode(node) {
+          if (!node) return false;
+          const ot = String(
+            node.nodeData?.originalType || node.getAttribute?.('data-original-type') || ''
+          ).toLowerCase();
+          const t = String(node.nodeData?.type || node.getAttribute?.('data-node-type') || '').toLowerCase();
+          return ot === 'countertop' || ot === 'tabletop' || t === 'countertop' || t === 'tabletop';
+        }
+
+        async function __cldLoadTabletopItems() {
+          try {
+            const res = await fetch(
+              '/api/catalog/items_get/tabletop_items?t=' + Date.now(),
+              { cache: 'no-cache' }
+            );
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const data = await res.json();
+            const arr = Array.isArray(data) ? data : data?.items;
+            return Array.isArray(arr) ? arr : [];
+          } catch (e) {
+            console.warn('[CLD][tabletop] items_get fail', e);
+            try {
+              const res2 = await fetch('/catalog_items/tabletop_items.json?t=' + Date.now(), {
+                cache: 'no-cache',
+              });
+              if (!res2.ok) return [];
+              const data2 = await res2.json();
+              return Array.isArray(data2) ? data2 : data2?.items || [];
+            } catch (_) {
+              return [];
+            }
+          }
+        }
+
+        function __cldTabletopMapUrl(it) {
+          if (!it) return '';
+          return String(
+            it?.params?.mat_params?.params?.map ||
+              it?.icon ||
+              it?.params?.mat_params?.params?.texture ||
+              ''
+          ).trim();
+        }
+
         // Функция загрузки списка материалов (для модалки выбора)
         async function loadMaterialsList() {
           const tbody = document.getElementById('material-select-modal-tbody');
           if (!tbody) return;
           tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; padding:20px;">Загрузка...</td></tr>';
+
+          // Реф: type tabletop → pp.libs.tabletop (Модели столешницы), не LDSP.
+          if (__cldIsCountertopNode(currentSelectedNode)) {
+            const items = await __cldLoadTabletopItems();
+            const activeItems = items.filter((x) => x && Number(x.active) !== 0);
+            activeItems.sort((a, b) => Number(a.order || 0) - Number(b.order || 0));
+            tbody.innerHTML = '';
+            if (!activeItems.length) {
+              tbody.innerHTML =
+                '<tr><td colspan="3" style="text-align:center; padding:20px;">Модели столешницы не найдены (Столешница → Модели)</td></tr>';
+              return;
+            }
+            activeItems.forEach((mat) => {
+              const row = document.createElement('tr');
+              const mapUrl = __cldTabletopMapUrl(mat);
+              const iconCell = mapUrl
+                ? `<img src="${mapUrl}" alt="" style="width:40px;height:40px;object-fit:cover;border:1px solid #ddd;" />`
+                : '';
+              row.innerHTML = `
+              <td style="padding:8px; border:1px solid #ddd; width:70px;">${mat.id ?? ''}</td>
+              <td style="padding:8px; border:1px solid #ddd;">${iconCell} ${mat.name || ''}</td>
+              <td style="padding:8px; border:1px solid #ddd; text-align:center; width:140px;">
+                <a href="#" data-tt-id="${mat.id}" style="color:#007bff; text-decoration:none;">Выбрать</a>
+              </td>
+            `;
+              row.querySelector('a')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.selectTabletopModelForNode(mat);
+              });
+              tbody.appendChild(row);
+            });
+            return;
+          }
 
           const lib = await __cldEnsureMaterialsLoaded();
           // Контекст модалки: позволяет выбирать материалы из вкладки "Материалы" без привязки к полям конструктора
@@ -26875,6 +28616,100 @@
             });
             tbody.appendChild(row);
           });
+        }
+
+        // Реф: Материал на type:tabletop → модель из libs.tabletop
+        window.selectTabletopModelForNode = function (mat) {
+          if (!currentSelectedNode) {
+            alert('Сначала выберите элемент');
+            return;
+          }
+          if (!currentSelectedNode.nodeData) currentSelectedNode.nodeData = {};
+          const nd = currentSelectedNode.nodeData;
+          const id = mat?.id ?? 0;
+          const name = String(mat?.name || '');
+          const mapUrl = __cldTabletopMapUrl(mat);
+          const v = Array.isArray(mat?.params?.variants) ? mat.params.variants[0] : null;
+          const thick = Math.round(Number(v?.thickness) || 0);
+
+          nd.originalType = 'countertop';
+          currentSelectedNode.setAttribute('data-original-type', 'countertop');
+          nd.material_id = id;
+          nd.material_name = name;
+          nd.material_key = 'tabletop';
+          nd.material_group = 'tabletop';
+          nd.material_icon = mapUrl;
+          nd.spec = nd.spec && typeof nd.spec === 'object' ? nd.spec : {};
+          nd.spec.group = 'tabletop';
+          nd.spec.material = {
+            ...(nd.spec.material || {}),
+            group: 'tabletop',
+            key: 'tabletop',
+            id: id,
+            variant_id: 0,
+            rotated: 0,
+          };
+          // Реф: толщина модели столешницы → size.y плиты
+          if (thick > 0) {
+            nd.size = nd.size || { x: 's:x', y: 's:y', z: 's:z' };
+            nd.size.y = thick;
+            const sizeY = document.getElementById('catalog-constructor-property-size-y');
+            if (sizeY) sizeY.value = String(thick);
+          }
+
+          if (typeof updateCountertopMaterialDisplay === 'function') updateCountertopMaterialDisplay();
+          if (typeof updateMaterialDisplay === 'function') updateMaterialDisplay();
+          if (typeof __cldApplyCountertopPropertyFromUi === 'function') {
+            __cldApplyCountertopPropertyFromUi(currentSelectedNode);
+          }
+          if (typeof saveDetailNodeData === 'function') saveDetailNodeData(currentSelectedNode);
+          if (typeof window.__ppPostModuleToIframe === 'function') window.__ppPostModuleToIframe();
+          if (typeof window.closeMaterialSelectModal === 'function') window.closeMaterialSelectModal();
+        };
+
+        async function updateCountertopMaterialDisplay() {
+          const displayEl = document.getElementById('catalog-constructor-property-countertop-material-display');
+          const previewWrap = document.getElementById('catalog-constructor-property-countertop-material-preview');
+          const iconEl = document.getElementById('catalog-constructor-property-countertop-material-icon');
+          if (!displayEl || !currentSelectedNode) return;
+          const nd = currentSelectedNode.nodeData || {};
+          let mid = nd.material_id ?? nd.spec?.material?.id;
+          if (mid === '' || mid == null || mid === '__empty') mid = null;
+          let name = nd.material_name || '';
+          let icon = nd.material_icon || '';
+          if (mid != null && (!name || !icon)) {
+            const items = await __cldLoadTabletopItems();
+            const hit = (items || []).find((x) => String(x?.id) === String(mid));
+            if (hit) {
+              if (!name) {
+                name = String(hit.name || '');
+                nd.material_name = name;
+              }
+              if (!icon) {
+                icon = __cldTabletopMapUrl(hit);
+                nd.material_icon = icon;
+              }
+            }
+          }
+          if (mid != null && name) {
+            displayEl.textContent = `${mid} ${name}`;
+            displayEl.style.color = '#4a7cff';
+          } else if (mid != null) {
+            displayEl.textContent = String(mid);
+            displayEl.style.color = '#4a7cff';
+          } else {
+            displayEl.textContent = 'Не выбран';
+            displayEl.style.color = '#4a7cff';
+          }
+          if (previewWrap && iconEl) {
+            if (icon) {
+              iconEl.src = icon;
+              previewWrap.style.display = 'block';
+            } else {
+              previewWrap.style.display = 'none';
+              iconEl.removeAttribute('src');
+            }
+          }
         }
         
         // Функция выбора материала для узла (референс: show_swal_catalog)
@@ -28166,8 +30001,10 @@
           //   originalType module → type module (buildModule — сейчас заглушка-куб)
           //   originalType animator → type animator (constructor-clodis: CabinetAnimatorNode, группа __animator_swing)
           //   model/furniture в JSON → см. collectNodeData; в ClodisBuilder есть furniture, type model не обработан
-          //   прочие (*, countertop, plinth, …) без спец-ветки → type wall (buildWall)
+          //   прочие (*, countertop, …) без спец-ветки → type wall (buildWall)
+          //   plinth (реф type:cokol) — отдельный узел планки, без сетки стенок корпуса
           // Полный список из рефа оставляем включаемым: window.__CLD_SHOW_LEGACY_ADD_TYPES = true
+          // Вырез Gola — не отдельный тип: Форма стенки L / C+L (реф wall_types).
           const ADD_MODAL_TYPES_CORE = [
             'section',
             'fillable_section',
@@ -28209,11 +30046,12 @@
           // в админке модалка может показывать устаревший список до перезагрузки страницы.
           try { window.__CLD_CATALOGS_DATA = {}; } catch (_) {}
 
+          // Реф PlanPlace: тип «Цоколь» (cokol) — только Тип + Название, без плиток стенок.
+          // Сетка «Задняя фронтальная / Вертикальная…» только у detail/wall.
+          // Реф ПП: type tabletop — НЕ сетка стенок. Декор из libs.tabletop (Модели столешницы).
           const MUST_PICK_DETAIL_LAYOUT = new Set([
             'detail',
-            'plinth',
             'wall',
-            'countertop',
             'cutout',
             // «Модель» — отдельный UI: список 3D из каталога cabinet_model (не сетка типов детали).
             'module',
@@ -28258,6 +30096,125 @@
           let selectedModels3dId = null;
           let selectedModels3dName = '';
           let _models3dItemsCache = null;
+          let selectedTabletopId = null;
+          let selectedTabletopItem = null;
+          let _tabletopItemsCache = null;
+
+          function setSelectedTabletop(id, item) {
+            selectedTabletopId = id != null && id !== '' ? String(id) : null;
+            selectedTabletopItem = item && typeof item === 'object' ? item : null;
+            if (models3dSelectedSpan) {
+              models3dSelectedSpan.textContent = selectedTabletopId
+                ? String(selectedTabletopItem?.name || '') + '  (ID ' + selectedTabletopId + ')'
+                : '';
+            }
+          }
+
+          async function loadTabletopCatalogItems() {
+            if (_tabletopItemsCache && _tabletopItemsCache.length) return _tabletopItemsCache;
+            try {
+              const res = await fetch(
+                '/api/catalog/items_get/tabletop_items?t=' + Date.now(),
+                { cache: 'no-cache' }
+              );
+              if (!res.ok) throw new Error('HTTP ' + res.status);
+              const data = await res.json();
+              const arr = Array.isArray(data) ? data : data?.items;
+              _tabletopItemsCache = Array.isArray(arr) ? arr : [];
+            } catch (e) {
+              console.warn('[CLD][modal][tabletop] load error', e);
+              try {
+                const res2 = await fetch('/catalog_items/tabletop_items.json?t=' + Date.now(), {
+                  cache: 'no-cache',
+                });
+                const data2 = res2.ok ? await res2.json() : [];
+                _tabletopItemsCache = Array.isArray(data2) ? data2 : data2?.items || [];
+              } catch (_) {
+                _tabletopItemsCache = [];
+              }
+            }
+            return _tabletopItemsCache;
+          }
+
+          function renderTabletopPickerList(filterText) {
+            if (!models3dListEl) return;
+            const fl = (filterText || '').toLowerCase().trim();
+            const items = (_tabletopItemsCache || []).filter((x) => x && Number(x.active) !== 0);
+            models3dListEl.innerHTML = '';
+            if (!items.length) {
+              models3dListEl.innerHTML =
+                '<div style="padding:14px;color:#999;font-size:13px;">Нет моделей. Добавьте в «Столешница → Модели».</div>';
+              return;
+            }
+            const filtered = fl
+              ? items.filter(
+                  (it) =>
+                    String(it.name || '')
+                      .toLowerCase()
+                      .includes(fl) || String(it.id).includes(fl)
+                )
+              : items;
+            if (!filtered.length) {
+              models3dListEl.innerHTML =
+                '<div style="padding:14px;color:#999;font-size:13px;">Ничего не найдено</div>';
+              return;
+            }
+            filtered.forEach((it) => {
+              const row = document.createElement('div');
+              const sel = selectedTabletopId === String(it.id);
+              row.style.cssText =
+                'display:flex;align-items:center;gap:8px;padding:6px 10px;border-bottom:1px solid #f0f0f0;font-size:13px;' +
+                (sel ? 'background:#d4edda;' : '');
+              const map =
+                it?.params?.mat_params?.params?.map || it?.icon || '';
+              if (map) {
+                const img = document.createElement('img');
+                img.src = String(map);
+                img.alt = '';
+                img.style.cssText =
+                  'width:36px;height:36px;object-fit:cover;border:1px solid #ddd;flex-shrink:0;';
+                row.appendChild(img);
+              }
+              const nm = document.createElement('span');
+              nm.style.cssText =
+                'flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#333;';
+              nm.textContent = it.name || '(без имени)';
+              const btn = document.createElement('button');
+              btn.type = 'button';
+              btn.style.cssText =
+                'padding:2px 10px;font-size:11px;background:' +
+                (sel ? '#28a745' : '#007bff') +
+                ';color:#fff;border:none;border-radius:3px;cursor:pointer;flex-shrink:0;';
+              btn.textContent = sel ? '\u2713' : 'Выбрать';
+              btn.onclick = (e) => {
+                e.stopPropagation();
+                setSelectedTabletop(it.id, it);
+                if (nameInput) {
+                  const cur = nameInput.value.trim();
+                  if (!cur || cur === typeNames.countertop || cur === 'Столешница') {
+                    nameInput.value = 'Столешница';
+                  }
+                }
+                renderTabletopPickerList(models3dSearchInput ? models3dSearchInput.value : '');
+              };
+              row.appendChild(nm);
+              row.appendChild(btn);
+              models3dListEl.appendChild(row);
+            });
+          }
+
+          async function initTabletopPicker() {
+            setSelectedTabletop(null, null);
+            setSelectedModels3d(null, '');
+            if (models3dSearchInput) models3dSearchInput.value = '';
+            _tabletopItemsCache = null;
+            if (models3dListEl) {
+              models3dListEl.innerHTML =
+                '<div style="padding:12px;color:#999;font-size:13px;">Загрузка моделей столешницы...</div>';
+            }
+            await loadTabletopCatalogItems();
+            renderTabletopPickerList('');
+          }
 
           function setSelectedModels3d(id, name) {
             selectedModels3dId = id != null && id !== '' ? String(id) : null;
@@ -28376,12 +30333,19 @@
           }
 
           if (models3dSearchBtn) {
-            models3dSearchBtn.onclick = () =>
-              renderModels3dPickerList(models3dSearchInput ? models3dSearchInput.value : '');
+            models3dSearchBtn.onclick = () => {
+              const q = models3dSearchInput ? models3dSearchInput.value : '';
+              if (typeSelect?.value === 'countertop') renderTabletopPickerList(q);
+              else renderModels3dPickerList(q);
+            };
           }
           if (models3dSearchInput) {
             models3dSearchInput.onkeydown = (e) => {
-              if (e.key === 'Enter') renderModels3dPickerList(models3dSearchInput.value);
+              if (e.key === 'Enter') {
+                const q = models3dSearchInput.value;
+                if (typeSelect?.value === 'countertop') renderTabletopPickerList(q);
+                else renderModels3dPickerList(q);
+              }
             };
           }
 
@@ -28891,8 +30855,14 @@
             const isElementLink = typeSelect.value === 'element';
             const isModel = typeSelect.value === 'model';
             const isFitting = typeSelect.value === 'fitting';
+            const isCountertop = typeSelect.value === 'countertop';
             const showDetailGrid =
-              !isModule && !isElementLink && !isModel && !isFitting && (isFacade || MUST_PICK_DETAIL_LAYOUT.has(typeSelect.value));
+              !isModule &&
+              !isElementLink &&
+              !isModel &&
+              !isFitting &&
+              !isCountertop &&
+              (isFacade || MUST_PICK_DETAIL_LAYOUT.has(typeSelect.value));
 
             // показать/скрыть блок "Фасад"
             if (facadeContainer) {
@@ -28914,12 +30884,29 @@
             }
 
             if (models3dContainer) {
-              models3dContainer.style.display = isModel ? 'block' : 'none';
-              if (isModel) {
+              // Реф ПП: Столешница → список моделей (как Модели столешницы), не сетка стенок.
+              models3dContainer.style.display = isModel || isCountertop ? 'block' : 'none';
+              const lbl = models3dContainer.querySelector('label');
+              const hint = models3dContainer.querySelector('p');
+              if (isCountertop) {
+                if (lbl) lbl.textContent = 'Модели столешницы';
+                if (hint) {
+                  hint.textContent =
+                    'Реф PlanPlace: каталог «Столешница → Модели столешницы» (не детали корпуса).';
+                }
+                initTabletopPicker();
+              } else if (isModel) {
+                if (lbl) lbl.textContent = '3D модели (каталог)';
+                if (hint) {
+                  hint.textContent =
+                    'Выберите запись из списка 3D моделей (как в «Каталог 3D моделей > Список»).';
+                }
                 initModels3dPicker();
               } else {
                 setSelectedModels3d(null, '');
+                setSelectedTabletop(null, null);
                 _models3dItemsCache = null;
+                _tabletopItemsCache = null;
               }
             }
 
@@ -29047,6 +31034,10 @@
             }
             if (selectedType === 'model' && !selectedModels3dId) {
               alert('Пожалуйста, выберите 3D модель из списка');
+              return;
+            }
+            if (selectedType === 'countertop' && !selectedTabletopId) {
+              alert('Пожалуйста, выберите модель столешницы из списка');
               return;
             }
             if (selectedType === 'fitting' && !selectedFittingId) {
@@ -29224,7 +31215,10 @@
               mappedOriginalType === 'furniture' ||
               mappedOriginalType === 'facade' ||
               mappedOriginalType === 'animator' ||
-              mappedOriginalType === 'path'
+              mappedOriginalType === 'path' ||
+              mappedOriginalType === 'plinth' ||
+              mappedOriginalType === 'countertop' ||
+              mappedOriginalType === 'tabletop'
             ) {
               newNode.setAttribute('data-original-type', mappedOriginalType);
             }
@@ -29333,6 +31327,68 @@
               newNode.nodeData.size = newNode.nodeData.size || { x: 's:x', y: 's:y', z: 's:z' };
               newNode.nodeData.rotation = newNode.nodeData.rotation || { x: 0, y: 0, z: 0 };
               newNode.nodeData.c_rot = newNode.nodeData.c_rot || { x: 0, y: 0, z: 0 };
+            }
+
+            // Реф PlanPlace type:cokol / id:cokol_front — планка без выбора «типа детали».
+            // size.x = s:x; высота секции; толщина 16 (МДФ); передняя грань у передов опор (s:z-30).
+            if (selectedType === 'plinth') {
+              newNode.nodeData.name = elementName || 'Цоколь';
+              newNode.setAttribute('data-node-name', newNode.nodeData.name);
+              newNode.nodeData.size = { x: 's:x', y: 's:y', z: 16 };
+              newNode.nodeData.position = { x: 0, y: 0, z: 's:z - 30' };
+              newNode.nodeData.anchor = { x: -1, y: -1, z: 1 };
+              newNode.nodeData.rotation = { x: 0, y: 0, z: 0 };
+              newNode.nodeData.spec = {
+                type: 'common',
+                key: 'front',
+                orientation: 'f',
+                direction: 'z',
+                can_change: { id: 1 },
+                lock_height: 0,
+                id: 0,
+                // Толщина/цвет доски в превью (реф берёт из модели цоколя).
+                material: { group: 'g0', key: 'material_2' },
+              };
+            }
+
+            // Реф type:tabletop — деталь + материал из libs.tabletop (Модели столешницы).
+            if (selectedType === 'countertop') {
+              const tt = selectedTabletopItem || {};
+              const mapUrl =
+                tt?.params?.mat_params?.params?.map || tt?.icon || '';
+              const v = Array.isArray(tt?.params?.variants) ? tt.params.variants[0] : null;
+              const thick = Math.round(Number(v?.thickness) || 40) || 40;
+              newNode.nodeData.name = elementName || 'Столешница';
+              newNode.setAttribute('data-node-name', newNode.nodeData.name);
+              newNode.nodeData.originalType = 'countertop';
+              newNode.setAttribute('data-original-type', 'countertop');
+              newNode.nodeData.layout_role = 'countertop';
+              newNode.nodeData.sectionLayoutRole = 'countertop';
+              // Реф add_child wall_type=4: pos.y = s:y (на корпусе)
+              newNode.nodeData.size = { x: 's:x', y: thick, z: 's:z' };
+              newNode.nodeData.position = { x: 0, y: 's:y', z: 0 };
+              newNode.nodeData.anchor = { x: -1, y: -1, z: -1 };
+              newNode.nodeData.rotation = { x: 0, y: 0, z: 0 };
+              newNode.nodeData.material_id = selectedTabletopId;
+              newNode.nodeData.material_name = String(tt.name || '');
+              newNode.nodeData.material_key = 'tabletop';
+              newNode.nodeData.material_group = 'tabletop';
+              newNode.nodeData.material_icon = String(mapUrl || '');
+              newNode.nodeData.spec = {
+                orientation: 'h',
+                group: 'tabletop',
+                type: 'common',
+                can_group: 1,
+                can_euro: 1,
+                can_change: { id: 1 },
+                material: {
+                  group: 'tabletop',
+                  key: 'tabletop',
+                  id: selectedTabletopId,
+                  variant_id: 0,
+                  rotated: 0,
+                },
+              };
             }
 
             // Если создаём фасад — накладной: внутренняя грань в плоскости передней грани секции (см. ClodisBuilder.buildFacade + applyTransform)
@@ -30316,7 +32372,14 @@
             if (!nodeType) {
               const ot = String(nodeData.originalType || nodeData.type || '').toLowerCase();
               nodeType =
-                ot === 'detail' || ot === 'facade' || ot === 'module' || ot === 'model' || ot === 'furniture' || ot === 'animator'
+                ot === 'detail' ||
+                ot === 'facade' ||
+                ot === 'module' ||
+                ot === 'model' ||
+                ot === 'furniture' ||
+                ot === 'animator' ||
+                ot === 'plinth' ||
+                ot === 'cokol'
                   ? 'detail'
                   : 'section';
             }
@@ -30758,6 +32821,94 @@
                 result.active = nodeData.active !== undefined ? (nodeData.active ? 1 : 0) : 1;
                 return result;
               }
+
+              // Цоколь (реф type:cokol): планка, не wall/facade. Движок строит как доску.
+              if (originalType === 'plinth' || originalType === 'cokol') {
+                result.type = 'plinth';
+                result.originalType = 'plinth';
+                const plinthSpec =
+                  nodeData.spec && typeof nodeData.spec === 'object'
+                    ? { ...nodeData.spec }
+                    : {};
+                plinthSpec.orientation = 'f';
+                plinthSpec.direction = plinthSpec.direction || 'z';
+                plinthSpec.type = plinthSpec.type || 'common';
+                plinthSpec.key = plinthSpec.key || 'front';
+                plinthSpec.can_change =
+                  plinthSpec.can_change && typeof plinthSpec.can_change === 'object'
+                    ? plinthSpec.can_change
+                    : { id: 1 };
+                plinthSpec.lock_height = plinthSpec.lock_height ? 1 : 0;
+                const mid =
+                  nodeData.modelId != null && String(nodeData.modelId).trim() !== ''
+                    ? nodeData.modelId
+                    : plinthSpec.id;
+                plinthSpec.id =
+                  mid != null && String(mid).trim() !== ''
+                    ? Number(mid) || mid
+                    : 0;
+                if (!plinthSpec.material || typeof plinthSpec.material !== 'object') {
+                  plinthSpec.material = { group: 'g0', key: 'material_2' };
+                }
+                result.spec = plinthSpec;
+                result.pos = nodeData.position || { x: 0, y: 0, z: 's:z - 30' };
+                result.pivot = nodeData.anchor || { x: -1, y: -1, z: 1 };
+                result.rot = nodeData.rotation || { x: 0, y: 0, z: 0 };
+                result.size = nodeData.size || { x: 's:x', y: 's:y', z: '16' };
+                result.events = nodeData.events || {
+                  on_before_params: '',
+                  on_before_build: '',
+                  on_after_build: '',
+                  on_drag_end: '',
+                };
+                result.visible = nodeData.visible !== undefined ? (nodeData.visible ? 1 : 0) : 1;
+                result.active = nodeData.active !== undefined ? (nodeData.active ? 1 : 0) : 1;
+                if (Array.isArray(nodeData.accessories)) result.accessories = nodeData.accessories;
+                appendConstructorDomChildren(nodeElement, result);
+                return result;
+              }
+
+              // Столешница (реф type:countertop) — не wall и не section.
+              if (originalType === 'countertop' || originalType === 'tabletop') {
+                result.type = 'countertop';
+                result.originalType = 'countertop';
+                result.layout_role = nodeData.layout_role || nodeData.sectionLayoutRole || 'countertop';
+                const ttSpec =
+                  nodeData.spec && typeof nodeData.spec === 'object'
+                    ? { ...nodeData.spec }
+                    : {};
+                ttSpec.orientation = ttSpec.orientation || 'h';
+                ttSpec.group = 'tabletop';
+                ttSpec.type = ttSpec.type || 'common';
+                ttSpec.can_group = ttSpec.can_group != null ? ttSpec.can_group : 1;
+                ttSpec.can_euro = ttSpec.can_euro != null ? ttSpec.can_euro : 1;
+                ttSpec.can_change =
+                  ttSpec.can_change && typeof ttSpec.can_change === 'object'
+                    ? ttSpec.can_change
+                    : { id: 1 };
+                const mid = Number(nodeData.material_id ?? ttSpec.material?.id) || 0;
+                ttSpec.material = {
+                  group: 'tabletop',
+                  key: 'tabletop',
+                  id: mid,
+                  variant_id: Number(ttSpec.material?.variant_id) || 0,
+                  rotated: nodeData.rotate || ttSpec.material?.rotated ? 1 : 0,
+                };
+                result.spec = ttSpec;
+                result.size = nodeData.size || { x: 's:x', y: 's:y', z: 's:z' };
+                result.pos = nodeData.position || { x: 0, y: 0, z: 0 };
+                result.pivot = nodeData.anchor || { x: -1, y: -1, z: -1 };
+                result.rot = nodeData.rotation || { x: 0, y: 0, z: 0 };
+                result.visible = nodeData.visible !== undefined ? (nodeData.visible ? 1 : 0) : 1;
+                result.active = nodeData.active !== undefined ? (nodeData.active ? 1 : 0) : 1;
+                if (mid) result.material_id = mid;
+                result.material_key = 'tabletop';
+                result.material_group = 'tabletop';
+                if (nodeData.material_name) result.material_name = nodeData.material_name;
+                if (nodeData.material_icon) result.material_icon = nodeData.material_icon;
+                appendConstructorDomChildren(nodeElement, result);
+                return result;
+              }
               
               // Обычная деталь (wall).
               // ВАЖНО: для корректного round‑trip с рефом НЕ искажаем spec/size/pos/pivot:
@@ -30915,13 +33066,24 @@
                 window.__cldSyncAllPyramidLayersInDom();
               }
             } catch (_) {}
-            const childNodes = childrenContainer.querySelectorAll('.constructor-tree-node');
-            childNodes.forEach(childNode => {
+            // Только прямые дети корня. querySelectorAll тянул вложенные detail/plinth
+            // вторым корневым sibling (дубль рядом с секцией).
+            const eachRootChild =
+              (typeof _cldForEachDetailExportChild === 'function' && _cldForEachDetailExportChild) ||
+              (typeof window.__cldForEachDetailExportChild === 'function' &&
+                window.__cldForEachDetailExportChild) ||
+              null;
+            const pushRootChild = (childNode) => {
               const childData = collectNodeData(childNode);
-              if (childData) {
-                rootData.children.push(childData);
-              }
-            });
+              if (childData) rootData.children.push(childData);
+            };
+            if (eachRootChild) {
+              eachRootChild(childrenContainer, pushRootChild);
+            } else {
+              Array.from(childrenContainer.children)
+                .filter((c) => c.classList?.contains('constructor-tree-node'))
+                .forEach(pushRootChild);
+            }
 
             // Вкладка JSON и сохранение ожидают template.structure (массив section/wall для 3D).
             // Без этого после добавления детали/фасада JSON остаётся [].
@@ -31469,6 +33631,85 @@
               };
             }
 
+            // Реф type:cokol — планка цоколя (у нас ключ plinth в UI).
+            if (t === 'plinth' || t === 'cokol') {
+              return {
+                type: 'detail',
+                name: name === 'Секция' ? 'Цоколь' : name,
+                originalType: 'plinth',
+                size: item.size || { x: 's:x', y: 's:y', z: 16 },
+                position: item.pos || item.position || { x: 0, y: 0, z: 's:z - 30' },
+                anchor: item.pivot || item.anchor || { x: -1, y: -1, z: 1 },
+                rotation: item.rot || item.rotation || { x: 0, y: 0, z: 0 },
+                spec: item.spec || {
+                  type: 'common',
+                  key: 'front',
+                  orientation: 'f',
+                  direction: 'z',
+                  can_change: { id: 1 },
+                  id: 0,
+                },
+                modelId: item.spec?.id != null ? String(item.spec.id) : '',
+                visible: item.visible !== undefined ? !!item.visible : true,
+                active: item.active !== undefined ? !!item.active : true,
+              };
+            }
+
+            // Реф type:countertop / tabletop — плита столешницы (не секция!).
+            // Без этой ветки templateItemToNodeData схлопывал в section → Save убивал деталь.
+            if (t === 'countertop' || t === 'tabletop') {
+              const specMat = item.spec?.material || {};
+              const midRaw = specMat.id ?? item.material_id;
+              const material_id =
+                midRaw != null && midRaw !== '' && midRaw !== '__empty' ? String(midRaw) : '';
+              const material_key = 'tabletop';
+              const material_group = 'tabletop';
+              const material_name = item.material_name || '';
+              const material_icon = item.material_icon || item.materialIcon || '';
+              const specIn =
+                item.spec && typeof item.spec === 'object'
+                  ? { ...item.spec }
+                  : {
+                      orientation: 'h',
+                      group: 'tabletop',
+                      type: 'common',
+                      can_group: 1,
+                      can_euro: 1,
+                      can_change: { id: 1 },
+                      material: { group: 'tabletop', key: 'tabletop', id: 0, variant_id: 0, rotated: 0 },
+                    };
+              specIn.group = 'tabletop';
+              specIn.material = {
+                group: 'tabletop',
+                key: 'tabletop',
+                id: material_id ? Number(material_id) || material_id : 0,
+                variant_id: Number(specMat.variant_id) || 0,
+                rotated: !!(specMat.rotated || item.rotate),
+              };
+              return {
+                type: 'detail',
+                name: name === 'Секция' ? 'Столешница' : name,
+                originalType: 'countertop',
+                size: item.size || { x: 's:x', y: 's:y', z: 's:z' },
+                position: item.pos || item.position || { x: 0, y: 0, z: 0 },
+                anchor: item.pivot || item.anchor || { x: -1, y: -1, z: -1 },
+                rotation: item.rot || item.rotation || { x: 0, y: 0, z: 0 },
+                spec: specIn,
+                material_id,
+                material_key,
+                material_group,
+                material_name,
+                material_icon,
+                rotate: !!(specMat.rotated || item.rotate),
+                fixed: !!(specMat.fixed || item.fixed),
+                material: specMat || item.material || {},
+                layout_role: item.layout_role || 'countertop',
+                sectionLayoutRole: item.layout_role || item.sectionLayoutRole || 'countertop',
+                visible: item.visible !== undefined ? !!item.visible : true,
+                active: item.active !== undefined ? !!item.active : true,
+              };
+            }
+
             if (t === 'wall') {
               // Материал из spec.material (формат референса)
               const specMat = item.spec?.material || {};
@@ -31580,11 +33821,26 @@
             }
             // Определяем тип узла в DOM: module (catalog_32/27/28/30) — не detail, чтобы в свойствах была «Роль подсекции».
             const rawDomType = String(nodeData.type || '').toLowerCase();
+            const rawOt = String(nodeData.originalType || '').toLowerCase();
+            const detailKinds = new Set([
+              'detail',
+              'wall',
+              'facade',
+              'plinth',
+              'cokol',
+              'countertop',
+              'tabletop',
+              'model',
+              'furniture',
+              'animator',
+              'path',
+              'groove',
+            ]);
             const nodeType =
-              rawDomType === 'detail' || rawDomType === 'module'
-                ? rawDomType
-                : String(nodeData.originalType || '').toLowerCase() === 'module'
-                  ? 'module'
+              rawDomType === 'module' || rawOt === 'module'
+                ? 'module'
+                : detailKinds.has(rawDomType) || detailKinds.has(rawOt)
+                  ? 'detail'
                   : 'section';
 
             // Создаем узел
@@ -31946,6 +34202,12 @@
             window.__ppPreviewIframe &&
             typeof window.__ppPostModuleToIframe === 'function'
           ) {
+            // После загрузки дерева из JSON — снова профиль (h_bottom), иначе в DOM снова 100 с диска.
+            if (typeof window.__cldCatalogModuleProfile?.applyModuleProfileFromUi === 'function') {
+              try {
+                window.__cldCatalogModuleProfile.applyModuleProfileFromUi('tree-load');
+              } catch (_) {}
+            }
             window.__ppPostModuleToIframe(true);
           }
 
@@ -32513,19 +34775,20 @@
             if (t) clearTimeout(t);
             t = setTimeout(() => {
               try {
-                const ctorActive = !!document.querySelector(
-                  '#catalog-item-edit .tab_menu_h li[data-tab="constructor"].active'
-                );
-                if (!ctorActive || !window.__ppPreviewIframe) return;
+                // Поля Ш×В×Г всегда справа в карточке — не только на вкладке «Конструктор».
+                if (!document.getElementById('catalog-item-edit') || !window.__ppPreviewIframe) return;
               } catch (_) {
                 return;
               }
-              // как в референсе: применяем ограничения (min/max) до синхронизации
               try { window.__cldClampMainSizeInputs && window.__cldClampMainSizeInputs(); } catch {}
-              
-              // Как в рефе (change_size → set_size → _rebuild): DOM pos/size не пересчитываем.
-              // Новые s:x/s:y/s:z уходят в iframe; rebuild пересчитывает только формулы (s:*, v:*, …).
-              // Числовые pos в nodeData остаются как задал пользователь (pos.z=10 → 10 при любой глубине).
+
+              // Фаза A: до превью синхронизировать h_bottom (навес=0 / цоколь=100).
+              if (typeof window.__cldCatalogModuleProfile?.applyModuleProfileFromUi === 'function') {
+                try {
+                  window.__cldCatalogModuleProfile.applyModuleProfileFromUi('size');
+                } catch (_) {}
+              }
+
               try {
                 const rootEl = document.getElementById('constructor-root-module');
                 const next = {
@@ -32544,7 +34807,7 @@
                 console.warn('[CLD][size] preview sync prep failed', e);
               }
 
-              if (typeof window.__ppPostModuleToIframe === 'function') window.__ppPostModuleToIframe();
+              if (typeof window.__ppPostModuleToIframe === 'function') window.__ppPostModuleToIframe(true);
             }, 420);
           };
           // Синхронизация превью при смене W/H/D (совместимость имён __CLD_REANCHOR_*).
@@ -33858,10 +36121,18 @@
             (ot === 'module' || ot === 'element') &&
             !!String(nd.spec?.element_type || '').trim() &&
             !!String(nd.spec?.id ?? nd.modelId ?? '').trim();
+          const isPlinthNode = ot === 'plinth' || ot === 'cokol';
+          const isCountertopNode =
+            ot === 'countertop' ||
+            ot === 'tabletop' ||
+            String(nd.spec?.group || '').toLowerCase() === 'tabletop' ||
+            String(nd.layout_role || nd.sectionLayoutRole || '').toLowerCase() === 'countertop';
           const isFacade =
             !isCatalogLinkedModuleNode &&
+            !isPlinthNode &&
+            !isCountertopNode &&
             (ot === 'facade' ||
-              (!['module', 'model', 'furniture', 'animator', 'section', 'element'].includes(ot) &&
+              (!['module', 'model', 'furniture', 'animator', 'section', 'element', 'plinth', 'cokol', 'countertop', 'tabletop'].includes(ot) &&
                 (nd.modelId || nd.spec?.id || /фасад/i.test(nameForFacade))));
           const isModule = ot === 'module' || isCatalogLinkedModuleNode;
           
@@ -34499,15 +36770,42 @@
             resultPos.z = pzEmpty ? 's:z' : toNumOrExpr(pos.z, dflt?.pos?.z ?? 0);
           }
           // rotate-аниматор: pos/size фасада из UI (s:x-3, 1.5, …) — не сбрасывать в s:x/0.
+          // Реф type:cokol — у нас originalType plinth; в JSON пишем plinth (движок строит как стенку).
+          const isPlinthExport =
+            isPlinthNode || rawType === 'plinth' || rawType === 'cokol';
+          // Реф type:tabletop — НЕ wall (иначе Save → type wall → толщина g0=16).
+          const isCountertopExport =
+            isCountertopNode ||
+            rawType === 'countertop' ||
+            rawType === 'tabletop';
           const result = {
-            type: exportAsHingeFurniture ? 'furniture' : (isFacade ? 'facade' : 'wall'),
+            type: exportAsHingeFurniture
+              ? 'furniture'
+              : isFacade
+                ? 'facade'
+                : isPlinthExport
+                  ? 'plinth'
+                  : isCountertopExport
+                    ? 'countertop'
+                  : 'wall',
             ...(wallId ? { id: String(wallId) } : {}),
             name,
             active,
             size: {
               x: toNumOrExpr(size.x, dflt?.size?.x ?? 's:x'),
-              y: toNumOrExpr(size.y, dflt?.size?.y ?? 's:y'),
-              z: toNumOrExpr(size.z, dflt?.size?.z ?? (isFacade ? '16' : '$wall.thickness')),
+              y: toNumOrExpr(
+                size.y,
+                dflt?.size?.y ?? (isCountertopExport ? 38 : 's:y')
+              ),
+              z: toNumOrExpr(
+                size.z,
+                dflt?.size?.z ??
+                  (isFacade || isPlinthExport
+                    ? '16'
+                    : isCountertopExport
+                      ? 's:z'
+                      : '$wall.thickness')
+              ),
             },
             pos: resultPos,
             pivot: isFacadeInsideAnimator
@@ -34529,20 +36827,76 @@
               z: toNumOrExpr(nd.rotation?.z ?? 0, 0)
             },
             spec: { 
-              orientation, 
-              direction, 
-              side: isFacadeInsideAnimator ? 0 : (dflt?.spec?.side ?? side),
-              material: {
-                group: (nd.material_group || nd.materialGroup || 'g0'),
-                key: (typeof window.__cldNormalizeMaterialKey === 'function' ? window.__cldNormalizeMaterialKey(nd.material_key || nd.materialKey) : (nd.material_key || nd.materialKey)) || 'material_2',
-                ...(nd.material_id ? { id: Number(nd.material_id) || nd.material_id } : {}),
-                rotated: !!nd.rotate,
-                fixed: !!nd.fixed,
-              },
-              ...(detailTypeId ? { detailTypeId } : {}),
+              // Цоколь всегда фронтальная планка (реф cokol_front). Не брать 'h' из UI стенки.
+              orientation: isPlinthExport ? 'f' : orientation, 
+              direction: isPlinthExport ? (nd.spec?.direction || 'z') : direction, 
+              side: isFacadeInsideAnimator ? 0 : (isPlinthExport ? (nd.spec?.key || 'front') : (dflt?.spec?.side ?? side)),
+              ...(isPlinthExport
+                ? {
+                    type: nd.spec?.type || 'common',
+                    key: nd.spec?.key || 'front',
+                    id:
+                      nd.modelId != null && String(nd.modelId).trim() !== ''
+                        ? Number(nd.modelId) || nd.modelId
+                        : nd.spec?.id != null
+                          ? Number(nd.spec.id) || nd.spec.id
+                          : 0,
+                    can_change:
+                      nd.spec?.can_change && typeof nd.spec.can_change === 'object'
+                        ? nd.spec.can_change
+                        : { id: 1 },
+                    lock_height: nd.spec?.lock_height ? 1 : 0,
+                    // Превью: доска с толщиной; цвет позже из модели/фасада.
+                    material:
+                      nd.spec?.material && typeof nd.spec.material === 'object'
+                        ? nd.spec.material
+                        : { group: 'g0', key: 'material_2' },
+                  }
+                : isCountertopExport
+                  ? {
+                      group: 'tabletop',
+                      type: nd.spec?.type || 'common',
+                      can_group: nd.spec?.can_group != null ? nd.spec.can_group : 1,
+                      can_euro: nd.spec?.can_euro != null ? nd.spec.can_euro : 1,
+                      can_change:
+                        nd.spec?.can_change && typeof nd.spec.can_change === 'object'
+                          ? nd.spec.can_change
+                          : { id: 1 },
+                      material: {
+                        group: 'tabletop',
+                        key: 'tabletop',
+                        id: Number(nd.material_id ?? nd.spec?.material?.id) || 0,
+                        variant_id: Number(nd.spec?.material?.variant_id) || 0,
+                        rotated: !!nd.rotate,
+                      },
+                    }
+                : {
+                    material: {
+                      group: (nd.material_group || nd.materialGroup || 'g0'),
+                      key: (typeof window.__cldNormalizeMaterialKey === 'function' ? window.__cldNormalizeMaterialKey(nd.material_key || nd.materialKey) : (nd.material_key || nd.materialKey)) || 'material_2',
+                      ...(nd.material_id ? { id: Number(nd.material_id) || nd.material_id } : {}),
+                      rotated: !!nd.rotate,
+                      fixed: !!nd.fixed,
+                    },
+                  }),
+              ...(!isPlinthExport && detailTypeId ? { detailTypeId } : {}),
               // ВАЖНО: не перетирать ориентацию, выбранную в свойствах.
               // Дефолт из пресета применяем только если у детали нет своей orientation.
               ...((nd?.spec?.orientation || nd?.orientation) ? {} : (dflt?.spec?.orientation ? { orientation: dflt.spec.orientation } : {})),
+              // Реф wall_types: Форма L / C+L → spec.type + type_params (иначе превью остаётся прямоугольником).
+              ...(!isFacade && !isPlinthExport
+                ? (() => {
+                    const st = String(nd.spec?.type || nd.shape || 'common').toLowerCase();
+                    if (st !== 'l_shape' && st !== 'c_l_shape') return {};
+                    return {
+                      type: st,
+                      type_params:
+                        nd.spec?.type_params && typeof nd.spec.type_params === 'object'
+                          ? nd.spec.type_params
+                          : {},
+                    };
+                  })()
+                : {}),
               // Референс: для facade — полный набор полей из def_cabinet_facade.spec
               ...(isFacade ? (() => {
                 const sh = nd.spec?.handle && typeof nd.spec.handle === 'object' ? nd.spec.handle : {};
@@ -34617,13 +36971,22 @@
             })(),
             // Материалы: как в референсе, у детали всегда есть группа (по умолчанию g0),
             // иначе в превью будет использоваться только vars._wt и не будет реакции на g:g0.thickness.
+            // Столешница: group/key = tabletop (не g0/material_2).
             ...(nd.material_id ? { material_id: nd.material_id } : {}),
             ...(nd.material_name ? { material_name: nd.material_name } : {}),
-            material_key: (typeof window.__cldNormalizeMaterialKey === 'function' ? window.__cldNormalizeMaterialKey(nd.material_key || nd.materialKey) : (nd.material_key || nd.materialKey)) || 'material_2',
-            material_group: (nd.material_group || nd.materialGroup || 'g0'),
+            material_key: isCountertopExport
+              ? 'tabletop'
+              : ((typeof window.__cldNormalizeMaterialKey === 'function' ? window.__cldNormalizeMaterialKey(nd.material_key || nd.materialKey) : (nd.material_key || nd.materialKey)) || 'material_2'),
+            material_group: isCountertopExport
+              ? 'tabletop'
+              : (nd.material_group || nd.materialGroup || 'g0'),
             ...(() => {
               let icon = nd.material_icon || nd.materialIcon;
-              if (!icon && nd.material_id && (nd.material_key || nd.materialKey)) {
+              if (!icon && isCountertopExport && nd.material_id) {
+                // sync lookup из уже загруженного кэша модалки / node
+                icon = '';
+              }
+              if (!icon && nd.material_id && (nd.material_key || nd.materialKey) && !isCountertopExport) {
                 const lib = window.__cldMaterialsLib;
                 const mk = nd.material_key || nd.materialKey || 'material_2';
                 const item = Array.isArray(lib?.itemsByKey?.[mk]) ? lib.itemsByKey[mk].find(x => String(x.id) === String(nd.material_id)) : null;
@@ -34812,35 +37175,68 @@
           }
         }
         if (!data || typeof data !== 'object') data = {};
-        const pickTreeFromRoot = (root) => {
-          if (!root || typeof root !== 'object') return null;
-          // После сохранения карточки канон — clodisJSON; template.structure часто старее.
-          const pp =
-            root.clodisJSON ||
-            root.params?.clodisJSON;
-          if (Array.isArray(pp) && pp.length > 0) return pp;
-          const t =
-            root?.template?.structure ||
-            root?.spec?.template?.tree ||
-            root?.params?.constructor_structure?.children ||
-            root?.params?.constructor_structure ||
-            root?.constructor_structure?.children ||
-            root?.constructor_structure ||
-            root?.params?.template?.tree ||
-            root?.params?.templates?.[0]?.template?.tree ||
-            root?.template?.tree ||
-            root?.template_tree ||
-            null;
-          if (Array.isArray(t) && t.length > 0) return t;
-          if (t && typeof t === 'object' && Array.isArray(t.children)) return t.children;
+        // Как ClodisBuilder._moduleTemplateFromCatalogItem: не брать пустой stub clodisJSON,
+        // если в data есть дерево с доской/деталями (типичный баг catalog_32 «Цоколь»).
+        const scoreTree = (tree) => {
+          if (!Array.isArray(tree) || !tree.length) return -1;
+          let nodes = 0;
+          let leaf = 0;
+          const walk = (arr) => {
+            for (const n of arr) {
+              if (!n || typeof n !== 'object') continue;
+              nodes += 1;
+              const typ = String(n.type || '').toLowerCase();
+              if (typ && typ !== 'section' && typ !== 'module') leaf += 1;
+              if (Array.isArray(n.children) && n.children.length) walk(n.children);
+            }
+          };
+          walk(tree);
+          return leaf * 100 + nodes;
+        };
+        const unwrap = (tryTree) => {
+          if (typeof tryTree === 'string') {
+            try { tryTree = JSON.parse(tryTree); } catch (_) { return null; }
+          }
+          if (Array.isArray(tryTree) && tryTree.length > 0) return tryTree;
+          if (tryTree && typeof tryTree === 'object' && Array.isArray(tryTree.children) && tryTree.children.length) {
+            return tryTree.children;
+          }
+          if (tryTree && typeof tryTree === 'object' && Array.isArray(tryTree.template?.structure)) {
+            return tryTree.template.structure;
+          }
           return null;
         };
+        const pickCandidatesFromRoot = (root) => {
+          if (!root || typeof root !== 'object') return [];
+          const cs = root.constructor_structure || root.params?.constructor_structure;
+          return [
+            root.clodisJSON,
+            root.params?.clodisJSON,
+            cs && Array.isArray(cs.children) ? cs.children : null,
+            cs?.template?.structure,
+            root?.template?.structure,
+            root?.spec?.template?.tree,
+            root?.params?.template?.tree,
+            root?.params?.templates?.[0]?.template?.tree,
+            root?.template?.tree,
+            root?.template_tree,
+          ];
+        };
         const roots = [hit, params, data, { ...data, ...params }];
+        let best = null;
+        let bestScore = -1;
         for (const root of roots) {
-          const t = pickTreeFromRoot(root);
-          if (t) return t;
+          for (const cand of pickCandidatesFromRoot(root)) {
+            const tree = unwrap(cand);
+            if (!tree) continue;
+            const sc = scoreTree(tree);
+            if (sc > bestScore) {
+              bestScore = sc;
+              best = tree;
+            }
+          }
         }
-        return null;
+        return best;
       }
 
       function __ppResolveModuleTreeFromAdminCatalogs(catalogs, elementType, elementId, spec) {
@@ -35162,6 +37558,9 @@
           'catalog_34',
           'catalog_38',
           'catalog_39',
+          'catalog_44',
+          'catalog_45',
+          'catalog_46',
           'hinges',
         ].forEach((k) => needed.add(k));
 
@@ -35202,9 +37601,38 @@
         return false;
       }
 
+      /**
+       * Угловой НМУ: стены приставки уже в карточке, а live-module корпуса ещё без template_tree.
+       * AlreadyExpanded=true из‑за стен приставки → раньше пропускали hydrate и НМ не рисовался.
+       */
+      function __ppPreviewHasUnhydratedLiveModules(nodes) {
+        if (!Array.isArray(nodes)) return false;
+        const st = [...nodes];
+        while (st.length) {
+          const node = st.pop();
+          if (!node || typeof node !== 'object') continue;
+          if (String(node.type || '').toLowerCase() === 'module') {
+            const et = String(node.spec?.element_type || '').trim();
+            const id = String(node.spec?.id ?? '').trim();
+            const emptyCh = !Array.isArray(node.children) || node.children.length === 0;
+            const hasTpl =
+              (Array.isArray(node.spec?.template_tree) && node.spec.template_tree.length > 0) ||
+              (Array.isArray(node.spec?.templates?.[0]?.template?.tree) &&
+                node.spec.templates[0].template.tree.length > 0);
+            if (et && id && emptyCh && !hasTpl) return true;
+            if (Array.isArray(node.spec?.template_tree)) st.push(...node.spec.template_tree);
+            const tpl0 = node.spec?.templates?.[0]?.template?.tree;
+            if (Array.isArray(tpl0)) st.push(...tpl0);
+          }
+          if (Array.isArray(node.children)) st.push(...node.children);
+        }
+        return false;
+      }
+
       try {
         window.__ppEnsureCatalogTypesAndHydrateModulesForPreview = __ppEnsureCatalogTypesAndHydrateModulesForPreview;
         window.__ppPreviewTreeAlreadyExpanded = __ppPreviewTreeAlreadyExpanded;
+        window.__ppPreviewHasUnhydratedLiveModules = __ppPreviewHasUnhydratedLiveModules;
         window.__ppFilterInactivePreviewNodes = __ppFilterInactivePreviewNodes;
         window.__ppResolveEditingCatalogType = __ppResolveEditingCatalogType;
         window.__ppShouldSuppressAutoInteriorFillPreview = __ppShouldSuppressAutoInteriorFillPreview;
@@ -35251,26 +37679,21 @@
           const widthInput = document.getElementById('catalog-item-edit-width');
           const heightInput = document.getElementById('catalog-item-edit-height');
           const depthInput = document.getElementById('catalog-item-edit-depth');
+          const vueItemSize = window.catalogItemVueApp?.item || null;
+          const readSizeMm = (inputEl, itemKey, fallback) => {
+            const fromInput = inputEl ? Number(inputEl.value) : NaN;
+            if (Number.isFinite(fromInput) && fromInput > 0) return fromInput;
+            const fromItem = Number(vueItemSize?.[itemKey]);
+            if (Number.isFinite(fromItem) && fromItem > 0) return fromItem;
+            return fallback;
+          };
+          const w = readSizeMm(widthInput, 'width', 300);
+          const h = readSizeMm(heightInput, 'height', 400);
+          const d = readSizeMm(depthInput, 'depth', 200);
 
-          const w = widthInput ? Number(widthInput.value) || 300 : 300;
-          const h = heightInput ? Number(heightInput.value) || 400 : 400;
-          const d = depthInput ? Number(depthInput.value) || 200 : 200;
-
-          // Сразу задаём превью с UI последних размеров 300×400×200.
-          try {
-            __ppPreviewIframe.contentWindow.postMessage(
-              { type: 'cld:setSize', sizeMm: { w, h, d } },
-              '*'
-            );
-          } catch (_) {}
-
-          // Иначе габарит останется с UI дефолта превью, пока на hang подтянется реальный 300×400×200.
-          try {
-            __ppPreviewIframe.contentWindow.postMessage(
-              { type: 'cld:setSize', sizeMm: { w, h, d } },
-              '*'
-            );
-          } catch (_) {}
+          // Не шлём голый cld:setSize до дерева: rebuild по старому JSON оставляет
+          // baked pos крепежа (±300 при ширине 600), а боковины уже на новой ширине.
+          // Размер уходит вместе с cld:setTemplateTree (sizeMm) ниже.
 
           const rootModule = document.getElementById('constructor-root-module');
           const childrenRoot = document.getElementById('constructor-root-module-children');
@@ -35330,8 +37753,12 @@
             if (Array.isArray(arr) && arr.length) tree = arr;
           }
           if (Array.isArray(tree) && tree.length > 0) {
-            // Скелет (6 module) — гидратировать. Уже с wall/facade — не клонировать снова (hang).
-            if (!__ppPreviewTreeAlreadyExpanded(tree)) {
+            // Скелет — гидратировать. Стены приставки ≠ раскрытый корпус: если live-module
+            // ещё без template_tree — всё равно hydrate (иначе зелёный бокс без НМ).
+            if (
+              !__ppPreviewTreeAlreadyExpanded(tree) ||
+              __ppPreviewHasUnhydratedLiveModules(tree)
+            ) {
               tree = await __ppEnsureCatalogTypesAndHydrateModulesForPreview(tree);
             }
           }
@@ -35523,9 +37950,158 @@
               ) {
                 out.corpus_antresol_mm = 1950;
               }
+              const needsCornerPostVar =
+                Lpv && typeof Lpv.planTreeHasLayoutRole === 'function'
+                  ? Lpv.planTreeHasLayoutRole(previewPlan, 'corner_post') ||
+                    Lpv.planTreeHasLayoutRole(previewPlan, 'corner_return')
+                  : false;
+              if (needsCornerPostVar) {
+                if (!Number.isFinite(Number(out.corner_post_mm))) out.corner_post_mm = 50;
+                if (!Number.isFinite(Number(out.corner_post_depth_mm)))
+                  out.corner_post_depth_mm = 40;
+              }
+              // G-крыло: если в дереве v:corner_g_* / роль / имя — не оставлять 0.
+              try {
+                const vueForG = window.catalogItemVueApp?.item || null;
+                const nameG = String(vueForG?.name || '').trim();
+                const idG = Number(vueForG?.id) || 0;
+                const ctG = String(vueForG?.catalog_type || '')
+                  .replace(/^catalog_/i, '')
+                  .trim();
+                let needsG = (ctG === '54' && (idG === 3 || idG === 4)) || /угловой\s*г/i.test(nameG);
+                const stackG = Array.isArray(previewPlan) ? [...previewPlan] : [];
+                while (stackG.length && !needsG) {
+                  const n = stackG.pop();
+                  if (!n || typeof n !== 'object') continue;
+                  const lr = String(n.layout_role || n.sectionLayoutRole || '')
+                    .trim()
+                    .toLowerCase();
+                  if (lr === 'corner_g_return' || /приставка\s*г/i.test(String(n.name || ''))) {
+                    needsG = true;
+                    break;
+                  }
+                  for (const bag of [n.size, n.pos]) {
+                    if (!bag || typeof bag !== 'object') continue;
+                    for (const v of Object.values(bag)) {
+                      if (/v:\s*corner_g_/i.test(String(v || ''))) {
+                        needsG = true;
+                        break;
+                      }
+                    }
+                    if (needsG) break;
+                  }
+                  if (Array.isArray(n.children)) stackG.push(...n.children);
+                }
+                if (needsG) {
+                  const arm = Math.round(Number(out.corner_g_arm_mm) || Number(w) || 600);
+                  const dA = Math.round(Number(out.corner_g_depth_a_mm) || 300);
+                  const dB = Math.round(Number(out.corner_g_depth_b_mm) || dA || 300);
+                  let stub = Math.round(Number(out.corner_g_stub_mm) || 0);
+                  if (!(stub > 0)) stub = Math.max(50, arm - dA);
+                  out.corner_g_arm_mm = arm;
+                  out.corner_g_depth_a_mm = dA;
+                  out.corner_g_depth_b_mm = dB;
+                  out.corner_g_stub_mm = stub;
+                }
+              } catch (_) {}
               return out;
             })();
+            // Тот же prepare, что room place (prepareKitchenModuleForBuild).
+            try {
+              const vueItem = window.catalogItemVueApp?.item || null;
+              const pk = String(vueItem?.placementKind || '').trim();
+              // Карточка может держать corner_* в clodisVariables, даже если main пустой.
+              try {
+                const cv =
+                  (vueItem?.clodisVariables && typeof vueItem.clodisVariables === 'object'
+                    ? vueItem.clodisVariables
+                    : null) ||
+                  (vueItem?.data?.clodisVariables && typeof vueItem.data.clodisVariables === 'object'
+                    ? vueItem.data.clodisVariables
+                    : null);
+                if (cv) {
+                  for (const [k, v] of Object.entries(cv)) {
+                    const key = String(k || '').trim();
+                    if (!key || key === '_wt') continue;
+                    const n = Number(v);
+                    if (!Number.isFinite(n)) continue;
+                    // corner_g_*: всегда с карточки (иначе 0×H×0 огрызок крыла).
+                    if (/^corner_g_/i.test(key)) {
+                      moduleVars[key] = n;
+                      continue;
+                    }
+                    if (Object.prototype.hasOwnProperty.call(moduleVars, key)) continue;
+                    moduleVars[key] = n;
+                  }
+                }
+              } catch (_) {}
+              const Contract = window.__cldBuildContract;
+              const prepKitchen =
+                Contract && typeof Contract.prepareKitchenModuleForBuild === 'function'
+                  ? Contract.prepareKitchenModuleForBuild
+                  : null;
+              const PrepApi = window.__cldPrepareClodisForBuild;
+              const prepRaw =
+                PrepApi && typeof PrepApi.prepareClodisForBuild === 'function'
+                  ? PrepApi.prepareClodisForBuild
+                  : null;
+              if (Array.isArray(tree) && tree.length && (prepKitchen || prepRaw)) {
+                const wallHangPrep =
+                  pk === 'kitchen_wall_corner' ||
+                  pk === 'kitchen_wall_mid' ||
+                  pk === 'kitchen_wall_top';
+                if (wallHangPrep) moduleVars.h_bottom = 0;
+                const plinthForPrep = wallHangPrep
+                  ? 0
+                  : Number(moduleVars.h_bottom) || 100;
+                const prepared = prepKitchen
+                  ? prepKitchen({
+                      roots: tree,
+                      variables: moduleVars,
+                      widthMm: w,
+                      item: vueItem,
+                      placementKind: pk || undefined,
+                      plinthHeightMm: plinthForPrep,
+                      kitchenSupports: vueItem?.kitchenSupports || null,
+                    })
+                  : prepRaw(tree, {
+                      variables: moduleVars,
+                      widthMm: w,
+                      item: vueItem,
+                      placementKind: pk || undefined,
+                      kitchenNormalize: {
+                        plinthHeightMm: plinthForPrep,
+                      },
+                    });
+                if (prepared?.roots) tree = prepared.roots;
+                if (prepared?.variables) Object.assign(moduleVars, prepared.variables);
+                if (wallHangPrep) {
+                  moduleVars.h_bottom = 0;
+                  moduleVars.corner_return_depth_mm = 40;
+                  moduleVars.side_wall_clearance_mm = 0;
+                  moduleVars.corner_return_wall_gap_mm = 0;
+                }
+                try {
+                  if (vueItem) {
+                    vueItem.clodisVariables = {
+                      ...(vueItem.clodisVariables && typeof vueItem.clodisVariables === 'object'
+                        ? vueItem.clodisVariables
+                        : {}),
+                      ...moduleVars,
+                    };
+                  }
+                  const rootEl = document.getElementById('constructor-root-module');
+                  if (rootEl?.nodeData?.variables?.main) {
+                    Object.assign(rootEl.nodeData.variables.main, moduleVars);
+                  }
+                } catch (_) {}
+              }
+            } catch (e) {
+              console.warn('[CLD][preview] prepareKitchenModuleForBuild failed', e);
+            }
             const mergedVars = { ...(moduleVars || {}), ...(payload.vars || {}) };
+            // Для setTemplateTree ниже — атомарно дерево+vars.
+            window.__ppPreviewMergedVars = mergedVars;
 
             __ppPreviewIframe.contentWindow.postMessage({ type: 'cld:setVars', vars: mergedVars }, '*');
             __ppPreviewIframe.contentWindow.postMessage({ type: 'cld:setMaterials', materials: payload.materials || {} }, '*');
@@ -35587,10 +38163,15 @@
             }
             return 'floor_in_niche';
           })(tree, h);
+          const previewDrawerStackOk =
+            previewPlacementKind === 'standalone_floor' ||
+            previewPlacementKind === 'wall_hung' ||
+            previewPlacementKind === 'wall_hung_low' ||
+            previewPlacementKind === 'wall_hung_high';
           if (
             Array.isArray(tree) &&
             tree.length > 0 &&
-            previewPlacementKind === 'standalone_floor' &&
+            previewDrawerStackOk &&
             typeof window.__cldApplyDrawerStackToPreviewTree === 'function'
           ) {
             try {
@@ -35715,6 +38296,10 @@
                   const v = item.drawerNoHandle;
                   return v === true || v === 1 || v === '1';
                 })();
+          const previewVarsForTree =
+            (window.__ppPreviewMergedVars && typeof window.__ppPreviewMergedVars === 'object'
+              ? window.__ppPreviewMergedVars
+              : null) || null;
           __ppPreviewIframe.contentWindow.postMessage({
             type: 'cld:setTemplateTree',
             tree: tree,
@@ -35724,7 +38309,18 @@
             previewCatalogType: editingCatalogType,
             previewCatalogItemId,
             drawerNoHandle: drawerNoHandlePreview,
+            // Атомарно с деревом — иначе НМУ собирается без corner_corpus_span_mm.
+            vars: previewVarsForTree || undefined,
           }, '*');
+          // Повторно после дерева: deferred setVars-rebuild не должен обогнать пустыми vars.
+          if (previewVarsForTree) {
+            try {
+              __ppPreviewIframe.contentWindow.postMessage(
+                { type: 'cld:setVars', vars: previewVarsForTree },
+                '*'
+              );
+            } catch (_) {}
+          }
           // После rebuild — явно пробросить все jointSchemes (позиции из админки),
           // чтобы в прозрачном превью шкафа крепёж был виден без вкладки «Расстановка».
           try {
@@ -35891,7 +38487,7 @@
           } else {
             // Важно: iframe мог быть создан ранее с другим cache-bust (v=...),
             // тогда parent обновил код, но iframe продолжает показывать старую сборку.
-            const desiredV = '20260810-guides-revert';
+            const desiredV = '20261109-modsel1';
             const desiredSrc = '/constructor-clodis.html?embedded=1&v=' + desiredV;
             const curSrc = (__ppPreviewIframe.getAttribute('src') || __ppPreviewIframe.src || '').toString();
             const needReload = !curSrc.includes('v=' + desiredV);
@@ -35936,7 +38532,7 @@
         // Clean-room 3D preview (наш движок), запускается из Vite.
         // Важно: может быть другой порт (5173). Общение идёт через postMessage.
         // Всё на одном порту (:8000) — превью открываем same-origin
-        iframe.src = '/constructor-clodis.html?embedded=1&v=20260810-guides-revert';
+        iframe.src = '/constructor-clodis.html?embedded=1&v=20261109-modsel1';
 
         __ppPreviewIframe = iframe;
         window.__ppPreviewIframe = iframe;
@@ -36080,6 +38676,15 @@
           
           if (window.catalogItemVueApp && data) {
             const _d = data.data && typeof data.data === "object" ? data.data : data;
+            try {
+              window.__cldLastLoadedCatalogData = {
+                id: itemId,
+                type: catalogType,
+                data: JSON.parse(JSON.stringify(_d && typeof _d === 'object' ? _d : {})),
+              };
+            } catch (_) {
+              window.__cldLastLoadedCatalogData = { id: itemId, type: catalogType, data: {} };
+            }
             // Заполняем данные во Vue приложение
             window.catalogItemVueApp.item = {
               name: (_d.name ?? data.name) || '',
@@ -36104,6 +38709,7 @@
                 const one = toNumId(c);
                 return one != null ? [one] : [];
               })(),
+              short_name: (_d.short_name ?? data.short_name) || '',
               show_in_spec: (_d.show_in_spec ?? data.show_in_spec) !== undefined ? String(_d.show_in_spec ?? data.show_in_spec) : '1',
               include_nested: (_d.include_nested ?? data.include_nested) !== undefined ? String(_d.include_nested ?? data.include_nested) : '1',
               show_in_constructor: (_d.show_in_constructor ?? data.show_in_constructor) !== undefined ? String(_d.show_in_constructor ?? data.show_in_constructor) : '1',
@@ -36115,6 +38721,31 @@
               stick_type: (_d.stick_type ?? data.stick_type) || 'common',
               is_fill: (_d.is_fill ?? data.is_fill) !== undefined ? String(_d.is_fill ?? data.is_fill) : '0',
               no_intersections: (_d.no_intersections ?? data.no_intersections) !== undefined ? String(_d.no_intersections ?? data.no_intersections) : '0',
+              no_intersections_main: (_d.no_intersections_main ?? data.no_intersections_main) !== undefined ? String(_d.no_intersections_main ?? data.no_intersections_main) : '0',
+              free_rotate: (_d.free_rotate ?? data.free_rotate) !== undefined ? String(_d.free_rotate ?? data.free_rotate) : '0',
+              quick_replace: (_d.quick_replace ?? data.quick_replace) !== undefined ? String(_d.quick_replace ?? data.quick_replace) : '0',
+              hide_sizes_menu: (_d.hide_sizes_menu ?? data.hide_sizes_menu) !== undefined ? String(_d.hide_sizes_menu ?? data.hide_sizes_menu) : '0',
+              hide_sizes_catalog: (_d.hide_sizes_catalog ?? data.hide_sizes_catalog) !== undefined ? String(_d.hide_sizes_catalog ?? data.hide_sizes_catalog) : '0',
+              hide_sizes_scene: (_d.hide_sizes_scene ?? data.hide_sizes_scene) !== undefined ? String(_d.hide_sizes_scene ?? data.hide_sizes_scene) : '0',
+              fix_materials: (_d.fix_materials ?? data.fix_materials) !== undefined ? String(_d.fix_materials ?? data.fix_materials) : '0',
+              fit_width: (_d.fit_width ?? data.fit_width) !== undefined ? String(_d.fit_width ?? data.fit_width) : '0',
+              fit_height: (_d.fit_height ?? data.fit_height) !== undefined ? String(_d.fit_height ?? data.fit_height) : '0',
+              fit_depth: (_d.fit_depth ?? data.fit_depth) !== undefined ? String(_d.fit_depth ?? data.fit_depth) : '0',
+              intersections_nested_only: (_d.intersections_nested_only ?? data.intersections_nested_only) !== undefined ? String(_d.intersections_nested_only ?? data.intersections_nested_only) : '0',
+              fill_origin_x: String(_d.fill_origin_x ?? data.fill_origin_x ?? '0'),
+              fill_origin_y: String(_d.fill_origin_y ?? data.fill_origin_y ?? '0'),
+              fill_origin_z: String(_d.fill_origin_z ?? data.fill_origin_z ?? '0'),
+              computedValues:
+                _d.computedValues && typeof _d.computedValues === 'object' && !Array.isArray(_d.computedValues)
+                  ? _d.computedValues
+                  : data.computedValues && typeof data.computedValues === 'object' && !Array.isArray(data.computedValues)
+                    ? data.computedValues
+                    : {},
+              priceListPositions: Array.isArray(_d.priceListPositions)
+                ? _d.priceListPositions
+                : Array.isArray(data.priceListPositions)
+                  ? data.priceListPositions
+                  : [],
               catalog_type: (_d.catalog_type ?? data.catalog_type) || '',
               width: _d.width ?? data.width ?? 300,
               height: _d.height ?? data.height ?? 400,
@@ -36135,6 +38766,21 @@
               doorKind: _d.doorKind === 'single' || _d.doorKind === 'double' ? _d.doorKind : '',
               unifiedFacade: false,
               hasSplitFacadeLayout: false,
+              kitchenSupports:
+                typeof window.__cldCatalogKitchenSupports?.normalizeKitchenSupports === 'function'
+                  ? window.__cldCatalogKitchenSupports.normalizeKitchenSupports(
+                      _d.kitchenSupports ?? data.kitchenSupports
+                    )
+                  : {
+                      enabled: true,
+                      modelsByHeightMm: { 100: '2', 120: '79', 150: '80' },
+                    },
+              kitchenTall:
+                typeof window.__cldCatalogKitchenTall?.normalizeKitchenTall === 'function'
+                  ? window.__cldCatalogKitchenTall.normalizeKitchenTall(
+                      _d.kitchenTall ?? data.kitchenTall
+                    )
+                  : { facadeType: 'doors_3' },
               interiorLayout:
                 typeof window.__cldCatalogInteriorLayout?.defaultInteriorLayout === 'function'
                   ? window.__cldCatalogInteriorLayout.defaultInteriorLayout()
@@ -36224,6 +38870,12 @@
             }
             if (typeof window.__cldSyncCatalogRoomTagsPanel === 'function') {
               window.__cldSyncCatalogRoomTagsPanel(window.catalogItemVueApp.item.roomTags);
+            }
+            if (typeof window.__cldSyncComputedValuesToDom === 'function') {
+              window.__cldSyncComputedValuesToDom();
+            }
+            if (typeof window.__cldSyncPricePositionsToDom === 'function') {
+              window.__cldSyncPricePositionsToDom();
             }
             console.log('[Шкаф] loadCatalogItemData:', itemId, catalogType);
             console.log('[Шкаф] API ответ data:', data);

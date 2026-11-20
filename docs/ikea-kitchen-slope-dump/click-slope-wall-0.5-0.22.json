@@ -1,0 +1,126 @@
+{
+  "interesting": [
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "cta",
+      "t": "Go back"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "step-floorplan",
+      "cls": "",
+      "t": "Задайте форму и размер комнаты"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "",
+      "t": "Выбрать готовый вариант"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "step-design",
+      "cls": "",
+      "t": "Добавьте индивидуальности"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "",
+      "t": "Итог"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "bt-icon",
+      "t": "Item notes"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "bt-icon",
+      "t": "See product list"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "bt-icon",
+      "t": "Измерить"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "bt-icon",
+      "t": "Отменить"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "bt-icon",
+      "t": "Повторить"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "bt-icon",
+      "t": "Сохранить"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "close-app",
+      "cls": "bt-icon",
+      "t": "Закрыть"
+    },
+    {
+      "tag": "ARTICLE",
+      "id": "sketcher-mod-sloped-ceiling",
+      "cls": "mod-layer-sloped-ceiling mod-open",
+      "t": "Добавить скошенный потолок Нажмите на стену, чтобы добавить скошенный потолок и введите необходимые размеры Отменить Повторить Отмена ОК Трехмерный вид"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "bt-icon",
+      "t": "Отменить"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "bt-icon",
+      "t": "Повторить"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "cta-secondary-xl",
+      "t": "Отмена"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "cta-primary-alt-l",
+      "t": "ОК"
+    },
+    {
+      "tag": "DIV",
+      "id": "sloped-ceiling-layer",
+      "cls": "canvas-wrap",
+      "t": "Трехмерный вид"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "bt-icon mod-tooltip-top",
+      "t": "Вид на этаж"
+    },
+    {
+      "tag": "BUTTON",
+      "id": "",
+      "cls": "bt-icon mod-tooltip-top selected",
+      "t": "Трехмерный вид"
+    }
+  ],
+  "body": "Error We've encountered an error. Refresh the application Go back Задайте форму и размер комнаты Выбрать готовый вариант Добавьте индивидуальности Итог Item notes See product list Измерить Отменить Повторить Сохранить Закрыть Добавить скошенный потолок Нажмите на стену, чтобы добавить скошенный потолок и введите необходимые размеры Отменить Повторить Отмена ОК Трехмерный вид 2500 mm",
+  "imgs": []
+}

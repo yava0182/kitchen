@@ -1,0 +1,429 @@
+{
+  "at": "2026-10-29T15:28:16.836Z",
+  "url": "https://kitchen.planner.ikea.com/lv/ru/planner/",
+  "headed": false,
+  "steps": [
+    {
+      "step": "shell-modals",
+      "log": [
+        {
+          "label": "Убрать уведомление",
+          "ok": false,
+          "err": "locator.click: Timeout 3000ms exceeded.\nCall log:\n  - waiting for getByText('Убрать уведомление').first()\n    - locator resolved to <span class=\"btn__label\">Убр"
+        },
+        {
+          "label": "Принять",
+          "ok": true,
+          "how": "role"
+        },
+        {
+          "label": "Accept",
+          "ok": false
+        },
+        {
+          "label": "OK",
+          "ok": false
+        },
+        {
+          "label": "Agree",
+          "ok": false
+        }
+      ]
+    },
+    {
+      "step": "enter-3d",
+      "log": [
+        {
+          "label": "Продолжить",
+          "ok": false,
+          "err": "locator.click: Timeout 3000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'Продолжить' }).first()\n    - locator resolved to <button data-ste"
+        },
+        {
+          "label": "Начать",
+          "ok": false,
+          "err": "locator.click: Timeout 3000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'Начать' }).first()\n    - locator resolved to <button aria-control"
+        },
+        {
+          "label": "Выбрать готовый вариант",
+          "ok": false,
+          "err": "locator.click: Timeout 3000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'Выбрать готовый вариант' }).first()\n    - locator resolved to <bu"
+        },
+        {
+          "label": "Нарисовать план",
+          "ok": false,
+          "err": "locator.click: Timeout 3000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'Нарисовать план' }).first()\n    - locator resolved to <button id="
+        },
+        {
+          "label": "3D",
+          "ok": false
+        },
+        {
+          "label": "Continue",
+          "ok": false
+        },
+        {
+          "label": "Start",
+          "ok": false
+        }
+      ]
+    }
+  ],
+  "plannerFrameUrl": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV",
+  "probeBeforeClicks": {
+    "when": "2026-10-29T15:28:42.977Z",
+    "url": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV",
+    "hasBetraktaViewer": false,
+    "engines": {
+      "BABYLON": false,
+      "babylonVersion": null,
+      "THREE": false,
+      "unityInstance": false,
+      "hasUnitySendMessage": false,
+      "Module": false
+    },
+    "canvases": [
+      {
+        "w": 1400,
+        "h": 754,
+        "id": "canvas",
+        "cls": null
+      }
+    ],
+    "windowKeys": []
+  },
+  "probeAfterClicks": {
+    "when": "2026-10-29T15:29:07.204Z",
+    "url": "https://kitchen.ikea-prod.by.me/Kitchen/?ln=ru-LV",
+    "hasBetraktaViewer": false,
+    "engines": {
+      "BABYLON": false,
+      "babylonVersion": null,
+      "THREE": false,
+      "unityInstance": false,
+      "hasUnitySendMessage": false,
+      "Module": false
+    },
+    "canvases": [
+      {
+        "w": 1400,
+        "h": 754,
+        "id": "canvas",
+        "cls": null
+      }
+    ],
+    "windowKeys": []
+  },
+  "gl": {
+    "frames": 2544,
+    "draws": 1016,
+    "contexts": [
+      {
+        "type": "webgl",
+        "attrs": null,
+        "canvas": {
+          "w": 300,
+          "h": 150,
+          "id": null
+        }
+      },
+      {
+        "type": "webgl2",
+        "attrs": {
+          "alpha": false,
+          "depth": true,
+          "stencil": true,
+          "antiAlias": true,
+          "premultipliedAlpha": true,
+          "failIfMajorPerformanceCaveat": true
+        },
+        "canvas": {
+          "w": 300,
+          "h": 150,
+          "id": "canvas"
+        }
+      }
+    ],
+    "passCount": 13,
+    "passes": [
+      {
+        "key": "0@1400x754",
+        "fb": 0,
+        "vpW": 1400,
+        "vpH": 754,
+        "draws": 300,
+        "firstFrame": 18,
+        "attachments": null
+      },
+      {
+        "key": "1@1400x754",
+        "fb": 1,
+        "vpW": 1400,
+        "vpH": 754,
+        "draws": 114,
+        "firstFrame": 86,
+        "attachments": [
+          {
+            "kind": "rb",
+            "att": "36096",
+            "w": 1400,
+            "h": 754,
+            "fmt": "DEPTH_COMPONENT24",
+            "samples": 4
+          },
+          {
+            "kind": "rb",
+            "att": "36064",
+            "w": 1400,
+            "h": 754,
+            "fmt": "RGBA16F",
+            "samples": 4
+          }
+        ]
+      },
+      {
+        "key": "5@700x377",
+        "fb": 5,
+        "vpW": 700,
+        "vpH": 377,
+        "draws": 61,
+        "firstFrame": 2,
+        "attachments": [
+          {
+            "kind": "tex",
+            "att": "36064",
+            "w": 700,
+            "h": 377,
+            "fmt": "RGBA16F"
+          }
+        ]
+      },
+      {
+        "key": "3@1400x754",
+        "fb": 3,
+        "vpW": 1400,
+        "vpH": 754,
+        "draws": 60,
+        "firstFrame": 3,
+        "attachments": [
+          {
+            "kind": "tex",
+            "att": "36064",
+            "w": 1400,
+            "h": 754,
+            "fmt": "RGBA16F"
+          }
+        ]
+      },
+      {
+        "key": "6@350x189",
+        "fb": 6,
+        "vpW": 350,
+        "vpH": 189,
+        "draws": 57,
+        "firstFrame": 5,
+        "attachments": [
+          {
+            "kind": "tex",
+            "att": "36064",
+            "w": 350,
+            "h": 189,
+            "fmt": "RGBA16F"
+          }
+        ]
+      },
+      {
+        "key": "7@175x94",
+        "fb": 7,
+        "vpW": 175,
+        "vpH": 94,
+        "draws": 57,
+        "firstFrame": 5,
+        "attachments": [
+          {
+            "kind": "tex",
+            "att": "36064",
+            "w": 175,
+            "h": 94,
+            "fmt": "RGBA16F"
+          }
+        ]
+      },
+      {
+        "key": "8@88x47",
+        "fb": 8,
+        "vpW": 88,
+        "vpH": 47,
+        "draws": 57,
+        "firstFrame": 5,
+        "attachments": [
+          {
+            "kind": "tex",
+            "att": "36064",
+            "w": 88,
+            "h": 47,
+            "fmt": "RGBA16F"
+          }
+        ]
+      },
+      {
+        "key": "9@44x24",
+        "fb": 9,
+        "vpW": 44,
+        "vpH": 24,
+        "draws": 57,
+        "firstFrame": 5,
+        "attachments": [
+          {
+            "kind": "tex",
+            "att": "36064",
+            "w": 44,
+            "h": 24,
+            "fmt": "RGBA16F"
+          }
+        ]
+      },
+      {
+        "key": "10@22x12",
+        "fb": 10,
+        "vpW": 22,
+        "vpH": 12,
+        "draws": 57,
+        "firstFrame": 5,
+        "attachments": [
+          {
+            "kind": "tex",
+            "att": "36064",
+            "w": 22,
+            "h": 12,
+            "fmt": "RGBA16F"
+          }
+        ]
+      },
+      {
+        "key": "11@44x24",
+        "fb": 11,
+        "vpW": 44,
+        "vpH": 24,
+        "draws": 49,
+        "firstFrame": 12,
+        "attachments": [
+          {
+            "kind": "tex",
+            "att": "36064",
+            "w": 44,
+            "h": 24,
+            "fmt": "RGBA16F"
+          }
+        ]
+      },
+      {
+        "key": "12@88x47",
+        "fb": 12,
+        "vpW": 88,
+        "vpH": 47,
+        "draws": 49,
+        "firstFrame": 12,
+        "attachments": [
+          {
+            "kind": "tex",
+            "att": "36064",
+            "w": 88,
+            "h": 47,
+            "fmt": "RGBA16F"
+          }
+        ]
+      },
+      {
+        "key": "13@175x94",
+        "fb": 13,
+        "vpW": 175,
+        "vpH": 94,
+        "draws": 49,
+        "firstFrame": 12,
+        "attachments": [
+          {
+            "kind": "tex",
+            "att": "36064",
+            "w": 175,
+            "h": 94,
+            "fmt": "RGBA16F"
+          }
+        ]
+      },
+      {
+        "key": "14@350x189",
+        "fb": 14,
+        "vpW": 350,
+        "vpH": 189,
+        "draws": 49,
+        "firstFrame": 12,
+        "attachments": [
+          {
+            "kind": "tex",
+            "att": "36064",
+            "w": 350,
+            "h": 189,
+            "fmt": "RGBA16F"
+          }
+        ]
+      }
+    ],
+    "passOrderFirstFrames": [
+      "5@700x377",
+      "3@1400x754",
+      "6@350x189",
+      "7@175x94",
+      "8@88x47",
+      "9@44x24",
+      "10@22x12",
+      "11@44x24",
+      "12@88x47",
+      "13@175x94",
+      "14@350x189",
+      "0@1400x754",
+      "1@1400x754"
+    ],
+    "depthPasses": [
+      {
+        "key": "1@1400x754",
+        "fb": 1,
+        "vpW": 1400,
+        "vpH": 754,
+        "draws": 114,
+        "firstFrame": 86,
+        "attachments": [
+          {
+            "kind": "rb",
+            "att": "36096",
+            "w": 1400,
+            "h": 754,
+            "fmt": "DEPTH_COMPONENT24",
+            "samples": 4
+          },
+          {
+            "kind": "rb",
+            "att": "36064",
+            "w": 1400,
+            "h": 754,
+            "fmt": "RGBA16F",
+            "samples": 4
+          }
+        ]
+      }
+    ],
+    "squarePasses": [],
+    "textureSizes": {
+      "1x1 RGBA": 43,
+      "1400x754 DEPTH_COMPONENT24": 1,
+      "1400x754 RGBA16F": 3,
+      "700x377 RGBA16F": 1,
+      "350x189 RGBA16F": 2,
+      "175x94 RGBA16F": 2,
+      "88x47 RGBA16F": 2,
+      "44x24 RGBA16F": 2,
+      "22x12 RGBA16F": 1,
+      "6408x5121 RGBA": 10
+    }
+  },
+  "screenshot": "D:\\Clodis-Kitchen\\docs\\ikea-kitchen-shadow-dump\\shadow-20261029-182915.png"
+}

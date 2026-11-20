@@ -1,0 +1,37 @@
+---
+description: НМУ канон 1.42 — настройки кухни + отступ модуля. ЗАМОРОЖЕН.
+alwaysApply: true
+---
+
+# НМУ — настройки кухни и отступ (канон 1.42)
+
+Эталон: копия `1.42 нму` + чат «НМУ return от соседа».
+
+## Управление кухней (глобально)
+
+D = 460 / 510 / 550 → на **всей** кухне:
+- корпус D
+- rear = worktop − 40 − D → **460→100, 510→50, 550→10**
+- Place НМУ: `clear = rear`, `return = D`, `wallGap = clear`
+- `applyProjectDepthToScene` → `syncCornerFromProject: true` (не только Z)
+
+## Карандаш модуля «Отступ от стены» (только этот модуль)
+
+- `retX = _cornerReturnDFromClearMm` → приставка едет, **нога стоит**
+- Не трогает другие модули / project D
+
+## Карандаш глубины модуля
+
+- Только Z; return/clear не затирать (если не project sync)
+
+## Ширина ячейки/модуля
+
+- Жмётся **нога**
+
+## Запрещено без «сменить канон НМУ»
+
+- `placeClearMm = 10` вместо `projPlace.rearMm`
+- width-rebuild без `_cornerReturnDFromClearMm`
+- project depth без sync угла
+
+`npm run freeze:nmu`

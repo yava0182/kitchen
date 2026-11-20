@@ -4,7 +4,7 @@
 import { state } from '../utils/state.js';
 import * as THREE from 'three';
 import { exportFurnitureForBasisOBJ, exportFurnitureForBasisSTL } from '../export/basis-export.js';
-import { downloadCFRN, exportToBazisCloud } from '../export/bazis-cfrn-export.js?v=20260918-cfrn-tops';
+import { downloadCFRN, exportToBazisCloud } from '../export/bazis-cfrn-export.js?v=20261010-gola6mm1';
 import { exportCutlistAndEdges, exportCutlistSingleSheetDxf } from '../export/cutlist-export.js';
 import {
   exportRoomToAssemblyAndOpen,
@@ -16,19 +16,53 @@ import {
   clearAllDimensionLines,
   updateDimensionLineLabelPositions,
   syncDimensionModeModuleVisibility,
-} from './dimension-lines.js?v=20260915-zone-gest26';
-import { computeFurnitureWorldBBoxNoAo, withFurnitureDoorSwingsClosedForMeasure } from '../furniture/furniture-bbox.js?v=20260907-shelf-props';
+} from './dimension-lines.js?v=20261027-nmu142k';
+import { computeFurnitureWorldBBoxNoAo, withFurnitureDoorSwingsClosedForMeasure } from '../furniture/furniture-bbox.js?v=20261104-talltopd1';
 import {
   getFurnitureFrontWorldCoord,
   getSectionFacadeFrontWorldCoord,
   anchorFurnitureFrontWorldCoord,
   alignSectionStandaloneFurnitureFront,
-} from '../sections/section-manager.js?v=20260923-cohabit40';
+} from '../sections/section-manager.js?v=20261028-vmu5';
 import {
   END_CABINET_SIDES,
   getEndCabinetSlot,
   isEndCabinetActive,
 } from '../sections/section-end-cabinet.js?v=20260917-endcab-nobridge';
+import { syncCabinetPivotDebugVisibility } from '../debug/cabinet-pivot-visibility.js?v=20261025-cell7';
+import { reorientKitchenCornerModule } from '../kitchen/kitchen-corner-reorient.js?v=20261108-gplace18';
+import {
+  reorientKitchenCornerCell,
+  reorientKitchenUpperCornerCell,
+} from '../kitchen/kitchen-corner-cell.js?v=20261116-cornerReset1';
+import {
+  buildKitchenSidePanelsModuleEditHtml,
+  bindKitchenSidePanelsModuleEdit,
+  readSidePanelsForModuleEdit,
+} from './kitchen-side-panels-module-edit.js?v=20261118-plinthSafe1';
+import {
+  setKitchenBandGridsViewEnabled,
+  setKitchenBandGridsViewBand,
+  setKitchenBandGridsViewLabelsVisible,
+  getKitchenBandGridsViewState,
+  updateKitchenBandGridsViewLabels,
+} from '../kitchen/kitchen-band-grids-view.js?v=20261116-cornerReset1';
+import {
+  resolveActiveKitchenBandEditId,
+  resolveKitchenBandCustomZoneWidthsMmForEdit,
+  resolveKitchenModuleWidthsMm,
+  getKitchenBandPartsForEdit,
+} from '../kitchen/kitchen-section-layout.js?v=20261118-overlayL6';
+import { computeSectionInnerBoundsU } from '../sections/section-edge-trim-insets.js';
+
+try {
+  if (typeof window !== 'undefined') {
+    window.__cldSyncCabinetPivotDebugVisibility = syncCabinetPivotDebugVisibility;
+    window.__cldReorientKitchenCornerModule = reorientKitchenCornerModule;
+    window.__cldReorientKitchenCornerCell = reorientKitchenCornerCell;
+    window.__cldReorientKitchenUpperCornerCell = reorientKitchenUpperCornerCell;
+  }
+} catch (_) {}
 
 /** Layer 2 — legacy; hide через visible (один render pass, layer 0). */
 const FACADE_LIGHT_HIDE_LAYER = 2;
@@ -74,6 +108,12 @@ function hasRefDimensionLines() {
 /** Сплошные/пунктирные линии разметки секций (cabinet-markers) вместе с режимом размеров. */
 function syncSectionMarkupWithDimensions(on) {
   try {
+    // IKEA-режим: сетка ячеек спит — разметку не показываем.
+    if (state.kitchenCellsUiEnabled === false) {
+      setStep5CabinetMarkersVisible(false);
+      setStep5SectionZonesVisible(false);
+      return;
+    }
     if (on) {
       setStep5CabinetMarkersVisible(true);
       return;
@@ -128,6 +168,192 @@ function __resolveModuleDepthDisplayMm(targetFurniture, sectionDepthMm, isSide) 
     if (bboxDepth > 0) return bboxDepth;
   }
   return 0;
+}
+
+function __isKitchenTallFurniture(group) {
+  if (typeof window !== 'undefined' && typeof window.__cldIsKitchenTallGroup === 'function') {
+    return !!window.__cldIsKitchenTallGroup(group);
+  }
+  const eng = typeof window !== 'undefined' ? window.__cldKitchenBaseEngine : null;
+  if (eng && typeof eng.isKitchenTallGroup === 'function') {
+    return !!eng.isKitchenTallGroup(group);
+  }
+  const ud = group?.userData || {};
+  const pk = String(ud.__placementKindProfileId || ud.placementKind || ud.__placementKind || '');
+  return pk === 'kitchen_tall' || String(ud.productKind || '') === 'kitchen_tall';
+}
+
+/** Только НМ (столешка/корпус). Пенал — отдельно, иначе UI «Глубина НМ» ломает посадку. */
+function __isKitchenBaseFurniture(group) {
+  if (__isKitchenTallFurniture(group)) return false;
+  if (typeof window !== 'undefined' && typeof window.__cldIsKitchenNmCarcassGroup === 'function') {
+    return !!window.__cldIsKitchenNmCarcassGroup(group);
+  }
+  const eng = typeof window !== 'undefined' ? window.__cldKitchenBaseEngine : null;
+  if (eng && typeof eng.isKitchenNmCarcassGroup === 'function') {
+    return !!eng.isKitchenNmCarcassGroup(group);
+  }
+  if (eng && typeof eng.isKitchenBaseGroup === 'function') {
+    return !!eng.isKitchenBaseGroup(group) && !__isKitchenTallFurniture(group);
+  }
+  const ud = group?.userData || {};
+  const pk = String(ud.__placementKindProfileId || ud.placementKind || ud.__placementKind || '');
+  return pk === 'kitchen_base' || pk === 'kitchen_base_gola' || String(ud.productKind || '') === 'kitchen_base';
+}
+
+/** Угловой НМУ — поле «отступ от стены». */
+function __isKitchenCornerBaseFurniture(group) {
+  if (!group) return false;
+  if (typeof window !== 'undefined' && typeof window.__cldIsKitchenCornerBaseGroup === 'function') {
+    return !!window.__cldIsKitchenCornerBaseGroup(group);
+  }
+  const eng = typeof window !== 'undefined' ? window.__cldKitchenBaseEngine : null;
+  if (eng && typeof eng.isKitchenCornerBaseGroup === 'function') {
+    return !!eng.isKitchenCornerBaseGroup(group);
+  }
+  const ud = group?.userData || {};
+  if (ud.__kitchenCornerSideAtMinU != null) {
+    const pkEarly = String(ud.__placementKindProfileId || ud.placementKind || ud.__placementKind || '');
+    if (pkEarly === 'kitchen_wall_corner') return false;
+    return true;
+  }
+  const pk = String(ud.__placementKindProfileId || ud.placementKind || ud.__placementKind || '');
+  return pk === 'kitchen_base_corner' || pk.includes('kitchen_base_corner');
+}
+
+/** Угловой навесной (ВМУ / Г) — не путать с нижней спец-ячейкой 1050. */
+function __isKitchenUpperCornerFurniture(group) {
+  if (!group?.userData) return false;
+  const ud = group.userData;
+  if (ud.__kitchenUpperGSeated === true) return true;
+  const kind = String(ud.__kitchenUpperGKind || '');
+  if (kind === 'g_arms' || kind === 'return') return true;
+  const seat = String(ud.__kitchenUpperCornerSeat || '');
+  if (seat === 'G' || seat === 'A') return true;
+  const pk = String(
+    ud.__placementKindProfileId || ud.placementKind || ud.__placementKind || ''
+  ).trim();
+  return pk === 'kitchen_wall_corner';
+}
+
+/** Угол пирога: НМУ или приставной ВМУ. */
+function __isKitchenCornerModuleFurniture(group) {
+  if (!group) return false;
+  if (__isKitchenUpperCornerFurniture(group)) return true;
+  if (typeof window !== 'undefined' && typeof window.__cldIsKitchenCornerModuleGroup === 'function') {
+    return !!window.__cldIsKitchenCornerModuleGroup(group);
+  }
+  const eng = typeof window !== 'undefined' ? window.__cldKitchenBaseEngine : null;
+  if (eng && typeof eng.isKitchenCornerModuleGroup === 'function') {
+    return !!eng.isKitchenCornerModuleGroup(group);
+  }
+  return __isKitchenCornerBaseFurniture(group);
+}
+
+/** НШ1/НШ2: Y от ритма (plinth+bands), не поле «Отступ» шкафа 0–80 см. */
+function __isKitchenWallHungFurniture(group) {
+  const ud = group?.userData || {};
+  const pk = String(ud.__placementKindProfileId || ud.placementKind || ud.__placementKind || '');
+  const prod = String(ud.productKind || '');
+  return (
+    pk === 'kitchen_wall_mid' ||
+    pk === 'kitchen_wall_top' ||
+    pk === 'kitchen_wall_corner' ||
+    prod === 'kitchen_wall_mid' ||
+    prod === 'kitchen_wall_top'
+  );
+}
+
+function __isKitchenWallMidFurniture(group) {
+  if (!group || __isKitchenTallFurniture(group)) return false;
+  if (typeof window !== 'undefined' && typeof window.__cldIsKitchenWallCornerGroup === 'function') {
+    if (window.__cldIsKitchenWallCornerGroup(group)) return false;
+  }
+  const eng = typeof window !== 'undefined' ? window.__cldKitchenBaseEngine : null;
+  if (eng && typeof eng.isKitchenWallMidGroup === 'function') {
+    return !!eng.isKitchenWallMidGroup(group) && !eng.isKitchenWallTopGroup?.(group);
+  }
+  if (typeof window !== 'undefined' && typeof window.__cldIsKitchenWallMidGroup === 'function') {
+    return !!window.__cldIsKitchenWallMidGroup(group);
+  }
+  const ud = group?.userData || {};
+  const pk = String(ud.__placementKindProfileId || ud.placementKind || ud.__placementKind || '');
+  return pk === 'kitchen_wall_mid' || String(ud.productKind || '') === 'kitchen_wall_mid';
+}
+
+function __isKitchenWallTopFurniture(group) {
+  if (!group || __isKitchenTallFurniture(group)) return false;
+  if (typeof window !== 'undefined' && typeof window.__cldIsKitchenWallCornerGroup === 'function') {
+    if (window.__cldIsKitchenWallCornerGroup(group)) return false;
+  }
+  const eng = typeof window !== 'undefined' ? window.__cldKitchenBaseEngine : null;
+  if (eng && typeof eng.isKitchenWallTopGroup === 'function') {
+    return !!eng.isKitchenWallTopGroup(group);
+  }
+  if (typeof window !== 'undefined' && typeof window.__cldIsKitchenWallTopGroup === 'function') {
+    return !!window.__cldIsKitchenWallTopGroup(group);
+  }
+  const ud = group?.userData || {};
+  const pk = String(ud.__placementKindProfileId || ud.placementKind || ud.__placementKind || '');
+  return pk === 'kitchen_wall_top' || String(ud.productKind || '') === 'kitchen_wall_top';
+}
+
+function __kitchenWorktopDepthMmFromGroup(group) {
+  const ud = group?.userData || {};
+  const fromUd = Number(ud.__kitchenWorktopDepthMm) || 0;
+  if (fromUd > 0) return Math.round(fromUd);
+  try {
+    const api = window.__cldKitchenManufacturing;
+    if (api && typeof api.getProjectWorktopDepthMm === 'function') {
+      const p = Number(api.getProjectWorktopDepthMm()) || 0;
+      if (p > 0) return Math.round(p);
+    }
+  } catch (_) {}
+  return 600;
+}
+
+function __kitchenCarcassDepthMmFromGroup(group) {
+  const ud = group?.userData || {};
+  const c =
+    Number(ud.__kitchenCarcassDepthMm) ||
+    Number(ud.customDepthMm) ||
+    0;
+  if (c > 0 && c <= 560) return Math.round(c);
+  return 550;
+}
+
+/** Диапазон глубины НМ (см): min…(Dwtв€’40в€’10)/10; default = max. */
+function __kitchenCarcassDepthBoundsCm(worktopDepthMm) {
+  const dwt = Number(worktopDepthMm) || 600;
+  try {
+    const api = window.__cldKitchenManufacturing;
+    if (api && typeof api.getBaseCarcassDepthBoundsMm === 'function') {
+      const b = api.getBaseCarcassDepthBoundsMm(dwt);
+      const minCm = (Number(b.minMm) || 150) / 10;
+      const maxCm = (Number(b.maxMm) || 0) / 10;
+      return {
+        ok: !!b.ok && maxCm >= minCm,
+        minCm,
+        maxCm,
+        defaultCm: maxCm >= minCm ? maxCm : minCm,
+      };
+    }
+  } catch (_) {}
+  const minCm = 15;
+  const maxCm = (dwt - 40 - 10) / 10;
+  return {
+    ok: maxCm >= minCm,
+    minCm,
+    maxCm,
+    defaultCm: maxCm >= minCm ? maxCm : minCm,
+  };
+}
+
+/** @deprecated пресеты; UI использует __kitchenCarcassDepthBoundsCm */
+function __kitchenCarcassDepthOptionsCm(worktopDepthMm) {
+  const b = __kitchenCarcassDepthBoundsCm(worktopDepthMm);
+  if (!b.ok) return [];
+  return [b.defaultCm];
 }
 
 const __iconScratchCenter = new THREE.Vector3();
@@ -292,10 +518,53 @@ const _STEP5_LAYOUT_ICON_OFFSET_MM = 320;
 /** Карандаш модуля: один зазор от общей линии фасадов. */
 const _ZONE_PENCIL_AHEAD_GAP_MM = 80;
 const _ZONE_PENCIL_FLOOR_LIFT_MM = 20;
-/** Диаметр карандаша зоны в px (как на референсе Maatkasten). */
+/** Диаметр карандаша угловой ячейки (крупный). */
 const ZONE_EDIT_ICON_SIZE_PX = 32;
+/** Обычные ячейки — тонкий карандаш, чтоб угол отличался. */
+const ZONE_EDIT_ICON_SIZE_PX_SLIM = 20;
 /** Небольшой сдвиг вниз в screen-space, чтобы кнопка сидела под цоколем. */
 const ZONE_EDIT_ICON_SCREEN_NUDGE_Y_PX = 12;
+
+/** Угловая спец-зона L/П (крупный карандаш); остальные — slim. */
+function __isKitchenCornerSpecialZone(sectionId, zoneIndex) {
+  try {
+    const sec = (state.customSections || []).find(
+      (s) => s && String(s.id) === String(sectionId)
+    );
+    if (!sec?.lShape || !sec.division) return false;
+    const zi = Math.floor(Number(zoneIndex));
+    if (!Number.isFinite(zi) || zi < 0) return false;
+    const specials =
+      typeof window.__cldGetLShapeSpecialZoneIndices === 'function'
+        ? window.__cldGetLShapeSpecialZoneIndices(sec)
+        : typeof window.__cldGetLShapeSpecialZoneIndex === 'function'
+          ? (() => {
+              const one = window.__cldGetLShapeSpecialZoneIndex(sec);
+              return one != null ? [one] : [];
+            })()
+          : [];
+    if (Array.isArray(specials) && specials.some((z) => Number(z) === zi)) {
+      return true;
+    }
+    // Joint host special по atStart
+    const reserves = sec._kitchenJointReserves;
+    if (reserves && typeof reserves === 'object') {
+      const parts = Math.max(1, Math.floor(Number(sec.division.parts) || 1));
+      for (const r of Object.values(reserves)) {
+        if (!r || r.isHost !== true) continue;
+        const want = r.atStart === true ? 0 : parts - 1;
+        if (want === zi) return true;
+      }
+    }
+  } catch (_) {}
+  return false;
+}
+
+function __zonePencilSizePx(icon) {
+  const n = Math.round(Number(icon?.userData?.iconSizePx) || 0);
+  if (n >= 12 && n <= 48) return n;
+  return ZONE_EDIT_ICON_SIZE_PX;
+}
 
 function __placeIconOnSharedFrontLine(iconPos3D, wallName, gapMm, fallbackHalfDepth) {
   const wn = wallName || 'back';
@@ -332,8 +601,150 @@ function __worldIconAnchorFromGroup(group, wallName, aheadGapMm) {
   return __placeIconOnSharedFrontLine(iconPos3D, wn, gap, halfDepthMm);
 }
 
+/**
+ * Якорь карандаша пустой зоны: середина U-сегмента layout, у пола, перед фасадом секции.
+ */
+function __worldZonePencilAnchorFromEmptyZone(section, zoneIndex) {
+  if (!section?.group || zoneIndex == null || zoneIndex === '') return null;
+  const wallName = section.wallName || section.division?.wallName || 'back';
+  const zi = Math.floor(Number(zoneIndex));
+  if (!Number.isFinite(zi) || zi < 0) return null;
+  try {
+    if (typeof window.__clodisComputeSectionLayout === 'function') {
+      window.__clodisComputeSectionLayout(section);
+    }
+  } catch (_) {}
+  let startU = null;
+  let endU = null;
+  // Спец L/П: якорь/ширина из bounds (1050). П — оба zi, не только первый.
+  try {
+    const specialZis =
+      typeof window.__cldGetLShapeSpecialZoneIndices === 'function'
+        ? window.__cldGetLShapeSpecialZoneIndices(section)
+        : typeof window.__cldGetLShapeSpecialZoneIndex === 'function'
+          ? (() => {
+              const one = window.__cldGetLShapeSpecialZoneIndex(section);
+              return one != null ? [one] : [];
+            })()
+          : [];
+    const isThisSpecial =
+      Array.isArray(specialZis) && specialZis.some((z) => Number(z) === zi);
+    if (
+      isThisSpecial &&
+      typeof window.__cldGetLShapeSpecialSnapBounds === 'function'
+    ) {
+      const sp = window.__cldGetLShapeSpecialSnapBounds(section.division, zi);
+      if (sp && Number(sp.moduleWidth) > 0 && Number.isFinite(sp.zoneStart)) {
+        startU = Number(sp.zoneStart);
+        endU = startU + Number(sp.moduleWidth);
+      }
+    }
+  } catch (_) {}
+  const segs = section._layoutCache?.segments;
+  if (!(Number.isFinite(startU) && Number.isFinite(endU) && endU > startU) && Array.isArray(segs)) {
+    const seg = segs.find(
+      (s) =>
+        s &&
+        Number(s.zoneIndex) === zi &&
+        (s.type === 'module' || s.type === 'special' || s.isLSpecial === true)
+    );
+    if (seg && Number.isFinite(seg.startU) && Number.isFinite(seg.endU)) {
+      startU = Number(seg.startU);
+      endU = Number(seg.endU);
+    }
+  }
+  if (!(Number.isFinite(startU) && Number.isFinite(endU) && endU > startU)) {
+    const div = section.division;
+    const parts = Math.max(0, Math.floor(Number(div?.parts) || 0));
+    if (!div || zi >= parts) return null;
+    const widths = section._layoutCache?.moduleWidthsMm;
+    const ss = Number(div.sectionStart) || 0;
+    if (Array.isArray(widths) && widths.length === parts) {
+      startU = ss;
+      for (let i = 0; i < zi; i++) startU += Number(widths[i]) || 0;
+      endU = startU + (Number(widths[zi]) || 0);
+    } else {
+      // 600+жертва: ширины из customZoneWidthsMm / base grid (без равного partSize).
+      const custom =
+        div.customZoneWidthsMm ||
+        section.kitchenBandGrids?.base?.customZoneWidthsMm ||
+        null;
+      const ps = Number(div.partSize) || 0;
+      startU = ss;
+      for (let i = 0; i < zi; i++) {
+        const wi =
+          custom != null
+            ? Number(custom[i] ?? custom[String(i)])
+            : NaN;
+        startU += Number.isFinite(wi) && wi > 0 ? wi : ps;
+      }
+      const wZi =
+        custom != null
+          ? Number(custom[zi] ?? custom[String(zi)])
+          : NaN;
+      const wUse = Number.isFinite(wZi) && wZi > 0 ? wZi : ps;
+      if (!(wUse > 0)) return null;
+      endU = startU + wUse;
+    }
+  }
+  if (!(endU > startU)) return null;
+  const midU = (startU + endU) / 2;
+  const pos = section.group.position;
+  const iconPos = new THREE.Vector3();
+  if (wallName === 'front' || wallName === 'back') {
+    iconPos.set(midU, pos.y + _ZONE_PENCIL_FLOOR_LIFT_MM, pos.z);
+  } else {
+    iconPos.set(pos.x, pos.y + _ZONE_PENCIL_FLOOR_LIFT_MM, midU);
+  }
+  const facade = getSectionFacadeFrontWorldCoord(section, wallName);
+  if (Number.isFinite(facade)) {
+    if (wallName === 'back' || wallName === 'front') iconPos.z = facade;
+    else iconPos.x = facade;
+  }
+  const depthMm =
+    wallName === 'left' || wallName === 'right'
+      ? Number(section.size?.x) || 0
+      : Number(section.size?.z ?? section.size?.depth) || 0;
+  return __placeIconOnSharedFrontLine(
+    iconPos,
+    wallName,
+    _ZONE_PENCIL_AHEAD_GAP_MM,
+    Math.max(0, depthMm / 2)
+  );
+}
+
 /** Якорь карандаша модуля: центр по ширине корпуса, сразу под низом (в т.ч. wall_hung). */
 function __worldZonePencilAnchorFromGroup(group, wallName) {
+  const wn = wallName || group?.userData?.wallName || 'back';
+  // Upper-G / matrix-lock: local→world min-corner часто даёт Y≈пол (bbox в локали кривой).
+  // Берём world AABB: карандаш под навесом / под верхней ячейкой.
+  if (
+    group?.userData?.__kitchenUpperGMatrixLock ||
+    __isKitchenUpperCornerFurniture(group) ||
+    __isKitchenWallHungFurniture(group)
+  ) {
+    try {
+      group.updateMatrixWorld?.(true);
+      const worldBb = computeFurnitureWorldBBoxNoAo(group);
+      if (worldBb && !worldBb.isEmpty()) {
+        const iconPos3D = new THREE.Vector3(
+          (worldBb.min.x + worldBb.max.x) / 2,
+          worldBb.min.y + _ZONE_PENCIL_FLOOR_LIFT_MM,
+          (worldBb.min.z + worldBb.max.z) / 2
+        );
+        const halfDepthMm =
+          wn === 'left' || wn === 'right'
+            ? Math.abs(worldBb.max.x - worldBb.min.x) / 2
+            : Math.abs(worldBb.max.z - worldBb.min.z) / 2;
+        return __placeIconOnSharedFrontLine(
+          iconPos3D,
+          wn,
+          _ZONE_PENCIL_AHEAD_GAP_MM,
+          halfDepthMm
+        );
+      }
+    } catch (_) {}
+  }
   let localBb = __getGroupLocalBBoxNoAoCached(group);
   if (!localBb || localBb.isEmpty()) {
     // Пустой icon-bbox (все меши = фасады/ящики) — fallback на корпусной bbox.
@@ -357,7 +768,6 @@ function __worldZonePencilAnchorFromGroup(group, wallName) {
   const iconPos3D = __iconScratchWorldCenter.clone();
   // Низ корпуса в мире (+ lift). Для навеса это clearance, не пол ряда.
   iconPos3D.y = __iconScratchWorldMinCorner.y + _ZONE_PENCIL_FLOOR_LIFT_MM;
-  const wn = wallName || 'back';
   const halfDepthMm =
     wn === 'left' || wn === 'right'
       ? (localBb.max.x - localBb.min.x) / 2
@@ -373,8 +783,9 @@ function __projectZonePencilToScreen(icon, position3D) {
   const heightHalf = container.clientHeight / 2;
   const x = vector.x * widthHalf + widthHalf;
   const y = -vector.y * heightHalf + heightHalf;
-  icon.style.left = x - ZONE_EDIT_ICON_SIZE_PX / 2 + 'px';
-  icon.style.top = y - ZONE_EDIT_ICON_SIZE_PX / 2 + ZONE_EDIT_ICON_SCREEN_NUDGE_Y_PX + 'px';
+  const sz = __zonePencilSizePx(icon);
+  icon.style.left = x - sz / 2 + 'px';
+  icon.style.top = y - sz / 2 + ZONE_EDIT_ICON_SCREEN_NUDGE_Y_PX + 'px';
   const inFront = vector.z <= 1;
   icon.style.display =
     window.showSectionZoneEditIcons && inFront ? 'flex' : 'none';
@@ -773,9 +1184,14 @@ function getRoomStepsConfigLocal() {
   return null;
 }
 
-// Глобальные флаги показа размеров (по умолчанию выключены)
-window.showSectionDimensionLabels = window.showSectionDimensionLabels || false;
-window.showFurnitureDimensionLabels = window.showFurnitureDimensionLabels || false;
+// Глобальные флаги показа размеров — по умолчанию ВЫКЛ.
+// Включает пользователь кнопкой «Размеры», когда нужно.
+if (typeof window.showSectionDimensionLabels === 'undefined') {
+  window.showSectionDimensionLabels = false;
+}
+if (typeof window.showFurnitureDimensionLabels === 'undefined') {
+  window.showFurnitureDimensionLabels = false;
+}
 if (typeof window.showAllDimensionLabels === 'undefined') {
   window.showAllDimensionLabels = false;
 }
@@ -894,8 +1310,12 @@ export function syncAllDimsButtonVisibility() {
   if (!btn) return;
   const show = isAllDimsButtonStepActive();
   btn.style.display = show ? 'flex' : 'none';
+  // Шаг 1–3: прячем. На шаге 4+ один раз включаем (кнопка cm потом может выключить).
   if (!show && isAllDimensionLabelsVisible()) {
     setAllDimensionLabelsVisible(false);
+  } else if (show && window.__cldDimsAutoOnStep4 !== true) {
+    window.__cldDimsAutoOnStep4 = true;
+    if (!isAllDimensionLabelsVisible()) setAllDimensionLabelsVisible(true);
   }
 }
 
@@ -1019,13 +1439,15 @@ export function createSceneIcon(iconHtml, position, options = {}) {
 
 /**
  * Update/create room dimension labels on the plan.
- * В room-edit 2D — как у IKEA: клик по «500 см» → ввод, синхрон с панелью формы.
- * На стене с проёмом полный размер скрыт — вместо него сегменты (194,5 | 111 | 194,5 см).
+ * В room-edit / kitchen 2D — как у IKEA: размер на каждом ребре стены, клик → правка.
  */
 export function updateRoomDimensionLabels() {
   const editingAxis = window.__cldRoomDimEditing;
-  if (editingAxis && document.activeElement && document.activeElement.classList.contains('cld-room-outer-dim-input')) {
-    // Не сносить поле во время ввода
+  if (
+    editingAxis != null &&
+    document.activeElement &&
+    document.activeElement.classList.contains('cld-room-outer-dim-input')
+  ) {
     projectRoomDimensionLabels();
     redrawRoomOuterDimLines();
     return;
@@ -1041,6 +1463,16 @@ export function updateRoomDimensionLabels() {
 
   if (!state.room || !window.sceneIconsContainer) return;
 
+  const editable = !!(window.__cldRoomEditOpen && window.__cldRoomEditView !== '3d');
+  const fp = state.room.footprintSpec;
+  const verts = fp && Array.isArray(fp.vertices) ? fp.vertices : null;
+  const segs = fp && Array.isArray(fp.segments) ? fp.segments : null;
+
+  if (verts && verts.length >= 3 && editable) {
+    updatePolygonEdgeDimensionLabels(verts, segs, editable);
+    return;
+  }
+
   const rw = state.room.width;
   const rd = state.room.depth;
   const wCm = Math.round(Number(rw) || 0) / 10;
@@ -1048,10 +1480,8 @@ export function updateRoomDimensionLabels() {
   const fmtRoomCm = (cmVal) => Number(cmVal).toFixed(1).replace('.', ',') + ' см';
   const wLabel = fmtRoomCm(wCm);
   const dLabel = fmtRoomCm(dCm);
-  // Тот же out, что DIM_OUT_MM у opening dims — одна линия снаружи (ближе к стене ×2)
   const out = 100 + 280;
   const y = 0;
-  const editable = !!(window.__cldRoomEditOpen && window.__cldRoomEditView !== '3d');
   const hide =
     window.__cldHideRoomDimSides && typeof window.__cldHideRoomDimSides === 'object'
       ? window.__cldHideRoomDimSides
@@ -1104,9 +1534,9 @@ export function updateRoomDimensionLabels() {
   }
 
   if (editable) {
-    const segs = [];
+    const lineSegs = [];
     if (!hide.top) {
-      segs.push({
+      lineSegs.push({
         axis: 'width',
         labelClass: '.dimension-width-top',
         p1: new THREE.Vector3(-rw / 2, y, -rd / 2 - out),
@@ -1114,7 +1544,7 @@ export function updateRoomDimensionLabels() {
       });
     }
     if (!hide.bottom) {
-      segs.push({
+      lineSegs.push({
         axis: 'width',
         labelClass: '.dimension-width-bottom',
         p1: new THREE.Vector3(-rw / 2, y, rd / 2 + out),
@@ -1122,7 +1552,7 @@ export function updateRoomDimensionLabels() {
       });
     }
     if (!hide.left) {
-      segs.push({
+      lineSegs.push({
         axis: 'depth',
         labelClass: '.dimension-depth-left',
         p1: new THREE.Vector3(-rw / 2 - out, y, -rd / 2),
@@ -1130,16 +1560,102 @@ export function updateRoomDimensionLabels() {
       });
     }
     if (!hide.right) {
-      segs.push({
+      lineSegs.push({
         axis: 'depth',
         labelClass: '.dimension-depth-right',
         p1: new THREE.Vector3(rw / 2 + out, y, -rd / 2),
         p2: new THREE.Vector3(rw / 2 + out, y, rd / 2),
       });
     }
-    window.__cldRoomOuterDimSegs = segs;
+    window.__cldRoomOuterDimSegs = lineSegs;
     redrawRoomOuterDimLines();
   } else {
+    const layer = document.getElementById('cld-room-outer-dim-lines');
+    if (layer) layer.replaceChildren();
+  }
+}
+
+/** Размеры снаружи каждого ребра footprint (как IKEA). */
+function updatePolygonEdgeDimensionLabels(verts, segments, editable) {
+  const rw = state.room.width;
+  const rd = state.room.depth;
+  const ox = -rw / 2;
+  const oz = -rd / 2;
+  const out = 100 + 280;
+  const y = 0;
+  const n = verts.length;
+  const fmtRoomCm = (cmVal) => Number(cmVal).toFixed(1).replace('.', ',') + ' см';
+  const lineSegs = [];
+
+  const edgeFilter =
+    window.__cldKitchenDimEdgeFilter && typeof window.__cldKitchenDimEdgeFilter.has === 'function'
+      ? window.__cldKitchenDimEdgeFilter
+      : null;
+
+  for (let i = 0; i < n; i++) {
+    const seg = segments && segments[i];
+    if (seg && seg.open) continue;
+    if (edgeFilter && !edgeFilter.has(i)) continue;
+    // Дверь/окно на стене: скрыть полный размер ребра (остаются сегменты проёма)
+    const hideKeys = window.__cldHideRoomDimWallKeys;
+    const segKey = seg && (seg.wallName || seg.id);
+    if (hideKeys && segKey && typeof hideKeys.has === 'function' && hideKeys.has(segKey)) {
+      continue;
+    }
+    const hideSides = window.__cldHideRoomDimSides;
+    if (hideSides && seg && seg.wallName) {
+      const wn = seg.wallName;
+      if (
+        (wn === 'back' && hideSides.top) ||
+        (wn === 'front' && hideSides.bottom) ||
+        (wn === 'left' && hideSides.left) ||
+        (wn === 'right' && hideSides.right)
+      ) {
+        continue;
+      }
+    }
+    const a = verts[i];
+    const b = verts[(i + 1) % n];
+    const dx = b.x - a.x;
+    const dz = b.z - a.z;
+    const len = Math.hypot(dx, dz);
+    if (len < 40) continue;
+    const ux = dx / len;
+    const uz = dz / len;
+    // CCW outward
+    const nx = uz;
+    const nz = -ux;
+    const midX = (a.x + b.x) / 2;
+    const midZ = (a.z + b.z) / 2;
+    const labelPos = new THREE.Vector3(ox + midX + nx * out, y, oz + midZ + nz * out);
+    const cm = Math.round(len) / 10;
+    const ang = (Math.atan2(uz, ux) * 180) / Math.PI;
+    // читаемый угол подписи (-90..90)
+    let rot = ang;
+    if (rot > 90) rot -= 180;
+    if (rot < -90) rot += 180;
+    const extra = Math.abs(rot) > 5 ? { transform: 'rotate(' + rot.toFixed(1) + 'deg)' } : {};
+    const cls =
+      'dimension-label dimension-edge dimension-edge-' +
+      i +
+      (editable ? ' is-room-dim-editable' : '');
+    const meta = editable
+      ? { kind: 'edge', edgeIndex: i, axis: 'edge:' + i, valueCm: cm }
+      : null;
+    const label = createDimensionLabel(fmtRoomCm(cm), labelPos, cls, extra, meta);
+    if (label) window.roomDimensionLabels.push(label);
+
+    lineSegs.push({
+      axis: 'edge:' + i,
+      labelClass: '.dimension-edge-' + i,
+      p1: new THREE.Vector3(ox + a.x + nx * out, y, oz + a.z + nz * out),
+      p2: new THREE.Vector3(ox + b.x + nx * out, y, oz + b.z + nz * out),
+    });
+  }
+
+  window.__cldRoomOuterDimSegs = lineSegs;
+  if (editable) redrawRoomOuterDimLines();
+  else {
     const layer = document.getElementById('cld-room-outer-dim-lines');
     if (layer) layer.replaceChildren();
   }
@@ -1229,13 +1745,13 @@ function redrawRoomOuterDimLines() {
     const gapStartY = midY - (dy / len) * gapHalf;
     const gapEndX = midX + (dx / len) * gapHalf;
     const gapEndY = midY + (dy / len) * gapHalf;
-    // line 1: start → gap start
+    // line 1: start в†’ gap start
     const l1 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
     l1.setAttribute('x1', String(x1)); l1.setAttribute('y1', String(y1));
     l1.setAttribute('x2', String(gapStartX)); l1.setAttribute('y2', String(gapStartY));
     l1.setAttribute('stroke', '#333'); l1.setAttribute('stroke-width', '1.25');
     g.appendChild(l1);
-    // line 2: gap end → end
+    // line 2: gap end в†’ end
     const l2 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
     l2.setAttribute('x1', String(gapEndX)); l2.setAttribute('y1', String(gapEndY));
     l2.setAttribute('x2', String(x2)); l2.setAttribute('y2', String(y2));
@@ -1258,10 +1774,25 @@ function redrawRoomOuterDimLines() {
   });
 }
 
-function applyRoomDimAxis(axis, cmVal) {
-  const n = Math.round(Number(cmVal));
+function applyRoomDimAxis(axis, cmVal, edgeIndex) {
+  const n = Math.round(Number(String(cmVal).replace(',', '.')));
   if (!Number.isFinite(n)) return;
-  const clamped = Math.max(100, Math.min(2000, n));
+  const isEdge =
+    axis === 'edge' || (typeof axis === 'string' && axis.indexOf('edge:') === 0);
+  const minCm = isEdge ? 40 : 100;
+  const maxCm = 2000;
+  const clamped = Math.max(minCm, Math.min(maxCm, n));
+
+  if (isEdge) {
+    const ei =
+      Number.isFinite(edgeIndex) ? edgeIndex : parseInt(String(axis).split(':')[1], 10);
+    window.__cldRoomDimEditing = null;
+    if (typeof window.__cldApplyRoomEdgeLength === 'function') {
+      window.__cldApplyRoomEdgeLength(ei, clamped);
+    }
+    return;
+  }
+
   const wEl = document.getElementById('room-width-input');
   const dEl = document.getElementById('room-depth-input');
   if (axis === 'width' && wEl) wEl.value = String(clamped);
@@ -1272,29 +1803,73 @@ function applyRoomDimAxis(axis, cmVal) {
   }
 }
 
-function beginRoomDimEdit(label, axis, valueCm) {
+function beginRoomDimEdit(label, axis, valueCm, edgeIndex) {
   window.__cldRoomDimEditing = axis;
   label.classList.add('is-editing');
   label.textContent = '';
+  const isEdge =
+    axis === 'edge' || (typeof axis === 'string' && axis.indexOf('edge:') === 0);
+  const minCm = isEdge ? 40 : 100;
+  const maxCm = 2000;
   const input = document.createElement('input');
   input.type = 'text';
   input.inputMode = 'decimal';
+  input.autocomplete = 'off';
   input.className = 'cld-room-outer-dim-input';
-  input.value = String(valueCm);
-  input.setAttribute('aria-label', axis === 'width' ? 'Ширина комнаты, см' : 'Глубина комнаты, см');
+  input.value = String(Math.round(Number(valueCm)) || '');
+  input.setAttribute('min', String(minCm));
+  input.setAttribute('max', String(maxCm));
+  input.title = 'От ' + minCm + ' до ' + maxCm + ' см';
+  input.setAttribute(
+    'aria-label',
+    (axis === 'width'
+      ? 'Ширина комнаты, см'
+      : axis === 'depth'
+        ? 'Глубина комнаты, см'
+        : 'Длина стены, см') +
+      ' (макс. ' +
+      maxCm +
+      ' см)'
+  );
   const finish = (commit) => {
     const v = input.value;
     label.classList.remove('is-editing');
-    if (commit) applyRoomDimAxis(axis, v);
+    if (commit) applyRoomDimAxis(axis, v, edgeIndex);
     else {
       window.__cldRoomDimEditing = null;
       updateRoomDimensionLabels();
     }
   };
+  let selectPending = true;
   input.addEventListener('mousedown', (e) => e.stopPropagation());
   input.addEventListener('click', (e) => e.stopPropagation());
+  input.addEventListener('mouseup', (e) => {
+    if (!selectPending) return;
+    e.preventDefault();
+    selectPending = false;
+    try {
+      input.select();
+    } catch (_) {}
+  });
+  input.addEventListener('input', () => {
+    selectPending = false;
+    let raw = String(input.value ?? '');
+    if (/^0+[1-9]/.test(raw) || /^0{2,}$/.test(raw)) {
+      raw = raw.replace(/^0+/, '') || '0';
+      input.value = raw;
+    }
+    const n = Number(String(raw).replace(',', '.'));
+    if (Number.isFinite(n) && n > maxCm) {
+      input.classList.add('is-over-max');
+      input.title = 'Максимум ' + maxCm + ' см';
+    } else {
+      input.classList.remove('is-over-max');
+      input.title = 'От ' + minCm + ' до ' + maxCm + ' см';
+    }
+  });
   input.addEventListener('keydown', (e) => {
     e.stopPropagation();
+    selectPending = false;
     if (e.key === 'Enter') {
       e.preventDefault();
       finish(true);
@@ -1309,7 +1884,9 @@ function beginRoomDimEdit(label, axis, valueCm) {
   label.appendChild(input);
   requestAnimationFrame(() => {
     input.focus();
-    input.select();
+    try {
+      input.select();
+    } catch (_) {}
   });
 }
 
@@ -1342,7 +1919,7 @@ export function createDimensionLabel(text, position3D, className, extraStyle = {
     label.style.cursor = 'text';
     label.style.border = '1px solid #111';
     label.style.fontWeight = '600';
-    label.title = 'Изменить размер комнаты';
+    label.title = 'Изменить размер';
     label.setAttribute('role', 'button');
     label.tabIndex = 0;
     label.addEventListener('mousedown', (e) => e.stopPropagation());
@@ -1350,7 +1927,8 @@ export function createDimensionLabel(text, position3D, className, extraStyle = {
       e.preventDefault();
       e.stopPropagation();
       if (window.__cldRoomDimEditing) return;
-      beginRoomDimEdit(label, editMeta.axis, editMeta.valueCm);
+      const ax = editMeta.axis || (editMeta.kind === 'edge' ? 'edge:' + editMeta.edgeIndex : null);
+      beginRoomDimEdit(label, ax, editMeta.valueCm, editMeta.edgeIndex);
     });
   }
 
@@ -1439,7 +2017,7 @@ export function upsertFurnitureCatalogNameLabel(obj) {
     text = `Шкаф (зона ${z})`;
   }
   if (ud.catalogItemId != null && ud.catalogItemId !== '') {
-    text += ` · id ${ud.catalogItemId}`;
+    text += ` В· id ${ud.catalogItemId}`;
   }
   const label = createDimensionLabel(text, topPos, 'furniture-catalog-name-label', {
     fontSize: '13px',
@@ -1507,19 +2085,33 @@ export function createSectionZoneEditIcon(sectionId, zoneIndex, position3D, furn
       ? furnitureGroup
       : __findFurnitureGroupForZone(sectionId, zoneIndex);
 
+  const isCorner = __isKitchenCornerSpecialZone(sectionId, zoneIndex);
+  const iconSize = isCorner ? ZONE_EDIT_ICON_SIZE_PX : ZONE_EDIT_ICON_SIZE_PX_SLIM;
+  const penPx = isCorner ? 15 : 10;
   const icon = document.createElement('div');
-  icon.className = 'section-zone-edit-icon';
+  icon.className =
+    'section-zone-edit-icon' + (isCorner ? ' section-zone-edit-icon--corner' : ' section-zone-edit-icon--slim');
   icon.innerHTML =
-    '<svg class="section-zone-edit-icon__pen" width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
+    `<svg class="section-zone-edit-icon__pen" width="${penPx}" height="${penPx}" viewBox="0 0 24 24" fill="none" aria-hidden="true">` +
     '<path d="M12 20h9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>' +
     '<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' +
     '</svg>';
-  icon.title = 'Редактировать модуль';
-  icon.setAttribute('aria-label', 'Редактировать модуль');
+  icon.title = isCorner
+    ? group
+      ? 'Угловая ячейка / модуль'
+      : 'Угловая ячейка'
+    : group
+      ? 'Редактировать модуль'
+      : 'Настройка зоны';
+  icon.setAttribute('aria-label', icon.title);
   icon.setAttribute('role', 'button');
   icon.style.position = 'absolute';
   icon.style.pointerEvents = 'auto';
-  icon.style.zIndex = '1002';
+  icon.style.zIndex = isCorner ? '1003' : '1002';
+  icon.style.width = iconSize + 'px';
+  icon.style.height = iconSize + 'px';
+  icon.style.minWidth = iconSize + 'px';
+  icon.style.minHeight = iconSize + 'px';
 
   let anchor = position3D;
   if (group) {
@@ -1533,6 +2125,8 @@ export function createSectionZoneEditIcon(sectionId, zoneIndex, position3D, furn
     zoneIndex,
     furnitureGroup: group || null,
     furnitureUuid: group ? group.uuid : null,
+    isCornerSpecial: isCorner,
+    iconSizePx: iconSize,
   };
 
   window.sceneIconsContainer.appendChild(icon);
@@ -1580,6 +2174,9 @@ export function updateAllSceneIcons() {
   __iconWorldPosRecomputeThisFrame = __iconWorldPosFrame % __ICON_WORLD_POS_RECOMPUTE_EVERY === 0;
 
   updateDimensionLineLabelPositions();
+  try {
+    updateKitchenBandGridsViewLabels();
+  } catch (_) {}
 
   if (isAnyDimensionModeActive()) {
     const hide = (el) => {
@@ -1721,22 +2318,31 @@ export function updateAllSceneIcons() {
     });
   }
 
-  // Карандаши зон: всегда следуют за живой группой шкафа; без группы / якоря — удаляем.
+  // Карандаши зон: с мебелью — якорь от корпуса; пустая зона — от layout U.
   const _isStep5 = window.currentRoomStep === 5;
   if (window.sectionZoneEditIcons) {
     window.sectionZoneEditIcons = window.sectionZoneEditIcons.filter((icon) => {
       if (!icon || !icon.userData) return false;
       const group = __resolveZonePencilFurnitureGroup(icon);
-      if (!group || !group.parent) {
-        if (icon.parentNode) icon.parentNode.removeChild(icon);
-        return false;
+      let livePos = null;
+      if (group && group.parent) {
+        livePos = __worldZonePencilAnchorFromGroup(
+          group,
+          group.userData?.wallName || 'back'
+        );
+      } else {
+        const sec = (state.customSections || []).find(
+          (s) => s && String(s.id) === String(icon.userData.sectionId)
+        );
+        livePos = sec
+          ? __worldZonePencilAnchorFromEmptyZone(sec, icon.userData.zoneIndex)
+          : null;
+        if (livePos) {
+          icon.userData.furnitureGroup = null;
+          icon.userData.furnitureUuid = null;
+        }
       }
-      const livePos = __worldZonePencilAnchorFromGroup(
-        group,
-        group.userData?.wallName || 'back'
-      );
       if (!livePos) {
-        // Не оставляем «залипший» карандаш у пола от раннего create.
         if (icon.parentNode) icon.parentNode.removeChild(icon);
         return false;
       }
@@ -1835,9 +2441,23 @@ export function removeSceneIcon(iconElement) {
   }
 }
 
-// Пересоздать карандаши для модулей в секции (как в 1.86: по sectionId+zoneIndex),
-// чтобы после resize секции иконки не исчезали.
+function rebuildAllSectionZoneEditIcons() {
+  const list = Array.isArray(state.customSections) ? state.customSections : [];
+  for (const sec of list) {
+    if (sec?.id != null) rebuildSectionZoneEditIconsForSection(sec.id);
+  }
+}
+
+// Пересоздать карандаши зон секции (с мебелью и пустые — по division/layout).
 export function rebuildSectionZoneEditIconsForSection(sectionId) {
+  try {
+    if (typeof window !== 'undefined') {
+      window.__cldRebuildSectionZoneEditIconsForSection =
+        rebuildSectionZoneEditIconsForSection;
+      window.__cldRebuildAllSectionZoneEditIcons = rebuildAllSectionZoneEditIcons;
+    }
+  } catch (_) {}
+
   try {
     if (!window.sceneIconsContainer || !state?.scene) return;
 
@@ -1851,6 +2471,7 @@ export function rebuildSectionZoneEditIconsForSection(sectionId) {
       return true;
     });
 
+    const coveredZones = new Set();
     state.scene.traverse((obj) => {
       if (!obj || !obj.isGroup || !obj.userData || !obj.userData.isFurniture) return;
       const ud = obj.userData;
@@ -1861,8 +2482,52 @@ export function rebuildSectionZoneEditIconsForSection(sectionId) {
       const iconPos = __worldZonePencilAnchorFromGroup(obj, ud.wallName || 'back');
       if (!iconPos) return;
 
+      coveredZones.add(Number(ud.zoneIndex));
       createSectionZoneEditIcon(String(sectionId), ud.zoneIndex, iconPos, obj);
     });
+
+    // Пустые зоны: карандаш ячейки (до постановки модуля).
+    // На шагах 2–4 после компоновки — всегда (ячейки правятся сами).
+    // Иначе — только если UI ячеек не выключен (IKEA-sleep).
+    {
+      const step = Number(window.currentRoomStep) || 0;
+      const composeSteps = step >= 2 && step <= 4;
+      if (!composeSteps && state.kitchenCellsUiEnabled === false) return;
+    }
+    const sec = (state.customSections || []).find(
+      (s) => s && String(s.id) === String(sectionId)
+    );
+    if (!sec?.division) return;
+    try {
+      if (typeof window.__clodisComputeSectionLayout === 'function') {
+        window.__clodisComputeSectionLayout(sec);
+      }
+    } catch (_) {}
+    const parts = Math.max(0, Math.floor(Number(sec.division.parts) || 0));
+    // Кухня L/П: карандаши только на угловых special (остальные ячейки скрыты).
+    let onlyZis = null;
+    try {
+      const kitchenOn =
+        typeof window.__cldIsKitchenSectionLayoutActive === 'function'
+          ? window.__cldIsKitchenSectionLayoutActive()
+          : false;
+      if (kitchenOn && sec.lShape && typeof window.__cldGetLShapeSpecialZoneIndices === 'function') {
+        onlyZis = window.__cldGetLShapeSpecialZoneIndices(sec);
+        if (!Array.isArray(onlyZis) || !onlyZis.length) return;
+      }
+    } catch (_) {}
+    for (let zi = 0; zi < parts; zi++) {
+      if (coveredZones.has(zi)) continue;
+      if (
+        Array.isArray(onlyZis) &&
+        !onlyZis.some((z) => Number(z) === zi)
+      ) {
+        continue;
+      }
+      const iconPos = __worldZonePencilAnchorFromEmptyZone(sec, zi);
+      if (!iconPos) continue;
+      createSectionZoneEditIcon(String(sectionId), zi, iconPos, null);
+    }
   } catch (e) {}
 }
 
@@ -2002,24 +2667,38 @@ export function buildStep5FurnitureIcons() {
 
 export function setStep5SectionZonesVisible(visible) {
   if (!state?.scene) return;
+  const show = state.kitchenCellsUiEnabled === false ? false : !!visible;
   state.scene.traverse((obj) => {
     if (!obj?.name) return;
     if (
       obj.name.startsWith('SectionZoneSingle_') ||
       obj.name.startsWith('SectionZoneDouble_') ||
       obj.name.startsWith('SectionZoneCap_') ||
-      obj.name.startsWith('SectionZoneSingleCorner')
+      obj.name.startsWith('SectionZoneSingleCorner') ||
+      obj.name.startsWith('SectionZoneSpecialCorner') ||
+      obj.name.startsWith('CellVol') ||
+      obj.name.startsWith('CellVolumes')
     ) {
-      obj.visible = visible;
+      obj.visible = show;
     }
   });
+  try {
+    const map = state.sectionZones;
+    if (map && typeof map === 'object') {
+      Object.keys(map).forEach((id) => {
+        const arr = map[id];
+        if (Array.isArray(arr)) arr.forEach((g) => { if (g) g.visible = show; });
+      });
+    }
+  } catch (_) {}
 }
 if (typeof window !== 'undefined') {
   window.setStep5SectionZonesVisible = setStep5SectionZonesVisible;
 }
 
-/** Сплошные и пунктирные линии разметки шкафов (cabinet-markers.js): на шагах 4 и 5 скрыты. */
+/** Сплошные и пунктирные линии разметки шкафов (cabinet-markers.js). */
 export function setStep5CabinetMarkersVisible(visible) {
+  const show = state.kitchenCellsUiEnabled === false ? false : !!visible;
   try {
     const map = state.sectionCabinetMarkers;
     if (map && typeof map === 'object') {
@@ -2027,7 +2706,7 @@ export function setStep5CabinetMarkersVisible(visible) {
         const arr = map[id];
         if (Array.isArray(arr)) {
           arr.forEach((obj) => {
-            if (obj) obj.visible = visible;
+            if (obj) obj.visible = show;
           });
         }
       });
@@ -2035,7 +2714,7 @@ export function setStep5CabinetMarkersVisible(visible) {
   } catch (_) {}
   if (!state?.scene) return;
   state.scene.traverse((obj) => {
-    if (obj?.userData?.isCabinetMarker) obj.visible = visible;
+    if (obj?.userData?.isCabinetMarker) obj.visible = show;
   });
 }
 
@@ -2130,6 +2809,9 @@ export function buildStep4SectionEditIcons() {
   if (typeof window !== 'undefined' && window.currentRoomStep !== 4) return;
   if (!__hasAnyFurnitureInScene()) return;
   if (!window.sceneIconsContainer) return;
+  // Секции/ячейки спят: без иконок редактирования секции.
+  if (state.kitchenSectionsEnabled === false) return;
+  if (state.kitchenCellsUiEnabled === false) return;
 
   (state.customSections || []).forEach((sectionData) => {
     if (!sectionData?.group) return;
@@ -2200,6 +2882,34 @@ export function addSceneIcons() {
     return;
   }
 
+  // Ячейки: default выкл.; не форсируем вкл. при старте.
+  if (state.kitchenCellsUiEnabled === false) {
+    state.showSingleZones = false;
+    state.showDoubleZones = false;
+  }
+  {
+    const layerOn =
+      state.kitchenCellsUiEnabled !== false &&
+      !!(state.showSingleZones || state.showDoubleZones);
+    try {
+      window.showSectionDimensionLabels = false;
+    } catch (_) {}
+    try {
+      setStep5SectionZonesVisible(layerOn);
+      setStep5CabinetMarkersVisible(layerOn);
+    } catch (_) {}
+    try {
+      if (typeof window.__cldSyncCellVolumeMeshes === 'function') {
+        window.__cldSyncCellVolumeMeshes();
+      }
+    } catch (_) {}
+    try {
+      if (typeof window.updateSectionDimensionLabels === 'function') {
+        window.updateSectionDimensionLabels();
+      }
+    } catch (_) {}
+  }
+
   // Иконки слева — компактная вертикальная группа (визуал scene-control, без смены обработчиков)
   const leftStack = document.createElement('div');
   leftStack.className = 'scene-controls-stack';
@@ -2253,6 +2963,11 @@ export function addSceneIcons() {
     applyAllDimensionsButtonUi(allDimsBtn, isAllDimensionLabelsVisible());
     allDimsBtn.addEventListener('click', () => toggleAllDimensionLabels());
     syncAllDimsButtonVisibility();
+    if (isAllDimensionLabelsVisible()) {
+      try {
+        syncRefDimensionLines();
+      } catch (_) {}
+    }
   }
 
   // === Кнопки сверху справа: размеры секций и модулей ===
@@ -2380,6 +3095,263 @@ export function addSceneIcons() {
     });
   }
 
+  // Пресеты вида: 3D / сверху / прямо / сбоку (орто)
+  const viewPillsWrap = document.createElement('div');
+  viewPillsWrap.className = 'scene-view-pills';
+  viewPillsWrap.setAttribute('role', 'group');
+  viewPillsWrap.setAttribute('aria-label', 'Вид сцены');
+
+  const viewPillsTrack = document.createElement('div');
+  viewPillsTrack.className = 'scene-view-pills__track';
+
+  const viewPillsSlider = document.createElement('div');
+  viewPillsSlider.className = 'scene-view-pills__slider';
+  viewPillsTrack.appendChild(viewPillsSlider);
+
+  const VIEW_PRESETS = [
+    { mode: '3d', label: '3D', title: 'Объёмный вид' },
+    { mode: 'top', label: 'Сверху', title: 'План сверху (2D)' },
+    { mode: 'front', label: 'Прямо', title: 'Вид прямо (фасад)' },
+    { mode: 'side', label: 'Сбоку', title: 'Вид сбоку' },
+  ];
+  const viewPillButtons = VIEW_PRESETS.map(({ mode, label, title }) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'scene-view-pill';
+    btn.dataset.viewMode = mode;
+    btn.textContent = label;
+    btn.title = title;
+    btn.setAttribute('aria-pressed', mode === '3d' ? 'true' : 'false');
+    viewPillsTrack.appendChild(btn);
+    return btn;
+  });
+  viewPillsWrap.appendChild(viewPillsTrack);
+
+  // Тот же режим, что admin «Прозрачные контуры» (transparentOutlineMode).
+  const xrayBtn = document.createElement('button');
+  xrayBtn.type = 'button';
+  xrayBtn.className = 'scene-view-pill scene-view-pill--xray';
+  xrayBtn.id = 'cld-room-furniture-xray-btn';
+  xrayBtn.textContent = 'Контуры';
+  xrayBtn.title = 'Как в админке: прозрачные панели + рёбра, крепёж алюминием';
+  xrayBtn.setAttribute('aria-pressed', 'false');
+  xrayBtn.addEventListener('click', (ev) => {
+    ev.preventDefault();
+    ev.stopPropagation();
+    const fn =
+      typeof window.__cldToggleRoomFurnitureXray === 'function'
+        ? window.__cldToggleRoomFurnitureXray
+        : null;
+    if (!fn) {
+      console.warn('[ROOM-XRAY] toggle not loaded');
+      return;
+    }
+    const on = !!fn();
+    xrayBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    xrayBtn.classList.toggle('is-active', on);
+  });
+  viewPillsWrap.appendChild(xrayBtn);
+
+  // Старая сетка секции (SectionZone*) — скрыта: мешает поясам BASE/MID/TOP.
+  // Оставляем API sync, чтобы place/угол не падали; кнопку не показываем.
+  try {
+    state.showSingleZones = false;
+    state.showDoubleZones = false;
+    if (typeof window.__cldSetCellVolumesVisible === 'function') {
+      window.__cldSetCellVolumesVisible(false);
+    } else if (typeof window.__cldSyncCellVolumeMeshes === 'function') {
+      window.__cldSyncCellVolumeMeshes();
+    }
+  } catch (_) {}
+  const syncCellsBtn = () => {};
+  window.__cldSyncSectionCellsBtn = syncCellsBtn;
+
+  // Ячейки поясов: просмотр kitchenBandGrids (BASE/MID/TOP). Отдельно от сетки секции.
+  const bandCellsBtn = document.createElement('button');
+  bandCellsBtn.type = 'button';
+  bandCellsBtn.className = 'scene-view-pill scene-view-pill--xray scene-view-pill--band-cells';
+  bandCellsBtn.id = 'cld-room-band-cells-btn';
+  bandCellsBtn.textContent = 'Ячейки';
+  bandCellsBtn.title =
+    'Просмотр ячеек поясов BASE / MID / TOP (kitchenBandGrids). Только просмотр.';
+  bandCellsBtn.setAttribute('aria-pressed', 'false');
+
+  const bandTogglesWrap = document.createElement('div');
+  bandTogglesWrap.id = 'cld-room-band-cells-toggles';
+  bandTogglesWrap.style.cssText =
+    'display:none;gap:6px;align-items:center;flex-wrap:wrap;';
+  const bandToggleDefs = [
+    { id: 'base', label: 'Низ' },
+    { id: 'mid', label: 'Верх' },
+    { id: 'top', label: 'Антресоли' },
+  ];
+  /** @type {Record<string, HTMLButtonElement>} */
+  const bandToggleBtns = {};
+  for (const def of bandToggleDefs) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'scene-view-pill scene-view-pill--band-toggle';
+    b.dataset.band = def.id;
+    b.textContent = def.label;
+    b.title = `Показать сетку ${def.id.toUpperCase()}`;
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', (ev) => {
+      ev.preventDefault();
+      ev.stopPropagation();
+      setKitchenBandGridsViewBand(def.id);
+      syncBandCellsUi();
+    });
+    bandToggleBtns[def.id] = b;
+    bandTogglesWrap.appendChild(b);
+  }
+
+  const syncBandCellsUi = () => {
+    const st = getKitchenBandGridsViewState();
+    bandCellsBtn.setAttribute('aria-pressed', st.enabled ? 'true' : 'false');
+    bandCellsBtn.classList.toggle('is-active', !!st.enabled);
+    bandTogglesWrap.style.display = st.enabled ? 'flex' : 'none';
+    for (const def of bandToggleDefs) {
+      const btn = bandToggleBtns[def.id];
+      if (!btn) continue;
+      const on = st.enabled && st.band === def.id;
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      btn.classList.toggle('is-active', on);
+    }
+  };
+
+  bandCellsBtn.addEventListener('click', (ev) => {
+    ev.preventDefault();
+    ev.stopPropagation();
+    const st = getKitchenBandGridsViewState();
+    setKitchenBandGridsViewEnabled(!st.enabled);
+    syncBandCellsUi();
+  });
+
+  viewPillsWrap.appendChild(bandCellsBtn);
+  viewPillsWrap.appendChild(bandTogglesWrap);
+  // Не форсируем вкл.: ячейки включает apply*ComposePreview после выбора карточки шага 2.
+  syncBandCellsUi();
+  window.__cldSyncBandCellsUi = syncBandCellsUi;
+
+  // Подписи мм / «пенал» на ячейках. Default: выкл — включать по необходимости.
+  const sizeLabelsBtn = document.createElement('button');
+  sizeLabelsBtn.type = 'button';
+  sizeLabelsBtn.className =
+    'scene-view-pill scene-view-pill--xray scene-view-pill--size-labels';
+  sizeLabelsBtn.id = 'cld-room-band-size-labels-btn';
+  sizeLabelsBtn.textContent = 'Размеры';
+  sizeLabelsBtn.title =
+    'Подписи ширины ячеек (мм) и «пенал». По умолчанию выкл.';
+  const syncSizeLabelsBtn = () => {
+    const st = getKitchenBandGridsViewState();
+    const on = st.labels === true;
+    sizeLabelsBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    sizeLabelsBtn.classList.toggle('is-active', on);
+  };
+  sizeLabelsBtn.addEventListener('click', (ev) => {
+    ev.preventDefault();
+    ev.stopPropagation();
+    const st = getKitchenBandGridsViewState();
+    setKitchenBandGridsViewLabelsVisible(!(st.labels === true));
+    syncSizeLabelsBtn();
+  });
+  viewPillsWrap.appendChild(sizeLabelsBtn);
+  syncSizeLabelsBtn();
+  window.__cldSyncBandSizeLabelsBtn = syncSizeLabelsBtn;
+
+  // Пивоты: секция + опоры/корпус/столешка модуля (сбоку куда что входит).
+  const pivotsBtn = document.createElement('button');
+  pivotsBtn.type = 'button';
+  pivotsBtn.className = 'scene-view-pill scene-view-pill--xray scene-view-pill--pivots';
+  pivotsBtn.id = 'cld-room-section-pivots-btn';
+  pivotsBtn.textContent = 'Пивоты';
+  pivotsBtn.title =
+    'Пивоты секции, опор, корпуса, столешки — смотреть сбоку, не вылезает ли за ячейку.';
+  pivotsBtn.setAttribute('aria-pressed', 'false');
+  const syncPivotsBtn = () => {
+    const on =
+      typeof window.__cldGetKitchenInspectPivotsVisible === 'function'
+        ? !!window.__cldGetKitchenInspectPivotsVisible()
+        : false;
+    pivotsBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    pivotsBtn.classList.toggle('is-active', on);
+  };
+  pivotsBtn.addEventListener('click', (ev) => {
+    ev.preventDefault();
+    ev.stopPropagation();
+    const cur =
+      typeof window.__cldGetKitchenInspectPivotsVisible === 'function'
+        ? !!window.__cldGetKitchenInspectPivotsVisible()
+        : false;
+    try {
+      if (typeof window.__cldSetKitchenInspectPivotsVisible === 'function') {
+        window.__cldSetKitchenInspectPivotsVisible(!cur);
+      }
+    } catch (e) {
+      console.warn('[PIVOTS] toggle', e);
+    }
+    syncPivotsBtn();
+  });
+  viewPillsWrap.appendChild(pivotsBtn);
+  syncPivotsBtn();
+  window.__cldSyncSectionPivotsBtn = syncPivotsBtn;
+
+  window.sceneIconsContainer.appendChild(viewPillsWrap);
+
+  function updateViewPillSlider(activeBtn) {
+    if (!viewPillsSlider) return;
+    if (!activeBtn || !viewPillsWrap.parentNode) {
+      viewPillsSlider.style.opacity = '0';
+      return;
+    }
+    const trackRect = viewPillsTrack.getBoundingClientRect();
+    const btnRect = activeBtn.getBoundingClientRect();
+    viewPillsSlider.style.width = `${btnRect.width}px`;
+    viewPillsSlider.style.transform = `translateX(${btnRect.left - trackRect.left}px)`;
+    viewPillsSlider.style.opacity = '1';
+  }
+
+  function syncViewPillVisual(mode) {
+    const m = String(mode || '3d').toLowerCase();
+    let active = null;
+    viewPillButtons.forEach((btn) => {
+      const on = btn.dataset.viewMode === m;
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      if (on) active = btn;
+    });
+    updateViewPillSlider(active || viewPillButtons[0]);
+  }
+
+  function applySceneViewPreset(mode) {
+    const fn =
+      typeof window.__cldSetSceneViewPreset === 'function'
+        ? window.__cldSetSceneViewPreset
+        : null;
+    if (!fn) {
+      console.warn('[SCENE-VIEW] setSceneViewPreset not loaded');
+      return;
+    }
+    const res = fn(mode);
+    syncViewPillVisual(res?.mode || mode);
+  }
+
+  viewPillButtons.forEach((btn) => {
+    btn.addEventListener('click', (ev) => {
+      ev.preventDefault();
+      ev.stopPropagation();
+      applySceneViewPreset(btn.dataset.viewMode || '3d');
+    });
+  });
+
+  window.__cldSyncSceneViewPills = syncViewPillVisual;
+  requestAnimationFrame(() => {
+    const cur =
+      typeof window.__cldGetSceneViewPreset === 'function'
+        ? window.__cldGetSceneViewPreset()
+        : window.__cldSceneViewPreset || '3d';
+    syncViewPillVisual(cur);
+  });
+
   const catalogNameLabelsBtn = createSceneIcon(
     `<i class="fas fa-tag"></i>`,
     {
@@ -2500,39 +3472,13 @@ export function addSceneIcons() {
     });
   }
 
-  /** Панели отладки секций — по умолчанию скрыты. */
-  function applySectionSceneToolsVisibility(visible) {
-    window.__clodisSectionSceneToolsVisible = !!visible;
-    const zd = document.getElementById('zone-debug-panel');
-    const sd = document.getElementById('section-debug-panel');
-    if (zd) zd.style.display = visible ? 'flex' : 'none';
-    if (sd) sd.style.display = visible ? 'flex' : 'none';
-    updateAllSceneIcons();
-  }
-  window.__clodisApplySectionSceneToolsVisibility = applySectionSceneToolsVisibility;
-
-  const sectionToolsBtn = createSceneIcon(
-    `<i class="fas fa-sliders-h"></i>`,
-    { right: '20px', top: '70px' },
-    {
-      className: 'scene-icon-top-right scene-icon-section-tools',
-      style: {
-        ...topRightBaseStyle,
-        opacity: 0.95,
-      },
-      cursor: 'pointer',
-    }
-  );
-  if (sectionToolsBtn) {
-    sectionToolsBtn.title =
-      'Отладка секций и панель «Свет»: показать / скрыть';
-    sectionToolsBtn.addEventListener('click', () => {
-      applySectionSceneToolsVisibility(!window.__clodisSectionSceneToolsVisible);
-      const on = window.__clodisSectionSceneToolsVisible;
-      sectionToolsBtn.style.background = on ? '#333' : 'white';
-      sectionToolsBtn.style.color = on ? '#fff' : '#333';
-    });
-  }
+  // Старые zone/section debug pills убраны (кнопка sliders больше не нужна).
+  window.__clodisSectionSceneToolsVisible = false;
+  window.__clodisApplySectionSceneToolsVisibility = () => {};
+  ['zone-debug-panel', 'section-debug-panel'].forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.remove();
+  });
 
   const doorToggleStyle = {
     width: '34px',
@@ -2807,22 +3753,41 @@ export function addSceneIcons() {
         let depthOverSectionTextTemplate = '';
         let sectionDepthCm = null;
         let isStandaloneFloorModule = false;
+        let isKitchenBaseModule = false;
+        /** userData для блока «Боковины» в карточке карандаша. */
+        let moduleEditSidePanelsUd = null;
+        let isKitchenTallModule = false;
+        let isKitchenWallMidModule = false;
+        let isKitchenWallTopModule = false;
         let showFloorClearanceField = false;
         let floorClearanceCmText = '30,0';
         let floorClearanceMinCm = 0;
         let floorClearanceMaxCm = 80;
+        let showSideWallClearanceField = false;
+        let sideWallClearanceMmText = '10';
+        let sideWallClearanceMinMm = 0;
+        let sideWallClearanceMaxMm = 200;
         let moduleEditProfile = null;
         let syncHeightInSection = true;
         let showModuleWidthField = true;
+        /** Карандаш верхнего Г/ВМУ — без UI нижней ячейки 1050. */
+        let isUpperCornerModuleEdit = false;
+        let isBaseCornerModuleEdit = false;
 
         // Ищем секцию и деление, чтобы показать реальные глубину и ширину модуля.
         let depthCmText = '60,0';
+        let depthFieldLabel = 'Глубина модуля';
+        let worktopDepthCmText = '60,0';
         let widthCmText = '97,1';
         let heightCmText = '40,0';
         let actualZoneWidthMm = null;
         let zoneDoorKind = 'double';
         let moduleZoneHand = 'left';
         let secRef = null;
+        let kitchenWallName = 'back';
+        let kitchenCarcassBounds = { ok: true, minCm: 15, maxCm: 55, defaultCm: 55 };
+        let worktopMinCm = 20;
+        let worktopMaxCm = 80;
         try {
           const sec = (state.customSections || []).find(
             (s) => String(s.id) === String(sectionId)
@@ -2840,9 +3805,20 @@ export function addSceneIcons() {
               sectionDepthCm = sectionDepthMm / 10;
             }
 
-            // 1) Пытаемся взять глубину ИЗ МОДУЛЯ в нужной зоне (customDepthMm или bbox).
+            // 1) Модуль с карандаша (пирог: base/mid/top в одной зоне) — не «первый в зоне».
             let targetFurniture = null;
-            if (state.furniture && state.furniture.group) {
+            if (furnitureGroup && furnitureGroup.isObject3D) {
+              const udFg = furnitureGroup.userData || {};
+              if (
+                furnitureGroup.parent &&
+                udFg.isFurniture &&
+                String(udFg.sectionId) === String(sectionId) &&
+                Number(udFg.zoneIndex) === Number(zoneIndex)
+              ) {
+                targetFurniture = furnitureGroup;
+              }
+            }
+            if (!targetFurniture && state.furniture && state.furniture.group) {
               const ud = state.furniture.group.userData || {};
               if (
                 String(ud.sectionId) === String(sectionId) &&
@@ -2885,7 +3861,9 @@ export function addSceneIcons() {
                   'standalone_floor';
               }
               const pkUd = String(targetFurniture.userData?.__placementKind || '').trim();
-              showFloorClearanceField = pkUd === 'wall_hung_low';
+              // kitchen_wall_* в†’ baseKind wall_hung_low, но отступ = ритм (~142 см), не шкаф 0–80.
+              showFloorClearanceField =
+                pkUd === 'wall_hung_low' && !__isKitchenWallHungFurniture(targetFurniture);
               if (showFloorClearanceField) {
                 let clrMm = null;
                 if (typeof window.__cldResolveWallHungFloorClearanceMm === 'function') {
@@ -2902,6 +3880,24 @@ export function addSceneIcons() {
                   if (!(Number.isFinite(clrMm) && clrMm >= 0)) clrMm = 300;
                 }
                 floorClearanceCmText = (clrMm / 10).toFixed(1).replace('.', ',');
+              }
+              isUpperCornerModuleEdit =
+                __isKitchenUpperCornerFurniture(targetFurniture);
+              isBaseCornerModuleEdit =
+                __isKitchenCornerBaseFurniture(targetFurniture);
+              // Отступ от стены — только НМУ. kitchenCorner=true у wall_corner ловил верх.
+              showSideWallClearanceField =
+                !isUpperCornerModuleEdit &&
+                (isBaseCornerModuleEdit ||
+                  moduleEditProfile?.editPopup?.showSideWallClearance === true);
+              if (showSideWallClearanceField) {
+                const rawClr = Math.round(
+                  Number(targetFurniture.userData?.__kitchenSideWallClearanceMm)
+                );
+                const clrMm =
+                  Number.isFinite(rawClr) && rawClr >= 0 ? rawClr : 10;
+                targetFurniture.userData.__kitchenSideWallClearanceMm = clrMm;
+                sideWallClearanceMmText = String(clrMm);
               }
               if (isStandaloneFloorModule) {
                 let hMm = Number(targetFurniture.userData?.customHeightMm) || 0;
@@ -2924,11 +3920,84 @@ export function addSceneIcons() {
               }
             }
             if (targetFurniture) {
-              depthMm = __resolveModuleDepthDisplayMm(
-                targetFurniture,
-                sectionDepthMm,
-                isSide
-              );
+              isKitchenTallModule = __isKitchenTallFurniture(targetFurniture);
+              isKitchenWallTopModule =
+                !isKitchenTallModule && __isKitchenWallTopFurniture(targetFurniture);
+              isKitchenWallMidModule =
+                !isKitchenTallModule &&
+                !isKitchenWallTopModule &&
+                __isKitchenWallMidFurniture(targetFurniture);
+              isKitchenBaseModule =
+                !isKitchenTallModule &&
+                !isKitchenWallMidModule &&
+                !isKitchenWallTopModule &&
+                __isKitchenBaseFurniture(targetFurniture);
+              if (
+                isKitchenBaseModule ||
+                isKitchenWallMidModule ||
+                isKitchenWallTopModule ||
+                isKitchenTallModule
+              ) {
+                moduleEditSidePanelsUd = targetFurniture.userData || null;
+              }
+              kitchenWallName = wallName;
+              if (isKitchenTallModule) {
+                // Пенал: каталог 560, к стене; не поля столешки/НМ.
+                let tallMm =
+                  Number(targetFurniture.userData?.__kitchenCarcassDepthMm) ||
+                  Number(targetFurniture.userData?.customDepthMm) ||
+                  0;
+                if (!(tallMm > 0)) {
+                  tallMm = __resolveModuleDepthDisplayMm(
+                    targetFurniture,
+                    sectionDepthMm,
+                    isSide
+                  );
+                }
+                if (!(tallMm > 0)) tallMm = 560;
+                depthMm = tallMm;
+                depthMinCm = 40;
+                depthMaxCm = 70;
+              } else if (isKitchenBaseModule) {
+                const wtMm = __kitchenWorktopDepthMmFromGroup(targetFurniture);
+                const carMm = __kitchenCarcassDepthMmFromGroup(targetFurniture);
+                worktopDepthCmText = (wtMm / 10).toFixed(1).replace('.', ',');
+                depthMm = carMm;
+                kitchenCarcassBounds = __kitchenCarcassDepthBoundsCm(wtMm);
+                depthMinCm = kitchenCarcassBounds.minCm;
+                depthMaxCm = kitchenCarcassBounds.maxCm;
+                try {
+                  const api = window.__cldKitchenManufacturing;
+                  const defs =
+                    api && typeof api.getWorktopDepthDefaults === 'function'
+                      ? api.getWorktopDepthDefaults()
+                      : null;
+                  if (defs && Number(defs.minWorktopDepthMm) > 0) {
+                    worktopMinCm = Number(defs.minWorktopDepthMm) / 10;
+                  }
+                } catch (_) {}
+              } else if (__isKitchenUpperCornerFurniture(targetFurniture)) {
+                // Г/ВМУ: customDepthMm часто = arm (600) ради rebuild — это не глубина корпуса.
+                // В карандаше показываем depthA (в комнату от стены), не 60→clamp 45.
+                const udD = targetFurniture.userData || {};
+                let dA =
+                  Math.round(Number(udD.__kitchenUpperGDepthAMm) || 0) ||
+                  Math.round(Number(sectionDepthMm) || 0);
+                const custom = Math.round(Number(udD.customDepthMm) || 0);
+                if (!(dA > 0) && custom > 0 && custom < 500) dA = custom;
+                if (!(dA > 0)) dA = 350;
+                depthMm = dA;
+                depthMinCm = 25;
+                depthMaxCm = 45;
+                depthFieldLabel = 'Глубина корпуса';
+                isUpperCornerModuleEdit = true;
+              } else {
+                depthMm = __resolveModuleDepthDisplayMm(
+                  targetFurniture,
+                  sectionDepthMm,
+                  isSide
+                );
+              }
             } else {
               depthMm = sectionDepthMm;
             }
@@ -2943,19 +4012,121 @@ export function addSceneIcons() {
             if (div && typeof div.partSize === 'number' && div.partSize > 0) {
               moduleWidthMm = div.partSize;
             }
+            // Активный пояс (Ячейки → Низ/Верх/Антресоли): ширина из kitchenBandGrids.
+            let activeBandEditId = 'base';
+            try {
+              activeBandEditId = resolveActiveKitchenBandEditId(
+                getKitchenBandGridsViewState()
+              );
+            } catch (_) {
+              activeBandEditId = 'base';
+            }
+            if (activeBandEditId === 'mid' || activeBandEditId === 'top') {
+              try {
+                const inner = computeSectionInnerBoundsU(sec);
+                const avail = Math.max(10, Number(inner?.innerWidthU) || 0);
+                const bandParts = Math.max(
+                  1,
+                  getKitchenBandPartsForEdit(sec, activeBandEditId) ||
+                    Math.floor(Number(div?.parts) || 0)
+                );
+                const custom = resolveKitchenBandCustomZoneWidthsMmForEdit(
+                  sec,
+                  activeBandEditId
+                );
+                const widths = resolveKitchenModuleWidthsMm({
+                  parts: bandParts,
+                  sectionWidth: avail,
+                  customZoneWidthsMm: custom,
+                  minModuleW: 300,
+                });
+                const ziNum = Number(zoneIndex);
+                if (
+                  Number.isFinite(ziNum) &&
+                  ziNum >= 0 &&
+                  ziNum < widths.length &&
+                  Number(widths[ziNum]) > 0
+                ) {
+                  actualZoneWidthMm = Number(widths[ziNum]);
+                  moduleWidthMm = actualZoneWidthMm;
+                }
+              } catch (eBand) {
+                console.warn('[ZONE-WIDTH] mid/top modal width', eBand);
+              }
+            }
             // Предпочитаем точную ширину зоны из layoutCache (учитывает кастомные ширины).
-            if (sec._layoutCache) {
+            if (actualZoneWidthMm == null && sec._layoutCache) {
               const lc = sec._layoutCache;
               if (lc.moduleWidthsMm && Number.isFinite(lc.moduleWidthsMm[zoneIndex])) {
                 actualZoneWidthMm = lc.moduleWidthsMm[zoneIndex];
                 moduleWidthMm = actualZoneWidthMm;
               }
               if (Array.isArray(lc.segments)) {
-                const seg = lc.segments.find((s) => s.type === 'module' && s.zoneIndex === zoneIndex);
+                const seg = lc.segments.find(
+                  (s) =>
+                    s &&
+                    Number(s.zoneIndex) === Number(zoneIndex) &&
+                    (s.type === 'module' ||
+                      s.type === 'special' ||
+                      s.isLSpecial === true)
+                );
                 if (seg) {
                   if (seg.doorKind) zoneDoorKind = seg.doorKind;
                   if (actualZoneWidthMm == null) actualZoneWidthMm = seg.endU - seg.startU;
                 }
+              }
+            }
+            // Верхний Г/ВМУ: W=arm (600), не нижняя спец 1050.
+            if (targetFurniture && __isKitchenUpperCornerFurniture(targetFurniture)) {
+              isUpperCornerModuleEdit = true;
+              const udW = targetFurniture.userData || {};
+              const armW =
+                Math.round(Number(udW.__kitchenUpperGArmMm) || 0) ||
+                Math.round(Number(udW.__kitchenCellWidthMm) || 0) ||
+                Math.round(Number(udW.customWidthMm) || 0) ||
+                Math.round(Number(udW.__initialSectionSizeMm?.x) || 0) ||
+                600;
+              if (armW > 50) {
+                actualZoneWidthMm = armW;
+                moduleWidthMm = armW;
+              }
+            } else if (activeBandEditId === 'base') {
+              // Спец L/П (угловая ячейка): ширина 1050 — не partSize сетки.
+              // П: два special — проверять indices (plural), иначе правый угол берёт equal ~49 см.
+              // MID/TOP grid-edit: не подменять шириной угла/модуля.
+              try {
+                const ziNum = Number(zoneIndex);
+                const specialZis =
+                  typeof window.__cldGetLShapeSpecialZoneIndices === 'function'
+                    ? window.__cldGetLShapeSpecialZoneIndices(sec)
+                    : typeof window.__cldGetLShapeSpecialZoneIndex === 'function'
+                      ? (() => {
+                          const one = window.__cldGetLShapeSpecialZoneIndex(sec);
+                          return one != null ? [one] : [];
+                        })()
+                      : [];
+                const isThisSpecial =
+                  Array.isArray(specialZis) &&
+                  specialZis.some((z) => Number(z) === ziNum);
+                if (
+                  isThisSpecial &&
+                  typeof window.__cldGetLShapeSpecialSnapBounds === 'function' &&
+                  div
+                ) {
+                  const sp = window.__cldGetLShapeSpecialSnapBounds(div, ziNum);
+                  if (sp?.moduleWidth > 0) {
+                    actualZoneWidthMm = Number(sp.moduleWidth);
+                    moduleWidthMm = actualZoneWidthMm;
+                    zoneDoorKind = 'double';
+                  }
+                }
+              } catch (_) {}
+              // Своя W модуля (после карандаша), не обязательно = ширина зоны.
+              if (targetFurniture) {
+                const ownW =
+                  Math.round(Number(targetFurniture.userData?.customWidthMm) || 0) ||
+                  Math.round(Number(targetFurniture.userData?.__initialSectionSizeMm?.x) || 0);
+                if (ownW > 50) moduleWidthMm = ownW;
               }
             }
             if (moduleWidthMm != null) {
@@ -3063,6 +4234,18 @@ export function addSceneIcons() {
           }
         }
 
+        // НМ: свободно min…(Dwtв€’40в€’10); спереди всегда −40, сзади ≥10.
+        if (isKitchenBaseModule && kitchenCarcassBounds) {
+          depthMinCm = kitchenCarcassBounds.minCm;
+          depthMaxCm = kitchenCarcassBounds.maxCm;
+          bodyText =
+            'Глубина корпуса НМ. Спереди всегда −40 мм от торца столешницы; сзади не меньше 10 мм (можно больше). Диапазон: ' +
+            String(depthMinCm).replace('.', ',') +
+            '…' +
+            String(depthMaxCm).replace('.', ',') +
+            ' см.';
+        }
+
         // Ширина модуля — мин/макс из секции «section_division» в шаге 4 конфигурации.
         const _sectionDivSd = (() => {
           if (config && Array.isArray(config.steps)) {
@@ -3097,35 +4280,127 @@ export function addSceneIcons() {
           actualZoneWidthMm != null
             ? actualZoneWidthMm / 10
             : parseFloat(widthCmText.replace(',', '.')) || widthMinCm;
-        const _hasCustomWidth =
-          secRef &&
-          secRef.division &&
-          secRef.division.customZoneWidthsMm &&
-          Number.isFinite(Number(secRef.division.customZoneWidthsMm[zoneIndex]));
+        let _activeBandForWidth = 'base';
+        try {
+          _activeBandForWidth = resolveActiveKitchenBandEditId(
+            getKitchenBandGridsViewState()
+          );
+        } catch (_) {
+          _activeBandForWidth = 'base';
+        }
+        const _editBandGridOnly =
+          _activeBandForWidth === 'mid' || _activeBandForWidth === 'top';
+        let _hasCustomWidth = false;
+        if (secRef && secRef.division) {
+          if (_editBandGridOnly) {
+            try {
+              const bw = resolveKitchenBandCustomZoneWidthsMmForEdit(
+                secRef,
+                _activeBandForWidth
+              );
+              _hasCustomWidth =
+                !!bw &&
+                Number.isFinite(Number(bw[zoneIndex] ?? bw[String(zoneIndex)]));
+            } catch (_) {
+              _hasCustomWidth = false;
+            }
+          } else {
+            _hasCustomWidth =
+              !!secRef.division.customZoneWidthsMm &&
+              Number.isFinite(
+                Number(secRef.division.customZoneWidthsMm[zoneIndex])
+              );
+          }
+        }
+
+        // Пустая зона: только ширина (customZoneWidthsMm) — до установки мебели.
+        // MID/TOP: сетка пояса — тот же карандаш / «Настройка зоны», без place верхних.
+        const zoneHasFurniture = !!(
+          (furnitureGroup && furnitureGroup.isObject3D && furnitureGroup.parent) ||
+          __findFurnitureGroupForZone(sectionId, zoneIndex)
+        );
+        if (!zoneHasFurniture || _editBandGridOnly) {
+          title = 'Настройка зоны';
+          isStandaloneFloorModule = false;
+          showFloorClearanceField = false;
+          showModuleWidthField = true;
+        }
+        // Пустая угловая спец — разворот ячейки без модуля.
+        const isEmptyCornerSpecialZone =
+          !zoneHasFurniture &&
+          !!secRef?.lShape &&
+          __isKitchenCornerSpecialZone(sectionId, zoneIndex);
+
+        if (isUpperCornerModuleEdit && zoneHasFurniture) {
+          title = 'Настройка углового навесного';
+        } else if (isBaseCornerModuleEdit && zoneHasFurniture) {
+          title = 'Настройка углового нижнего';
+        }
 
         const zoneIndexNum = Number(zoneIndex);
         const zoneIndexMatches = (udZi) =>
           Number.isFinite(zoneIndexNum) && Number(udZi) === zoneIndexNum;
 
-        // Найти корпус (модуль) в нужной секции/зоне.
+        // Модуль с этого карандаша (не любой из зоны — в пироге base/mid/top).
         function findFurnitureInZone(sec) {
           let targetFurniture = null;
-          const tryPick = (obj) => {
+          const preferUuid =
+            furnitureGroup && furnitureGroup.isObject3D
+              ? String(furnitureGroup.uuid || '')
+              : '';
+          const tryPick = (obj, { requireUuid = false } = {}) => {
             if (!obj || !obj.userData) return;
             const ud = obj.userData;
             if (!ud.isFurniture) return;
             if (String(ud.sectionId) !== String(sectionId)) return;
             if (!zoneIndexMatches(ud.zoneIndex)) return;
+            if (requireUuid && preferUuid && String(obj.uuid) !== preferUuid) return;
             targetFurniture = obj;
           };
-          if (state.furniture && state.furniture.group) {
-            tryPick(state.furniture.group);
+          // 1) Тот же Object3D с карандаша (после rebuild parent обычно жив).
+          if (furnitureGroup && furnitureGroup.isObject3D && furnitureGroup.parent) {
+            const udFg = furnitureGroup.userData || {};
+            if (
+              udFg.isFurniture &&
+              String(udFg.sectionId) === String(sectionId) &&
+              zoneIndexMatches(udFg.zoneIndex)
+            ) {
+              targetFurniture = furnitureGroup;
+            }
           }
-          if (!targetFurniture && state.scene) {
+          // 2) По uuid — если ссылка на icon устарела после rebuild.
+          if (!targetFurniture && preferUuid && state.scene) {
             state.scene.traverse((obj) => {
               if (targetFurniture) return;
-              tryPick(obj);
+              tryPick(obj, { requireUuid: true });
             });
+          }
+          if (!targetFurniture && state.furniture && state.furniture.group) {
+            tryPick(state.furniture.group);
+          }
+          // 3) Пирог: предпочесть НМ/НМУ (base), не mid/top в той же зоне.
+          if (!targetFurniture && state.scene) {
+            let floorHit = null;
+            let anyHit = null;
+            state.scene.traverse((obj) => {
+              if (!obj?.userData?.isFurniture) return;
+              const ud = obj.userData;
+              if (String(ud.sectionId) !== String(sectionId)) return;
+              if (!zoneIndexMatches(ud.zoneIndex)) return;
+              if (!anyHit) anyHit = obj;
+              const pk = String(
+                ud.__placementKindProfileId || ud.__placementKind || ''
+              ).trim();
+              if (
+                !floorHit &&
+                (pk === 'kitchen_base' ||
+                  pk === 'kitchen_base_gola' ||
+                  pk === 'kitchen_base_corner')
+              ) {
+                floorHit = obj;
+              }
+            });
+            targetFurniture = floorHit || anyHit;
           }
           if (targetFurniture) {
             state.selectedFurniture = { group: targetFurniture };
@@ -3143,6 +4418,78 @@ export function addSceneIcons() {
             if (!sec) return false;
             const targetFurniture = findFurnitureInZone(sec);
             if (!targetFurniture) return false;
+
+            // Пенал: 560 к стене (rear=0), не стек НМ.
+            if (__isKitchenTallFurniture(targetFurniture)) {
+              const fn =
+                typeof window.__cldKitchenBaseEngine?.rebuildTallForCellDepthMm === 'function'
+                  ? window.__cldKitchenBaseEngine.rebuildTallForCellDepthMm.bind(
+                      window.__cldKitchenBaseEngine
+                    )
+                  : typeof window.__cldKitchenBaseEngine?.rebuildForCellDepthMm === 'function'
+                    ? window.__cldKitchenBaseEngine.rebuildForCellDepthMm.bind(
+                        window.__cldKitchenBaseEngine
+                      )
+                    : null;
+              if (typeof fn !== 'function') {
+                console.warn('[KITCHEN-DEPTH] tall depth rebuild missing');
+                return false;
+              }
+              const r = fn(targetFurniture, sec, Math.round(newDepthCm * 10));
+              if (!r?.ok) {
+                console.warn('[KITCHEN-DEPTH] tall depth rebuild failed', {
+                  sectionId,
+                  zoneIndex,
+                  newDepthCm,
+                  r,
+                });
+                return false;
+              }
+              if (typeof window.recalcFurniturePricingAfterGeometryChange === 'function') {
+                window.recalcFurniturePricingAfterGeometryChange();
+              }
+              return true;
+            }
+
+            // НМ: parametric Z корпуса + посадка −40 от переда столешницы (не scale).
+            if (__isKitchenBaseFurniture(targetFurniture)) {
+              const fn =
+                typeof window.__clodisRebuildKitchenBaseForCellDepthMm === 'function'
+                  ? window.__clodisRebuildKitchenBaseForCellDepthMm
+                  : window.__cldKitchenBaseEngine?.rebuildForCellDepthMm;
+              if (typeof fn !== 'function') {
+                console.warn('[KITCHEN-DEPTH] rebuildForCellDepthMm missing');
+                return false;
+              }
+              // Глубина только этого НМ. НМУ соседа не трогаем (свой карандаш / place из project).
+              const r = fn(targetFurniture, sec, Math.round(newDepthCm * 10), {
+                followCorner: false,
+              });
+              if (!r?.ok) {
+                console.warn('[KITCHEN-DEPTH] NM depth rebuild failed', {
+                  sectionId,
+                  zoneIndex,
+                  newDepthCm,
+                  r,
+                });
+                return false;
+              }
+              console.warn('[KITCHEN-DEPTH] after NM depth', {
+                sectionId,
+                zoneIndex,
+                newDepthCm,
+                r,
+                scenePreset: window.__cldSceneViewPreset,
+                roomEditOpen: !!window.__cldRoomEditOpen,
+                roomEditView: window.__cldRoomEditView,
+                shapePlan: !!window.__cldKitchenShapePlan,
+                xray: !!window.__cldRoomFurnitureXray,
+              });
+              if (typeof window.recalcFurniturePricingAfterGeometryChange === 'function') {
+                window.recalcFurniturePricingAfterGeometryChange();
+              }
+              return true;
+            }
 
             const pk = String(targetFurniture.userData?.__placementKind || '').trim();
             if (pk === 'standalone_floor') {
@@ -3218,22 +4565,154 @@ export function addSceneIcons() {
           }
         }
 
-        // Хелпер: применяет кастомную ширину зоны через section-manager.
+        /** Столешница ряда на стене → все НМ под ней (план 10+корпус+40). */
+        function applyKitchenWorktopDepthCm(newWorktopCm) {
+          try {
+            if (!isFinite(newWorktopCm) || newWorktopCm <= 0) return false;
+            const wall =
+              kitchenWallName ||
+              secRef?.wallName ||
+              (secRef?.division && secRef.division.wallName) ||
+              'back';
+            const fn =
+              typeof window.__clodisApplyKitchenWorktopDepthOnWall === 'function'
+                ? window.__clodisApplyKitchenWorktopDepthOnWall
+                : window.__cldKitchenBaseEngine?.applyWorktopDepthOnWall;
+            if (typeof fn !== 'function') {
+              console.warn('[KITCHEN-DEPTH] applyWorktopDepthOnWall missing');
+              return false;
+            }
+            const r = fn(wall, Math.round(newWorktopCm * 10));
+            if (!r?.ok) {
+              console.warn('[KITCHEN-DEPTH] worktop apply failed', { wall, newWorktopCm, r });
+              return false;
+            }
+            if (!(r.updated > 0)) {
+              console.warn('[KITCHEN-DEPTH] worktop apply: 0 modules updated', {
+                wall,
+                newWorktopCm,
+                r,
+              });
+            }
+            console.warn('[KITCHEN-DEPTH] after worktop depth', {
+              wall,
+              newWorktopCm,
+              r,
+              scenePreset: window.__cldSceneViewPreset,
+              roomEditOpen: !!window.__cldRoomEditOpen,
+              roomEditView: window.__cldRoomEditView,
+              shapePlan: !!window.__cldKitchenShapePlan,
+              xray: !!window.__cldRoomFurnitureXray,
+            });
+            if (typeof window.recalcFurniturePricingAfterGeometryChange === 'function') {
+              window.recalcFurniturePricingAfterGeometryChange();
+            }
+            return true;
+          } catch (e) {
+            console.warn('⚠️ Ошибка применения глубины столешницы:', e);
+            return false;
+          }
+        }
+
+        // НМ/НМУ: ширина = вся ячейка/зона (customZoneWidthsMm + sync модуля).
+        // MID/TOP (Ячейки): только kitchenBandGrids — без place верхних.
+        // Прочие модули: только корпус. Пустая зона → customZoneWidthsMm.
         function applyModuleWidthCm(newWidthCm) {
           try {
             if (!isFinite(newWidthCm) || newWidthCm <= 0) return;
+            const mm = newWidthCm * 10;
+            const sec =
+              (state.customSections || []).find(
+                (s) => String(s.id) === String(sectionId)
+              ) || null;
+            let bandEditId = 'base';
+            try {
+              bandEditId = resolveActiveKitchenBandEditId(
+                getKitchenBandGridsViewState()
+              );
+            } catch (_) {
+              bandEditId = 'base';
+            }
+            if (bandEditId === 'mid' || bandEditId === 'top') {
+              if (typeof window.__clodisSetZoneCustomWidthMm !== 'function') {
+                console.warn('[ZONE-WIDTH] applyModuleWidthCm: __clodisSetZoneCustomWidthMm missing');
+                return;
+              }
+              console.log('[ZONE-WIDTH] applyModuleWidthCm (band grid)', {
+                sectionId,
+                zoneIndex,
+                bandId: bandEditId,
+                widthCm: newWidthCm,
+                widthMm: mm,
+              });
+              window.__clodisSetZoneCustomWidthMm(sectionId, zoneIndex, mm);
+              return;
+            }
+            const tf = sec ? findFurnitureInZone(sec) : null;
+            const kitchenCell =
+              !!tf &&
+              (isKitchenBaseModule ||
+                __isKitchenCornerModuleFurniture(tf) ||
+                __isKitchenBaseFurniture(tf));
+            if (kitchenCell) {
+              if (typeof window.__clodisSetZoneCustomWidthMm !== 'function') {
+                console.warn('[ZONE-WIDTH] applyModuleWidthCm: __clodisSetZoneCustomWidthMm missing');
+                return;
+              }
+              console.log('[ZONE-WIDTH] applyModuleWidthCm (kitchen cell)', {
+                sectionId,
+                zoneIndex,
+                widthCm: newWidthCm,
+                widthMm: mm,
+                uuid: tf.uuid,
+              });
+              window.__clodisSetZoneCustomWidthMm(sectionId, zoneIndex, mm);
+              if (typeof window.scheduleRebuildAllDimensionLines === 'function') {
+                window.scheduleRebuildAllDimensionLines();
+              } else if (typeof window.rebuildAllDimensionLines === 'function') {
+                window.rebuildAllDimensionLines();
+              }
+              return;
+            }
+            if (tf) {
+              console.log('[MODULE-WIDTH] applyModuleWidthCm', {
+                sectionId,
+                zoneIndex,
+                widthCm: newWidthCm,
+                widthMm: mm,
+                uuid: tf.uuid,
+                productKind: tf.userData?.productKind,
+              });
+              if (typeof window.__clodisApplyModuleCustomWidthCm === 'function') {
+                const ok = window.__clodisApplyModuleCustomWidthCm(tf, sec, newWidthCm);
+                if (!ok) {
+                  console.warn('[MODULE-WIDTH] rebuild failed', {
+                    sectionId,
+                    zoneIndex,
+                    newWidthCm,
+                  });
+                }
+              } else {
+                console.warn('[MODULE-WIDTH] __clodisApplyModuleCustomWidthCm missing');
+              }
+              return;
+            }
             if (typeof window.__clodisSetZoneCustomWidthMm !== 'function') {
               console.warn('[ZONE-WIDTH] applyModuleWidthCm: __clodisSetZoneCustomWidthMm missing');
               return;
             }
-            const mm = newWidthCm * 10;
-            console.log('[ZONE-WIDTH] applyModuleWidthCm', {
+            console.log('[ZONE-WIDTH] applyModuleWidthCm (empty zone)', {
               sectionId,
               zoneIndex,
               widthCm: newWidthCm,
               widthMm: mm,
             });
             window.__clodisSetZoneCustomWidthMm(sectionId, zoneIndex, mm);
+            try {
+              if (typeof window.__cldSyncKitchenBandGridsView === 'function') {
+                window.__cldSyncKitchenBandGridsView();
+              }
+            } catch (_) {}
           } catch (e) {
             console.warn('⚠️ Ошибка применения ширины модуля:', e);
           }
@@ -3266,7 +4745,7 @@ export function addSceneIcons() {
           }
         }
 
-        const showDoorHandField = zoneDoorKind === 'single';
+        const showDoorHandField = zoneHasFurniture && zoneDoorKind === 'single';
 
         // Строим «модальное окно модуля» поверх правой панели.
         const overlay = document.getElementById('step4-help-modal-overlay');
@@ -3292,6 +4771,13 @@ export function addSceneIcons() {
             ),
             depthMaxCm
           );
+          const initialWorktopCmForModal = Math.min(
+            Math.max(
+              parseFloat(String(worktopDepthCmText).replace(',', '.')) || 60,
+              worktopMinCm
+            ),
+            worktopMaxCm
+          );
           const initialHeightCmForModal = Math.min(
             Math.max(
               parseFloat(String(heightCmText).replace(',', '.')) || heightMinCm,
@@ -3306,6 +4792,15 @@ export function addSceneIcons() {
             ),
             floorClearanceMaxCm
           );
+          const initialSideWallClearanceMmForModal = Math.min(
+            Math.max(
+              Math.round(
+                parseFloat(String(sideWallClearanceMmText).replace(',', '.')) || 10
+              ),
+              sideWallClearanceMinMm
+            ),
+            sideWallClearanceMaxMm
+          );
           const heightCmValueNum =
             parseFloat(String(heightCmText).replace(',', '.')) || initialHeightCmForModal;
           contentEl.innerHTML = `
@@ -3317,9 +4812,80 @@ export function addSceneIcons() {
                 </button>
               </div>
               <div class="cld-module-edit__body">
+                ${
+                  zoneHasFurniture && isKitchenTallModule
+                    ? `
                 <div class="cld-module-edit__field">
                   <div class="cld-module-edit__label-row">
-                    <label class="cld-module-edit__label" for="step4-module-depth-input">Глубина модуля</label>
+                    <label class="cld-module-edit__label" for="step4-module-depth-input">Глубина пенала</label>
+                  </div>
+                  <div class="cld-module-edit__input-wrap">
+                    <span id="step4-module-depth-valid-indicator" class="cld-module-edit__validity" data-field-state="valid" aria-hidden="true"></span>
+                    <input
+                      id="step4-module-depth-input"
+                      class="cld-module-edit__input"
+                      type="number"
+                      step="0.1"
+                      min="${depthMinCm}"
+                      max="${depthMaxCm}"
+                      value="${initialDepthCmForModal}"
+                    />
+                    <span class="cld-module-edit__unit">см</span>
+                  </div>
+                  <div class="cld-module-edit__hint">К стене вплотную (зад = 0). Перед совпадает с корпусом НМ; столешка выпирает +4 см. Обычно 56 см.</div>
+                </div>
+                `
+                    : zoneHasFurniture && isKitchenBaseModule
+                    ? `
+                <div class="cld-module-edit__field">
+                  <div class="cld-module-edit__label-row">
+                    <label class="cld-module-edit__label" for="step4-kitchen-worktop-depth-input">Глубина столешницы</label>
+                  </div>
+                  <div class="cld-module-edit__input-wrap">
+                    <span id="step4-kitchen-worktop-depth-valid-indicator" class="cld-module-edit__validity" data-field-state="valid" aria-hidden="true"></span>
+                    <input
+                      id="step4-kitchen-worktop-depth-input"
+                      class="cld-module-edit__input"
+                      type="number"
+                      step="0.1"
+                      min="${worktopMinCm}"
+                      max="${worktopMaxCm}"
+                      value="${initialWorktopCmForModal}"
+                    />
+                    <span class="cld-module-edit__unit">см</span>
+                  </div>
+                  <div class="cld-module-edit__hint">На всю секцию/ряд. Спереди корпуса всегда −4 см; сзади ≥1 см. НМ по умолчанию = столешка −5 см.</div>
+                </div>
+                <div class="cld-module-edit__field">
+                  <div class="cld-module-edit__label-row">
+                    <label class="cld-module-edit__label" for="step4-module-depth-input">Глубина НМ</label>
+                    ${
+                      bodyText
+                        ? '<span id="step4-module-depth-help" title="Подсказка" style="position:relative;width:18px;height:18px;border-radius:50%;border:1px solid #D0D0D0;display:inline-flex;align-items:center;justify-content:center;font-size:12px;color:#777;cursor:help;margin-left:auto;">?</span>'
+                        : ''
+                    }
+                  </div>
+                  <div class="cld-module-edit__input-wrap">
+                    <span id="step4-module-depth-valid-indicator" class="cld-module-edit__validity" data-field-state="valid" aria-hidden="true"></span>
+                    <input
+                      id="step4-module-depth-input"
+                      class="cld-module-edit__input"
+                      type="number"
+                      step="0.1"
+                      min="${depthMinCm}"
+                      max="${depthMaxCm}"
+                      value="${initialDepthCmForModal}"
+                    />
+                    <span class="cld-module-edit__unit">см</span>
+                  </div>
+                  <div class="cld-module-edit__hint">Только этот модуль. От ${String(depthMinCm).replace('.', ',')} до ${String(depthMaxCm).replace('.', ',')} см (перед всегда −4 см).</div>
+                </div>
+                `
+                    : zoneHasFurniture
+                    ? `
+                <div class="cld-module-edit__field">
+                  <div class="cld-module-edit__label-row">
+                    <label class="cld-module-edit__label" for="step4-module-depth-input">${depthFieldLabel}</label>
                     ${
                       bodyText
                         ? '<span id="step4-module-depth-help" title="Подсказка" style="position:relative;width:18px;height:18px;border-radius:50%;border:1px solid #D0D0D0;display:inline-flex;align-items:center;justify-content:center;font-size:12px;color:#777;cursor:help;margin-left:auto;">?</span>'
@@ -3345,6 +4911,9 @@ export function addSceneIcons() {
                       : ''
                   }
                 </div>
+                `
+                    : ''
+                }
                 ${
                   isStandaloneFloorModule
                     ? `
@@ -3390,11 +4959,36 @@ export function addSceneIcons() {
                     : ''
                 }
                 ${
+                  showSideWallClearanceField
+                    ? `
+                <div class="cld-module-edit__field">
+                  <div class="cld-module-edit__label-row">
+                    <label class="cld-module-edit__label" for="step4-module-side-wall-clearance-input">Отступ от стены</label>
+                  </div>
+                  <div class="cld-module-edit__input-wrap">
+                    <span id="step4-module-side-wall-clearance-valid-indicator" class="cld-module-edit__validity" data-field-state="valid" aria-hidden="true"></span>
+                    <input
+                      id="step4-module-side-wall-clearance-input"
+                      class="cld-module-edit__input"
+                      type="number"
+                      step="1"
+                      min="${sideWallClearanceMinMm}"
+                      max="${sideWallClearanceMaxMm}"
+                      value="${initialSideWallClearanceMmForModal}"
+                    />
+                    <span class="cld-module-edit__unit">мм</span>
+                  </div>
+                  <div class="cld-module-edit__hint">Щель НМУ до боковой стены. По умолчанию 10 мм.</div>
+                </div>
+                `
+                    : ''
+                }
+                ${
                   showModuleWidthField
                     ? `
                 <div class="cld-module-edit__field">
                   <div class="cld-module-edit__label-row">
-                    <label class="cld-module-edit__label" for="step4-module-width-input">Ширина модуля</label>
+                    <label class="cld-module-edit__label" for="step4-module-width-input">${zoneHasFurniture ? 'Ширина модуля' : 'Ширина зоны'}</label>
                     <button type="button" id="step4-width-reset-btn" class="cld-module-edit__reset" title="Сбросить к авто (равномерное деление)" style="${_hasCustomWidth ? '' : 'opacity:0.45;'}">Сбросить</button>
                   </div>
                   <div class="cld-module-edit__input-wrap">
@@ -3415,6 +5009,27 @@ export function addSceneIcons() {
                     : ''
                 }
                 ${
+                  !zoneHasFurniture && showModuleWidthField && !secRef?.lShape
+                    ? `
+                <div class="cld-module-edit__field">
+                  <div class="cld-module-edit__hint">Ширина ячейки низа (BASE). Соседи подстроятся. Объединить/разделить — позже.</div>
+                </div>
+                `
+                    : ''
+                }
+                ${
+                  !zoneHasFurniture &&
+                  showModuleWidthField &&
+                  !!secRef?.lShape &&
+                  !isEmptyCornerSpecialZone
+                    ? `
+                <div class="cld-module-edit__field">
+                  <div class="cld-module-edit__hint">Угловая сетка L: обычная ячейка на плече.</div>
+                </div>
+                `
+                    : ''
+                }
+                ${
                   showDoorHandField
                     ? `
                 <div class="cld-module-edit__field">
@@ -3428,10 +5043,75 @@ export function addSceneIcons() {
                 `
                     : ''
                 }
+                ${
+                  isEmptyCornerSpecialZone || isBaseCornerModuleEdit
+                    ? `
+                <div class="cld-module-edit__field">
+                  <button type="button" id="step4-module-reorient-corner-btn" class="cld-module-edit__save" style="width:100%;">
+                    Развернуть нижнюю ячейку
+                  </button>
+                  <div class="cld-module-edit__hint">${
+                    isEmptyCornerSpecialZone
+                      ? 'Низ без модуля: тот же угол, длинная сторона на перпендикуляр (W≈1050).'
+                      : 'Низ: тот же угол → длинная на перпендикуляр.'
+                  }</div>
+                </div>
+                `
+                    : ''
+                }
+                ${
+                  isEmptyCornerSpecialZone || isUpperCornerModuleEdit
+                    ? `
+                <div class="cld-module-edit__field">
+                  <button type="button" id="step4-module-reorient-upper-corner-btn" class="cld-module-edit__save" style="width:100%;">
+                    Развернуть верхнюю ячейку (600)
+                  </button>
+                  <div class="cld-module-edit__hint">Верх пирога: W=600, без отступа низа. Низ не двигается.</div>
+                </div>
+                `
+                    : ''
+                }
+                ${
+                  zoneHasFurniture &&
+                  (isKitchenBaseModule ||
+                    isKitchenWallMidModule ||
+                    isKitchenWallTopModule ||
+                    isKitchenTallModule) &&
+                  moduleEditSidePanelsUd
+                    ? buildKitchenSidePanelsModuleEditHtml(
+                        readSidePanelsForModuleEdit(moduleEditSidePanelsUd),
+                        {
+                          replacementEnabled: (() => {
+                            try {
+                              const rootsRaw =
+                                typeof window.__cldReadUserDataClodisRoots === 'function'
+                                  ? window.__cldReadUserDataClodisRoots(moduleEditSidePanelsUd)
+                                  : moduleEditSidePanelsUd.clodisJSON || null;
+                              if (!rootsRaw) return false;
+                              const clone = JSON.parse(
+                                JSON.stringify(Array.isArray(rootsRaw) ? rootsRaw : [rootsRaw])
+                              );
+                              const fn = window.__cldKitchenSidePanelReplacementSupported;
+                              if (typeof fn !== 'function') return false;
+                              return !!fn(clone)?.ok;
+                            } catch (_) {
+                              return false;
+                            }
+                          })(),
+                        }
+                      )
+                    : ''
+                }
+                ${
+                  zoneHasFurniture
+                    ? `
                 <button type="button" id="step4-module-delete-btn" class="cld-module-edit__delete">
                   <i class="fas fa-trash-alt" aria-hidden="true"></i>
                   <span>Удалить модуль</span>
                 </button>
+                `
+                    : ''
+                }
               </div>
               <div class="cld-module-edit__footer">
                 <button type="button" id="step4-module-save-btn" class="cld-module-edit__save">Сохранить</button>
@@ -3443,10 +5123,12 @@ export function addSceneIcons() {
           overlay.classList.add('step4-help-modal-overlay--module-edit');
           window.__cldEditingModuleZone = { sectionId, zoneIndex };
           syncSectionZoneEditIconsActive();
-          try {
-            applyModuleEditFocusFog(sectionId, zoneIndex, furnitureGroup);
-          } catch (e) {
-            console.warn('[MODULE-FOCUS] apply failed', e);
+          if (zoneHasFurniture) {
+            try {
+              applyModuleEditFocusFog(sectionId, zoneIndex, furnitureGroup);
+            } catch (e) {
+              console.warn('[MODULE-FOCUS] apply failed', e);
+            }
           }
 
           function closeModal() {
@@ -3474,6 +5156,116 @@ export function addSceneIcons() {
           }
           const saveBtn = document.getElementById('step4-module-save-btn');
           const delBtn = document.getElementById('step4-module-delete-btn');
+          const reorientCornerBtn = document.getElementById(
+            'step4-module-reorient-corner-btn'
+          );
+          if (reorientCornerBtn) {
+            reorientCornerBtn.onclick = function (ev) {
+              ev.preventDefault();
+              ev.stopPropagation();
+              try {
+                const sec =
+                  (state.customSections || []).find(
+                    (s) => String(s.id) === String(sectionId)
+                  ) || null;
+                const tf = sec ? findFurnitureInZone(sec) : null;
+                // Низ: без модуля — ячейка; с НМУ — ячейка+модуль. ВМУ сюда не путать.
+                let r;
+                const isWallTf =
+                  tf &&
+                  (typeof window.__cldIsKitchenWallCornerGroup === 'function'
+                    ? window.__cldIsKitchenWallCornerGroup(tf)
+                    : String(tf.userData?.__placementKindProfileId || '') ===
+                      'kitchen_wall_corner');
+                if (!tf || isWallTf) {
+                  const fn =
+                    typeof reorientKitchenCornerCell === 'function'
+                      ? reorientKitchenCornerCell
+                      : typeof window.__cldReorientKitchenCornerCell === 'function'
+                        ? window.__cldReorientKitchenCornerCell
+                        : null;
+                  r = fn
+                    ? fn(sectionId, zoneIndex)
+                    : {
+                        ok: false,
+                        message: 'Разворот нижней ячейки не загружен — refresh ?v=vmu4.',
+                      };
+                } else {
+                  r =
+                    typeof reorientKitchenCornerModule === 'function'
+                      ? reorientKitchenCornerModule(tf)
+                      : { ok: false, message: 'Функция разворота не загружена.' };
+                }
+                if (!r?.ok) {
+                  const msg =
+                    r?.message || 'Не удалось развернуть угловую ячейку.';
+                  if (typeof window.showToast === 'function') {
+                    window.showToast(msg, 'warning');
+                  } else {
+                    console.warn('[CORNER-CELL]', msg);
+                  }
+                  return;
+                }
+                if (typeof window.showToast === 'function' && r.message) {
+                  window.showToast(r.message, 'success');
+                }
+                closeModal();
+                try {
+                  if (typeof window.__cldRebuildSectionZoneEditIconsForSection === 'function') {
+                    window.__cldRebuildSectionZoneEditIconsForSection(sectionId);
+                    if (sec?.lShape?.pairId != null) {
+                      window.__cldRebuildSectionZoneEditIconsForSection(sec.lShape.pairId);
+                    }
+                  }
+                } catch (_) {}
+              } catch (e) {
+                console.warn('[CORNER-CELL] click failed', e);
+              }
+            };
+          }
+          const reorientUpperBtn = document.getElementById(
+            'step4-module-reorient-upper-corner-btn'
+          );
+          if (reorientUpperBtn) {
+            reorientUpperBtn.onclick = function (ev) {
+              ev.preventDefault();
+              ev.stopPropagation();
+              try {
+                const fn =
+                  typeof reorientKitchenUpperCornerCell === 'function'
+                    ? reorientKitchenUpperCornerCell
+                    : typeof window.__cldReorientKitchenUpperCornerCell === 'function'
+                      ? window.__cldReorientKitchenUpperCornerCell
+                      : null;
+                const r = fn
+                  ? fn(sectionId, zoneIndex)
+                  : {
+                      ok: false,
+                      message: 'Разворот верхней ячейки не загружен — refresh ?v=vmu4.',
+                    };
+                if (!r?.ok) {
+                  const msg = r?.message || 'Не удалось развернуть верхнюю ячейку.';
+                  if (typeof window.showToast === 'function') {
+                    window.showToast(msg, 'warning');
+                  } else {
+                    console.warn('[CORNER-CELL-UPPER]', msg);
+                  }
+                  return;
+                }
+                if (typeof window.showToast === 'function' && r.message) {
+                  window.showToast(r.message, 'success');
+                }
+                closeModal();
+                try {
+                  if (typeof window.__cldRebuildSectionZoneEditIconsForSection === 'function') {
+                    window.__cldRebuildSectionZoneEditIconsForSection(sectionId);
+                  }
+                } catch (_) {}
+              } catch (e) {
+                console.warn('[CORNER-CELL-UPPER] click failed', e);
+              }
+            };
+          }
           const helpIcon = document.getElementById('step4-module-depth-help');
           if (helpIcon && bodyText && !helpIcon._zoneEditBound) {
             helpIcon._zoneEditBound = true;
@@ -3641,6 +5433,26 @@ export function addSceneIcons() {
             return { state: 'valid', showModal: false, reason: 'floorClearanceRange' };
           }
 
+          function assessSideWallClearanceInput(raw, val) {
+            const s = _normalizeNumRaw(raw);
+            if (_isIncompleteNumericRaw(s) || !Number.isFinite(val)) {
+              return { state: 'pending', showModal: false, reason: 'sideWallClearanceRange' };
+            }
+            if (val < sideWallClearanceMinMm) {
+              if (_canBecomeValidInRange(val, sideWallClearanceMinMm, sideWallClearanceMaxMm)) {
+                return { state: 'pending', showModal: false, reason: 'sideWallClearanceRange' };
+              }
+              return { state: 'invalid', showModal: true, reason: 'sideWallClearanceRange' };
+            }
+            if (val > sideWallClearanceMaxMm) {
+              if (_canBecomeValidInRange(val, sideWallClearanceMinMm, sideWallClearanceMaxMm)) {
+                return { state: 'pending', showModal: false, reason: 'sideWallClearanceRange' };
+              }
+              return { state: 'invalid', showModal: true, reason: 'sideWallClearanceRange' };
+            }
+            return { state: 'valid', showModal: false, reason: 'sideWallClearanceRange' };
+          }
+
           function assessWidthInput(raw, val) {
             const s = _normalizeNumRaw(raw);
             if (_isIncompleteNumericRaw(s) || !Number.isFinite(val)) {
@@ -3697,6 +5509,10 @@ export function addSceneIcons() {
               text =
                 `Введённый отступ от пола выходит за допустимые пределы. ` +
                 `Выберите значение от ${floorClearanceMinCm} до ${floorClearanceMaxCm} см.`;
+            } else if (reason === 'sideWallClearanceRange') {
+              text =
+                `Введённый отступ от стены выходит за допустимые пределы. ` +
+                `Выберите значение от ${sideWallClearanceMinMm} до ${sideWallClearanceMaxMm} мм.`;
             } else if (depthLimitTextTemplate && depthLimitTextTemplate.trim()) {
               text = depthLimitTextTemplate
                 .replace(/\{MIN\}/g, String(depthMinCm))
@@ -3786,8 +5602,10 @@ export function addSceneIcons() {
           const HEIGHT_UNCHANGED_EPS_CM = 0.12;
           const WIDTH_CHANGED_EPS_CM = 0.015;
           let appliedDepthCm = initialDepthCmForModal;
+          let appliedWorktopCm = initialWorktopCmForModal;
           let appliedHeightCm = initialHeightCmForModal;
           let appliedFloorClearanceCm = initialFloorClearanceCmForModal;
+          let appliedSideWallClearanceMm = initialSideWallClearanceMmForModal;
           let appliedWidthCm = widthCmValueNum;
           let appliedZoneHand = moduleZoneHand;
           /** null — ещё не спрашивали; true — ко всем; false — только этот модуль */
@@ -3858,9 +5676,33 @@ export function addSceneIcons() {
           }
 
           function tryApplyDepthVal(val, opts = {}) {
+            // Пустая зона / нет поля глубины — не блокируем Save (иначе ширина не пишется).
+            if (!document.getElementById('step4-module-depth-input')) return true;
             const raw = opts.raw != null ? opts.raw : String(val);
             const showModal = opts.showModal !== false;
-            const assess = assessDepthInput(raw, val);
+            // НМ / пенал: непрерывный диапазон; sectionDepth не ограничивает.
+            const assess =
+              isKitchenBaseModule || isKitchenTallModule
+              ? (() => {
+                  const s = _normalizeNumRaw(raw);
+                  if (_isIncompleteNumericRaw(s) || !Number.isFinite(val)) {
+                    return { state: 'pending', showModal: false, reason: 'range' };
+                  }
+                  if (val < depthMinCm) {
+                    if (_canBecomeValidInRange(val, depthMinCm, depthMaxCm)) {
+                      return { state: 'pending', showModal: false, reason: 'range' };
+                    }
+                    return { state: 'invalid', showModal: true, reason: 'range' };
+                  }
+                  if (val > depthMaxCm) {
+                    if (_canBecomeValidInRange(val, depthMinCm, depthMaxCm)) {
+                      return { state: 'pending', showModal: false, reason: 'range' };
+                    }
+                    return { state: 'invalid', showModal: true, reason: 'range' };
+                  }
+                  return { state: 'valid', showModal: false, reason: 'range' };
+                })()
+              : assessDepthInput(raw, val);
             if (assess.state === 'pending') return opts.allowPending === true;
             if (assess.state === 'invalid') {
               if (showModal) {
@@ -3887,7 +5729,65 @@ export function addSceneIcons() {
             if (!tf) return false;
             if (!applyModuleDepthCm(val)) return false;
             appliedDepthCm = val;
-            console.log('[MODULE-RESIZE][LIVE] depth', { val, sectionId, zoneIndex: zoneIndexNum });
+            console.log('[MODULE-RESIZE][LIVE] depth', {
+              val,
+              sectionId,
+              zoneIndex: zoneIndexNum,
+              kitchen: isKitchenBaseModule,
+            });
+            return true;
+          }
+
+          function tryApplyWorktopVal(val, opts = {}) {
+            if (!isKitchenBaseModule) return true;
+            const raw = opts.raw != null ? opts.raw : String(val);
+            const showModal = opts.showModal !== false;
+            const s = _normalizeNumRaw(raw);
+            if (_isIncompleteNumericRaw(s) || !Number.isFinite(val)) {
+              return opts.allowPending === true;
+            }
+            if (val < worktopMinCm || val > worktopMaxCm) {
+              if (showModal) {
+                showDepthLimitModal('range', {
+                  inputId: 'step4-kitchen-worktop-depth-input',
+                  indicatorId: 'step4-kitchen-worktop-depth-valid-indicator',
+                  fieldKind: 'depth',
+                  value: appliedWorktopCm,
+                });
+              }
+              return false;
+            }
+            if (
+              isFinite(appliedWorktopCm) &&
+              Math.abs(val - appliedWorktopCm) < DEPTH_UNCHANGED_EPS_CM
+            ) {
+              return true;
+            }
+            if (!applyKitchenWorktopDepthCm(val)) return false;
+            appliedWorktopCm = val;
+            // После смены столешки: диапазон НМ и дефолт = max (Dwtв€’40в€’10).
+            kitchenCarcassBounds = __kitchenCarcassDepthBoundsCm(Math.round(val * 10));
+            depthMinCm = kitchenCarcassBounds.minCm;
+            depthMaxCm = kitchenCarcassBounds.maxCm;
+            const defaultCm = kitchenCarcassBounds.ok
+              ? kitchenCarcassBounds.defaultCm
+              : appliedDepthCm;
+            const depthEl = document.getElementById('step4-module-depth-input');
+            if (depthEl) {
+              depthEl.min = String(depthMinCm);
+              depthEl.max = String(depthMaxCm);
+              if (Number.isFinite(defaultCm)) {
+                appliedDepthCm = defaultCm;
+                depthEl.value = String(defaultCm);
+              }
+            } else if (Number.isFinite(defaultCm)) {
+              appliedDepthCm = defaultCm;
+            }
+            console.log('[MODULE-RESIZE][LIVE] worktop', {
+              val,
+              sectionId,
+              wall: kitchenWallName,
+            });
             return true;
           }
 
@@ -3998,6 +5898,118 @@ export function addSceneIcons() {
                 applyHeightToAllInCatalog();
               }
               finishHeightApply();
+            });
+            return true;
+          }
+
+          function tryApplySideWallClearanceVal(mmRaw, opts = {}) {
+            if (!showSideWallClearanceField) return true;
+            const raw = opts.raw != null ? opts.raw : String(mmRaw);
+            const showModal = opts.showModal !== false;
+            const val = Number(mmRaw);
+            const assess = assessSideWallClearanceInput(raw, val);
+            if (assess.state === 'pending') return opts.allowPending === true;
+            if (assess.state === 'invalid') {
+              if (showModal) {
+                showDepthLimitModal(assess.reason, {
+                  inputId: 'step4-module-side-wall-clearance-input',
+                  indicatorId: 'step4-module-side-wall-clearance-valid-indicator',
+                  fieldKind: 'sideWallClearance',
+                  value: appliedSideWallClearanceMm,
+                });
+              }
+              return false;
+            }
+            const clear = Math.max(0, Math.round(val));
+            if (
+              Number.isFinite(appliedSideWallClearanceMm) &&
+              Math.abs(clear - appliedSideWallClearanceMm) < 0.5
+            ) {
+              return true;
+            }
+            const sec =
+              (state.customSections || []).find(
+                (s) => String(s.id) === String(sectionId)
+              ) || null;
+            const tf = sec ? findFurnitureInZone(sec) : null;
+            if (!tf) return false;
+            const ud = tf.userData || (tf.userData = {});
+            ud.__kitchenSideWallClearanceMm = clear;
+            // Карандаш отступа: приставка = worktopв€’40в€’clear; нога/фасад стоят.
+            // (Ширина ячейки сама приставку не трогает — stamp здесь.)
+            const wt =
+              Math.round(Number(ud.__kitchenWorktopDepthMm) || 0) || 600;
+            const retD = Math.max(150, Math.round(wt - 40 - clear));
+            ud.__kitchenCornerReturnMm = retD;
+            const layout = window.__cldKitchenSectionLayout;
+            const cellW =
+              Math.round(Number(ud.__kitchenCellWidthMm) || Number(ud.customWidthMm) || 0) ||
+              Math.round(Number(layout?.resolveKitchenCornerSpecialWidthMm?.()) || 1050);
+            ud.__kitchenCellWidthMm = cellW;
+            ud.customWidthMm = cellW;
+            // Корпус = ячейка−clear; фасад на месте, уезжает край у стены.
+            // Якорь facade — не путать с шириной ячейки (там wall).
+            const rebuildW =
+              typeof window.__clodisRebuildKitchenBaseForCellWidthMm === 'function'
+                ? window.__clodisRebuildKitchenBaseForCellWidthMm
+                : window.__cldKitchenBaseEngine?.rebuildForCellWidthMm;
+            let rebuilt = false;
+            try {
+              if (typeof rebuildW === 'function') {
+                const r = rebuildW(tf, sec, cellW, { anchor: 'facade' });
+                rebuilt = !!(r && r.ok !== false);
+              }
+            } catch (e) {
+              console.warn('[MODULE-RESIZE][LIVE] sideWallClearance rebuild failed', e);
+            }
+            if (!rebuilt) {
+              try {
+                if (layout && typeof layout.buildKitchenCornerReturnVars === 'function') {
+                  const atMin = ud.__kitchenCornerSideAtMinU === true;
+                  // Как 1.42: приставка = worktopв€’40в€’clear (нога не жмётся).
+                  const wt =
+                    Math.round(Number(ud.__kitchenWorktopDepthMm) || 0) || 600;
+                  const retD = Math.max(150, Math.round(wt - 40 - clear));
+                  const cornerVars = layout.buildKitchenCornerReturnVars(
+                    cellW,
+                    atMin,
+                    retD,
+                    clear,
+                    clear
+                  );
+                  const readVars = window.__cldReadUserDataClodisVariables;
+                  const prevRaw =
+                    typeof readVars === 'function' ? readVars(ud) : ud.__clodisVariables;
+                  const prev =
+                    prevRaw && typeof prevRaw === 'object' ? { ...prevRaw } : {};
+                  ud.__clodisVariables = { ...prev, ...cornerVars };
+                }
+              } catch (_) {}
+            }
+            try {
+              const wall = String(sec?.wallName || ud.wallName || kitchenWallName || '').trim();
+              const ov = window.__cldKitchenRunOverlays;
+              if (wall && ov && typeof ov.syncKitchenRunOverlaysOnWall === 'function') {
+                ov.syncKitchenRunOverlaysOnWall(wall);
+              }
+            } catch (_) {}
+            appliedSideWallClearanceMm = clear;
+            try {
+              if (typeof window.scheduleRebuildAllDimensionLines === 'function') {
+                window.scheduleRebuildAllDimensionLines();
+              } else if (typeof window.rebuildAllDimensionLines === 'function') {
+                window.rebuildAllDimensionLines();
+              }
+            } catch (_) {}
+            console.log('[MODULE-RESIZE][LIVE] sideWallClearance', {
+              clearMm: clear,
+              cellW,
+              rebuilt,
+              retX: ud.__kitchenCornerReturnMm,
+              carcassZ: ud.__kitchenCarcassDepthMm,
+              rear: ud.__kitchenRearOverhangMm,
+              sectionId,
+              zoneIndex: zoneIndexNum,
             });
             return true;
           }
@@ -4214,7 +6226,9 @@ export function addSceneIcons() {
             return ok;
           }
 
-          document.querySelectorAll('.step4-module-hand-btn').forEach((btn) => {
+          document
+            .querySelectorAll('#step4-module-hand-row .step4-module-hand-btn')
+            .forEach((btn) => {
             if (btn._zoneHandBound) return;
             btn._zoneHandBound = true;
             btn.addEventListener('click', () => {
@@ -4222,6 +6236,28 @@ export function addSceneIcons() {
               tryApplyZoneHand(hand);
             });
           });
+
+          if (
+            zoneHasFurniture &&
+            (isKitchenBaseModule ||
+              isKitchenWallMidModule ||
+              isKitchenWallTopModule ||
+              isKitchenTallModule)
+          ) {
+            try {
+              bindKitchenSidePanelsModuleEdit({
+                getGroup: () => {
+                  const sec =
+                    (state.customSections || []).find(
+                      (s) => String(s.id) === String(sectionId)
+                    ) || null;
+                  return sec ? findFurnitureInZone(sec) : null;
+                },
+              });
+            } catch (eSpUi) {
+              console.warn('[SIDE-PANELS] module card bind failed', eSpUi);
+            }
+          }
 
           if (widthInput) {
             _bindNumericFieldInput(
@@ -4238,7 +6274,24 @@ export function addSceneIcons() {
           if (widthResetBtnEl && !widthResetBtnEl._zoneEditBound) {
             widthResetBtnEl._zoneEditBound = true;
             widthResetBtnEl.addEventListener('click', () => {
-              if (typeof window.__clodisSetZoneCustomWidthMm === 'function') {
+              const sec =
+                (state.customSections || []).find(
+                  (s) => String(s.id) === String(sectionId)
+                ) || null;
+              const tf = sec ? findFurnitureInZone(sec) : null;
+              if (tf && sec) {
+                // К зоне: снять свою W, rebuild под layout зоны.
+                let zoneMm =
+                  actualZoneWidthMm != null
+                    ? Math.round(Number(actualZoneWidthMm))
+                    : Math.round(Number(sec._layoutCache?.moduleWidthsMm?.[zoneIndex]) || 0);
+                if (!(zoneMm > 50)) {
+                  zoneMm = Math.round(Number(sec.division?.partSize) || 0);
+                }
+                if (zoneMm > 50 && typeof window.__clodisApplyModuleCustomWidthCm === 'function') {
+                  window.__clodisApplyModuleCustomWidthCm(tf, sec, zoneMm / 10);
+                }
+              } else if (typeof window.__clodisSetZoneCustomWidthMm === 'function') {
                 window.__clodisSetZoneCustomWidthMm(sectionId, zoneIndex, 0);
               }
               closeModal();
@@ -4269,10 +6322,44 @@ export function addSceneIcons() {
             );
           }
 
+          const sideWallClrInput = document.getElementById(
+            'step4-module-side-wall-clearance-input'
+          );
+          if (sideWallClrInput) {
+            _bindNumericFieldInput(
+              sideWallClrInput,
+              assessSideWallClearanceInput,
+              tryApplySideWallClearanceVal,
+              'step4-module-side-wall-clearance-valid-indicator',
+              'sideWallClearance',
+              () => appliedSideWallClearanceMm
+            );
+          }
+
           if (depthInput) {
             _bindNumericFieldInput(
               depthInput,
-              assessDepthInput,
+              isKitchenBaseModule
+                ? (raw, val) => {
+                    const s = _normalizeNumRaw(raw);
+                    if (_isIncompleteNumericRaw(s) || !Number.isFinite(val)) {
+                      return { state: 'pending', showModal: false, reason: 'range' };
+                    }
+                    if (val < depthMinCm) {
+                      if (_canBecomeValidInRange(val, depthMinCm, depthMaxCm)) {
+                        return { state: 'pending', showModal: false, reason: 'range' };
+                      }
+                      return { state: 'invalid', showModal: true, reason: 'range' };
+                    }
+                    if (val > depthMaxCm) {
+                      if (_canBecomeValidInRange(val, depthMinCm, depthMaxCm)) {
+                        return { state: 'pending', showModal: false, reason: 'range' };
+                      }
+                      return { state: 'invalid', showModal: true, reason: 'range' };
+                    }
+                    return { state: 'valid', showModal: false, reason: 'range' };
+                  }
+                : assessDepthInput,
               tryApplyDepthVal,
               'step4-module-depth-valid-indicator',
               'depth',
@@ -4280,43 +6367,75 @@ export function addSceneIcons() {
             );
           }
 
+          const worktopInput = document.getElementById('step4-kitchen-worktop-depth-input');
+          if (worktopInput && isKitchenBaseModule) {
+            _bindNumericFieldInput(
+              worktopInput,
+              (raw, val) => {
+                const s = _normalizeNumRaw(raw);
+                if (_isIncompleteNumericRaw(s) || !Number.isFinite(val)) {
+                  return { state: 'pending', showModal: false, reason: 'range' };
+                }
+                if (val < worktopMinCm || val > worktopMaxCm) {
+                  if (_canBecomeValidInRange(val, worktopMinCm, worktopMaxCm)) {
+                    return { state: 'pending', showModal: false, reason: 'range' };
+                  }
+                  return { state: 'invalid', showModal: true, reason: 'range' };
+                }
+                return { state: 'valid', showModal: false, reason: 'range' };
+              },
+              tryApplyWorktopVal,
+              'step4-kitchen-worktop-depth-valid-indicator',
+              'depth',
+              () => appliedWorktopCm
+            );
+          }
+
           function commitModuleZoneEditSave() {
             const depthInputEl = document.getElementById('step4-module-depth-input');
+            const worktopInputEl = document.getElementById(
+              'step4-kitchen-worktop-depth-input'
+            );
             const heightInputEl = document.getElementById('step4-module-height-input');
             const floorClrInputEl = document.getElementById(
               'step4-module-floor-clearance-input'
             );
+            const sideWallClrInputEl = document.getElementById(
+              'step4-module-side-wall-clearance-input'
+            );
             const widthInputEl = document.getElementById('step4-module-width-input');
-            const dRaw = depthInputEl ? depthInputEl.value : '';
+            const wtRaw = worktopInputEl ? worktopInputEl.value : '';
             const hRaw = heightInputEl ? heightInputEl.value : '';
             const cRaw = floorClrInputEl ? floorClrInputEl.value : '';
+            const swRaw = sideWallClrInputEl ? sideWallClrInputEl.value : '';
             const wRaw = widthInputEl ? widthInputEl.value : '';
-            const dVal = parseFloat(_normalizeNumRaw(dRaw));
+            const wtVal = parseFloat(_normalizeNumRaw(wtRaw));
             const hVal = parseFloat(_normalizeNumRaw(hRaw));
             const cVal = parseFloat(_normalizeNumRaw(cRaw));
+            const swVal = parseFloat(_normalizeNumRaw(swRaw));
             const wVal = parseFloat(_normalizeNumRaw(wRaw));
-            const dAssess = assessDepthInput(dRaw, dVal);
-            const hAssess = assessHeightInput(hRaw, hVal);
-            const cAssess = assessFloorClearanceInput(cRaw, cVal);
-            const wAssess = assessWidthInput(wRaw, wVal);
-            setFieldValidityIndicator('step4-module-depth-valid-indicator', dAssess.state, 'depth');
+            // Сначала столешница: список НМ и дефолт (max ≤ Dwt−40−10) обновляются в select.
+            if (isKitchenBaseModule && worktopInputEl) {
+              if (!tryApplyWorktopVal(wtVal, { raw: wtRaw })) return;
+            }
+            // Нет поля глубины (пустая зона) — не валим Save на «pending» глубине.
+            if (depthInputEl) {
+              const dRaw = depthInputEl.value;
+              const dVal = parseFloat(_normalizeNumRaw(dRaw));
+              if (!tryApplyDepthVal(dVal, { raw: dRaw })) return;
+            }
             if (heightInputEl) {
-              setFieldValidityIndicator('step4-module-height-valid-indicator', hAssess.state, 'height');
+              if (!tryApplyHeightVal(hVal, { raw: hRaw })) return;
             }
             if (floorClrInputEl) {
-              setFieldValidityIndicator(
-                'step4-module-floor-clearance-valid-indicator',
-                cAssess.state,
-                'floorClearance'
-              );
+              if (!tryApplyFloorClearanceVal(cVal, { raw: cRaw })) return;
             }
-            if (widthInputEl) {
-              setFieldValidityIndicator('step4-module-width-valid-indicator', wAssess.state, 'width');
+            if (sideWallClrInputEl) {
+              if (!tryApplySideWallClearanceVal(swVal, { raw: swRaw })) return;
             }
-            if (!tryApplyDepthVal(dVal, { raw: dRaw })) return;
-            if (!tryApplyHeightVal(hVal, { raw: hRaw })) return;
-            if (!tryApplyFloorClearanceVal(cVal, { raw: cRaw })) return;
-            if (!tryApplyWidthVal(wVal, { raw: wRaw })) return;
+            if (showModuleWidthField || widthInputEl) {
+              if (!tryApplyWidthVal(wVal, { raw: wRaw })) return;
+            }
             if (!tryApplyZoneHand(appliedZoneHand)) return;
             const secAfter =
               (state.customSections || []).find(
@@ -4326,11 +6445,31 @@ export function addSceneIcons() {
             if (
               tfAfter &&
               !isStandaloneFloorModule &&
+              !isKitchenBaseModule &&
               Number(tfAfter.userData?.customDepthMm || 0) > 0
             ) {
               alignSectionStandaloneFurnitureFront(tfAfter, secAfter);
             }
-            console.log('[MODULE-RESIZE][SAVE] close modal');
+            // НМ / пенал: после save enforce на стене (пенал → rear=0).
+            if (isKitchenBaseModule || isKitchenTallModule) {
+              try {
+                const wall =
+                  kitchenWallName ||
+                  secAfter?.wallName ||
+                  'back';
+                const depthApi = window.__cldKitchenDepthStack;
+                if (
+                  depthApi &&
+                  typeof depthApi.enforceKitchenDepthStackOnAllModules === 'function'
+                ) {
+                  depthApi.enforceKitchenDepthStackOnAllModules(wall);
+                }
+              } catch (_) {}
+            }
+            console.log('[MODULE-RESIZE][SAVE] close modal', {
+              kitchen: isKitchenBaseModule,
+              tall: isKitchenTallModule,
+            });
             closeModal();
           }
 
@@ -4457,6 +6596,8 @@ if (typeof window !== 'undefined') {
   window.syncSectionZoneEditIconsActive = syncSectionZoneEditIconsActive;
   window.removeSectionZoneEditIcon = removeSectionZoneEditIcon;
   window.rebuildSectionZoneEditIconsForSection = rebuildSectionZoneEditIconsForSection;
+  window.__cldRebuildSectionZoneEditIconsForSection = rebuildSectionZoneEditIconsForSection;
+  window.__cldRebuildAllSectionZoneEditIcons = rebuildAllSectionZoneEditIcons;
   window.applyModuleEditFocusFog = applyModuleEditFocusFog;
   window.clearModuleEditFocusFog = clearModuleEditFocusFog;
   window.isAllDimensionLabelsVisible = isAllDimensionLabelsVisible;

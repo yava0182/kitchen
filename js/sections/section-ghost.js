@@ -18,7 +18,7 @@ import {
   resolveSectionCornerJoint,
   roomCornerLocal,
   sectionDepthWmm,
-} from './corner-joint.js?v=20260923-cohabit42';
+} from './corner-joint.js?v=20261028-ugrid1';
 import { getWallAxes } from '../utils/wall-coords.js';
 import {
   showSectionSpanChooser,
@@ -33,11 +33,29 @@ import {
   spanDoorSide,
   highlightRoomLayoutCard,
   applyCornerLayoutForDoorSide,
-} from './l-corner.js?v=20260917-u-a4';
-import { addCabinetMarkers, removeCabinetMarkers } from '../ui/cabinet-markers.js?v=20260925-corner44y';
+} from './l-corner.js?v=20261018-l-gap0';
+import { addCabinetMarkers, removeCabinetMarkers } from '../ui/cabinet-markers.js?v=20261031-cell600';
 
 const GHOST_NICHE_MM = 600;
-const GHOST_CORNER_GAP_MM = 50;
+/** Призрак угла: шкаф 50 мм; кухня 0 (через resolveCornerGapMm). */
+function resolveGhostCornerGapMm() {
+  try {
+    if (
+      typeof window !== 'undefined' &&
+      typeof window.__cldResolveCornerGapMm === 'function'
+    ) {
+      return window.__cldResolveCornerGapMm();
+    }
+    if (
+      typeof window !== 'undefined' &&
+      typeof window.__cldIsWardrobeCornerGapLogicActive === 'function' &&
+      !window.__cldIsWardrobeCornerGapLogicActive()
+    ) {
+      return 0;
+    }
+  } catch (_) {}
+  return 0;
+}
 
 /** TEMP: Г-призрак углового на стыке / спец-зоне. */
 function signTowardRoomCenter(uDir, corner, room) {
@@ -118,6 +136,10 @@ export function showTempLCornerGhostForSection(_section) {
  * Creates a full-wall section and enables placement mode
  */
 export function startPlacingSection() {
+  if (state.kitchenSectionsEnabled === false) {
+    console.warn('[SECTIONS] startPlacingSection blocked (sections off)');
+    return;
+  }
   if (!state.room) {
     console.error('❌ Комната не создана');
     return;
@@ -412,9 +434,12 @@ function attachedGhostPose(room, primaryWall, cornerSide, heightMm, nicheMm) {
   const h = Number(heightMm) > 0 ? Number(heightMm) : room.height;
   const attachedIsLR = joint.attached === 'left' || joint.attached === 'right';
   const wallLen = wallAlongMm(room, joint.attached);
-  const along = Math.max(1, wallLen - niche);
+  // Кухня: без врезки на D (плечо до угла). Шкаф: along = wall − niche.
+  const kitchenL = resolveGhostCornerGapMm() === 0;
+  const trimMm = kitchenL ? 0 : niche;
+  const along = Math.max(1, wallLen - trimMm);
   const offsetsCm = { left: 0, right: 0, front: 0, back: 0, bottom: 0, top: 0 };
-  offsetsCm[joint.attachedTrimSide] = niche / 10;
+  offsetsCm[joint.attachedTrimSide] = trimMm / 10;
   const piv = sectionPivotFromSpanOffsets(
     {
       wallName: joint.attached,
@@ -446,7 +471,7 @@ function ghostUnitsForLayout(room, wallName, layoutKey, primaryPose) {
   }
 
   const nicheMm = primaryNicheMm(wallName, primaryPose);
-  const gap = GHOST_CORNER_GAP_MM;
+  const gap = resolveGhostCornerGapMm();
 
   if (isUShapeLayoutKey(layoutKey)) {
     const jL = resolveCornerJoint(wallName, 'left');
@@ -965,4 +990,9 @@ export function updateSectionGhostPosition(event) {
   }
 
   applySelectedSpanToGhost();
+  try {
+    if (typeof window.__cldSyncWallPickHint === 'function') {
+      window.__cldSyncWallPickHint();
+    }
+  } catch (_) {}
 }

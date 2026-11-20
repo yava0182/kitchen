@@ -1,0 +1,23 @@
+﻿Comparing files D:\����� ������������\����� CLODIS-KITCHEN\1.102������� ����\CLODIS-KITCHEN\JS\KITCHEN\kitchen-corner-cell.js and D:\CLODIS-KITCHEN\JS\KITCHEN\KITCHEN-CORNER-CELL.JS
+***** D:\����� ������������\����� CLODIS-KITCHEN\1.102������� ����\CLODIS-KITCHEN\JS\KITCHEN\kitchen-corner-cell.js
+   13:    stretchKitchenUArmsToRoomCorner,
+   14:  } from '../sections/section-manager.js?v=20261106-louter1';
+   15:  import {
+***** D:\CLODIS-KITCHEN\JS\KITCHEN\KITCHEN-CORNER-CELL.JS
+   13:    stretchKitchenUArmsToRoomCorner,
+   14:  } from '../sections/section-manager.js?v=20261116-lFree1';
+   15:  import {
+*****
+
+***** D:\����� ������������\����� CLODIS-KITCHEN\1.102������� ����\CLODIS-KITCHEN\JS\KITCHEN\kitchen-corner-cell.js
+   30:    resolveKitchenUpperCornerDepthMm,
+   31:  } from './kitchen-joint.js?v=20261115-upperGTop12';
+   32:  import { applyKitchenLFreeArm600SacrificeWidths } from './kitchen-section-layout.js?v=20261115-upperGLeft27';
+   33:  import { syncUpperGCellMeshes } from './kitchen-upper-g-cell.js?v=20261115-upperGTop15';
+***** D:\CLODIS-KITCHEN\JS\KITCHEN\KITCHEN-CORNER-CELL.JS
+   30:    resolveKitchenUpperCornerDepthMm,
+   31:  } from './kitchen-joint.js?v=20261116-lCorner1050';
+   32:  import { applyKitchenLFreeArm600SacrificeWidths } from './kitchen-section-layout.js?v=20261116-lCorner1050';
+   33:  import { syncUpperGCellMeshes } from './kitchen-upper-g-cell.js?v=20261115-upperGTop15';
+*****
+

@@ -1,0 +1,11 @@
+﻿Comparing files D:\����� ������������\����� CLODIS-KITCHEN\1.102������� ����\CLODIS-KITCHEN\JS\KITCHEN\kitchen-upper-g-cell.js and D:\CLODIS-KITCHEN\JS\KITCHEN\KITCHEN-UPPER-G-CELL.JS
+***** D:\����� ������������\����� CLODIS-KITCHEN\1.102������� ����\CLODIS-KITCHEN\JS\KITCHEN\kitchen-upper-g-cell.js
+   17:    resolveKitchenUpperCornerDepthMm,
+   18:  } from './kitchen-joint.js?v=20261115-upperGTop13';
+   19:  
+***** D:\CLODIS-KITCHEN\JS\KITCHEN\KITCHEN-UPPER-G-CELL.JS
+   17:    resolveKitchenUpperCornerDepthMm,
+   18:  } from './kitchen-joint.js?v=20261116-lCorner1050';
+   19:  
+*****
+

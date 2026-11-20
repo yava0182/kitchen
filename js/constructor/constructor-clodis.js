@@ -1,16 +1,17 @@
-import * as THREE from '/node_modules/three/build/three.module.js';
-import { OrbitControls } from '/node_modules/three/examples/jsm/controls/OrbitControls.js';
-import { TransformControls } from '/node_modules/three/examples/jsm/controls/TransformControls.js';
-import { RoomEnvironment } from '/node_modules/three/examples/jsm/environments/RoomEnvironment.js';
-import { RGBELoader } from '/node_modules/three/examples/jsm/loaders/RGBELoader.js';
-import { RectAreaLightUniformsLib } from '/node_modules/three/examples/jsm/lights/RectAreaLightUniformsLib.js';
-import { RenderPass } from '/node_modules/three/examples/jsm/postprocessing/RenderPass.js';
-import { SSAOPass } from '/node_modules/three/examples/jsm/postprocessing/SSAOPass.js';
-import { OutputPass } from '/node_modules/three/examples/jsm/postprocessing/OutputPass.js';
-import { CSS2DObject, CSS2DRenderer } from '/node_modules/three/examples/jsm/renderers/CSS2DRenderer.js';
-import { RoundedBoxGeometry } from '/node_modules/three/examples/jsm/geometries/RoundedBoxGeometry.js';
-import { GLTFLoader } from '/node_modules/three/examples/jsm/loaders/GLTFLoader.js';
-import { FBXLoader } from '/node_modules/three/examples/jsm/loaders/FBXLoader.js';
+// Важно: только bare 'three' — иначе Vite тянет chunk + three.module.js = «Multiple instances».
+import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js';
+import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
+import { RectAreaLightUniformsLib } from 'three/examples/jsm/lights/RectAreaLightUniformsLib.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { SSAOPass } from 'three/examples/jsm/postprocessing/SSAOPass.js';
+import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
+import { CSS2DObject, CSS2DRenderer } from 'three/examples/jsm/renderers/CSS2DRenderer.js';
+import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
 
 if (typeof globalThis !== 'undefined') {
   if (!globalThis.THREE) globalThis.THREE = THREE;
@@ -19,6 +20,7 @@ if (typeof globalThis !== 'undefined') {
 }
 
 import { attachHingeHoleOutlines } from '/js/utils/hinge-hole-outlines.js';
+import '/js/room/room-parity-probe.js?v=20261010-parity1';
 import { isFlatCatalogShelfSpec } from '/js/furniture/furniture-flat-shelf-detect.js?v=20260703-drawer-fix';
 import {
   getJointTemplatePlacementsUnified,
@@ -46,6 +48,21 @@ import {
   cldPathApplyExtrudeOrientation,
   cldPathResolveSectionSizeMm,
 } from '/js/constructor/cld-path-groove.js?v=20260726-path-v3';
+import {
+  cldWallBuildContourPoints,
+  cldWallExtrudeGeometry,
+  cldWallDefaultTypeParams,
+  CLD_WALL_SHAPE_OPTIONS,
+} from '/js/constructor/cld-wall-shape.js?v=20261012-gola-r2';
+
+if (typeof window !== 'undefined') {
+  window.__cldWallShapeMod = {
+    cldWallBuildContourPoints,
+    cldWallExtrudeGeometry,
+    cldWallDefaultTypeParams,
+    CLD_WALL_SHAPE_OPTIONS,
+  };
+}
 import {
   getJointStripeFrameWorld,
   panelFaceType,
@@ -75,7 +92,7 @@ import {
   buildToretsPlastGroups,
   contactConditionKey,
 } from '/js/joint-toret-plast-detect.js?v=20260725-toret-plast-v24';
-import * as __cldBufGeomUtils from '/node_modules/three/examples/jsm/utils/BufferGeometryUtils.js';
+import * as __cldBufGeomUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import {
   catalogScreenshotExportSize,
   cropDataUrlToCatalogIconAspect,
@@ -390,6 +407,13 @@ const FIT_PADDING_MODELS3D_GL = 2.25;
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xffffff); // как в референсе setClearColor(0xffffff, 1)
+// Для замера паритета админка↔комната (__cldJointDump): сцена и её юниты.
+if (typeof window !== 'undefined') {
+  window.__cldAdminScene = scene;
+  window.__CLD_SCENE_UNITS_MM = UNITS_MM;
+  // rootGroup переcоздаётся при каждой пересборке — отдаём геттером, не ссылкой.
+  window.__cldGetAdminRoot = () => rootGroup || _m3PreviewRoot || scene;
+}
 
 // Референс: PerspectiveCamera(0x37=55, aspect, near=0x1, far=0x1388=5000)
 const camera = new THREE.PerspectiveCamera(55, app.clientWidth / app.clientHeight, 1, 0x1388);
@@ -524,7 +548,17 @@ if (_realGlRenderer) {
     renderer.toneMappingExposure = 1.45;
   }
   app.appendChild(renderer.domElement);
+  try {
+    app.classList.remove('cld-preview-loading');
+  } catch (_) {}
 }
+
+function __cldClearPreviewLoading() {
+  try {
+    app.classList.remove('cld-preview-loading');
+  } catch (_) {}
+}
+__cldClearPreviewLoading();
 
 const labelRenderer = new CSS2DRenderer();
 labelRenderer.setSize(app.clientWidth, app.clientHeight);
@@ -767,6 +801,96 @@ async function __cldEnsureMaterialItemsByKey() {
     return itemsByKey;
   })();
   return __cldMaterialItemsLoading;
+}
+
+/** Реф libs.tabletop — модели столешницы (не ЛДСП material_*). */
+let __cldTabletopItemsCache = null;
+let __cldTabletopItemsLoading = null;
+async function __cldEnsureTabletopItems() {
+  if (Array.isArray(__cldTabletopItemsCache)) return __cldTabletopItemsCache;
+  if (__cldTabletopItemsLoading) return __cldTabletopItemsLoading;
+  __cldTabletopItemsLoading = (async () => {
+    let arr = [];
+    try {
+      const r = await fetch('/api/catalog/items_get/tabletop_items?t=' + Date.now(), { cache: 'no-store' });
+      if (r.ok) {
+        const data = await r.json();
+        arr = Array.isArray(data) ? data : data?.items || [];
+      }
+    } catch (_) {}
+    if (!arr.length) {
+      try {
+        const r2 = await fetch('/catalog_items/tabletop_items.json?t=' + Date.now(), { cache: 'no-cache' });
+        if (r2.ok) {
+          const data2 = await r2.json();
+          arr = Array.isArray(data2) ? data2 : data2?.items || [];
+        }
+      } catch (_) {}
+    }
+    __cldTabletopItemsCache = Array.isArray(arr) ? arr : [];
+    __cldTabletopItemsLoading = null;
+    return __cldTabletopItemsCache;
+  })();
+  return __cldTabletopItemsLoading;
+}
+
+function __cldIsTabletopMaterialRef(p) {
+  const typeLower = String(p?.type || '').toLowerCase();
+  const ot = String(p?.originalType || p?.layout_role || p?.spec?.group || '').toLowerCase();
+  const mk = String(p?.material_key || p?.materialKey || p?.spec?.material?.key || '').toLowerCase();
+  const mg = String(p?.material_group || p?.materialGroup || p?.spec?.material?.group || '').toLowerCase();
+  return (
+    typeLower === 'countertop' ||
+    typeLower === 'tabletop' ||
+    ot === 'countertop' ||
+    ot === 'tabletop' ||
+    mk === 'tabletop' ||
+    mg === 'tabletop'
+  );
+}
+
+function __cldTabletopMapUrlFromItem(it) {
+  if (!it) return '';
+  return String(
+    it?.params?.mat_params?.params?.map ||
+      it?.icon ||
+      it?.params?.mat_params?.params?.texture ||
+      it?.texture ||
+      ''
+  ).trim();
+}
+
+function __cldFindTabletopItemById(materialId) {
+  const id = String(materialId ?? '').trim();
+  if (!id || id === '0' || id === '__empty') return null;
+  const list = __cldTabletopItemsCache;
+  if (!Array.isArray(list)) return null;
+  return list.find((x) => String(x?.id) === id) || null;
+}
+
+function __cldTabletopItemToCatalogShape(it) {
+  if (!it) return null;
+  const p = it?.params?.mat_params?.params || {};
+  const add = it?.params?.mat_params?.add_params || {};
+  return {
+    id: it.id,
+    name: it.name,
+    texture: __cldTabletopMapUrlFromItem(it),
+    icon: it.icon || '',
+    color: p.color || '#ffffff',
+    roughness: p.roughness,
+    metalness: p.metalness,
+    transparent: p.transparent,
+    opacity: p.opacity,
+    normalMap: p.normalMap || '',
+    roughnessMap: p.roughnessMap || '',
+    stretchWidth: !!(add.stretch_width ?? add.stretchWidth),
+    stretchHeight: !!(add.stretch_height ?? add.stretchHeight),
+    realTextureWidth: Number(add.real_width || add.realWidth || 256) || 256,
+    realTextureHeight: Number(add.real_height || add.realHeight || 256) || 256,
+    oneSided: !!(add.one_sided || add.oneSided),
+    rotated: String(add.rotation || '').toLowerCase() === 'rotated',
+  };
 }
 
 function __cldGetMaterialTextureByRef(materialKey, materialId) {
@@ -1030,6 +1154,18 @@ function __cldResolveTextureUrlFromMaterialRef(p, groupMat) {
   const pId = p.material_id ?? p.materialId ?? p.spec?.material?.id ?? '';
   const gKey = groupMat?.material?.key || '';
   const gId = groupMat?.material?.id ?? '';
+  // Реф type:tabletop — текстура из libs.tabletop, не из material_2.
+  if (__cldIsTabletopMaterialRef(p)) {
+    const tt = __cldFindTabletopItemById(pId) || __cldFindTabletopItemById(gId);
+    const ttMap = __cldTabletopMapUrlFromItem(tt);
+    if (ttMap) return ttMap;
+    // id пустой/__empty — первая активная модель (как дефолт сцены PP).
+    if (Array.isArray(__cldTabletopItemsCache) && __cldTabletopItemsCache.length) {
+      const first = __cldTabletopItemsCache.find((x) => x && Number(x.active) !== 0) || __cldTabletopItemsCache[0];
+      const fallback = __cldTabletopMapUrlFromItem(first);
+      if (fallback) return fallback;
+    }
+  }
   return (
     direct ||
     __cldGetMaterialTextureByRef(pKey, pId) ||
@@ -1497,38 +1633,72 @@ function __cldTryResolveModuleTreeFromCatalog(elementType, elementId, spec) {
     }
     if (!data || typeof data !== 'object') data = {};
 
-    const pickTreeFromRoot = (root) => {
-      if (!root || typeof root !== 'object') return null;
+    // Не брать пустую секцию из top-level clodisJSON, если в data.clodisJSON есть доска/дети
+    // (catalog_32 id=2: карточка рисует доску, а nested resolve раньше брал stub children:[]).
+    const scoreTree = (tree) => {
+      if (!Array.isArray(tree) || !tree.length) return -1;
+      let nodes = 0;
+      let leaf = 0;
+      const walk = (arr) => {
+        for (const n of arr) {
+          if (!n || typeof n !== 'object') continue;
+          nodes += 1;
+          const typ = String(n.type || '').toLowerCase();
+          if (typ && typ !== 'section' && typ !== 'module') leaf += 1;
+          if (Array.isArray(n.children) && n.children.length) walk(n.children);
+        }
+      };
+      walk(tree);
+      return leaf * 100 + nodes;
+    };
+    const unwrap = (tryTree) => {
+      if (typeof tryTree === 'string') {
+        try { tryTree = JSON.parse(tryTree); } catch (_) { return null; }
+      }
+      if (Array.isArray(tryTree) && tryTree.length > 0) return tryTree;
+      if (tryTree && typeof tryTree === 'object' && Array.isArray(tryTree.children) && tryTree.children.length) {
+        return tryTree.children;
+      }
+      if (tryTree && typeof tryTree === 'object' && Array.isArray(tryTree.template?.structure)) {
+        return tryTree.template.structure;
+      }
+      return null;
+    };
+    const pickCandidatesFromRoot = (root) => {
+      if (!root || typeof root !== 'object') return [];
       const readJson =
         typeof globalThis !== 'undefined' && typeof globalThis.__cldReadClodisJSON === 'function'
           ? globalThis.__cldReadClodisJSON
           : (o) => (Array.isArray(o?.clodisJSON) ? o.clodisJSON : null);
-      const pp =
-        readJson(root) ||
-        readJson(root.params);
-      if (Array.isArray(pp) && pp.length > 0) return pp;
-      const t =
-        root?.template?.structure
-        || root?.spec?.template?.tree
-        || root?.params?.constructor_structure?.children
-        || root?.params?.constructor_structure
-        || root?.constructor_structure?.children
-        || root?.constructor_structure
-        || root?.params?.template?.tree
-        || root?.params?.templates?.[0]?.template?.tree
-        || root?.template?.tree
-        || root?.template_tree
-        || null;
-      if (Array.isArray(t) && t.length > 0) return t;
-      if (t && typeof t === 'object' && Array.isArray(t.children)) return t.children;
-      return null;
+      const cs = root.constructor_structure || root.params?.constructor_structure;
+      return [
+        readJson(root),
+        readJson(root.params),
+        cs && Array.isArray(cs.children) ? cs.children : null,
+        cs?.template?.structure,
+        root?.template?.structure,
+        root?.spec?.template?.tree,
+        root?.params?.template?.tree,
+        root?.params?.templates?.[0]?.template?.tree,
+        root?.template?.tree,
+        root?.template_tree,
+      ];
     };
     const roots = [it, params, data, { ...data, ...params }];
+    let best = null;
+    let bestScore = -1;
     for (const root of roots) {
-      const t = pickTreeFromRoot(root);
-      if (t) return t;
+      for (const cand of pickCandidatesFromRoot(root)) {
+        const tree = unwrap(cand);
+        if (!tree) continue;
+        const sc = scoreTree(tree);
+        if (sc > bestScore) {
+          bestScore = sc;
+          best = tree;
+        }
+      }
     }
-    return null;
+    return best;
   };
 
   const pickCatalogItem = (items) => {
@@ -2160,6 +2330,8 @@ function _cldToggleAllOpeningAnimations(newOpen) {
 
 // ── Превью каталога 3D моделей (admin #models3d-item-edit → postMessage cld:loadModel) ──
 let _m3PreviewRoot = null;
+/** Сырой GLB/FBX до prepare — чтобы card rot/scale/pos пересобирать тем же путём, что комната. */
+let _m3RawTplSource = null;
 /** Счётчик async cld:loadModel — устаревшие GLB/FBX не монтируем (иначе «старые» копии при повороте/перезагрузке). */
 let _m3LoadGen = 0;
 /** URL последней загрузки — для разрешения preview_ref при cld:setModelTransform */
@@ -2256,6 +2428,7 @@ function _disposeM3Preview() {
     disposeObject(_m3PreviewRoot);
     _m3PreviewRoot = null;
   }
+  _m3RawTplSource = null;
   _m3LastModelUrl = '';
   _m3PreviewRefSizeMm = null;
   _m3LastModelParams = null;
@@ -2263,6 +2436,119 @@ function _disposeM3Preview() {
   _m3RodCompanionsPayload = null;
   _m3RodCompanionsSpawnEpoch++;
   _m3HandleBarFit = false;
+}
+
+/**
+ * Один путь с комнатой/цоколем: PlanPlace-own (−tree + pivot + card).
+ * В models3d tree пустой; card scale/pos/rot с формы. Обёртка только UNITS_MM.
+ */
+function _rebuildM3PreviewFromCatalogPipeline() {
+  // eslint-disable-next-line no-console
+  console.log('[CLD][m3preview] PIPELINE legs36 — joint host-local + Contours aluminium');
+  if (!_m3PreviewRoot || !_m3RawTplSource) return null;
+  const loaderApi =
+    typeof globalThis !== 'undefined' ? globalThis.__cldRoomCabinetModels : null;
+  const ppApi =
+    typeof globalThis !== 'undefined' ? globalThis.__cldPlanPlaceLoadModel : null;
+  while (_m3PreviewRoot.children.length) {
+    const ch = _m3PreviewRoot.children[0];
+    _m3PreviewRoot.remove(ch);
+    try {
+      disposeObject(ch);
+    } catch (_) {}
+  }
+  const tpl = _m3RawTplSource.clone(true);
+  _normalizeM3PreviewDrawables(tpl);
+  const urlHint = String(_m3LastModelUrl || '');
+  const supportLike = /opora|opory|опора/i.test(urlHint);
+  let entry;
+  let prepared;
+  if (loaderApi && typeof loaderApi.buildCatalogEntryFromAdminTransform === 'function') {
+    entry = loaderApi.buildCatalogEntryFromAdminTransform(
+      _m3LastUserTransform,
+      _m3LastModelParams,
+    );
+  } else {
+    const sc = _m3LastUserTransform?.scale || {};
+    entry = {
+      params: {
+        ...(_m3LastModelParams || {}),
+        scale: {
+          x: (Number(sc.x) || 1) * 100,
+          y: (Number(sc.y) || 1) * 100,
+          z: (Number(sc.z) || 1) * 100,
+        },
+        pos: { ...(_m3LastUserTransform?.position || {}) },
+        rot: { ...(_m3LastUserTransform?.rotation || {}), order: 'XYZ' },
+      },
+    };
+  }
+  const sizeMm =
+    _m3PreviewRefSizeMm && typeof _m3PreviewRefSizeMm === 'object'
+      ? {
+          x: Number(_m3PreviewRefSizeMm.x) || 60,
+          y: Number(_m3PreviewRefSizeMm.y) || 100,
+          z: Number(_m3PreviewRefSizeMm.z) || 79,
+        }
+      : { x: 60, y: 100, z: 79 };
+  const spec = {
+    ...(_m3LastModelParams || {}),
+    cldSupportLeg: supportLike || undefined,
+    fitToSize: supportLike ? false : _m3LastModelParams?.fitToSize,
+  };
+  // Тот же buildPlanPlaceOwnObject, что комната (tree пустой в карточке).
+  if (ppApi && typeof ppApi.buildPlanPlaceOwnObject === 'function') {
+    prepared = ppApi.buildPlanPlaceOwnObject({
+      tpl,
+      entry,
+      spec,
+      sizeMm,
+      treeRotDeg: {},
+      pivot: {},
+      supportLeg: !!supportLike,
+    });
+    if (prepared && supportLike) {
+      prepared.userData = prepared.userData || {};
+      prepared.userData.cldSupportLeg = true;
+    }
+  } else if (loaderApi && typeof loaderApi.prepareCabinetModelRoot === 'function') {
+    prepared = loaderApi.prepareCabinetModelRoot(tpl, spec, entry, sizeMm);
+  } else {
+    prepared = tpl;
+  }
+  const unitsWrap = new THREE.Group();
+  unitsWrap.name = '__cld_m3_units';
+  unitsWrap.scale.setScalar(1 / UNITS_MM);
+  unitsWrap.add(prepared);
+  // Только для кадра превью: после card rot AABB уезжает с нуля —
+  // сдвигаем unitsWrap так, чтобы центр бокса снова в origin (стрелки/камера).
+  // На сохранённые params.rot/pos/scale это не влияет.
+  unitsWrap.updateMatrixWorld(true);
+  try {
+    const { box, hasAny } = __computeRobustWorldBox(unitsWrap);
+    if (hasAny) {
+      const c = box.getCenter(new THREE.Vector3());
+      unitsWrap.position.x -= c.x;
+      unitsWrap.position.y -= c.y;
+      unitsWrap.position.z -= c.z;
+      unitsWrap.updateMatrixWorld(true);
+    }
+  } catch (_) {}
+  _m3PreviewRoot.position.set(0, 0, 0);
+  _m3PreviewRoot.rotation.set(0, 0, 0);
+  _m3PreviewRoot.scale.set(1, 1, 1);
+  _m3PreviewRoot.add(unitsWrap);
+  _m3PreviewRoot.updateMatrixWorld(true);
+  try {
+    const dbg = prepared?.userData?._cldSupportLegDebug || prepared?.userData?._cldPlanPlaceDebug;
+    console.log('[CLD][m3preview] catalog pipeline', {
+      supportLike,
+      cardRot: entry?.params?.rot,
+      cardScale: entry?.params?.scale,
+      dbg: dbg || null,
+    });
+  } catch (_) {}
+  return prepared;
 }
 
 /** Макс. протяжённость glTF-сцены в «сырых» единицах файла (часто м, иногда мм). */
@@ -2895,17 +3181,9 @@ function _applyM3PreviewUserTransform(transform) {
 }
 
 function _refitM3PreviewInner() {
-  if (!_m3PreviewRoot || !_m3PreviewRoot.children.length) return;
-  const content = _m3PreviewRoot.children[0];
-  // Подгонка по AABB (setFromObject) в мировых координатах. Если на родителе уже стоит user scale (0.1 и т.д.),
-  // bbox занижается → __gltfRootScaleAndCenterToRefMm завышает scale на мешах и «съедает» масштаб через ~секунду
-  // после cld:setMaterials / cld:setSize (оба вызывают rebuild → сюда).
-  _m3PreviewRoot.position.set(0, 0, 0);
-  _m3PreviewRoot.rotation.set(0, 0, 0);
-  _m3PreviewRoot.scale.set(1, 1, 1);
-  _m3PreviewRoot.updateMatrixWorld(true);
-  _fitM3PreviewModelContent(content, _m3LastModelParams, _m3LastGltfAssetMeta);
-  _applyM3PreviewUserTransform(_m3LastUserTransform);
+  if (!_m3PreviewRoot || !_m3RawTplSource) return;
+  // Тот же prepareCabinetModelRoot, что цоколь/комната — не wrapper-only rot.
+  _rebuildM3PreviewFromCatalogPipeline();
   _m3SpawnRodCompanionsPreview().catch(() => {});
 }
 
@@ -2931,11 +3209,10 @@ function _mountM3PreviewContent(content, modelParams, assetMeta, loadGen) {
   _m3PreviewRoot.name = '__cld_cabinet_model_preview';
   const meshCount = _stripM3PreviewNonMeshes(content);
   _normalizeM3PreviewDrawables(content);
-  _m3PreviewRoot.add(content);
+  _m3RawTplSource = content;
   // eslint-disable-next-line no-console
   console.log(`[CLD][m3preview] stripped non-mesh nodes; meshes kept=${meshCount}`);
-  _fitM3PreviewModelContent(content, modelParams, assetMeta);
-  _applyM3PreviewUserTransform(_m3LastUserTransform);
+  _rebuildM3PreviewFromCatalogPipeline();
   _m3SpawnRodCompanionsPreview().catch(() => {});
   scene.add(_m3PreviewRoot);
   _cldBindModels3dPreviewEnv(_m3PreviewRoot);
@@ -3912,11 +4189,18 @@ function resolveVariableValue(exprStr, ctx) {
       // СООТВЕТСТВИЕ: v:_wt → ctx.vars._wt (толщина стенки)
       // СООТВЕТСТВИЕ: v:_bwo → ctx.vars._bwo (отступ нижней стенки)
       // СООТВЕТСТВИЕ: v:_tfo → ctx.vars._tfo (отступ верхнего фронта)
+      // Реф PP: __cokol_height ≈ наш h_bottom (одна цокольная полоса).
       {
         const varName = s.substring(2);
-        const varValue = ctx?.vars?.[varName];
-        if (varValue != null) {
-          // Если переменная - объект с value, берём value
+        const aliases =
+          varName === 'h_bottom'
+            ? ['h_bottom', '__cokol_height']
+            : varName === '__cokol_height'
+              ? ['__cokol_height', 'h_bottom']
+              : [varName];
+        for (const key of aliases) {
+          const varValue = ctx?.vars?.[key];
+          if (varValue == null) continue;
           if (typeof varValue === 'object' && 'value' in varValue) {
             return Number(varValue.value ?? 0);
           }
@@ -4179,6 +4463,55 @@ const defParams = {
     // (например, верхняя полка: y=1, передняя панель: z=1, правая стенка: x=1).
     pivot: { x: -1, y: -1, z: -1 },
     spec: { side: 'back' }, // back/front/left/right
+    children: [],
+  },
+  // Реф type:cokol — фронтальная планка; толщина в size.z (мм модели).
+  plinth: {
+    type: 'plinth',
+    name: 'Цоколь',
+    helpers_visible: 1,
+    active: 1,
+    visible: 1,
+    size: { x: 's:x', y: 's:y', z: 16 },
+    pos: { x: 0, y: 0, z: 's:z - 30' },
+    rot: { x: 0, y: 0, z: 0 },
+    scale: { x: 1, y: 1, z: 1 },
+    pivot: { x: -1, y: -1, z: -1 },
+    spec: {
+      orientation: 'f',
+      direction: 'z',
+      side: 'front',
+      type: 'common',
+      key: 'front',
+      id: 0,
+      can_change: { id: 1 },
+      lock_height: 0,
+      material: { group: 'g0', key: 'material_2' },
+    },
+    children: [],
+  },
+  cokol: {
+    type: 'cokol',
+    name: 'Цоколь',
+    helpers_visible: 1,
+    active: 1,
+    visible: 1,
+    size: { x: 's:x', y: 's:y', z: 16 },
+    pos: { x: 0, y: 0, z: 's:z - 30' },
+    rot: { x: 0, y: 0, z: 0 },
+    scale: { x: 1, y: 1, z: 1 },
+    pivot: { x: -1, y: -1, z: -1 },
+    spec: {
+      orientation: 'f',
+      direction: 'z',
+      side: 'front',
+      type: 'common',
+      key: 'front',
+      id: 0,
+      can_change: { id: 1 },
+      lock_height: 0,
+      material: { group: 'g0', key: 'material_2' },
+    },
     children: [],
   },
   path: {
@@ -4496,14 +4829,17 @@ function __cldNormalizeCatalogTemplateForPyramidShell(childrenClone, outerRole) 
 }
 
 /**
- * catalog_32: только починка битых legacy-шаблонов (396, s:x в pos.z).
+ * catalog_32: legacy pos (396, s:x в pos.z) + высота опоры = v:h_bottom.
  * Не трогаем pos/pivot из редактора — иначе в шкафу затираются z=20, 0+s:z-10 и т.п.
  */
 function __cldFixPlinthLegDepthExprs(rootNode) {
   const models = [];
   const walk = (n) => {
     if (!n || typeof n !== 'object') return;
-    if (String(n.type || '').toLowerCase() === 'model') models.push(n);
+    {
+      const t = String(n.type || '').toLowerCase();
+      if (t === 'model' || t === 'leg') models.push(n);
+    }
     if (Array.isArray(n.children)) n.children.forEach(walk);
   };
   if (Array.isArray(rootNode)) rootNode.forEach(walk);
@@ -4511,18 +4847,37 @@ function __cldFixPlinthLegDepthExprs(rootNode) {
 
   for (const m of models) {
     m.pos = m.pos && typeof m.pos === 'object' ? { ...m.pos } : {};
-    const px = m.pos.x;
     const pz = m.pos.z;
 
     if (pz === 396 || String(pz).trim() === '396') {
       m.pos.z = '0+s:z-20';
-      continue;
-    }
-
-    if (typeof pz === 'string' && /\bs\.?x\b/i.test(String(pz)) && !/\bs\.?z\b/i.test(String(pz))) {
+    } else if (
+      typeof pz === 'string' &&
+      /\bs\.?x\b/i.test(String(pz)) &&
+      !/\bs\.?z\b/i.test(String(pz))
+    ) {
       m.pos.z = String(pz).replace(/\bs\.x\b/gi, 's:z').replace(/\bs:x\b/gi, 's:z');
     }
-    // pos.x не трогаем: левые 0, правые 0+s:x-20 задаёт пользователь в catalog_32.
+
+    // Кухня: опоры 100/120/150 — высота из project plinth (v:h_bottom), SKU с карточки.
+    const name = String(m.name || m.spec?.key || '');
+    const isLeg =
+      m.cldSupportLeg === true || /опора/i.test(name) || /support.?leg/i.test(name);
+    if (!isLeg) continue;
+    m.size = m.size && typeof m.size === 'object' ? { ...m.size } : {};
+    const sy = m.size.y;
+    const num = Number(sy);
+    const litFixed =
+      sy === 100 ||
+      sy === '100' ||
+      sy === 120 ||
+      sy === '120' ||
+      sy === 150 ||
+      sy === '150' ||
+      (Number.isFinite(num) && num >= 80 && num <= 200);
+    if (litFixed || !/\bv\s*:\s*h_bottom\b/i.test(String(sy || ''))) {
+      m.size.y = 'v:h_bottom';
+    }
   }
 }
 
@@ -6502,7 +6857,24 @@ class CabinetWallNode extends CabinetNode {
     // Fallback для g1 если payload не передал толщину (задняя стенка ЛХДФ всегда 3мм)
     if (!Number.isFinite(groupThickness) && groupKey === 'g1') groupThickness = 3;
     // g2 (фасады) — без хардкода, используем vars._wt (16 или выбор пользователя)
-    const thickness = (Number.isFinite(groupThickness) ? groupThickness : null) ?? (Number(ctx.vars._wt) || 16);
+    // Цоколь (plinth/cokol): толщина = size.z из модели (16/…), не _wt корпуса.
+    // Столешница (countertop/tabletop): реф — толщина из size.y / модели столешницы (~38), не g0=16.
+    const typeLower = String(p.type || '').toLowerCase();
+    const otLower = String(p.originalType || p.layout_role || p.spec?.group || '').toLowerCase();
+    const isPlinthBoard = typeLower === 'plinth' || typeLower === 'cokol';
+    const isCountertopBoard =
+      typeLower === 'countertop' ||
+      typeLower === 'tabletop' ||
+      otLower === 'countertop' ||
+      otLower === 'tabletop';
+    // type:leg (реф CabinetLegN) в дереве = model с cabinet_model SKU.
+    const sizeZnum = Number(evalExpr(p.size?.z, ctx));
+    const sizeYnum = Number(evalExpr(p.size?.y, ctx));
+    const thickness = isPlinthBoard && Number.isFinite(sizeZnum) && sizeZnum > 0
+      ? sizeZnum
+      : isCountertopBoard && Number.isFinite(sizeYnum) && sizeYnum > 0
+        ? sizeYnum
+      : ((Number.isFinite(groupThickness) ? groupThickness : null) ?? (Number(ctx.vars._wt) || 16));
     if (groupKey === 'g1' && window.__CLD_DEBUG) {
       console.log('[CLD][thickness] g1 толщина', { groupThickness, finalThickness: thickness });
     }
@@ -6687,7 +7059,8 @@ class CabinetWallNode extends CabinetNode {
       } else {
         localTex.repeat.set(Math.max(1, sxMm / 500), Math.max(1, szMm / 500));
       }
-      if (__cldIsMaterialRotated(p)) {
+      // Реф tabletop add_params.rotation=rotated → поворот карты на плите.
+      if (__cldIsMaterialRotated(p) || catalogItem?.rotated) {
         localTex.center.set(0.5, 0.5);
         localTex.rotation = Math.PI / 2;
       } else {
@@ -6703,7 +7076,17 @@ class CabinetWallNode extends CabinetNode {
 
     const runMaterialVisuals = async () => {
       await __cldEnsureMaterialItemsByKey().catch(() => {});
-      const catalogItem = __cldFindCatalogItemByKeyId(matKey, matId);
+      if (__cldIsTabletopMaterialRef(p)) {
+        await __cldEnsureTabletopItems().catch(() => {});
+      }
+      let catalogItem = __cldFindCatalogItemByKeyId(matKey, matId);
+      if (__cldIsTabletopMaterialRef(p)) {
+        const tt =
+          __cldFindTabletopItemById(matId) ||
+          __cldFindTabletopItemById(p.spec?.material?.id) ||
+          (Array.isArray(__cldTabletopItemsCache) ? __cldTabletopItemsCache.find((x) => x && Number(x.active) !== 0) : null);
+        catalogItem = __cldTabletopItemToCatalogShape(tt) || catalogItem;
+      }
       if (catalogItem) __cldApplyCatalogPbrToMaterial(mat, catalogItem);
       const resolved = __cldResolveTextureUrlFromMaterialRef(p, groupMat);
       if (resolved) {
@@ -6720,14 +7103,57 @@ class CabinetWallNode extends CabinetNode {
     runMaterialVisuals();
     if (
       (!texUrl || !__cldGetTexture(texUrl)) &&
-      ((p.material_id != null && p.material_id !== '') || (groupMat?.material?.id != null && groupMat?.material?.id !== ''))
+      (__cldIsTabletopMaterialRef(p) ||
+        (p.material_id != null && p.material_id !== '') ||
+        (groupMat?.material?.id != null && groupMat?.material?.id !== ''))
     ) {
-      __cldEnsureMaterialItemsByKey().then(() => runMaterialVisuals()).catch(() => {});
+      Promise.all([
+        __cldEnsureMaterialItemsByKey(),
+        __cldIsTabletopMaterialRef(p) ? __cldEnsureTabletopItems() : Promise.resolve(),
+      ])
+        .then(() => runMaterialVisuals())
+        .catch(() => {});
     }
-    const mesh = make_cube(cw, ch, cd, mat);
+
+    // Реф: spec.type = l_shape | c_l_shape → Extrude контура (видимый вырез как в PlanPlace/Базис).
+    const shapeType = String(p.spec?.type || p.shape || 'common').toLowerCase();
+    const useShaped =
+      shapeType === 'l_shape' ||
+      shapeType === 'c_l_shape' ||
+      shapeType === 'l-образная' ||
+      shapeType === 'l';
+    const orient = normalizeOrientation(p.spec?.orientation);
+    const sizeMm = {
+      x: uToMm(uSize.x),
+      y: uToMm(uSize.y),
+      z: uToMm(uSize.z),
+    };
+    const real = this.calculated.real_size || new THREE.Vector3(sizeMm.z, sizeMm.y, sizeMm.x);
+    let mesh;
+    if (useShaped) {
+      const { points } = cldWallBuildContourPoints(
+        shapeType === 'c_l_shape' ? 'c_l_shape' : 'l_shape',
+        p.spec?.type_params || {},
+        real.x,
+        real.y
+      );
+      this.calculated.points = points;
+      this.calculated.original_points = points.map((pt) => ({ ...pt }));
+      this.userData.__cldWallContourMm = points;
+      const geomShaped = cldWallExtrudeGeometry(points, {
+        orientation: orient,
+        sizeMm,
+        unitsMm: UNITS_MM,
+        shapeFromPointsMod: { cldPathShapeFromPoints },
+      }, THREE);
+      mesh = new THREE.Mesh(geomShaped, mat);
+      mesh.position.set(0, 0, 0);
+    } else {
+      mesh = make_cube(cw, ch, cd, mat);
+      mesh.position.set(ox, oy, oz);
+    }
     mesh.castShadow = true;
     mesh.receiveShadow = true;
-    mesh.position.set(ox, oy, oz);
     mesh.name = p.name || 'wall';
     this.userData.own_object.add(mesh);
 
@@ -6739,7 +7165,7 @@ class CabinetWallNode extends CabinetNode {
         depthTest: false,
       })
     );
-    edges.position.set(ox, oy, oz);
+    edges.position.copy(mesh.position);
     edges.userData.isEdgesLines = true;
     this.userData.own_object.add(edges);
     this.userData.edges_lines = edges;
@@ -6950,40 +7376,43 @@ class CabinetWallNode extends CabinetNode {
       labelDiv.textContent = String(edgeNum);
       if (isEnabled) {
         labelDiv.style.color = '#21ba45';
-        labelDiv.style.border = '2px solid #21ba45';
+        labelDiv.style.border = '1.5px solid #21ba45';
       } else {
         labelDiv.style.color = '#111111';
-        labelDiv.style.border = '2px solid #555555';
+        labelDiv.style.border = '1.5px solid #555555';
       }
-      labelDiv.style.fontSize = '16px';
-      labelDiv.style.fontWeight = 'bold';
+      labelDiv.style.fontSize = '10px';
+      labelDiv.style.fontWeight = '700';
       labelDiv.style.textAlign = 'center';
-      labelDiv.style.background = 'rgba(255, 255, 255, 0.9)';
+      labelDiv.style.background = 'rgba(255, 255, 255, 0.95)';
       labelDiv.style.borderRadius = '50%';
-      labelDiv.style.width = '24px';
-      labelDiv.style.height = '24px';
-      labelDiv.style.lineHeight = '24px';
+      labelDiv.style.width = '15px';
+      labelDiv.style.height = '15px';
+      labelDiv.style.lineHeight = '15px';
       labelDiv.style.pointerEvents = 'none';
+      labelDiv.style.boxSizing = 'border-box';
+      labelDiv.style.zIndex = '2';
       
       const label = new CSS2DObject(labelDiv);
-      const labelOffset = 0.02;
+      // Чуть внутрь силуэта — выносные «780 мм» остаются снаружи и не садятся на кружки.
+      const inset = 0.008;
       if (orientation === 'h') {
         // Для горизонтали — номера по периметру (XZ)
-        if (edgeNum === 1) label.position.set(0, 0, -d / 2 - labelOffset); // back
-        else if (edgeNum === 2) label.position.set(0, 0, d / 2 + labelOffset); // front
-        else if (edgeNum === 3) label.position.set(-w / 2 - labelOffset, 0, 0); // left
-        else if (edgeNum === 4) label.position.set(w / 2 + labelOffset, 0, 0); // right
+        if (edgeNum === 1) label.position.set(0, 0, -d / 2 + inset); // back
+        else if (edgeNum === 2) label.position.set(0, 0, d / 2 - inset); // front
+        else if (edgeNum === 3) label.position.set(-w / 2 + inset, 0, 0); // left
+        else if (edgeNum === 4) label.position.set(w / 2 - inset, 0, 0); // right
       } else {
         if (edgeNum === 1) {
-          label.position.set(0, -h / 2 - labelOffset, 0);
+          label.position.set(0, -h / 2 + inset, 0);
         } else if (edgeNum === 2) {
-          label.position.set(0, h / 2 + labelOffset, 0);
+          label.position.set(0, h / 2 - inset, 0);
         } else if (edgeNum === 3) {
-          if (orientation === 'v') label.position.set(0, 0, -d / 2 - labelOffset);
-          else label.position.set(-w / 2 - labelOffset, 0, 0);
+          if (orientation === 'v') label.position.set(0, 0, -d / 2 + inset);
+          else label.position.set(-w / 2 + inset, 0, 0);
         } else if (edgeNum === 4) {
-          if (orientation === 'v') label.position.set(0, 0, d / 2 + labelOffset);
-          else label.position.set(w / 2 + labelOffset, 0, 0);
+          if (orientation === 'v') label.position.set(0, 0, d / 2 - inset);
+          else label.position.set(w / 2 - inset, 0, 0);
         }
       }
       label.userData.isEdgeNumber = true;
@@ -7432,8 +7861,17 @@ class CabinetFillNode extends CabinetNode {
     const sizeY = evalExpr(p.size.y, ctx);
     const sizeZ = evalExpr(p.size.z, ctx);
     
-    // Логирование для отладки плоских модулей
-    if (window.__CLD_DEBUG_MODULES || sizeZ < 1 || sizeZ > 1000) {
+    // Крепёж/GLB (эксцентрик и т.п.) часто с size 0 — геометрия из модели, не «битый» модуль.
+    // Warn только в debug или при явно странных габаритах (NaN / огромный sizeZ).
+    const sizeBad =
+      !Number.isFinite(sizeX) ||
+      !Number.isFinite(sizeY) ||
+      !Number.isFinite(sizeZ) ||
+      sizeX < 0 ||
+      sizeY < 0 ||
+      sizeZ < 0 ||
+      sizeZ > 1000;
+    if (window.__CLD_DEBUG_MODULES || sizeBad) {
       console.warn('[CLD][CabinetFillNode._build_size] Размер модуля:', p.name || 'module', {
         sizeX,
         sizeY,
@@ -7749,7 +8187,14 @@ class CabinetModelNode extends CabinetNode {
         let root;
         let preparedMesh = null;
         if (loaderApi && typeof loaderApi.prepareCabinetModelRoot === 'function') {
-          const prepared = loaderApi.prepareCabinetModelRoot(tpl, mergedSpec, entry, szMm);
+          // Профиль/Gola: Size узла = слот; реф тянет меш по ширине (не «как скачал»).
+          const prepSpec = {
+            ...mergedSpec,
+            fitToSize: mergedSpec.fitToSize !== false,
+            stretchToSize: mergedSpec.stretchToSize !== false,
+            name: mergedSpec.name || this.config?.name || '',
+          };
+          const prepared = loaderApi.prepareCabinetModelRoot(tpl, prepSpec, entry, szMm);
           preparedMesh = prepared;
           const jointHw =
             Number(mergedSpec?.joint_hardware) === 1 ||
@@ -7761,6 +8206,11 @@ class CabinetModelNode extends CabinetNode {
           const templateModel =
             Number(mergedSpec?.joint_template_model) === 1 ||
             mergedSpec?.jointTemplateModel === true;
+          const modelIdStr = String(mergedSpec?.id ?? '').trim();
+          const hingeLike = modelIdStr === '5' || modelIdStr === '6';
+          const supportLegLike =
+            mergedSpec?.cldSupportLeg === true ||
+            /опора|support.?leg/i.test(String(mergedSpec?.key || this.config?.name || ''));
           if (jointHw && !templateModel && prepared) {
             // Реф: длина шурупа по локальному X furniture; rot.z±90 крутит в полку/дно.
             // Catalog rot.y=90 не применяем.
@@ -7781,6 +8231,20 @@ class CabinetModelNode extends CabinetNode {
               x: mmToU(sx),
               y: mmToU(sy),
               z: mmToU(sz),
+            });
+          } else if (
+            !hingeLike &&
+            !supportLegLike &&
+            !templateModel &&
+            szMm.x > 1 &&
+            szMm.y > 1 &&
+            szMm.z > 1
+          ) {
+            // Gola L и др.: слот Size (s:x × 57.5 × 27) → неравномерный fit.
+            __gltfRootNonUniformFitToSize(wrapper, {
+              x: mmToU(szMm.x),
+              y: mmToU(szMm.y),
+              z: mmToU(szMm.z),
             });
           }
           // Крепёж стыка: aluminium как в рефе (не белый GLB / не рентген).
@@ -10773,6 +11237,12 @@ const item_types = {
   // (см. ветку «missing ctor»), и любое наполнение, опирающееся на них, не рендерилось.
   fill_section: CabinetFillSectionNode,
   wall: CabinetWallNode,
+  // Реф PlanPlace type:cokol / plinth — планка цоколя, геометрия как у wall (orientation f).
+  plinth: CabinetWallNode,
+  cokol: CabinetWallNode,
+  // Реф type:tabletop — горизонтальная плита; толщина = size.y (~38), не g0=16.
+  countertop: CabinetWallNode,
+  tabletop: CabinetWallNode,
   facade: CabinetFacadeNode,
   fill_module: CabinetFillNode,
   model: CabinetModelNode,
@@ -10895,14 +11365,15 @@ function makeLabel(text) {
   const div = document.createElement('div');
   div.textContent = text;
   div.style.fontFamily = 'Arial, sans-serif';
-  div.style.fontSize = '13px';
+  div.style.fontSize = '11px';
   div.style.color = '#111';
-  div.style.background = 'rgba(255,255,255,0.9)';
-  div.style.border = '1px solid rgba(0,0,0,0.12)';
-  div.style.borderRadius = '8px';
-  div.style.padding = '4px 8px';
+  div.style.background = 'rgba(255,255,255,0.95)';
+  div.style.border = '1px solid rgba(0,0,0,0.14)';
+  div.style.borderRadius = '6px';
+  div.style.padding = '2px 6px';
   div.style.whiteSpace = 'nowrap';
-  div.style.boxShadow = '0 2px 10px rgba(0,0,0,0.10)';
+  div.style.boxShadow = '0 1px 6px rgba(0,0,0,0.12)';
+  div.style.pointerEvents = 'none';
   return new CSS2DObject(div);
 }
 
@@ -10979,14 +11450,14 @@ function makeSizesObjLikeReference({
 }
 
 function addRefStyleDimension(group, { axis, sizeMm }) {
-  // Параметры как в референсе Sizes_obj + def_cabinet_size:
-  // line_pos=0x50(80мм), length=0x64(100мм), line_thickness=1мм,
-  // arrow_width=0x3c(60мм), arrow_height=0x14(20мм).
-  const middleLinePosition = mmToU(80);
+  // Вынос дальше от детали: CSS2D «780 мм» не должен накрывать кружки кромок 1–4.
+  const lineOutMm = axis === 'y' ? 175 : axis === 'z' ? 140 : 110;
+  const labelExtraMm = axis === 'y' ? 42 : 24;
+  const middleLinePosition = mmToU(lineOutMm);
   const length = mmToU(100);
   const lineThickness = mmToU(1);
-  const arrowWidth = mmToU(60);
-  const arrowHeight = mmToU(20);
+  const arrowWidth = mmToU(48);
+  const arrowHeight = mmToU(16);
 
   const w = mmToU(sizeMm.w);
   const h = mmToU(sizeMm.h);
@@ -11033,9 +11504,11 @@ function addRefStyleDimension(group, { axis, sizeMm }) {
   sizesObj.position.copy(origin);
   group.add(sizesObj);
 
-  // Подпись (в референсе это меш-цифры; здесь оставляем CSS2D, но позицию делаем как у них: +15мм от линии)
   const lbl = makeLabel(labelText);
-  lbl.position.set(0, middleLinePosition + mmToU(15), 0);
+  // Сдвиг вдоль размерной оси (~22% к «верху»), чтобы не совпадать с кромкой 3 по центру грани.
+  const along = widthU * (axis === 'y' ? 0.22 : 0.08);
+  lbl.position.set(along, middleLinePosition + mmToU(labelExtraMm), 0);
+  if (lbl.element) lbl.element.style.zIndex = '5';
   sizesObj.add(lbl);
 }
 
@@ -14822,7 +15295,21 @@ function _liveJointTemplateFrameForFurniture(furnNode) {
         best = fr;
       }
     }
-    if (best && bestD < 2) result = best;
+    // После смены Ш×Г станции схемы пересчитываются (50 / L−50) — старый seamPosMm
+    // с карточки (450 при L=510) может отличаться на десятки мм. Раньше порог 2 мм
+    // ронял матч → оставался baked pos → конфирматы «висели» вне боковин.
+    if (best && bestD <= 48) result = best;
+  }
+
+  if (!result && Number.isFinite(frameIndex) && frames.length) {
+    const sameJoint = frames.filter(
+      (fr) =>
+        (!Number.isFinite(jointIdx) || Number(fr.jointIdx) === jointIdx) &&
+        (!contactId || !fr.contactId || String(fr.contactId) === contactId),
+    );
+    const pool = sameJoint.length ? sameJoint : frames;
+    const idx = Math.max(0, Math.min(pool.length - 1, Math.floor(frameIndex)));
+    result = pool[idx] || null;
   }
 
   if (!result) {
@@ -14890,6 +15377,14 @@ function _rebuildJointSchemeModelsOnPanel(panelPath) {
         cfg.position.y = cfg.pos.y;
         cfg.position.z = cfg.pos.z;
       }
+      // Чтобы следующий resize снова матчил по актуальной станции, не по старому stamp.
+      if (Number.isFinite(Number(frame.seamPosMm))) {
+        cfg.seamPosMm = Number(frame.seamPosMm);
+      }
+      if (Number.isFinite(Number(frame.index))) {
+        cfg.frameIndex = Number(frame.index);
+        cfg.index = Number(frame.index);
+      }
     }
     if (frame?.pivot) cfg.pivot = { ...frame.pivot };
     if (typeof node._build_pos === 'function') node._build_pos();
@@ -14904,6 +15399,33 @@ function _rebuildJointSchemeModelsOnPanel(panelPath) {
     if (typeof node._build_pivot === 'function') node._build_pivot();
     n += 1;
   });
+  return n;
+}
+
+/** Все панели с jointSchemes / fromJointScheme — после resize Ш×В×Г. */
+function _rebuildAllJointSchemeModelsLive() {
+  if (!rootGroup || typeof rootGroup.traverse !== 'function') return 0;
+  const paths = new Set();
+  for (const p of Object.keys(_jointSchemesStore || {})) {
+    if (p) paths.add(String(p).trim());
+  }
+  rootGroup.traverse((o) => {
+    const path = String(o?.userData?.path || '').trim();
+    if (!path) return;
+    const js = o.userData?.jointSchemes || o.config?.jointSchemes;
+    if (Array.isArray(js) && js.length) paths.add(path);
+    const cfg = o.config;
+    if (cfg?.fromJointScheme && Number(cfg.spec?.joint_template_frame) === 1) {
+      const parentPath = String(o.userData?.parent?.userData?.path || '').trim();
+      if (parentPath) paths.add(parentPath);
+    }
+  });
+  let n = 0;
+  for (const p of paths) {
+    try {
+      n += _rebuildJointSchemeModelsOnPanel(p) || 0;
+    } catch (_) {}
+  }
   return n;
 }
 
@@ -15539,6 +16061,15 @@ function rebuild() {
   _hydrateJointSchemesStoreFromTemplateTree();
   _cldApplyPreviewDoorsOpenToSwings();
   _finalizeDrawerSlideAssembliesForPreview();
+  // Сначала живые кадры крепежа (Ш×В×Г могли смениться), потом маркеры отверстий.
+  try {
+    const nLive = _rebuildAllJointSchemeModelsLive();
+    if (nLive > 0) {
+      console.log('[CLD-JOINT][iframe] live joint frames after resize/rebuild', { nLive });
+    }
+  } catch (e) {
+    console.warn('[CLD-JOINT] live joint rebuild failed', e);
+  }
   try {
     _renderJointMarkers();
   } catch (e) {
@@ -15952,6 +16483,28 @@ window.addEventListener('message', (ev) => {
         state = { w: nw, h: nh, d: nd };
       }
     }
+    // Vars атомарно с деревом (НМУ corner_* и т.п.) — иначе rebuild до setVars / со старыми vars.
+    if (data.vars && typeof data.vars === 'object') {
+      incomingVars = { ...(incomingVars || {}), ...(data.vars || {}) };
+      if (!Number.isFinite(Number(incomingVars.h_bottom))) incomingVars.h_bottom = 100;
+      if (!Number.isFinite(Number(incomingVars.h_top))) incomingVars.h_top = 0;
+      if (!Number.isFinite(Number(incomingVars.facade_thickness_mm))) {
+        incomingVars.facade_thickness_mm = 16;
+      }
+      try {
+        const idx = window?.clodis?.variables?.selected_index;
+        const gvars = window?.clodis?.variables?.global_vars;
+        if (typeof idx === 'number' && Array.isArray(gvars) && gvars[idx]) {
+          const varSet = gvars[idx];
+          if (!varSet.vars_hash) varSet.vars_hash = {};
+          for (const [k, v] of Object.entries(incomingVars || {})) {
+            const num = Number(v);
+            if (!Number.isFinite(num)) continue;
+            varSet.vars_hash[String(k)] = { key: String(k), value: num };
+          }
+        }
+      } catch (_) {}
+    }
     moduleTemplateTree = Array.isArray(incoming) ? __cldDedupTemplateTree(incoming) : [];
     try {
       if (typeof globalThis.__cldStampDrawerNoHandleFlagsInTree === 'function') {
@@ -16218,20 +16771,22 @@ window.addEventListener('message', (ev) => {
           // Для присадки с holes используем 'furniture' чтобы _show_helpers каскадировал на hole children.
           const sceneType = String(node.config?.type || '').toLowerCase();
           const hasHoles = holeN > 0;
-          const isCatalogPyramidShell =
+          // Плоский catalog_* module в дереве — как секция: зелёный volume + рёбра детей.
+          // Раньше только plinth/corpus_antresol/top → у «Шкаф 1 яруса…» pick оставался module.
+          const isCatalogLinkedShell =
             __cldIsCatalogLinkedModuleSpec(node.config?.spec) &&
-            ['plinth', 'corpus_antresol', 'top'].includes(
-              String(node.config?.layout_role ?? node.config?.sectionLayoutRole ?? '').toLowerCase()
-            ) &&
             (sceneType === 'section' || sceneType === 'module');
           const pick =
             (node._show_helpers_edges ? 'detail' : null) ||
             (hasHoles && sceneType === 'furniture' ? 'furniture' : null) ||
-            (isCatalogPyramidShell ? 'section' : null) ||
+            (isCatalogLinkedShell ? 'section' : null) ||
             sceneType ||
             data.nodeType ||
             'section';
-          lastSelectedNodeType = pick === 'module' && sceneType === 'section' ? 'section' : pick;
+          lastSelectedNodeType =
+            pick === 'module' && (sceneType === 'section' || isCatalogLinkedShell)
+              ? 'section'
+              : pick;
           __cldSelLog({
             step: 'selectNode type pick',
             sceneType: sceneType || '(empty)',
@@ -16634,13 +17189,11 @@ window.addEventListener('message', (ev) => {
     if (data.rodCompanions && typeof data.rodCompanions === 'object') {
       _m3RodCompanionsPayload = data.rodCompanions;
     }
-    if (_m3PreviewRoot && _m3PreviewRoot.children.length) {
+    if (_m3PreviewRoot && _m3RawTplSource) {
       _refitM3PreviewInner();
       __cameraWasAutoFitted = false;
       _fitPreviewCameraCombined();
       __cameraWasAutoFitted = true;
-    } else {
-      _applyM3PreviewUserTransform(_m3LastUserTransform);
     }
     render();
   }
@@ -16648,6 +17201,9 @@ window.addEventListener('message', (ev) => {
 
 // Один ready родителю (без повторных NeedModule/ретраев — они вешали админку).
 try {
+  try {
+    app.classList.remove('cld-preview-loading');
+  } catch (_) {}
   window.parent && window.parent.postMessage({ type: 'cld:iframeReady', version: 'clodis-preview-v1' }, '*');
 } catch (_) {}
 

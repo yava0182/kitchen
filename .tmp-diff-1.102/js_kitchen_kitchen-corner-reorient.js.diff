@@ -1,0 +1,31 @@
+﻿Comparing files D:\����� ������������\����� CLODIS-KITCHEN\1.102������� ����\CLODIS-KITCHEN\JS\KITCHEN\kitchen-corner-reorient.js and D:\CLODIS-KITCHEN\JS\KITCHEN\KITCHEN-CORNER-REORIENT.JS
+***** D:\����� ������������\����� CLODIS-KITCHEN\1.102������� ����\CLODIS-KITCHEN\JS\KITCHEN\kitchen-corner-reorient.js
+   17:    stretchKitchenUArmsToRoomCorner,
+   18:  } from '../sections/section-manager.js?v=20261106-louter1';
+   19:  import {
+***** D:\CLODIS-KITCHEN\JS\KITCHEN\KITCHEN-CORNER-REORIENT.JS
+   17:    stretchKitchenUArmsToRoomCorner,
+   18:  } from '../sections/section-manager.js?v=20261116-lFree1';
+   19:  import {
+*****
+
+***** D:\����� ������������\����� CLODIS-KITCHEN\1.102������� ����\CLODIS-KITCHEN\JS\KITCHEN\kitchen-corner-reorient.js
+   39:    applyKitchenLFreeArm600SacrificeWidths,
+   40:  } from './kitchen-section-layout.js?v=20261107-ucorner15';
+   41:  import {
+***** D:\CLODIS-KITCHEN\JS\KITCHEN\KITCHEN-CORNER-REORIENT.JS
+   39:    applyKitchenLFreeArm600SacrificeWidths,
+   40:  } from './kitchen-section-layout.js?v=20261116-lCorner1050';
+   41:  import {
+*****
+
+***** D:\����� ������������\����� CLODIS-KITCHEN\1.102������� ����\CLODIS-KITCHEN\JS\KITCHEN\kitchen-corner-reorient.js
+   65:    seatKitchenJointUpperCorner,
+   66:  } from './kitchen-joint.js?v=20261115-upperGTop8';
+   67:  
+***** D:\CLODIS-KITCHEN\JS\KITCHEN\KITCHEN-CORNER-REORIENT.JS
+   65:    seatKitchenJointUpperCorner,
+   66:  } from './kitchen-joint.js?v=20261116-lCorner1050';
+   67:  
+*****
+

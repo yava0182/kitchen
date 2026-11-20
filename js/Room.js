@@ -1,13 +1,131 @@
 // Room class - builds room geometry according to Clodis specification
 // Origin: front-left-bottom corner
 // Units: millimeters (no conversion)
-console.log('[ROOM_DEBUG] Room.js floorZ1 — base sunk 1mm, no parquet z-fight');
+console.log('[ROOM_DEBUG] Room.js wallstrips1 — mitred strips, no concave Extrude ring');
+
+/**
+ * Exp14 / IKEA PORT — wall paint (SOT), MeshStandard only.
+ * linear albedo + rough 0.75. Без normal-map (в лабе снята — иначе пятна).
+ */
+const IKEA_WALL_ALBEDO_LINEAR = Object.freeze([0.877005339, 0.874226034, 0.77851814]);
+const IKEA_WALL_ROUGHNESS = 0.75;
+const IKEA_WALL_METALNESS = 0;
+const IKEA_WALL_PAINT_TILE_MM = 300;
+
+const IKEA_CEILING_ALBEDO_LINEAR = Object.freeze([
+  Math.pow(0.99609375, 2.2),
+  Math.pow(0.99609375, 2.2),
+  Math.pow(0.99609375, 2.2),
+]);
+const IKEA_CEILING_ROUGHNESS = 0.4;
+const IKEA_CEILING_METALNESS = 0;
+
+const IKEA_FLOOR_SLAB_LINEAR = Object.freeze([0.714, 0.702, 0.678]);
+const IKEA_FLOOR_SLAB_ROUGHNESS = 0.88;
+const IKEA_FLOOR_ROUGHNESS = 1.0;
+const IKEA_FLOOR_METALNESS = 0;
+
+function applyIkeaWallPaintToStandardMaterial(mat) {
+  if (!mat || !mat.isMeshStandardMaterial) return mat;
+  const [lr, lg, lb] = IKEA_WALL_ALBEDO_LINEAR;
+  if (THREE.LinearSRGBColorSpace !== undefined) {
+    mat.color.setRGB(lr, lg, lb, THREE.LinearSRGBColorSpace);
+  } else {
+    mat.color.setRGB(lr, lg, lb);
+  }
+  mat.roughness = IKEA_WALL_ROUGHNESS;
+  mat.metalness = IKEA_WALL_METALNESS;
+  if (mat.normalMap) mat.normalMap = null;
+  mat.needsUpdate = true;
+  return mat;
+}
+
+function makeIkeaWallStandardMaterial(side) {
+  const mat = new THREE.MeshStandardMaterial({
+    roughness: IKEA_WALL_ROUGHNESS,
+    metalness: IKEA_WALL_METALNESS,
+    side: side != null ? side : THREE.FrontSide,
+  });
+  return applyIkeaWallPaintToStandardMaterial(mat);
+}
+
+function makeIkeaCeilingStandardMaterial() {
+  const mat = new THREE.MeshStandardMaterial({
+    roughness: IKEA_CEILING_ROUGHNESS,
+    metalness: IKEA_CEILING_METALNESS,
+    side: THREE.DoubleSide,
+  });
+  const [lr, lg, lb] = IKEA_CEILING_ALBEDO_LINEAR;
+  if (THREE.LinearSRGBColorSpace !== undefined) {
+    mat.color.setRGB(lr, lg, lb, THREE.LinearSRGBColorSpace);
+  } else {
+    mat.color.setRGB(lr, lg, lb);
+  }
+  return mat;
+}
+
+function makeIkeaFloorSlabStandardMaterial() {
+  const mat = new THREE.MeshStandardMaterial({
+    roughness: IKEA_FLOOR_SLAB_ROUGHNESS,
+    metalness: 0,
+  });
+  const [lr, lg, lb] = IKEA_FLOOR_SLAB_LINEAR;
+  if (THREE.LinearSRGBColorSpace !== undefined) {
+    mat.color.setRGB(lr, lg, lb, THREE.LinearSRGBColorSpace);
+  } else {
+    mat.color.setRGB(lr, lg, lb);
+  }
+  return mat;
+}
+
+if (typeof window !== 'undefined') {
+  window.applyIkeaWallPaintToStandardMaterial = applyIkeaWallPaintToStandardMaterial;
+  window.makeIkeaWallStandardMaterial = makeIkeaWallStandardMaterial;
+}
+
+/**
+ * Offset CCW footprint наружу на dist (мм).
+ * Вершины стыкуются по формуле unit-normals: (n0+n1)/(1+n0·n1)*dist —
+ * даёт чистые митры (90° → T√2 по биссектрисе).
+ */
+function offsetPolygonOutward(verts, dist) {
+  const n = verts.length;
+  const out = [];
+  for (let i = 0; i < n; i++) {
+    const prev = verts[(i - 1 + n) % n];
+    const cur = verts[i];
+    const next = verts[(i + 1) % n];
+    const e0x = cur.x - prev.x;
+    const e0z = cur.z - prev.z;
+    const e1x = next.x - cur.x;
+    const e1z = next.z - cur.z;
+    const l0 = Math.hypot(e0x, e0z) || 1;
+    const l1 = Math.hypot(e1x, e1z) || 1;
+    // CCW: inward = (-dz, dx), outward = (dz, -dx)
+    const n0x = e0z / l0;
+    const n0z = -e0x / l0;
+    const n1x = e1z / l1;
+    const n1z = -e1x / l1;
+    const dot = Math.max(-0.999, Math.min(0.999, n0x * n1x + n0z * n1z));
+    const denom = 1 + dot;
+    out.push({
+      x: cur.x + ((n0x + n1x) / denom) * dist,
+      z: cur.z + ((n0z + n1z) / denom) * dist,
+    });
+  }
+  return out;
+}
 
 class Room {
-  constructor(width, depth, height) {
-    this.width = width; // w in millimeters
+  constructor(width, depth, height, options) {
+    this.width = width; // w in millimeters (AABB plot)
     this.depth = depth; // d in millimeters
     this.height = height; // h in millimeters
+
+    const opts = options && typeof options === 'object' ? options : {};
+    /** @type {{ shapeKey?: string, vertices?: Array<{x:number,z:number}>, segments?: Array<any> }|null} */
+    this.footprintSpec = opts.footprint || null;
+    this.shapeKey = (opts.shapeKey || this.footprintSpec?.shapeKey || 'enclosed_rect');
 
     this.group = new THREE.Group();
     this.wallPlanes = []; // Invisible planes for raycast
@@ -34,6 +152,20 @@ class Room {
   }
 
   build() {
+    if (
+      this.footprintSpec &&
+      Array.isArray(this.footprintSpec.vertices) &&
+      this.footprintSpec.vertices.length >= 3 &&
+      Array.isArray(this.footprintSpec.segments)
+    ) {
+      this.buildPolygonRoom(this.footprintSpec);
+      return;
+    }
+    this.buildRectangularRoom();
+  }
+
+  /** Прямоугольная комната (исторический путь PAX). */
+  buildRectangularRoom() {
     const wallThickness = 100; // 100mm = 10cm thickness for walls, floor, ceiling
 
     // Пол: жилой объём пустой (как PlanPlace / kitchen planner).
@@ -42,26 +174,38 @@ class Room {
     const baseThickness = T;
 
     const textureLoader = new THREE.TextureLoader();
-    /**
-     * Default parquet: Clodis optimized WebP (1024² POT) — same tile as lightHerringbone catalog.
-     * Do NOT use the large legacy IKEA JPG here: it + RGBA canvas promote often trips GL_OUT_OF_MEMORY.
-     */
-    const floorTextureUrl = '/assets/textures/floor/herringbone-light.webp';
+    /** Как Exp14 lab / IKEA PORT: diffuse.jpg (светлый паркет под Phong). */
+    const floorTextureUrl = '/images/textures/ikea/floor/diffuse.jpg';
     const floorFallbackUrl =
       '/images/textures/ikea/floor/ee604ccf7d4ed0ec53b5d8cf0032e707.jpg';
     const floorTileSize = 640;
+
+    const bindFloorMapToCoating = (texture) => {
+      const mat = this.floorCoating?.material;
+      if (!mat || mat.userData?.__cldIkeaV0) return;
+      if (texture.colorSpace !== undefined && THREE.SRGBColorSpace !== undefined) {
+        texture.colorSpace = THREE.SRGBColorSpace;
+      } else if (texture.encoding !== undefined && THREE.sRGBEncoding !== undefined) {
+        texture.encoding = THREE.sRGBEncoding;
+      }
+      texture.needsUpdate = true;
+      mat.map = texture;
+      mat.color.set(0xffffff);
+      mat.needsUpdate = true;
+    };
 
     const applyFloorTexSettings = (texture) => {
       texture.wrapS = THREE.RepeatWrapping;
       texture.wrapT = THREE.RepeatWrapping;
       /** ikea v0 shader tiles by world XZ / floorTileSize — repeat kept for pre-bind preview. */
       texture.repeat.set(this.width / floorTileSize, this.depth / floorTileSize);
-      texture.anisotropy = 4;
-      texture.generateMipmaps = false;
-      texture.minFilter = THREE.LinearFilter;
+      texture.anisotropy = 8;
+      // Mips ON — без них паркет «в крапинку» в 2D/орто (LinearFilter aliasing).
+      texture.generateMipmaps = true;
+      texture.minFilter = THREE.LinearMipmapLinearFilter;
       texture.magFilter = THREE.LinearFilter;
       if (typeof window.__cldResyncIkeaRoomFloorMap === 'function') {
-        /** colorSpace + GPU upload — только resync после JPG→RGBA canvas */
+        /** colorSpace + GPU upload — только resync после JPG→RGBA canvas (v0) */
       } else if (typeof window.__cldPrepareIkeaV0Map === 'function') {
         window.__cldPrepareIkeaV0Map(texture);
       } else if (texture.colorSpace !== undefined && THREE.SRGBColorSpace !== undefined) {
@@ -88,12 +232,14 @@ class Room {
       floorTextureUrl,
       (texture) => {
         texture.needsUpdate = false;
-        console.log('✅ Текстура пола (herringbone-light.webp):', floorTextureUrl);
+        console.log('✅ Текстура пола (IKEA diffuse.jpg):', floorTextureUrl);
         this.floorTexture = texture;
         applyFloorTexSettings(texture);
         if (typeof window.__cldResyncIkeaRoomFloorMap === 'function') {
           window.__cldResyncIkeaRoomFloorMap(texture);
         }
+        // Lab / MeshBasic: v0 resync no-ops — bind map ourselves (was missing → flat beige 3D floor).
+        bindFloorMapToCoating(texture);
       },
       undefined,
       () => {
@@ -104,30 +250,31 @@ class Room {
           applyFloorTexSettings(texture);
           if (typeof window.__cldResyncIkeaRoomFloorMap === 'function') {
             window.__cldResyncIkeaRoomFloorMap(texture);
-          } else if (floorCoating?.material?.map) {
-            floorCoating.material.map = texture;
           }
+          bindFloorMapToCoating(texture);
         });
       }
     );
     /** Не присваивать до onLoad — TextureLoader ставит needsUpdate на RGB JPG до RGBA canvas. */
 
     const floorBaseGeometry = new THREE.BoxGeometry(this.width + 2 * T, baseThickness, this.depth + 2 * T);
-    const floorBaseMaterial = new THREE.MeshBasicMaterial({
-      color: 0xf5f5f3,
-    });
+    const floorBaseMaterial = makeIkeaFloorSlabStandardMaterial();
     const floorBase = new THREE.Mesh(floorBaseGeometry, floorBaseMaterial);
     // Верх основы чуть ниже Y=0 — иначе z-fight с паркетом → белые диагонали (изломы).
     floorBase.position.set(this.width / 2, -(baseThickness / 2) - 1, this.depth / 2);
     floorBase.receiveShadow = false;
     floorBase.castShadow = false;
+    floorBase.userData.isFloorBase = true;
+    floorBase.userData.ikeaPortMatRole = 'floor';
     this.floorBase = floorBase;
     this.group.add(floorBase);
 
-    // Паркет — плоскость на Y=0 (реф Wall + PlaneGeometry). Не коробка вверх в цоколь.
+    // Паркет — плоскость на Y=0. Exp14: MeshStandard + IKEA albedo.
     const floorCoatingGeometry = new THREE.PlaneGeometry(this.width, this.depth);
-    const floorCoatingMaterial = new THREE.MeshBasicMaterial({
-      color: 0xd8d4cc,
+    const floorCoatingMaterial = new THREE.MeshStandardMaterial({
+      color: 0xffffff,
+      roughness: IKEA_FLOOR_ROUGHNESS,
+      metalness: IKEA_FLOOR_METALNESS,
       side: THREE.FrontSide,
       polygonOffset: true,
       polygonOffsetFactor: -1,
@@ -136,24 +283,23 @@ class Room {
     const floorCoating = new THREE.Mesh(floorCoatingGeometry, floorCoatingMaterial);
     floorCoating.rotation.x = -Math.PI / 2;
     floorCoating.position.set(this.width / 2, 0, this.depth / 2);
-    // Контакт на полу — SoftShadow, не Spot SM
     floorCoating.receiveShadow = false;
     floorCoating.castShadow = false;
+    floorCoating.userData.isFloorCoating = true;
+    floorCoating.userData.ikeaPortMatRole = 'floor';
     this.floorCoating = floorCoating;
     this.group.add(floorCoating);
 
     const floorBox = new THREE.Box3().setFromObject(floorBase).union(new THREE.Box3().setFromObject(floorCoating));
     this.surfaces.floor = floorBox;
 
-    // Dump empty PAX ceiling: Betrakta PBR, y≈2.63 м, rough 0.4, srgb≈0.996 (тот же lit-мир, что стены)
+    // Dump empty PAX ceiling: SOT rough 0.4 — MeshStandard как в Exp14.
     const ceilingGeometry = new THREE.BoxGeometry(this.width + 2 * T, wallThickness, this.depth + 2 * T);
-    const ceilingMaterial = new THREE.MeshBasicMaterial({
-      color: 0xfafafa,
-      side: THREE.DoubleSide,
-    });
+    const ceilingMaterial = makeIkeaCeilingStandardMaterial();
     const ceiling = new THREE.Mesh(ceilingGeometry, ceilingMaterial);
     ceiling.position.set(this.width / 2, this.height + wallThickness / 2, this.depth / 2);
     ceiling.userData.isCeiling = true;
+    ceiling.userData.ikeaPortMatRole = 'ceiling';
     ceiling.receiveShadow = false;
     ceiling.castShadow = false;
     this.group.add(ceiling);
@@ -164,19 +310,10 @@ class Room {
     const ceilingBox = new THREE.Box3().setFromObject(ceiling);
     this.surfaces.ceiling = ceilingBox;
 
-    const wallColor = 0xe8e8e0;
-    const frameMaterial = new THREE.MeshBasicMaterial({
-      color: wallColor,
-      side: THREE.DoubleSide,
-    });
-
-    const innerMaterial = new THREE.MeshBasicMaterial({
-      color: wallColor,
-      side: THREE.FrontSide,
-    });
-
-    // Чуть крупнее тайл — зерно читается со средней дистанции (500 мм уходило в «пелену»).
-    const tileSize = 380;
+    // Exp14 Step8A: IKEA wall paint MeshStandard.
+    const frameMaterial = makeIkeaWallStandardMaterial(THREE.DoubleSide);
+    const innerMaterial = makeIkeaWallStandardMaterial(THREE.FrontSide);
+    const tileSize = IKEA_WALL_PAINT_TILE_MM;
 
     // Имена по виду камеры: front = ближняя (Z=depth), back = дальняя (Z=0)
     const frontWall = this.createMiteredWall(this.width, this.height, wallThickness, 'front', frameMaterial.clone());
@@ -221,6 +358,361 @@ class Room {
     this.addDebugHelpers();
 
     // IKEA empty PAX: угловых debug-маркеров нет — не рисуем
+  }
+
+  /**
+   * Полигональная кухня (форма шага 1): пол/потолок по контуру, стены по сегментам.
+   * Открытые сегменты (open:true) — без стены (как open kitchen у IKEA).
+   */
+  buildPolygonRoom(spec) {
+    const wallThickness = 100;
+    const T = wallThickness;
+    const vertices = spec.vertices;
+    const segments = spec.segments || [];
+    this.footprintSpec = spec;
+    this.wallSegments = segments.slice();
+
+    const textureLoader = new THREE.TextureLoader();
+    const floorTextureUrl = '/images/textures/ikea/floor/diffuse.jpg';
+    const floorFallbackUrl =
+      '/images/textures/ikea/floor/ee604ccf7d4ed0ec53b5d8cf0032e707.jpg';
+    const floorTileSize = 640;
+
+    const applyFloorTexSettings = (texture) => {
+      texture.wrapS = THREE.RepeatWrapping;
+      texture.wrapT = THREE.RepeatWrapping;
+      // UV уже в мм комнаты (см. ShapeGeometry ниже) — repeat = 1
+      texture.repeat.set(1, 1);
+      texture.anisotropy = 8;
+      texture.generateMipmaps = true;
+      texture.minFilter = THREE.LinearMipmapLinearFilter;
+      texture.magFilter = THREE.LinearFilter;
+      if (typeof window.__cldResyncIkeaRoomFloorMap === 'function') {
+        /* resync */
+      } else if (typeof window.__cldPrepareIkeaV0Map === 'function') {
+        window.__cldPrepareIkeaV0Map(texture);
+      } else if (texture.colorSpace !== undefined && THREE.SRGBColorSpace !== undefined) {
+        texture.colorSpace = THREE.SRGBColorSpace;
+      } else if (texture.encoding !== undefined && THREE.sRGBEncoding !== undefined) {
+        texture.encoding = THREE.sRGBEncoding;
+      }
+      if (typeof texture.updateMatrix === 'function') texture.updateMatrix();
+      if (this.floorCoating?.material) {
+        this.floorCoating.material.map = texture;
+        this.floorCoating.material.needsUpdate = true;
+      }
+      if (typeof window.__cldResyncIkeaRoomFloorMap !== 'function') {
+        const img = texture.image;
+        const ready =
+          img &&
+          ((typeof HTMLImageElement !== 'undefined' &&
+            img instanceof HTMLImageElement &&
+            img.complete &&
+            img.naturalWidth > 0) ||
+            (img.width > 0 && img.height > 0));
+        if (ready) texture.needsUpdate = true;
+      }
+    };
+
+    const floorTexture = textureLoader.load(
+      floorTextureUrl,
+      (texture) => {
+        texture.needsUpdate = false;
+        this.floorTexture = texture;
+        applyFloorTexSettings(texture);
+        if (typeof window.__cldResyncIkeaRoomFloorMap === 'function') {
+          window.__cldResyncIkeaRoomFloorMap(texture);
+        }
+      },
+      undefined,
+      () => {
+        textureLoader.load(floorFallbackUrl, (texture) => {
+          texture.needsUpdate = false;
+          this.floorTexture = texture;
+          applyFloorTexSettings(texture);
+          if (typeof window.__cldResyncIkeaRoomFloorMap === 'function') {
+            window.__cldResyncIkeaRoomFloorMap(texture);
+          }
+        });
+      }
+    );
+
+    // Основание пола — точный footprint + правильный offset наружу на T
+    const baseThickness = T;
+    const outerFoot = offsetPolygonOutward(vertices, T);
+    const baseShape = new THREE.Shape();
+    baseShape.moveTo(outerFoot[0].x, outerFoot[0].z);
+    for (let i = 1; i < outerFoot.length; i++) baseShape.lineTo(outerFoot[i].x, outerFoot[i].z);
+    baseShape.closePath();
+    const floorBaseGeometry = new THREE.ExtrudeGeometry(baseShape, {
+      depth: baseThickness,
+      bevelEnabled: false,
+    });
+    floorBaseGeometry.rotateX(Math.PI / 2);
+    const floorBaseMaterial = makeIkeaFloorSlabStandardMaterial();
+    const floorBase = new THREE.Mesh(floorBaseGeometry, floorBaseMaterial);
+    floorBase.position.set(0, -1, 0);
+    floorBase.receiveShadow = false;
+    floorBase.castShadow = false;
+    floorBase.userData.isFloorBase = true;
+    floorBase.userData.ikeaPortMatRole = 'floor';
+    this.floorBase = floorBase;
+    this.group.add(floorBase);
+
+    // Паркет строго по footprint (без кривого pad) — стык к внутренней грани стены
+    const floorShape = new THREE.Shape();
+    floorShape.moveTo(vertices[0].x, -vertices[0].z);
+    for (let i = 1; i < vertices.length; i++) {
+      floorShape.lineTo(vertices[i].x, -vertices[i].z);
+    }
+    floorShape.closePath();
+    const floorCoatingGeometry = new THREE.ShapeGeometry(floorShape);
+    floorCoatingGeometry.rotateX(-Math.PI / 2);
+    {
+      const uv = floorCoatingGeometry.attributes.uv;
+      const pos = floorCoatingGeometry.attributes.position;
+      if (uv && pos) {
+        for (let i = 0; i < pos.count; i++) {
+          uv.setXY(i, pos.getX(i) / floorTileSize, pos.getZ(i) / floorTileSize);
+        }
+        uv.needsUpdate = true;
+      }
+    }
+    const floorCoatingMaterial = new THREE.MeshStandardMaterial({
+      color: 0xffffff,
+      roughness: IKEA_FLOOR_ROUGHNESS,
+      metalness: IKEA_FLOOR_METALNESS,
+      side: THREE.FrontSide,
+      polygonOffset: true,
+      polygonOffsetFactor: -1,
+      polygonOffsetUnits: -1,
+    });
+    const floorCoating = new THREE.Mesh(floorCoatingGeometry, floorCoatingMaterial);
+    floorCoating.position.set(0, 0, 0);
+    floorCoating.receiveShadow = false;
+    floorCoating.castShadow = false;
+    floorCoating.userData.isFloorCoating = true;
+    floorCoating.userData.ikeaPortMatRole = 'floor';
+    this.floorCoating = floorCoating;
+    this.group.add(floorCoating);
+    this.surfaces.floor = new THREE.Box3().setFromObject(floorBase).union(
+      new THREE.Box3().setFromObject(floorCoating)
+    );
+
+    // Потолок — контур в +XZ, нормаль вниз
+    const ceilingShape = new THREE.Shape();
+    ceilingShape.moveTo(vertices[0].x, vertices[0].z);
+    for (let i = 1; i < vertices.length; i++) {
+      ceilingShape.lineTo(vertices[i].x, vertices[i].z);
+    }
+    ceilingShape.closePath();
+    const ceilingGeom = new THREE.ShapeGeometry(ceilingShape);
+    ceilingGeom.rotateX(Math.PI / 2);
+    const ceilingMaterial = makeIkeaCeilingStandardMaterial();
+    const ceiling = new THREE.Mesh(ceilingGeom, ceilingMaterial);
+    ceiling.position.set(0, this.height, 0);
+    ceiling.userData.isCeiling = true;
+    ceiling.userData.ikeaPortMatRole = 'ceiling';
+    ceiling.receiveShadow = false;
+    ceiling.castShadow = false;
+    this.group.add(ceiling);
+    if (!this.walls) this.walls = {};
+    this.walls.ceiling = ceiling;
+    this.surfaces.ceiling = new THREE.Box3().setFromObject(ceiling);
+
+    const frameMaterial = makeIkeaWallStandardMaterial(THREE.DoubleSide);
+    const innerMaterial = makeIkeaWallStandardMaterial(THREE.FrontSide);
+
+    this.walls = this.walls || {};
+    this.wallInners = {};
+    this.wallPlanes = [];
+    this.originalWallMaterials = {};
+    this._frameGeomSolid = {};
+    this._innerGeomSolid = {};
+
+    // Стены: полосы inner→outer с общими вершинами offset (IKEA-митры).
+    // Одно Extrude-кольцо ломается на вогнутых углах (вырез) — щель во внутреннем углу.
+    this._polygonWallRing = null;
+    const nV = vertices.length;
+    const nSeg = segments.length;
+    for (let i = 0; i < nSeg; i++) {
+      const s = segments[i];
+      if (s.open) continue;
+      let vi = i;
+      if (vi >= nV) {
+        vi = vertices.findIndex(
+          (v) => Math.abs(v.x - s.x1) < 0.5 && Math.abs(v.z - s.z1) < 0.5
+        );
+        if (vi < 0) vi = 0;
+      }
+      const vj = (vi + 1) % nV;
+      const built = this.createOffsetWallStrip(
+        vertices[vi],
+        vertices[vj],
+        outerFoot[vi],
+        outerFoot[vj],
+        this.height,
+        frameMaterial.clone(),
+        innerMaterial.clone()
+      );
+      if (!built) continue;
+      const { frame, inner, plane } = built;
+      const key = s.wallName || s.id || 'seg_' + i;
+      frame.userData.wallName = key;
+      frame.userData.segmentId = s.id;
+      frame.userData.buildSide = key;
+      frame.userData.edgeIndex = vi;
+      frame.userData.wallLength = Math.hypot(s.x2 - s.x1, s.z2 - s.z1);
+      frame.userData.wallHeight = this.height;
+      frame.userData.wallThickness = T;
+      frame.userData.isPolygonWallStrip = true;
+      frame.userData.segment = {
+        x1: s.x1,
+        z1: s.z1,
+        x2: s.x2,
+        z2: s.z2,
+        len: frame.userData.wallLength,
+      };
+      // Плоский материал — IKEA-plan; не отдавать в v0 frame-шейдер
+      frame.userData.cldPlanFlatWall = true;
+      inner.userData.wallName = key;
+      inner.userData.edgeIndex = vi;
+      plane.userData.wallName = key;
+      plane.userData.edgeIndex = vi;
+      this.group.add(frame);
+      this.group.add(inner);
+      this.group.add(plane);
+      this.wallPlanes.push(plane);
+      if (s.wallName && !this.walls[s.wallName]) {
+        this.walls[s.wallName] = frame;
+        this.wallInners[s.wallName] = inner;
+        this.surfaces[s.wallName] = new THREE.Box3().setFromObject(frame);
+        this.originalWallMaterials[s.wallName] = frame.material;
+        this._frameGeomSolid[s.wallName] = frame.geometry;
+        this._innerGeomSolid[s.wallName] = inner.geometry;
+      } else if (!s.wallName) {
+        this.walls[key] = frame;
+        this.wallInners[key] = inner;
+        this.surfaces[key] = new THREE.Box3().setFromObject(frame);
+        this.originalWallMaterials[key] = frame.material;
+        this._frameGeomSolid[key] = frame.geometry;
+        this._innerGeomSolid[key] = inner.geometry;
+      }
+    }
+
+    this.highlightedWall = null;
+    this.openingExtras = [];
+    this.addDebugHelpers();
+  }
+
+  /**
+   * Стена = экструзия четырёхугольника innerA–innerB–outerB–outerA.
+   * Углы сходятся в вершинах outer-полигона (без «рогов» и щелей).
+   *
+   * Важно: внутреннюю грань короба утаскиваем в толщу стены — иначе в 3D
+   * DoubleSide-frame и wallInners почти совпадают → рябь (z-fight).
+   * На прямоугольнике этого нет: там createMiteredWall + createWallInnerFaces.
+   */
+  createOffsetWallStrip(innerA, innerB, outerA, outerB, height, frameMat, innerMat) {
+    const dx = innerB.x - innerA.x;
+    const dz = innerB.z - innerA.z;
+    const len = Math.hypot(dx, dz);
+    if (len < 1) return null;
+    const ux = dx / len;
+    const uz = dz / len;
+    const nx = -uz; // inward CCW
+    const nz = ux;
+
+    // Толщина сегмента (мм) — recess не больше ~30%
+    const thick = Math.hypot(outerA.x - innerA.x, outerA.z - innerA.z) || 100;
+    const recess = Math.max(4, Math.min(12, thick * 0.12));
+
+    // Грань короба со стороны комнаты — внутрь стены (−inward)
+    const fA = { x: innerA.x - nx * recess, z: innerA.z - nz * recess };
+    const fB = { x: innerB.x - nx * recess, z: innerB.z - nz * recess };
+
+    const shape = new THREE.Shape();
+    shape.moveTo(fA.x, fA.z);
+    shape.lineTo(fB.x, fB.z);
+    shape.lineTo(outerB.x, outerB.z);
+    shape.lineTo(outerA.x, outerA.z);
+    shape.closePath();
+    let geom = new THREE.ExtrudeGeometry(shape, { depth: height, bevelEnabled: false });
+    geom.rotateX(Math.PI / 2);
+    geom.translate(0, height, 0);
+
+    // Короб уводим в глубину относительно декоративной плоскости
+    if (frameMat) {
+      frameMat.polygonOffset = true;
+      frameMat.polygonOffsetFactor = 2;
+      frameMat.polygonOffsetUnits = 2;
+    }
+    const frame = new THREE.Mesh(geom, frameMat);
+    frame.receiveShadow = false;
+    frame.castShadow = false;
+    frame.position.set(0, 0, 0);
+    frame.userData.isPolygonWallStrip = true;
+    frame.userData.cldPlanFlatWall = true;
+
+    if (innerMat) {
+      innerMat.polygonOffset = true;
+      innerMat.polygonOffsetFactor = -1;
+      innerMat.polygonOffsetUnits = -1;
+      // Нужно ближе к камере, чем frame
+      if (innerMat.side == null) innerMat.side = THREE.FrontSide;
+    }
+    const midX = (innerA.x + innerB.x) / 2;
+    const midZ = (innerA.z + innerB.z) / 2;
+    // Чуть в комнату от footprint — единственная видимая внутренняя плоскость
+    const inset = 0.5;
+    const innerGeo = new THREE.PlaneGeometry(len, height);
+    const inner = new THREE.Mesh(innerGeo, innerMat);
+    inner.rotation.y = Math.atan2(nx, nz);
+    inner.position.set(midX + nx * inset, height / 2, midZ + nz * inset);
+    inner.receiveShadow = false;
+    inner.castShadow = false;
+    inner.renderOrder = 1;
+    inner.userData.isPolygonWallInner = true;
+
+    const plane = new THREE.Mesh(
+      new THREE.PlaneGeometry(len, height),
+      new THREE.MeshBasicMaterial({ visible: false, side: THREE.DoubleSide })
+    );
+    plane.rotation.y = Math.atan2(nx, nz);
+    plane.position.set(midX + nx * inset, height / 2, midZ + nz * inset);
+    plane.userData.normal = new THREE.Vector3(nx, 0, nz);
+    plane.userData.visible = true;
+    plane.userData.segmentLen = len;
+
+    return { frame, inner, plane };
+  }
+
+  /** @deprecated — оставлен для совместимости; buildPolygonRoom использует createOffsetWallStrip */
+  createSegmentWall(segment, height, thickness, frameMat, innerMat, miterStart, miterEnd) {
+    const T = thickness;
+    const x1 = segment.x1;
+    const z1 = segment.z1;
+    const x2 = segment.x2;
+    const z2 = segment.z2;
+    const dx = x2 - x1;
+    const dz = z2 - z1;
+    const len = Math.hypot(dx, dz);
+    if (len < 1) return null;
+    const ux = dx / len;
+    const uz = dz / len;
+    const nx = -uz;
+    const nz = ux;
+    const outerA = { x: x1 - nx * T, z: z1 - nz * T };
+    const outerB = { x: x2 - nx * T, z: z2 - nz * T };
+    return this.createOffsetWallStrip(
+      { x: x1, z: z1 },
+      { x: x2, z: z2 },
+      outerA,
+      outerB,
+      height,
+      frameMat,
+      innerMat
+    );
   }
 
   applyStaticRoomAoMaterials() {}
@@ -326,8 +818,8 @@ class Room {
    * UV-координаты масштабируются под физические размеры: 1 тайл = tileSize мм.
    */
   createWallInnerFaces(material, tileSize = 500) {
-    // Эпсилон от короба: анти z-fight со внутренней гранью, без врезки в планки (реф: плоскость на границе).
-    const offset = 0.2;
+    // Как Exp14: offset 1 мм + polygonOffset −1 → без ряби/просветов на дальней стене.
+    const offset = 1;
     const overlap = 1;
     const inners = {};
     const scaleUVs = (geom, w, h) => {
@@ -339,16 +831,18 @@ class Room {
     };
     const makeInnerMat = () => {
       const mat = material.clone();
-      // Стену не тянуть к камере: иначе обои рисуются поверх планок у стены.
       mat.polygonOffset = true;
-      mat.polygonOffsetFactor = 1;
-      mat.polygonOffsetUnits = 1;
+      mat.polygonOffsetFactor = -1;
+      mat.polygonOffsetUnits = -1;
       return mat;
     };
 
     const finishInner = (mesh) => {
       mesh.castShadow = false;
       mesh.receiveShadow = false;
+      mesh.renderOrder = 1;
+      mesh.userData.isWallInner = true;
+      mesh.userData.ikeaPortMatRole = 'wall';
       this.group.add(mesh);
     };
 
@@ -423,12 +917,21 @@ class Room {
     geom.boundingBox.getCenter(c);
     geom.translate(-c.x, -c.y, -c.z);
 
+    // Как Exp14: frame глубже inner (factor +2 / −1) — иначе рябь/«просветы» на стене.
+    if (material && !material.userData?.__cldWallFrameOffset) {
+      material.polygonOffset = true;
+      material.polygonOffsetFactor = 2;
+      material.polygonOffsetUnits = 2;
+      if (!material.userData) material.userData = {};
+      material.userData.__cldWallFrameOffset = true;
+    }
     const mesh = new THREE.Mesh(geom, material);
     // Без Spot SM на стенах (Betrakta soft ≠ Three SM)
     mesh.receiveShadow = false;
     mesh.castShadow = false;
     mesh.userData.wallName = side;
     mesh.userData.buildSide = side;
+    mesh.userData.ikeaPortMatRole = 'wall';
     mesh.userData.frameCenter = c.clone();
     mesh.userData.wallLength = length;
     mesh.userData.wallHeight = height;
@@ -643,24 +1146,38 @@ class Room {
     this.group.getWorldPosition(roomGroupWorldPos);
     const localCameraPos = cameraPos.clone().sub(roomGroupWorldPos);
 
+    const slopeForcedHidden = (mesh) =>
+      !!(mesh && mesh.userData && mesh.userData._slopeCutBackup && mesh.userData._slopeCutBackup.kind === 'hide');
+
     const setVisible = (name, visible) => {
-      if (this.walls[name]) this.walls[name].visible = visible;
+      // скошенный потолок прячет исходную стену — не возвращать её каждый кадр
+      if (this.walls[name]) {
+        this.walls[name].visible = slopeForcedHidden(this.walls[name]) ? false : visible;
+      }
       // В 2D-плане — только толстый контур стен (IKEA top view).
       // Иначе через щель двери видна «перемычка» внутренней панели.
       const hideInnerTop =
         typeof window !== 'undefined' && window.__cldRoomEditView === '2d';
-      if (this.wallInners?.[name]) this.wallInners[name].visible = visible && !hideInnerTop;
+      if (this.wallInners?.[name]) {
+        this.wallInners[name].visible = slopeForcedHidden(this.wallInners[name])
+          ? false
+          : visible && !hideInnerTop;
+      }
       // Синхронизируем видимость вспомогательных плоскостей стен (для raycast),
       // чтобы по скрытым стенам нельзя было кликнуть/ставить мебель.
       if (this.wallPlanes && this.wallPlanes.length) {
         this.wallPlanes.forEach((p) => {
           if (p.userData && p.userData.wallName === name) {
-            p.visible = visible;
+            p.visible = slopeForcedHidden(p) ? false : visible;
           }
         });
       }
       (this.openingExtras || []).forEach((m) => {
         if (!m || !m.userData || m.userData.wallName !== name) return;
+        if (slopeForcedHidden(m)) {
+          m.visible = false;
+          return;
+        }
         const view2d = typeof window !== 'undefined' && window.__cldRoomEditView === '2d';
         const view3d = typeof window !== 'undefined' && window.__cldRoomEditView === '3d';
         const hideTop = view2d && m.userData.hideInTopView;
@@ -668,10 +1185,59 @@ class Room {
         m.visible = visible && !hideTop && !hide3d;
       });
     };
+
+    // Полигон + 2D план / сценические CAD: стены без 3D cutaway.
+    // front/side: прячем ближнюю стену (иначе ortho смотрит в наружную грань → серый кадр).
+    const plan2d =
+      typeof window !== 'undefined' && window.__cldRoomEditView === '2d';
+    const scenePreset =
+      typeof window !== 'undefined'
+        ? String(window.__cldSceneViewPreset || '')
+            .trim()
+            .toLowerCase()
+        : '';
+    const sceneCadOrtho =
+      scenePreset === 'top' || scenePreset === 'front' || scenePreset === 'side';
+    if (
+      (plan2d || sceneCadOrtho) &&
+      Array.isArray(this.wallSegments) &&
+      this.wallSegments.length
+    ) {
+      Object.keys(this.walls).forEach((name) => {
+        if (name === 'ceiling') {
+          this.walls.ceiling.visible = false;
+          return;
+        }
+        let on = true;
+        if (scenePreset === 'front' && name === 'front') on = false;
+        if (scenePreset === 'side' && name === 'left') on = false;
+        setVisible(name, on);
+      });
+      if (this.wallPlanes) {
+        this.wallPlanes.forEach((p) => {
+          const wn = p.userData?.wallName;
+          let on = true;
+          if (scenePreset === 'front' && wn === 'front') on = false;
+          if (scenePreset === 'side' && wn === 'left') on = false;
+          p.visible = on;
+        });
+      }
+      return;
+    }
+
     setVisible('back', localCameraPos.z >= 0);
     setVisible('front', localCameraPos.z <= this.depth);
     setVisible('left', localCameraPos.x >= 0);
     setVisible('right', localCameraPos.x <= this.width);
+    // Extra polygon segments (notch etc.): keep visible in 3D
+    if (Array.isArray(this.wallSegments)) {
+      Object.keys(this.walls).forEach((name) => {
+        if (name === 'ceiling' || name === 'front' || name === 'back' || name === 'left' || name === 'right') {
+          return;
+        }
+        setVisible(name, true);
+      });
+    }
     // Потолок: у IKEA в elevated exterior не видно «крыши» плиты, но низ может быть
     // в кадре при более горизонтальном взгляде. Прячем только верхнюю грань снаружи.
     if (this.walls.ceiling) {
@@ -703,7 +1269,72 @@ class Room {
   }
 
   wallLengthOf(wallName) {
+    if (this.walls && this.walls[wallName] && this.walls[wallName].userData?.wallLength) {
+      return this.walls[wallName].userData.wallLength;
+    }
+    const hit = this.findWallSegment(wallName);
+    if (hit) {
+      return Math.hypot(hit.x2 - hit.x1, hit.z2 - hit.z1);
+    }
     return wallName === 'left' || wallName === 'right' ? this.depth : this.width;
+  }
+
+  /** Сегмент footprint по legacy-имени или id (e3… для внутренних рёбер выреза). */
+  findWallSegment(wallName) {
+    const segs = Array.isArray(this.wallSegments)
+      ? this.wallSegments
+      : this.footprintSpec && Array.isArray(this.footprintSpec.segments)
+        ? this.footprintSpec.segments
+        : null;
+    if (!segs || !wallName) return null;
+    return (
+      segs.find((s) => s && !s.open && (s.wallName === wallName || s.id === wallName)) || null
+    );
+  }
+
+  /** Ось along: 'x' (как front/back) или 'z' (как left/right). */
+  wallAlongAxis(wallName) {
+    if (wallName === 'front' || wallName === 'back') return 'x';
+    if (wallName === 'left' || wallName === 'right') return 'z';
+    const s = this.findWallSegment(wallName);
+    if (!s) return 'x';
+    return Math.abs(s.x2 - s.x1) >= Math.abs(s.z2 - s.z1) ? 'x' : 'z';
+  }
+
+  /**
+   * Кардинальная сторона для inward (дверь/подсветка).
+   * Для polygon-рёбер — по нормали CCW (inward = (-dz, dx)).
+   */
+  wallCardinalSide(wallName) {
+    if (
+      wallName === 'front' ||
+      wallName === 'back' ||
+      wallName === 'left' ||
+      wallName === 'right'
+    ) {
+      return wallName;
+    }
+    const s = this.findWallSegment(wallName);
+    if (!s) return 'back';
+    const dx = s.x2 - s.x1;
+    const dz = s.z2 - s.z1;
+    const len = Math.hypot(dx, dz) || 1;
+    const inx = -dz / len;
+    const inz = dx / len;
+    if (Math.abs(inx) >= Math.abs(inz)) return inx > 0 ? 'left' : 'right';
+    return inz > 0 ? 'back' : 'front';
+  }
+
+  /** Начало сегмента стены в абсолютных along (X или Z комнаты). */
+  wallAlongOrigin(wallName) {
+    const hit = this.findWallSegment(wallName);
+    if (!hit) return 0;
+    if (this.wallAlongAxis(wallName) === 'x') return Math.min(hit.x1, hit.x2);
+    return Math.min(hit.z1, hit.z2);
+  }
+
+  _relAlong(wallName, alongAbs) {
+    return (Number(alongAbs) || 0) - this.wallAlongOrigin(wallName);
   }
 
   _clearOpeningExtras() {
@@ -792,12 +1423,16 @@ class Room {
     return geom;
   }
 
-  _solidIntervals(length, holes) {
+  _solidIntervals(length, holes, wallName) {
+    const origin = wallName ? this.wallAlongOrigin(wallName) : 0;
     const cuts = (holes || [])
-      .map((h) => ({
-        a: Math.max(0, h.alongMm - h.widthMm / 2),
-        b: Math.min(length, h.alongMm + h.widthMm / 2),
-      }))
+      .map((h) => {
+        const rel = (h.alongMm || 0) - origin;
+        return {
+          a: Math.max(0, rel - h.widthMm / 2),
+          b: Math.min(length, rel + h.widthMm / 2),
+        };
+      })
       .filter((h) => h.b - h.a > 1)
       .sort((x, y) => x.a - y.a);
     const merged = [];
@@ -816,10 +1451,11 @@ class Room {
     return { solids, holes: merged };
   }
 
-  _alongToLocalX(wallName, alongMm) {
+  _alongToLocalX(wallName, alongAbs) {
     const len = this.wallLengthOf(wallName);
-    if (wallName === 'left') return len / 2 - alongMm;
-    return alongMm - len / 2;
+    const rel = this._relAlong(wallName, alongAbs);
+    if (this.wallCardinalSide(wallName) === 'left') return len / 2 - rel;
+    return rel - len / 2;
   }
 
   _rebuildInnerWithHoles(wallName, openings) {
@@ -898,7 +1534,7 @@ class Room {
     const side = frame.userData.buildSide || wallName;
     const center = frame.userData.frameCenter;
     if (!center) return;
-    const split = this._solidIntervals(length, openings);
+    const split = this._solidIntervals(length, openings, wallName);
     // Только боковые сегменты в той же митрованной геометрии — углы как до двери.
     const geoms = split.solids.map((s) =>
       this._extrudeWallSlice(length, height, T, side, s.a, s.b, s.a <= 0.5, s.b >= length - 0.5, center)
@@ -928,13 +1564,20 @@ class Room {
     if (span < 1 || h < 1) return null;
     const along = (along0 + along1) / 2;
     const y = (y0 + y1) / 2;
+    const side = this.wallCardinalSide(wallName);
+    const axis = this.wallAlongAxis(wallName);
+    const seg = this.findWallSegment(wallName);
     let mesh;
-    if (wallName === 'back' || wallName === 'front') {
+    if (axis === 'x') {
       mesh = new THREE.Mesh(new THREE.BoxGeometry(span, h, T));
-      mesh.position.set(along, y, wallName === 'back' ? -T / 2 : this.depth + T / 2);
+      const mz = seg ? (seg.z1 + seg.z2) / 2 : side === 'back' ? 0 : this.depth;
+      const z = side === 'back' ? mz - T / 2 : mz + T / 2;
+      mesh.position.set(along, y, z);
     } else {
       mesh = new THREE.Mesh(new THREE.BoxGeometry(T, h, span));
-      mesh.position.set(wallName === 'left' ? -T / 2 : this.width + T / 2, y, along);
+      const mx = seg ? (seg.x1 + seg.x2) / 2 : side === 'left' ? 0 : this.width;
+      const x = side === 'left' ? mx - T / 2 : mx + T / 2;
+      mesh.position.set(x, y, along);
     }
     const frame = this.walls && this.walls[wallName];
     mesh.material = (frame && frame.material) || new THREE.MeshBasicMaterial({ color: 0xe8e8e0, side: THREE.DoubleSide });
@@ -1142,6 +1785,12 @@ class Room {
       mesh.material.userData.openingRole = useRole;
       mesh.material.userData.openingPart = part || 'sash';
       if (src && src.name) mesh.material.name = src.name;
+      if (kind === 'rubber') {
+        // Уплотнитель почти копланарен раме — без сдвига глубины z-fighting пунктиром.
+        mesh.material.polygonOffset = true;
+        mesh.material.polygonOffsetFactor = 1;
+        mesh.material.polygonOffsetUnits = 2;
+      }
     }
     this._openingDisableSoftSpotLayers(mesh);
   }
@@ -1356,14 +2005,14 @@ class Room {
     canvas.height = h;
     const ctx = canvas.getContext('2d');
     const sky = ctx.createLinearGradient(0, 0, 0, h * 0.72);
-    sky.addColorStop(0, '#9ec8ea');
-    sky.addColorStop(0.55, '#cfe4f5');
-    sky.addColorStop(1, '#e8eef3');
+    sky.addColorStop(0, '#e6eff6');
+    sky.addColorStop(0.55, '#f4f7fa');
+    sky.addColorStop(1, '#fbfcfd');
     ctx.fillStyle = sky;
     ctx.fillRect(0, 0, w, h * 0.72);
     const ground = ctx.createLinearGradient(0, h * 0.72, 0, h);
-    ground.addColorStop(0, '#b7c4a8');
-    ground.addColorStop(1, '#8a9578');
+    ground.addColorStop(0, '#eef0ea');
+    ground.addColorStop(1, '#dfe3d8');
     ctx.fillStyle = ground;
     ctx.fillRect(0, h * 0.72, w, h * 0.28);
     ctx.fillStyle = 'rgba(255,255,255,0.25)';
@@ -1435,9 +2084,16 @@ class Room {
     return tex;
   }
 
+  /** GLB-окно стоит в середине толщины стены — откосы видны и получают свет/тень спота. */
+  _openingWindowInsetMm(op) {
+    if (!op || op.type !== 'window' || !String(op.modelUrl || '').trim()) return 0;
+    return 50;
+  }
+
   /** Contact shadows как у IKEA: мягкая AO-полоса рамы на стене + тень под подоконником. */
   _addOpeningContactShadows(op, extras) {
     if (!op || op.type !== 'window') return;
+    const recessed = this._openingWindowInsetMm(op) > 0;
     const wallName = op.wallName;
     const along = op.alongMm;
     const w = op.widthMm;
@@ -1543,10 +2199,14 @@ class Room {
         sillStrip.visible = false;
       }
       this.group.add(wallBlob);
-      this.group.add(sillStrip);
-      extras.push(wallBlob, sillStrip);
+      extras.push(wallBlob);
+      if (!recessed) {
+        this.group.add(sillStrip);
+        extras.push(sillStrip);
+      }
     }
 
+    if (recessed) return;
     if (typeof window !== 'undefined' && window.__cldRoomEditView === '2d') frameAo.visible = false;
     this.group.add(frameAo);
     extras.push(frameAo);
@@ -1560,10 +2220,12 @@ class Room {
     const sill = op.sillMm || 0;
     const finishId = op.finishId || 'white';
     const { spec } = this._openingFinishSpecSync(finishId);
-    const sillDepth = 120;
+    const inset = this._openingWindowInsetMm(op);
+    const sillDepth = 120 + inset;
     const sillThick = 30;
     const sillW = Math.max(40, w + 40);
     const sillY = sill + sillThick / 2;
+    const sillMid = sillDepth / 2 - inset;
     let geo;
     if (wallName === 'back' || wallName === 'front') {
       geo = new THREE.BoxGeometry(sillW, sillThick, sillDepth);
@@ -1578,10 +2240,10 @@ class Room {
     sillMesh.castShadow = false;
     sillMesh.receiveShadow = false;
     sillMesh.userData.spotShadowCaster = false;
-    if (wallName === 'back') sillMesh.position.set(along, sillY, sillDepth / 2);
-    else if (wallName === 'front') sillMesh.position.set(along, sillY, this.depth - sillDepth / 2);
-    else if (wallName === 'left') sillMesh.position.set(sillDepth / 2, sillY, along);
-    else sillMesh.position.set(this.width - sillDepth / 2, sillY, along);
+    if (wallName === 'back') sillMesh.position.set(along, sillY, sillMid);
+    else if (wallName === 'front') sillMesh.position.set(along, sillY, this.depth - sillMid);
+    else if (wallName === 'left') sillMesh.position.set(sillMid, sillY, along);
+    else sillMesh.position.set(this.width - sillMid, sillY, along);
 
     const attachSillMat = (resolved) => {
       this._bindOpeningMeshToV0(sillMesh, 'frame', resolved);
@@ -1625,31 +2287,40 @@ class Room {
     const extras = [];
     const T = 100;
     const midY = sill + h / 2;
+    const side = this.wallCardinalSide(wallName);
+    const axis = this.wallAlongAxis(wallName);
+    const seg = this.findWallSegment(wallName);
 
     // 2D proxy в щели стены (как у IKEA) — только план; в 3D скрыт
     let proxy;
-    if (wallName === 'back' || wallName === 'front') {
+    if (axis === 'x') {
+      const mz = seg ? (seg.z1 + seg.z2) / 2 : side === 'back' ? 0 : this.depth;
+      const z = side === 'back' ? mz - T / 2 : mz + T / 2;
       proxy = new THREE.Mesh(
         new THREE.BoxGeometry(w, 24, T - 4),
         new THREE.MeshBasicMaterial({
-          color: selected ? 0xb8d4f0 : 0xffffff,
+          color: selected ? 0xd6e8f8 : 0xf3eee6,
           transparent: true,
-          opacity: selected ? 0.98 : 0.92,
+          opacity: selected ? 0.98 : 0.96,
           depthWrite: false,
+          depthTest: false,
         })
       );
-      proxy.position.set(along, 12, wallName === 'back' ? -T / 2 : this.depth + T / 2);
+      proxy.position.set(along, 14, z);
     } else {
+      const mx = seg ? (seg.x1 + seg.x2) / 2 : side === 'left' ? 0 : this.width;
+      const x = side === 'left' ? mx - T / 2 : mx + T / 2;
       proxy = new THREE.Mesh(
         new THREE.BoxGeometry(T - 4, 24, w),
         new THREE.MeshBasicMaterial({
-          color: selected ? 0xb8d4f0 : 0xffffff,
+          color: selected ? 0xd6e8f8 : 0xf3eee6,
           transparent: true,
-          opacity: selected ? 0.98 : 0.92,
+          opacity: selected ? 0.98 : 0.96,
           depthWrite: false,
+          depthTest: false,
         })
       );
-      proxy.position.set(wallName === 'left' ? -T / 2 : this.width + T / 2, 12, along);
+      proxy.position.set(x, 14, along);
     }
     proxy.userData.wallName = wallName;
     proxy.userData.isRoomOpening = true;
@@ -1662,6 +2333,9 @@ class Room {
     if (typeof window !== 'undefined' && window.__cldRoomEditView === '3d') proxy.visible = false;
     this.group.add(proxy);
     extras.push(proxy);
+
+    // IKEA-план: дверь/окно читаются сверху (дуга / переплёт)
+    this._addOpeningPlan2dSymbol(op, extras, selected);
 
     if (selected) {
       const ikeaBlue = 0x4a90d9;
@@ -1682,7 +2356,7 @@ class Room {
 
       // 3D: синяя рамка проёма (IKEA outline)
       let outlineGeo;
-      if (wallName === 'back' || wallName === 'front') {
+      if (axis === 'x') {
         outlineGeo = new THREE.BoxGeometry(w, h, 10);
       } else {
         outlineGeo = new THREE.BoxGeometry(10, h, w);
@@ -1692,10 +2366,15 @@ class Room {
         new THREE.LineBasicMaterial({ color: ikeaBlue })
       );
       outlineGeo.dispose();
-      if (wallName === 'back') edge3d.position.set(along, midY, 6);
-      else if (wallName === 'front') edge3d.position.set(along, midY, this.depth - 6);
-      else if (wallName === 'left') edge3d.position.set(6, midY, along);
-      else edge3d.position.set(this.width - 6, midY, along);
+      if (axis === 'x') {
+        const mz = seg ? (seg.z1 + seg.z2) / 2 : side === 'back' ? 0 : this.depth;
+        const z = side === 'back' ? mz + 6 : mz - 6;
+        edge3d.position.set(along, midY, z);
+      } else {
+        const mx = seg ? (seg.x1 + seg.x2) / 2 : side === 'left' ? 0 : this.width;
+        const x = side === 'left' ? mx + 6 : mx - 6;
+        edge3d.position.set(x, midY, along);
+      }
       edge3d.userData.wallName = wallName;
       edge3d.userData.hideInTopView = true;
       edge3d.userData.isRoomOpeningOutline = true;
@@ -1736,16 +2415,17 @@ class Room {
         holder.userData.isRoomOpeningModel = true;
         holder.userData.hideInTopView = true;
         holder.userData.openingId = op.id;
-        if (wallName === 'back') holder.position.set(along, midY, 20);
+        const inset = this._openingWindowInsetMm(op);
+        if (wallName === 'back') holder.position.set(along, midY, -inset);
         else if (wallName === 'front') {
           holder.rotation.y = Math.PI;
-          holder.position.set(along, midY, this.depth - 20);
+          holder.position.set(along, midY, this.depth + inset);
         } else if (wallName === 'left') {
           holder.rotation.y = Math.PI / 2;
-          holder.position.set(20, midY, along);
+          holder.position.set(-inset, midY, along);
         } else {
           holder.rotation.y = -Math.PI / 2;
-          holder.position.set(this.width - 20, midY, along);
+          holder.position.set(this.width + inset, midY, along);
         }
         if (typeof window !== 'undefined' && window.__cldRoomEditView === '2d') holder.visible = false;
         this.group.add(holder);
@@ -1863,18 +2543,238 @@ class Room {
     this.openingExtras = (this.openingExtras || []).concat(extras);
   }
 
+  /**
+   * 2D-символ проёма как у IKEA: дверь = полотно + дуга; окно = двойной переплёт в щели стены.
+   */
+  _addOpeningPlan2dSymbol(op, extras, selected) {
+    if (!op || op.kind === 'opening') return;
+    const wallName = op.wallName;
+    const along = Number(op.alongMm) || 0;
+    const w = Math.max(40, Number(op.widthMm) || 900);
+    const T = 100;
+    const y = 28;
+    const isWindow = op.type === 'window';
+    const ink = selected ? 0x1a5fb4 : 0x222222;
+    const inkSoft = selected ? 0x3584e4 : 0x444444;
+    const side = this.wallCardinalSide(wallName);
+    const axis = this.wallAlongAxis(wallName);
+    const seg = this.findWallSegment(wallName);
+    const group = new THREE.Group();
+    group.userData.wallName = wallName;
+    group.userData.openingId = op.id;
+    group.userData.isRoomOpeningPlanSymbol = true;
+    group.userData.hideIn3dView = true;
+    group.renderOrder = 30;
+    if (typeof window !== 'undefined' && window.__cldRoomEditView === '3d') group.visible = false;
+
+    const wallZ = () => {
+      const mz = seg ? (seg.z1 + seg.z2) / 2 : side === 'back' ? 0 : this.depth;
+      return side === 'back' ? mz - T / 2 : mz + T / 2;
+    };
+    const wallX = () => {
+      const mx = seg ? (seg.x1 + seg.x2) / 2 : side === 'left' ? 0 : this.width;
+      return side === 'left' ? mx - T / 2 : mx + T / 2;
+    };
+    const hingeOnSeg = (hingeAlong) => {
+      if (axis === 'x') {
+        const mz = seg ? (seg.z1 + seg.z2) / 2 : side === 'back' ? 0 : this.depth;
+        return new THREE.Vector3(hingeAlong, y, mz);
+      }
+      const mx = seg ? (seg.x1 + seg.x2) / 2 : side === 'left' ? 0 : this.width;
+      return new THREE.Vector3(mx, y, hingeAlong);
+    };
+
+    const addSeg = (x1, z1, x2, z2, color, thick) => {
+      const dx = x2 - x1;
+      const dz = z2 - z1;
+      const len = Math.hypot(dx, dz) || 1;
+      const mesh = new THREE.Mesh(
+        new THREE.BoxGeometry(len, 5, Math.max(6, thick || 10)),
+        new THREE.MeshBasicMaterial({
+          color: color,
+          depthTest: false,
+          depthWrite: false,
+        })
+      );
+      mesh.position.set((x1 + x2) / 2, y, (z1 + z2) / 2);
+      mesh.rotation.y = Math.atan2(dx, dz) - Math.PI / 2;
+      mesh.renderOrder = 31;
+      mesh.userData.wallName = wallName;
+      mesh.userData.openingId = op.id;
+      mesh.userData.hideIn3dView = true;
+      group.add(mesh);
+      return mesh;
+    };
+
+    const addArc = (hx, hz, radius, fromAng, toAng, color) => {
+      const steps = 28;
+      const pts = [];
+      for (let i = 0; i <= steps; i++) {
+        const t = i / steps;
+        const a = fromAng + (toAng - fromAng) * t;
+        pts.push(new THREE.Vector3(hx + Math.cos(a) * radius, y, hz + Math.sin(a) * radius));
+      }
+      // дуга как цепочка коротких сегментов-боксов (linewidth в WebGL ≈1)
+      for (let i = 0; i < pts.length - 1; i++) {
+        addSeg(pts[i].x, pts[i].z, pts[i + 1].x, pts[i + 1].z, color, 7);
+      }
+    };
+
+    const addThinLeaf = (cx, cy, cz, rotY, len, thick, color) => {
+      const mesh = new THREE.Mesh(
+        new THREE.BoxGeometry(len, 7, thick),
+        new THREE.MeshBasicMaterial({
+          color: color,
+          depthTest: false,
+          depthWrite: false,
+        })
+      );
+      mesh.position.set(cx, cy, cz);
+      mesh.rotation.y = rotY;
+      mesh.renderOrder = 32;
+      mesh.userData.wallName = wallName;
+      mesh.userData.openingId = op.id;
+      mesh.userData.hideIn3dView = true;
+      group.add(mesh);
+      return mesh;
+    };
+
+    if (isWindow) {
+      // Двойной переплёт в толщине стены — жирные линии (как IKEA casement)
+      const gap = 12;
+      const pane = (w - gap) / 2;
+      const frameT = Math.max(28, T - 12);
+      const ft = 12;
+      if (axis === 'x') {
+        const z = wallZ();
+        const x0 = along - w / 2;
+        addSeg(x0, z - frameT / 2, x0 + w, z - frameT / 2, ink, ft);
+        addSeg(x0, z + frameT / 2, x0 + w, z + frameT / 2, ink, ft);
+        addSeg(along, z - frameT / 2, along, z + frameT / 2, ink, ft);
+        addSeg(x0, z - frameT / 2, x0, z + frameT / 2, ink, ft);
+        addSeg(x0 + w, z - frameT / 2, x0 + w, z + frameT / 2, ink, ft);
+        const mkPane = (cx) => {
+          const m = new THREE.Mesh(
+            new THREE.BoxGeometry(Math.max(20, pane - 8), 4, frameT - 16),
+            new THREE.MeshBasicMaterial({
+              color: selected ? 0x9ec5e8 : 0xa8c4d8,
+              transparent: true,
+              opacity: 0.75,
+              depthTest: false,
+              depthWrite: false,
+            })
+          );
+          m.position.set(cx, y, z);
+          m.renderOrder = 30;
+          m.userData.wallName = wallName;
+          m.userData.openingId = op.id;
+          m.userData.hideIn3dView = true;
+          group.add(m);
+        };
+        mkPane(along - pane / 2 - gap / 4);
+        mkPane(along + pane / 2 + gap / 4);
+      } else {
+        const x = wallX();
+        const z0 = along - w / 2;
+        addSeg(x - frameT / 2, z0, x - frameT / 2, z0 + w, ink, ft);
+        addSeg(x + frameT / 2, z0, x + frameT / 2, z0 + w, ink, ft);
+        addSeg(x - frameT / 2, along, x + frameT / 2, along, ink, ft);
+        addSeg(x - frameT / 2, z0, x + frameT / 2, z0, ink, ft);
+        addSeg(x - frameT / 2, z0 + w, x + frameT / 2, z0 + w, ink, ft);
+        const mkPane = (cz) => {
+          const m = new THREE.Mesh(
+            new THREE.BoxGeometry(frameT - 16, 4, Math.max(20, pane - 8)),
+            new THREE.MeshBasicMaterial({
+              color: selected ? 0x9ec5e8 : 0xa8c4d8,
+              transparent: true,
+              opacity: 0.75,
+              depthTest: false,
+              depthWrite: false,
+            })
+          );
+          m.position.set(x, y, cz);
+          m.renderOrder = 30;
+          m.userData.wallName = wallName;
+          m.userData.openingId = op.id;
+          m.userData.hideIn3dView = true;
+          group.add(m);
+        };
+        mkPane(along - pane / 2 - gap / 4);
+        mkPane(along + pane / 2 + gap / 4);
+      }
+    } else {
+      // Дверь: полотно 90° + дуга
+      const handleLeft = op.handleSide !== 'RIGHT';
+      const openOut = op.openingDirection === 'OUTWARDS';
+      const mirrored = side !== 'back';
+      const hingeSign = handleLeft ? (mirrored ? -1 : 1) : mirrored ? 1 : -1;
+      const hingeAlong = along + hingeSign * (w / 2);
+      const leafThick = 16;
+
+      let alongAxis;
+      let inward;
+      if (side === 'back') {
+        alongAxis = new THREE.Vector3(1, 0, 0);
+        inward = new THREE.Vector3(0, 0, 1);
+      } else if (side === 'front') {
+        alongAxis = new THREE.Vector3(1, 0, 0);
+        inward = new THREE.Vector3(0, 0, -1);
+      } else if (side === 'left') {
+        alongAxis = new THREE.Vector3(0, 0, 1);
+        inward = new THREE.Vector3(1, 0, 0);
+      } else {
+        alongAxis = new THREE.Vector3(0, 0, 1);
+        inward = new THREE.Vector3(-1, 0, 0);
+      }
+      const hinge = hingeOnSeg(hingeAlong);
+
+      const closedDir = alongAxis.clone().multiplyScalar(-hingeSign);
+      const swingDir = openOut ? inward.clone().negate() : inward.clone();
+      const leafDir = swingDir.clone().normalize();
+      const mid = hinge.clone().add(leafDir.clone().multiplyScalar(w / 2));
+      const rotY = Math.atan2(leafDir.x, leafDir.z) - Math.PI / 2;
+      addThinLeaf(mid.x, y, mid.z, rotY, w, leafThick, ink);
+
+      const a0 = Math.atan2(closedDir.z, closedDir.x);
+      const a1 = Math.atan2(swingDir.z, swingDir.x);
+      let da = a1 - a0;
+      while (da > Math.PI) da -= Math.PI * 2;
+      while (da < -Math.PI) da += Math.PI * 2;
+      addArc(hinge.x, hinge.z, w, a0, a0 + da, inkSoft);
+
+      if (axis === 'x') {
+        const z = wallZ();
+        addSeg(along - w / 2, z, along + w / 2, z, inkSoft, 8);
+      } else {
+        const x = wallX();
+        addSeg(x, along - w / 2, x, along + w / 2, inkSoft, 8);
+      }
+    }
+
+    this.group.add(group);
+    extras.push(group);
+  }
+
   applyOpenings(openings, opts) {
     const list = Array.isArray(openings) ? openings : [];
     this.openings = list;
     this._openingExtrasGen = (this._openingExtrasGen || 0) + 1;
     this._clearOpeningExtras();
-    const byWall = { front: [], back: [], left: [], right: [] };
+    const byWall = {};
     list.forEach((op) => {
-      if (op && byWall[op.wallName]) byWall[op.wallName].push(op);
+      if (!op || !op.wallName) return;
+      if (!byWall[op.wallName]) byWall[op.wallName] = [];
+      byWall[op.wallName].push(op);
     });
-    ['front', 'back', 'left', 'right'].forEach((name) => {
-      this._rebuildFrameWithHoles(name, byWall[name]);
-      this._rebuildInnerWithHoles(name, byWall[name]);
+    const wallKeys = new Set(['front', 'back', 'left', 'right', ...Object.keys(byWall)]);
+    if (this.walls) {
+      Object.keys(this.walls).forEach((k) => {
+        if (k !== 'ceiling') wallKeys.add(k);
+      });
+    }
+    wallKeys.forEach((name) => {
+      this._rebuildFrameWithHoles(name, byWall[name] || []);
+      this._rebuildInnerWithHoles(name, byWall[name] || []);
     });
     list.forEach((op) => this._addOpeningExtras(op, opts || {}));
     const sel = opts && opts.selectedId;
@@ -1893,56 +2793,38 @@ class Room {
 
   /**
    * IKEA: 2D — толстая тёмная полоса стены; 3D — тонкая синяя линия по верху стены.
+   * Длина = реальный сегмент (wallLengthOf), не AABB — иначе на L/вырезе полоса уходит в пустоту.
    */
   setFeatureWallHighlight(wallName) {
     this.clearFeatureWallHighlight();
     if (!wallName || !this.walls || !this.walls[wallName]) return;
     const T = 100;
+    const len = Math.max(1, this.wallLengthOf(wallName));
+    const start = this.wallAlongOrigin(wallName);
+    const mid = start + len / 2;
+    const side = this.wallCardinalSide(wallName);
+    const axis = this.wallAlongAxis(wallName);
+    const seg = this.findWallSegment(wallName);
     const is2d = typeof window !== 'undefined' && window.__cldRoomEditView !== '3d';
+    const y = is2d ? 6 : this.height + 4;
+    const barH = is2d ? 10 : 8;
+    const stroke = is2d ? 36 : 12;
+    const mat = new THREE.MeshBasicMaterial({
+      color: is2d ? 0x1a1a1a : 0x4a90d9,
+      depthTest: !is2d,
+      depthWrite: false,
+    });
     let mesh;
-    if (is2d) {
-      const barH = 10;
-      const stroke = 36;
-      const mat = new THREE.MeshBasicMaterial({
-        color: 0x1a1a1a,
-        depthTest: false,
-        depthWrite: false,
-      });
-      if (wallName === 'back') {
-        mesh = new THREE.Mesh(new THREE.BoxGeometry(this.width + T * 2, barH, stroke), mat);
-        mesh.position.set(this.width / 2, 6, -T / 2);
-      } else if (wallName === 'front') {
-        mesh = new THREE.Mesh(new THREE.BoxGeometry(this.width + T * 2, barH, stroke), mat);
-        mesh.position.set(this.width / 2, 6, this.depth + T / 2);
-      } else if (wallName === 'left') {
-        mesh = new THREE.Mesh(new THREE.BoxGeometry(stroke, barH, this.depth + T * 2), mat);
-        mesh.position.set(-T / 2, 6, this.depth / 2);
-      } else {
-        mesh = new THREE.Mesh(new THREE.BoxGeometry(stroke, barH, this.depth + T * 2), mat);
-        mesh.position.set(this.width + T / 2, 6, this.depth / 2);
-      }
+    if (axis === 'x') {
+      const mz = seg ? (seg.z1 + seg.z2) / 2 : side === 'back' ? 0 : this.depth;
+      const z = side === 'back' ? mz - T / 2 : mz + T / 2;
+      mesh = new THREE.Mesh(new THREE.BoxGeometry(len + T * 2, barH, stroke), mat);
+      mesh.position.set(mid, y, z);
     } else {
-      const barH = 8;
-      const stroke = 12;
-      const mat = new THREE.MeshBasicMaterial({
-        color: 0x4a90d9,
-        depthTest: true,
-        depthWrite: false,
-      });
-      const y = this.height + 4;
-      if (wallName === 'back') {
-        mesh = new THREE.Mesh(new THREE.BoxGeometry(this.width + T * 2, barH, stroke), mat);
-        mesh.position.set(this.width / 2, y, -T / 2);
-      } else if (wallName === 'front') {
-        mesh = new THREE.Mesh(new THREE.BoxGeometry(this.width + T * 2, barH, stroke), mat);
-        mesh.position.set(this.width / 2, y, this.depth + T / 2);
-      } else if (wallName === 'left') {
-        mesh = new THREE.Mesh(new THREE.BoxGeometry(stroke, barH, this.depth + T * 2), mat);
-        mesh.position.set(-T / 2, y, this.depth / 2);
-      } else {
-        mesh = new THREE.Mesh(new THREE.BoxGeometry(stroke, barH, this.depth + T * 2), mat);
-        mesh.position.set(this.width + T / 2, y, this.depth / 2);
-      }
+      const mx = seg ? (seg.x1 + seg.x2) / 2 : side === 'left' ? 0 : this.width;
+      const x = side === 'left' ? mx - T / 2 : mx + T / 2;
+      mesh = new THREE.Mesh(new THREE.BoxGeometry(stroke, barH, len + T * 2), mat);
+      mesh.position.set(x, y, mid);
     }
     mesh.userData.isFeatureWallHighlight = true;
     mesh.userData.wallName = wallName;
@@ -1967,6 +2849,124 @@ class Room {
         wall.material = this.originalWallMaterials[this.highlightedWall].clone();
       }
       this.highlightedWall = null;
+    }
+  }
+
+  /**
+   * Внутренние перегородки (не в outer footprint ring).
+   * Сегмент — осевая линия; толщина ±T/2 по нормали в XZ.
+   * @param {Array<{id?:string,x1:number,z1:number,x2:number,z2:number}>} walls
+   */
+  applyInteriorWalls(walls) {
+    const disposeObj = (o) => {
+      if (!o) return;
+      if (o.geometry) o.geometry.dispose();
+      if (o.material) {
+        if (Array.isArray(o.material)) o.material.forEach((m) => m.dispose());
+        else o.material.dispose();
+      }
+    };
+    if (this._interiorWallObjs && this._interiorWallObjs.length) {
+      for (const o of this._interiorWallObjs) {
+        if (o.parent) o.parent.remove(o);
+        disposeObj(o);
+      }
+    }
+    this._interiorWallObjs = [];
+    if (!this.walls) this.walls = {};
+    if (!this.wallInners) this.wallInners = {};
+    if (!this.wallPlanes) this.wallPlanes = [];
+    if (!this.originalWallMaterials) this.originalWallMaterials = {};
+    if (!this._frameGeomSolid) this._frameGeomSolid = {};
+    if (!this._innerGeomSolid) this._innerGeomSolid = {};
+
+    // Убрать прошлые ключи iw*
+    for (const k of Object.keys(this.walls)) {
+      if (String(k).startsWith('iw')) {
+        delete this.walls[k];
+        delete this.wallInners[k];
+        delete this.surfaces[k];
+        delete this.originalWallMaterials[k];
+        delete this._frameGeomSolid[k];
+        delete this._innerGeomSolid[k];
+      }
+    }
+    this.wallPlanes = (this.wallPlanes || []).filter(
+      (p) => !(p && p.userData && p.userData.isInteriorWall)
+    );
+
+    const list = Array.isArray(walls) ? walls : [];
+    if (!list.length) return;
+
+    const T = 100;
+    const half = T / 2;
+    const wallColor = 0xe8e8e0;
+    const frameMaterial = new THREE.MeshBasicMaterial({
+      color: wallColor,
+      side: THREE.DoubleSide,
+    });
+    const innerMaterial = new THREE.MeshBasicMaterial({
+      color: wallColor,
+      side: THREE.FrontSide,
+    });
+
+    for (let i = 0; i < list.length; i++) {
+      const w = list[i];
+      if (!w) continue;
+      const x1 = Number(w.x1);
+      const z1 = Number(w.z1);
+      const x2 = Number(w.x2);
+      const z2 = Number(w.z2);
+      if (![x1, z1, x2, z2].every(Number.isFinite)) continue;
+      const dx = x2 - x1;
+      const dz = z2 - z1;
+      const len = Math.hypot(dx, dz);
+      if (len < 1) continue;
+      const ux = dx / len;
+      const uz = dz / len;
+      const nx = -uz;
+      const nz = ux;
+      const innerA = { x: x1 - nx * half, z: z1 - nz * half };
+      const innerB = { x: x2 - nx * half, z: z2 - nz * half };
+      const outerA = { x: x1 + nx * half, z: z1 + nz * half };
+      const outerB = { x: x2 + nx * half, z: z2 + nz * half };
+      const built = this.createOffsetWallStrip(
+        innerA,
+        innerB,
+        outerA,
+        outerB,
+        this.height,
+        frameMaterial.clone(),
+        innerMaterial.clone()
+      );
+      if (!built) continue;
+      const { frame, inner, plane } = built;
+      const key = w.id || 'iw' + i;
+      frame.userData.wallName = key;
+      frame.userData.segmentId = key;
+      frame.userData.buildSide = key;
+      frame.userData.isInteriorWall = true;
+      frame.userData.isPolygonWallStrip = true;
+      frame.userData.cldPlanFlatWall = true;
+      frame.userData.wallLength = len;
+      frame.userData.wallHeight = this.height;
+      frame.userData.wallThickness = T;
+      frame.userData.segment = { x1, z1, x2, z2, len };
+      inner.userData.wallName = key;
+      inner.userData.isInteriorWall = true;
+      plane.userData.wallName = key;
+      plane.userData.isInteriorWall = true;
+      this.group.add(frame);
+      this.group.add(inner);
+      this.group.add(plane);
+      this._interiorWallObjs.push(frame, inner, plane);
+      this.wallPlanes.push(plane);
+      this.walls[key] = frame;
+      this.wallInners[key] = inner;
+      this.surfaces[key] = new THREE.Box3().setFromObject(frame);
+      this.originalWallMaterials[key] = frame.material;
+      this._frameGeomSolid[key] = frame.geometry;
+      this._innerGeomSolid[key] = inner.geometry;
     }
   }
 }

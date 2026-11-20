@@ -1,0 +1,3205 @@
+{
+    "projectConfigurations": {
+        "title": "Configurations of your project",
+        "add": "Add",
+        "publish": "Publish",
+        "namePlaceholder": "Enter a name (30 characters maximum)",
+        "createAndPublish": "Create and publish project configurations"
+    },
+    "advanced_decoration": {
+        "info": "Cut surfaces or use preset to lay several coverings on the surface",
+        "title": "Customize surface",
+        "horizontal": "Horizontal",
+        "vertical": "Vertical",
+        "manually": "Draw manually",
+        "preset": "Preset",
+        "split": "Split",
+        "shape": "Shape",
+        "coverings": "Coverings",
+        "description": "Cut out the surface to apply several coverings",
+        "properties": "Properties",
+        "properties_desc": "To edit the wall properties, switch to 2D view mode and select the surface to be edited",
+        "need_room": "You must have at least one room to access this feature. Create a closed shape or undo your changes and try again when the flooring appears.",
+        "overlay": {
+            "title": "Options",
+            "add_horizonal_split_title": "Add horizontal split",
+            "add_horizonal_split_button": "ADD",
+            "add_vertical_split_title": "Add vertical split",
+            "add_vertical_split_button": "ADD",
+            "change_coverings_title": "Change coverings",
+            "change_coverings_button": "CHANGE",
+            "delete_split_title": "Delete split",
+            "delete_split_button": "DELETE",
+            "delete_all_split_title": "Delete all splits",
+            "delete_all_split_button": "DELETE ALL",
+            "edit_coverings_button": " EDIT",
+            "edit_coverings_title": "Edit coverings options"
+        }
+    },
+    "reuse": {
+        "title": "Reuse Covering",
+        "info": "To apply the selected covering, click on wall, floor, ceiling, and/or a freeform shape"
+    },
+    "autodesign_solution_info": {
+        "show_less": "Show less",
+        "show_more": "Show more",
+        "show": "Show",
+        "no_appliances_included": "No appliance included",
+        "appliances_included": "Appliances included:",
+        "appliances": {
+            "fridge": "Refrigerators / Freezers",
+            "oven": "Ovens / Range cookers",
+            "dishwasher": "Dishwashers",
+            "hood": "Hoods",
+            "cooktop": "Cooktops",
+            "washer": "Washers / Dryers"
+        }
+    },
+    "annotations": {
+        "annotations": "Annotations",
+        "arrow": "Arrow",
+        "textBox": "Text box",
+        "ovalTextBox": "Oval text box",
+        "image": "Image",
+        "symbol": "Symbol",
+        "dimension": "Dimension",
+        "reminderLines": "Reminder Lines",
+        "fill": "Fill",
+        "line": "Line",
+        "text": "Text",
+        "solid": "Solid",
+        "color": "Color",
+        "straight": "Straight",
+        "curve": "Curved",
+        "transparency": "Transparency",
+        "thickness": "Thickness",
+        "notes": "Annotations",
+        "dashType": "Dash type",
+        "startArrowType": "Start type",
+        "endArrowType": "End type",
+        "middlePointStyle": "Middle point type",
+        "font": "Font",
+        "fontSize": "Font size",
+        "borderNone": "none",
+        "createSymbolText": "Add description",
+        "add_text": "Text",
+        "add_images": "Images",
+        "add_linear_arrow": "Linear arrow",
+        "textAlign": "Text alignment",
+        "align_left": "Align left",
+        "align_right": "Align Right",
+        "align_center": "Align center",
+        "technical_elements": "Technical Elements",
+        "add_to_plan": "Add annotations",
+        "distance": "Distance",
+        "dimensionOverride": "Real distance",
+        "displayedValue": "Displayed value"
+    },
+    "background_image": {
+        "next_arrow_label": "Next",
+        "previous_arrow_label": "Previous",
+        "title": "Background image"
+    },
+    "bridge_loader": {
+        "message": "Please wait, we are currently importing a copy of your project.",
+        "title": "Loading your project",
+        "export": {
+            "message": "Please wait, we are currently exporting a copy of your project.",
+            "title": "Exporting your project",
+            "export_title": "Publish your design on HomeByMe",
+            "description": "Now that your room is finished, come to HomeByMe to find inspiration or decoration ideas and visualize all the rooms in your future home !",
+            "export_button": "Publish on HomeByMe"
+        },
+        "import": {
+            "import_title": "Import your HomeByMe project",
+            "first_description": "Don’t start from scratch and reuse the project you’ve already created on HomeByMe.",
+            "design_title": "Design your room",
+            "second_description": "Use the catalog to create your design.",
+            "publish_title": "Publish your design on HomeByMe",
+            "third_description": "Find your new design in your HomeByMe project.",
+            "import_button": "Import from HomeByMe"
+        }
+    },
+    "bubble": {
+        "close": "Close",
+        "coverings": "Coverings",
+        "delete": "Delete",
+        "duplicate": "Duplicate",
+        "edit": "Edit",
+        "empty": "Empty",
+        "floor_type_label": "Floor",
+        "favorite": "Favorite",
+        "move": "Move",
+        "multiple_item_label": "Multiple Items",
+        "open": "Open",
+        "openings": "Openings",
+        "position": "Position",
+        "replace": "Replace",
+        "reuse_style": "Reuse style",
+        "room_separator_type_label": "Room Separator",
+        "room_type_label": "Room",
+        "round": "Round",
+        "split": "Split",
+        "tab1": "MATCHING PRODUCTS",
+        "tab2": "ALL PRODUCTS",
+        "ungroup": "Ungroup",
+        "wall_type_label": "Wall",
+        "zoomTo": "Zoom To",
+        "reuseCovering": "Reuse covering"
+    },
+    "business_rule": {
+        "adjacent_wall_unit_rule_error_message": "A wall cabinets needs to be aligned with others.",
+        "adjacent_wall_unit_rule_title": "Wall units alignment",
+        "appliance_back_wall_rule_message": "Maximum distance between back of a freestanding appliance and a wall or obstacle is {{x}}.",
+        "appliance_back_wall_rule_title": "Maximum distance between freestanding appliance and wall",
+        "arc_op_on_end_edge_rule_error_message": "Please modify and position arcs to ensure they are at the ends of worktops.",
+        "arc_op_on_end_edge_rule_title": "Arc position",
+        "base_cabinet_rule_title": "Base cabinet position",
+        "bom_check_rule_title": "Total price change",
+        "bom_check_rule_error_message": "The total price of the project has been changed since the last project save.",
+        "cabinet_rule_error_message": "The item is placed next to a wall or obstacle with less than {{x}} space left for filler piece.",
+        "ceiling_height_rule": {
+            "message": "Minimum distance between the floor and ceiling, or bottom of sloped ceiling is {{x}}.",
+            "title": "Ceiling Height"
+        },
+        "cooktop_half_height_Cabinet_rule_error_message": "Stop! The minimum distance between a cut-out for a hob and a half height cabinet is {{x}}.",
+        "cooktop_half_height_Cabinet_rule_title": "Distance between hob and half height cabinet",
+        "cooktop_highCabinet_rule_error_message": "Stop! The minimum distance between a cut-out for a hob and a high cabinet is {{x}}.",
+        "cooktop_highCabinet_rule_title": "Distance between hob and high cabinet",
+        "cooktop_oven_cabinet_thickness_rule_error_message": "Stop! The minimum thickness of worktop should be {{x}}.",
+        "cooktop_oven_cabinet_thickness_rule_title": "Worktop thickness",
+        "cooktop_sink_rule_error_message": "It is recommended to have a minimum distance of {{x}} between a hob/cooker and a sink.",
+        "cooktop_sink_rule_title": "Distance between sink and hob",
+        "customWallPanel_product_availability_rule_message": "Please modify the wall panel dimension or create a joint",
+        "customWallPanel_product_availability_rule_title": "There is no product available to make this wall panel",
+        "customWT_product_availability_rule_message": "Please modify the worktop dimension or create a joint",
+        "customWT_product_availability_rule_title": "There is no product available to make this worktop",
+        "cut_cut_distance_rule_error_message": "Minimum distance between two cuts is {{x}}.",
+        "cut_hob_sink_cutout_rule_error_message": "Minimum distance between cut and cut-out is {{x}}.",
+        "cutouts_and_other_operations_rule_error_message": "Minimum distance between a cut-out and any other operation (excluding joints) is {{x}}.",
+        "cutouts_and_other_operations_rule_title": "Minimum distance between cut-outs and any other operation",
+        "cutouts_out_of_wallpanel_rule_error_message": "Please modify any wall panel cut-outs to make sure they are positioned completely within the wall panel.",
+        "cutouts_out_of_wallpanel_rule_title": "Wall panel cut-out position",
+        "cutouts_out_of_worktop_rule_error_message": "Please modify any worktop cut-outs to make sure they are positioned completely within the worktop board.",
+        "cutouts_out_of_worktop_rule_title": "Worktop cut-out position",
+        "dishwasher_corner_error_message": "We recommend to have a minimum distance of {{x}} between a dishwasher and a corner cabinet.",
+        "dishwasher_corner_title": "Distance between dishwasher and corner",
+        "dishwasher_rule_error_message": "We recommend a minimum distance of {{x}} between a dishwasher and a wall or obstacle.",
+        "dishwasher_rule_title": "Dishwasher position",
+        "edge_arc_compatibility": {
+            "message": "All edges connecting to a curve must have the same edge product.",
+            "title": "'{{edgeFinishName}}' edge finish is invalid."
+        },
+        "edge_board_compatibility": {
+            "arbitrary_grain_incompatibility": "This Edge finish cannot be set on an arbitrary grain direction",
+            "arc_incompatibility": "This Edge finish cannot be set on a circular edge",
+            "cut_incompatibility": "This Edge finish cannot be set on an edge cut",
+            "front_incompatibility": "This Edge finish cannot be set on a front edge",
+            "front_incompatibilityOnly": "This Edge finish can be set on a front edge only",
+            "non_visible_incompatibility": "This Edge finish cannot be set on an non-visible edge",
+            "parallel_grain_incompatibility": "This Edge finish cannot be set parallelely to the grain direction",
+            "perpendicular_grain_incompatibility": "This Edge finish cannot be set perpendicularely to the grain direction",
+            "title": "'{{edgeFinishName}}' edge finish is invalid."
+        },
+        "edge_edge_compatibility": {
+            "inner_corner_incompatibility": "Edge finishes cannot be used on both side of an inner corner",
+            "joint_incompatibility": "Edge finishes should be the same on both sides of a joint",
+            "outer_corner_incompatibility": "Edge finishes cannot be used on both side of an outer corner",
+            "title": "'{{edge1FinishName}}' and '{{edge2FinishName}}' are incompatible in this configuration."
+        },
+        "edge_finish_rule_error_message": "Please set all worktop edge finishes",
+        "edge_finish_rule_title": "Missing edge finishes",
+        "product_intruder_rule": {
+            "message": "Your kitchen contains products that are various styles. Check the products in the item list.",
+            "title": "Various product styles"
+        },
+        "furniture_outside_room_rule": {
+            "message": "Please modify and position items to make sure they are within your project.",
+            "title": "Item position"
+        },
+        "exceeded_no_of_round_corner_error_message": "This number of rounded corners is not allowed",
+        "exceeded_no_of_round_corner_title": "Rounded corners",
+        "exceeded_no_of_round_edge_error_message": "Rounded edges are not allowed on this worktop",
+        "exceeded_no_of_round_edge_title": "Rounded edges",
+        "expired_products_rule": {
+            "error_message": "This product is no longer available. Replace it with another.",
+            "error_message_delete": "This product is no longer available. We recommend you to delete it.",
+            "non_visible_error_message": "This product is no longer available. Remove the item.",
+            "title": "product is expired"
+        },
+        "fridge_rule_error_message": "It is not recommended to place a free-standing appliance next to a wall or obstacle with less than {{x}} of space.",
+        "fridge_rule_title": "Freestanding fridge position",
+        "front_edge_rule_error_message": "Modify the position of the front edge to ensure it is not placed against a wall.",
+        "front_edge_rule_title": "Front edge position",
+        "front_edge_overlap_rule_title": "Product overlap",
+        "front_edge_overlap_rule_error_message": "There is an overlap between two front, the kitchen design is invalid.",
+        "fulldepthsink_cut_rule_error_message": "A worktop is intersecting a full depth sink, please modify the worktop shape in the worktop editor",
+        "fulldepthsink_cut_rule_title": "Full depth sink overlaps",
+        "fulldepthsink_position_rule_error_message": "The full depth sink ends must be aligned between 2 cabinets, or with a cabinet border",
+        "fulldepthsink_position_rule_title": "Full depth sink position",
+        "fulldepthsink_thickness_rule_error_message": "The worktops on the left and right of a full depth sink must have a thickness compatible with the sink",
+        "fulldepthsink_thickness_rule_title": "Worktop incompatible",
+        "furnitureIntersect_rule_error_message": "Please modify and position items to make sure they do not collide with other items.",
+        "furnitureIntersect_rule_title": "Item position",
+        "furniture_gap_rule_error_message": "Please modify and position items to make sure there is no space between items.",
+        "furniture_gap_rule_title": "Item position",
+        "general_buttons": {
+            "cab_composer": "Replace in cabinet composer",
+            "cab_composer_delete": "Delete in cabinet composer",
+            "replace": "Replace",
+            "show_2d": "Show in 2D",
+            "show_3d": "Show in 3D",
+            "wp_editor": "Show in wall panel editor",
+            "wt_editor": "Show in worktop editor",
+            "show_in_my_list": "Show in my list",
+            "delete": "Delete",
+            "modify_in_floorplan_covering": "Modify In Floorplan",
+            "see_bom_changes": "See Changes"
+        },
+        "general_message": {
+            "current_value": "Current: "
+        },
+        "grain_front_edge_compatibility_rule_title": "Front edge position",
+        "grain_front_edge_compatibility_rule_error_message": "Modify to ensure the front edge is parallel to the grain direction.",
+        "half_height_cabinet_rule_error_message": "The half height cabinet is placed next to a wall or obstacle with less than {{x}} space left for filler piece.",
+        "half_height_cabinet_rule_title": "Half Height Cabinet Position",
+        "high_cabinet_back_wall_rule_message": "Maximum distance between back of a high cabinet and a wall or obstacle is {{x}}.",
+        "high_cabinet_back_wall_rule_title": "Maximum distance between high cabinet and wall",
+        "high_cabinet_rule_title": "High cabinet position",
+        "hood_hob_rule_error_message": "Minimum distance between hood and hob should be {{x}}.",
+        "hood_hob_rule_for_specific_case_error_message": "Minimum distance between a hood and induction/ceramic hob should be {{x}}.",
+        "hood_hob_rule_for_hood_freestanding_hob_with_gas_error_message": "Minimum distance between a freestanding hood and a gas hob should be {{x}}.",
+        "hood_hob_rule_for_hood_freestanding_hob_without_gas_error_message": "Minimum distance between a freestanding hood and hob should be {{x}}.",
+        "hood_hob_rule_for_hood_cabinet_hob_with_gas_error_message": "Minimum distance between an integrated hood and a gas hob should be {{x}}.",
+        "hood_hob_rule_for_hood_cabinet_hob_without_gas_error_message": "Minimum distance between an integrated hood and hob should be {{x}}.",
+        "hood_hob_rule_for_angled_hood_case_error_message": "Minimum distance between an angled hood and hob should be {{x}}.",
+        "hood_hob_rule_title": "Distance between hood and hob",
+        "hood_wall_rule_error_message": "Please check the position of your hood to make sure air can easily extract to the outside of the building.",
+        "hood_wall_rule_title": "Position of extractor hood",
+        "joint_over_appliance_rule": "Joint over appliance rule",
+        "joint_over_appliance_rule_error_message": "Joints should not be placed over any appliances as there is no support under",
+        "deco_leg_consistency_rule_parts_title": "Inconsistant deco-legs linears",
+        "deco_leg_consistency_rule_parts_message": "Some elements in your linears are not compatible with the applied decorative legs. Please consider changing these elements or removing the decorative legs.",
+        "deco_leg_consistency_rule_position_title": "Wrong position for deco-legs",
+        "deco_leg_consistency_rule_position_message": "Some cabinets have decorative legs but are not attached to a wall, which is not allowed.",
+        "leg_height_rule_error_message": "Leg height",
+        "leg_height_rule_title": "Leg height rule",
+        "measure_errors": {
+            "bad_input": "Bad input",
+            "range_overflow": "The maximum value is {{{value}}}.",
+            "range_underflow": "The minimum value is {{{value}}}.",
+            "range_out": "The allowed range is {{{value}}}."
+        },
+        "min_depth_triple_cut_error_message": "The minimum depth for this operation is 1/3rd of board, current board depth is {{x}}.",
+        "min_depth_triple_cut_title": "Depth of triple cut",
+        "min_depth_worktop_corner_joint_error_message": "The minimum width for the worktop when connected in a corner joint is {{x}}.",
+        "min_depth_worktop_corner_joint_title": "Minimum depth of the worktop when connected in a corner joint",
+        "min_diameter_circ_cut_out_error_message": "The minimum size for this operation is {{x}}.",
+        "min_diameter_circ_cut_out_title": "Minimum dimension for a circular cut-out",
+        "min_dimAB_double_cut_error_message": "The minimum size for this operation is {{x}}.",
+        "min_dimAB_double_cut_title": "Minimum dimension for a double, right angled cut",
+        "min_dimAB_rect_cut_out_error_message": "The minimum size for this operation is {{x}}.",
+        "min_dimAB_rect_cut_out_title": "Minimum dimension for a rectangular cut-out",
+        "min_dimAB_single_cut_error_message": "The minimum size of this operation is {{x}}.",
+        "min_dimAB_single_cut_title": "Minimum dimension for a single cut",
+        "min_dimAB_single_cut_full_depth_error_message": "The minimum size of this operation is {{x}}.",
+        "min_dimAB_single_cut_full_depth_title": "Minimum dimension for a single cut",
+        "min_dimAB_triple_cut_error_message": "The minimum size for this operation is {{x}}.",
+        "min_dimAB_triple_cut_title": "Minimum dimension for a triple, right angled cut",
+        "min_dimXY_double_cut_error_message": "The minimum size for this operation is {{x}}.",
+        "min_dimXY_double_cut_title": "Minimum dimension for a double, not right angled cut",
+        "min_dimXY_triple_cut_error_message": "The minimum size for this operation is {{x}}.",
+        "min_dimXY_triple_cut_title": "Minimum dimension for a triple, not right angled cut",
+        "min_dis_bet_cutout_to_cutout_for_wallpanel_rule_title": "Minimum distance between cut-out and another cut-out",
+        "min_dis_bet_cutout_to_edge_of_the_wallpanel_rule_title": "Minimum distance between cut-out and edge of the wall panel",
+        "min_dis_bet_largecutout_to_anyother_cutout_rule_error_message": "Minimum distance between a large cut-out and another cut-out is {{x}}",
+        "min_dis_bet_largecutout_to_edge_of_the_wallpanel_rule_error_message": "Minimum distance between a large cut-out and edge of the wall panel is {{x}}",
+        "min_dis_bet_sinks_and_or_hobs_mounted_topside_rule_error_message": "Minimum distance between cut-outs for hobs or sinks mounted topside to topside is {{x}}.",
+        "min_dis_bet_smallcutout_to_another_smallcutout_rule_error_message": "Minimum distance between a two small cut-outs is {{x}}",
+        "min_dis_bet_smallcutout_to_edge_of_the_wallpanel_rule_error_message": "Minimum distance between a small cut-out and edge of the wall panel is {{x}}",
+        "min_dis_cornerjoint_to_cutout_error_message": "Minimum distance between a cut-out and adjacent corner joint is {{x}}.",
+        "min_dis_cornerjoint_to_cutout_title": "Minimum distance between cut-out and adjacent corner joint.",
+        "min_dis_cornerjoint_to_sinkhob_error_message": "Minimum distance between a corner joint and a sink or hob is {{x}}.",
+        "min_dis_cornerjoint_to_sinkhob_title": "Minimum distance between sink-hob and adjacent corner joint.",
+        "min_dis_cut_and_EOW_error_message": "Minimum distance between a cut and worktop end is {{x}}.",
+        "min_dis_cut_to_cut_title": "Minimum distance between cut and cut.",
+        "min_dis_cut_to_hob_sink_cutout_title": "Distance between cut and cut-out",
+        "min_dis_cutout_and_BOW_error_message": "Minimum distance between a cut-out and the back of the worktop is {{x}}.",
+        "min_dis_cutout_and_BOW_title": "Distance between cut-out and back of worktop",
+        "min_dis_cutout_and_EOW_error_message": "Minimum distance between a cut-out and worktop end is {{x}}.",
+        "min_dis_EOW_error_message": "Minimum distance between a cut/cut-out and end of worktop is {{x}}.",
+        "min_dis_EOW_title": "Minimum distance between cut/cut-out and end of worktop",
+        "min_dis_front_back_of_twoLinears_message": "Minimum distance between two linears placed front to back is {{x}}",
+        "min_dis_front_back_of_twoLinears_title": "Distance between two linears placed front to back",
+        "min_dis_front_front_of_twoLinears_message": "Minimum distance between two linears placed front to front is {{x}}",
+        "min_dis_front_front_of_twoLinears_title": "Distance between two linears placed front to front",
+        "min_dis_front_side_of_twoLinears_message": "Minimum distance between two linears placed front to side is {{x}}",
+        "min_dis_front_side_of_twoLinears_title": "Distance between two linears placed front to side",
+        "min_dis_joint_to_cut_error_message": "Minimum distance between a corner cut and a joint is {{x}}.",
+        "min_dis_joint_to_cut_title": "Minimum distance between corner cut and a joint.",
+        "min_dis_joint_to_edge_cut_error_message": "Minimum distance between an edge cut and a joint is {{x}}.",
+        "min_dis_joint_to_edge_cut_title": "Minimum distance between edge cut and a joint.",
+        "min_dis_joint_to_cutout_error_message": "Minimum distance between a cut-out and adjacent joint is {{x}}.",
+        "min_dis_joint_to_cutout_title": "Minimum distance between cut-out and adjacent joint.",
+        "min_dis_joint_to_eow_error_message": "Minimum distance between a joint and end of worktop is {{x}}.",
+        "min_dis_joint_to_eow_title": "Minimum distance between joint and end of worktop.",
+        "min_dis_joint_to_joint_error_message": "Minimum distance between two joints is {{x}}.",
+        "min_dis_joint_to_joint_title": "Minimum distance between joint and joint.",
+        "min_dis_joint_to_sinkhob_error_message": "Minimum distance between a joint and a sink or hob is {{x}}.",
+        "min_dis_joint_to_sinkhob_title": "Distance between a sink or hob and adjacent joint.",
+        "min_dis_obstacle_to_WallCabinet_message": "Minimum distance between wall cabinet to obstacle is {{x}}",
+        "min_dis_obstacle_to_WallCabinet_title": "Distance between wall cabinet to obstacle",
+        "min_dis_sinkhob_and_EOW_error_message": "Minimum distance between a sink or hob and the end of the worktop is {{x}}.",
+        "min_dis_sinkhob_and_EOW_title": "Minimum distance between a sink or hob and end of worktop",
+        "min_dis_wall_to_WallCabinet_message": "Minimum distance between wall cabinet and ceiling is {{x}}",
+        "min_dis_wall_to_WallCabinet_title": "Distance between wall cabinet and ceiling",
+        "ceiling_cabinet_vertical_intersection_rule_error_message": "Please modify and position items to make sure they do not collide with the ceiling.",
+        "ceiling_cabinet_vertical_intersection_rule_title": "Ceiling item collision",
+        "cabinet_cabinet_vertical_intersection_rule_error_message": "Please modify and position items to make sure they do not collide vertically with other items.",
+        "cabinet_cabinet_vertical_intersection_rule_title": "Vertical item collision",
+        "min_dis_wt_to_wt_of_twoLinears_message": "Minimum distance between worktops of two linears is {{x}}",
+        "min_dis_wt_to_wt_of_twoLinears_title": "Distance between worktops of two linears",
+        "min_distance_adjacent_moulded_sinks": "Minimum distance moulded sink to moulded sink",
+        "min_distance_adjacent_moulded_sinks_error_message": "Minimum distance between two moulded sinks is {{x}}.",
+        "min_distance_between_a_cutout_for_a_sink_or_a_hob_and_FOW_rule_title": "Minimum distance between sink/hob and front of worktop",
+        "min_distance_between_a_cutout_for_a_sink_or_a_hob_and_FOW_error_message": "Minimum distance between a cut-out for a sink or hob and the front of the worktop is {{x}}.",
+        "min_distance_between_a_moulded_sink_and_FOW_error_message": "Minimum distance between a moulded sink and the front of the worktop is {{x}}.",
+        "min_distance_between_moulded_sink_and_FOW_rule_title": "Minimum distance moulded sink and front of the worktop",
+        "min_distance_between_oven_and_cornercabinet_rule_error_message": "Minimum distance between an oven and corner cabinet is {{x}}.",
+        "min_distance_between_oven_and_cornercabinet_rule_title": "Minimum distance between oven and corner cabinet",
+        "min_distance_between_sink_and_hob_combinations_rule_error_message": "Minimum distance between cut-outs for hobs or sinks mounted side by side is {{x}}.",
+        "min_distance_between_sink_and_hob_combinations_rule_title": "Minimum distance between sinks and hobs",
+        "min_distance_between_tapHoleCenter_and_QuartzWTbackEdge_rule_error_message": "Minimum distance between the center of a tap hole and quartz worktop back edge is {{x}}.",
+        "min_distance_between_tapHoleCenter_and_sink_rule_error_message": "Minimum distance between the center of a tap hole and a sink (excluding quartz worktops) is {{x}}.",
+        "min_distance_between_tapHoleCenter_and_sink_rule_title": "Distance between tap hole and sink",
+        "min_distance_between_tapHoleCenter_and_sinkWTQuartz_rule_error_message": "Minimum distance between the center of a tap hole and a sink for quartz worktops is {{x}}.",
+        "min_distance_between_tapHoleCenter_and_WTbackEdge_rule_error_message": "Minimum distance between the center of a tap hole and worktop back edge (excluding quartz worktops) is {{x}}.",
+        "min_distance_between_tapHoleCenter_and_WTbackEdge_rule_title": "Minimum distance between tap hole and worktop back edge",
+        "min_distance_DGroove_and_Cut_error_message": "Minimum distance between drainer grooves and a cut is {{x}}.",
+        "min_distance_DGroove_and_Cut_title": "Distance between drainer grooves and a cut",
+        "min_distance_DGroove_and_Cutout_error_message": "Minimum distance between drainer grooves and a cut-out is {{x}}.",
+        "min_distance_DGroove_and_Cutout_title": "Minimum distance between drainer grooves and cut-out",
+        "min_distance_DGroove_and_Joint_error_message": "Minimum distance between drainer grooves and a worktop joint is {{x}}.",
+        "min_distance_DGroove_and_Joint_title": "Distance between drainer grooves and worktop joint",
+        "min_distance_DGroove_and_WTEdge_error_message": "Minimum distance between drainer grooves and a worktop edge is {{x}}.",
+        "min_distance_DGroove_and_WTEdge_title": "Distance between drainer grooves and worktop edge",
+        "min_distance_grill_and_BOW_error_message": "Minimum distance between a ventilation grill and back of the worktop is {{x}}.",
+        "min_distance_grill_and_BOW_title": "Minimum distance between ventilation grill to back of the worktop.",
+        "min_distance_grill_and_EOW_error_message": "Minimum distance between ventilation grill and end of the worktop is {{x}}.",
+        "min_distance_grill_and_EOW_title": "Minimum distance between ventilation grill to end of the worktop.",
+        "min_radius_arc_op_rule_error_message": "Minimum radius for this operation is {{x}}.",
+        "min_radius_arc_op_rule_title": "Minimum radius for arc operations",
+        "min_radius_cut_rule_error_message": "The minimum radius for these cuts is {{x}}.",
+        "min_radius_cut_rule_title": "Minimum radius for rounded cuts",
+        "opening_collision_rule_title": "Item position",
+        "opening_collision_rule_error_message": "Please modify and position items to make sure they do not collide with doors/windows.",
+        "oven_rule_error_message": "We recommend a minimum distance of {{x}} between an oven and wall",
+        "oven_rule_freestanding_error_message": "We recommend a minimum distance of {{x}} between a freestanding oven and wall",
+        "oven_rule_title": "Oven position",
+        "position_of_ceiling_mounted_furniture_rule_title": "Appliance position",
+        "position_of_ceiling_mounted_furniture_rule_error_message": "Please modify and position ceiling mounted appliances to make sure they are attached to the ceiling.",
+        "riser_to_ceiling_error_message": "Please modify the cabinet configuration to make sure there is no space between the ceiling and the riser or cornice.",
+        "riser_to_ceiling_rule_title": "Riser height",
+        "side_panel_rule_title": "Colour of side panels",
+        "side_panel_rule_error_message": "Please check cabinet side panels that are protected by cover panels to make sure they are the required colour.",
+        "sink_cabinet_rule_error_message": "It is not recommended to have a sink cabinet next to wall or obstacle.{{x}}",
+        "sink_cabinet_rule_title": "Sink cabinet position",
+        "sink_cut_rule_error_message": "A sink cabinet must have a worktop",
+        "sink_cut_rule_title": "Sink without a worktop",
+        "sinkcabinet_and_window_rule_error_message": "We do not recommend placing a sink cabinet with tap in front of a window",
+        "sinkcabinet_and_window_rule_title": "Sink cabinet in front of window",
+        "sloping_rule_base_cabinet_error_message": "Minimum distance between a base cabinet and sloped ceiling is {{x}}.",
+        "sloping_rule_base_cabinet_title": "Base cabinet position",
+        "sloping_rule_cooktop_cabinet_error_message": "Minimum distance between a cooktop cabinet and sloped ceiling is {{x}}.",
+        "sloping_rule_cooktop_cabinet_title": "Cooktop cabinet position",
+        "sloping_rule_dishwasher_cabinet_error_message": "Minimum distance between a dishwasher cabinet and sloped ceiling is {{x}}.",
+        "sloping_rule_dishwasher_cabinet_title": "Dishwasher cabinet position",
+        "sloping_rule_fridge_cabinet_error_message": "Minimum distance between a freestanding fridge or freezer and sloped ceiling is {{x}}.",
+        "sloping_rule_fridge_cabinet_title": "Freestanding fridge cabinet position",
+        "sloping_rule_half_height_cabinet_error_message": "Minimum distance between a half height cabinet and sloped ceiling is {{x}}.",
+        "sloping_rule_half_height_cabinet_title": "Half Height cabinet position",
+        "sloping_rule_high_cabinet_error_message": "Minimum distance between a high cabinet and sloped ceiling is {{x}}.",
+        "sloping_rule_high_cabinet_title": "High cabinet position",
+        "sloping_rule_high_cabinet_top_light_error_message": "Minimum distance between a high cabinet with top light and sloped ceiling is {{x}}.",
+        "sloping_rule_high_cabinet_top_light_title": "High cabinet with top light",
+        "sloping_rule_horizontal_cabinet_error_message": "Minimum distance between a horizontal wall cabinet and sloped ceiling is {{x}}.",
+        "sloping_rule_horizontal_cabinet_title": "Horizontal wall cabinet position",
+        "sloping_rule_horizontal_cabinet_top_light_error_message": "Minimum distance between a horizontal cabinet with top light and sloped ceiling is {{x}}.",
+        "sloping_rule_horizontal_cabinet_top_light_title": "Horizontal cabinet with top light",
+        "sloping_rule_intersection_message": "Cabinets are colliding with sloped ceiling",
+        "sloping_rule_intersection_title": "Cabinet colliding with sloped ceiling",
+        "sloping_rule_oven_cabinet_error_message": "Minimum distance between an oven cabinet and sloped ceiling is {{x}}.",
+        "sloping_rule_oven_cabinet_title": "Oven cabinet position",
+        "sloping_rule_sink_cabinet_error_message": "Minimum distance between a sink cabinet and sloped ceiling is {{x}}.",
+        "sloping_rule_sink_cabinet_title": "Sink cabinet position",
+        "sloping_rule_wall_cabinet_error_message": "Minimum distance between a wall cabinet and sloped ceiling is {{x}}.",
+        "sloping_rule_wall_cabinet_title": "Wall cabinet position",
+        "sloping_rule_wall_cabinet_top_light_error_message": "Minimum distance between a wall cabinet with top light and sloped ceiling is {{x}}.",
+        "sloping_rule_wall_cabinet_top_light_title": "Wall cabinet with top light",
+        "sloping_rule_wall_panel_error_message": "Minimum distance between a wall panel and sloped ceiling is {{x}}.",
+        "sloping_rule_wall_panel_intersection_message": "Wall panels are colliding with sloped ceiling",
+        "sloping_rule_wall_panel_intersection_title": "Wall panel colliding with sloped ceiling",
+        "sloping_rule_wall_panel_title": "Wall panel",
+        "sloping_rule_washer_cabinet_error_message": "Minimum distance between a washing machine cabinet and sloped ceiling is {{x}}.",
+        "sloping_rule_washer_cabinet_title": "Washing machine position",
+        "unknown_cut_error_message": "Arcs/corners cannot be applied to single, double, triple cuts",
+        "unknown_cut_title": "Arcs and corners on cuts are not allowed",
+        "wall_cabinet_rule_title": "Item position",
+        "wallpanel_edge_finish_rule_error_message": "Please set all wallpanel edge finishes",
+        "wallpanel_edge_finish_rule_title": "Missing edge finishes",
+        "wallpanel_gas_hob_dis_rule_error_message": "We do not recommend placing a gas hob in front of a wall panel.",
+        "wallpanel_gas_hob_dis_rule_title": "Distance between gas hob and wall panel",
+        "wallpanel_invalid_shape_rule_error_message": "Please modify the wall panel shape to make sure that edges are not intersecting each other",
+        "wallpanel_invalid_shape_rule_title": "Wall panel shape",
+        "wallpanel_min_dimAB_double_cut_title": "Minimum dimension for a double cut (excluding glass wall panels)",
+        "wallpanel_min_dimAB_non_right_angled_double_cut_error_message": "Minimum size of double non right angled cut is {{x}}",
+        "wallpanel_min_dimAB_non_right_angled_triple_cut_error_message": "Minimum size of triple non right angled cut is {{x}}",
+        "wallpanel_min_dimAB_rect_cut_out_error_message": "Minimum dimension for a rectangular cut-out in glass wall panel is {{x}}",
+        "wallpanel_min_dimAB_rect_cut_out_title": "Minimum dimension for rectangular cut-out in glass wallpanels",
+        "wallpanel_min_dimAB_right_angled_double_cut_error_message": "Minimum size of double right angled cut is {{x}}",
+        "wallpanel_min_dimAB_right_angled_triple_cut_error_message": "Minimum size of triple right angled cut is {{x}}",
+        "wallpanel_min_dimAB_single_cut_error_message": "The minimum size of this operation is {{x}}.",
+        "wallpanel_min_dimAB_single_cut_title": "Minimum dimension for a single cut (excluding glass wall panels)",
+        "wallpanel_min_dimAB_single_cut_full_depth_error_message": "The minimum size of this operation is {{x}}.",
+        "wallpanel_min_dimAB_single_cut_full_depth_title": "Minimum dimension for a single cut",
+        "wallpanel_min_dimAB_triple_cut_title": "Minimum dimension for a triple cut (excluding glass wall panels)",
+        "wallpanel_minD_circ_cut_out_excluding_glass_wallpanel_title": "Minimum diameter for circular cut-out (excluding glass wallpanels)",
+        "wallpanel_minD_small_circ_cut_out_error_message": "Minimum diameter for a small circular cut-out in glass wall panel is {{x}}",
+        "wallpanel_minD_small_circ_cut_out_title": "Minimum diameter for small circular cut-out in glass wallpanels",
+        "wallpanel_outside_room_rule_error_message": "Please modify and position wall panels and/or operations to ensure they are within the room.",
+        "wallpanel_outside_room_rule_title": "Wall panel position",
+        "wallpanel_overlap_rule_title": "Wall panel position",
+        "wallpanel_overlap_error_message": "Please modify and position wall panels to ensure they do not overlap with each other.",
+        "washer_rule_error_message": "We recommend a minimum distance of {{x}} between a washing machine and a wall or obstacle.",
+        "washer_rule_title": "Washing machine position",
+        "waterfall_collision_rule_error_message": "Modify and position waterfall worktops to make sure they are not colliding with other items.",
+        "waterfall_collision_rule_title": "Waterfall worktop position",
+        "waterfall_rule_error_message": "A waterfall worktop must be touching the side of a unit",
+        "waterfall_rule_title": "Waterfall worktops",
+        "worktop_cooktop_Freestanding_rule_error_message": "Freestanding cooking appliances need an area of worktop on either side. This should be at least {{x}} wide.",
+        "worktop_cooktop_noFreestanding_rule_error_message": "Minimum distance either side of the cooking area is {{x}}.",
+        "worktop_cooktop_rule_title": "Area of worktop around the cooking unit",
+        "worktop_invalid_shape_rule_error_message": "Please modify the worktop shape to make sure that edges are not intersecting each other",
+        "worktop_invalid_shape_rule_title": "Worktop shape",
+        "worktop_min_cut_rule_title": "This cut has not been operated",
+        "worktop_min_cut_rule_error_message": "This cut has not been operated due to manufacture contraints to be taken into consideration. Current: {{x}}",
+        "worktop_min_dimension_rule_title": "There is no product available to make this worktop",
+        "worktop_min_dimension_rule_error_message": "Please increase the worktop dimensions",
+        "worktop_overhang_size_rule_error_message": "We recommend a maximum overhang of {{x}} without support.",
+        "worktop_overhang_size_rule_title": "Maximum overhang without support",
+        "worktop_position_outside_room_rule_error_message": "Please modify and position worktops and/or operations to ensure they are within the room.",
+        "worktop_position_outside_room_rule_title": "Worktop position",
+        "worktops_overlap_rule_error_message": "Please modify and position worktops to ensure they do not overlap with each other.",
+        "worktops_overlap_rule_title": "Worktop position",
+        "worktop_split_edge_rule_title": "Multiple edges",
+        "worktop_split_edge_rule_error_message": "Modify edges and remove the split to ensure there is a single edge finish.",
+        "worktop_support_panels_rule_title": "Worktop support panels",
+        "worktop_support_panels_rule_error_message": "This type of worktop requires support panels. Please ensure that worktop support panels are contained within the project.",
+        "worktop_wall_unit_rule_error_message": "Distance between wall cabinet and worktop should be at least {{x}}.",
+        "worktop_wall_unit_rule_title": "Distance between wall units and worktop",
+        "wall_cabinet_back_wall_rule_message": "Please modify and position items to make sure they are attached to a wall.",
+        "wall_cabinet_back_wall_rule_title": "Item position",
+        "wallpanel_min_dimension_rule_title": "There is no product available to make this wall panel",
+        "wallpanel_min_dimension_rule_error_message": "Please increase the wall panel dimensions",
+        "wallpanel_split_edge_rule_title": "Multiple edges",
+        "wallpanel_split_edge_rule_error_message": "Modify edges and remove the split to ensure there is a single edge finish.",
+        "no_pricing_error_rule_title":"Pricing error",
+        "no_pricing_error_rule_message": "Some furniture items contain panels that cannot be priced"
+    },
+    "camera_height": {
+        "label": "Height :"
+    },
+    "catalog": {
+        "add_products": "Add a product",
+        "select_width": "Select Width Range",
+        "all": "ALL",
+        "all_filters_button": "All filters",
+        "default_agg": {
+            "brands": "Brands",
+            "material": "Material Tag",
+            "style": "Style",
+            "type": "Type",
+            "room": "Room",
+            "color": "Color"
+        },
+        "filter": {
+            "publication_materials": {
+                "wood": "Wood",
+                "stones": "Stones",
+                "metal": "Metal",
+                "glass": "Glass",
+                "matt_paint": "Matt paint",
+                "fabric": "Fabric",
+                "plastic": "Plastic"
+            }
+        },
+        "product_singular": "product",
+        "product_plural": "products",
+        "filters_title": "Filters",
+        "in_my_project": "In my project",
+        "materials": "materials",
+        "products_label": "products",
+        "replace_product": "Replace",
+        "reset_filters_button": "Reset filters",
+        "results": "results",
+        "search": "Search",
+        "search_history_hint": "Search (↑↓ for history)",
+        "search_results": "search results",
+        "sort_by": "Sort by",
+        "sort_by_items": {
+            "byStartDate": "Start Date",
+            "byName": "Name",
+            "byProductRank": "Product Rank"
+        },
+        "tab1Message": "Products that complement the selected item."
+    },
+    "common": {
+        "back": "Back",
+        "back_homepage": "Go back to homepage",
+        "cancel": "Cancel",
+        "ceiling_height": "Ceiling height",
+        "close": "Close",
+        "close_panel": "Close panel",
+        "create": "Create",
+        "change": "Change",
+        "decrease": "Decrease value",
+        "delete": "Delete",
+        "depth": "Depth",
+        "done": "Done",
+        "height": "Height",
+        "help": "Help",
+        "help_title": "Show help",
+        "i_done": "I'm done",
+        "increase": "Increase value",
+        "itemnotes_title": "Notes",
+        "itemannotations_title": "Annotations",
+        "itemviewimages_title": "View images",
+        "measure": "Measure",
+        "measure_title": "Measurement tools",
+        "minimize": "Minimize",
+        "more_filters": "More filters",
+        "name": "Name",
+        "no_results": "There were no results found.",
+        "no_results_search": "There were no results found.",
+        "ok": "OK",
+        "options": "Options",
+        "or": "or",
+        "print": "Print",
+        "print_title": "Print action",
+        "product_type": {
+            "furniture": "Furniture",
+            "material": "Material",
+            "opening": "Opening",
+            "stair": "Stair"
+        },
+        "logo": "Logo",
+        "productlist_title": "See product list",
+        "redo": "Redo",
+        "redo_title": "Redo action",
+        "remove": "Remove",
+        "rotate_your_device": "Please rotate your device or switch to a larger screen",
+        "save": "Save",
+        "search": "Search to find the product you want!",
+        "search_hint": "You can search by product type, reference, color, material etc",
+        "search_product": "Search a product",
+        "thickness": "Thickness",
+        "undo": "Undo",
+        "undo_title": "Undo action",
+        "validate": "Validate",
+        "width": "Width",
+        "yes": "Yes",
+        "no": "No",
+        "view": "View",
+        "new": "New",
+        "copy": "Copy",
+        "tooltip": "tooltip",
+        "empty_search": "Empty search bar",
+        "staging_env": "Environment for testing purposes only",
+        "apply": "Apply",
+        "replace": "Replace",
+        "customize": "Customize",
+        "loading": "Loading...",
+        "settings": "Settings",
+        "legend": "Legend",
+        "products" : "Products",
+        "accessories": "Accessories"
+    },
+    "commercial_info": {
+        "repairability_label": "Repairability index"
+    },
+    "edit_covering": {
+        "title": "Edit coverings options",
+        "rotate": "Rotate",
+        "move_horizontally": "Move horizontally",
+        "move_vertically": "Move vertically",
+        "joint": "Joint",
+        "reset_options": "Reset options"
+    },
+    "favorite_lists": {
+        "add": "Add",
+        "toggle": "Toggle expanded view",
+        "close": "Close panel",
+        "favorites": "Favorites",
+        "create_new_list": "Create a new list",
+        "no_list_message": "You don't have a favorites list yet. Click on the button below to create your first list."
+    },
+    "favorite_products_browser": {
+        "no_result_message": "Your favorites list is empty. Explore the catalog to add your first product to your list.",
+        "delete_confirmation": "Remove from this list ?"
+    },
+    "front_view": {
+        "description": "Modify your room using the front elevation view plan",
+        "type": "Wall"
+    },
+    "default_project_manager": {
+        "default_project_save_fail": "An Error occurred. Please check that you have launch the application with the rights to create default project.",
+        "default_project_save_success": "Your default project has been saved.",
+        "sub_title": "Select the shape you want to override it with this new room.",
+        "title": "Save as a default room"
+    },
+    "drag_tooltip": {
+        "help": "Click and drag <br/> to move the viewpoint"
+    },
+    "draw_plan_panel": {
+        "add_room_separators": "Add a room separation",
+        "add_sloped_walls": "Manage sloped ceilings",
+        "add_wall": "Add a wall"
+    },
+    "edge_finish_legend": {
+        "empty_list_placeholder": "No edge product has been set",
+        "title": "Edges"
+    },
+    "edit_properties_panel": {
+        "dimensions": "Dimensions",
+        "edit_product": "product",
+        "height": "Height",
+        "height_from_floor": "Height from floor",
+        "opening_side": "Opening side",
+        "position": "Position",
+        "room_height": "Same as ceiling height",
+        "wall_side": "Wall side",
+        "width": "Width",
+        "add": "Add",
+        "options": "Options",
+        "sloped_ceiling": "Sloped ceiling",
+        "edit": "Edit",
+        "additional_options": "Additional options",
+        "replace": "Replace",
+        "no_compatible_products_sorry": "There are no compatible products.",
+        "no_compatible_products_contact_coworker": "Do not hesitate to go in a store or contact a co-worker to help you find a compatible product.",
+        "apply_to_all": "Apply to all",
+        "apply_to_selection": "Apply",
+        "sub_title": "You can also change some elements: ",
+        "info": "More info",
+        "wall_elements": "Wall elements",
+        "niche": "Niche",
+        "covering": "Covering"
+    },
+    "front_displayer": {
+        "hide_front": "Hide fronts",
+        "open": "Open",
+        "open_cabinet": "Open cabinet"
+    },
+    "furniture_configurator": {
+        "add_element": "Add a new item",
+        "no_space": "Your cabinet is already full!",
+        "subtitle": "To create your perfect cabinet: add, move, or delete products.",
+        "title": "Compose your own furniture"
+    },
+    "import_plan_panel": {
+        "2d_plan": "Upload a 2D floorplan",
+        "homebyme": "Use a HomeByMe project",
+        "import_laser_measurements": "Import laser measurements",
+        "measure": "Use a measuring code",
+        "room_selector": "Change the room shape",
+        "draw_empty_interior": "Edit with freehand trace"
+    },
+    "import_laser_measurements": {
+        "drop_file": "Drop your file anywhere",
+        "drop_here": "Drop Here",
+        "error_msg": {
+            "file_type": "Error: The file type is not correct",
+            "file_size": "Error: The file size is over required"
+        },
+        "import_error_msg": "We've encountered a problem. Please try again.",
+        "import_success_msg": "Your file has been successfully imported",
+        "or": "or",
+        "select_file": "Select file",
+        "sub_layer_loader": {
+            "title": "Loading your laser measurements",
+            "description": "Please wait, we are currently importing your file with your room measurements"
+        },
+        "sub_layer_onboarding": {
+            "title": "With laser measurements, starting with a precise floorplan of your room is made fast and easy",
+            "description": "If you have captured measurements using a leica laser distance device, we invite you to import them so you can start your project with precise measurements.",
+            "button_continue": "Continue"
+        },
+        "sub_title": "you can drop or select the file to import",
+        "supported_file": "Supported file: Leica DXF",
+        "supported_size": "Maximum upload file size: 1MB",
+        "title": "Import your measurement file"
+    },
+    "installation_plan": {
+        "title": "Installation Plan",
+        "dimensions": "Dimensions",
+        "add_to_plan": "Add annotations",
+        "loader_title": "We are duplicating your 2d plan",
+        "loader_message": "Please wait, you will soon be able to edit your installation plan.",
+        "description_title": "Editable 2D plans",
+        "description": "You can now edit your 2D plans, add annotations, dimensions, images and more",
+        "rename_plan": "Rename 2d plan",
+        "edit_plan": "Edit 2d plan",
+        "custom_plan": "Custom",
+        "delete_plan": "Delete 2d plan",
+        "duplicate_plan": "Duplicate 2d plan",
+        "validate_layer": "Installation plan validate",
+        "cancel_layer": "Installation plan cancel",
+        "show_options": "Show / Hide",
+        "view_plan": "View plan",
+        "close_layer": "Installation plan close"
+    },
+    "kitchen": {
+        "app": {
+            "calculating_price": "Calculating price...",
+            "eco_d_label": "DEEE",
+            "eco_w_label": "WEEE",
+            "eco_fee_label": "eco-fee",
+            "member_price": "Member Price",
+            "price_linear_feet_label": " / ft",
+            "price_linear_meter_label": " / m",
+            "price_pack_label": " for {{x}}",
+            "price_square_feet_label": " / ft²",
+            "price_square_meter_label": " / m²",
+            "price_linear_decimeter_label": " / dm",
+            "price_unavailable": "Price is not available",
+            "regular_price_label": "Regular price",
+            "lowest_price_label": "Lowest price in the last {{lowestPrice}} days",
+            "discount_label": "Price Dropped",
+            "start_date_end_date_title": "From {{startDate}} to {{endDate}} or while stock last",
+            "illustration_purpose_only": "Illustration purpose only",
+            "waiting": "Waiting…",
+            "total_price_update": "Total price updated",
+            "last_chance_to_buy": "Last chance to buy"
+        },
+        "bay_properties_panel": {
+            "height_from_floor": "Height from floor",
+            "opening_side": "Opening side",
+            "wall_side": "Wall side"
+        },
+        "catalog_browser": {
+            "compose": "Modify",
+            "compose_question": "Do you want to make further modifications to the decoration area of your wall?",
+            "covering_title": "Add a covering",
+            "objects_title": "Add a room object",
+            "openings_title": "Add an opening",
+            "last_used": "Last used",
+            "toggle_expand": "Toggle expanded view",
+            "replace": {
+                "label": "Replace with several cabinets?",
+                "button_label": "Choose"
+            },
+            "surface_editor": {
+                "title": "Surface Editor"
+            }
+        },
+        "design_own": {
+            "title": "FLOORPLAN MEASUREMENTS",
+            "userpanel": "Open user panel",
+            "userpanel_title": "Open user panel"
+        },
+        "design_own_room_separator": {
+            "info": "Click directly where you want to draw a room separation. Then, validate to save your floorplan.",
+            "title": "Add room separation"
+        },
+        "design_own_room_shape": {
+            "button_closed_kitchen": "CLOSED KITCHEN",
+            "button_open_kitchen": "OPEN KITCHEN",
+            "first_popin_info": "Select a shape to change your floorplan to this new shape. You can adapt it later.",
+            "first_popin_title": "Choose room shape",
+            "info": "Select a shape to reset your floorplan with this new shape. You will be able to adapt it later",
+            "room_polygon": "Polygon room",
+            "room_polygon_bar": "Polygon room with bar kitchen",
+            "room_square": "Square room",
+            "room_square_bar": "Square room with bar kitchen",
+            "room_square_square": "Square room with square kitchen",
+            "room_topright_angle_cut": "Square room with cut top right angle",
+            "title": "Change your room shape",
+            "create_by_freehand": "Create your room by freehand drawing"
+        },
+        "design_own_wall": {
+            "info": "Click to draw walls, close your shape to create a room. Then, validate to save your floorplan.",
+            "title": "Add wall"
+        },
+        "design_own_wall_interior_skin": {
+            "info": "Close the outline, then validate.",
+            "thickness_label": "Wall thickness",
+            "title": "Trace the room's inner outline"
+        },
+        "design_own_water_supply": {
+            "info": "Select the wall where your water supply is located. We will use it to position the sink on kitchen layout suggestions.",
+            "title": "Position your water supply"
+        },
+        "design_room_state": {
+            "button_drawplan": "Draw plan",
+            "button_importplan": "Initiate plan",
+            "button_watersupply": "Water supply"
+        },
+        "detailed_design_state": {
+            "search": "Search",
+            "favorites": "Favorites"
+        },
+        "finance_option": {
+            "cash_option_title": "Cash payment",
+            "description_in_step4": "A credit commits you and must be repaid. Check your ability to repay before committing yourself",
+            "price_format": "/ month",
+            "monthly_price_title": "Financial services",
+            "show_detail_option": "See details about finance option",
+            "message_in_step2": "or only {{currentPrice}} per month*",
+            "message_in_step2_secondaryCurrency": "or only {{currentPrice}} / {{secondaryCurrencyCurrent}} per month*",
+            "financial_service": "Financial service",
+            "financial_service_desc": "Split the cost into monthly payments.",
+            "see_monthly_price": "See monthly price",
+            "see_total_price": "See total price"
+        },
+        "help_center": {
+            "BRNotification_floorplan_message": "<b>Find planning advices</b>In the following steps we will provide you warnings and advice to help you design a better kitchen.",
+            "changes_done": "You made changes in your design. You should <b>refresh the check now</b>",
+            "check_again": "Check again if you make further changes.",
+            "criticals_label": "Criticals",
+            "design_ok": "Your design is error free!",
+            "expired_products_label": "Expired products",
+            "help_center": "Help center",
+            "icon_button_tip": "Show help",
+            "more_help": "Need more help?",
+            "new_notifications": "New notifications",
+            "planning": "PLANNING",
+            "recommendations_label": "Recommendations",
+            "refresh": "Refresh the check",
+            "rules_available": "Discover design guidelines",
+            "tool_tip": {
+                "show_button_label": "Show"
+            },
+            "tool_tips": "TOOL TIPS",
+            "warnings_label": "Warnings",
+            "error_count": "Error count",
+            "on_demand_rules": "On demand rules",
+            "on_demand_select_all": "Select all",
+            "on_demand_deselect_all": "Deselect all",
+            "general_rules": "General rules",
+            "replaced": "replaced item",
+            "xReplaced": "replaced items",
+            "withoutReplacement": "item without replacement found",
+            "xWithoutReplacement": "items without replacement found"
+        },
+        "hq_rendering": {
+            "before_send": {
+                "info": "High quality images will be available on your project page when complete.",
+                "title": "Before sending your request"
+            },
+            "continue": "Continue",
+            "error": {
+                "info": "For some reason, we couldn’t send your request. Please try again later.",
+                "title": "An error occurred"
+            },
+            "exit": "Exit",
+            "generate": "Generate",
+            "got_it": "Ok, got it!",
+            "create_another": "Create another one",
+            "info": "Select a position, adjust your settings and generate your image.",
+            "intro": {
+                "info": "High quality images will be available on your project page when complete.",
+                "title": "Realistic images allow you to create high quality visuals of your project."
+            },
+            "no_credit": {
+                "info": "A realistic image cost 1 credit. You currently have no credits. You cannot send a realistic image request for now.",
+                "title": "Not enough credits"
+            },
+            "sending": {
+                "info": "No worries, it won’t be long!",
+                "title": "Sending request"
+            },
+            "start": "Continue",
+            "title": "Create a realistic image",
+            "try_again": "Try again"
+        },
+        "item_notes": {
+            "item_notes_tab": "ITEM NOTES",
+            "footnote": "Important: Please refrain from entering personal information (such as address, email or phone numbers). We cannot accept any liability for information submitted or specific requests which may relate to delivery date, installation or additional services.",
+            "panel_message_title": "Add an item note?",
+            "panel_message_subtitle": "Select an item to add your first note",
+            "placeholder_text": "Write a note",
+            "project_notes_tab": "PROJECT NOTES",
+            "subtitle": "Add notes about the entire project, or a specific furniture by selecting the item.",
+            "title": "Notes",
+            "item_notes_worktop": "Worktop",
+            "item_notes_wallpanel": "Wall panel",
+            "item_notes_walledgestrip": "Wall edge strip",
+            "item_notes_decostrip": "Deco strip",
+            "item_notes_riser": "Riser",
+            "item_notes_cornice": "Cornice",
+            "item_notes_plinth": "Plinth"
+        },
+        "multi_replace": {
+            "subtitle": "Choose a combination that fits your space.",
+            "title": "Replace",
+            "combination": "Combination",
+            "first_tab": "1st cabinet",
+            "second_tab": "2nd cabinet",
+            "third_tab": "3rd cabinet"
+        },
+        "render_image": {
+            "create_another_button": "Create another one",
+            "title": "Your request has been sent",
+            "message": "Your image is being generated and will be available as part of your project shortly.",
+            "got_it_button": "Ok, got it!"
+        },
+        "render_360": {
+            "title": "Create a 360° image",
+            "subtitle1": "Select a position, adjust your settings and generate your image.",
+            "modify_button_label": "Stop preview",
+            "preview_button_label": "Launch a preview",
+            "generate_button_label": "Generate",
+            "sublayer_media": {
+                "title": "360° images allow you to create high quality visuals of your project.",
+                "message": "360° images will be available on your project page when complete.",
+                "continue": "Continue",
+                "dont_show_label": "Don't show me again"
+            },
+            "sublayer_before_sending": {
+                "title": "Before sending your request",
+                "message": "360° images will be available on your project page when complete.",
+                "continue": "Continue",
+                "dont_show_label": "Don't show me again"
+            },
+            "sublayer_loader": {
+                "title": "Sending request",
+                "message": "No worries, it won’t be long!"
+            },
+            "sublayer_error": {
+                "title": "An error occurred",
+                "message": "For some reason, we couldn't send your request. Please try again later.",
+                "try_again": "Try again"
+            },
+            "sublayer_credit": {
+                "title": "Failed, your request wasn't sent.",
+                "message": "You need credits to generate a 360° image."
+            }
+        },
+        "index": {
+            "add_notes_action": "Add notes",
+            "add_notes_tip": "Add notes",
+            "back_to_step3": "Back to detail",
+            "contact_action": "Contact",
+            "contact_tip": "Contact",
+            "create_media_button": "Create one",
+            "delivery_service": "Delivery service",
+            "estimated_additional_price_title": "Estimated cost: ",
+            "estimated_date_title": "Estimated date: ",
+            "estimated_delivery_title": "Estimated delivery: ",
+            "export_hbm": "Publish on HomeByMe",
+            "hqrender_action": "Take a realistic picture",
+            "hqrender_tip": "Take a realistic picture",
+            "installation_service": "Installation service",
+            "measure_desc": "Click on two elements to get the distance between them.",
+            "measure_copy_value": "Copy value",
+            "measure_keep": "Keep",
+            "next_step": "NEXT STEP >",
+            "no_delivery_date": "No delivery information available",
+            "no_installation_date": "No installation information available",
+            "popin_templatecomputing_desc": "We are currently designing kitchen layouts that fit your floorplan.",
+            "popin_templatecomputing_title": "Designing the best solutions for your kitchen",
+            "price_info": "Price information",
+            "price_detail_button": "Check your price",
+            "price_detail_title": "Price detail",
+            "price_view_custom_display": "See price",
+            "discover_services_button": "Discover our services",
+            "discover_services_title": "Services",
+            "proceed": "Proceed",
+            "proceed_tip": "Proceed",
+            "project_default_name": "MY KITCHEN",
+            "project_finalise_check_title": "Few things to check on your design",
+            "project_overview": "Project overview",
+            "project_suffix_after_import": " - Kitchen",
+            "project_title_tip": "My Project Name",
+            "project_wrong_name": "Please enter a valid project name",
+            "reset_view": "Reset view",
+            "save": "Save",
+            "save_title": "Save my work",
+            "search_delivery_date": "Searching for delivery information",
+            "search_installation_date": "Searching for installation information",
+            "share": "Share",
+            "share_tip": "Share your project",
+            "step1": "Floorplan",
+            "step2": "Pick a layout",
+            "step2_intro": "Pick your favorite layout:",
+            "step2_need_mapping": "I can't find what I'm looking for",
+            "step3": "Design your kitchen",
+            "step4": "Summary",
+            "title": "Kitchen Home Planner",
+            "total_price_title": "Total Price",
+            "view_all_button_step4": "View all",
+            "what_next": "What next?",
+            "2d_plans_pictures": "Images & 2D Plans",
+            "2d_plans_only": "2D plans",
+            "description": "Description",
+            "services": "Services",
+            "showImages": "Show images"
+        },
+        "kitchen_services": {
+            "kitchen": "Kitchen",
+            "room": "Room"
+        },
+        "surface_editor": {
+            "next_wall_button_label": "Next wall",
+            "previous_wall_button_label": "Previous wall"
+        },
+        "walledgestrip_editor": {
+            "edge_products_overlay": {
+                "add_edge_product_left": "Left",
+                "add_edge_product_right": "Right",
+                "add_edge_product_top": "Top",
+                "title": "Change edges",
+                "default_title_label": "Choose a reference",
+                "default_option_label": "Choose a reference / no edge"
+            },
+            "empty_edge_options_overlay": {
+                "add_walledgestrip": "Add wall edge strip",
+                "add_walledgestrip_button": "ADD",
+                "title": "Edge options"
+            },
+            "title": "Wall edge strip editor",
+            "walledgestrip_options_overlay": {
+                "add_edge_products": "Change edges",
+                "add_edge_products_button": "CHANGE",
+                "remove_walledgestrip": "Remove wall edge strip",
+                "remove_walledgestrip_button": "REMOVE",
+                "title": "Wall edge strip options"
+            }
+        },
+        "wallpanel_editor": {
+            "back_main_view_button": "Main wall panel view",
+            "corner_cut_overlay": {
+                "double": "Double",
+                "non_straight": "Non straight",
+                "simple": "Single",
+                "title": "Corner cut options"
+            },
+            "side_panel": {
+                "wallpanel_instruction_hover":"Hover over the plan to see the editable elements.",
+                "wallpanel_instruction_click":"Click on a workspace, an edge, a corner, a cutout, or another element to configure it.",
+                "polished_underside_instruction": "Click on an area, the edges and corners to modify the polished area",
+                "changeGrainDirection": "The direction of the grain will always be parallel or perpendicular to one of the edges of the wallpanel.",
+                "addCutOut": "Create a rectangular or rounded cut in the wallpanel",
+                "deleteWallpanel": "Delete wall panel",
+                "addAutoJoints": "Add an automatic joint based on the maximum size of the board",
+                "addPolishedUnderside": "Add a polished finish to the underside of the wallpanel",
+                "editPolishedUnderside": "Edit the polished finish on the underside of the wallpanel",
+                "deletePolishedUnderside": "Delete the polished finish on the underside of the wallpanel",
+                "splitWallPanel": "Cut the wall panel into two parts to change its original shape.",
+                "addEdgeCut": "Add a type of cut (rounded or triple cut) for the selected edge",
+                "splitEdge": "Dividing an edge allows for the alteration of the initial shape of the work plan.",
+                "deleteEdge": "Remove the anchor point",
+                "changeEdgeProduct": "Change the reference of the edge",
+                "mergeWallPanel": "Get a one-piece wall panel",
+                "addJoint": "Add a joint to the wall panel",
+                "edgeFront": "Choose this side of the wallpanel to be treated as the visible front side for edging/finishing",
+                "rotateFiberNext": "Rotate the grain direction to the next possible orientation",
+                "rotateFiberPrevious": "Rotate the grain direction to the previous possible orientation",
+                "deleteSplit": "Remove the split",
+                "deletePolishedUndersideFace": "Delete the polished finish from the selected polished underside area",
+                "addCut": "Add a corner cut to modify the shape of the selected corner",
+                "changeWaterFallType": "Change the waterfall type for the selected edge",
+                "deleteCut": "Remove the cut from the selected edge",
+                "edgeProduct": "Choose an edge material reference for the selected edge",
+                "addEdgeProduct": "Add an edge material reference to the selected edge",
+                "cutOutEdgeProduct": "Choose an edge finish reference for the cut-out",
+                "removeJoint":"Remove the joint from the wall panel"
+            },
+            "corner_options_overlay": {
+                "add_cut": "Add cut",
+                "add_cut_button": "ADD",
+                "title": "Corner options",
+                "delete_split": "Delete Split",
+                "delete_split_button": "Delete",
+                "delete_split_title": "Split Options"
+            },
+            "edge_options_overlay": {
+                "add_edge_product": "Add edge product",
+                "add_edge_product_button": "ADD",
+                "add_edge_triple_cut": "Add triple cut",
+                "add_edge_triple_cut_button": "ADD",
+                "add_polished_underside": "Add polished underside",
+                "add_polished_underside_button": "ADD",
+                "add_wpSplit": "Add joint",
+                "add_wpSplit_button": "ADD",
+                "split_wallpanel": "Split wall panel",
+                "split_wallpanel_button": "SPLIT",
+                "merge_wallpanels": "Merge wall panels",
+                "merge_wallpanels_button": "MERGE",
+                "change_edge_product": "Change edge product",
+                "change_edge_product_button": "CHANGE",
+                "splitEdge": "Split edge",
+                "splitEdge_button": "SPLIT",
+                "title": "Edge options",
+                "default_value_label": "Choose a reference / no edge",
+                "default_title_label": "Choose a reference"
+            },
+            "edge_product_overlay": {
+                "title": "Edge material reference"
+            },
+            "change_waterfall_overlay": {
+                "title": "Waterfall type"
+            },
+            "next_wall_button_label": "Next wall",
+            "next_view_button_label": "Next view",
+            "previous_wall_button_label": "Previous wall",
+            "triple_cut_overlay": {
+                "non_straight": "Non straight",
+                "title": "Triple cut"
+            },
+            "polished_underside_face_overlay": {
+                "delete": "Delete polished underside",
+                "delete_button": "DELETE",
+                "title": "Polished underside options"
+            },
+            "wallpanel_overlay": {
+                "add_cut_out": "Add cut-out",
+                "add_cut_out_button": "ADD",
+                "title": "Wall panel options",
+                "change_grain_direction": "Change grain direction",
+                "change_grain_direction_button": "CHANGE",
+                "delete": "Delete wall panel",
+                "delete_button": "DELETE",
+                "delete_polished_underside": "Delete polished underside",
+                "delete_polished_underside_button": "DELETE",
+                "edit_polished_underside": "Edit polished underside",
+                "edit_polished_underside_button": "EDIT"
+            },
+            "wpSplit_options_overlay": {
+                "remove_wpSplit": "Remove joint",
+                "remove_wpSplit_button": "REMOVE",
+                "title": "Joint options"
+            },
+            "grain_direction_overlay": {
+                "next_direction": "Next direction",
+                "next_direction_button": "NEXT",
+                "prev_direction": "Previous direction",
+                "prev_direction_button": "PREVIOUS",
+                "title": "Change grain direction"
+            },
+            "editor_legends": {
+                "wall_panel_types": {
+                    "title": "Wall panels",
+                    "types": {
+                        "illustration_purpose_only": "Illustration purpose only",
+                        "custom_precut": "Custom and precut"
+                    }
+                },
+                "edge_finish": {
+                    "title": "Edges"
+                }
+            }
+        },
+        "studio_photo": {
+            "bottom_bar": {
+                "credits_one": "'{{count}} credit",
+                "credits_other": "'{{count}} credits'",
+                "validate_video": "Generate the video"
+            },
+            "cameras": {
+                "add_new_camera": "Add new camera",
+                "camera": "Camera",
+                "camera_options": "Camera options",
+                "camera_presets": "Camera presets",
+                "delete_camera": "Delete camera",
+                "camera_angle_rotation": "Angle rotation",
+                "camera_center_rotation": "Central rotation",
+                "camera_furniture_rotation": "Rotation around furniture",
+                "camera_translation": "Translation",
+                "focal": {
+                    "macro": "Macro",
+                    "title": "Focal",
+                    "wide": "Wide"
+                },
+                "format": {
+                    "title": "Frame size"
+                },
+                "speed": {
+                    "fast": "Fast",
+                    "normal": "Normal",
+                    "slow": "Slow",
+                    "title": "Speed"
+                },
+                "height": {
+                    "title": "Height"
+                },
+                "my_camera": "My camera",
+                "my_cameras": "My cameras",
+                "new_camera": "New camera",
+                "rename_camera": "Rename camera",
+                "rooms": {
+                    "go": "Go to this room",
+                    "title": "Rooms"
+                },
+                "tilt": {
+                    "title": "Tilt"
+                },
+                "title": "Cameras",
+                "tooltip": "Change the height, tilt or focal length of the camera in the 'personalize' section."
+            },
+            "common": {
+                "action_use_old_tool": "Yes I want to go back",
+                "cancel": "Cancel",
+                "close": "Close",
+                "save": "Save",
+                "generate_button": "Generate",
+                "create": "Create a new realistic image",
+                "create_video": "Create a new realistic video",
+                "create_cutviews": "Create a new top view",
+                "dont_show_me_again": "Don’t show me again",
+                "error_inside_wall": "We are unable to generate your realistic image. It seems your point of view is placed inside a wall, please move it and try again.",
+                "get_started": "Continue",
+                "got_it": "Ok, got it!",
+                "lights_on_limit_reached": "You have reached the limit of {{x}} lights on at once in 3D view. However, all the lights will be on in your realistic image.",
+                "more_infos": "More info",
+                "personalize": "Personalize",
+                "try_again": "Try again",
+                "use_old_tool": "Do you want to use the old tool?"
+            },
+            "moods": {
+                "add_new_mood": "Add new mood",
+                "mood_options": "Mood options",
+                "artificial_light": {
+                    "all_off": "All Off",
+                    "all_on": "All On",
+                    "color": {
+                        "cold": "Very warm white (2000 K)",
+                        "mid_cold": "Warm white (2700 K)",
+                        "mid_warm": "Neutral white (4000 K)",
+                        "middle": "Cold white (5000 K)",
+                        "temperature_cold": "Cold",
+                        "temperature_warm": "Warm",
+                        "title": "Light temperature",
+                        "warm": "Sunlight (6500 K)"
+                    },
+                    "light_brightness": {
+                        "high": "High",
+                        "low": "Low",
+                        "title": "Light brightness"
+                    },
+                    "only_the_ones_on": "Only the ones On",
+                    "title": "Artificial light"
+                },
+                "background_color": {
+                    "title": "Background color"
+                },
+                "background_image": {
+                    "autumn_park": "Sunny meadow",
+                    "birchwood": "Snowy forest",
+                    "black": "Black",
+                    "building": "Building",
+                    "cape_hill": "Rocky hill on sunny day",
+                    "city": "City",
+                    "cloudy_vondelpark": "Autumn park",
+                    "countryside": "Countryside",
+                    "dikhololo_night": "Night on a meadow",
+                    "drackenstein_quarry": "Fields",
+                    "gamrig": "Scrubland in summer",
+                    "gradient_white_grey": "White/Grey gradient",
+                    "hilly_terrain_01": "Green hills",
+                    "immenstadter_horn": "Green fields with a pine forest",
+                    "je_gray_park": "Park",
+                    "kiara_8_sunset": "Sandpit in sunset",
+                    "kloofendal_48d_partly_cloudy_puresky": "Cloudy sky",
+                    "mountains": "Mountains",
+                    "noon_grass": "Sunny Mountains",
+                    "palermo_sidewalk": "Palermo sidewalk",
+                    "rustig_koppie_puresky": "Blue Sky",
+                    "satara_night": "Night view of Satara",
+                    "simons_town_rocks": "Rocky seaside",
+                    "snow_forest": "Snow Forest",
+                    "snowy_hillside": "Snowy hills",
+                    "spaichingen_hill": "Sunny fields",
+                    "spruit_sunrise": "Field on a sunset",
+                    "studio_garden": "Cosy outside patio",
+                    "stuttgart_suburbs": "Stutthart suburbs",
+                    "sunset_fairway": "Golf field",
+                    "sunset_jhbcentral": "View from roofs",
+                    "title": "Background image",
+                    "transparent": "Transparent",
+                    "urban_street_03": "Residential street",
+                    "urban_street_04": "Residential intersection",
+                    "vignaioli_night": "Night view of Vigniaoli",
+                    "village": "Village",
+                    "white": "White"
+                },
+                "blue_hour": "Blue hour",
+                "cut_views": "Cut Views",
+                "day_light": "Day light",
+                "default": "Default",
+                "delete_mood": "Delete mood",
+                "golden_hour": "Golden hour",
+                "mood_presets": "Mood presets",
+                "my_mood": "My mood",
+                "my_moods": "My moods",
+                "new_mood": "New mood",
+                "night": "Night",
+                "nordic": "Nordic",
+                "rename_mood": "Rename mood",
+                "sun_light": {
+                    "auto": "Auto",
+                    "automatic_legend": "We'll set automatically the best light to create the most beautiful image.",
+                    "day": "Day",
+                    "night": "Night",
+                    "sun_position_n_inclinaison": "Sun position & inclination",
+                    "title": "Sun light"
+                },
+                "sunset": "Sunset",
+                "title": "Moods"
+            },
+            "options": {
+                "display_characters": "Display characters",
+                "new_rendering_worker": "New realistic image creator",
+                "new_rendering_worker_info": "By unchecking this box you will have access to the old, less efficient realistic image creator, which will soon be permanently removed.",
+                "title": "Options"
+            },
+            "rename": "Rename",
+            "sublayers": {
+                "common": {
+                    "change": "Change",
+                    "next_step": "Next step"
+                },
+                "credit": {
+                    "error": "Failed, your request wasn't sent.",
+                    "info": "You need credits to generate a realistic image."
+                },
+                "failure": {
+                    "error": "An error occurred",
+                    "info": "For some reason, we couldn't send your request. Please try again later."
+                },
+                "loading": {
+                    "duration": "No worries, it won't be long!",
+                    "sending": "Sending request"
+                },
+                "onboarding": {
+                    "alt": "Realistic image example",
+                    "common_subtitle": "You will be notified once your realistic image is ready on your project page.",
+                    "cutviews_title": "Get an overview of your project with our stunning topviews.",
+                    "subtitle_cutviews": "You have {{cutviewsCredits}} top views left. ",
+                    "subtitle_premium_plan": "You can create unlimited realistic images and {{uhdCredits}} x 4K image(s).",
+                    "subtitle_starter_plan": "You can create up to {{hdCredits}} realistic image(s).",
+                    "subtitle_unlimited_plan": "You can create unlimited realistic images and unlimited 4K images.",
+                    "title": "Dive in your project thanks to realistic renderings!",
+                    "subtitle": "Your image will be accessible on your project page once generated.",
+                    "subtitle_video_1": "Create a realistic video of your project and discover your interior as if you were there!",
+                    "title_uhd": "Project yourself in your future project with our 4K images.",
+                    "video_title": "Visit your future home with our realistic videos"
+                },
+                "quality": {
+                    "buy": "Buy",
+                    "choose": "Choose image quality",
+                    "fourK": "4K definition",
+                    "fourK_cutviews": "Top views",
+                    "fourK_cutviews_tips": "A stunning overview of your project ",
+                    "fourK_tips": "Amazing quality<br /> for design lovers",
+                    "free_plan": "Starter plan",
+                    "high": "High definition",
+                    "high_tips": "Good for sharing",
+                    "left": "{{x}} credit(s) left",
+                    "no_credits": "No credits",
+                    "parallel_count": "{{x}} realistic images are currently being generated.",
+                    "parallel_limit": "You can generate up to {{x}} images in parallel.",
+                    "refer": "Refer your friends and receive free credits!",
+                    "standard": "Standard definition",
+                    "standard_tips": "Good for preview,<br /> good for mobile",
+                    "subscribe": "Subscribe for unlimited images",
+                    "subtitle": {
+                        "cutviews": "Check out our offers to get unlimited  top views.",
+                        "premium": "Upgrade your plan to enjoy Unlimited 4K images.",
+                        "starter": "Subscribe to get unlimited access.",
+                        "unlimited": "Sponsor your friends to get free 360° images."
+                    },
+                    "subtitle_action": {
+                        "cutviews": "Subscribe",
+                        "premium": "Subscribe",
+                        "starter": "Choose a plan",
+                        "unlimited": "I recommend"
+                    },
+                    "title_cutviews": "Create your top view now",
+                    "unlimited": "Unlimited",
+                    "unlimited_plan": "Unlimited +"
+                },
+                "success": {
+                    "info": "Your realistic image is being generated on our side. We'll let you know as soon as it's ready.",
+                    "videoInfo": "Your video is being generated on our side. We'll let you know as soon as it's ready.",
+                    "sent": "Your request has been sent"
+                },
+                "watermark": {
+                    "choose_layout": "Choose your layout",
+                    "default": "Default",
+                    "no_watermark": "Remove HomeByMe logo",
+                    "subtitle": "As a professional subscriber, you can control how you want your image to be displayed",
+                    "subtitle_info": "The choice you make will be saved for the next realistic images you will be doing",
+                    "watermark_choice": "Logo choice"
+                }
+            },
+            "top_bar": {
+                "credits": {
+                    "buy_more": "Buy more",
+                    "credits_left": "credit(s) left."
+                },
+                "studio_title": {
+                    "video": "Studio video"
+                }
+            }
+        },
+        "worktop_editor": {
+            "add_polished_underside_overlay": {
+                "title": "Polished underside"
+            },
+            "side_panel": {
+                "worktop_instruction_hover": "Hover over the plan to see the editable elements.",
+                "worktop_instruction_click": "Click on a workspace, an edge, a corner, a cutout, or another element to configure it.",
+                "waterfall_instruction": "Click on a workspace, an edge, a corner, a cutout, or another element to configure it.",
+                "polished_underside_instruction": "Click on an area, the edges and corners to modify the polished area",
+                "changeGrainDirection": "The direction of the grain will always be parallel or perpendicular to one of the edges of the worktop.",
+                "addCutOut": "Create a rectangular or rounded cut in the worktop",
+                "deleteWorktop": "Delete worktop",
+                "addAutoJoints": "Add an automatic joint based on the maximum size of the board",
+                "addPolishedUnderside": "Add a polished finish to the underside of the worktop",
+                "editPolishedUnderside": "Edit the polished finish on the underside of the worktop",
+                "deletePolishedUnderside": "Delete the polished finish on the underside of the worktop",
+                "splitWorktop": "Cut the worktop into two parts to change its original shape.",
+                "addJoint": "Add a joint and position it on the board where necessary",
+                "addEdgeCut": "Add a type of cut (rounded or triple cut) for the selected edge",
+                "splitEdge": "Dividing an edge allows for the alteration of the initial shape of the work plan.",
+                "deleteEdge": "Remove the anchor point",
+                "changeEdgeProduct": "Change the reference of the edge",
+                "addWaterFall": "Add a waterfall of the same finish as the worktop",
+                "editWaterFall": "Edit the waterfall",
+                "removeWaterFall": "Remove the waterfall",
+                "mergeWorktops": "Get a one-piece worktop",
+                "edgeFront": "Choose this side of the worktop to be treated as the visible front side for edging/finishing",
+                "rotateFiberNext": "Rotate the grain direction to the next possible orientation",
+                "rotateFiberPrevious": "Rotate the grain direction to the previous possible orientation",
+                "deleteSplit": "Remove the split",
+                "deletePolishedUndersideFace": "Delete the polished finish from the selected polished underside area",
+                "addCut": "Add a corner cut to modify the shape of the selected corner",
+                "changeWaterFallType": "Change the waterfall type for the selected edge",
+                "deleteCut": "Remove the cut from the selected edge",
+                "edgeProduct": "Choose an edge material reference for the selected edge",
+                "addEdgeProduct": "Add an edge material reference to the selected edge",
+                "waterFallType": "Choose the waterfall type (straight or angled) for the selected edge",
+                "removeJoint": "Remove the joint from the worktop",
+                "convertJoint": "Convert the joint to a different type (corner or regular)",
+                "cutOutEdgeProduct": "Choose an edge finish reference for the cut-out"
+            },
+            "waterfall_view_label": "Waterfall view",
+            "polished_underside_view_label": "Polished underside view",
+            "back_main_view_button": "Main worktop view",
+            "back_waterfall_view_button": "Main waterfall view",
+            "board_overlay": {
+                "add_auto_joints": "Add auto joints",
+                "add_auto_joints_button": "ADD",
+                "add_cut_out": "Add cut-out",
+                "add_cut_out_button": "ADD",
+                "change_grain_direction": "Change grain direction",
+                "change_grain_direction_button": "CHANGE",
+                "delete": "Delete worktop",
+                "delete_button": "DELETE",
+                "delete_polished_underside": "Delete polished underside",
+                "delete_polished_underside_button": "DELETE",
+                "edit_polished_underside": "Edit polished underside",
+                "edit_polished_underside_button": "EDIT",
+                "title": "Worktop options"
+            },
+            "corner_cut_overlay": {
+                "double": "Double",
+                "invert": "Inner Rounded",
+                "non_straight": "Non straight",
+                "rounded": "Outer Rounded",
+                "rounded_mode": "Mode",
+                "rounded_mode_dimensions": "Two dimensions",
+                "rounded_mode_radius": "Radius",
+                "rounded_tangency": "Tangency",
+                "rounded_tangency_a": "On A",
+                "rounded_tangency_b": "On B",
+                "simple": "Single",
+                "title": "Corner cut options"
+            },
+            "corner_options_overlay": {
+                "add_cut": "Add cut",
+                "add_cut_button": "ADD",
+                "title": "Corner options",
+                "delete_split": "Delete Split",
+                "delete_split_button": "Delete",
+                "delete_split_title": "Split Options"
+            },
+            "cut_out_overlay": {
+                "circle": "Circle",
+                "circle_polished": "Circle polished",
+                "circle_unpolished": "Circle unpolished",
+                "cut_type": "Cut type",
+                "edge_finish": "Choose a reference",
+                "rectangle": "Rectangle",
+                "rectangle_polished": "Rectangle polished",
+                "rectangle_unpolished": "Rectangle unpolished",
+                "rounded_corners": "Rounded corners",
+                "title": "Cut-out"
+            },
+            "edge_cut_overlay": {
+                "non_straight": "Non straight",
+                "rounded": "Rounded",
+                "title": "Edge cut options",
+                "triple": "Triple cut"
+            },
+            "edge_options_overlay": {
+                "add_edge_cut": "Add edge cut",
+                "add_edge_cut_button": "ADD",
+                "add_edge_product": "Add edge product",
+                "add_edge_product_button": "ADD",
+                "add_joint": "Add joint",
+                "add_joint_button": "ADD",
+                "add_polished_underside": "Add polished underside",
+                "add_polished_underside_button": "ADD",
+                "add_waterfall": "Add waterfall",
+                "add_waterfall_button": "ADD",
+                "add_waterfall_edge_product": "Add waterfall edges",
+                "add_waterfall_edge_product_button": "ADD",
+                "change_waterfall_type": "Change waterfall type",
+                "change_waterfall_type_button": "CHANGE",
+                "change_edge_product": "Change edge product",
+                "change_edge_product_button": "CHANGE",
+                "default_value_label": "Choose a reference / no edge",
+                "default_title_label": "Choose a reference",
+                "delete_cut": "Delete Cut",
+                "delete_cut_button": "DELETE",
+                "edit_waterfall": "Edit waterfall",
+                "edit_waterfall_button": "EDIT",
+                "split_worktop": "Split worktop",
+                "split_worktop_button": "SPLIT",
+                "merge_worktops": "Merge worktops",
+                "merge_worktops_button": "MERGE",
+                "remove_waterfall": "Remove waterfall",
+                "remove_waterfall_button": "REMOVE",
+                "split": "Split edge",
+                "split_button": "SPLIT",
+                "title": "Edge options"
+            },
+            "edge_product_overlay": {
+                "front": "Front",
+                "set_as_front": "Set as front edge",
+                "set_as_front_button": "SET",
+                "title": "Edge material reference"
+            },
+            "change_waterfall_overlay": {
+                "title": "Waterfall type",
+                "default_title_label": "Choose waterfall type"
+            },
+            "grain_direction_overlay": {
+                "next_direction": "Next direction",
+                "next_direction_button": "NEXT",
+                "prev_direction": "Previous direction",
+                "prev_direction_button": "PREVIOUS",
+                "title": "Change grain direction"
+            },
+            "joint_options_overlay": {
+                "convert_joint_button": "CONVERT",
+                "convert_joint_corner": "Convert to corner joint",
+                "convert_joint_regular": "Convert to regular joint",
+                "remove_joint": "Remove joint",
+                "remove_joint_button": "REMOVE",
+                "title": "Joint options"
+            },
+            "polished_underside_face_overlay": {
+                "delete": "Delete polished underside",
+                "delete_button": "DELETE",
+                "title": "Polished underside options"
+            },
+            "waterfall_edge_product_overlay": {
+                "left": "Left",
+                "right": "Right",
+                "title": "Waterfall edges"
+            },
+            "editor_legends": {
+                "worktop_types": {
+                    "title": "Worktops",
+                    "types": {
+                        "illustration_purpose_only": "Illustration purpose only",
+                        "custom_precut": "Custom and precut"
+                    },
+                    "grain_direction": "Grain direction",
+                    "crawl_space": "Crawl space",
+                    "polished_underside": "Polished underside"
+                },
+                "edge_finish": {
+                    "title": "Edges",
+                    "front_edge": "Front"
+                }
+            }
+        }
+    },
+    "legal": {
+        "short_legal_text_metrics": "All dimensions specified are in millimetres. We cannot accept any liability for the accuracy of measurements you provide.",
+        "short_legal_text_imperial": "All dimensions specified are in inches. We cannot accept any liability for the accuracy of measurements you provide."
+    },
+    "levelnav": {
+        "basement": "Basement",
+        "level": "Floor",
+        "level_0": "Ground Floor",
+        "level_1": "First Floor",
+        "level_2": "Second Floor",
+        "level_3": "Third Floor"
+    },
+    "light_inclination": {
+        "title": "Sun inclination"
+    },
+    "light_position": {
+        "title": "Sun position"
+    },
+    "manual_notes": {
+        "error_maximum_size": "The maximum amount of characters is",
+        "error_special_characters": "The following symbols are not valid",
+        "placeholder": "Add some notes or ideas about your kitchen project",
+        "title": "Add notes on my project"
+    },
+    "lights": {
+        "properties_panel": {
+            "intensities": {
+                "lower": "Lower",
+                "mid_lower": "Mid-lower",
+                "recommended": "Recommended",
+                "mid_higher": "Mid-higher",
+                "higher": "Higher"
+            },
+            "light_bulb_intensity": "Lightbulb intensity",
+            "temperatures": {
+                "warm": "Warmer",
+                "mid_warm": "Mid-warmer",
+                "neutral": "Neutral",
+                "mid_cold": "Mid-colder",
+                "cold": "Colder"
+            },
+            "light_bulb_temperature": "Light temperature",
+            "on_off": "On/Off"
+        }
+    },
+    "media_list": {
+        "images_not_found": "You have not created any images of your project.",
+        "images_title": "Pictures",
+        "plan2D_disabled": "Your 2D plans have been generated and will be part of the order documentation.",
+        "plan2D_title": "2D plans",
+        "360_image": "360 images",
+        "HQ_rendering": "HQ renderings",
+        "screenshot": "Screenshots",
+        "plan2D_not_found": "Add an item to your project to automatically generate 2D plans.",
+        "plan2d_tile_generation_failed": "Generation failed",
+        "rendering_in_progress": "Rendering in progress",
+        "video": "Videos"
+    },
+    "mouse_tips": {
+        "disabled_furniture": "You cannot move any items in this step"
+    },
+    "navigation_catalog": {
+        "design_room_state": {
+            "columns": "Columns",
+            "concrete": "Concrete",
+            "electrical": "Electrical elements",
+            "covering": "Paint & flooring",
+            "walls": "Walls",
+            "floors": "Floors",
+            "door": "Doors",
+            "doubleDoor": "Double doors",
+            "doubleSlidingWindow": "Double sliding windows",
+            "doubleWindow": "Double windows",
+            "fixedWindow": "Fixed windows",
+            "flooring": "Flooring",
+            "floorTile": "Floor tiles",
+            "freeShapes": "Free shapes",
+            "hardwood": "Hardwood",
+            "objects": "Room objects",
+            "openings": "Openings",
+            "paint": "Paint",
+            "patioDoor": "Patio doors",
+            "radiators": "Radiators",
+            "simpleDoor": "Single doors",
+            "simpleSlidingWindow": "Single sliding windows",
+            "simpleWindow": "Single windows",
+            "wallpaper": "Wallpaper",
+            "wallTile": "Wall tiles",
+            "window": "Windows",
+            "roofWindow": "Roof windows"
+        },
+        "detailed_design_state": {
+            "accessories": "Kitchen extras",
+            "appliances": "Appliances",
+            "baseCabinets": "Base cabinets",
+            "cabinetAccessories": "Cabinet accessories",
+            "cabinets": "Cabinets",
+            "chairs": "Chairs",
+            "cooktops": "Cooktops",
+            "cornerCabinets": "Corner cabinets",
+            "dining": "Dining",
+            "dishwasher": "Dishwashers",
+            "fillerStripAngle": "Filler strip angle",
+            "floorLamps": "Floor lamps",
+            "fridge": "Fridge",
+            "highCabinets": "High cabinets",
+            "hoods": "Hoods",
+            "juniorChairs": "Junior chairs",
+            "kitchenAccessories": "Kitchen accessories",
+            "kitchenComponents": "Kitchen components",
+            "ovens": "Ovens",
+            "plantsAndFlowers": "Plant & flowers",
+            "rugs": "Rugs",
+            "shelves": "Shelves",
+            "sinks": "Sinks",
+            "stools": "Stools",
+            "suspendedLamps": "Suspended lamps",
+            "tableLamps": "Table lamps",
+            "tables": "Tables",
+            "tableware": "Tableware",
+            "test": "Test",
+            "trashCans": "Trash cans",
+            "wallCabinets": "Wall cabinets",
+            "wallShelves": "Wall shelves",
+            "washer": "Washing machines",
+            "worktopAccessories": "Worktop accessories",
+            "nonVisibleItems": "Non visible items"
+        }
+    },
+    "navigation_panel": {
+        "switch_2D": "Switch to 2D view",
+        "switch_3D": "Switch to 3D view",
+        "switch_FP": "Switch to first person view",
+        "floor_view": "Floor view",
+        "front_view": "Front view",
+        "bottom_view": "Bottom view",
+        "3d_view": "3D view",
+        "virtual_visit": "Virtual visit",
+        "floor": "Floor",
+        "wall": "Wall",
+        "ceiling": "Ceiling",
+        "3d": "3D",
+        "look_around": "Look around",
+        "left": "Left",
+        "right": "Right",
+        "open_dual_screen": "Open dual screen",
+        "close_dual_screen": "Close dual screen",
+        "stop_sharing": "Stop sharing"
+    },
+    "notification": {
+        "apply_to_all": "Custom products will remain unchanged in the project.",
+        "cabinet_updated": "Your cabinet has been updated in your kitchen.",
+        "error_backup_project": "Error while loading backup project.",
+        "error_inside_wall": "We are unable to generate your realistic image. It seems your point of view is placed inside a wall, please move it and try again.",
+        "error_multiple_delete": "Some selected items cannot be removed in a multiple selection.",
+        "error_save_project": "We encountered an error when saving your project. Please try to save again.",
+        "error_product_insertion": "You must have at least one room to insert the product.",
+        "error_project_name": "Project name required.",
+        "plan2d_generation_anomaly": "An issue occurred while generating your 2D plans. Some plans may be missing or incomplete.",
+        "front_elevation_change_wall": "This issue is located on another wall. Please go back in 3D or switch wall.",
+        "front_elevation_no_space": "There is no space remaining on this wall. The product is inserted on another wall. Please switch the view to see it.",
+        "info_apply_all": "The change has been applied to all compatible products.",
+        "info_save": "Your project has been saved.",
+        "info_save_in_progress": "Save in progress... ",
+        "info_save_error_message": "Project name exceeds maximum length.",
+        "info_save_error_link": "Rename your project",
+        "info_save_error_description_message": "Project description exceeds maximum length.",
+        "info_save_error_description_link": "Change your project description",
+        "item_note_transferred": "The note of your product has been transferred.",
+        "network_error_message": "You are currently offline. Reconnect before continuing with your project.",
+        "info_non_visible_items_added": "{{x}} added to your project",
+        "success_project_hbm_imported": "A copy of your HomeByMe project has been imported.",
+        "error_project_hbm_imported": "We've encountered a problem. Please try again.",
+        "success_project_hbm_exported": "A copy of your project was sent to HomeByMe.",
+        "error_project_hbm_exported": "We've encountered a problem. Please try again.",
+        "error_measure_imported": "We encountered an error while importing your measurements.",
+        "error_same_state_paste_design_state": "This product cannot be placed in this step. Please go to “Floorplan” step.",
+        "error_same_state_paste_floorplan_state": "This product cannot be placed in this step. Please go to “Design your kitchen” step",
+        "error_bay_copy": "The openings cannot be copied.",
+        "error_copy": "This product cannot be copied.",
+        "success_measure_imported": "Your measurements have been imported.",
+        "info_no_sloped_ceiling": "No roof window without sloped ceiling.",
+        "info_no_sloped_ceiling_link": "Add sloped ceiling",
+        "info_resolve_design_issues": "Your design contains issues that could have an impact on installation and usability.",
+        "info_resolve_design_issues_link": "Resolve issues",
+        "wp_editor_change_wall": "This issue is located on another wall. Plase switch wall.",
+        "info_consult_help_center": "Visit the help center for advice on your kitchen design",
+        "success_product_favorited": "Product has been added to the list: {{name}}",
+        "success_ungroup_products": "Products have been ungrouped.",
+        "info_project_hbm_reset_elevated_floors": "Elevated floors are not yet supported in this application",
+        "incorrect_file_format": "Your file format must be a PDF, JPG, or PNG",
+        "error_insert_expired_product": "This product is expired and can't be inserted in the project.",
+        "info_annotation_image_upload_in_progress": "Upload in progress",
+        "info_annotation_image_upload_succeeded": "Upload succeeded",
+        "info_annotation_image_invalid_type": "Your file format must be a JPEG, JPG, or PNG",
+        "success_snapshot_creation": "Your new screenshot is available",
+        "rename_plan_max": "32 characters maximum",
+        "rename_plan_empty": "The name cannot be empty.",
+        "error_auto_joints": "Case too complex, create the joints manually.",
+        "no_joints_necessary": "No joints are necessary on this board.",
+        "changes_applied": "Your changes have been applied to the project.",
+        "error_resolve_mapping":"ERROR!!",
+        "info_product_expiring_soon": "Some items in your project are reaching the end of their commercial life."
+    },
+    "minimap": {
+        "title": "Mini Map",
+        "tip_desc": "Use the mini map to guide yourself and change walls",
+        "tooltip": "Show the mini map to change the wall view"
+    },
+    "options_overlay": {
+        "cameraHeight": "Camera height",
+        "displayAllToggle": "Display all items",
+        "display_colour_toggle": "Display colour",
+        "displayEdgeSymbol": "Display edge symbols",
+        "displayLegend": "Display legend",
+        "displayShadow": "Enable shadows",
+        "displayWorktopTypes": "Display worktop types",
+        "displayWallPanelTypes": "Display wall panel types",
+        "displayGridToggle": "Display Grid",
+        "frontToggle": "Display fronts",
+        "annotationsToggle": "Display annotations",
+        "measuresToggle": "Display measures",
+        "showAdjoiningCabinets": "Show adjoining cabinets",
+        "title": "View mode options",
+        "view_height": {
+            "name": "View height",
+            "options": {
+                "default": "Default",
+                "ground": "Ground",
+                "high": "High",
+                "worktop": "Worktop"
+            }
+        },
+        "visible_items": {
+            "name": "Visible items",
+            "options": {
+                "all_items": "All items",
+                "not_on_floor": "Not on floor",
+                "on_floor": "On floor",
+                "on_floor_no_worktop": "On floor no worktop"
+            }
+        },
+        "displayCutWall": "Show cut wall",
+        "wallDisplay": "Display wall",
+        "paper_format": {
+            "name": "Print Format",
+            "notification": "The 2D plan is in {{current_format}} format and will be correctly applied at printing."
+        },
+        "filters_options": {
+            "dimensions": "Dimensions",
+            "annotations": "Annotations",
+            "symbols": "Symbols",
+            "references": "Appliance references",
+            "cabinet_references": "Cabinet references",
+            "worktop_references": "Worktop references",
+            "wallpanel_references": "Wall panel references",
+            "numbers": "Numbers",
+            "worktops": "Worktops",
+            "wallpanels": "Wall panels",
+            "walledgestrips": "Wall Edge Strips",
+            "ground_products": "Ground products",
+            "wall_products": "Wall products",
+            "tall_products": "Tall products",
+            "fronts": "Fronts",
+            "plinths": "Plinths",
+            "accessories": "Accessories",
+            "categoryDimensions": "Visible dimensions",
+            "furnituresDimensions": "Furniture",
+            "wallsDimensions": "Walls",
+            "islandsDimensions": "Islands",
+            "worktopsDimensions": "Worktops Dimensions",
+            "wallPanelDimensions": "WallPanel Dimensions",
+            "grainDirection":"Grain direction"
+        }
+    },
+    "floor_plan": {
+        "main": {
+            "title": "Import your floorplan file",
+            "info": "You can drop or select the file to import."
+        },
+        "on_bording": {
+            "title": "Transform your floorplan into a 3D project",
+            "description": "Import your floorplan to start your project with precise measurements.",
+            "continue": "Continue"
+        },
+        "option_tools": {
+            "your_plan": "Your plan",
+            "delete_plan": "Delete your floorplan?",
+            "rotation": "Rotation",
+            "floorplan_rotation": "Floorplan rotation",
+            "opacity": "Opacity",
+            "floorplan_opacity": "Floorplan opacity",
+            "move": "Move",
+            "display_walls": "Display walls"
+        },
+        "upload_plan": {
+            "supported_files": "Supported files: PDF, JPG and PNG",
+            "file_info": "Maximum upload file size: 1 MB",
+            "drop_here": "Drop here",
+            "upload_from_file": "Select file",
+            "drag_drop": "Drop your file anywhere"
+        },
+        "select_pdf": {
+            "title": "Choose the page you want to import",
+            "validate_button": "Choose this page"
+        },
+        "change_slab_offset": {
+            "message": "Your floor level has been correctly applied",
+            "link_label": "See how it looks"
+        },
+        "technical_detail": {
+            "add_material": "Add material",
+            "title": "Technical Details",
+            "cornice": "Cornice",
+            "picture_rail": "Picture rail",
+            "baseboard": "Baseboard",
+            "apply_to_room": "Apply to whole room",
+            "change_color": "Change color",
+            "room_height": "Room height",
+            "maximum_height_error": "Moldings can't be higher than the ceiling",
+            "floor_height_changes": "Height from floor changed as it exceeded ceiling height"
+        }
+    },
+    "plans_2d": {
+        "face_plan_name": "FacePlan",
+        "top_plan_name": "TopPlan",
+        "topground_plan_name": "TopPlan Ground furniture",
+        "topwall_plan_name": "TopPlan Wall furniture",
+        "waterfall_plan_name": "Worktop (Waterfall)",
+        "worktop_plan_name": "Worktop",
+        "wallpanel_plan_name": "Wall Panel",
+        "walledgestrip_plan_name": "Wall Edge Strip",
+        "nomenclature": "Nomenclature",
+        "legend": "Legend",
+        "number": "Number",
+        "description": "Description",
+        "reference": "Reference",
+        "customized_product": "Customized Product",
+        "symbol": "Symbol"
+    },
+    "popin": {
+        "automatic_grouping_warning": {
+            "title": "Are you sure ?",
+            "main_message": "This will erase all the groups and the current rules",
+            "message_apply_feature": "Do you want to continue ?",
+            "primary_button_label": "Confirm",
+            "secondary_button_label": "Cancel"
+        },
+        "backup_recovery": {
+            "primary_button_label": "Yes",
+            "question": "Would you like to continue with this project?",
+            "recovered_project": "We recovered a project from ",
+            "secondary_button_label": "No",
+            "title": "Recover project",
+            "start_from_scratch": {
+                "less_than_one_hour_ago": "We found a project from {{minutes}} minute(s) ago that was not saved.",
+                "more_than_one_hour_ago": "We found a project from {{date}} that was not saved.",
+                "primary_button_label": "Recover project",
+                "secondary_button_label": "Start from scratch"
+            },
+            "open_project": {
+                "less_than_one_hour_ago": "This project has modifications from {{minutes}} minute(s) ago that were not saved.",
+                "more_than_one_hour_ago": "This project has modifications from {{date}} that were not saved.",
+                "primary_button_label": "Recover project",
+                "secondary_button_label": "Open last saved"
+            }
+        },
+        "best_solutions": {
+            "message_discover_all_layouts": "Make sure to look at all the kitchen layouts that you can choose from to find the best solution.",
+            "message_want_to_see": "Do you want to see these solutions?",
+            "primary_button_label": "Yes",
+            "secondary_button_label": "No",
+            "title": "Choose the best solution"
+        },
+        "change_dim_options": {
+            "primary_button_label": "Validate",
+            "secondary_button_label": "Cancel",
+            "title": "Change dimensions"
+        },
+        "change_wallpanel_type": {
+            "message_confirm_change": "Change wall panel?",
+            "message_wallpanel_already_edited": "You are about to change your wall panel that you have already edited. Modifications will be deleted.",
+            "primary_button_label": "Yes",
+            "secondary_button_label": "No",
+            "title": "Change wall panel"
+        },
+        "change_worktop_type": {
+            "message_confirm_change": "Change worktop?",
+            "message_worktop_already_edited": "You are about to change a worktop that you have already edited. Modifications will be deleted.",
+            "primary_button_label": "Yes",
+            "secondary_button_label": "No",
+            "title": "Change worktop"
+        },
+        "confirm_worktop_wes_removal": {
+            "message": "Edited wall edge strips and worktops will be deleted together.",
+            "message_confirm": "Do you confirm the deletion?",
+            "primary_button_label": "OK",
+            "secondary_button_label": "CANCEL",
+            "title": "Confirmation"
+        },
+        "confirm_all_removal": {
+            "message_top": "You are about to remove all instance of ",
+            "message_back": "across your kitchen layout. This action will also remove any linked components as configured in the catalog",
+            "message_confirm": "Do you want to proceed?",
+            "primary_button_label": "OK",
+            "secondary_button_label": "CANCEL",
+            "title": "Delete All"
+        },
+        "finalise_unsaved_changes": {
+            "message": "Your project has to be saved before doing this action.",
+            "primary_button_label": "Save",
+            "secondary_button_label": "Cancel",
+            "title": "Save your project"
+        },
+        "finalise_unsaved_changes_project_locked": {
+            "message": "Your project has to be saved before doing this action.",
+            "primary_button_label": "Save",
+            "secondary_button_label": "Cancel",
+            "title": "Save your project"
+        },
+        "finalise_unsaved_changes_project_before_share": {
+            "message": "To continue you need to save your project.",
+            "primary_button_label": "Save",
+            "secondary_button_label": "Cancel",
+            "title": "Save before sharing"
+        },
+        "finance_detail": {
+            "deposit": "Deposit",
+            "deposit_percentage": "Fixed debit rate",
+            "footer_message": "The approval of your application depends on your financial circumstances and borrowing history, so do the terms you may be offered. There are no arrangement fees and no hidden costs with our interest free credit option. You can make overpayments or pay off your agreement early at no additional cost. Applying for finance is subject to application, financial circumstances and borrowing history.",
+            "interest_percentage": "Representative APR",
+            "loan_period": "Loan period",
+            "months": "months",
+            "monthly_price": "Monthly repayments",
+            "select_button_description": "calculated according to loan period",
+            "select_button_title": "Select a monthly amount",
+            "select_option_value": "{{monthlyPrice}}/month for {{duration}} months",
+            "title": "Finance options for your kitchen",
+            "total_amount_finance": "Total amount payable",
+            "total_price": "Item value (cash price)"
+        },
+        "furniture_configurator": {
+            "message_choose_desired_cabinet": "By editing this item it will become a custom cabinet. If you need to change any part of the cabinet in future you will need to return to the cabinet editor.",
+            "message_no_editable_dimensions": "Its dimensions won't be editable any more.",
+            "message_ready_to_edit_cabinet": "Are you ready to edit now?",
+            "primary_button_label": "Yes",
+            "secondary_button_label": "No",
+            "title": "Edit cabinet"
+        },
+        "help_auto_design": {
+            "link_label": "Update my preferences",
+            "message_propositions": "You can update your preferences to see more solutions to use as a basis or directly design your own kitchen.",
+            "message_propositions_without_need_mapping": "You can choose a solution as a basis to customize it in the following step or directly design your own kitchen.",
+            "primary_button_label": "Update my needs",
+            "primary_button_label_without_need_mapping": "Start with a layout",
+            "secondary_button_label_empty_kitchen": "Start from scratch",
+            "secondary_button_label_previous_kitchen": "Go back to my design",
+            "title": "How can we help you?"
+        },
+        "infos_replace_worktop": {
+            "add": " have been added",
+            "hide_non_compatible_options": "Hide non-compatible options",
+            "modification": " have been modified",
+            "onWaterfalls": " on waterfalls",
+            "primary_button_label": "OK",
+            "removal": " have been removed",
+            "secondary_button_label": "Undo",
+            "show_non_compatible_options": "Show non-compatible options",
+            "some_options_removed": "Some options are not compatible between the previous and current worktop. These options have been removed.",
+            "title": "Change worktop",
+            "uncompatible_elements": {
+                "cornerJoints": "Corner joints",
+                "cutOuts": "Cut outs",
+                "cutOutsEdgeFinish": "Cut outs edge finish",
+                "doubleSided": "Double sided",
+                "edgeFinish": "Edge finish",
+                "edges": "Edges",
+                "side": "Side",
+                "waterfalls": "Waterfalls"
+            }
+        },
+        "infos_replace_wallPanel": {
+            "add": " have been added",
+            "hide_non_compatible_options": "Hide non-compatible options",
+            "modification": " have been modified",
+            "primary_button_label": "OK",
+            "removal": " have been removed",
+            "secondary_button_label": "Undo",
+            "show_non_compatible_options": "Show non-compatible options",
+            "some_options_removed": "Some options are not compatible between the previous and current wall panel. These options have been removed.",
+            "title": "Change wall panel",
+            "uncompatible_elements": {
+                "cutOuts": "Cut outs",
+                "edgeFinish": "Edge finish"
+            }
+        },
+        "insert_forbidden": {
+            "title": "Inserting an item",
+            "message": "This item has no 3D representation. It cannot be inserted."
+        },
+        "invalid_measure": {
+            "message_apply_measurement": "Do you want to apply this measurement?",
+            "message_wall_very_high": "You are trying to change the measurement to a value higher than {{{value}}}.",
+            "primary_button_label": "Yes",
+            "secondary_button_label": "No",
+            "title": "Are you sure?"
+        },
+        "invalid_room": {
+            "message": "You must have at least one room to design your kitchen. Create a closed shape and try again when the flooring appears.",
+            "primary_button_label": "Ok",
+            "title": "Your design is invalid"
+        },
+        "no_solution_1": {
+            "message_check_now": "Do you want to check now?",
+            "message_delete_water_supply": "We have not found any solutions for your kitchen. Deleting the water supply position may help.",
+            "primary_button_label": "Yes",
+            "secondary_button_label": "No",
+            "title": "Delete the water supply"
+        },
+        "no_solution_2": {
+            "message": "Make sure your kitchen has enough available space on at least one wall.",
+            "primary_button_label": "Edit my floorplan",
+            "secondary_button_label": "Design from scratch",
+            "title": "We have not found any solution for your kitchen"
+        },
+        "no_space": {
+            "message_cabinet": "We have not found enough space to correctly position the cabinet.<br/>We will put it in the middle of the screen<br/>so that you can move it manually.",
+            "message_cabinet_multiple": "We have not found enough space to correctly position the items. We will put them in the middle of the screen so that you can move them manually.",
+            "message_roof_window": "We have not found enough space to correctly position the roof window.<br/>We will put it in the middle of the screen<br/>so that you can move it manually.",
+            "message_niche": "We have not found enough space to correctly position the niche.",
+            "primary_button_label": "Ok",
+            "title": "No space available"
+        },
+        "water_inlet": {
+            "message": "You have not selected a water inlet.",
+            "question": "Would you like to continue designing your kitchen without specifying the location of your water inlet ?",
+            "title": "Validate",
+            "primary_button_label": "Continue",
+            "secondary_button_label": "Cancel"
+        },
+        "overwrite_changes": {
+            "message_replace_previous": "The layout you selected will replace the previous kitchen design you made.",
+            "message_want_to_continue": "Do you want to overwrite your previous design?",
+            "primary_button_label": "Yes",
+            "secondary_button_label": "No",
+            "title": "Continue with this kitchen"
+        },
+        "partial_apply_all": {
+            "message": "We cannot apply this option to all products in your project. A partial update will be made.",
+            "primary_button_label": "Ok",
+            "secondary_button_label": "Cancel",
+            "title": "Unavailable products"
+        },
+        "unavailable_products": {
+            "message": "The product(s) you selected are unavailable and will be inserted into your project in a different style.",
+            "primary_button_label": "Ok",
+            "secondary_button_label": "Cancel",
+            "title": "Unavailable products"
+        },
+        "price_information": {
+            "message": "The price includes all cabinets (updated with selected options, style and legs), all linear elements (worktop and plinths), appliances, dining and accessories.",
+            "primary_button_label": "Ok",
+            "title": "Price information"
+        },
+        "modify_in_floorplan_covering": {
+            "title": "Edit Covering?",
+            "primary_label": "Yes",
+            "secondary_label": "No"
+        },
+        "see_bom_changes": {
+            "title": "Product Price Changes",
+            "reference":"Reference",
+            "name":"Name",
+            "price":"Price",
+            "price_changed":"PRICE CHANGED",
+            "no_price_changed":"NO PRICE CHANGED"
+        },
+        "replace_expired_product": {
+            "current": "CURRENT ",
+            "message": "This current product is no longer available. We suggest you to replace it with the following:",
+            "new": "NEW ",
+            "primary_button_label": "Yes",
+            "question": "Do you want to use this product instead?",
+            "secondary_button_label": "No",
+            "choose_another_covering": "Choose another covering"
+        },
+        "delete_expired_product": {
+            "title": "Delete expired product",
+            "message": "You are about to remove an expired product in your project.",
+            "primary_button_label": "Yes",
+            "question": "Are you sure to delete it now?",
+            "secondary_button_label": "No"
+        },
+        "save_copy_project": {
+            "message": "You are working on the project of another user. Create a copy to save your changes, with a different project name if needed.",
+            "name": "Name",
+            "description": "Description",
+            "default_project_name": "My kitchen",
+            "primary_button_label": "Save a copy",
+            "secondary_button_label": "Cancel",
+            "title": "Save a copy",
+            "placeholderText": "Enter description here…"
+        },
+        "save_locked_project": {
+            "default_project_name": "My kitchen",
+            "description": "Description",
+            "error_special_characters": "The following symbols are not valid",
+            "message": "You are working on an archived project. Create a copy to save your changes, with a different project name if needed.",
+            "name": "Name",
+            "placeholderText": "Enter description here…",
+            "primary_button_label": "Save a copy",
+            "secondary_button_label": "Cancel",
+            "title": "Save a copy"
+        },
+        "save_project": {
+            "default_project_name": "My kitchen",
+            "description": "Description",
+            "error_special_characters": "The following symbols are not valid",
+            "message": "Please feel free to rename it if you like.",
+            "name": "Name",
+            "placeholderText": "Enter description here…",
+            "primary_button_label": "Save",
+            "secondary_button_label": "Cancel",
+            "title": "Save your project"
+        },
+        "skip_auto_design": {
+            "message_customised_solutions": "We can propose several solutions customised to your space that you can use as a basis.",
+            "message_skip_solutions": "Do you really want to skip these solutions?",
+            "primary_button_label": "Yes",
+            "secondary_button_label": "No",
+            "title": "Skip layout selection"
+        },
+        "switch_after_save": {
+            "message_replace_previous": "The layout you selected will replace your previous kitchen.",
+            "message_want_to_continue": "Do you want to continue?",
+            "primary_button_label": "Yes",
+            "secondary_button_label": "No",
+            "title": "Confirmation"
+        },
+        "unsaved_changes": {
+            "message": "Save changes<br/>before closing your project.",
+            "primary_button_label": "Save",
+            "secondary_button_label": "Cancel",
+            "title": "Save before closing"
+        },
+        "confirm_deletion_installation_plan": {
+            "message": "Are you sure you want to delete this 2D plan? This process cannot be undone.",
+            "primary_button_label": "Delete",
+            "secondary_button_label": "Cancel",
+            "title": "Confirm deletion"
+        },
+        "unsaved_changes_hq": {
+            "message": "Before creating an image you need to save your project.",
+            "primary_button_label": "Save",
+            "secondary_button_label": "Cancel",
+            "title": "Save your project"
+        },
+        "unsaved_changes_annotation": {
+            "message": "Before uploading an image you need to save your project. Would you like to save it now?",
+            "primary_button_label": "Save",
+            "secondary_button_label": "Cancel",
+            "title": "Save your project"
+        },
+        "unsaved_changes_installation_plan": {
+            "message": "Before modifying a 2D plan, you need to save your project. Would you like to save it now?",
+            "primary_button_label": "Save",
+            "secondary_button_label": "Cancel",
+            "title": "Save your project"
+        },
+        "unsaved_changes_floorplanupload": {
+            "message": "Before uploading a floorplan you need to save your project.",
+            "primary_button_label": "Save",
+            "secondary_button_label": "Cancel",
+            "title": "Save your project"
+        },
+        "unsaved_changes_floorplanupload_project_locked": {
+            "message": "Before uploading a floorplan you need to save your project.",
+            "primary_button_label": "Save",
+            "secondary_button_label": "Cancel",
+            "title": "Save your project"
+        },
+        "unsaved_changes_project_locked": {
+            "message": "Save a copy of your project to keep your changes before closing.",
+            "primary_button_label": "Save",
+            "secondary_button_label": "Cancel",
+            "title": "Save before closing"
+        },
+        "wall_edge_strip_editor": {
+            "message_choose_desired_wall_edge_strip": "Please make sure you choose your preferred wall edge strip before editing it. Your modifications will only be priced for custom wall edge strips.",
+            "message_ready_to_edit": "Are you ready to edit now?",
+            "primary_button_label": "Yes",
+            "secondary_button_label": "No",
+            "title": "Edit wall edge strip"
+        },
+        "wall_panel_editor": {
+            "link_label": "Learn more about wall panel types",
+            "message_choose_desired_wall_panel": "Please make sure you choose your preferred wall panel before editing it. Your modifications will only be priced for custom wall panels.",
+            "message_ready_to_edit": "Are you ready to edit now?",
+            "primary_button_label": "Yes",
+            "secondary_button_label": "No",
+            "title": "Edit wall panel"
+        },
+        "water_supply": {
+            "message_add_water_supply": "Do you want to add a water supply?",
+            "message_sink_on_corresponding_wall": "We will use this information to suggest kitchen layouts with a sink on the corresponding wall when possible.",
+            "primary_button_label": "Yes",
+            "secondary_button_label": "No",
+            "title": "No water supply position"
+        },
+        "worktop_editor": {
+            "link_label": "Learn more about worktop types",
+            "message_choose_desired_worktop": "Please make sure you choose your preferred worktop before editing it. Your modifications will only be priced for custom worktops.",
+            "message_ready_to_edit": "Are you ready to edit now?",
+            "primary_button_label": "Yes",
+            "secondary_button_label": "No",
+            "title": "Edit worktop"
+        },
+        "worktop_editor_updated_wes": {
+            "message": "Wall edge strips have been updated accordingly with your worktop modifications.",
+            "primary_button_label": "OK",
+            "title": "Wall edge strip modification"
+        },
+        "edit_room_shape": {
+            "message_confirm_change": "Do you want to overwrite your previous floorplan?",
+            "message_edit_room_shape": "The room shape you selected will replace the previous floorplan you created.",
+            "primary_button_label": "Yes",
+            "secondary_button_label": "No",
+            "title": "Edit room shape"
+        },
+        "empty_room": {
+            "message_empty_room": "Are you sure you want to empty the room?",
+            "message_empty_room_description": "You are about to remove the contents of your room.",
+            "primary_button_label": "Yes",
+            "secondary_button_label": "No",
+            "title": "Empty the room"
+        },
+        "favorite_list": {
+            "product_singular": "product",
+            "product_plural": "products"
+        },
+        "delete_confirmation": {
+            "title": "Confirm deletion",
+            "message": "Are you sure you want to permanently delete the selected list?",
+            "description": "Your list {{name}} regroups {{count}} products."
+        },
+        "create_favorite_list": {
+            "title": "Create a new list",
+            "placeholder": "30 characters maximum"
+        },
+        "back_to_step3": {
+            "message_errors": "Your design contains issues that could have an impact on installation and usability. We recommend to review these issues.",
+            "message_want_to_fix": "Do you want to resolve the issues?",
+            "message_resolve": "Please resolve the issues before going further",
+            "primary_button_label": "Yes",
+            "secondary_button_label": "No",
+            "title": "Issues to resolve"
+        },
+        "edit_auto_filler": {
+            "message_edit": "Editing this item will disable its automatic behavior.",
+            "message_edit_confirmation": "It will no longer be linked to the cabinet's position or material.",
+            "message_ready_to_edit_cabinet": "Are you ready to make changes?",
+            "primary_button_label": "Yes, edit",
+            "secondary_button_label": "Cancel",
+            "title": "Edit filler"
+        },
+        "openFromId": {
+            "title": "Open project from identifier",
+            "environment": "Environment: ",
+            "distribution": "Distribution: ",
+            "noIdentifier": "No identifier",
+            "inputName": "Identifer to open",
+            "projectNotSavedYet": "Project not saved yet",
+            "currentProjectName": "Current project name: ",
+            "indentifer": "Identifier: ",
+            "creationDate": "Creation date: ",
+            "lastSaved": "Last save date: ",
+            "placeholderName": "Paste the identifier here"
+        },
+        "product_replacement_rule_selection": {
+            "message": "Do you want to apply this change only to the currently selected furniture?"
+        }
+    },
+    "product_browser": {
+        "compose_furniture_button": "Compose my furniture item",
+        "compose_furniture_desc": "Compose your own cabinet to better suit your requirements.",
+        "compose_furniture_title": "Looking for something different?",
+        "show_more_label": "Show more",
+        "add_to_my_project": "Add to my project",
+        "delete": "delete",
+        "thickness_label": "Thickness",
+        "delete_message": "Are you sure you want to delete this item?",
+        "primary_button_label": "Yes",
+        "secondary_button_label": "No",
+        "show_min_max_label": "Fill the minimum and maximum value possible",
+        "minimal_length": "Minimal length",
+        "maximal_length": "Maximal length",
+        "strip_length_variation_label": "Strip length variation"
+    },
+    "product_config_add": {
+        "add": "Add a product",
+        "compatible": "{{totalProduct}} compatible products"
+    },
+    "product_property_panel": {
+        "properties": {
+            "add": "Add",
+            "add_product": "Add a product",
+            "add_accessories": "Add accessories",
+            "apply_to_all": "Apply to all",
+            "apply_to_compatible_items": "Apply to all compatible items",
+            "apply_to_all_linears": "Apply to all linears",
+            "apply_to_all_sides": "Apply to all sides",
+            "apply_to_selected_linear": "Apply to the selected linear",
+            "apply_to_selection": "Apply",
+            "compatible_items": "compatible items",
+            "compose": "Modify",
+            "compose_desc": "Compose your own cabinet to fit your <br/>requirements better",
+            "compose_question": "Make modifications to the cabinet?",
+            "customise": "Customise",
+            "replace_the_product": "Replace the product",
+            "customize_product": "Customize the product",
+            "delete": "Delete",
+            "delete_all": "Delete All",
+            "edit_cabinet": "Edit a cabinet",
+            "edit": "Edit",
+            "exclude_from_quotation": "Exclude from quotation",
+            "info": "More info",
+            "no_compatible_products_contact_coworker": "Do not hesitate to go in a store or contact a co-worker to help you find a compatible product.",
+            "no_compatible_products_sorry": "There are no compatible products.",
+            "no_support_product_parameter": "Your item does not support this option",
+            "options": "Options",
+            "replace": "Replace",
+            "replace_product": "Replace a product",
+            "straight_strip": "Straight filler",
+            "multiple_worktops_on_unit": "Select the item to edit directly.",
+            "no_worktop_on_unit": "No worktop possible on this cabinet.",
+            "multiple_settings": "Multiple settings",
+            "multiple_values": "Multiple values",
+            "select_action": "Select action",
+            "width": "Width",
+            "depth": "Depth",
+            "altitude": "Height from floor",
+            "height": "Height",
+            "dimensions": "Dimensions",
+            "positionX": "Position along width",
+            "positionY": "Position along depth",
+            "positionZ": "Position along height",
+            "compatible_accessories":"Compatible accessories",
+            "additional_accessories":"Additional accessories",
+            "added_accessories":"Added accessories",
+            "no_option_added": "No option added yet",
+            "no_option_added_text": "You can add options to personalize your furniture.",
+            "accessories_type" : "Accessories type",
+            "accessories_quantity" : "Quantity: ",
+            "references_quantity" : "References",
+            "reference_quantity" : "Reference",
+            "edit_wall_edgestrip": "Edit wall edge stip",
+            "edit_worktop": "Edit worktop",
+            "edit_wall_panel": "Edit wall panel"
+        },
+        "category": {
+            "style": "Style",
+            "materials": "Materials",
+            "colors": "Colors",
+            "accessories": "Accessories",
+            "appliances": "Appliances",
+            "linears": "Linears",
+            "Options": "Options",
+            "compatible_accessories":"Compatible accessories",
+            "added_accessories":"Added accessories",
+            "additional_accessories":"Additional accessories"
+        },
+        "replace": {
+            "button_label": "Replace",
+            "label": "Change the entire product?"
+        },
+        "sub_title": "You can also change some elements: ",
+        "title": "Options",
+        "wall_panel_options": {
+            "compose": "Modify",
+            "compose_desc": "Do you want to make further modifications to your wall panel?",
+            "compose_question": "Wall panel editor",
+            "side": "Side",
+            "side1": "Side 1",
+            "side2": "Side 2",
+            "title": "Wall panel options"
+        },
+        "wall_edge_strip_options": {
+            "compose": "Modify",
+            "compose_desc": "Do you want to make further modifications to your wall edge strip?",
+            "compose_question": "Wall edge strip editor",
+            "side": "Side",
+            "side1": "Side 1",
+            "side2": "Side 2",
+            "title": "Wall edge strip options"
+        },
+        "worktop_options": {
+            "apply_left": "Apply left",
+            "apply_right": "Apply right",
+            "bottom": "Bottom",
+            "compose": "Modify",
+            "compose_desc": "Do you want to make further modifications to your worktop?",
+            "compose_question": "Worktop editor",
+            "customized_worktop_desc": "your worktop is customised. You can add, edit and remove overhangs and waterfalls directly in the worktop editor.",
+            "dimensions": "Dimensions",
+            "dimension_width": "Width",
+            "dimension_depth": "Depth",
+            "dimension_height": "Height",
+            "dimension_altitude": "Height from floor",
+            "horizontal": "Horizontal",
+            "orientation": "Orientation",
+            "others": "Others",
+            "overhang": "Overhang",
+            "overhang_back": "Back",
+            "overhang_front": "Front",
+            "overhang_info": "Maximum overhang is 250mm.",
+            "overhang_left": "Left",
+            "overhang_right": "Right",
+            "position": "Position",
+            "side": "Side",
+            "side1": "Side 1",
+            "side2": "Side 2",
+            "straight": "Straight",
+            "thickness": "Worktop thickness",
+            "title": "Worktop options",
+            "vertical": "Vertical",
+            "waterfall_left": "Left waterfall",
+            "waterfall_right": "Right waterfall",
+            "waterfall_type": "Waterfall type",
+            "waterfall_solution": "Waterfall solution"
+        },
+        "plinth_options": {
+            "back_plinth": "Back Plinth",
+            "title": "Plinth options"
+        }
+    },
+    "product_sheet": {
+        "popin_info": {
+            "add_kitchen": "Add to my kitchen",
+            "description": "Description",
+            "dimensions": "Dimensions",
+            "dimensions_detail": "W{{width}} x D{{depth}} x H{{height}}",
+            "more_info": "More information available",
+            "reference": "Reference: {{reference}}{{#hasPriceComment}}<br/>The price reflects selected options{{/hasPriceComment}}"
+        }
+    },
+    "properties_window": {
+        "custom_product": "Custom Product",
+        "external_product": "External Product",
+        "excluded_from_quotation": "Excluded from quotation"
+    },
+    "property": {
+        "apply_above": "apply above",
+        "apply_below": "apply below",
+        "apply_left": "apply left",
+        "apply_right": "apply right",
+        "room_type": {
+            "attic": "Attic",
+            "basement": "Basement",
+            "bathroom": "Bathroom",
+            "bedroom": "Bedroom",
+            "boiler_room": "Boiler room",
+            "breakfast_room": "Breakfast room",
+            "dining_room": "Dining room",
+            "entertainment_room": "Entertainment room",
+            "garage": "Garage",
+            "guest_room": "Guest room",
+            "hallway": "Hallway",
+            "kitchen": "Kitchen",
+            "laundry_room": "Laundry room",
+            "library": "Library",
+            "living_room": "Living room",
+            "mud_room": "Mud room",
+            "nursery": "Kid’s room",
+            "office": "Office",
+            "pantry": "Pantry",
+            "none": "Untitled room",
+            "wine_cellar": "Wine cellar"
+        }
+    },
+    "replace_furniture": {
+        "compatible_product": "{{totalProduct}} compatible products",
+        "replace": "Replace a product"
+    },
+    "room_properties_panel": {
+        "name_label": "Name",
+        "text": "The kitchen type will be used to give you kitchen layout suggestions on this room.",
+        "type_label": "Type",
+        "floor_height_label": "Floor height"
+    },
+    "room_selector": {
+        "select_room": "Among these rooms, pick the one that is your kitchen.",
+        "several_rooms": "Select which room is your kitchen"
+    },
+    "sharing_options": {
+        "facebook": "Facebook",
+        "mail": "Mail",
+        "pinterest": "Pinterest",
+        "twitter": "Twitter"
+    },
+    "sloped_ceiling": {
+        "editor_title": "Sloped ceiling",
+        "hide_schema": "Hide schema",
+        "show_schema": "Show schema",
+        "schema": "Sloped ceiling schema",
+        "description": "Schema of a sloped ceiling. Measure A: height of the remaining wall after the ceiling slope; Measure B: floor area under the sloped ceiling; Measure C: angle of the ceiling slope.",
+        "sloped_ceiling_overlay": {
+            "change_sloped_ceiling": "Change sloped ceiling",
+            "change_sloped_ceiling_button": "Change",
+            "delete_sloped_ceiling": "Delete sloped ceiling",
+            "delete_sloped_ceiling_button": "Delete",
+            "title": "Sloped ceiling options"
+        },
+        "subtitle": "Choose a wall, click to edit and add your sloped ceiling. Then, validate to save your floorplan.",
+        "title": "Add sloped ceiling"
+    },
+    "structure": {
+        "room": "Room"
+    },
+    "tips": {
+        "cabinet_composer": {
+            "add_on": {
+                "description": "If you have enough space, you can add a product to customise the cabinet.",
+                "title": "Add on"
+            },
+            "move_item": {
+                "description": "If you have enough space, you can directly click on an item and move it up or down.",
+                "title": "Move an item"
+            },
+            "see_inside": {
+                "description": "You can open the cabinet to better see inside.",
+                "title": "See inside"
+            },
+            "select_item": {
+                "description": "You can click on an item to edit or delete it and customize your cabinet.",
+                "title": "Select an item"
+            }
+        },
+        "CTA_button_label": "Got it",
+        "design_own": {
+            "ceiling_height": {
+                "description": "Remember to adjust the ceiling height with your real measurements.",
+                "title": "Adjust ceiling height"
+            },
+            "change_coverings": {
+                "description": "Find a flooring and a wall covering close to your home to finish your room personalisation.",
+                "title": "Change coverings"
+            },
+            "change_roomObjects": {
+                "description": "If you have any radiator, column, etc. in your room, you can add it and resize it directly here.",
+                "title": "Add a room object"
+            },
+            "doors_windows": {
+                "description": "You can directly click on a door or window to move it, replace it by another one and edit size.",
+                "title": "Position doors and windows"
+            },
+            "import_plan": {
+                "description": "You can directly import plan with several options. You can for example start with basic shape or even use your home by me project.",
+                "title": "Start with a shape"
+            },
+            "measure2d": {
+                "description": "You can directly edit measurements or drag walls to adapt the room shape.",
+                "title": "Edit measurements"
+            },
+            "room_selector": {
+                "description": "Your project has several floors. Choose the correct floor and select your kitchen.",
+                "title": "Choose a floor"
+            },
+            "start_with_tips": {
+                "description": "You can find here some tips on each step to help you during your entire project. Have a great time!",
+                "title": "Start with some tips!"
+            },
+            "water_supply": {
+                "description": "You can go here to select the wall where is your water supply.We will use this information to suggest kitchen layouts with a sink on the corresponding wall when possible.",
+                "title": "Position water supply"
+            },
+            "draw_plan": {
+                "description": "Split the floor into several areas.",
+                "title": "Design an open kitchen"
+            },
+            "select_wall": {
+                "description": "Adapt the room shape by changing measurements and angles.",
+                "title": "Adjust wall or corner"
+            }
+        },
+        "detailed_design": {
+            "add_appliance": {
+                "description": "You can click here to add cabinets which include appliances.",
+                "title": "Add an appliance"
+            },
+            "add_cabinet": {
+                "description": "You can click here to find and add all types of cabinets in various dimensions.",
+                "title": "Add a cabinet"
+            },
+            "change_view": {
+                "description": "You can change the view and see your kitchen in 2D or 3D mode.",
+                "title": "Change the view"
+            },
+            "check_price": {
+                "description": "When you make changes in your kitchen, the price is automatically updated.",
+                "title": "Check your price"
+            },
+            "create_image": {
+                "description": "Realistic images allow you to create high quality visuals of your project.",
+                "title": "Create a realistic image"
+            },
+            "check_your_design": {
+                "title": "Check your kitchen design in the help center on a regular basis!"
+            },
+            "customize_kitchen": {
+                "description": "You can directly click on a cabinet to move it, modify it or swap it out with an another one.",
+                "title": "Customize your kitchen"
+            },
+            "show_shortcuts": {
+                "button_label": "See all >",
+                "title": "Show keyboard shortcuts",
+                "header": "Keyboard shortcuts",
+                "copy": "Copy",
+                "paste": "Paste",
+                "duplicate": "Duplicate",
+                "back": "Go back",
+                "undo": "Undo",
+                "redo": "Redo",
+                "search": "Search",
+                "save": "Save",
+                "validate": "Validate action",
+                "delete": "Delete",
+                "cancel_selection": "Cancel current selection",
+                "select_next_elem": "Select the next element",
+                "select_prev_elem": "Select the previous element",
+                "select_all": "Select all",
+                "select_group": "Select a group",
+                "move_product": "Move a product",
+                "open_help_center": "Open the help center",
+                "change_units": "Change units",
+                "avatar_move_left_right": "Move left or right",
+                "avatar_onward_backward": "Move forward or backward",
+                "zoom_in": "Zoom in",
+                "zoom_out": "Zoom out",
+                "vertical_rotate": "Rotate vertically",
+                "horizontal_rotate": "Rotate horizontally",
+                "camera": "Camera and avatar movements",
+                "element": "Elements shortcuts",
+                "planner": "Planner shortcuts",
+                "generic": "Generic shortcuts",
+                "camera_height": "Camera height",
+                "planner_camera": "Planner - camera",
+                "planner_element": "Planner - elements",
+                "orientation_LF": "Orientation left/right",
+                "high_low_angle": "Orientation high/low",
+                "virtualTour": "Virtual tour",
+                "nonVirtualTour": "Non virtual tour",
+                "change_date": "Change date",
+                "shortcuts-tooltips": {
+                    "command": "Command",
+                    "shift": "Shift",
+                    "enter": "Enter",
+                    "delete": "Backspace",
+                    "tab": "Tab",
+                    "alt": "Option/Alt"
+                },
+                "switch-view": "switch view"
+            },
+            "hide_cabinet_front": {
+                "description": "You can hide the cabinet fronts to check inside and see how you can manage your storage.",
+                "title": "Hide cabinet fronts"
+            },
+            "undo_action": {
+                "description": "You can click here to undo your last actions.",
+                "title": "Undo action"
+            },
+            "position_tool": {
+                "description": "Edit measurements to change the position of the item.",
+                "title": "Position item"
+            },
+            "show_quick_access": {
+                "title": "Show quick access",
+                "header": "Quick access",
+                "description": "Right click to access quick actions to modify the selected furniture"
+            }
+        },
+        "enable_annotations": "Switch to 2D views to add and display annotations",
+        "hide_link_label": "Hide",
+        "next_btn_label": {
+            "see_more": "See {{num}} more tips",
+            "see_next": "Next ({{currentNum}}/{{totalNum}})"
+        },
+        "wallpanel_editor": {
+            "add_corner_cut": {
+                "description": "Select a corner, click on the add button and choose your dimensions.",
+                "title": "Add a corner cut"
+            },
+            "add_cut_out": {
+                "description": "Select a wall panel, click on the add button and choose your dimensions.",
+                "title": "Add a cut-out"
+            },
+            "change_edge_product": {
+                "description": "Select an edge, click on the change button and choose your material reference.",
+                "title": "Change an edge product"
+            },
+            "add_joint": {
+                "description": "Split wall panel: Select an edge, click on the split button. You can remove it by selecting the joint",
+                "title": "Split wall panel"
+            },
+            "add_triple_cut": {
+                "description": "Select an edge, click on the add button and choose your dimensions.",
+                "title": "Add a triple cut"
+            },
+            "split_an_edge": {
+                "description": "Select an edge and click on the split button.",
+                "title": "Split an edge"
+            },
+            "change_grain_direction": {
+                "description": "Select a wall panel, click on the change button and select next or previous direction.",
+                "title": "Change grain direction"
+            }
+        },
+        "worktop_editor": {
+            "add_corner_cut": {
+                "description": "Select a corner, click on the add button and choose your dimensions.",
+                "title": "Add a corner cut"
+            },
+            "add_cut_out": {
+                "description": "Select a worktop, in the menu click on the add button and choose your dimensions. You can always edit it them by selecting the cut out.",
+                "title": "Add a cut-out"
+            },
+            "add_edge_out": {
+                "description": "Select an edge, click on the add button and choose your dimensions.",
+                "title": "Add an edge cut"
+            },
+            "change_edge_product": {
+                "description": "Select an edge, click on the change button and choose your material reference.",
+                "title": "Change an edge product"
+            },
+            "add_joint": {
+                "description": "Select an edge and click on the add button. You can remove it by selecting the joint.",
+                "title": "Add a joint"
+            },
+            "change_grain_direction": {
+                "description": "Select a worktop, click on the change button and select next or previous direction.",
+                "title": "Change grain direction"
+            },
+            "edit_measurement": {
+                "description": "You can adjust the measurements or click and drag the sides of the worktop to adjust it.",
+                "title": "Edit measurements"
+            },
+            "merge_worktops": {
+                "description": "Select an edge, and merge the current worktop with an other that shares the same edge",
+                "title": "Merge worktops"
+            },
+            "split_worktop": {
+                "description": "Select an edge, and split the current worktop in the middle of this edge",
+                "title": "Split worktop"
+            },
+            "split_an_edge": {
+                "description": "Select an edge and click on the split button.",
+                "title": "Split an edge"
+            }
+        },
+        "2d_plan_modified": "This 2D plan has been modified",
+        "front_elevation_tip": "The front elevation view is available when you select a wall or furniture in the 3D view",
+        "front_elevation_tip_title": "Front Elevation View"
+    },
+    "tools": {
+        "manip": {
+            "elevate_tooltip": "Elevate",
+            "rotate_tooltip": "Rotate",
+            "translate_tooltip": "Move"
+        }
+    },
+    "zoom": {
+        "unzoom": "Zoom out",
+        "zoom": "Zoom in"
+    },
+    "wallpanel_editor": {
+        "add_cut_out": {
+            "title": "Add a cut-out",
+            "description": "Select a wall panel, click on the add button and choose your dimensions."
+        },
+        "add_joint": {
+            "title": "Split wall panel",
+            "description": "Split wall panel: Select an edge, click on the split button. You can remove it by selecting the joint"
+        },
+        "add_triple_cut": {
+            "title": "Add a triple cut",
+            "description": "Select an edge, click on the add button and choose your dimensions."
+        },
+        "add_edge_product": {
+            "title": "Add an edge product",
+            "description": "Select an edge, click on the add button and choose your material reference."
+        },
+        "add_corner_cut": {
+            "title": "Add a corner cut",
+            "description": "Select a corner, click on the add button and choose your dimensions."
+        },
+        "split_an_edge": {
+            "title": "Split an edge",
+            "description": "Select an edge and click on the split button."
+        }
+    },
+    "media_tool": {
+        "takeAPicture": "Create image",
+        "hqRendering": "Create a realistic image",
+        "panoramicRendering": "Create a 360° image",
+        "viewImages": "View images",
+        "screenshot": "Create a screenshot",
+        "videoRendering": "Create a video",
+        "photoStudio": "Photo studio"
+    },
+    "position_panel": {
+        "options": {
+            "distance": "Display distance to other items",
+            "collision": "Allow collision with other items",
+            "showPermanently": "Always show",
+            "distanceToWalls": "Display the distance between opening and walls",
+            "distanceToBays": "Display the distance between the openings",
+            "bayPositionTip2D": "The dimension between openings and walls can be edited.",
+            "bayPositionTip3D": "The dimension between openings, walls, floor and ceiling can be edited.",
+            "bayCoachmarkMessage": "Increase accuracy. Adjust the position of your openings by entering the exact values."
+        },
+        "rotation": {
+            "label": "Rotate with precision",
+            "measure_errors": {
+                "bad_input": "Bad input",
+                "range_overflow": "The maximum value is {{{value}}}.",
+                "range_underflow": "The minimum value is {{{value}}}.",
+                "range_out": "The allowed range is {{{value}}}."
+            }
+        },
+        "cornerFiller": "Corner filler",
+        "positionFiller": "Adjust",
+        "offset": "Offset"
+    },
+    "template_editor": {
+        "constraints": {
+            "parallel": "Face to Face",
+            "same": "Facing the same direction",
+            "perpendicular": "Perpendicular to each other",
+            "perpendicularleftside": "Perpendicular on left side",
+            "perpendicularrightside": "Perpendicular on right side",
+            "samewall": "On the same wall"
+        },
+        "popins": {
+            "no_solution_2": {
+                "message": "Make sure your template is valid and should fit in this room.",
+                "primary_button_label": "EDIT YOUR TEMPLATE",
+                "secondary_button_label": "DEBUG YOUR TEMPLATE",
+                "title": "No solution found in this room."
+            }
+        }
+    },
+    "template_edit_params": {
+        "bad_input": "Bad input",
+        "range_overflow": "The maximum value is ",
+        "range_underflow": "The minimum value is "
+    },
+    "widget": {
+        "product_sheet": {
+            "tab_infomation": "Information",
+            "configuration_title": "You can configure this product",
+            "more_details": "+ more details",
+            "less_details": "- less details",
+            "illustration_purpose": "Illustration purpose only",
+            "add_product_title": "Add in project",
+            "configure_title": "Configure",
+            "visit_store": "Visite store",
+            "share_title": "Share",
+            "products_of_set": "Products of the set",
+            "similar_products": "Similar products",
+            "eco_fee_label": "eco-fee",
+            "eco_d_label": "DEEE",
+            "eco_w_label": "WEEE",
+            "member_price": "Member Price",
+            "discount_label": "Price Dropped",
+            "regular_price_label": "Regular price",
+            "lowest_price_label": "Lowest price in the last {{lowestPrice}} days",
+            "price_linear_feet_label": " / ft",
+            "price_linear_meter_label": " / m",
+            "price_linear_decimeter_label": " / dm",
+            "price_pack_label": " for {{x}}",
+            "price_square_feet_label": " / ft²",
+            "price_square_meter_label": " / m²",
+            "sharing_options": {
+                "facebook": "Facebook",
+                "twitter": "Twitter",
+                "pinterest": "Pinterest",
+                "mail": "Mail",
+                "embed": "Embed"
+            },
+            "product_browser": {
+                "info": "More info"
+            },
+            "share_product": {
+                "title": "Share this product",
+                "copy_title": "Copy to clipboard",
+                "cancel": "Cancel"
+            }
+        },
+        "medias": {
+            "plan2D_title": "2D plans",
+            "images_title": "Images",
+            "images_2DPlan_title": "Images & 2D Plans",
+            "plan2D_disabled": "Your 2D plans have been generated and will be part of the order documentation.",
+            "images_not_found": "You have not created any images of your project.",
+            "rendering_in_progress": "Rendering in progress",
+            "top_view": "Top View",
+            "face_view": "Face View",
+            "worktop_view": "Worktop View",
+            "wallpanel_view": "Wall Panel View",
+            "walledgestrip_view": "Wall Edge Strip View",
+            "hq_render": "HQ Render",
+            "4K_render": "4K Render",
+            "screenshot": "Screenshot",
+            "nomenclature_view": "Nomenclature",
+            "legend_view": "Legend",
+            "topwall_view": "Wall furniture Top view",
+            "topground_view": "Ground furniture Top view"
+        },
+        "price_info": {
+            "title": "Price information",
+            "footnote_1": "Products marked as 'Illustration purpose only' are for visual use and not included in the project price.",
+            "project_price_footnote_2": "* 48 months loan period with a 6.9% APR. Applying for finance is subject to application, financial circumstances and borrowing history.",
+            "cabinets": "Cabinets",
+            "decorations": "Decorations",
+            "linears": "Worktops and wall panels",
+            "appliance_sanitaries": "Appliances, sinks and taps",
+            "accessories_extras": "Accessories and extras",
+            "worktops_waterfall": "Worktops and waterfall",
+            "cutouts_cuts_joints_edge": "Cut-outs, cuts, joints, edges",
+            "wallpanel": "Wall panels",
+            "walledgestrip": "Wall edge strips",
+            "edges": "Edges",
+            "cabinets_fittings": "Cabinets and Fittings",
+            "noprice_p1": "The price cannot be calculated for the current design",
+            "noprice_p2": "Please click on the help center icon to check for possible errors:",
+            "alt": "Click on help center",
+            "cabinet_editor_footnote_2": "Items such as plinth, legs, worktop, etc are sold separately.",
+            "project_price_footnote_3": "",
+            "cabinet_editor_footnote_3": "",
+            "vat_included": "VAT included"
+        },
+        "shareProject": {
+            "title": "Share your project"
+        },
+        "common": {
+            "back": "Back",
+            "cancel": "Cancel",
+            "close": "Close",
+            "copy_clipboard": "Copy to clipboard",
+            "delete": "Delete",
+            "delete_overlay_title": "Delete this media?",
+            "download": "Download",
+            "no": "No",
+            "ok": "Ok",
+            "save": "Save",
+            "share": "Share",
+            "yes": "Yes",
+            "show_more": "Show more",
+            "search": "Search",
+            "open": "Open",
+            "duplicate": "Duplicate"
+        },
+        "ecoFee": {
+            "title": "Eco-Fee",
+            "content": "",
+            "description": "Eco-fee is an amount paid by consumers when purchasing specific furniture and electrical items. The funds are donated to an eco-organisation whose mission is to take care of the treatment and recycling of old products.",
+            "description_2": "The eco-fee concerns all furniture products (furniture, appliances etc). The eco-fee depends on the product purchased.",
+            "description_3": "It is used to finance and improve the collection, depollution and recycling of old furniture and appliances."
+        },
+        "need_mapping": {
+            "choose_style": "Create your style",
+            "pick_layout": "Pick a layout",
+            "oven_position": "Oven position",
+            "fridge_position": "Fridge position",
+            "your_selection": "Your selection",
+            "style": "Style",
+            "layout": "Layout",
+            "cooking": "Cooking",
+            "refrigeration": "Refrigeration",
+            "no_choice": {
+                "img_text": "change",
+                "title": "No preference",
+                "info": "I don't have any preferences",
+                "info_2": "Skip"
+            },
+            "cta": "Save my needs",
+            "cta_2": "Generate new layouts"
+        },
+        "print": {
+            "create_pdf": "Create PDF",
+            "face_plan": "Face",
+            "item_notes": "Item Notes",
+            "item_number": "Item Number # ",
+            "legal_text": "Legal text",
+            "legal_text_message": "Legal text Legal text Legal text Legal text Legal text Legal text Legal text Legal text Legal text Legal text Legal texts",
+            "measurements": "Measurements",
+            "medias": "Medias",
+            "notes": "Notes",
+            "pdf_name": "Print",
+            "plans": "Plans",
+            "print": "Print",
+            "print_info": "Select the elements you want to print",
+            "print_title": "Print",
+            "project_notes": "Project Notes",
+            "select_all": "Select all",
+            "top_plan": "Top",
+            "topground_plan": "TopGround",
+            "topwall_plan": "TopWall",
+            "wallpanel_plan": "Wall Panel",
+            "walledgestrip_plan": "Wall Edge Strip",
+            "worktop_plan": "Worktop"
+        }
+    },
+    "unitsSettings": {
+        "changeSettings": "Change units",
+        "unitSystem": " Unit system",
+        "metrics": "Metric",
+        "imperial": "Imperial",
+        "lengthFractionPrecision": "Fraction precision",
+        "lengthPrecision": "Length digits number",
+        "surfacePrecision": "Areas digits number",
+        "precisionError": "Enter a value between 0 and 16",
+        "unitLength": {
+            "title": "Length Unit",
+            "millimeter": "Millimeter",
+            "centimeter": "Centimeter",
+            "meter": "Meter",
+            "inch": "Inch",
+            "foot": "Foot",
+            "yard": "Yard"
+        },
+        "unitSurface": {
+            "title": "Area unit",
+            "squareMeter": "Square meter",
+            "squareCentimeter": "Square centimeter",
+            "squareMillimeter": "Square millimeter"
+        }
+    },
+    "chatBot": {
+        "chat_home_title": "Design your kitchen",
+        "chat_home_desc": "Let’s move forward together to optimise your kitchen",
+        "chat_generate_kitchen_label": "Generate a kitchen",
+        "chat_add_furniture_label": "Add furniture",
+        "chat_catalogue_label": "Browse catalogue",
+        "chat_acesseories_label": "Add accessories",
+        "chat_generate_kitchen_message": "Generate a kitchen for me",
+        "chat_add_furniture_message": "Add furniture to my kitchen",
+        "chat_catalogue_message": "Show me the catalogue",
+        "chat_acesseories_message": "Add accessories to my kitchen",
+        "chat_generate_kitchen_desc": "To create your ideal kitchen, specify the colour of the cabinets, the material of the worktop, the style of the handles, and the shape of the kitchen to achieve a result that closely matches your desires.",
+        "chat_add_furniture_desc": "To enhance the layout of your kitchen, please describe a piece of furniture you wish to add to your project: a base unit, a wall unit, a column, not forgetting their fittings (sink, hob, oven, fridge, microwave, with drawer or shelf...)",
+        "chat_catalogue_desc": "Are you looking for a specific product? Or just some ideas? With the integrated catalogue, discover products that match your search and select the one you want to add to your kitchen.",
+        "chat_acesseories_desc": "Is your kitchen finished? Add the final touches! Describe the accessories you would like to add to your kitchen: a table, chairs, a chopping board, pots, or decorations.",
+        "chat_message_error": "failed to send",
+        "chat_history_tooltip": "Chat history",
+        "chat_new_conversation_tooltip": "New chat",
+        "chat_history_rename_tooltip": "Rename",
+        "chat_history_delete_tooltip": "Delete",
+        "chat_message_info": "You have reached the message limit. Please start a new conversation.",
+        "chat_message_warning": "Sorry, I couldn't reach the assistant service. Please try again.",
+        "chat_message_fail": "No response from the assistant. Please try again later.",
+        "chat_history_title": "Conversation",
+        "chat_message_copy" : "copy text"
+    }
+}

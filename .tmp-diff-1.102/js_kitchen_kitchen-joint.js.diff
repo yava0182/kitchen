@@ -1,0 +1,48 @@
+﻿Comparing files D:\����� ������������\����� CLODIS-KITCHEN\1.102������� ����\CLODIS-KITCHEN\JS\KITCHEN\kitchen-joint.js and D:\CLODIS-KITCHEN\JS\KITCHEN\KITCHEN-JOINT.JS
+***** D:\����� ������������\����� CLODIS-KITCHEN\1.102������� ����\CLODIS-KITCHEN\JS\KITCHEN\kitchen-joint.js
+  191:  A�.
+  192:    let widthMm = Math.round(Number(opts.widthMm) || 0);
+***** D:\CLODIS-KITCHEN\JS\KITCHEN\KITCHEN-JOINT.JS
+  191:  A�.
+  192:    // ????N???-600 (free-arm ???? Joint / ?�?�?� user-source) a?? ???� N????�N? ??????.
+  193:    let widthMm = Math.round(Number(opts.widthMm) || 0);
+*****
+
+***** D:\����� ������������\����� CLODIS-KITCHEN\1.102������� ����\CLODIS-KITCHEN\JS\KITCHEN\kitchen-joint.js
+  193:    const _wOk = (w) => w >= 300 && w <= 1200;
+  194:    if (!_wOk(widthMm) && host?.division) {
+  195:      const partsW = Math.max(1, Math.floor(Number(host.division.parts) || 1));
+***** D:\CLODIS-KITCHEN\JS\KITCHEN\KITCHEN-JOINT.JS
+  194:    const _wOk = (w) => w >= 300 && w <= 1200;
+  195:    const _userW =
+  196:      host?.division?.customZoneWidthsSource === 'user' ||
+  197:      host?.kitchenBandGrids?.base?.customZoneWidthsSource === 'user';
+  198:    const _trustW = (w) => _wOk(w) && !(w === 600 && !_userW);
+  199:    if (!_trustW(widthMm) && host?.division) {
+  200:      const partsW = Math.max(1, Math.floor(Number(host.division.parts) || 1));
+*****
+
+***** D:\����� ������������\����� CLODIS-KITCHEN\1.102������� ����\CLODIS-KITCHEN\JS\KITCHEN\kitchen-joint.js
+  202:      );
+  203:      if (_wOk(cw)) widthMm = cw;
+  204:    }
+  205:    if (!_wOk(widthMm)) {
+  206:      widthMm = Math.round(Number(joint.cornerCell?.widthMm) || 0);
+***** D:\CLODIS-KITCHEN\JS\KITCHEN\KITCHEN-JOINT.JS
+  207:      );
+  208:      if (_trustW(cw)) widthMm = cw;
+  209:    }
+  210:    if (!_trustW(widthMm)) {
+  211:      widthMm = Math.round(Number(joint.cornerCell?.widthMm) || 0);
+*****
+
+***** D:\����� ������������\����� CLODIS-KITCHEN\1.102������� ����\CLODIS-KITCHEN\JS\KITCHEN\kitchen-joint.js
+  207:    }
+  208:    if (!_wOk(widthMm)) widthMm = KITCHEN_CORNER_CELL_WIDTH_MM;
+  209:    const depthMm =
+***** D:\CLODIS-KITCHEN\JS\KITCHEN\KITCHEN-JOINT.JS
+  212:    }
+  213:    if (!_trustW(widthMm)) widthMm = KITCHEN_CORNER_CELL_WIDTH_MM;
+  214:    const depthMm =
+*****
+

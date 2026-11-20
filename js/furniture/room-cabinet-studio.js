@@ -11,9 +11,9 @@ import {
   syncIkeaRoomLightV0,
   syncIkeaV0MaterialsUnderRoot,
   IKEA_V0_SOFT_LAYER,
-} from './ikea-room-light-v0.js?v=20260913-hang-lite';
-import { shouldExcludeMeshFromFurnitureBBox } from './furniture-bbox.js';
-import { isSectionTrimFacadeMesh } from '../sections/section-trim-edges.js?v=20260921-ghost-wh1';
+} from './ikea-room-light-v0.js?v=20261117-studioRestore1';
+import { shouldExcludeMeshFromFurnitureBBox } from './furniture-bbox.js?v=20261117-studioRestore1';
+import { isSectionTrimFacadeMesh } from '../sections/section-trim-edges.js?v=20261117-studioRestore1';
 
 export const CABINET_FILL_LAYER = IKEA_V0_SOFT_LAYER;
 
@@ -176,10 +176,58 @@ function meshIsCatalogHinge(mesh) {
   return false;
 }
 
+/** Кухонные опоры (cabinet_model) — не corpus плаinth-секции. */
+function meshIsKitchenSupportLeg(mesh) {
+  if (!mesh) return false;
+  let p = mesh;
+  for (let i = 0; i < 24 && p; i++) {
+    const pud = p.userData || {};
+    if (pud.cldSupportLeg === true) return true;
+    const pn = String(p.name || '');
+    if (/Model_Опора|Опора кухонная|Опора\s+\d|support.?leg|opora/i.test(pn)) return true;
+    const sid = String(pud.modelSpecId || '').trim();
+    // SKU опор: #2 / #79 / #80 (не путать с другими catalog id).
+    if (
+      (sid === '2' || sid === '79' || sid === '80') &&
+      (pud.isCabinetModel || pud.isAccessory || /опор/i.test(pn))
+    ) {
+      return true;
+    }
+    p = p.parent;
+  }
+  return false;
+}
+
+/**
+ * type:model уже покрашен applyRoomCabinetModelMaterials (model_key_material).
+ * Ikea plastic/corpus bind сбрасывает цвет на GLB — Gola остаётся оранжевой,
+ * хотя в админке MeshStandard с карточкой ок. Петли (#5/#6) оставляем на metal bind.
+ */
+function meshIsCatalogPaintedCabinetModel(mesh) {
+  if (!mesh) return false;
+  if (meshIsCatalogHinge(mesh)) return false;
+  const ud = mesh.userData || {};
+  if (ud.cldCabinetMaterialParams && (ud.isAccessory === true || ud.cldSupportLeg === true)) {
+    return true;
+  }
+  let p = mesh;
+  for (let i = 0; i < 24 && p; i++) {
+    const pud = p.userData || {};
+    if (pud.isFurniture && p !== mesh) break;
+    if (pud.isCabinetModel === true && pud.cldCabinetMaterialParams) return true;
+    if (pud.cldCabinetMaterialParams && pud.isAccessory === true) return true;
+    p = p.parent;
+  }
+  return false;
+}
+
 function detectCabinetHardwareKind(mesh) {
   const ud = mesh.userData || {};
   const nm = String(mesh.name || '').toLowerCase();
   const fullName = String(mesh.name || '');
+
+  // Не metal/plastic: иначе Contours → studio rebind съедает крепёж стыка.
+  if (meshIsJointSchemeHardwareStudio(mesh)) return null;
 
   /** Одежда/вешалка на штанге и пропы полки — не chrome предка штанги. */
   if (isLifestylePropMesh(mesh)) return null;
@@ -189,6 +237,24 @@ function detectCabinetHardwareKind(mesh) {
 
   /** Dump Soft: shelf boards ≠ hinge GLB even when catalog id digit collides. */
   if (isInteriorFillSoftCasterMesh(mesh)) return null;
+
+  /** Опоры живут в plinth — иначе detectCabinetMeshKind → corpus и затирает Opora. */
+  if (meshIsKitchenSupportLeg(mesh)) {
+    const tok =
+      hardwareKindFromMaterialToken(ud.cldCabinetMaterialToken) ||
+      hardwareKindFromMaterialToken(
+        (function ancestorTok() {
+          let p = mesh.parent;
+          for (let i = 0; i < 16 && p; i++) {
+            const t = p.userData?.cldCabinetMaterialToken;
+            if (t) return t;
+            p = p.parent;
+          }
+          return '';
+        })(),
+      );
+    return tok || 'plastic';
+  }
 
   const fromToken = hardwareKindFromMaterialToken(ud.cldCabinetMaterialToken);
   if (fromToken) return fromToken;
@@ -275,10 +341,69 @@ function isServiceMeshForCabinetLighting(mesh) {
   return false;
 }
 
+function meshIsJointSchemeHardwareStudio(mesh) {
+  if (!mesh) return false;
+  let p = mesh;
+  for (let i = 0; i < 24 && p; i++) {
+    const pud = p.userData || {};
+    if (
+      pud.fromJointScheme ||
+      pud.jointHardwareMesh ||
+      Number(pud.joint_hardware) === 1 ||
+      Number(pud.jointTemplateFrame) === 1 ||
+      Number(pud.jointTemplateModel) === 1 ||
+      Number(pud.spec?.joint_template_frame) === 1 ||
+      Number(pud.spec?.joint_template_model) === 1 ||
+      Number(pud.spec?.joint_hardware) === 1
+    ) {
+      return true;
+    }
+    if (/Эксцентр|Конфирм|Крепёж|Крепеж/i.test(String(p.name || ''))) return true;
+    p = p.parent;
+  }
+  return false;
+}
+
+/** Доска столешницы в дереве модуля (type:countertop / «Столешница*»). */
+function meshIsKitchenCountertopBoard(mesh) {
+  if (!mesh?.isMesh) return false;
+  let p = mesh;
+  for (let i = 0; i < 10 && p; i++) {
+    const ud = p.userData || {};
+    const t = String(ud.type || ud.originalType || ud.detailType || '').toLowerCase();
+    if (t === 'countertop' || t === 'tabletop') return true;
+    const nm = String(p.name || '');
+    if (/столеш/i.test(nm)) return true;
+    p = p.parent;
+  }
+  return false;
+}
+
 function shouldSkipCabinetLighting(mesh) {
   if (!mesh?.isMesh) return true;
   const ud = mesh.userData || {};
   const nm = String(mesh.name || '');
+
+  // Стык: IKEA-шейдер затирает Contours (оранжевый/aluminium) → «в логе есть, глазу нет».
+  if (meshIsJointSchemeHardwareStudio(mesh)) return true;
+
+  /**
+   * Опоры: оставляем MeshStandard с model_key_material (как карточка 3D).
+   * Ikea plastic bind сбрасывал цвет на GLB/дефолт — «оранжевые ножки».
+   */
+  if (meshIsKitchenSupportLeg(mesh)) return true;
+
+  /**
+   * Столешница модуля: не в dump corpus (010 white / чёрный шейдер без map).
+   * Текстура — из tabletop_items / ClodisBuilder, как в админ-превью.
+   */
+  if (meshIsKitchenCountertopBoard(mesh)) return true;
+
+  /**
+   * Gola / прочие cabinet_model с карточкой: тот же MeshStandard, что в админке.
+   * material_id=2 (Opora) → plastic bind → снова оранжевый GLB.
+   */
+  if (meshIsCatalogPaintedCabinetModel(mesh)) return true;
 
   /** До hardware: иначе chrome штанги ловит вешалки как metal. */
   if (isLifestylePropMesh(mesh)) return true;
@@ -457,12 +582,28 @@ function meshHasIkeaV0Material(mesh) {
   return !!m.userData?.__cldIkeaV0;
 }
 
+function meshIkeaV0Kind(mesh) {
+  const m = mesh?.material;
+  const m0 = Array.isArray(m) ? m[0] : m;
+  return m0?.userData?.__cldIkeaV0Kind || '';
+}
+
 function bindCabinetMesh(mesh) {
   if (shouldSkipCabinetLighting(mesh)) return false;
   const kind = detectCabinetMeshKind(mesh);
   if (!kind) return false;
   /** Уже на IKEA-шейдере — не пересобирать (relayout соседей в нише). */
-  if (meshHasIkeaV0Material(mesh)) return false;
+  if (meshHasIkeaV0Material(mesh)) {
+    const cur = meshIkeaV0Kind(mesh);
+    // Было corpus из-за plinth → нужен plastic/metal с model_key_material (Opora).
+    const upgradeToHw =
+      IKEA_V0_HARDWARE_KINDS.has(kind) && cur && !IKEA_V0_HARDWARE_KINDS.has(cur);
+    if (!upgradeToHw) {
+      // Опоры/фурнитура: params могли прийти после первого bind — дожать цвет с карточки.
+      if (IKEA_V0_HARDWARE_KINDS.has(kind)) applyCatalogMaterialToHardwareMesh(mesh);
+      return false;
+    }
+  }
   const opts = extractBindOptsFromMaterial(mesh, kind);
   /** Обклад: контакт на полу (layer5), не в Soft AO стены (не layer2). */
   if (kind === 'trim') {
@@ -503,6 +644,7 @@ function bindCabinetRoot(root) {
     meshCandidates += 1;
     if (meshHasIkeaV0Material(o)) {
       alreadyBound += 1;
+      if (detectCabinetHardwareKind(o)) applyCatalogMaterialToHardwareMesh(o);
       return;
     }
     if (bindCabinetMesh(o)) n += 1;

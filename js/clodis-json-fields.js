@@ -33,6 +33,24 @@ function pickFirst(obj, keys) {
   return undefined;
 }
 
+/** clodisJSON иногда сохраняется строкой — иначе Array.isArray падает и крепёж «теряется» в комнате. */
+function coerceClodisTree(v) {
+  if (v == null) return undefined;
+  if (typeof v === 'string') {
+    try {
+      v = JSON.parse(v);
+    } catch (_) {
+      return undefined;
+    }
+  }
+  if (Array.isArray(v)) return v;
+  if (v && typeof v === 'object' && Array.isArray(v.children)) return v.children;
+  if (v && typeof v === 'object' && Array.isArray(v.template?.structure)) {
+    return v.template.structure;
+  }
+  return undefined;
+}
+
 function renameLegacyFieldsInTree(obj, depth = 0) {
   if (!obj || typeof obj !== 'object' || depth > 48) return;
   if (Array.isArray(obj)) {
@@ -111,16 +129,16 @@ export function readClodisJSON(obj) {
   if (!obj || typeof obj !== 'object') return undefined;
   if (Array.isArray(obj)) return obj;
   const keys = [CLODIS_JSON_KEY, STORAGE_JSON_KEY_V1];
-  let v = pickFirst(obj, keys);
+  let v = coerceClodisTree(pickFirst(obj, keys));
   if (v != null) return v;
   const ci = obj.catalogItem;
   if (ci && typeof ci === 'object') {
-    v = pickFirst(ci, keys);
+    v = coerceClodisTree(pickFirst(ci, keys));
     if (v != null) return v;
-    v = pickFirst(ci.data, keys);
+    v = coerceClodisTree(pickFirst(ci.data, keys));
     if (v != null) return v;
   }
-  return pickFirst(obj.data, keys);
+  return coerceClodisTree(pickFirst(obj.data, keys));
 }
 
 export function readClodisVariables(obj) {

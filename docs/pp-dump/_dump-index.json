@@ -1,0 +1,135 @@
+{
+  "dumpedAt": "2026-11-09T05:56:32.301Z",
+  "source": "planplace items_get",
+  "report": [
+    {
+      "k": "default_settings",
+      "status": "ok",
+      "len": 1,
+      "bytes": 487
+    },
+    {
+      "k": "tabletop_plinth",
+      "status": "ok",
+      "len": 1,
+      "bytes": 570
+    },
+    {
+      "k": "cokol",
+      "status": "ok",
+      "len": 5,
+      "bytes": 9454
+    },
+    {
+      "k": "cokol_top",
+      "status": "ok",
+      "len": 0,
+      "bytes": 2
+    },
+    {
+      "k": "materials_keys",
+      "status": "ok",
+      "len": 4,
+      "bytes": 928
+    },
+    {
+      "k": "butts_keys",
+      "status": "ok",
+      "len": 1,
+      "bytes": 307
+    },
+    {
+      "k": "handles",
+      "status": "ok",
+      "len": 64,
+      "bytes": 93491
+    },
+    {
+      "k": "facades",
+      "status": "ok",
+      "len": 83,
+      "bytes": 850792
+    },
+    {
+      "k": "tabletop",
+      "status": "ok",
+      "len": 52,
+      "bytes": 60744
+    },
+    {
+      "k": "modules_groups",
+      "status": "ok",
+      "len": 3,
+      "bytes": 757
+    },
+    {
+      "k": "material_types",
+      "status": "ok",
+      "len": 2,
+      "bytes": 9606
+    },
+    {
+      "k": "catalog_shablony_korpusov",
+      "status": "ok",
+      "len": 71,
+      "bytes": 2568487
+    },
+    {
+      "k": "shablony_korpusov",
+      "status": "ok",
+      "len": 0,
+      "bytes": 2
+    }
+  ],
+  "materialsPass": {
+    "at": "2026-11-09T05:59:19.645Z",
+    "report": [
+      {
+        "k": "material_ldsp",
+        "len": 317,
+        "bytes": 530554
+      },
+      {
+        "k": "material_hdf",
+        "len": 320,
+        "bytes": 380230
+      },
+      {
+        "k": "glass",
+        "len": 9,
+        "bytes": 5335
+      },
+      {
+        "k": "material_m4",
+        "len": 52,
+        "bytes": 64499
+      },
+      {
+        "k": "butt_butts",
+        "len": 323,
+        "bytes": 1154423
+      },
+      {
+        "k": "catalogs_keys",
+        "len": 33
+      },
+      {
+        "k": "default_settings_parsed",
+        "keys": [
+          "facades",
+          "glassed_facades_material",
+          "cokol",
+          "tabletop",
+          "cornice",
+          "cokol_top",
+          "walls",
+          "floor",
+          "handle",
+          "id",
+          "module_types_available",
+          "module_types"
+        ]
+      }
+    ]
+  }
+}

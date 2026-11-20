@@ -628,7 +628,13 @@
         { prev: 'edge-roughness-map-preview', urlId: 'edge-roughness-map-url' },
         { prev: 'mkm-texture-preview', urlId: 'mkm-texture-url' },
         { prev: 'mkm-normal-preview', urlId: 'mkm-normal-url' },
-        { prev: 'mkm-roughmap-preview', urlId: 'mkm-roughmap-url' }
+        { prev: 'mkm-roughmap-preview', urlId: 'mkm-roughmap-url' },
+        { prev: 'tt-mat-map-preview', urlId: 'tt-mat-map' },
+        { prev: 'tt-mat-normal-preview', urlId: 'tt-mat-normal' },
+        { prev: 'tt-mat-rough-preview', urlId: 'tt-mat-rough-map' },
+        { prev: 'plinth-texture-preview', urlId: 'plinth-texture-url' },
+        { prev: 'plinth-normal-preview', urlId: 'plinth-normal-map-url' },
+        { prev: 'plinth-roughness-preview', urlId: 'plinth-roughness-map-url' }
       ];
       var fmButtonIds = [
         { btnId: 'material-texture-upload-btn', urlId: 'material-texture-url', prevId: 'material-texture-preview' },
@@ -639,7 +645,13 @@
         { btnId: 'edge-roughness-map-upload-btn', urlId: 'edge-roughness-map-url', prevId: 'edge-roughness-map-preview' },
         { btnId: 'mkm-texture-upload-btn', urlId: 'mkm-texture-url', prevId: 'mkm-texture-preview' },
         { btnId: 'mkm-normal-upload-btn', urlId: 'mkm-normal-url', prevId: 'mkm-normal-preview' },
-        { btnId: 'mkm-roughmap-upload-btn', urlId: 'mkm-roughmap-url', prevId: 'mkm-roughmap-preview' }
+        { btnId: 'mkm-roughmap-upload-btn', urlId: 'mkm-roughmap-url', prevId: 'mkm-roughmap-preview' },
+        { btnId: 'tt-mat-map-btn', urlId: 'tt-mat-map', prevId: 'tt-mat-map-preview' },
+        { btnId: 'tt-mat-normal-btn', urlId: 'tt-mat-normal', prevId: 'tt-mat-normal-preview' },
+        { btnId: 'tt-mat-rough-btn', urlId: 'tt-mat-rough-map', prevId: 'tt-mat-rough-preview' },
+        { btnId: 'plinth-texture-upload-btn', urlId: 'plinth-texture-url', prevId: 'plinth-texture-preview' },
+        { btnId: 'plinth-normal-upload-btn', urlId: 'plinth-normal-map-url', prevId: 'plinth-normal-preview' },
+        { btnId: 'plinth-roughness-upload-btn', urlId: 'plinth-roughness-map-url', prevId: 'plinth-roughness-preview' }
       ];
 
       function openFmForPreview(rec, preview) {
@@ -666,6 +678,20 @@
                   window.__cldUpdateEdgeDecorPreview();
                 }
               }
+              if (rec.urlId === 'tt-mat-map' || rec.urlId === 'tt-mat-normal' || rec.urlId === 'tt-mat-rough-map') {
+                if (typeof window.__cldUpdateTabletopDisplayPreview === 'function') {
+                  window.__cldUpdateTabletopDisplayPreview();
+                }
+              }
+              if (
+                rec.urlId === 'plinth-texture-url' ||
+                rec.urlId === 'plinth-normal-map-url' ||
+                rec.urlId === 'plinth-roughness-map-url'
+              ) {
+                if (typeof window.__cldUpdatePlinthDecorPreview === 'function') {
+                  window.__cldUpdatePlinthDecorPreview();
+                }
+              }
             }
           }
         });
@@ -684,12 +710,37 @@
           return;
         }
 
-        var preview = el.closest('#material-texture-preview, #material-normal-map-preview, #material-roughness-map-preview, #edge-texture-preview, #edge-normal-map-preview, #edge-roughness-map-preview, #mkm-texture-preview, #mkm-normal-preview, #mkm-roughmap-preview');
+        var preview = el.closest('#material-texture-preview, #material-normal-map-preview, #material-roughness-map-preview, #edge-texture-preview, #edge-normal-map-preview, #edge-roughness-map-preview, #mkm-texture-preview, #mkm-normal-preview, #mkm-roughmap-preview, #tt-mat-map-preview, #tt-mat-normal-preview, #tt-mat-rough-preview, #plinth-texture-preview, #plinth-normal-preview, #plinth-roughness-preview');
         if (preview) {
           e.preventDefault();
           e.stopPropagation();
           var rec = fmPreviewIds.find(function (m) { return preview.id === m.prev; });
           if (rec) openFmForPreview(rec, preview);
+          return;
+        }
+
+        var ttIconBlock = el.closest('#tt-model-icon-placeholder, #tt-model-icon-preview-wrapper, #tt-model-icon-block');
+        if (ttIconBlock) {
+          e.preventDefault();
+          e.stopPropagation();
+          var tu = document.getElementById('tt-model-icon');
+          var twrap = document.getElementById('tt-model-icon-preview-wrapper');
+          var tph = document.getElementById('tt-model-icon-placeholder');
+          if (!tu) return;
+          window.openFileManager({
+            allowedExt: ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.tif', '.tiff'],
+            initialPath: 'files',
+            onSelect: function (r) {
+              if (r && r.url) {
+                tu.value = r.url;
+                tu.dispatchEvent(new Event('input', { bubbles: true }));
+                var img = document.getElementById('tt-model-icon-preview');
+                if (img) img.src = r.url;
+                if (twrap) twrap.style.display = 'block';
+                if (tph) tph.style.display = 'none';
+              }
+            }
+          });
           return;
         }
 

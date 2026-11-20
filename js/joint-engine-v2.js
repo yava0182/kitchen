@@ -9,12 +9,12 @@
  *     «минимальная ширина стыка» отсекает HDF 3 мм от конфирмата под 16 мм.
  *  4. Визуализация/крепёж — только active-контакты торец↔пласть.
  */
-import * as THREE from '/node_modules/three/build/three.module.js';
+import * as THREE from 'three';
 import {
   panelFaceType,
   thinAxisForOrientation,
   getJointStripeFrameWorld,
-} from '/js/panel-edge-frame.js?v=20260727-blb-seam';
+} from '/js/panel-edge-frame.js?v=20261115-jointNegScale1';
 import {
   jointContactTolerancesScene,
   boxDotInterval,
@@ -185,11 +185,11 @@ export function panelThinAxisWorld(panelRoot, bboxWorld = null) {
   }
 
   // 2) При неоднозначном min fallback к orientation.
+  // matrix3, не quaternion: иначе scale.x<0 (Г-крыло) теряет отражение.
   if (localByOrientation && own && typeof own.updateWorldMatrix === 'function') {
     own.updateWorldMatrix(true, false);
-    const q = new THREE.Quaternion();
-    own.matrixWorld.decompose(new THREE.Vector3(), q, new THREE.Vector3());
-    localByOrientation.applyQuaternion(q);
+    const m3 = new THREE.Matrix3().setFromMatrix4(own.matrixWorld);
+    localByOrientation.applyMatrix3(m3);
     if (localByOrientation.lengthSq() > 1e-18) return localByOrientation.normalize();
   }
 

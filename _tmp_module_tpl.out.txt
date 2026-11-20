@@ -1,0 +1,133 @@
+﻿_moduleTemplateFromCatalogItem REF 11087 2063 CUR 11201 2562 DIFF
+_getCatalogItemById REF 11068 671 CUR 11166 1128 DIFF
+_ensureCatalogFromStaticJsonSync REF null null CUR 11001 900 DIFF
+
+===== REF _moduleTemplateFromCatalogItem =====
+
+  _moduleTemplateFromCatalogItem(catalogItem) {
+    if (!catalogItem || typeof catalogItem !== 'object') return null;
+
+    let params = catalogItem.params;
+    if (typeof params === 'string') {
+      try { params = JSON.parse(params); } catch (_) { params = null; }
+    }
+    if (!params || typeof params !== 'object') params = {};
+
+    let data = catalogItem.data;
+    if (typeof data === 'string') {
+      try { data = JSON.parse(data); } catch (_) { data = null; }
+    }
+    if (!data || typeof data !== 'object') data = {};
+
+    const roots = [catalogItem, params, data, { ...data, ...params }];
+    const unwrapTree = (tryTree) => {
+      if (typeof tryTree === 'string') {
+        try {
+          tryTree = JSON.parse(tryTree);
+        } catch (_) {
+          return null;
+        }
+      }
+      if (Array.isArray(tryTree) && tryTree.length > 0) return tryTree;
+      if (tryTree && typeof tryTree === 'object' && Array.isArray(tryTree.children) && tryTree.children.length) {
+        return tryTree.children;
+      }
+      if (tryTree && typeof tryTree === 'object' && Array.isArray(tryTree.template?.structure)) {
+        return tryTree.template.structure;
+      }
+      return null;
+    };
+    for (const root of roots) {
+      if (!root || typeof root !== 'object') continue;
+      const candidates = [
+        root?.template?.structure,
+        root?.spec?.template?.tree,
+        root?.params?.constructor_structure?.children,
+        root?.params?.constructor_structure,
+        root?.constructor_structure?.children,
+        root?.constructor_structure,
+        // ╨Я╨╛╤Б╨╗╨╡ save clodisJSON ╨╕╨╜╨╛╨│╨┤╨░ ╤Г╨╡╨╖╨╢╨░╨╡╤В ╤Б╤В╤А╨╛╨║╨╛╨╣ тАФ ╨┐╨░╤А╤Б╨╕╨╝, ╨╕╨╜╨░╤З╨╡ ╨║╨╛╨╝╨╜╨░╤В╨░
+        // ╤В╨╡╤А╤П╨╡╤В jointSchemes / fromJointScheme ╨╕ ╨║╤А╨╡╨┐╤С╨╢ ╨╛╤Б╤В╨░╤С╤В╤Б╤П ╤В╨╛╨╗╤М╨║╨╛ ╨▓ ╨░╨┤╨╝╨╕╨╜╨║╨╡.
+        root?.clodisJSON,
+        root?.params?.template?.tree,
+        root?.params?.templates?.[0]?.template?.tree,
+        root?.template?.tree,
+        root?.template_tree,
+      ];
+      for (const cand of candidates) {
+        const tree = unwrapTree(cand);
+        if (tree) return tree;
+      }
+    }
+    return null;
+  }
+
+===== CUR _moduleTemplateFromCatalogItem =====
+
+  _moduleTemplateFromCatalogItem(catalogItem) {
+    if (!catalogItem || typeof catalogItem !== 'object') return null;
+
+    // ╨Я╨░╤А╨╕╤В╨╡╤В ╤Б ╨░╨┤╨╝╨╕╨╜╨╛╨╝: clodisJSON ╤З╨╡╤А╨╡╨╖ ╨╡╨┤╨╕╨╜╤Л╨╣ reader (╤Б╤В╤А╨╛╨║╨░/╨╝╨░╤Б╤Б╨╕╨▓/data.*).
+    if (typeof globalThis !== 'undefined' && typeof globalThis.__cldReadClodisJSON === 'function') {
+      try {
+        const fromReader = globalThis.__cldReadClodisJSON(catalogItem);
+        if (Array.isArray(fromReader) && fromReader.length) return fromReader;
+      } catch (_) {}
+    }
+    const embedded = __cldItemEmbeddedTree(catalogItem);
+    if (Array.isArray(embedded) && embedded.length) return embedded;
+
+    let params = catalogItem.params;
+    if (typeof params === 'string') {
+      try { params = JSON.parse(params); } catch (_) { params = null; }
+    }
+    if (!params || typeof params !== 'object') params = {};
+
+    let data = catalogItem.data;
+    if (typeof data === 'string') {
+      try { data = JSON.parse(data); } catch (_) { data = null; }
+    }
+    if (!data || typeof data !== 'object') data = {};
+
+    const roots = [catalogItem, params, data, { ...data, ...params }];
+    const unwrapTree = (tryTree) => {
+      if (typeof tryTree === 'string') {
+        try {
+          tryTree = JSON.parse(tryTree);
+        } catch (_) {
+          return null;
+        }
+      }
+      if (Array.isArray(tryTree) && tryTree.length > 0) return tryTree;
+      if (tryTree && typeof tryTree === 'object' && Array.isArray(tryTree.children) && tryTree.children.length) {
+        return tryTree.children;
+      }
+      if (tryTree && typeof tryTree === 'object' && Array.isArray(tryTree.template?.structure)) {
+        return tryTree.template.structure;
+      }
+      return null;
+    };
+    for (const root of roots) {
+      if (!root || typeof root !== 'object') continue;
+      const candidates = [
+        root?.template?.structure,
+        root?.spec?.template?.tree,
+        root?.params?.constructor_structure?.children,
+        root?.params?.constructor_structure,
+        root?.constructor_structure?.children,
+        root?.constructor_structure,
+        // ╨Я╨╛╤Б╨╗╨╡ save clodisJSON ╨╕╨╜╨╛╨│╨┤╨░ ╤Г╨╡╨╖╨╢╨░╨╡╤В ╤Б╤В╤А╨╛╨║╨╛╨╣ тАФ ╨┐╨░╤А╤Б╨╕╨╝, ╨╕╨╜╨░╤З╨╡ ╨║╨╛╨╝╨╜╨░╤В╨░
+        // ╤В╨╡╤А╤П╨╡╤В jointSchemes / fromJointScheme ╨╕ ╨║╤А╨╡╨┐╤С╨╢ ╨╛╤Б╤В╨░╤С╤В╤Б╤П ╤В╨╛╨╗╤М╨║╨╛ ╨▓ ╨░╨┤╨╝╨╕╨╜╨║╨╡.
+        root?.clodisJSON,
+        root?.params?.template?.tree,
+        root?.params?.templates?.[0]?.template?.tree,
+        root?.template?.tree,
+        root?.template_tree,
+      ];
+      for (const cand of candidates) {
+        const tree = unwrapTree(cand);
+        if (tree) return tree;
+      }
+    }
+    return null;
+  }

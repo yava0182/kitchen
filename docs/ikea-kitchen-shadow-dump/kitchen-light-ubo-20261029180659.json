@@ -1,0 +1,542 @@
+{
+  "url": "https://kitchen.planner.ikea.com/lv/ru/planner/",
+  "data": {
+    "uboCount": 8,
+    "blocks": [
+      "layout(std140) uniform ubProj\n{\n    highp mat4 projectionMatrix;\n}",
+      "layout(std140) uniform ubVSMaterial\n    {\n        #if defined( USE_UV0 )\n            vec4 uv0OffsetScale;\n            float uv0Rotate;\n            float uv0UnusedA;\n            float uv0UnusedB;\n            float uv0UnusedC;\n        #endif\n\n        #if defined( USE_UV1 )\n            vec4 uv1OffsetScale;\n            float uv1Rotate;\n            float uv1UnusedA;\n            float uv1UnusedB;\n            float uv1UnusedC;\n        #endif\n    }",
+      "layout(std140) uniform ubFSShadowMapEnvironment\n    {\n        float shadowDarkness;\n        float constantShadowBias;\n        float kernelRadius;\n\n        #if defined( USE_STATIC_SHADOWMAP )\n            float normalStaticShadowBias;\n            highp mat4 staticShadowMatrix;\n        #else\n            float paddingData1;\n        #endif\n\n        #if defined( USE_DYNAMIC_SHADOWMAP )\n            highp mat4 dynamicShadowMatrices[ DYNAMIC_SHADOWMAP_MATRIX_COUNT ];\n            float normalDynamicShadowBias[ DYNAMIC_SHADOWMAP_MATRIX_COUNT ];\n        #endif\n    }",
+      "layout(std140) uniform ubFSMaterial\n{\n    vec3 emissive;\n    float opacity;\n\n    #if !defined( USE_MAP )\n        vec3 diffuseColorRGB;\n    #endif\n\n    #if defined( USE_SPECULAR )\n        vec4 specColorShini;\n\n        #if defined( REFLECTION ) && !defined( USE_REFRACTIONRATIOMAP )\n            float refractionRatio;\n            float ubUnusedB;\n            float ubUnusedC;\n        #endif\n    #endif\n\n    #if defined( USE_NORMALMAP )\n        vec2 normalScale;\n        float ubUnusedD;\n        float ubUnusedE;\n    #endif\n\n    #if defined( USE_BUMPMAP )\n        float bumpScale;\n        float ubUnusedF;\n        float ubUnusedG;\n        float ubUnusedH;\n    #endif\n}",
+      "layout(std140) uniform ubFSEnvironment\n{\n    vec3  ambientColor;\n    float ambientIntensity;\n\n    float directionalLightCount;\n    float pointLightCount;\n    float spotLightCount;\n    float paddingData0;\n\n    #if MAX_DIR_LIGHTS > 0\n    \tvec4 directionalLightColorIntensity[ MAX_DIR_LIGHTS ];\n    \tvec4 directionalLightDirectionShadowmapIndex[ MAX_DIR_LIGHTS ];\n    #endif\n\n    #if MAX_POINT_LIGHTS > 0\n    \tvec4 pointLightColorIntensity[ MAX_POINT_LIGHTS ];\n    \tvec4 pointLightPositionRadius[ MAX_POINT_LIGHTS ];\n    \tvec2 pointLightAttenuationOffsetSmIndices[ MAX_POINT_LIGHTS ];\n    #endif\n\n    #if MAX_SPOT_LIGHTS > 0\n    \tvec4 spotLightColorIntensity[ MAX_SPOT_LIGHTS ];\n    \thighp vec4 spotLightPositionRadius[ MAX_SPOT_LIGHTS ];\n    \tvec4 spotLightDirectionShadowmapIndex[ MAX_SPOT_LIGHTS ];\n        vec3 spotLightScaleOffsetAttenuation[ MAX_SPOT_LIGHTS ];\n    #endif\n\n    vec4 ambientSphericalHarmonics[9];\n}",
+      "layout(std140) uniform ubProj\n{\n    highp mat4 projectionMatrix;\n}",
+      "layout(std140) uniform ubVSMaterial\n    {\n        #if defined( USE_UV0 )\n            vec4 uv0OffsetScale;\n            float uv0Rotate;\n            float uv0UnusedA;\n            float uv0UnusedB;\n            float uv0UnusedC;\n        #endif\n\n        #if defined( USE_UV1 )\n            vec4 uv1OffsetScale;\n            float uv1Rotate;\n            float uv1UnusedA;\n            float uv1UnusedB;\n            float uv1UnusedC;\n        #endif\n    }",
+      "layout(std140) uniform ubFSShadowMapEnvironment\n    {\n        float shadowDarkness;\n        float constantShadowBias;\n        float kernelRadius;\n\n        #if defined( USE_STATIC_SHADOWMAP )\n            float normalStaticShadowBias;\n            highp mat4 staticShadowMatrix;\n        #else\n            float paddingData1;\n        #endif\n\n        #if defined( USE_DYNAMIC_SHADOWMAP )\n            highp mat4 dynamicShadowMatrices[ DYNAMIC_SHADOWMAP_MATRIX_COUNT ];\n            float normalDynamicShadowBias[ DYNAMIC_SHADOWMAP_MATRIX_COUNT ];\n        #endif\n    }",
+      "layout(std140) uniform ubFSEnvironment\n{\n    vec3  ambientColor;\n    float ambientIntensity;\n\n    float directionalLightCount;\n    float pointLightCount;\n    float spotLightCount;\n    float paddingData0;\n\n    #if MAX_DIR_LIGHTS > 0\n    \tvec4 directionalLightColorIntensity[ MAX_DIR_LIGHTS ];\n        vec4 directionalLightDirectionShadowmapIndex[ MAX_DIR_LIGHTS ];\n    #endif\n\n    #if MAX_POINT_LIGHTS > 0\n    \tvec4 pointLightColorIntensity[ MAX_POINT_LIGHTS ];\n    \tvec4 pointLightPositionRadius[ MAX_POINT_LIGHTS ];\n        vec2 pointLightAttenuationOffsetSmIndices[ MAX_POINT_LIGHTS ];\n    #endif\n\n    #if MAX_SPOT_LIGHTS > 0\n    \tvec4 spotLightColorIntensity[ MAX_SPOT_LIGHTS ];\n    \thighp vec4 spotLightPositionRadius[ MAX_SPOT_LIGHTS ];\n        vec4 spotLightDirectionShadowmapIndex[ MAX_SPOT_LIGHTS ];\n    \tvec3 spotLightScaleOffsetAttenuation[ MAX_SPOT_LIGHTS ];\n    #endif\n\n    vec4 ambientSphericalHarmonics[9];\n}",
+      "layout(std140) uniform ubFSMaterial\n{\n    vec3 emissive;\n    float emissiveValue;\n    vec3 basecolor;\n    float cutout;\n\n    vec4 specularTint;\n\n    float roughness;\n    float metalness;\n\n    #if defined( USE_NORMALMAP )\n        vec2  normalScale;\n    #else\n        vec2  normalScalePadding;\n    #endif\n\n    #if defined(USE_SHEEN)\n        vec3  sheenColor;\n        //float sheen;\n        float sheenRoughness;\n    #endif\n\n    #if defined( USE_ANISOTROPY )\n        float anisotropy;\n        float anisotropyRotation;\n    #endif\n\n    #if defined(USE_CLEAR_COAT)\n        float clearcoatRoughness;\n        float clearcoatStrength;\n    #endif\n\n    #if defined( USE_TRANSPARENCY )\n        float transparency;\n    #endif\n\n    float ior;\n    float bloomMode;\n}",
+      "layout(std140) uniform ubProj\n{\n    highp mat4 projectionMatrix;\n}",
+      "layout(std140) uniform ubVSMaterial\n    {\n        vec4 uv0OffsetScale;\n        float uv0Rotate;\n        float uv0UnusedA;\n        float uv0UnusedB;\n        float uv0UnusedC;\n    }",
+      "layout(std140) uniform ubFSMaterial\n{\n    vec3 diffuse;\n    float opacity;\n}",
+      "layout(std140) uniform ubProj\n{\n    highp mat4 projectionMatrix;\n}",
+      "layout(std140) uniform ubVSMaterial\n    {\n        #if defined( USE_UV0 )\n            vec4 uv0OffsetScale;\n            float uv0Rotate;\n            float uv0UnusedA;\n            float uv0UnusedB;\n            float uv0UnusedC;\n        #endif\n\n        #if defined( USE_UV1 )\n            vec4 uv1OffsetScale;\n            float uv1Rotate;\n            float uv1UnusedA;\n            float uv1UnusedB;\n            float uv1UnusedC;\n        #endif\n    }",
+      "layout(std140) uniform ubFSShadowMapEnvironment\n    {\n        float shadowDarkness;\n        float constantShadowBias;\n        float kernelRadius;\n\n        #if defined( USE_STATIC_SHADOWMAP )\n            float normalStaticShadowBias;\n            highp mat4 staticShadowMatrix;\n        #else\n            float paddingData1;\n        #endif\n\n        #if defined( USE_DYNAMIC_SHADOWMAP )\n            highp mat4 dynamicShadowMatrices[ DYNAMIC_SHADOWMAP_MATRIX_COUNT ];\n            float normalDynamicShadowBias[ DYNAMIC_SHADOWMAP_MATRIX_COUNT ];\n        #endif\n    }",
+      "layout(std140) uniform ubFSMaterial\n{\n    vec3 emissive;\n    float opacity;\n\n    #if !defined( USE_MAP )\n        vec3 diffuseColorRGB;\n    #endif\n\n    #if defined( USE_SPECULAR )\n        vec4 specColorShini;\n\n        #if defined( REFLECTION ) && !defined( USE_REFRACTIONRATIOMAP )\n            float refractionRatio;\n            float ubUnusedB;\n            float ubUnusedC;\n        #endif\n    #endif\n\n    #if defined( USE_NORMALMAP )\n        vec2 normalScale;\n        float ubUnusedD;\n        float ubUnusedE;\n    #endif\n\n    #if defined( USE_BUMPMAP )\n        float bumpScale;\n        float ubUnusedF;\n        float ubUnusedG;\n        float ubUnusedH;\n    #endif\n}",
+      "layout(std140) uniform ubFSEnvironment\n{\n    vec3  ambientColor;\n    float ambientIntensity;\n\n    float directionalLightCount;\n    float pointLightCount;\n    float spotLightCount;\n    float paddingData0;\n\n    #if MAX_DIR_LIGHTS > 0\n    \tvec4 directionalLightColorIntensity[ MAX_DIR_LIGHTS ];\n    \tvec4 directionalLightDirectionShadowmapIndex[ MAX_DIR_LIGHTS ];\n    #endif\n\n    #if MAX_POINT_LIGHTS > 0\n    \tvec4 pointLightColorIntensity[ MAX_POINT_LIGHTS ];\n    \tvec4 pointLightPositionRadius[ MAX_POINT_LIGHTS ];\n    \tvec2 pointLightAttenuationOffsetSmIndices[ MAX_POINT_LIGHTS ];\n    #endif\n\n    #if MAX_SPOT_LIGHTS > 0\n    \tvec4 spotLightColorIntensity[ MAX_SPOT_LIGHTS ];\n    \thighp vec4 spotLightPositionRadius[ MAX_SPOT_LIGHTS ];\n    \tvec4 spotLightDirectionShadowmapIndex[ MAX_SPOT_LIGHTS ];\n        vec3 spotLightScaleOffsetAttenuation[ MAX_SPOT_LIGHTS ];\n    #endif\n\n    vec4 ambientSphericalHarmonics[9];\n}",
+      "layout(std140) uniform ubProj\n{\n    highp mat4 projectionMatrix;\n}",
+      "layout(std140) uniform ubVSMaterial\n    {\n        vec4 uv0OffsetScale;\n        float uv0Rotate;\n        float uv0UnusedA;\n        float uv0UnusedB;\n        float uv0UnusedC;\n    }",
+      "layout(std140) uniform ubFSMaterial\n{\n    vec3 diffuse;\n    float opacity;\n}"
+    ],
+    "shaderCount": 0,
+    "shaders": [],
+    "uniforms": [
+      {
+        "name": "uniform1f",
+        "floats": [
+          0.000037
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          0.000037
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          1.5
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          0.2
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          1
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          0.4
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          10
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          10000
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          0
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          10
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          11505
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          5
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          50
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          0.01
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          0.000037
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          0.000037
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          1.5
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          0.2
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          1
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          0.4
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          10
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          10000
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          0
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          10
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          11505
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          5
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          50
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          0.01
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          0.000037
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          0.000037
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          1.5
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          0.2
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          1
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          0.4
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          10
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          10000
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          0
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          10
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          11505
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          5
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          50
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          0.01
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          0.000037
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          0.000037
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          1.5
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          0.2
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          1
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          0.4
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          10
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          10000
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          0
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          10
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          11505
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          5
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          50
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          0.01
+        ]
+      },
+      {
+        "name": "uniform1f",
+        "floats": [
+          0.016
+        ]
+      }
+    ],
+    "ubo": [
+      {
+        "api": "webgl2",
+        "call": "bufferData",
+        "len": 16,
+        "floats": [
+          0,
+          0,
+          0,
+          1,
+          0.87451,
+          0.752941,
+          0.596078,
+          0,
+          0.066667,
+          0.066667,
+          0.066667,
+          0.498039,
+          1.5,
+          1,
+          0,
+          0
+        ]
+      },
+      {
+        "api": "webgl2",
+        "call": "bufferData",
+        "len": 20,
+        "floats": [
+          1,
+          1,
+          1,
+          0,
+          0.409826,
+          0.453456,
+          0.517401,
+          1,
+          0.666667,
+          0.698039,
+          0.741176,
+          1,
+          1,
+          0,
+          0,
+          0,
+          1.5,
+          1,
+          0,
+          0
+        ]
+      },
+      {
+        "api": "webgl2",
+        "call": "bufferData",
+        "len": 20,
+        "floats": [
+          1,
+          1,
+          1,
+          0,
+          0.612066,
+          0.645555,
+          0.701169,
+          1,
+          0.8,
+          0.819608,
+          0.85098,
+          1,
+          1,
+          0,
+          0,
+          0,
+          1.5,
+          1,
+          0,
+          0
+        ]
+      },
+      {
+        "api": "webgl2",
+        "call": "bufferData",
+        "len": 16,
+        "floats": [
+          0.000172,
+          0,
+          0,
+          0,
+          0,
+          0.000329,
+          0,
+          0,
+          0,
+          0,
+          -0.000174,
+          0,
+          0,
+          0,
+          -1.00174,
+          1
+        ]
+      },
+      {
+        "api": "webgl2",
+        "call": "bufferData",
+        "len": 8,
+        "floats": [
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "api": "webgl2",
+        "call": "bufferData",
+        "len": 4,
+        "floats": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      {
+        "api": "webgl2",
+        "call": "bufferData",
+        "len": 8,
+        "floats": [
+          0,
+          0,
+          1999.999878,
+          1999.999878,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "api": "webgl2",
+        "call": "bufferData",
+        "len": 16,
+        "floats": [
+          0,
+          0,
+          0,
+          1,
+          0.392157,
+          0.392157,
+          0.392157,
+          0.419608,
+          1.5,
+          1,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0
+        ]
+      }
+    ],
+    "errors": []
+  }
+}

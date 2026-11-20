@@ -1,19 +1,23 @@
 [
   {
-    "id": 2,
     "catalog_type": "model_key_material",
+    "id": 2,
     "name": "Опора",
     "active": 1,
     "order": 10000,
-    "category": [],
+    "category": [
+      "1"
+    ],
     "data": {
       "key": "Opora",
       "mode": 0,
-      "categories": [],
+      "categories": [
+        "1"
+      ],
       "params": {
         "type": "Standard",
         "params": {
-          "color": "#ffffff",
+          "color": "#141414",
           "roughness": "0.5",
           "metalness": "0.1",
           "transparent": 0,

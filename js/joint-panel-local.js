@@ -3,7 +3,7 @@
  * Схема расстановки задаёт только станцию вдоль шва (pos.z / seamSizeKey);
  * pos.x, pos.y, rot — по типу стыка (jointIdx + orientation стойки).
  */
-import * as THREE from '/node_modules/three/build/three.module.js';
+import * as THREE from 'three';
 import { panelThinAxisWorld, panelThicknessMm } from '/js/joint-engine-v2.js';
 
 /** ref: CabinetHole._build_direction */

@@ -1,0 +1,85 @@
+{
+  "at": "2026-10-29T16:21:37.134Z",
+  "url": "https://kitchen.planner.ikea.com/lv/ru/planner/",
+  "fileCount": 31,
+  "totalBytes": 1729301,
+  "biggest": [
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/index-gT1oh5Nh.js",
+      "size": 1342070,
+      "kind": "text"
+    },
+    {
+      "url": "https://www.ikea.com/lv/ru/ingka-isx-billie-widget/assets/index-BDHgOG8A.js",
+      "size": 174140,
+      "kind": "text"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/Application-Daj-zdT5.js",
+      "size": 152029,
+      "kind": "text"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/metadata-DorosVIJ.js",
+      "size": 11667,
+      "kind": "text"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/index-C9x1p9ud.js",
+      "size": 6378,
+      "kind": "text"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/index-DECf81Ks.js",
+      "size": 6264,
+      "kind": "text"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/PrimaryLayout.styled-k6ETzGtd.js",
+      "size": 5497,
+      "kind": "text"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/index-CHb6tqne.js",
+      "size": 5099,
+      "kind": "text"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/PrimaryLayoutSkeleton-ByWTV2Tc.js",
+      "size": 4022,
+      "kind": "text"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/getServices-BZLW6LnQ.js",
+      "size": 3812,
+      "kind": "text"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/context-DazphOWB.js",
+      "size": 1956,
+      "kind": "text"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/getPkce-CUavz2_W.js",
+      "size": 1898,
+      "kind": "text"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/BodySkeleton-DFTU46gb.js",
+      "size": 1890,
+      "kind": "text"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/Hero.styled-LKSx9O_k.js",
+      "size": 1777,
+      "kind": "text"
+    },
+    {
+      "url": "https://kitchen.planner.ikea.com/assets/removeUserCookies-BtME096y.js",
+      "size": 1444,
+      "kind": "text"
+    }
+  ],
+  "engineHits": [],
+  "shadowHits": []
+}

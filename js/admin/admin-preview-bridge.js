@@ -12,7 +12,7 @@
 (function () {
   'use strict';
 
-  const PREVIEW_V = '20260923-hinge-prev2';
+  const PREVIEW_V = '20261010-unify1';
   const PREVIEW_SRC = '/constructor-clodis.html?embedded=1&v=' + PREVIEW_V;
 
   let syncCore = null;
@@ -78,12 +78,18 @@
   function post(forceSync) {
     if (window.__cldAllowPreviewMount !== true) return;
     if (window.__ppSuppressPreviewSyncDuringTreeLoad && forceSync !== true) return;
-    // Пока пользователь не на вкладке Конструктор — не гоняем hydrate/rebuild.
+    // force / force-hidden: Ш×В×Г справа на «Основных» тоже должны пересобирать превью
+    // (иначе корпус по формулам едет, а крепёж/опоры остаются на старой ширине).
+    // Без force — по-прежнему только вкладка «Конструктор».
     try {
-      const ctorActive = !!document.querySelector(
-        '#catalog-item-edit .tab_menu_h li[data-tab="constructor"].active'
-      );
-      if (!ctorActive && forceSync !== 'force-hidden') return;
+      const force =
+        forceSync === true || forceSync === 'force-hidden';
+      if (!force) {
+        const ctorActive = !!document.querySelector(
+          '#catalog-item-edit .tab_menu_h li[data-tab="constructor"].active'
+        );
+        if (!ctorActive) return;
+      }
     } catch (_) {}
     const iframe = getIframe();
     if (!iframe || !iframe.contentWindow) return;

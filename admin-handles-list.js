@@ -50,9 +50,9 @@
   function mkIconCellHtml(item) {
     const iconUrl = (item?.icon || '').toString().trim();
     if (iconUrl) {
-      return `<img src="${iconUrl.replace(/"/g, '&quot;')}" alt="" style="width:70px;height:70px;object-fit:cover;border-radius:6px;border:1px solid #e5e7eb;" onerror="this.style.display='none'">`;
+      return `<img class="admin-list-thumb" src="${iconUrl.replace(/"/g, '&quot;')}" alt="" onerror="this.style.display='none'">`;
     }
-    return '<div style="width:70px;height:70px;border:1px solid #e5e7eb;border-radius:6px;background:#f8fafc;"></div>';
+    return '<div class="admin-list-thumb-empty"></div>';
   }
 
   function renderHandlesCategorySelect() {
@@ -175,20 +175,23 @@
     for (const item of pageData) {
       const active = (item?.active ?? 1) == 1 || item?.active === true || item?.active === '1';
       const eyeClass = active ? 'fa-eye' : 'fa-eye-slash';
+      const eyeColor = active ? 'btn-success' : 'btn-default';
       const eyeTitle = active ? 'Видим' : 'Скрыт';
       const tr = document.createElement('tr');
       const itemId = item?.id ?? 0;
       const itemName = (item?.name || '').replace(/"/g, '&quot;');
       tr.innerHTML = `
         <td style="width: 50px;">${item?.id ?? '-'}</td>
-        <td style="width: 100px;">${mkIconCellHtml(item)}</td>
+        <td class="col-icon">${mkIconCellHtml(item)}</td>
         <td style="font-weight:600;">${(item?.name || '-').toString().replace(/</g, '&lt;')}</td>
-        <td style="width: 100px;">
-          <i class="fa ${eyeClass} btn btn-outline" style="cursor: pointer;" data-h-action="toggle-visibility" data-h-id="${itemId}" data-h-active="${active ? '1' : '0'}" title="${eyeTitle}"></i>
+        <td class="col-vis">
+          <i class="fa ${eyeClass} btn btn-outline ${eyeColor}" style="cursor: pointer;" data-h-action="toggle-visibility" data-h-id="${itemId}" data-h-active="${active ? '1' : '0'}" title="${eyeTitle}"></i>
         </td>
-        <td style="width: 180px;">
-          <button type="button" class="btn btn-primary btn-xs" data-h-action="open" data-h-id="${itemId}" data-h-name="${itemName}">Открыть</button>
-          <i title="Удалить" class="fa fa-trash btn btn-outline btn-danger" style="margin-left:8px;cursor:pointer;" data-h-action="delete" data-h-id="${itemId}" data-h-name="${itemName}"></i>
+        <td class="col-actions">
+          <div class="cld-row-actions">
+            <i title="Открыть" class="fa fa-folder-open btn btn-outline btn-primary" style="cursor:pointer;" data-h-action="open" data-h-id="${itemId}" data-h-name="${itemName}"></i>
+            <i title="Удалить" class="fa fa-trash btn btn-outline btn-danger" style="cursor:pointer;" data-h-action="delete" data-h-id="${itemId}" data-h-name="${itemName}"></i>
+          </div>
         </td>
       `;
       tbody.appendChild(tr);
@@ -1678,7 +1681,7 @@
         body: JSON.stringify({ ...item, active: newActive ? 1 : 0 }),
       });
       if (!updateResp.ok) throw new Error(`HTTP ${updateResp.status}`);
-      iconElement.className = `fa ${newActive ? 'fa-eye' : 'fa-eye-slash'} btn btn-outline`;
+      iconElement.className = `fa ${newActive ? 'fa-eye' : 'fa-eye-slash'} btn btn-outline ${newActive ? 'btn-success' : 'btn-default'}`;
       iconElement.setAttribute('data-h-active', newActive ? '1' : '0');
       iconElement.setAttribute('title', newActive ? 'Видим' : 'Скрыт');
       if (window.toastr) window.toastr.success(newActive ? 'Показано' : 'Скрыто');
